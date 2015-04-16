@@ -7,7 +7,7 @@ odoo.define('website_sign.page', function(require) {
     var Widget = require('web.Widget');
     var Class = require('web.Class');
     var website = require('website.website');
-    
+
     var CLASSES = {}, WIDGETS = {};
 
     var websiteSign = null;
@@ -17,7 +17,7 @@ odoo.define('website_sign.page', function(require) {
     /* -------------------------------------------------- */
     CLASSES.WebsiteSign = Class.extend({
         init: function() {
-            this.currentRole = $('.parties_input_info').first().data('id');
+            this.currentRole = $('.o_sign_parties_input_info').first().data('id');
             this.types = {};
         },
 
@@ -39,13 +39,12 @@ odoo.define('website_sign.page', function(require) {
                                 $elem.removeData('name mail');
                                 return "Create: \"" + searchObj.term + "\" <span class='fa fa-exclamation-circle' style='color:rgb(255, 192, 128);'/> <span style='font-size:0.7em'>Enter mail (and name if you want)</span>";
                             }
-                            else {
-                                $elem.data(partnerInfo);
-                                return "Create: \"" + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\" <span class='fa fa-check-circle' style='color:rgb(128, 255, 128);'/>";
-                            }
+
+                            $elem.data(partnerInfo);
+                            return "Create: \"" + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\" <span class='fa fa-check-circle' style='color:rgb(128, 255, 128);'/>";
                         }
 
-                        return $("<div/>", {html: ((partner['new'])? "New: " : "") + partner['name'] + " (" + partner['email'] + ")"}).css('border-bottom', '1px dashed silver');
+                        return $("<div/>", {html: ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")"}).css('border-bottom', '1px dashed silver');
                     },
 
                     formatSelection: function(data) {
@@ -53,7 +52,7 @@ odoo.define('website_sign.page', function(require) {
                         if($.isEmptyObject(partner))
                             return "Error";
 
-                        return ((partner['new'])? "New: " : "") + partner['name'] + " (" + partner['email'] + ")";
+                        return ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")";
                     },
 
                     matcher: function(search, data) {
@@ -233,8 +232,8 @@ odoo.define('website_sign.page', function(require) {
                         'name': name
                     }).then(function(partyID) {
                         var $newResponsibleOption = $('<input type="hidden"/>');
-                        $newResponsibleOption.data({id: partyID, name: name}).addClass('parties_input_info');
-                        $('.parties_input_info').filter(':last').after($newResponsibleOption);
+                        $newResponsibleOption.data({id: partyID, name: name}).addClass('o_sign_parties_input_info');
+                        $('.o_sign_parties_input_info').filter(':last').after($newResponsibleOption);
 
                         self.getResponsibleSelectConfiguration.def = undefined;
                         self.setAsResponsibleSelect($select, partyID);
@@ -242,7 +241,7 @@ odoo.define('website_sign.page', function(require) {
                 };
 
                 var $responsibleSelect = $('<select><option/></select>');
-                $('.parties_input_info').each(function(i, el) {
+                $('.o_sign_parties_input_info').each(function(i, el) {
                     $responsibleSelect.append($('<option/>', {
                         value: parseInt($(el).data('id')),
                         html: $(el).data('name')
@@ -268,7 +267,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         getResponsibleName: function(responsibleID) {
-            return $('.parties_input_info').filter(function(i, el) {
+            return $('.o_sign_parties_input_info').filter(function(i, el) {
                 return (parseInt($(el).data('id')) === responsibleID);
             }).first().data('name');
         },
@@ -277,7 +276,7 @@ odoo.define('website_sign.page', function(require) {
             var self = this;
 
             if($.isEmptyObject(self.types)) {
-                $("input[type='hidden'].field_type_input_info").each(function(i, el) {
+                $("input[type='hidden'].o_sign_field_type_input_info").each(function(i, el) {
                     var $elem = $(el);
                     self.types[$elem.data('item-type-id')] = {
                         'id': $elem.data('item-type-id'),
@@ -322,54 +321,54 @@ odoo.define('website_sign.page', function(require) {
                 this.$('.modal-footer .btn-primary').prop('disabled', false).focus();
             },
 
-            'click a.sign_mode': function(e) {
+            'click a.o_sign_mode': function(e) {
                 this.$modeButtons.removeClass('btn-primary');
                 $(e.target).addClass('btn-primary');
                 this.$signatureField.jSignature('reset');
 
-                this.mode = $(e.target).prop('id');
+                this.mode = $(e.target).data('mode');
 
-                this.$selectStyleButton.toggle(this.mode === 'auto_sign_mode');
-                this.$clearButton.toggle(this.mode === 'draw_sign_mode');
-                this.$loadButton.toggle(this.mode === 'load_sign_mode');
+                this.$selectStyleButton.toggle(this.mode === 'auto');
+                this.$clearButton.toggle(this.mode === 'draw');
+                this.$loadButton.toggle(this.mode === 'load');
 
-                if(this.mode === 'load_sign_mode')
+                if(this.mode === 'load')
                     this.$loadButton.click();
-                this.$signatureField.jSignature((this.mode === 'draw_sign_mode')? "enable" : "disable");
+                this.$signatureField.jSignature((this.mode === 'draw')? "enable" : "disable");
 
                 this.$fontDialog.hide().css('width', 0);
                 this.$signerNameInput.trigger('input');
             },
 
-            'input #signer_name': function(e) {
-                if(this.mode !== "auto_sign_mode")
+            'input .o_sign_signer_name': function(e) {
+                if(this.mode !== 'auto')
                     return true;
                 this.printText(this.getSignatureFont(this.currentFont), this.getSignatureText());
             },
 
-            'click #sign_select_style': function(e) {
+            'click .o_sign_select_style': function(e) {
                 var self = this;
 
-                self.$fontDialog.find('a').html('<div class="loading"/>');
+                self.$fontDialog.find('a').html('<div class="o_sign_loading"/>');
                 self.$fontDialog.show().animate({'width': self.$fontDialog.find('a').first().height() * self.signatureRatio * 1.25}, 500, function() {
                     self.buildPreviewButtons();
                 });
             },
 
-            'mouseover #font_dialog a': function(e) {
+            'mouseover .o_sign_font_dialog a': function(e) {
                 this.currentFont = $(e.currentTarget).data('font-nb');
                 this.$signerNameInput.trigger('input');
             },
 
-            'click #font_dialog a, #sign': function(e) {
+            'click .o_sign_font_dialog a, .o_sign_signature': function(e) {
                 this.$fontDialog.hide().css('width', 0);
             },
 
-            'click #sign_clean': function (e) {
+            'click .o_sign_clean': function (e) {
                 this.$signatureField.jSignature('reset');
             },
 
-            'change #sign_load': function(e) {
+            'change .o_sign_load': function(e) {
                 var self = this;
 
                 var f = e.target.files[0];
@@ -400,7 +399,7 @@ odoo.define('website_sign.page', function(require) {
             this.fonts = null;
 
             this.currentFont = 0;
-            this.mode = "auto_sign_mode";
+            this.mode = 'auto';
 
             this.confirmFunction = function() {};
         },
@@ -408,14 +407,14 @@ odoo.define('website_sign.page', function(require) {
         start: function() {
             var self = this;
 
-            self.$modeButtons = self.$('a.sign_mode');
-            self.$signatureField = self.$("#sign");
-            self.$fontDialog = self.$("#font_dialog");
-            self.$fontSelection = self.$("#sign_font_selection");
-            self.$clearButton = self.$('#sign_clean');
-            self.$selectStyleButton = self.$('#sign_select_style');
-            self.$loadButton = self.$('#sign_load');
-            self.$signerNameInput = self.$("#signer_name");
+            self.$modeButtons = self.$('a.o_sign_mode');
+            self.$signatureField = self.$(".o_sign_signature").first();
+            self.$fontDialog = self.$(".o_sign_font_dialog").first();
+            self.$fontSelection = self.$(".o_sign_font_selection").first();
+            self.$clearButton = self.$('.o_sign_clean').first();
+            self.$selectStyleButton = self.$('.o_sign_select_style').first();
+            self.$loadButton = self.$('.o_sign_load').first();
+            self.$signerNameInput = self.$(".o_sign_signer_name").first();
 
             return $.when(this._super(), self.getSignatureFont().then(function(data) {
                 for(var i = 0 ; i < data.length ; i++)
@@ -424,11 +423,11 @@ odoo.define('website_sign.page', function(require) {
         },
 
         addOdooSigned: function($item, powered) {
-            $item.addClass('odoo_signed');
+            $item.addClass('o_sign_odoo_signed');
             if(powered) {
                 $item.prepend($('<div/>', {
                     html: window.location.href.match(/\/([\w-]{25,})/)[1]
-                }).addClass("small text-center odoo_signed_powered"));
+                }).addClass("small text-center o_sign_odoo_signed_powered"));
             }
         },
 
@@ -532,7 +531,7 @@ odoo.define('website_sign.page', function(require) {
                 this.$currentTarget.trigger('itemChange');
             },
 
-            'click #delete_field_button': function(e) {
+            'click .o_sign_delete_field_button': function(e) {
                 this.$currentTarget.trigger('itemDelete');
             }
         },
@@ -543,7 +542,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$responsibleSelect = this.$('#responsible_select');
+            this.$responsibleSelect = this.$('.o_sign_responsible_select');
             return this._super();
         },
 
@@ -578,7 +577,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$responsibleSelect = this.$('#responsible_select_initials');
+            this.$responsibleSelect = this.$('.o_sign_responsible_select_initials');
             return this._super();
         },
 
@@ -598,7 +597,7 @@ odoo.define('website_sign.page', function(require) {
     /*  Signature Item Navigator Widget  */
     /* --------------------------------- */
     WIDGETS.SignatureItemNavigator = Widget.extend({
-        className: 'signature_item_navigator',
+        className: 'o_sign_signature_item_navigator',
 
         events: {
             'click': 'onClick'
@@ -613,7 +612,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$signatureItemNavLine = $('<div/>').addClass("signature_item_navline");
+            this.$signatureItemNavLine = $('<div/>').addClass("o_sign_signature_item_navline");
             this.$signatureItemNavLine.insertBefore(this.$el);
 
             this.setTip('click to start');
@@ -706,17 +705,17 @@ odoo.define('website_sign.page', function(require) {
 
             'click #toolbarContainer': 'delayedRefresh',
 
-            'itemChange .signature_item': function(e) {
+            'itemChange .o_sign_signature_item': function(e) {
                 this.updateSignatureItem($(e.target));
                 this.$iframe.trigger('templateChange');
             },
 
-            'itemDelete .signature_item': function(e) {
+            'itemDelete .o_sign_signature_item': function(e) {
                 this.deleteSignatureItem($(e.target));
                 this.$iframe.trigger('templateChange');
             },
 
-            'itemClone .signature_item': function(e) {
+            'itemClone .o_sign_signature_item': function(e) {
                 var $target = $(e.target);
                 this.updateSignatureItem($target);
                 for(var i = 1 ; i <= this.nbPages ; i++) {
@@ -749,7 +748,7 @@ odoo.define('website_sign.page', function(require) {
             this.readonlyFields = (this.$iframe.attr('readonly') === "readonly") || editMode;
             this.pdfView = window.location.href.indexOf('pdfview') > -1 || (this.$iframe.attr('readonly') === "readonly");
 
-            this.role = parseInt($('#input_current_role').val()) || 0;
+            this.role = parseInt($('#o_sign_input_current_role').val()) || 0;
 
             this.$fieldTypeToolbar = null;
             this.currentFieldType = false;
@@ -879,8 +878,8 @@ odoo.define('website_sign.page', function(require) {
                         top: 0
                     });
 
-                    var $fieldTypeButtons = $('.field_type_button');
-                    self.$fieldTypeToolbar = $('<div/>').addClass('field_type_toolbar');
+                    var $fieldTypeButtons = $('.o_sign_field_type_button');
+                    self.$fieldTypeToolbar = $('<div/>').addClass('o_sign_field_type_toolbar');
                     self.$fieldTypeToolbar.prependTo(self.$('#viewerContainer'));
                     $fieldTypeButtons.detach().appendTo(self.$fieldTypeToolbar).draggable({
                         cancel: false,
@@ -891,8 +890,8 @@ odoo.define('website_sign.page', function(require) {
                             var $signatureItem = self.createSignatureItem(self.currentFieldType, true, websiteSign.currentRole, 0, 0, type["default_width"], type["default_height"]);
 
                             if(!e.ctrlKey)
-                                self.$('.signature_item').removeClass('ui-selected');
-                            $signatureItem.prop('id', 'signature_item_to_add').addClass('ui-selected');
+                                self.$('.o_sign_signature_item').removeClass('ui-selected');
+                            $signatureItem.addClass('o_sign_signature_item_to_add ui-selected');
 
                             self.$('.page').first().append($signatureItem);
                             self.updateSignatureItem($signatureItem);
@@ -910,14 +909,14 @@ odoo.define('website_sign.page', function(require) {
                         accept: '*',
                         tolerance: 'touch',
                         drop: function(e, ui) {
-                            if(ui.helper.prop('id') !== 'signature_item_to_add')
+                            if(!ui.helper.hasClass('o_sign_signature_item_to_add'))
                                 return true;
 
                             var $parent = $(e.target);
                             var pageNo = parseInt($parent.prop('id').substr('pageContainer'.length));
 
-                            ui.helper.removeAttr('id');
-                            var $signatureItem = ui.helper.clone(true).removeClass().addClass('signature_item signature_item_required');
+                            ui.helper.removeClass('o_sign_signature_item_to_add');
+                            var $signatureItem = ui.helper.clone(true).removeClass().addClass('o_sign_signature_item o_sign_signature_item_required');
 
                             var posX = (ui.offset.left - $parent.find('.textLayer').offset().left) / $parent.innerWidth();
                             var posY = (ui.offset.top - $parent.find('.textLayer').offset().top) / $parent.innerHeight();
@@ -943,7 +942,7 @@ odoo.define('website_sign.page', function(require) {
 
                     self.$('#viewer').selectable({
                         appendTo: self.$('body'), 
-                        filter: '.signature_item'
+                        filter: '.o_sign_signature_item'
                     });
 
                     var keyFct = function(e) {
@@ -959,10 +958,10 @@ odoo.define('website_sign.page', function(require) {
                     self.$el.on('keyup', keyFct);
                 }
 
-                self.itemCustomDialog = new WIDGETS.ItemCustomizationDialog(self, $('#signature_item_custom_dialog'));
+                self.itemCustomDialog = new WIDGETS.ItemCustomizationDialog(self, $('.o_sign_signature_item_custom_dialog').first());
                 waitFor.push(self.itemCustomDialog.start());
 
-                self.askMultipleInitialsDialog = new WIDGETS.AskMultipleInitialsDialog(self, $('#initial_all_page_dialog'));
+                self.askMultipleInitialsDialog = new WIDGETS.AskMultipleInitialsDialog(self, $('.o_sign_initial_all_page_dialog').first());
                 waitFor.push(self.askMultipleInitialsDialog.start());
             }
             else {
@@ -995,7 +994,7 @@ odoo.define('website_sign.page', function(require) {
             $.when.apply($, waitFor).then(function() {
                 self.refreshSignatureItems();
 
-                self.$('.signature_item').each(function(i, el) {
+                self.$('.o_sign_signature_item').each(function(i, el) {
                     if(self.editMode)
                         self.enableCustom($(el));
                     self.updateSignatureItem($(el));
@@ -1043,7 +1042,7 @@ odoo.define('website_sign.page', function(require) {
 
             var normalSize = self.$('.page').first().innerHeight() * 0.015;
 
-            self.$('.signature_item').each(function(i, el) {
+            self.$('.o_sign_signature_item').each(function(i, el) {
                 var $elem = $(el);
                 var size = parseFloat($elem.css('height'));
                 if($.inArray(websiteSign.getTypeData($elem.data('type'))['type'], ['signature', 'initial', 'textarea']) > -1)
@@ -1069,7 +1068,7 @@ odoo.define('website_sign.page', function(require) {
             if(!readonly) {
                 if(type['type'] === "signature" || type['type'] === "initial") {
                     $signatureItem.on('click', function(e) {
-                        var $signedItems = self.$('.signature_item').filter(function(i) {
+                        var $signedItems = self.$('.o_sign_signature_item').filter(function(i) {
                             var $item = $(this);
                             return ($item.data('type') === type['id']
                                         && $item.data('signature') && $item.data('signature') !== $signatureItem.data('signature')
@@ -1078,7 +1077,7 @@ odoo.define('website_sign.page', function(require) {
                         
                         if($signedItems.length > 0) {
                             $signatureItem.data('signature', $signedItems.first().data('signature'));
-                            $signatureItem.html('<span class="helper"/><img src="' + $signatureItem.data('signature') + '"/>');
+                            $signatureItem.html('<span class="o_sign_helper"/><img src="' + $signatureItem.data('signature') + '"/>');
                             $signatureItem.trigger('input');
                         }
                         else {
@@ -1089,11 +1088,11 @@ odoo.define('website_sign.page', function(require) {
                             websiteSign.signatureDialog.onConfirm(function(name, signature) {
                                 if(signature !== websiteSign.signatureDialog.emptySignature) {
                                     $signatureItem.data('signature', signature);
-                                    $signatureItem.html('<span class="helper"/><img src="' + $signatureItem.data('signature') + '"/>');
+                                    $signatureItem.html('<span class="o_sign_helper"/><img src="' + $signatureItem.data('signature') + '"/>');
                                 }
                                 else {
                                     $signatureItem.removeData('signature');
-                                    $signatureItem.html("<span class='helper'/>" + type['placeholder']);
+                                    $signatureItem.html("<span class='o_sign_helper'/>" + type['placeholder']);
                                 }
 
                                 $signatureItem.trigger('input').focus();
@@ -1136,19 +1135,19 @@ odoo.define('website_sign.page', function(require) {
 
             $signatureItem.prop('title', websiteSign.getTypeData($signatureItem.data('type'))['name']);
 
-            var configArea = $signatureItem.find('.config_area');
+            var configArea = $signatureItem.find('.o_sign_config_area');
             configArea.show();
 
             configArea.find('.fa.fa-arrows').on('mouseup', function(e) {
                 if(!e.ctrlKey) {
-                    self.$('.signature_item').filter(function(i) {
+                    self.$('.o_sign_signature_item').filter(function(i) {
                         return (this !== $signatureItem[0]);
                     }).removeClass('ui-selected');
                 }
                 $signatureItem.toggleClass('ui-selected');
             });
 
-            $signatureItem.add(configArea.find('.responsible_display')).on('mousedown', function(e) {
+            $signatureItem.add(configArea.find('.o_sign_responsible_display')).on('mousedown', function(e) {
                 if(e.target !== e.currentTarget)
                     return true;
 
@@ -1163,7 +1162,7 @@ odoo.define('website_sign.page', function(require) {
 
             $signatureItem.on('dragstart resizestart', function(e, ui) {
                 if(!e.ctrlKey)
-                    self.$('.signature_item').removeClass('ui-selected');
+                    self.$('.o_sign_signature_item').removeClass('ui-selected');
                 $signatureItem.addClass('ui-selected');
             });
 
@@ -1212,7 +1211,7 @@ odoo.define('website_sign.page', function(require) {
                 start(ui.helper);
             });
 
-            $item.find('.config_area .fa.fa-arrows').on('mousedown', function(e) {
+            $item.find('.o_sign_config_area .fa.fa-arrows').on('mousedown', function(e) {
                 start($item);
                 process($item, $item.position());
             });
@@ -1225,7 +1224,7 @@ odoo.define('website_sign.page', function(require) {
                 end();
             });
 
-            $item.find('.config_area .fa.fa-arrows').on('mouseup', function(e) {
+            $item.find('.o_sign_config_area .fa.fa-arrows').on('mouseup', function(e) {
                 end();
             });
         },
@@ -1248,16 +1247,16 @@ odoo.define('website_sign.page', function(require) {
 
             if(this.editMode) {
                 var responsibleName = websiteSign.getResponsibleName($signatureItem.data('responsible'));
-                $signatureItem.find('.responsible_display').html(responsibleName).prop('title', responsibleName);
+                $signatureItem.find('.o_sign_responsible_display').html(responsibleName).prop('title', responsibleName);
             }
 
             var resp = $signatureItem.data('responsible');
-            $signatureItem.toggleClass('signature_item_required', ($signatureItem.data('required') && (this.editMode || resp <= 0 || resp === this.role)));
-            $signatureItem.toggleClass('signature_item_pdfview', (this.pdfView || (resp !== this.role && resp > 0 && !this.editMode)));
+            $signatureItem.toggleClass('o_sign_signature_item_required', ($signatureItem.data('required') && (this.editMode || resp <= 0 || resp === this.role)));
+            $signatureItem.toggleClass('o_sign_signature_item_pdfview', (this.pdfView || (resp !== this.role && resp > 0 && !this.editMode)));
         },
 
         checkSignatureItemsCompletion: function() {
-            var $toComplete = this.$('.signature_item.signature_item_required:not(.signature_item_pdfview)').filter(function(i, el) {
+            var $toComplete = this.$('.o_sign_signature_item.o_sign_signature_item_required:not(.o_sign_signature_item_pdfview)').filter(function(i, el) {
                 var $elem = $(el);
                 return !(($elem.val() && $elem.val().trim()) || $elem.data('signature'));
             });
@@ -1269,7 +1268,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         disableItems: function() {
-            this.$('.signature_item').addClass('signature_item_pdfview').removeClass('ui-selected');
+            this.$('.o_sign_signature_item').addClass('o_sign_signature_item_pdfview').removeClass('ui-selected');
         }
     });
 
@@ -1291,9 +1290,9 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$subjectInput = this.$('#signature_request_subject_input');
-            this.$messageInput = this.$('#sign_message_textarea');
-            this.$referenceInput = this.$('#sign_reference_input');
+            this.$subjectInput = this.$('.o_sign_subject_input').first();
+            this.$messageInput = this.$('.o_sign_message_textarea').first();
+            this.$referenceInput = this.$('.o_sign_reference_input').first();
 
             return this._super();
         },
@@ -1303,10 +1302,10 @@ odoo.define('website_sign.page', function(require) {
             var defaultRef = templateName + this.$referenceInput.data('endref');
             this.$referenceInput.val(defaultRef).attr('placeholder', defaultRef);
 
-            this.$('#warning_message_no_field').toggle($.isEmptyObject(rolesToChoose));
-            this.$('#request_signers .new_signer').remove();
+            this.$('.o_sign_warning_message_no_field').first().toggle($.isEmptyObject(rolesToChoose));
+            this.$('.o_sign_request_signers .o_sign_new_signer').remove();
 
-            websiteSign.setAsPartnerSelect(this.$('#request_signers .form-group select')); // Followers
+            websiteSign.setAsPartnerSelect(this.$('.o_sign_request_signers .form-group select')); // Followers
             
             if($.isEmptyObject(rolesToChoose))
                 this.addSigner(0, "Signers", true);
@@ -1323,7 +1322,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         addSigner: function(roleID, roleName, multiple) {
-            var $newSigner = $('<div/>').addClass('new_signer form-group');
+            var $newSigner = $('<div/>').addClass('o_sign_new_signer form-group');
 
             $newSigner.append($('<label/>').addClass('col-md-3 control-label').html(roleName).data('role', roleID));
             
@@ -1338,14 +1337,14 @@ odoo.define('website_sign.page', function(require) {
 
             websiteSign.setAsPartnerSelect($signerInfo);
 
-            this.$('#request_signers').prepend($newSigner);
+            this.$('.o_sign_request_signers').first().prepend($newSigner);
         },
 
         sendDocument: function() {
             var self = this;
 
             var completedOk = true;
-            self.$('.new_signer').each(function(i, el) {
+            self.$('.o_sign_new_signer').each(function(i, el) {
                 var $elem = $(el);
                 var partnerIDs = $elem.find('select').val();
                 if(!partnerIDs || partnerIDs.length <= 0) {
@@ -1362,7 +1361,7 @@ odoo.define('website_sign.page', function(require) {
             var waitFor = [];
 
             var signers = [];
-            self.$('.new_signer').each(function(i, el) {
+            self.$('.o_sign_new_signer').each(function(i, el) {
                 var $elem = $(el);
                 var selectDef = websiteSign.processPartnersSelectionThen($elem.find('select'), function(partners) {
                     for(var p = 0 ; p < partners.length ; p++) {
@@ -1377,7 +1376,7 @@ odoo.define('website_sign.page', function(require) {
             });
 
             var followers = [];
-            var followerDef = websiteSign.processPartnersSelectionThen(self.$('#followers_select'), function(partners) {
+            var followerDef = websiteSign.processPartnersSelectionThen(self.$('#o_sign_followers_select'), function(partners) {
                 followers = partners;
             });
             if(followerDef !== false)
@@ -1406,7 +1405,7 @@ odoo.define('website_sign.page', function(require) {
     /* ----------------------- */
     WIDGETS.ShareTemplateDialog = Widget.extend({
         events: {
-            'focus #share_link_input': function(e) {
+            'focus input': function(e) {
                 $(e.target).select();
             },
         },
@@ -1417,7 +1416,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$linkInput = this.$('#share_link_input');
+            this.$linkInput = this.$('input').first();
             return this._super();
         },
 
@@ -1461,7 +1460,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         start: function() {
-            this.$select = this.$('#followers_select');
+            this.$select = this.$('#o_sign_followers_select');
             return this._super();
         },
 
@@ -1535,32 +1534,32 @@ odoo.define('website_sign.page', function(require) {
                 this.$templateNameInput.focus().select();
             },
 
-            'input #template_name_input': function(e) {
+            'input .o_sign_template_name_input': function(e) {
                 this.$templateNameInput.attr('size', this.$templateNameInput.val().length);
             },
 
-            'change #template_name_input': function(e) {
+            'change .o_sign_template_name_input': function(e) {
                 this.saveTemplate();
                 if(this.$templateNameInput.val() === "")
                     this.$templateNameInput.val(this.initialTemplateName);
             },
 
-            'click #send_template_button': function(e) {
+            'click .o_sign_send_template_button': function(e) {
                 this.saveTemplate();
                 this.createSignatureRequestDialog.launch(this.rolesToChoose, this.$templateNameInput.val());
             },
 
-            'click #share_template_button': function(e) {
+            'click .o_sign_share_template_button': function(e) {
                 this.shareTemplateDialog.launch(this.templateID);
             },
 
-            'click #cancel_request_button': function(e) {
+            'click .o_sign_cancel_request_button': function(e) {
                 ajax.jsonRpc($(e.target).data('ref'), 'call', {}).then(function(data) {
                     window.location.href = "/sign";
                 });
             },
 
-            'click .resend_access_button.fa': function(e) {
+            'click .o_sign_resend_access_button.fa': function(e) {
                 $(e.target).removeClass('fa fa-envelope').html('...');
                 ajax.jsonRpc("/sign/resend_access", 'call', {
                     'id': parseInt($(e.target).data('id'))
@@ -1569,28 +1568,28 @@ odoo.define('website_sign.page', function(require) {
                 });
             },
 
-            'click #add_followers_button': function(e) {
+            'click .o_sign_add_followers_button': function(e) {
                 this.addFollowersDialog.launch();
             },
 
-            'templateChange iframe.website_sign_iframe': function(e) {
+            'templateChange iframe.o_sign_pdf_iframe': function(e) {
                 this.saveTemplate();
             },
 
-            'click #duplicate_signature_template': function(e) {
+            'click .o_sign_duplicate_signature_template': function(e) {
                 this.saveTemplate(true);
             },
 
-            'pdfToComplete iframe.website_sign_iframe': function(e) {
+            'pdfToComplete iframe.o_sign_pdf_iframe': function(e) {
                 this.$validateBanner.hide().css('opacity', 0);
             },
 
-            'pdfCompleted iframe.website_sign_iframe': function(e) {
+            'pdfCompleted iframe.o_sign_pdf_iframe': function(e) {
                 this.$validateBanner.show().animate({'opacity': 1}, 500);
             },
 
-            'click #signature-validate-banner button': 'signItemDocument',
-            'click #sign-document-button': 'signDocument',
+            'click .o_sign_validate_banner button': 'signItemDocument',
+            'click .o_sign_sign_document_button': 'signDocument',
         },
 
         init: function(parent, $root) {
@@ -1606,32 +1605,32 @@ odoo.define('website_sign.page', function(require) {
 
             var defStarts = [self._super()];
 
-            self.attachmentLocation = self.$('#input_attachment_location').val();
-            self.templateID = parseInt(self.$('#input_signature_request_template_id').val());
-            self.requestID = parseInt(self.$('#input_signature_request_id').val());
+            self.attachmentLocation = self.$('#o_sign_input_attachment_location').val();
+            self.templateID = parseInt(self.$('#o_sign_input_signature_request_template_id').val());
+            self.requestID = parseInt(self.$('#o_sign_input_signature_request_id').val());
 
-            self.$templateNameInput = self.$('#template_name_input');
+            self.$templateNameInput = self.$('.o_sign_template_name_input').first();
             self.$templateNameInput.trigger('input');
             self.initialTemplateName = self.$templateNameInput.val();
 
-            self.$iframe = self.$('iframe.website_sign_iframe');
+            self.$iframe = self.$('iframe.o_sign_pdf_iframe').first();
             
-            self.$buttonSendTemplate = self.$('#send_template_button');
-            self.$validateBanner = self.$('#signature-validate-banner');
+            self.$buttonSendTemplate = self.$('.o_sign_send_template_button');
+            self.$validateBanner = self.$('.o_sign_validate_banner').first();
 
             var editMode = !self.requestID;
             if(editMode) {
-                self.createSignatureRequestDialog = new WIDGETS.CreateSignatureRequestDialog(self, self.$('#create_signature_request_dialog'), self.templateID);
+                self.createSignatureRequestDialog = new WIDGETS.CreateSignatureRequestDialog(self, self.$('.o_sign_create_signature_request_dialog').first(), self.templateID);
                 defStarts.push(self.createSignatureRequestDialog.start());
-                self.shareTemplateDialog = new WIDGETS.ShareTemplateDialog(self, self.$('#share_template_dialog'));
+                self.shareTemplateDialog = new WIDGETS.ShareTemplateDialog(self, self.$('.o_sign_share_template_dialog').first());
                 defStarts.push(self.shareTemplateDialog.start());
             }
             else {
-                self.addFollowersDialog = new WIDGETS.AddFollowersDialog(self, self.$('#add_followers_dialog'));
+                self.addFollowersDialog = new WIDGETS.AddFollowersDialog(self, self.$('.o_sign_add_followers_dialog').first());
                 defStarts.push(self.addFollowersDialog.start());
-                self.publicSignerDialog = new WIDGETS.PublicSignerDialog(self, self.$('#public_signer_dialog'));
+                self.publicSignerDialog = new WIDGETS.PublicSignerDialog(self, self.$('.o_sign_public_signer_dialog').first());
                 defStarts.push(self.publicSignerDialog.start());
-                self.thankYouDialog = new WIDGETS.ThankYouDialog(self, self.$('#thank_you_dialog'));
+                self.thankYouDialog = new WIDGETS.ThankYouDialog(self, self.$('.o_sign_thank_you_dialog'));
                 defStarts.push(self.thankYouDialog.start());
             }
 
@@ -1639,7 +1638,7 @@ odoo.define('website_sign.page', function(require) {
                 self.$buttonSendTemplate.prop('disabled', true);
 
                 self.iframeWidget = new WIDGETS.PDFIframe(self, self.$iframe, editMode);
-                defStarts.push(self.iframeWidget.start(self.attachmentLocation, self.$iframe.parent().find("input[type='hidden'].item_input_info")).then(function(e) {
+                defStarts.push(self.iframeWidget.start(self.attachmentLocation, self.$iframe.parent().find("input[type='hidden'].o_sign_item_input_info")).then(function(e) {
                     self.$buttonSendTemplate.prop('disabled', false);
                 }));       
             }
@@ -1673,7 +1672,7 @@ odoo.define('website_sign.page', function(require) {
                 }
             }
 
-            var $majInfo = this.$('#template-saved-info');
+            var $majInfo = this.$('.o_sign_template_saved_info').first();
 
             ajax.jsonRpc("/sign/update_template/" + this.templateID + ((duplicate)? '/duplicate' : '/update'), 'call', {
                 'signature_items': data,
@@ -1690,7 +1689,7 @@ odoo.define('website_sign.page', function(require) {
             var self = this;
 
             var mail = "";
-            self.iframeWidget.$('.signature_item').each(function(i, el){
+            self.iframeWidget.$('.o_sign_signature_item').each(function(i, el){
                 if($(el).val() && $(el).val().indexOf('@') >= 0)
                     mail = $(el).val();
             });
@@ -1737,8 +1736,8 @@ odoo.define('website_sign.page', function(require) {
             websiteSign.signatureDialog.onConfirm(function(name, signature) {
                 var isEmpty = ((signature)? (websiteSign.signatureDialog.emptySignature === signature) : true);
 
-                websiteSign.signatureDialog.$('#signer_info').toggleClass('has-error', !name);
-                websiteSign.signatureDialog.$('#signature_draw').toggleClass('panel-danger', isEmpty).toggleClass('panel-default', !isEmpty);
+                websiteSign.signatureDialog.$('.o_sign_signer_info').toggleClass('has-error', !name);
+                websiteSign.signatureDialog.$('.o_sign_signature_draw').toggleClass('panel-danger', isEmpty).toggleClass('panel-default', !isEmpty);
                 if(isEmpty || !name)
                     return false;
 
@@ -1765,19 +1764,20 @@ odoo.define('website_sign.page', function(require) {
     /*  Initializations  */
     /* ----------------- */
     website.add_template_file('/website_sign/static/src/xml/website_sign.xml');
-    website.if_dom_contains('#is_website_sign_page', function() {
+    website.if_dom_contains('#o_sign_is_website_sign_page', function() {
         website.ready().then(function() {
             websiteSign = new CLASSES.WebsiteSign();
 
             var websiteSignPage = new WIDGETS.WebsiteSignPage(null, $('body'));
-            websiteSign.signatureDialog = new WIDGETS.SignatureDialog(websiteSignPage, $('#signer_name_input_info').val());
+            websiteSign.signatureDialog = new WIDGETS.SignatureDialog(websiteSignPage, $('#o_sign_signer_name_input_info').val());
 
             /* ------------- */
             /*  Geolocation  */
             /* ------------- */
-            if($('#ask_location_input').val() && navigator.geolocation) {
+            var askLocationURL = $('#o_sign_ask_location_input').val();
+            if(askLocationURL && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    ajax.jsonRpc($('#ask_location_input').val(), 'call', {
+                    ajax.jsonRpc(askLocationURL, 'call', {
                         'latitude': position.coords.latitude,
                         'longitude': position.coords.longitude
                     });

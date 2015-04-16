@@ -1,49 +1,28 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields, api, _
-
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-import time, uuid, re, StringIO, base64
-from pyPdf import PdfFileWriter, PdfFileReader
-from reportlab.pdfgen import canvas
+import base64
+import StringIO
+import time
+import uuid
+from pyPdf import PdfFileReader, PdfFileWriter
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
 
-class signature_request_template(models.Model):
-    _name = "signature.request.template"
-    _description = "Signature Request Template"
-    _rec_name = "attachment_id"
+from openerp import api, fields, models, _
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
-    attachment_id = fields.Many2one('ir.attachment', string="Attachment", required=True, ondelete='cascade')
-    signature_item_ids = fields.One2many('signature.item', 'template_id', string="Signature Items")
-
-    archived = fields.Boolean(default=False, string="Archived")
-    favorited_ids = fields.Many2many('res.users', string="Favorite of")
-
-    share_link = fields.Char(string="Share Link")
-
-    signature_request_ids = fields.One2many('signature.request', 'template_id', string="Signature Requests")
-
-    @api.multi
-    def go_to_custom_template(self):
-        return {
-            'name': 'Signature Request Template Edit Field URL',
-            'type': 'ir.actions.act_url',
-            'url': '/sign/template/' + str(self[0].id),
-            'target': 'self',
-        }
-
-class signature_request(models.Model):
+class SignatureRequest(models.Model):
     _name = "signature.request"
     _description = "Document To Sign"
     _rec_name = 'reference'
-
     _inherit = 'mail.thread'
-
-    template_id = fields.Many2one('signature.request.template', string="Template", required=True)
-    reference = fields.Char(required=True, string="Filename")
 
     @api.multi
     def _default_access_token(self):
         return str(uuid.uuid4())
+
+    template_id = fields.Many2one('signature.request.template', string="Template", required=True)
+    reference = fields.Char(required=True, string="Filename")
+
     access_token = fields.Char('Security Token', required=True, default=_default_access_token, readonly=True)
 
     request_item_ids = fields.One2many('signature.request.item', 'signature_request_id', string="Signers")
@@ -67,11 +46,7 @@ class signature_request(models.Model):
     favorited_ids = fields.Many2many('res.users', string="Favorite of")
 
     color = fields.Integer()
-    isFavorited = fields.Boolean(compute="_is_favorited") # TODO need this because kanban view has not access on web client anymore...
-    
-    @api.one
-    def _is_favorited(self):
-        self.isFavorited = self.env.user.id in self.favorited_ids.mapped('id')
+    is_favorited = fields.Boolean(compute="_compute_is_favorited") # TODO need this because kanban view has not access on web client anymore...
 
     @api.one
     @api.depends('request_item_ids.state')
@@ -94,6 +69,10 @@ class signature_request(models.Model):
             self.progress = self.nb_closed*100 / (self.nb_wait + self.nb_closed)
 
     @api.one
+    def _compute_is_favorited(self):
+        self.is_favorited = self.env.user.id in self.favorited_ids.mapped('id')
+
+    @api.one
     def _check_after_compute(self): # TODO auto call to this function in _compute_count makes problems (and part of the function is useless like this)
         if self.state == 'draft' and self.nb_draft == 0 and len(self.request_item_ids) > 0: # When a draft partner is deleted
             self.action_sent()
@@ -106,12 +85,40 @@ class signature_request(models.Model):
             self.action_draft()
 
     @api.multi
-    def action_draft(self):
-        self.write({'completed_document': None, 'access_token': self._default_access_token(), 'state': 'draft'})
-
-    @api.multi
     def button_send(self):
         self.action_sent()
+
+    @api.multi
+    def go_to_sign_document(self):
+        self.ensure_one()
+        return {
+            'name': 'Document to Sign',
+            'type': 'ir.actions.act_url',
+            'url': '/sign/document/' + str(self.id) + '?pdfview',
+            'target': 'self',
+        }
+
+    @api.multi
+    def get_completed_document(self):
+        self.ensure_one()
+        if not self.completed_document:
+            self.generate_completed_document()
+
+        return {
+            'name': 'Signed Document',
+            'type': 'ir.actions.act_url',
+            'url': '/sign/download/%(request_id)s/%(access_token)s/completed' % {'request_id': self.id, 'access_token': self.access_token},
+            'target': 'self',
+        }
+
+    @api.multi
+    def favorite_document(self):
+        self.ensure_one()
+        self.write({'favorited_ids': [(3 if self.env.user in self[0].favorited_ids else 4, self.env.user.id)]})
+
+    @api.multi
+    def action_draft(self):
+        self.write({'completed_document': None, 'access_token': self._default_access_token(), 'state': 'draft'})
 
     @api.multi
     def action_sent(self, subject=None, message=None):
@@ -154,9 +161,10 @@ class signature_request(models.Model):
             else:
                 ids_to_remove.append(request_item.id)
 
-        self.env['signature.request.item'].browse(ids_to_remove).unlink()
+        SignatureRequestItem = self.env['signature.request.item']
+        SignatureRequestItem.browse(ids_to_remove).unlink()
         for signer in signers:
-            self.env['signature.request.item'].create({
+            SignatureRequestItem.create({
                 'partner_id': signer['partner_id'],
                 'signature_request_id': self.id,
                 'role_id': signer['role']
@@ -185,7 +193,7 @@ class signature_request(models.Model):
 
         email_from_usr = self.create_uid.partner_id.name
         email_from_mail = self.create_uid.partner_id.email
-        email_from = "%s <%s>" % (email_from_usr, email_from_mail)
+        email_from = "%(email_from_usr)s <%(email_from_mail)s>" % {'email_from_usr': email_from_usr, 'email_from_mail': email_from_mail}
 
         for follower in followers:
             template = mail_template.sudo().with_context(base_context,
@@ -194,7 +202,7 @@ class signature_request(models.Model):
                 email_from_mail = email_from_mail,
                 email_from = email_from,
                 email_to = follower.email,
-                link = "sign/document/%s/%s?pdfview" % (self.id, self.access_token),
+                link = "sign/document/%(request_id)s/%(access_token)s?pdfview" % {'request_id': self.id, 'access_token': self.access_token},
                 subject = subject or ("Signature request - " + self.reference),
                 msgbody = (message or "").replace("\n", "<br/>")
             )
@@ -215,7 +223,7 @@ class signature_request(models.Model):
 
         email_from_usr = self.create_uid.partner_id.name
         email_from_mail = self.create_uid.partner_id.email
-        email_from = "%s <%s>" % (email_from_usr, email_from_mail)
+        email_from = "%(email_from_usr)s <%(email_from_mail)s>" % {'email_from_usr': email_from_usr, 'email_from_mail': email_from_mail}
 
         mail_template = mail_template.sudo().with_context(base_context,
             template_type = "completed",
@@ -230,14 +238,14 @@ class signature_request(models.Model):
                 continue
             template = mail_template.with_context(
                 email_to = signer.partner_id.email,
-                link = "sign/document/%s/%s?pdfview" % (self.id, signer.access_token),
+                link = "sign/document/%(request_id)s/%(access_token)s?pdfview" % {'request_id': self.id, 'access_token': signer.access_token}
             )
             template.send_mail(self.id, force_send=True)
 
         for follower in self.follower_ids:
             template = mail_template.with_context(
                 email_to = follower.email,
-                link = "sign/document/%s/%s?pdfview" % (self.id, self.access_token),
+                link = "sign/document/%(request_id)s/%(access_token)s?pdfview" % {'request_id': self.id, 'access_token': self.access_token}
             )
             template.send_mail(self.id, force_send=True)
 
@@ -260,6 +268,7 @@ class signature_request(models.Model):
         packet = StringIO.StringIO()
         can = canvas.Canvas(packet)
         itemsByPage = self.template_id.signature_item_ids.getByPage()
+        SignatureItemValue = self.env['signature.item.value']
         for p in range(0, old_pdf.getNumPages()):
             if (p+1) not in itemsByPage:
                 can.showPage()
@@ -267,7 +276,7 @@ class signature_request(models.Model):
 
             items = itemsByPage[p+1]
             for item in items:
-                value = self.env['signature.item.value'].search([('signature_item_id', '=', item.id), ('signature_request_id', '=', self.id)], limit=1)
+                value = SignatureItemValue.search([('signature_item_id', '=', item.id), ('signature_request_id', '=', self.id)], limit=1)
                 if not value or not value.value:
                     continue
 
@@ -308,41 +317,22 @@ class signature_request(models.Model):
         output.close()
         return True
 
-    @api.multi
-    def go_to_sign_document(self):
-        return {
-            'name': 'Document to Sign',
-            'type': 'ir.actions.act_url',
-            'url': '/sign/document/' + str(self[0].id) + '?pdfview',
-            'target': 'self',
-        }
-
-    @api.multi
-    def get_completed_document(self):
-        if not self[0].completed_document:
-            self[0].generate_completed_document()
-
-        return {
-            'name': 'Signed Document',
-            'type': 'ir.actions.act_url',
-            'url': '/sign/download/%s/%s/completed' % (self[0].id, self[0].access_token),
-            'target': 'self',
-        }
-
-    @api.multi
-    def favorite_document(self):
-        self[0].write({'favorited_ids': [(3 if self.env.user in self[0].favorited_ids else 4, self.env.user.id)]})
-
-class signature_request_item(models.Model):
+class SignatureRequestItem(models.Model):
     _name = "signature.request.item"
     _description = "Signature Request"
     _rec_name = 'partner_id'
 
-    partner_id = fields.Many2one('res.partner', string="Partner", ondelete='cascade')
+    @api.multi
+    def _default_access_token(self):
+        return str(uuid.uuid4())
 
+    partner_id = fields.Many2one('res.partner', string="Partner", ondelete='cascade')
     signature_request_id = fields.Many2one('signature.request', string="Signature Request", ondelete='cascade', required=True)
+
+    access_token = fields.Char('Security Token', required=True, default=_default_access_token, readonly=True)
+    role_id = fields.Many2one('signature.item.party', string="Role")
+
     signature = fields.Binary()
-    
     signing_date = fields.Date('Signed on', readonly=True)
     state = fields.Selection([
         ("draft", "Draft"),
@@ -350,12 +340,11 @@ class signature_request_item(models.Model):
         ("completed", "Completed")
     ], readonly=True, default="draft")
 
-    @api.multi
-    def _default_access_token(self):
-        return str(uuid.uuid4())
-    access_token = fields.Char('Security Token', required=True, default=_default_access_token, readonly=True)
-
     signer_email = fields.Char(related='partner_id.email')
+    signer_trigram = fields.Char(compute='_compute_trigram')
+
+    latitude = fields.Float(digits=(10, 7))
+    longitude = fields.Float(digits=(10, 7))
 
     @api.one
     @api.depends('partner_id.name')
@@ -369,13 +358,7 @@ class signature_request_item(models.Model):
             if len(part) > 0:
                 trigram += part[0]
         self.signer_trigram = trigram
-    signer_trigram = fields.Char(compute=_compute_trigram)
-
-    role_id = fields.Many2one('signature.item.party', string="Role")
-
-    latitude = fields.Float(digits=(10, 7))
-    longitude = fields.Float(digits=(10, 7))
-
+    
     @api.multi
     def action_draft(self):
         self.write({
@@ -404,10 +387,11 @@ class signature_request_item(models.Model):
         if not isinstance(signature, dict):
             self.signature = signature
         else:
+            SignatureItemValue = self.env['signature.item.value']
             for itemId in signature:
-                item_value = self.env['signature.item.value'].search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', self.signature_request_id.id)])
+                item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', self.signature_request_id.id)])
                 if not item_value:
-                    item_value = self.env['signature.item.value'].create({'signature_item_id': int(itemId), 'signature_request_id': self.signature_request_id.id})
+                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': self.signature_request_id.id})
                 item_value.value = signature[itemId]
 
                 if item_value.signature_item_id.type_id.type == 'signature':
@@ -423,7 +407,7 @@ class signature_request_item(models.Model):
 
         email_from_usr = self[0].create_uid.partner_id.name
         email_from_mail = self[0].create_uid.partner_id.email
-        email_from = "%s <%s>" % (email_from_usr, email_from_mail)
+        email_from = "%(email_from_usr)s <%(email_from_mail)s>" % {'email_from_usr': email_from_usr, 'email_from_mail': email_from_mail}
 
         for signer in self:
             if not signer.partner_id:
@@ -434,7 +418,7 @@ class signature_request_item(models.Model):
                 email_from_mail = email_from_mail,
                 email_from = email_from,
                 email_to = signer.partner_id.email,
-                link = "sign/document/%s/%s" % (signer.signature_request_id.id, signer.access_token),
+                link = "sign/document/%(request_id)s/%(access_token)s" % {'request_id': signer.signature_request_id.id, 'access_token': signer.access_token},
                 subject = subject or ("Signature request - " + signer.signature_request_id.reference),
                 msgbody = (message or "").replace("\n", "<br/>")
             )

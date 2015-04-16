@@ -39,7 +39,7 @@
                                     <li><span class="fa fa-check"/> Free up to 2 users, unlimited documents</li>
                                 </ul>
                                 <a class="btn btn-lg btn-primary" href="https://www.odoo.com">Sign Up</a>
-                                <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#choose_document_dialog">Try It Now <span class="fa fa-arrow-right"/></button>
+                                <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#o_sign_choose_document_dialog">Try It Now <span class="fa fa-arrow-right"/></button>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="choose_document_dialog" role="dialog" aria-hidden="true">
+                <div class="modal fade" id="o_sign_choose_document_dialog" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -187,7 +187,7 @@
                                 </a>
                             </div>
 
-                            <a href="https://www.odoo.com/page/electronic-signature" class="pull-right" style="font-size:0.8em;"><div class="pull-left mt4">Powered By </div><img src="/website_sign/static/src/img/odoo_signed.png" style="height:48px;"/></a>
+                            <a href="https://www.odoo.com/page/electronic-signature" class="pull-right" style="font-size:0.8em;"><div class="pull-left mt4">Powered By </div><img src="/website_sign/static/img/odoo_signed.png" style="height:48px;"/></a>
 
                             <div t-if="signature_request" class="mt16" style="font-size:1.2em;">
                                 <t t-if="not current_request_item">Need to sign? Check your mail box to get your secure access</t>
@@ -207,31 +207,31 @@
 
     <template id="website_sign.dashboard" name="Digital Signatures Homepage">
         <t t-call="website_sign.layout">
-            <div class="container" id="sign_dashboard">
-                <div class="pull-right"><input type="checkbox" id="show_archives_toggle" t-att-checked="'checked' if toggles['archive'] else ''"/> <label for="show_archives_toggle">Show Archives</label></div>
-                <div class="pull-right" style="margin-right:20px;"><input type="checkbox" id="show_favorites_toggle" t-att-checked="'checked' if toggles['favorite'] else ''"/> <label for="show_favorites_toggle">Favorites Only</label></div>
+            <div class="container" id="o_sign_dashboard">
+                <div class="pull-right"><input type="checkbox" id="o_sign_show_archives_toggle" t-att-checked="'checked' if toggles['archive'] else ''"/> <label for="o_sign_show_archives_toggle">Show Archives</label></div>
+                <div class="pull-right" style="margin-right:20px;"><input type="checkbox" id="o_sign_show_favorites_toggle" t-att-checked="'checked' if toggles['favorite'] else ''"/> <label for="o_sign_show_favorites_toggle">Favorites Only</label></div>
 
-                <div class="sign_dashboard_row mt32">
-                    <h4 class="sign_dashboard_title clearfix">Documents Templates<div class="sign_dashboard_title_nav pull-right small"><button type="button" class="btn btn-link fa fa-arrow-left"/> <span class="page_counter"/> of <span class="page_total_counter"/> <button type="button" class="btn btn-link fa fa-arrow-right"/></div></h4>
+                <div class="o_sign_dashboard_row mt32">
+                    <h4 class="o_sign_dashboard_title clearfix">Documents Templates<div class="o_sign_dashboard_title_nav pull-right small"><button type="button" class="btn btn-link fa fa-arrow-left"/> <span class="o_sign_page_counter"/> of <span class="o_sign_page_total_counter"/> <button type="button" class="btn btn-link fa fa-arrow-right"/></div></h4>
 
                     <div class="row">
-                        <div class="col-md-2 sign_dashboard_item" data-favorited="1" data-archived="0">
-                            <button type="button" class="btn btn-block mb8" id="upload_template_button">
-                                <div class="sign_dashboard_item_content">
-                                    <span class="sign_dashboard_item_icon fa fa-upload fa-2x"/>
-                                    <div class="sign_dashboard_item_title">Upload New</div>
+                        <div class="col-md-2 o_sign_dashboard_item" data-favorited="1" data-archived="0">
+                            <button type="button" class="o_sign_upload_template_button btn btn-block mb8">
+                                <div class="o_sign_dashboard_item_content">
+                                    <span class="o_sign_dashboard_item_icon fa fa-upload fa-2x"/>
+                                    <div class="o_sign_dashboard_item_title">Upload New</div>
                                 </div>
                             </button>
                         </div>
 
                         <t t-foreach="templates" t-as="template">
-                            <div class="col-md-2 sign_dashboard_item" t-att-data-archived="str(int(template.archived))" t-att-data-favorited="str(int(env.user in template.favorited_ids))">
+                            <div class="col-md-2 o_sign_dashboard_item" t-att-data-archived="str(int(template.archived))" t-att-data-favorited="str(int(env.user in template.favorited_ids))">
                                 <a t-attf-href="/sign/template/{{template.id}}" class="btn btn-block mb8" t-att-title="template.attachment_id.name">
-                                    <span class="favorite_button fa fa-star" t-attf-data-ref="template/{{template.id}}"/>
-                                    <button type="button" class="btn btn-link archive_button" t-attf-data-ref="template/{{template.id}}"/>
-                                    <div class="sign_dashboard_item_content">
-                                        <span class="sign_dashboard_item_icon fa fa-file fa-2x"/>
-                                        <div class="sign_dashboard_item_title"><t t-esc="template.attachment_id.name"/></div>
+                                    <span class="o_sign_favorite_button fa fa-star" t-attf-data-ref="template/{{template.id}}"/>
+                                    <button type="button" class="btn btn-link o_sign_archive_button" t-attf-data-ref="template/{{template.id}}"/>
+                                    <div class="o_sign_dashboard_item_content">
+                                        <span class="o_sign_dashboard_item_icon fa fa-file fa-2x"/>
+                                        <div class="o_sign_dashboard_item_title"><t t-esc="template.attachment_id.name"/></div>
                                         <div><em t-field="template.create_date"/></div>
                                     </div>
                                 </a>
@@ -241,18 +241,18 @@
                 </div>
 
                 <t t-foreach="[('sent', 'Signatures in Progress'), ('signed', 'Fully Signed'), ('canceled', 'Canceled')]" t-as="category">
-                    <div class="sign_dashboard_row mt32">
-                        <h4 class="sign_dashboard_title clearfix"><t t-esc="category[1]"/><div class="sign_dashboard_title_nav pull-right small"><button type="button" class="btn btn-link fa fa-arrow-left"/> <span class="page_counter"/> of <span class="page_total_counter"/> <button type="button" class="btn btn-link fa fa-arrow-right"/></div></h4>
+                    <div class="o_sign_dashboard_row mt32">
+                        <h4 class="o_sign_dashboard_title clearfix"><t t-esc="category[1]"/><div class="o_sign_dashboard_title_nav pull-right small"><button type="button" class="btn btn-link fa fa-arrow-left"/> <span class="o_sign_page_counter"/> of <span class="o_sign_page_total_counter"/> <button type="button" class="btn btn-link fa fa-arrow-right"/></div></h4>
 
                         <div class="row">
                             <t t-foreach="signature_requests" t-as="signature_request">
-                                <div t-if="signature_request.state == category[0]" class="col-md-2 sign_dashboard_item" t-att-data-archived="str(int(signature_request.archived))" t-att-data-favorited="str(int(env.user in signature_request.favorited_ids))">
+                                <div t-if="signature_request.state == category[0]" class="col-md-2 o_sign_dashboard_item" t-att-data-archived="str(int(signature_request.archived))" t-att-data-favorited="str(int(env.user in signature_request.favorited_ids))">
                                     <a t-attf-href="/sign/document/{{signature_request.id}}/{{signature_request.access_token}}?pdfview" class="btn btn-block mb8">
-                                        <span class="favorite_button fa fa-star" t-attf-data-ref="document/{{signature_request.id}}"/>
-                                        <button t-if="category[0] != 'sent'" type="button" class="btn btn-link archive_button" t-attf-data-ref="document/{{signature_request.id}}"/>
-                                        <div class="sign_dashboard_item_content">
-                                            <span class="sign_dashboard_item_icon fa fa-copy fa-2x"/>
-                                            <div class="sign_dashboard_item_title" t-att-title="signature_request.reference"><t t-esc="signature_request.reference"/></div>
+                                        <span class="o_sign_favorite_button fa fa-star" t-attf-data-ref="document/{{signature_request.id}}"/>
+                                        <button t-if="category[0] != 'sent'" type="button" class="btn btn-link o_sign_archive_button" t-attf-data-ref="document/{{signature_request.id}}"/>
+                                        <div class="o_sign_dashboard_item_content">
+                                            <span class="o_sign_dashboard_item_icon fa fa-copy fa-2x"/>
+                                            <div class="o_sign_dashboard_item_title" t-att-title="signature_request.reference"><t t-esc="signature_request.reference"/></div>
                                             <t t-if="category[0] != 'signed'">
                                                 <t t-set="concat_names" t-value="''"/>
                                                 <t t-foreach="signature_request.request_item_ids" t-as="request_item">
@@ -274,20 +274,20 @@
 
     <template id="website_sign.doc_sign" name="Document Sign">
         <t t-call="website_sign.layout">
-            <input type="hidden" id="is_website_sign_page"/>
+            <input type="hidden" id="o_sign_is_website_sign_page"/>
 
-            <div t-if="current_request_item and current_request_item.state == 'sent' and hasItems" id="signature-validate-banner">
+            <div t-if="current_request_item and current_request_item.state == 'sent' and hasItems" class="o_sign_validate_banner">
                 <button type="button" class="btn btn-primary" t-attf-data-action="/sign/signed/{{signature_request.id}}/{{token}}">Validate &amp; Send Completed Document</button>
             </div>
 
             <div t-att-class="'container-fluid' if isPDF else 'container'">
                 <div class="row" style="padding:5px;">
-                    <button t-if="current_request_item and current_request_item.state == 'sent' and not hasItems" type="button" id="sign-document-button" class="btn btn-primary" t-attf-data-action="/sign/signed/{{signature_request.id}}/{{token}}" data-toggle="modal" data-target="#signature_dialog">Sign Document</button> 
+                    <button t-if="current_request_item and current_request_item.state == 'sent' and not hasItems" type="button" class="o_sign_sign_document_button btn btn-primary" t-attf-data-action="/sign/signed/{{signature_request.id}}/{{token}}" data-toggle="modal" data-target="#o_sign_signature_dialog">Sign Document</button> 
                 </div>
 
                 <div class="row" style="max-height:300px; overflow:auto;">
                     <div class="col-md-4 mb8">
-                        <h4><t t-esc="signature_request.reference"/> <button t-if="env.user.id == signature_request.create_uid.id and signature_request.state != 'canceled'" type="button" id="cancel_request_button" t-attf-data-ref="/sign/cancel/{{signature_request.id}}" class="btn btn-link">Cancel the request</button></h4>
+                        <h4><t t-esc="signature_request.reference"/> <button t-if="env.user.id == signature_request.create_uid.id and signature_request.state != 'canceled'" type="button" t-attf-data-ref="/sign/cancel/{{signature_request.id}}" class="o_sign_cancel_request_button btn btn-link">Cancel the request</button></h4>
 
                         <div t-if="message" class="alert alert-success">
                             <t t-if="message == 1">Your message has been sent !</t>
@@ -297,7 +297,7 @@
                         <a t-if="signature_request.state == 'signed'" t-attf-href="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/completed" class="btn btn-primary mt8">Download Document</a>
 
                         <t t-set="nbComments" t-value="len(messages.filtered(lambda m: m.type == 'comment'))"/>
-                        <button type="button" class="btn btn-default mt8" data-toggle="modal" data-target="#website_sign_chatter">View History<t t-if="nbComments > 0"> (<t t-esc="nbComments"/> comment<t t-if="nbComments > 1">s</t>)</t></button>
+                        <button type="button" class="btn btn-default mt8" data-toggle="modal" data-target=".o_sign_chatter">View History<t t-if="nbComments > 0"> (<t t-esc="nbComments"/> comment<t t-if="nbComments > 1">s</t>)</t></button>
                     </div>
 
                     <div class="col-md-4 mb16">
@@ -310,9 +310,9 @@
                         </div>
 
                         <t t-if="env.user.id == signature_request.create_uid.id or len(signature_request.follower_ids) &gt; 0">
-                            <h5 class="page-header mb8 mt16">Followers (<t t-esc="len(signature_request.follower_ids)"/>)<button t-if="env.user.id == signature_request.create_uid.id" type="button" class="btn btn-link pull-right" id="add_followers_button" style="padding:0;">Send a copy to...</button></h5>
+                            <h5 class="page-header mb8 mt16">Followers (<t t-esc="len(signature_request.follower_ids)"/>)<button t-if="env.user.id == signature_request.create_uid.id" type="button" class="o_sign_add_followers_button btn btn-link pull-right" style="padding:0;">Send a copy to...</button></h5>
                             <div>
-                                <t t-foreach="signature_request.follower_ids" t-as="follower"><span class="request_follower_name"><t t-esc="follower.name"/></span></t>
+                                <t t-foreach="signature_request.follower_ids" t-as="follower"><span class="o_sign_request_follower_name"><t t-esc="follower.name"/></span></t>
                             </div>
                         </t>
                     </div>
@@ -321,7 +321,7 @@
                         <t t-if="signature_request.state != 'signed'">
                             <h5 class="page-header mb8 mt8">Waiting Signatures (<t t-raw="str(len(signature_request.request_item_ids)-signature_request.nb_closed)"/>)</h5>
                             <t t-foreach="signature_request.request_item_ids" t-as="sign">
-                                <div t-if="sign.state != 'completed'" class="clearfix"><b><t t-raw="sign.partner_id.name if sign.partner_id else 'Public user'"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/> <button t-if="env.user.id == signature_request.create_uid.id and sign.state != 'draft'" type="button" t-att-data-id="sign.id" class="resend_access_button btn btn-link fa fa-envelope pull-right" title="Resend the invitation" style="padding:0;"/><em t-if="sign.state != 'sent'"><br/>(the mail access has not been sent)</em></div>
+                                <div t-if="sign.state != 'completed'" class="clearfix"><b><t t-raw="sign.partner_id.name if sign.partner_id else 'Public user'"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/> <button t-if="env.user.id == signature_request.create_uid.id and sign.state != 'draft'" type="button" t-att-data-id="sign.id" class="o_sign_resend_access_button btn btn-link fa fa-envelope pull-right" title="Resend the invitation" style="padding:0;"/><em t-if="sign.state != 'sent'"><br/>(the mail access has not been sent)</em></div>
                             </t>
                         </t>
                         <t t-if="signature_request.nb_closed > 0">
@@ -347,9 +347,9 @@
                 <t t-call="website_sign.items_view"/>
             </t>
 
-            <input id="input_signature_request_id" type="hidden" t-att-value="signature_request.id"/>
-            <input id="signer_name_input_info" type="hidden" t-att-value="current_request_item.partner_id.name if current_request_item and current_request_item.partner_id else ''"/>
-            <input t-if="current_request_item" id="ask_location_input" type="hidden" t-attf-value="/sign/save_location/{{signature_request.id}}/{{token}}"/>
+            <input id="o_sign_input_signature_request_id" type="hidden" t-att-value="signature_request.id"/>
+            <input id="o_sign_signer_name_input_info" type="hidden" t-att-value="current_request_item.partner_id.name if current_request_item and current_request_item.partner_id else ''"/>
+            <input t-if="current_request_item" id="o_sign_ask_location_input" type="hidden" t-attf-value="/sign/save_location/{{signature_request.id}}/{{token}}"/>
 
             <t t-if="len(signature_request.request_item_ids) == 1 and not signature_request.request_item_ids[0].partner_id">
                 <t t-call="website_sign.public_signer_dialog"/>
@@ -362,8 +362,8 @@
     </template>
 
     <template id="website_sign.chatter" name="Digital Signatures Chatter">
-        <div class="modal fade" id="website_sign_chatter" role="dialog" aria-hidden="true">
-            <form id="comment" class="modal-dialog" method="post" t-attf-action="/sign/document/{{signature_request.id}}/{{token}}/note">
+        <div class="modal fade o_sign_chatter" role="dialog" aria-hidden="true">
+            <form class="modal-dialog" method="post" t-attf-action="/sign/document/{{signature_request.id}}/{{token}}/note">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
@@ -374,7 +374,7 @@
                             <textarea rows="3" name="comment" class="form-control" placeholder="Send us a note..."/>
                             <hr/>
                         </div>
-                        <ul class="media-list" id="comments-list">
+                        <ul class="media-list">
                             <t t-foreach="messages" t-as="message">
                                 <li class="media" t-if="message.type == 'comment'">
                                     <div class="media-body">
@@ -400,7 +400,7 @@
     </template>
 
     <template id="website_sign.add_followers_dialog" name="Add Followers Dialog">
-        <div class="modal fade" id="add_followers_dialog" role="dialog" aria-hidden="true">
+        <div class="o_sign_add_followers_dialog modal fade" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -409,9 +409,9 @@
                     </div>
                     <div class="modal-body form-horizontal">
                         <div class="form-group">
-                            <label for="followers_select" class="col-md-3 control-label">Send a copy</label>
+                            <label for="o_sign_followers_select" class="col-md-3 control-label">Send a copy</label>
                             <div class="col-md-9">
-                                <select id="followers_select" class="form-control" placeholder="Write email or search contact..." multiple="multiple"/>
+                                <select id="o_sign_followers_select" class="form-control" placeholder="Write email or search contact..." multiple="multiple"/>
                             </div>
                         </div>
                     </div>
@@ -425,7 +425,7 @@
     </template>
 
     <template id="website_sign.public_signer_dialog" name="Public Signer Dialog">
-        <div class="modal fade" id="public_signer_dialog" role="dialog" aria-hidden="true">
+        <div class="o_sign_public_signer_dialog modal fade" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -434,15 +434,15 @@
                     </div>
                     <div class="modal-body form-horizontal">
                         <div class="form-group">
-                            <label for="public_signer_name_input" class="col-md-3 control-label">Your name</label>
+                            <label for="o_sign_public_signer_name_input" class="col-md-3 control-label">Your name</label>
                             <div class="col-md-9">
-                                <input type="text" id="public_signer_name_input" placeholder="Your name" class="form-control"/>
+                                <input type="text" id="o_sign_public_signer_name_input" placeholder="Your name" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="public_signer_mail_input" class="col-md-3 control-label">Your email</label>
+                            <label for="o_sign_public_signer_mail_input" class="col-md-3 control-label">Your email</label>
                             <div class="col-md-9">
-                                <input type="email" id="public_signer_mail_input" placeholder="Your email" class="form-control"/>
+                                <input type="email" id="o_sign_public_signer_mail_input" placeholder="Your email" class="form-control"/>
                             </div>
                         </div>
                     </div>
@@ -456,7 +456,7 @@
     </template>
 
     <template id="website_sign.thank_you_dialog" name="Thank You Dialog">
-        <div class="modal fade" id="thank_you_dialog" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="o_sign_thank_you_dialog modal fade" role="dialog" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

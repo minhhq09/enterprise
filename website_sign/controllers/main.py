@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+import base64
+import mimetypes
+import os
+import re
+import uuid
+
 from openerp import http, _
-
 from openerp.addons.web.controllers.main import content_disposition
-import time, mimetypes, base64, os, datetime, uuid, re
 
-class website_sign(http.Controller):
+class WebsiteSign(http.Controller):
 
-    def __message_post(self, message, signature_request_id, partner, type='comment', subtype=False):
+    def _message_post(self, message, signature_request_id, partner, type='comment', subtype=False):
         signature_request = http.request.env['signature.request'].sudo().browse(signature_request_id)
 
         user = (http.request.env['res.users'].sudo().search([('partner_id', '=', partner.id)]) or None) if partner else None
@@ -15,7 +19,7 @@ class website_sign(http.Controller):
         else:
             signature_request = signature_request.sudo(signature_request.create_uid)
             if partner != 0:
-                message = "<b>%s</b> %s" % (partner.name if partner else "Public User", message)
+                message = "<b>%(partner_name)s</b> %(message)s" % {'partner_name': partner.name if partner else "Public User", 'message': message}
 
         return signature_request.with_context(notify_author=True).message_post(
             body=message,
@@ -55,7 +59,7 @@ class website_sign(http.Controller):
             'signature_items': template.signature_item_ids,
             'signature_item_parties': http.request.env['signature.item.party'].search([]),
             'signature_item_types': http.request.env['signature.item.type'].search([]),
-            'default_reference': "-%s" % user,
+            'default_reference': "-%(user)s" % {'user': user},
             'has_signature_requests': (len(template.signature_request_ids) > 0),
             'isPDF': (template.attachment_id.mimetype.find('pdf') > -1)
         })
@@ -93,9 +97,10 @@ class website_sign(http.Controller):
         template.signature_item_ids.filtered(lambda r: r.id not in item_ids).unlink()
         for item in template.signature_item_ids:
             item.write(signature_items.pop(str(item.id)))
+        SignatureItem = http.request.env['signature.item']
         for item in signature_items.values():
             item['template_id'] = template.id
-            http.request.env['signature.item'].create(item)
+            SignatureItem.create(item)
 
         template.share_link = None
 
@@ -103,10 +108,11 @@ class website_sign(http.Controller):
 
     @http.route(['/sign/add_signature_item_party'], type='json', auth='user', website=True)
     def add_signature_item_party(self, name, **post):
-        party = http.request.env['signature.item.party'].search([('name', '=', name)])
+        SignatureItemParty = http.request.env['signature.item.party']
+        party = SignatureItemParty.search([('name', '=', name)])
         if party:
             return party.id
-        return http.request.env['signature.item.party'].create({'name': name}).id
+        return SignatureItemParty.create({'name': name}).id
 
     @http.route(['/sign/create_document/<int:id>'], type='json', auth="user", website=True)
     def create_document(self, id=None, signers=None, followers=None, reference=None, subject=None, message=None, send=None, **post):
@@ -114,7 +120,7 @@ class website_sign(http.Controller):
         signature_request.set_signers(signers)
         if send:
             signature_request.action_sent(subject, message)
-            self.__message_post(_('Waiting for signatures.'), signature_request.id, 0, type='comment', subtype='mt_comment')
+            self._message_post(_('Waiting for signatures.'), signature_request.id, 0, type='comment', subtype='mt_comment')
         return signature_request.id
 
     @http.route(["/sign/document/<int:id>"], type='http', auth="user", website=True)
@@ -176,10 +182,10 @@ class website_sign(http.Controller):
     def signed(self, id=None, token=None, sign=None, **post):
         request_item = http.request.env['signature.request.item'].sudo().search([('signature_request_id', '=', id), ('access_token', '=', token), ('state', '=', 'sent')], limit=1)
         if request_item:
-            self.__message_post(_('Signed.'), id, request_item.partner_id, type='comment', subtype='mt_comment')
+            self._message_post(_('Signed.'), id, request_item.partner_id, type='comment', subtype='mt_comment')
             request_item.sudo().sign(sign)
             if request_item.signature_request_id.state == 'signed':
-                self.__message_post(_('Everybody Signed.'), id, 0, type='comment', subtype='mt_comment')
+                self._message_post(_('Everybody Signed.'), id, 0, type='comment', subtype='mt_comment')
 
         return {'id': id, 'token': token}
 
@@ -191,15 +197,15 @@ class website_sign(http.Controller):
 
         message = post.get('comment')
         if message:
-            self.__message_post(message, id, request_item.partner_id, type='comment', subtype='mt_comment')
-            return http.request.redirect("/sign/document/%s/%s?message=1" % (id, token))
+            self._message_post(message, id, request_item.partner_id, type='comment', subtype='mt_comment')
+            return http.request.redirect("/sign/document/%(request_id)s/%(access_token)s?message=1" % {'request_id': id, 'access_token': token})
         else:
-            return http.request.redirect("/sign/document/%s/%s" % (id, token))
+            return http.request.redirect("/sign/document/%(request_id)s/%(access_token)s" % {'request_id': id, 'access_token': token})
 
     @http.route(['/sign/get_fonts'], type='json', auth='public', website=True)
     def get_fonts(self, **post):
         fonts = []
-        fonts_directory = os.path.dirname(os.path.abspath(__file__)) + '/../static/src/font'
+        fonts_directory = os.path.dirname(os.path.abspath(__file__)) + '/../static/font'
         font_filenames = sorted(os.listdir(fonts_directory))
 
         for filename in font_filenames:
@@ -221,7 +227,7 @@ class website_sign(http.Controller):
             document = signature_request.completed_document
 
         if not document:
-            return http.request.redirect("/sign/document/%s/%s" % (id, token))
+            return http.request.redirect("/sign/document/%(request_id)s/%(access_token)s" % {'request_id': id, 'access_token': token})
 
         filecontent = base64.b64decode(document)
         filename = signature_request.reference
@@ -246,13 +252,13 @@ class website_sign(http.Controller):
 
     @http.route(['/sign/favorite/<object>/<int:id>'], type='json', auth='user', website=True)
     def favorite(self, object, id, value=None, **post):
-        model = None
+        Model = None
         if object == 'template':
-            model = http.request.env['signature.request.template']
+            Model = http.request.env['signature.request.template']
         elif object == 'document':
-            model = http.request.env['signature.request']
+            Model = http.request.env['signature.request']
 
-        model.browse(id).write({'favorited_ids': [((4 if value else 3), http.request.env.user.id)]})
+        Model.browse(id).write({'favorited_ids': [((4 if value else 3), http.request.env.user.id)]})
         return value
 
     @http.route(['/sign/get_partners'], type='json', auth='user', website=True)
@@ -261,15 +267,16 @@ class website_sign(http.Controller):
 
     @http.route(['/sign/new_partner'], type='json', auth='user', website=True)
     def new_partner(self, name=None, mail=None, **post):
-        existing_partner = http.request.env['res.partner'].search([('email', '=', mail)], limit=1)
+        ResPartner = http.request.env['res.partner']
+        existing_partner = ResPartner.search([('email', '=', mail)], limit=1)
         if existing_partner:
             return existing_partner.id
         else:
-            return http.request.env['res.partner'].create({'name': name, 'email': mail}).id
+            return ResPartner.create({'name': name, 'email': mail}).id
 
     @http.route(['/sign/cancel/<int:id>'], type='json', auth='user', website=True)
     def cancel_request(self, id, **post):
-        self.__message_post(_('Canceled.'), id, 0, type='comment', subtype='mt_comment')
+        self._message_post(_('Canceled.'), id, 0, type='comment', subtype='mt_comment')
         return http.request.env['signature.request'].browse(id).action_canceled()
 
     @http.route(['/sign/share/<int:id>'], type='json', auth='user', website=True)
@@ -290,13 +297,13 @@ class website_sign(http.Controller):
 
         signature_request = http.request.env['signature.request'].sudo().create({
             'template_id': template.id,
-            'reference': "%s-public" % template.attachment_id.name
+            'reference': "%(template_name)s-public" % {'template_name': template.attachment_id.name}
         })
 
         request_item = http.request.env['signature.request.item'].sudo().create({'signature_request_id': signature_request.id, 'role_id': template.signature_item_ids.mapped('responsible_id').id})
         signature_request.action_sent()
 
-        return http.request.redirect('/sign/document/%s/%s' % (signature_request.id, request_item.access_token))
+        return http.request.redirect('/sign/document/%(request_id)s/%(access_token)s' % {'request_id': signature_request.id, 'access_token': request_item.access_token})
 
     @http.route(['/sign/send_public/<int:id>/<token>'], type='json', auth='public', website=True)
     def make_public_user(self, id, token, name=None, mail=None, **post):

@@ -105,9 +105,9 @@ odoo.define('website_sign.backend_iframe', function(require) {
             $toggleGroup.append(this.$dropdown);
 
             $toggleDropdown.html('<span class="fa fa-filter"/> Filters <span class="caret"></span>');
-            this.$dropdown.append($('<li/>').append($('<a/>', {html: "Favorites Only"})).data({'eventSelector': "#show_favorites_toggle", 'hideSelector': "label[for='show_favorites_toggle']"}));
+            this.$dropdown.append($('<li/>').append($('<a/>', {html: "Favorites Only"})).data({'eventSelector': "#o_sign_show_favorites_toggle", 'hideSelector': "label[for='o_sign_show_favorites_toggle']"}));
             this.$dropdown.append($('<li/>').addClass("divider"));
-            this.$dropdown.append($('<li/>').append($('<a/>', {html: "Show Archives"})).data({'eventSelector': "#show_archives_toggle", 'hideSelector': "label[for='show_archives_toggle']"}));
+            this.$dropdown.append($('<li/>').append($('<a/>', {html: "Show Archives"})).data({'eventSelector': "#o_sign_show_archives_toggle", 'hideSelector': "label[for='o_sign_show_archives_toggle']"}));
 
             this._super(parent, {context: {src: '/sign'}}, {$searchview_buttons: $toggleGroup});
         },
@@ -124,14 +124,14 @@ odoo.define('website_sign.backend_iframe', function(require) {
             if(e.button !== 0)
                 return true;
 
-            var $elem = $(e.target).closest('.sign_dashboard_item > a');
+            var $elem = $(e.target).closest('.o_sign_dashboard_item > a');
             if($elem.length > 0 && $elem.attr('href')) {
                 e.preventDefault();
 
                 this.do_action({
                     type: "ir.actions.client",
                     tag: 'website_sign.dashboard_item' + (($elem.attr('href').indexOf('template') >= 0)? '_template' : '_document'),
-                    name: (($elem.attr('href').indexOf('template') >= 0)? "Template \"" : "Document \"") + $elem.find('.sign_dashboard_item_title').text() + "\"",
+                    name: (($elem.attr('href').indexOf('template') >= 0)? "Template \"" : "Document \"") + $elem.find('.o_sign_dashboard_item_title').text() + "\"",
                     context: {
                         src: $elem.attr('href')
                     }
@@ -142,8 +142,8 @@ odoo.define('website_sign.backend_iframe', function(require) {
 
     WIDGETS.TemplateIframe = WIDGETS.SignIFrameWidget.extend({
         init: function(parent, options) {
-            var sendButton = $('<button/>', {html: "Send"}).addClass('btn btn-primary btn-sm').data('eventSelector', '#send_template_button');
-            var shareButton = $('<button/>', {html: "Share"}).addClass('btn btn-link btn-sm').data('eventSelector', '#share_template_button');
+            var sendButton = $('<button/>', {html: "Send"}).addClass('btn btn-primary btn-sm').data('eventSelector', '.o_sign_send_template_button');
+            var shareButton = $('<button/>', {html: "Share"}).addClass('btn btn-link btn-sm').data('eventSelector', '.o_sign_share_template_button');
 
             this._super(parent, options, {
                 $buttons: sendButton.add(shareButton)
@@ -170,7 +170,7 @@ odoo.define('website_sign.backend_iframe', function(require) {
 
     WIDGETS.DocumentIframe = WIDGETS.SignIFrameWidget.extend({
         init: function(parent, options) {
-            var cancelButton = $('<button/>', {html: "Cancel Request"}).addClass('btn btn-default btn-sm').data('eventSelector', '#cancel_request_button');
+            var cancelButton = $('<button/>', {html: "Cancel Request"}).addClass('btn btn-default btn-sm').data('eventSelector', '.o_sign_cancel_request_button');
 
             this._super(parent, options, {
                 $buttons: cancelButton

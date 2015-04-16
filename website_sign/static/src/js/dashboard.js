@@ -10,8 +10,8 @@ odoo.define('website_sign.dashboard', function(require) {
 
     WIDGETS.DashboardRow = Widget.extend({
         events: {
-            'click .sign_dashboard_title_nav button': function(e) {
-                if(e.target === this.$el.find('.sign_dashboard_title_nav button').first()[0])
+            'click .o_sign_dashboard_title_nav button': function(e) {
+                if(e.target === this.$el.find('.o_sign_dashboard_title_nav button').first()[0])
                     this.page--;
                 else
                     this.page++;
@@ -19,25 +19,25 @@ odoo.define('website_sign.dashboard', function(require) {
                 this.refresh();
             },
 
-            'click .sign_dashboard_item .archive_button': function(e) {
+            'click .o_sign_dashboard_item .o_sign_archive_button': function(e) {
                 var self = this;
 
                 session.rpc("/sign/archive/" + $(e.target).data('ref'), {
-                    'value': !$(e.target).closest('.sign_dashboard_item').data('archived')
+                    'value': !$(e.target).closest('.o_sign_dashboard_item').data('archived')
                 }).then(function (value) {
-                    $(e.target).closest('.sign_dashboard_item').data('archived', +value);
+                    $(e.target).closest('.o_sign_dashboard_item').data('archived', +value);
                     self.refresh();
                 });
                 return false;
             },
 
-            'click .sign_dashboard_item .favorite_button': function(e) {
+            'click .o_sign_dashboard_item .o_sign_favorite_button': function(e) {
                 var self = this;
 
                 session.rpc("/sign/favorite/" + $(e.target).data('ref'), {
-                    'value': !$(e.target).closest('.sign_dashboard_item').data('favorited')
+                    'value': !$(e.target).closest('.o_sign_dashboard_item').data('favorited')
                 }).then(function (value) {
-                    $(e.target).closest('.sign_dashboard_item').data('favorited', +value);
+                    $(e.target).closest('.o_sign_dashboard_item').data('favorited', +value);
                     self.refresh();
                 });
                 return false;
@@ -57,10 +57,10 @@ odoo.define('website_sign.dashboard', function(require) {
         },
 
         start: function() {
-            this.$items = this.$('.sign_dashboard_item');
-            this.$buttons = this.$('.sign_dashboard_title_nav').first().find('button');
-            this.$pageCounter = this.$('.sign_dashboard_title_nav').first().find('.page_counter');
-            this.$pageTotalCounter = this.$('.sign_dashboard_title_nav').first().find('.page_total_counter');
+            this.$items = this.$('.o_sign_dashboard_item');
+            this.$buttons = this.$('.o_sign_dashboard_title_nav').first().find('button');
+            this.$pageCounter = this.$('.o_sign_dashboard_title_nav').first().find('.o_sign_page_counter');
+            this.$pageTotalCounter = this.$('.o_sign_dashboard_title_nav').first().find('.o_sign_page_total_counter');
 
             this.$items.each(function(i, el) {
                 $(el).data('default_order', i);
@@ -97,7 +97,7 @@ odoo.define('website_sign.dashboard', function(require) {
                     self.$buttons.eq(1).prop('disabled', true);
                 }
 
-                self.$buttons.closest('.sign_dashboard_title_nav').css('visibility', (self.maxPage > 0)? 'visible' : 'hidden');
+                self.$buttons.closest('.o_sign_dashboard_title_nav').css('visibility', (self.maxPage > 0)? 'visible' : 'hidden');
             }
 
             self.$pageCounter.html("" + Math.min(count, (self.page+1)*(6-self.tCorrect)));
@@ -134,14 +134,14 @@ odoo.define('website_sign.dashboard', function(require) {
                     self.$items.eq(i).removeClass('archived');
 
                 if(self.$items.eq(i).data('favorited')) {
-                    self.$items.eq(i).find('.favorite_button').prop('title', "Unmark as Favorite");
-                    self.$items.eq(i).find('.favorite_button').removeClass('fa-star-o').addClass('fa-star');
-                    self.$items.eq(i).addClass('favorited');
+                    self.$items.eq(i).find('.o_sign_favorite_button').prop('title', "Unmark as Favorite");
+                    self.$items.eq(i).find('.o_sign_favorite_button').removeClass('fa-star-o').addClass('fa-star');
+                    self.$items.eq(i).addClass('o_sign_favorited');
                 }
                 else {
-                    self.$items.eq(i).find('.favorite_button').prop('title', "Mark as Favorite");
-                    self.$items.eq(i).find('.favorite_button').removeClass('fa-star').addClass('fa-star-o');
-                    self.$items.eq(i).removeClass('favorited');
+                    self.$items.eq(i).find('.o_sign_favorite_button').prop('title', "Mark as Favorite");
+                    self.$items.eq(i).find('.o_sign_favorite_button').removeClass('fa-star').addClass('fa-star-o');
+                    self.$items.eq(i).removeClass('o_sign_favorited');
                 }
 
                 if((~~((i-self.tCorrect-aCorrect)/(6-self.tCorrect)) === self.page || (self.tCorrect && i === 0)) && (self.$items.eq(i).data('favorited') || !self.showOnlyFavorites)) {
@@ -156,7 +156,7 @@ odoo.define('website_sign.dashboard', function(require) {
 
     WIDGETS.Dashboard = Widget.extend({
         events: {
-            'change #show_archives_toggle': function(e) {
+            'change #o_sign_show_archives_toggle': function(e) {
                 this.showArchives = $(e.target).prop('checked');
                 this.refresh(true);
 
@@ -166,7 +166,7 @@ odoo.define('website_sign.dashboard', function(require) {
                 });
             },
 
-            'change #show_favorites_toggle': function(e) {
+            'change #o_sign_show_favorites_toggle': function(e) {
                 this.showOnlyFavorites = $(e.target).prop('checked');
                 this.refresh(true);
 
@@ -191,7 +191,7 @@ odoo.define('website_sign.dashboard', function(require) {
                 reader.readAsDataURL(f);
             },
 
-            'click #upload_template_button': function(e) {
+            'click .o_sign_upload_template_button': function(e) {
                 this.$el.find('input[type="file"]').click();
             },
         },
@@ -204,20 +204,20 @@ odoo.define('website_sign.dashboard', function(require) {
         start: function() {
             var self = this;
 
-            self.showArchives = self.$('#show_archives_toggle').prop('checked');
-            self.showOnlyFavorites = self.$('#show_favorites_toggle').prop('checked');
+            self.showArchives = self.$('#o_sign_show_archives_toggle').prop('checked');
+            self.showOnlyFavorites = self.$('#o_sign_show_favorites_toggle').prop('checked');
             self.dashboardRows = [];
 
             var waitFor = [];
 
-            self.$('.sign_dashboard_row').each(function(i, row) {
+            self.$('.o_sign_dashboard_row').each(function(i, row) {
                 var row = new WIDGETS.DashboardRow(self, $(row), ((i === 0)? 1 : 0));
                 waitFor.push(row.start());
                 self.dashboardRows.push(row);
             });
 
             var $newTemplateInput = $("<input type='file' name='files[]'/>");
-            self.$('#upload_template_button').after($newTemplateInput);
+            self.$('.o_sign_upload_template_button').after($newTemplateInput);
             $newTemplateInput.hide();
 
             return $.when(self._super(), $.when.apply($, waitFor).then(function() {
@@ -231,7 +231,7 @@ odoo.define('website_sign.dashboard', function(require) {
         },
     });
     
-    website.if_dom_contains('#sign_dashboard', function(dashboardDOM) {
+    website.if_dom_contains('#o_sign_dashboard', function(dashboardDOM) {
         website.ready().then(function() {
             var dashboard = new WIDGETS.Dashboard(null, dashboardDOM);
             return dashboard.start();

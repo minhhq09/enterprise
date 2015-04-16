@@ -14,18 +14,17 @@ Let your customers follow the signature process easily.
         'security/ir.model.access.csv',
 
         'views/signature_request_templates.xml',
-        'views/signature_item_templates.xml',
+        'views/signature_request_template_templates.xml',
 
-        'views/signature_request_view.xml',
-        'views/signature_item_view.xml',
+        'views/signature_request_views.xml',
+        'views/signature_request_template_views.xml',
 
-        'data/signature_request.xml',
-        'data/signature_item.xml',
+        'data/signature_request_data.xml',
+        'data/signature_request_template_data.xml',
     ],
     'qweb': ['static/src/xml/*.xml'],
     'demo': [
-        'demo/signature_request.xml',
-        'demo/signature_item.xml',
+        'data/signature_request_template_demo.xml',
     ],
     'installable': True,
 }

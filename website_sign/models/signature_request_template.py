@@ -1,7 +1,32 @@
 # -*- coding: utf-8 -*-_
-from openerp import models, fields, api, _
+from openerp import api, fields, models, _
 
-class signature_item(models.Model):
+class SignatureRequestTemplate(models.Model):
+    _name = "signature.request.template"
+    _description = "Signature Request Template"
+    _rec_name = "attachment_id"
+
+    attachment_id = fields.Many2one('ir.attachment', string="Attachment", required=True, ondelete='cascade')
+    signature_item_ids = fields.One2many('signature.item', 'template_id', string="Signature Items")
+
+    archived = fields.Boolean(default=False, string="Archived")
+    favorited_ids = fields.Many2many('res.users', string="Favorite of")
+
+    share_link = fields.Char(string="Share Link")
+
+    signature_request_ids = fields.One2many('signature.request', 'template_id', string="Signature Requests")
+
+    @api.multi
+    def go_to_custom_template(self):
+        self.ensure_one()
+        return {
+            'name': 'Signature Request Template Edit Field URL',
+            'type': 'ir.actions.act_url',
+            'url': '/sign/template/' + str(self.id),
+            'target': 'self',
+        }
+
+class SignatureItem(models.Model):
     _name = "signature.item"
     _description = "Signature Field For Document To Sign"
 
@@ -27,7 +52,7 @@ class signature_item(models.Model):
             items[item.page].append(item)
         return items
 
-class signature_item_type(models.Model):
+class SignatureItemType(models.Model):
     _name = "signature.item.type"
     _description = "Specialized type for signature fields"
 
@@ -46,7 +71,7 @@ class signature_item_type(models.Model):
     default_height = fields.Float(string="Default Height", digits=(4, 3), required=True, default=0.015)
     auto_field = fields.Char(string="Automatic Partner Field", help="Partner field to use to auto-complete the fields of this type")
 
-class signature_item_value(models.Model):
+class SignatureItemValue(models.Model):
     _name = "signature.item.value"
     _description = "Signature Field Value For Document To Sign"
     
@@ -55,7 +80,7 @@ class signature_item_value(models.Model):
 
     value = fields.Text()
 
-class signature_item_party(models.Model):
+class SignatureItemParty(models.Model):
     _name = "signature.item.party"
     _description = "Type of partner which can access a particular signature field"
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="website_sign.signature_dialog" name="Signature Dialog">
-        <div class="modal fade" id="signature_dialog" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="o_sign_signature_dialog" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -9,22 +9,22 @@
                         <h4 class="modal-title">Adopt Your Signature</h4>
                     </div>
                     <div class="modal-body form-horizontal">
-                        <div id="signer_info" class="form-group">
+                        <div class="o_sign_signer_info form-group">
                             <label class="col-md-3 control-label" for="name">Full Name</label>
                             <div class="col-md-9">
-                                <input class="form-control" name="signer" id="signer_name" t-att-value="widget.signerName" type="text"/>
+                                <input class="o_sign_signer_name form-control" name="signer" t-att-value="widget.signerName" type="text"/>
                             </div>
                         </div>
-                        <div id="signature_draw" class="panel panel-default mt16 mb0">
+                        <div class="o_sign_signature_draw panel panel-default mt16 mb0">
                             <div class="panel-heading">
-                                <a id="sign_select_style" class="pull-right btn btn-link">Select Signature Style</a>
-                                <a id="sign_clean" class="pull-right btn btn-link">Clear Signature</a>
-                                <input type="file" name="files[]" id="sign_load" class="pull-right btn btn-link" style="visibility:hidden;"/>
-                                <a id="auto_sign_mode" class="sign_mode btn btn-primary">Auto</a>
-                                <a id="draw_sign_mode" class="sign_mode btn">Draw</a>
-                                <a id="load_sign_mode" class="sign_mode btn">Load</a>
+                                <a class="o_sign_select_style pull-right btn btn-link">Select Signature Style</a>
+                                <a class="o_sign_clean pull-right btn btn-link">Clear Signature</a>
+                                <input type="file" name="files[]" class="o_sign_load pull-right btn btn-link" style="visibility:hidden;"/>
+                                <a data-mode="auto" class="o_sign_mode btn btn-primary">Auto</a>
+                                <a data-mode="draw" class="o_sign_mode btn">Draw</a>
+                                <a data-mode="load" class="o_sign_mode btn">Load</a>
                             </div>
-                            <div id="sign" class="panel-body" style="padding: 0"/>
+                            <div class="o_sign_signature panel-body" style="padding: 0"/>
                         </div>
                         <div class="mt16 small">By clicking Adopt and Sign, I agree that the chosen signature/initials will be a valid electronic representation of my hand-written signature/initials for all purposes when it is used on documents, including legally binding contracts.</div>
                     </div>
@@ -33,9 +33,9 @@
                         <button type="button" class="btn btn-link" data-dismiss="modal">Cancel</button>
                     </div>
 
-                    <div id="font_dialog" class="panel panel-default">
+                    <div class="o_sign_font_dialog panel panel-default">
                         <div class="panel-heading">Styles</div>
-                        <div id="sign_font_selection" class="panel-body"/>
+                        <div class="o_sign_font_selection panel-body"/>
                     </div>
                 </div>
             </div>
@@ -60,22 +60,22 @@
 
     <t t-name="website_sign.signature_item" name="Signature Item">
         <t t-if="readonly">
-            <div t-if="type == 'signature' || type == 'initial'" class="signature_item" style="text-align:center" t-att-data-signature="value"><span class="helper"/><img t-if="value" t-att-src="value"/><t t-if="!value"><t t-esc="placeholder"/></t><t t-call="website_sign.signature_item_configuration"/></div>
+            <div t-if="type == 'signature' || type == 'initial'" class="o_sign_signature_item" style="text-align:center" t-att-data-signature="value"><span class="o_sign_helper"/><img t-if="value" t-att-src="value"/><t t-if="!value"><t t-esc="placeholder"/></t><t t-call="website_sign.signature_item_configuration"/></div>
 
-            <div t-if="type == 'text' || type == 'textarea'" class="signature_item"><t t-raw="value"/><t t-call="website_sign.signature_item_configuration"/></div>
+            <div t-if="type == 'text' || type == 'textarea'" class="o_sign_signature_item"><t t-raw="value"/><t t-call="website_sign.signature_item_configuration"/></div>
         </t>
 
         <t t-if="!readonly">
-            <button t-if="type == 'signature' || type == 'initial'" class="signature_item" style="text-align:center"><span class="helper"/><t t-esc="placeholder"/></button>
-            <input t-if="type == 'text'" type="text" class="signature_item" t-att-placeholder="placeholder"/>
-            <textarea t-if="type == 'textarea'" class="signature_item" t-att-placeholder="placeholder"/>
+            <button t-if="type == 'signature' || type == 'initial'" class="o_sign_signature_item" style="text-align:center"><span class="o_sign_helper"/><t t-esc="placeholder"/></button>
+            <input t-if="type == 'text'" type="text" class="o_sign_signature_item" t-att-placeholder="placeholder"/>
+            <textarea t-if="type == 'textarea'" class="o_sign_signature_item" t-att-placeholder="placeholder"/>
         </t>
     </t>
 
     <t t-name="website_sign.signature_item_configuration" name="Signature Item Configuration Area">
-        <div class="config_area">
+        <div class="o_sign_config_area">
             <span class="fa fa-arrows"/>
-            <span class="responsible_display"/>
+            <span class="o_sign_responsible_display"/>
         </div>
     </t>
 </templates>
