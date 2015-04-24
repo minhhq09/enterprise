@@ -19,22 +19,29 @@
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="{{kanban_color(record.color.raw_value)}} oe_kanban_global_click oe_semantic_html_override oe_kanban_card">
-                            <div class="oe_dropdown_kanban">
-                                <div class="oe_dropdown_toggle">
-                                    <span class="fa fa-cog"></span>
-                                    <ul class="oe_dropdown_menu">
-                                        <li><a type="delete">Delete</a></li>
-                                        <li class="clearfix"><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-                                        <li><a type="object" name="go_to_sign_document" class="fa fa-external-link-square"> View Signature Request</a></li>
-                                    </ul>
-                                </div>
-                                <div class="oe_clear"/>
-                            </div>
                             <div t-attf-class="oe_kanban_content clearfix">
                                 <t t-set="fav" t-value="record.is_favorited.raw_value"/>
-                                <h3><a type="object" name="favorite_document" t-if="!fav" class="fa fa-star favorite_sign_button"/><a type="object" name="favorite_document" t-if="fav" class="fa fa-star favorite_sign_button favorite_sign_button_enabled"/> <field name="reference"/></h3>
+                                <div class="o_kanban_title">
+                                    <a type="object" name="favorite_document" t-if="!fav" class="fa fa-star favorite_sign_button"/>
+                                    <a type="object" name="favorite_document" t-if="fav" class="fa fa-star favorite_sign_button favorite_sign_button_enabled"/>
+                                    <field name="reference"/>
 
-                                <p>Completion: <field name="nb_closed"/>/<t t-esc="record.nb_draft.raw_value+record.nb_wait.raw_value+record.nb_closed.raw_value"/></p>
+                                    <div class="pull-right">
+                                        <div class="oe_dropdown_toggle">
+                                            <span class="fa fa-cog"></span>
+                                            <ul class="oe_dropdown_menu">
+                                                <li><a type="delete">Delete</a></li>
+                                                <li class="clearfix"><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                                <li><a type="object" name="go_to_sign_document" class="fa fa-external-link-square"> View Signature Request</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="oe_clear"/>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    Completion: <field name="nb_closed"/>/<t t-esc="record.nb_draft.raw_value+record.nb_wait.raw_value+record.nb_closed.raw_value"/>
+                                </div>
                                 
                                 <div class="oe_kanban_bottom_right">
                                     <img t-att-src="kanban_image('res.users', 'image_small', record.create_uid.raw_value)" t-att-data-member_id="record.create_uid.raw_value" width="32" height="32" class="oe_kanban_avatar pull-right"/>
@@ -73,13 +80,13 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <h2>Signature Request</h2>
-
-                    <div class="oe_button_box oe_right">
+                    <div class="oe_button_box">
                         <button type="object" name="go_to_sign_document" class="oe_read_only oe_stat_button">
                             <field name="progress" widget="percentpie" string="View"/>
                         </button>
                     </div>
+
+                    <div class="oe_title"><h1>Signature Request</h1></div>
 
                     <group>
                         <field name="reference"/>

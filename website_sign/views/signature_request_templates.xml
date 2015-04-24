@@ -19,114 +19,6 @@
         </xpath>
     </template>
 
-    <template id="website_sign.demo" name="Demo Digital Signatures"> <!-- TODO remove (odoo.com page) -->
-        <t t-call="website_sign.layout">
-            <div class="container-fluid">
-                <div class="row" style="background-color:#A4498C; color:white;">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-7 mt16 mb16">
-                                <img src="/website_sign/static/description/sign.png" class="img-responsive"/>
-                            </div>
-                            <div class="col-md-5 mb16">
-                                <h1>Digital signatures made easy.</h1>
-                                <ul class="h4 list-unstyled lead">
-                                    <li><span class="fa fa-check"/> Legally binding* in EU and US</li>
-                                    <li><span class="fa fa-check"/> No more sending / receiving delays</li>
-                                    <li><span class="fa fa-check"/> No need to print multiple copies</li>
-                                    <li><span class="fa fa-check"/> Create templates for maximum efficiency</li>
-                                    <li><span class="fa fa-check"/> Completely integrated with other Odoo apps</li>
-                                    <li><span class="fa fa-check"/> Free up to 2 users, unlimited documents</li>
-                                </ul>
-                                <a class="btn btn-lg btn-primary" href="https://www.odoo.com">Sign Up</a>
-                                <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#o_sign_choose_document_dialog">Try It Now <span class="fa fa-arrow-right"/></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row text-center mt32" style="color:gray;">
-                        <div class="col-md-3">
-                            <span class="fa fa-4x fa-cloud-upload"/>
-                            <h2>1. Upload your document</h2>
-                            <p class="small">We support all PDF documents, from a Sale Agreement, or Employment contract to a NDA, CLA or even a Renting Contract.</p>
-                        </div>
-                        <div class="col-md-3">
-                            <span class="fa fa-4x fa-pencil-square-o"/>
-                            <h2>2. Mark the areas to sign</h2>
-                            <p class="small">Simply indicate where to sign, paraph or fill in other details (full name, date etc.) and attribute a role to each area.</p>
-                        </div>
-                        <div class="col-md-3">
-                            <span class="fa fa-4x fa-users"/>
-                            <h2>3. Select the recipients</h2>
-                            <p class="small">Enter the Email addresses of all the people you want to sign or receive your document, and specify their role.</p>
-                        </div>
-                        <div class="col-md-3">
-                            <span class="fa fa-4x fa-coffee"/>
-                            <h2>4. Wait for the signatures</h2>
-                            <p class="small">Sit back and relax until you are notified that everyone has signed.<br/>This can be done in 5 minutes!</p>
-                        </div>
-                    </div>
-
-                    <div class="row mt16">
-                        <div class="col-md-5">
-                            <img class="img-responsive" src="/website_sign/static/description/edit.png"/>
-                        </div>
-                        <div class="col-md-7">
-                            <h3>Intuitive document template edition</h3>
-                            <p>Simply edit templates by adding fields with a drag and drop. You can easily select the responsible for each field then send your document to the right recipients.</p>
-                            <p>You can also share your document instead of sending it so that everyone can sign it.</p>
-                        </div>
-                    </div>
-
-                    <div class="row mt16">
-                        <div class="col-md-7">
-                            <h3>Keep tracks of your sent documents and archives</h3>
-                            <p>Once sent it is easy to follow the completion of your documents.</p>
-                        </div>
-                        <div class="col-md-5">
-                            <img class="img-responsive" src="/website_sign/static/description/dashboard.png"/>
-                        </div>
-                    </div>
-
-                    <div class="row mt16">
-                        <div class="col-md-5">
-                            <img class="img-responsive" src="/website_sign/static/description/sign2.png"/>
-                        </div>
-                        <div class="col-md-7">
-                            <h3>Digital signatures</h3>
-                            <p>Let your customers the choice: they can select a handwritten font for their signature, draw it directly on the screen or even load it from a file.</p> 
-                        </div>
-                    </div>
-
-                    <div class="row small mt16 mb8">
-                        <div class="col-md-12">
-                            * eSignatures are legally binding under the 2000 U.S. Electronic Signature (ESIGN), Uniform Electronic Transactions Act (UETA) and European Directive (EC/1999/93).
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="o_sign_choose_document_dialog" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
-                                <h4>Select the demo document you'd like to sign</h4>
-                            </div>
-                            <div class="modal-body">
-                                <a class="btn btn-default btn-block clearfix" t-attf-href="/sign/demo-template-1"><span class="fa fa-lg fa-file pull-left mt4 mb4"/>Employment Contract</a>
-                                <a class="btn btn-default btn-block clearfix" t-attf-href="/sign/demo-template-2"><span class="fa fa-lg fa-file pull-left mt4 mb4"/>NDA</a>
-                                <a class="btn btn-default btn-block clearfix" t-attf-href="/sign/demo-template-3"><span class="fa fa-lg fa-file pull-left mt4 mb4"/>Odoo CLA</a>
-                                <a class="btn btn-default btn-block clearfix" t-attf-href="/sign/demo-template-4"><span class="fa fa-lg fa-file pull-left mt4 mb4"/>Real Estate</a>
-                                <a class="btn btn-default btn-block clearfix" t-attf-href="/sign/demo-template-5"><span class="fa fa-lg fa-file pull-left mt4 mb4"/>SaaS Sale</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </t>
-    </template>
-
     <template id="website_sign.layout" name="Digital Signatures Layout">&lt;!doctype html&gt;
         <html t-att-lang="lang and lang.replace('_', '-')"
               t-att-data-website-id="website.id if editable and website else None"
@@ -287,7 +179,7 @@
 
                 <div class="row" style="max-height:300px; overflow:auto;">
                     <div class="col-md-4 mb8">
-                        <h4><t t-esc="signature_request.reference"/> <button t-if="env.user.id == signature_request.create_uid.id and signature_request.state != 'canceled'" type="button" t-attf-data-ref="/sign/cancel/{{signature_request.id}}" class="o_sign_cancel_request_button btn btn-link">Cancel the request</button></h4>
+                        <h4><t t-esc="signature_request.reference"/> <button t-if="env.user.id == signature_request.create_uid.id and signature_request.state == 'sent'" type="button" t-attf-data-ref="/sign/cancel/{{signature_request.id}}" class="o_sign_cancel_request_button btn btn-link">Cancel the request</button></h4>
 
                         <div t-if="message" class="alert alert-success">
                             <t t-if="message == 1">Your message has been sent !</t>

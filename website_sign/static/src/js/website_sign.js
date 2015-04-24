@@ -315,8 +315,6 @@ odoo.define('website_sign.page', function(require) {
                 });
                 this.emptySignature = this.$signatureField.jSignature("getData");
 
-                this.addOdooSigned(this.$signatureField, true);
-
                 this.$modeButtons.filter('.btn-primary').click();
                 this.$('.modal-footer .btn-primary').prop('disabled', false).focus();
             },
@@ -420,15 +418,6 @@ odoo.define('website_sign.page', function(require) {
                 for(var i = 0 ; i < data.length ; i++)
                     self.$fontSelection.append($("<a data-font-nb='" + i + "'/>").addClass('btn btn-block'));
             }));
-        },
-
-        addOdooSigned: function($item, powered) {
-            $item.addClass('o_sign_odoo_signed');
-            if(powered) {
-                $item.prepend($('<div/>', {
-                    html: window.location.href.match(/\/([\w-]{25,})/)[1]
-                }).addClass("small text-center o_sign_odoo_signed_powered"));
-            }
         },
 
         getSignatureText: function() {
@@ -1135,10 +1124,10 @@ odoo.define('website_sign.page', function(require) {
 
             $signatureItem.prop('title', websiteSign.getTypeData($signatureItem.data('type'))['name']);
 
-            var configArea = $signatureItem.find('.o_sign_config_area');
-            configArea.show();
+            var $configArea = $signatureItem.find('.o_sign_config_area');
+            $configArea.show();
 
-            configArea.find('.fa.fa-arrows').on('mouseup', function(e) {
+            $configArea.find('.fa.fa-arrows').on('mouseup', function(e) {
                 if(!e.ctrlKey) {
                     self.$('.o_sign_signature_item').filter(function(i) {
                         return (this !== $signatureItem[0]);
@@ -1147,7 +1136,7 @@ odoo.define('website_sign.page', function(require) {
                 $signatureItem.toggleClass('ui-selected');
             });
 
-            $signatureItem.add(configArea.find('.o_sign_responsible_display')).on('mousedown', function(e) {
+            $signatureItem.add($configArea.find('.o_sign_responsible_display')).on('mousedown', function(e) {
                 if(e.target !== e.currentTarget)
                     return true;
 
@@ -1702,14 +1691,17 @@ odoo.define('website_sign.page', function(require) {
                 for(var page in self.iframeWidget.configuration) {
                     for(var i = 0 ; i < self.iframeWidget.configuration[page].length ; i++) {
                         var $elem = self.iframeWidget.configuration[page][i];
+                        var resp = parseInt($elem.data('responsible')) || 0;
+                        if(resp > 0 && resp !== self.iframeWidget.role) {
+                            continue;
+                        }
+
                         var value = ($elem.val() && $elem.val().trim())? $elem.val() : false;
                         if($elem.data('signature'))
                             value = (($elem.data('signature') !== websiteSign.signatureDialog.emptySignature)? $elem.data('signature') : false);
 
-                        var resp = parseInt($elem.data('responsible')) || 0;
-
                         if(!value) {
-                            if($elem.data('required') && (resp <= 0 || resp === self.iframeWidget.role)) {
+                            if($elem.data('required')) {
                                 ok = false;
                                 break outloop;
                             }
@@ -1725,7 +1717,7 @@ odoo.define('website_sign.page', function(require) {
 
                 self.iframeWidget.disableItems();
                 self.thank(ajax.jsonRpc($(e.target).data('action'), 'call', {
-                    'sign': signatureValues
+                    sign: signatureValues
                 }));
             });
         },
@@ -1746,7 +1738,7 @@ odoo.define('website_sign.page', function(require) {
 
                 self.publicSignerDialog.launch(name, "", function() {
                     self.thank(ajax.jsonRpc($(e.target).data("action"), 'call', {
-                        'sign': ((signature)? signature.substr(signature.indexOf(",")+1) : false),
+                        sign: ((signature)? signature.substr(signature.indexOf(",")+1) : false),
                     }));
                 });
             });

@@ -19,7 +19,7 @@ odoo.define('website_sign.backend_iframe', function(require) {
 
         start: function() {
             var self = this;
-
+            this.$el.addClass('o_sign_iframe');
             return self._super().then(function() {
                 self.actionManager = self.getParent();
             });

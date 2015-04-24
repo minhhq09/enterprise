@@ -11,8 +11,6 @@
             <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
             <div style="width:90%; max-width:600px; margin:auto; font-size:10pt; padding:20px 0; font-family:'Lato', serif;">
-                <div style="font-size:0.8em; color:#999999; text-align:center; border-bottom:1px dashed #999999; margin-bottom:10px;"><span style="display:inline-block; position:relative; top:7px; background-color:white; padding:0 5px;">Write your reply above this line</span></div>
-                
                 <div style="background-color:#EFEDED; padding: 20px;">
                     % if ctx['template_type'] == "request":
                         ${ctx['email_from_usr']} (<a href="mailto:${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}" style="color:#428BCA; text-decoration:none;" target="_blank">${ctx['email_from_mail']}</a>) has requested your signature on this document :

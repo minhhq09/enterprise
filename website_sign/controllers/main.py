@@ -27,10 +27,6 @@ class WebsiteSign(http.Controller):
             subtype=subtype
         )
 
-    @http.route(['/sign/demo'], type="http", auth="public", website=True)
-    def sign_demo(self, **post): # TODO remove (odoo.com page)
-        return http.request.render('website_sign.demo')
-
     @http.route(['/sign'], type="http", auth="user", website=True)
     def sign_dashboard(self, **post):
         return http.request.render('website_sign.dashboard', {
@@ -68,7 +64,7 @@ class WebsiteSign(http.Controller):
     def create_template(self, name=None, dataURL=None, **post):
         mimetype = dataURL[dataURL.find(':')+1:dataURL.find(',')]
         datas = dataURL[dataURL.find(',')+1:]
-        attachment = http.request.env['ir.attachment'].create({'name': name, 'datas_fname': name, 'datas': datas, 'mimetype': mimetype})
+        attachment = http.request.env['ir.attachment'].create({'name': name[:name.rfind('.')], 'datas_fname': name, 'datas': datas, 'mimetype': mimetype})
         template = http.request.env['signature.request.template'].create({'attachment_id': attachment.id, 'favorited_ids': [(4, http.request.env.user.id)]})
         return {'template': template.id, 'attachment': attachment.id}
 
@@ -139,7 +135,7 @@ class WebsiteSign(http.Controller):
         current_request_item = None
         if token:
             current_request_item = signature_request.request_item_ids.filtered(lambda r: r.access_token == token)
-            if not current_request_item and signature_request.access_token != token:
+            if not current_request_item and signature_request.access_token != token and http.request.env.user.id != signature_request.create_uid.id:
                 return http.request.render('website_sign.deleted_sign_request')
         elif signature_request.create_uid.id != http.request.env.user.id:
             return http.request.not_found()

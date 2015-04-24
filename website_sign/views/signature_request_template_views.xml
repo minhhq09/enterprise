@@ -18,11 +18,11 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <h2>Signature Request Template</h2>
-
-                    <div class="oe_button_box oe_right">
-                        <button string="Edit fields" type="object" name="go_to_custom_template" class="oe_read_only"/>
+                    <div class="oe_button_box">
+                        <button string="Edit fields" icon="fa-wrench" type="object" name="go_to_custom_template" class="oe_stat_button oe_read_only"/>
                     </div>
+
+                    <div class="oe_title"><h1>Signature Request Template</h1></div>
 
                     <group>
                         <field name="attachment_id"/>
@@ -124,21 +124,32 @@
         <field name="model">signature.item.type</field>
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <field name="name"/>
-                    <field name="type"/>
-                    <field name="auto_field"/>
-                </group>
-                <group col="3">
-                    <group col="3">
-                        <field name="default_width"/><span>(1.0 = full page width)</span>
-                        <field name="default_height"/><span>(1.0 = full page height)</span>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="auto_field"/>
                     </group>
-                    <group colspan="2">
-                        <field name="tip"/>
-                        <field name="placeholder"/>
+                    <group>
+                        <group>
+                            <label for="default_width"/>
+                            <div class="o_row">
+                                <field name="default_width"/>
+                                <span>(1.0 = full page size)</span>
+                            </div>
+
+                            <label for="default_height"/>
+                            <div class="o_row">
+                                <field name="default_height"/>
+                                <span>(1.0 = full page size)</span>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="tip"/>
+                            <field name="placeholder"/>
+                        </group>
                     </group>
-                </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -165,9 +176,11 @@
         <field name="model">signature.item.party</field>
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <field name="name"/>
-                </group>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
