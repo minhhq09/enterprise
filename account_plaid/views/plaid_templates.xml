@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="SelectionsTemplate">
+      <table>
+	<t t-foreach="mfa" t-as="selection">
+	  <tr>
+	    <td><t t-esc="selection.question"/></td>
+	    <td>
+	      <select class="choices o_form_input o_form_field o_form_required">
+		<t t-foreach="selection.answers" t-as="answer">
+		  <option t-att-value="answer"><t t-esc="answer"/></option>
+		</t>
+	      </select>
+	    </td>
+	  </tr>
+	</t>
+      </table>
+    </t>
+</templates>

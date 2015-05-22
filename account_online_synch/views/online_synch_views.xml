@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="assets_backend" name="account online synch assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+	<link rel="stylesheet" href="/account_online_synch/static/src/less/online_synch.less"/>
+      </xpath>
+    </template>
+
+    <record id="account_view_form_inherit_online_synch" model="ir.ui.view">
+      <field name="name">account.view.form.inherit.online.synch</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.view_account_journal_form"/>
+      <field name="arch" type="xml">
+        <notebook position="inside">
+	  <page string="Online synchronization" attrs="{'invisible': [('type', '!=', 'bank')]}">
+	    <button name="launch_online_wizard"
+		    string="Select account"
+		    type="object"
+                    class="btn-primary"
+		    attrs="{'invisible': [('online_account', '!=', False)]}"/>
+	    <button name="online_synch"
+		    string="Update bank statement"
+		    type="object"
+                    class="btn-primary"
+		    attrs="{'invisible': [('online_account', '=', False)]}"/>
+	    <button name="remove_online_account"
+		    string="Remove account"
+		    type="object"
+                    class="btn-default"
+		    attrs="{'invisible': [('online_account', '=', False)]}"/>
+	    <button name="update_account"
+		    string="Update the connection"
+		    type="object"
+                    class="btn-default"
+		    attrs="{'invisible': [('online_account', '=', False)]}"/>
+	    <group>
+	      <field name="online_account" readonly="1"/>
+	    </group>
+	  </page>
+        </notebook>
+      </field>
+    </record>
+
+    <record id="online_synch_view_wizard" model="ir.ui.view">
+      <field name="name">online.synch.view.wizard</field>
+      <field name="model">online.synch.wizard</field>
+      <field name="arch" type="xml">
+	<form string="bank">
+	  <field name="error" readonly="1"
+		 attrs="{'invisible': [('error', '=', False)]}"/>
+	  <group>
+	    <field name="institution_id" required="1" options="{'no_create': True}"/>
+	  </group>
+	  <footer>
+	    <button type="object" name="login" class="btn btn-primary btn-sm" string="Login"/>
+	    <button string="Cancel" class="oe_link" special="cancel"/>
+	  </footer>
+	</form>
+      </field>
+    </record>
+
+    <record id="account_journal_dashboard_inherit_online_synch" model="ir.ui.view">
+      <field name="name">account.journal.dashboard.inherit.online.synch</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+      <field name="arch" type="xml">
+        <field name="kanban_dashboard" position="after">
+          <field name="next_synchronization"/>
+          <field name="online_account"/>
+        </field>
+    	<xpath expr="//button[@name='import_statement']" position="after">
+    	  <button t-if="journal_type == 'bank'" type="object" name="launch_online_wizard" class="btn btn-primary btn-sm">Online synchronization</button>
+    	</xpath>
+    	<xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
+    	  <span t-if="(record.online_account.value != '')">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
+    	</xpath>
+      </field>
+    </record>
+
+    <record id="online_synch_cron" model="ir.cron">
+      <field name="name">online.synch.cron</field>
+      <field name="active" eval="True"/>
+      <field name="user_id" ref="base.user_root"/>
+      <field name="interval_number">4</field>
+      <field name="interval_type">hours</field>
+      <field name="numbercall">-1</field>
+      <field name="doall" eval="False"/>
+      <field name="model">account.journal</field>
+      <field name="function">launch_online_synch</field>
+      <field name="args">()</field>
+    </record>
+  </data>
+</openerp>
