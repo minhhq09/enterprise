@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="base_styles">
+    <style type="text/css">
+        /*
+         *  WARNING : wkhtml2pdf will interpret measurement units according to the total
+         *  width of the document. That means that if an element overflows from the page
+         *  (eg. left: 7.5in; width: 2in;) all the dimensions will be scaled down.
+        */
+
+        body {
+            width: 8.5in;
+        }
+
+        .ckus_page {
+            position: relative;
+            font-size: 10pt;
+        }
+
+        .ckus_check, .ckus_stub_1, .ckus_stub_2 {
+            position: absolute;
+            height: 3.25in;
+        }
+
+        .ckus_check > * {
+            position: absolute;
+            white-space: nowrap;
+        }
+
+        .sequence_number {
+            text-align: right;
+            font-size: 1.3em;
+        }
+
+        .ckus_stub {
+            width: 7.65in;
+        }
+
+        .ckus_stub .sequence_number {
+            height: 0.3in;
+            margin-bottom: 0.1in;
+        }
+
+        .ckus_stub .summary_line {
+            width: 100%;
+            margin-bottom: 0.1in;
+        }
+
+        .ckus_stub .summary_line span {
+            padding: 0 0.1in;
+        }
+
+        .ckus_stub .stub_lines td {
+            padding: 0.01in 0.05in;
+        }
+
+        .ckus_stub .stub_total_amount {
+            position: absolute;
+            bottom: 0.1in;
+            right: 0.1in;
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</template>
+
+<template id="ckus_check">
+    <div class="ckus_check">
+        <div class="sequence_number" t-if="page['sequence_number']" t-esc="page['sequence_number']" />
+        <div class="ckus_date" t-esc="formatLang(page['payment_date'], date=True)"/>
+        <div class="ckus_payee_name" t-esc="page['partner_name']"/>
+        <div class="ckus_amount">
+            <t t-if="isinstance(page['amount'], float)"><t t-esc="formatLang(page['amount'])"/></t>
+            <t t-if="isinstance(page['amount'], str)"><t t-esc="page['amount']"/></t>
+        </div>
+        <div class="ckus_amount_in_word" t-esc="page['amount_in_word']"/>
+        <div class="ckus_memo" t-esc="page['memo']"/>
+    </div>
+</template>
+
+<template id="ckus_stub">
+    <div t-attf-class="ckus_stub ckus_stub_{{ stub_num }}">
+        <div class="sequence_number" t-if="page['sequence_number']" t-esc="page['sequence_number']" />
+        <div class="row summary_line">
+            <div class="col-xs-6 text-left">
+                <span t-esc="page['partner_name']"/>
+            </div>
+            <div class="col-xs-6 text-right">
+                <span t-esc="formatLang(page['payment_date'], date=True)"/>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-condensed stub_lines" t-if="page['stub_lines']">
+            <thead><tr>
+                <th class="text-left">Description</th>
+                <th class="text-left">Due Date</th>
+                <th class="text-right">Invoice Amount</th>
+                <th class="text-right">Amount Due</th>
+                <th class="text-right">Payment</th>
+            </tr></thead>
+            <tbody>
+                <t t-foreach="page['stub_lines']" t-as="stub_line">
+                    <t t-if="stub_line.get('header')">
+                        <tr><th colspan="6"><t t-esc="stub_line['name']"/></th></tr>
+                    </t>
+                    <t t-if="not stub_line.get('header')"><tr>
+                        <td class="text-left"><t t-if="stub_line['due_date']" t-esc="formatLang(stub_line['due_date'], date=True)"/></td>
+                        <td class="text-left"><t t-esc="stub_line['number']"/></td>
+                        <td class="text-right"><t t-esc="formatLang(stub_line['amount_total'], monetary=True, currency_obj=stub_line['currency'])"/></td>
+                        <td class="text-right">
+                            <t t-if="int(stub_line['amount_residual']*10**4) != 0"><t t-esc="formatLang(stub_line['amount_residual'], monetary=True, currency_obj=stub_line['currency'])"/></t>
+                            <t t-if="int(stub_line['amount_residual']*10**4) == 0">-</t>
+                        </td>
+                        <td class="text-right"><t t-esc="formatLang(stub_line['amount_paid'], monetary=True, currency_obj=stub_line['currency'])"/></td>
+                    </tr></t>
+                </t>
+                <tr t-if="page['stub_cropped']"><td colspan="6" class="text-right">...</td></tr>
+            </tbody>
+        </table>
+        <div class="stub_total_amount">Check Amount:
+            <t t-if="isinstance(page['amount'], float)"><t t-esc="formatLang(page['amount'], monetary=True, currency_obj=page['currency'])"/></t>
+            <t t-if="isinstance(page['amount'], str)"><t t-esc="page['amount']"/></t>
+        </div>
+    </div>
+</template>
+
+</data>
+</openerp>
