@@ -1561,7 +1561,6 @@ core.form_widget_registry
     .add('phone', FieldPhone)
     .add('url', FieldUrl)
     .add('text',FieldText)
-    .add('html', common.AbstractField) // FIXME to remove
     .add('char_domain', FieldCharDomain)
     .add('date', FieldDate)
     .add('datetime', FieldDatetime)
