@@ -7,67 +7,21 @@ from openerp.tools.misc import formatLang
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-
-class FormulaLine(object):
-    def __init__(self, obj, type='balance', linesDict={}):
-        fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
-        if type == 'balance':
-            fields = obj.get_balance(linesDict)[0]
-            linesDict[obj.code] = self
-        elif type == 'sum':
-            if obj._name == 'account.financial.report.line':
-                fields = obj.get_sum()
-                self.amount_residual = fields['amount_residual']
-            elif obj._name == 'account.move.line':
-                self.amount_residual = 0.0
-                field_names = ['debit', 'credit', 'balance', 'amount_residual']
-                res = obj.compute_fields(field_names)
-                if res.get(obj.id):
-                    for field in field_names:
-                        fields[field] = res[obj.id][field]
-                    self.amount_residual = fields['amount_residual']
-        elif type == 'not_computed':
-            for field in fields:
-                fields[field] = obj.get(field, 0)
-            self.amount_residual = obj.get('amount_residual', 0)
-        self.balance = fields['balance']
-        self.credit = fields['credit']
-        self.debit = fields['debit']
-
-
-class FormulaContext(dict):
-    def __init__(self, reportLineObj, linesDict, curObj=None, *data):
-        self.reportLineObj = reportLineObj
-        self.curObj = curObj
-        self.linesDict = linesDict
-        return super(FormulaContext, self).__init__(data)
-
-    def __getitem__(self, item):
-        if self.get(item):
-            return super(FormulaContext, self).__getitem__(item)
-        if self.linesDict.get(item):
-            return self.linesDict[item]
-        if item == 'sum':
-            res = FormulaLine(self.curObj, type='sum')
-            self['sum'] = res
-            return res
-        if item == 'NDays':
-            d1 = datetime.strptime(self.curObj.env.context['date_from'], "%Y-%m-%d")
-            d2 = datetime.strptime(self.curObj.env.context['date_to'], "%Y-%m-%d")
-            res = (d2 - d1).days
-            self['NDays'] = res
-            return res
-        line_id = self.reportLineObj.search([('code', '=', item)], limit=1)
-        if line_id:
-            res = FormulaLine(line_id, linesDict=self.linesDict)
-            self.linesDict[item] = res
-            return res
-        return super(FormulaContext, self).__getitem__(item)
-
-
 class ReportAccountFinancialReport(models.Model):
-    _inherit = "account.financial.report"
+    _name = "account.financial.report"
     _description = "Account Report"
+
+    name = fields.Char()
+    debit_credit = fields.Boolean('Show Credit and Debit Columns')
+    line_ids = fields.One2many('account.financial.report.line', 'financial_report_id', string='Lines')
+    report_type = fields.Selection([('date_range', 'Based on date ranges'),
+                                    ('date_range_extended', "Based on date ranges with 'older' and 'total' columns and last 3 months"),
+                                    ('no_date_range', 'Based on a single date'),
+                                    ('date_range_cash', 'Bases on date ranges and cash basis method')],
+                                   string='Analysis Periods', default=False, required=True,
+                                   help='For report like the balance sheet that do not work with date ranges')
+    company_id = fields.Many2one('res.company', string='Company')
+    menuitem_created = fields.Boolean(default=False)
 
     def create_action_and_menu(self):
         client_action = self.env['ir.actions.client'].create({
@@ -106,7 +60,7 @@ class ReportAccountFinancialReport(models.Model):
         for company in self.env['res.company'].search([]):
             if company.currency_id != used_currency:
                 currency_table[company.currency_id.id] = used_currency.rate / company.currency_id.rate
-        linesDicts = [{} for k in context_id.get_periods()]
+        linesDicts = [{}] * len(context_id.get_periods())
         res = line_obj.with_context(
             target_move=context_id.all_entries and 'all' or 'posted',
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
@@ -132,9 +86,28 @@ class ReportAccountFinancialReport(models.Model):
 
 
 class AccountFinancialReportLine(models.Model):
-    _inherit = "account.financial.report.line"
+    _name = "account.financial.report.line"
     _description = "Account Report Line"
     _order = "sequence"
+
+    name = fields.Char('Section Name')
+    code = fields.Char('Code')
+    financial_report_id = fields.Many2one('account.financial.report', 'Financial Report')
+    parent_id = fields.Many2one('account.financial.report.line', string='Parent')
+    children_ids = fields.One2many('account.financial.report.line', 'parent_id', string='Children')
+    sequence = fields.Integer()
+
+    domain = fields.Char(default=None)
+    formulas = fields.Char()
+    groupby = fields.Char(default=False)
+    figure_type = fields.Selection([('float', 'Float'), ('percents', 'Percents'), ('no_unit', 'No Unit')],
+                                   'Type', default='float', required=True)
+    green_on_positive = fields.Boolean('Is growth good when positive', default=True)
+    level = fields.Integer(required=True)
+    special_date_changer = fields.Selection([('from_beginning', 'From the beginning'), ('to_beginning_of_period', 'At the beginning of the period'), ('normal', 'Use given dates')], default='normal')
+    show_domain = fields.Selection([('always', 'Always'), ('never', 'Never'), ('foldable', 'Foldable')], default='foldable')
+    hide_if_zero = fields.Boolean(default=False)
+    action_id = fields.Many2one('ir.actions.actions')
 
     def get_sum(self, field_names=None):
         ''' Returns the sum of the amls in the domain '''
@@ -304,7 +277,7 @@ class AccountFinancialReportLine(models.Model):
             'type': 'line',
             'level': line['level'],
             'footnotes': line['footnotes'],
-            'columns': ['' for k in line['columns']],
+            'columns': [''] * len(line['columns']),
             'unfoldable': line['unfoldable'],
             'unfolded': line['unfolded'],
         }
@@ -416,6 +389,76 @@ class AccountFinancialReportLine(models.Model):
 
         return final_result_table
 
+class AccountFinancialReportXMLExport(models.AbstractModel):
+    _name = "account.financial.report.xml.export"
+    _description = "All the xml exports available for the financial reports"
+
+    @api.model
+    def is_xml_export_available(self, report_name, report_id=None):
+        return False
+
+    def check(self, report_name, report_id=None):
+        return True
+
+    def do_xml_export(self, report_id, context_id):
+        return ''
+
+class FormulaLine(object):
+    def __init__(self, obj, type='balance', linesDict={}):
+        fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
+        if type == 'balance':
+            fields = obj.get_balance(linesDict)[0]
+            linesDict[obj.code] = self
+        elif type == 'sum':
+            if obj._name == 'account.financial.report.line':
+                fields = obj.get_sum()
+                self.amount_residual = fields['amount_residual']
+            elif obj._name == 'account.move.line':
+                self.amount_residual = 0.0
+                field_names = ['debit', 'credit', 'balance', 'amount_residual']
+                res = obj.compute_fields(field_names)
+                if res.get(obj.id):
+                    for field in field_names:
+                        fields[field] = res[obj.id][field]
+                    self.amount_residual = fields['amount_residual']
+        elif type == 'not_computed':
+            for field in fields:
+                fields[field] = obj.get(field, 0)
+            self.amount_residual = obj.get('amount_residual', 0)
+        self.balance = fields['balance']
+        self.credit = fields['credit']
+        self.debit = fields['debit']
+
+
+class FormulaContext(dict):
+    def __init__(self, reportLineObj, linesDict, curObj=None, *data):
+        self.reportLineObj = reportLineObj
+        self.curObj = curObj
+        self.linesDict = linesDict
+        return super(FormulaContext, self).__init__(data)
+
+    def __getitem__(self, item):
+        if self.get(item):
+            return super(FormulaContext, self).__getitem__(item)
+        if self.linesDict.get(item):
+            return self.linesDict[item]
+        if item == 'sum':
+            res = FormulaLine(self.curObj, type='sum')
+            self['sum'] = res
+            return res
+        if item == 'NDays':
+            d1 = datetime.strptime(self.curObj.env.context['date_from'], "%Y-%m-%d")
+            d2 = datetime.strptime(self.curObj.env.context['date_to'], "%Y-%m-%d")
+            res = (d2 - d1).days
+            self['NDays'] = res
+            return res
+        line_id = self.reportLineObj.search([('code', '=', item)], limit=1)
+        if line_id:
+            res = FormulaLine(line_id, linesDict=self.linesDict)
+            self.linesDict[item] = res
+            return res
+        return super(FormulaContext, self).__getitem__(item)
+
 
 class AccountFinancialReportContext(models.TransientModel):
     _name = "account.financial.report.context"
@@ -485,7 +528,7 @@ class AccountFinancialReportContext(models.TransientModel):
             if self.periods_number == 1 or self.date_filter_cmp == 'custom':
                 types += ['number', 'number']
             else:
-                types += ['number' for k in xrange(self.periods_number)]
+                types += (['number'] * self.periods_number)
         if self.report_id.report_type == 'date_range_extended':
             types += ['number', 'number']
         return types
