@@ -1,0 +1,160 @@
+.o_account_contract_dashboard {
+
+    svg {
+        padding-top: 2px;
+        float: left;
+    }
+
+    div.box {
+        padding: 10px;
+        color: #676a6c;
+        background-color: #FFFFFF;
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+        background-size: cover;
+        margin: 0.5em;
+        position: relative;
+    }
+
+    .on_stat_box, .on_forecast_box {
+        display: block;
+        height: 100%;
+        width: 100%;
+        text-decoration: none;
+    }
+
+    .o_stat_box, .o_forecast_box {
+        height: 140px;
+
+        .o_trend {
+            position: absolute;
+            z-index: 1;
+            right: 0px;
+            top: 0px;
+            text-align: center;
+
+            h4 {
+                margin-bottom: 0
+            }
+
+            .o_legend {
+                font-size: 10px;
+            }
+        }
+
+        .o_graph {
+            position: absolute;
+            opacity: 0.3;
+            padding: 20px 0px 0;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .nvd3 .nv-groups path.nv-area, div.forecast-box .nvd3 .nv-groups path.nv-area {
+            fill-opacity: 0.2;
+        }
+
+        .nvd3 .nv-groups path.nv-line, div.forecast-box .nvd3 .nv-groups path.nv-line {
+            stroke-opacity: 0.8;
+            stroke-width: 4px;
+        }
+
+        &:hover {
+            background-color: silver;
+        }
+    }
+
+    .o_graph_detailed {
+        .nvd3 .nv-groups path.nv-line {
+            stroke-width: 3px;
+        }
+
+        .nvd3.nv-scatter .nv-groups .nv-point,
+        .nvd3 .nv-groups .nv-point {
+            stroke-width: 5px;
+            fill-opacity: .95 !important;
+            stroke-opacity: .95 !important;
+        }
+    }
+
+    div.box h1, h2, h3, h4 {
+        margin-top: 5px;
+        font-weight: 800;
+    }
+
+    .o_metric_current {
+        font-size: 4.5rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .mrr_growth_chart {
+
+        i {
+            position: relative;
+            top: 35px;
+            padding: 0 3%;
+        }
+
+        h4 {
+            color: #999;
+        }
+
+        strong {
+            font-size: 3.125rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+    }
+
+    .o_forecast_options {
+        border: 2px solid #c3cacd;
+        border-radius: 5px;
+        padding: 1em;
+
+        td {
+            font-weight: 800;
+            padding-bottom: 10px;
+            padding-top: 1em;
+            border: 0;
+        }
+    }
+
+    .o_loader {
+        position: relative;
+        text-align:center;
+        width: 100%;
+        height: 300px;
+
+        > i {
+            font-size: 3em;
+        }
+    }
+
+    .o_green {
+        color: #26b548;
+    }
+
+    .o_blue {
+        color: #2693d5;
+    }
+
+    .o_red {
+        color: #df2e28;
+    }
+
+    .o_yellow {
+        color: #fed049;
+    }
+
+    .o_black {
+        color: #000000;
+    }
+
+    .o_small_caps {
+        font-variant: small-caps;
+    }
+}
