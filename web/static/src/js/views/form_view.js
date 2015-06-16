@@ -783,11 +783,6 @@ var FormView = View.extend(common.FieldManagerMixin, {
                     } else {
                         readonly_values[f.name] = f.get_value(true);
                     }
-                    save_deferral.then(function(result) {
-                        def_process_save.resolve(result);
-                    }).fail(function() {
-                        def_process_save.reject();
-                    });
                 }
             }
             // Heuristic to assign a proper sequence number for new records that
