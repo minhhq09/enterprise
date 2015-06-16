@@ -60,7 +60,7 @@ class ReportAccountFinancialReport(models.Model):
         for company in self.env['res.company'].search([]):
             if company.currency_id != used_currency:
                 currency_table[company.currency_id.id] = used_currency.rate / company.currency_id.rate
-        linesDicts = [{}] * len(context_id.get_periods())
+        linesDicts = [{} for _ in context_id.get_periods()]
         res = line_obj.with_context(
             target_move=context_id.all_entries and 'all' or 'posted',
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
