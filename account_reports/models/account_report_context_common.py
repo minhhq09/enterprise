@@ -51,7 +51,7 @@ class AccountReportContextCommon(models.TransientModel):
 
     def _report_name_to_report_model(self):
         return {
-            'financial_report': 'account.financial.report',
+            'financial_report': 'account.financial.html.report',
             'generic_tax_report': 'account.generic.tax.report',
             'followup_report': 'account.followup.report',
             'bank_reconciliation': 'account.bank.reconciliation.report',
@@ -61,7 +61,7 @@ class AccountReportContextCommon(models.TransientModel):
 
     def _report_model_to_report_context(self):
         return {
-            'account.financial.report': 'account.financial.report.context',
+            'account.financial.html.report': 'account.financial.html.report.context',
             'account.generic.tax.report': 'account.report.context.tax',
             'account.followup.report': 'account.report.context.followup',
             'account.bank.reconciliation.report': 'account.report.context.bank.reconciliation',
@@ -336,7 +336,7 @@ class AccountReportContextCommon(models.TransientModel):
         return res
 
     def get_xml(self):
-        return self.env['account.financial.report.xml.export'].do_xml_export(self)
+        return self.env['account.financial.html.report.xml.export'].do_xml_export(self)
 
     def get_pdf(self):
         report_obj = self.get_report_obj()

@@ -8,12 +8,12 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 class ReportAccountFinancialReport(models.Model):
-    _name = "account.financial.report"
+    _name = "account.financial.html.report"
     _description = "Account Report"
 
     name = fields.Char()
     debit_credit = fields.Boolean('Show Credit and Debit Columns')
-    line_ids = fields.One2many('account.financial.report.line', 'financial_report_id', string='Lines')
+    line_ids = fields.One2many('account.financial.html.report.line', 'financial_report_id', string='Lines')
     report_type = fields.Selection([('date_range', 'Based on date ranges'),
                                     ('date_range_extended', "Based on date ranges with 'older' and 'total' columns and last 3 months"),
                                     ('no_date_range', 'Based on a single date'),
@@ -29,7 +29,7 @@ class ReportAccountFinancialReport(models.Model):
             'tag': 'account_report_generic',
             'context': {
                 'url': '/account/financial_report/' + str(self.id),
-                'model': 'account.financial.report',
+                'model': 'account.financial.html.report',
                 'id': self.id,
             },
         })
@@ -49,10 +49,10 @@ class ReportAccountFinancialReport(models.Model):
     @api.multi
     def get_lines(self, context_id, line_id=None):
         if isinstance(context_id, int):
-            context_id = self.env['account.financial.report.context'].browse(context_id)
+            context_id = self.env['account.financial.html.report.context'].browse(context_id)
         line_obj = self.line_ids
         if line_id:
-            line_obj = self.env['account.financial.report.line'].search([('id', '=', line_id)])
+            line_obj = self.env['account.financial.html.report.line'].search([('id', '=', line_id)])
         if context_id.comparison:
             line_obj = line_obj.with_context(periods=context_id.get_cmp_periods())
         used_currency = self.env.user.company_id.currency_id
@@ -86,15 +86,15 @@ class ReportAccountFinancialReport(models.Model):
 
 
 class AccountFinancialReportLine(models.Model):
-    _name = "account.financial.report.line"
+    _name = "account.financial.html.report.line"
     _description = "Account Report Line"
     _order = "sequence"
 
     name = fields.Char('Section Name')
     code = fields.Char('Code')
-    financial_report_id = fields.Many2one('account.financial.report', 'Financial Report')
-    parent_id = fields.Many2one('account.financial.report.line', string='Parent')
-    children_ids = fields.One2many('account.financial.report.line', 'parent_id', string='Children')
+    financial_report_id = fields.Many2one('account.financial.html.report', 'Financial Report')
+    parent_id = fields.Many2one('account.financial.html.report.line', string='Parent')
+    children_ids = fields.One2many('account.financial.html.report.line', 'parent_id', string='Children')
     sequence = fields.Integer()
 
     domain = fields.Char(default=None)
@@ -128,7 +128,7 @@ class AccountFinancialReportLine(models.Model):
         if not field_names:
             field_names = ['debit', 'credit', 'balance']
         res = dict((fn, 0.0) for fn in field_names)
-        c = FormulaContext(self.env['account.financial.report.line'], linesDict, self)
+        c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, self)
         if self.formulas:
             for f in self.formulas.split(';'):
                 [field, formula] = f.split('=')
@@ -240,7 +240,7 @@ class AccountFinancialReportLine(models.Model):
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
             else:
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2]}) for k in results])
-            c = FormulaContext(self.env['account.financial.report.line'], linesDict)
+            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict)
             if formulas:
                 for key in results:
                     c['sum'] = FormulaLine(results[key], type='not_computed')
@@ -390,7 +390,7 @@ class AccountFinancialReportLine(models.Model):
         return final_result_table
 
 class AccountFinancialReportXMLExport(models.AbstractModel):
-    _name = "account.financial.report.xml.export"
+    _name = "account.financial.html.report.xml.export"
     _description = "All the xml exports available for the financial reports"
 
     @api.model
@@ -410,7 +410,7 @@ class FormulaLine(object):
             fields = obj.get_balance(linesDict)[0]
             linesDict[obj.code] = self
         elif type == 'sum':
-            if obj._name == 'account.financial.report.line':
+            if obj._name == 'account.financial.html.report.line':
                 fields = obj.get_sum()
                 self.amount_residual = fields['amount_residual']
             elif obj._name == 'account.move.line':
@@ -461,7 +461,7 @@ class FormulaContext(dict):
 
 
 class AccountFinancialReportContext(models.TransientModel):
-    _name = "account.financial.report.context"
+    _name = "account.financial.html.report.context"
     _description = "A particular context for a financial report"
     _inherit = "account.report.context.common"
 
@@ -469,11 +469,11 @@ class AccountFinancialReportContext(models.TransientModel):
         return self.report_id
 
     fold_field = 'unfolded_lines'
-    report_id = fields.Many2one('account.financial.report', 'Linked financial report', help='Only if financial report')
-    unfolded_lines = fields.Many2many('account.financial.report.line', 'context_to_line', string='Unfolded lines')
+    report_id = fields.Many2one('account.financial.html.report', 'Linked financial report', help='Only if financial report')
+    unfolded_lines = fields.Many2many('account.financial.html.report.line', 'context_to_line', string='Unfolded lines')
     multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='account_financial_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_financial_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
+    company_ids = fields.Many2many('res.company', relation='account_financial_html_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
+    available_company_ids = fields.Many2many('res.company', relation='account_financial_html_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
 
     @api.model
     def create(self, vals):

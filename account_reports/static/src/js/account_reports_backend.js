@@ -90,7 +90,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             .filter([['id', '=', self.session.uid]]).first().then(function (user) {
                 return new Model('res.company').query(['fiscalyear_last_day', 'fiscalyear_last_month'])
                 .filter([['id', '=', user.company_id[0]]]).first().then(function (fy) {
-                    return new Model('account.financial.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
+                    return new Model('account.financial.html.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
                         return self.context_model.call('get_available_company_ids_and_names', [context.id]).then(function (available_companies) {
                             self.xml_export = xml_export;
                             self.fy = fy;
@@ -133,7 +133,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             self.$el.attr({src: self.base_url + '?xls'});
         });
         this.$buttons.find('.o_account-widget-xml').bind('click', function () {
-            return new Model('account.financial.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
+            return new Model('account.financial.html.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
                 if (check === true) {
                     self.$el.attr({src: self.base_url + '?xml'});
                 }
