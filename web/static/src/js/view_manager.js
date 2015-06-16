@@ -208,7 +208,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
             var cp_status = {
                 active_view_selector: '.o_cp_switch_' + self.active_view.type,
                 breadcrumbs: self.action_manager && self.action_manager.get_breadcrumbs(),
-                cp_content: _.extend({}, self.control_elements, view_control_elements),
+                cp_content: _.extend({}, self.searchview_elements, view_control_elements),
                 hidden: self.flags.headless,
                 searchview: self.searchview,
                 search_view_hidden: view_controller.searchable === false,
