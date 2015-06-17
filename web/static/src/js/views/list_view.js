@@ -113,7 +113,6 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             this.groups.datagroup.sort = this.dataset._sort;
         }
 
-        this.page = 0;
         this.records.bind('change', function (event, record, key) {
             if (!_(self.aggregate_columns).chain()
                     .pluck('name').contains(key).value()) {
@@ -133,6 +132,8 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                        this.defaults.limit ||
                        (this.getParent().action || {}).limit ||
                        80);
+        // the index of the first displayed record (starting from 1)
+        this.current_min = 1;
     },
     /**
      * Called after loading the list view's description
@@ -315,7 +316,8 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             this.pager.appendTo($node || this.options.$pager);
 
             this.pager.on('pager_changed', this, function (new_state) {
-                this.page = Math.floor((new_state.current_min-1)/this._limit);
+                this._limit = new_state.limit;
+                this.current_min = new_state.current_min;
                 this.reload_content();
             });
         }
@@ -452,7 +454,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             });
         });
         this.do_push_state({
-            page: this.page,
+            min: this.current_min,
             limit: this._limit
         });
         return reloaded.promise();
@@ -486,8 +488,8 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
 
     do_load_state: function(state, warm) {
         var reload = false;
-        if (state.page && this.page !== state.page) {
-            this.page = state.page;
+        if (state.min && this.current_min !== state.min) {
+            this.current_min = state.min;
             reload = true;
         }
         if (state.limit) {
@@ -513,7 +515,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
      * @param {Object} results results of evaluating domain and process for a search
      */
     do_search: function (domain, context, group_by) {
-        this.page = 0;
+        this.current_min = 1;
         this.groups.datagroup = new DataGroup(
             this, this.model, domain, context, group_by);
         this.groups.datagroup.sort = this.dataset._sort;
@@ -554,8 +556,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                     self.pager.previous();
                 }
                 // Reload the list view if we are not on the last page
-                var last_page_index = Math.ceil(self.dataset.size()/self._limit) - 1;
-                if (self.page !== last_page_index) {
+                if (self.current_min + self._limit - 1 < self.dataset.size()) {
                     self.reload();
                 }
             }
@@ -1242,7 +1243,8 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
         if (this.datagroup.length > this.view._limit) {
             this.pager = new Pager(this, this.datagroup.length, 1, this.view._limit);
             this.pager.on('pager_changed', this, function (state) {
-                self.page = Math.floor((state.current_min-1)/state.limit);
+                self.view._limit = state.limit;
+                self.current_min = state.current_min;
                 self.render().then(function() {
                     self.$row.closest('tbody').next().replaceWith($(self.elements));
                 });
@@ -1424,11 +1426,10 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
         this.bind_child_events(list);
 
         var view = this.view;
-        var page = this.datagroup.openable ? this.page : view.page;
-        var offset = page * view._limit;
+        var current_min = this.datagroup.openable ? this.current_min : view.current_min;
 
         var fields = _.pluck(_.select(this.columns, function(x) {return x.tag == "field";}), 'name');
-        var options = { offset: offset, limit: view._limit, context: {bin_size: true} };
+        var options = { offset: current_min - 1, limit: view._limit, context: {bin_size: true} };
         return $.async_when().then(function() {
             return dataset.read_slice(fields, options).then(function (records) {
                 // FIXME: ignominious hacks, parents (aka form view) should not send two ListView#reload_content concurrently
@@ -1437,7 +1438,7 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
                 }
                 if (!self.datagroup.openable) {
                     // Update the main list view pager
-                    view.update_pager(dataset, offset + 1);
+                    view.update_pager(dataset, current_min);
                 }
 
                 self.records.add(records, {silent: true});
