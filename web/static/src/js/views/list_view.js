@@ -339,7 +339,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             if (current_min) {
                 new_state.current_min = current_min;
             }
-            this.pager.set_state(new_state);
+            this.pager.update_state(new_state);
         }
     },
     sort_by_column: function (e) {

@@ -247,7 +247,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
             if (this.get("actual_mode") === "create") {
                 this.pager.do_hide();
             } else {
-                this.pager.set_state({size: this.dataset.ids.length, current_min: this.dataset.index + 1});
+                this.pager.update_state({size: this.dataset.ids.length, current_min: this.dataset.index + 1});
             }
         }
     },
