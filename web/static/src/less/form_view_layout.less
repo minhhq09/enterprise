@@ -63,18 +63,18 @@
         margin-right: -@odoo-form-row-spacing/2;
 
         .o-row-item {
-            width: auto;
+            width: auto!important;
             margin-right: @odoo-form-row-spacing/2;
             margin-left: @odoo-form-row-spacing/2;
         }
 
         > .o_form_field, > .o_form_label, > div {
             .o-row-item;
-            width: 0; // 3rd flex argument does not work with input (must be auto and real width 0)
+            width: 0!important; // 3rd flex argument does not work with input (must be auto and real width 0)
             .o-flex(1, 1, auto);
-            
+
             &.o_form_field_boolean, &.o_priority, &.o_kanban_selection {
-                width: auto;
+                width: auto!important;
                 .o-flex(0, 0, auto);
             }
 
