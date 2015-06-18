@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_config_settings_inherit" model="ir.ui.view">
+            <field name="name">account.config.settings.inherited</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="model">account.config.settings</field>
+            <field name="arch" type="xml">
+                <div name="group_multi_currency" position="after">
+                    <div>
+                        <field name="module_account_batch_deposit" class="oe_inline"/>
+                        <label for="module_account_batch_deposit"/>
+                    </div>
+                    <div>
+                        <field name="module_account_sepa" class="oe_inline"/>
+                        <label for="module_account_sepa"/>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</openerp>
