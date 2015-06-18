@@ -258,7 +258,7 @@ class PlaidSelectAccountWizard(models.TransientModel):
             new_account = self.env['plaid.account.transient'].create({
                 'name': account['meta']['name'],
                 'plaid_id': account['_id'],
-                'institution': institution.id,
+                'institution_id': institution.id,
                 'balance_current': account['balance']['current'],
             })
             new_account['wizard_id'] = wizard
@@ -281,7 +281,7 @@ class PlaidSelectAccountWizard(models.TransientModel):
 
     @api.multi
     def select(self):
-        inst = self.account_id['institution']
+        inst = self.account_id['institution_id']
         journal = self.env['account.journal'].search([('id', '=', self.env.context['active_id'])])
         # Create a non transient model for the institution
         institution = self.env['plaid.institution'].create({
@@ -303,7 +303,7 @@ class PlaidSelectAccountWizard(models.TransientModel):
             'journal_id': journal.id,
         })
         account.last_synch = self.first_synch
-        account['institution'] = institution
+        account['institution_id'] = institution
         journal = self.env['account.journal'].search([('id', '=', self.env.context['active_id'])])
         journal.online_account = account
         # Run a first synchronization
@@ -360,7 +360,7 @@ class PlaidAccountTransient(models.TransientModel):
 
     name = fields.Char("Name")
     plaid_id = fields.Char("Plaid Account")
-    institution = fields.Many2one('plaid.institution.transient', String="Institution")
+    institution_id = fields.Many2one('plaid.institution.transient', String="Institution", oldname="institution")
     balance_available = fields.Float("Available balance")
     balance_current = fields.Float("Current balance")
     access_token = fields.Char("Access token")
@@ -372,7 +372,7 @@ class PlaidAccount(models.Model):
     _inherit = 'online.account'
 
     plaid_id = fields.Char("Plaid Account", required=1)
-    institution = fields.Many2one('plaid.institution', String="Institution")
+    institution_id = fields.Many2one('plaid.institution', String="Institution", oldname="institution")
     balance_available = fields.Float("Available balance")
     balance_current = fields.Float("Current balance", required=1)
     access_token = fields.Char("Access Token", required=1)
@@ -426,7 +426,7 @@ class PlaidAccount(models.Model):
 
     @api.multi
     def update_account(self):
-        return self.env['plaid.institution.transient'].with_context(goal='update').create_wizard(self.institution)
+        return self.env['plaid.institution.transient'].with_context(goal='update').create_wizard(self.institution_id)
         
 
 class PlaidCredentials(models.Model):

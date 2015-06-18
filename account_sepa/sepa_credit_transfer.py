@@ -62,7 +62,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """
         # Since this method is called via a client_action_multi, we need to make sure the received records are what we expect
-        payments = payments.filtered(lambda r: r.payment_method.code == 'sepa_ct' and r.state in ('posted', 'sent'))
+        payments = payments.filtered(lambda r: r.payment_method_id.code == 'sepa_ct' and r.state in ('posted', 'sent'))
 
         if len(payments) == 0:
             raise UserError(_("Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' selected as payment method and be posted"))

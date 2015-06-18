@@ -36,6 +36,6 @@ class AccountMoveLine(models.Model):
             return ['account.bank.statement', self.statement_id.id, _('View Bank Statement')]
         if self.payment_id:
             return ['account.payment', self.payment_id.id, _('View Payment')]
-        if self.invoice:
-            return ['account.invoice', self.invoice.id, _('View Invoice')]
+        if self.invoice_id:
+            return ['account.invoice', self.invoice_id.id, _('View Invoice')]
         return ['account.move', self.move_id.id, _('View Move')]

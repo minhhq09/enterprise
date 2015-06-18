@@ -74,7 +74,7 @@ class TestSEPACreditTransfer(AccountingTestCase):
         return self.env['account.payment'].create({
             'journal_id': self.bank_journal.id,
             'partner_bank_account_id': partner.bank_ids[0].id,
-            'payment_method': self.sepa_ct.id,
+            'payment_method_id': self.sepa_ct.id,
             'payment_type': 'outbound',
             'payment_date': '2015-04-28',
             'amount': amount,

@@ -11,9 +11,9 @@ class AccountJournal(models.Model):
         help="Technical feature used to know whether batch deposit was enabled as payment method.")
 
     @api.one
-    @api.depends('inbound_payment_methods')
+    @api.depends('inbound_payment_method_ids')
     def _compute_batch_deposit_payment_method_selected(self):
-        self.batch_deposit_payment_method_selected = any(pm.code == 'batch_deposit' for pm in self.inbound_payment_methods)
+        self.batch_deposit_payment_method_selected = any(pm.code == 'batch_deposit' for pm in self.inbound_payment_method_ids)
 
     def _default_inbound_payment_methods(self):
         vals = super(AccountJournal, self)._default_inbound_payment_methods()
@@ -50,6 +50,6 @@ class AccountJournal(models.Model):
         for bank_journal in self.search([('type', '=', 'bank')]):
             batch_deposit_sequence = self._create_batch_deposit_sequence({'name': bank_journal.name, 'company_id': bank_journal.company_id.id})
             bank_journal.write({
-                'inbound_payment_methods': [(4, batch_deposit.id, None)],
+                'inbound_payment_method_ids': [(4, batch_deposit.id, None)],
                 'batch_deposit_sequence_id': batch_deposit_sequence.id,
             })

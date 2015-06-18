@@ -85,7 +85,7 @@ class report_print_check(report_sxw.rml_parse):
     def make_stub_line(self, payment, invoice):
         """ Return the dict used to display an invoice/refund in the stub
         """
-        invoice_payment_aml = payment.move_line_ids.filtered(lambda r: r.invoice == invoice and r.user_type.type in ('payable', 'receivable'))
+        invoice_payment_aml = payment.move_line_ids.filtered(lambda r: r.invoice == invoice and r.user_type_id.type in ('payable', 'receivable'))
         invoice_sign = invoice.type == 'in_refund' and -1 or 1
         if payment.currency_id != payment.journal_id.company_id.currency_id:
             amount_paid = abs(invoice_payment_aml.amount_currency)

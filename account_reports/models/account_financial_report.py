@@ -159,7 +159,7 @@ class AccountFinancialReportLine(models.Model):
     def _get_gb_name(self, gb_id):
         if self.groupby == 'account_id':
             return self.env['account.account'].browse(gb_id).name_get()[0][1]
-        if self.groupby == 'user_type':
+        if self.groupby == 'user_type_id':
             return self.env['account.account.type'].browse(gb_id).name
         if self.groupby == 'partner_id':
             return self.env['res.partner'].browse(gb_id).name

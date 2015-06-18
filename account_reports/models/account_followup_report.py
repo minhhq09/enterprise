@@ -49,7 +49,7 @@ class report_account_followup_report(models.AbstractModel):
                     'type': is_payment and 'payment' or 'unreconciled_aml',
                     'footnotes': {},
                     'unfoldable': False,
-                    'columns': [aml.date, date_due, aml.invoice.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
+                    'columns': [aml.date, date_due, aml.invoice_id.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
                     'blocked': aml.blocked,
                 })
             total = formatLang(self.env, total, currency_obj=currency)

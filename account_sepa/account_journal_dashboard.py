@@ -9,7 +9,7 @@ class account_journal(models.Model):
     def get_journal_dashboard_datas(self):
         domain_sepa_ct_to_send = [
             ('journal_id', '=', self.id),
-            ('payment_method.code', '=', 'sepa_ct'),
+            ('payment_method_id.code', '=', 'sepa_ct'),
             ('state','=','posted')
         ]
         return dict(
@@ -30,6 +30,6 @@ class account_journal(models.Model):
                 journal_id=self.id,
                 default_journal_id=self.id,
                 default_payment_type='outbound',
-                default_payment_method=self.env.ref('account_sepa.account_payment_method_sepa_ct').id,
+                default_payment_method_id=self.env.ref('account_sepa.account_payment_method_sepa_ct').id,
             ),
         }

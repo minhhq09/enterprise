@@ -15,4 +15,4 @@ class AccountJournal(models.Model):
         """
         sepa_ct = self.env.ref('account_sepa.account_payment_method_sepa_ct')
         for bank_journal in self.search([('type', '=', 'bank')]):
-            bank_journal.write({'outbound_payment_methods': [(4, sepa_ct.id, None)]})
+            bank_journal.write({'outbound_payment_method_ids': [(4, sepa_ct.id, None)]})

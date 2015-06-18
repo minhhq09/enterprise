@@ -32,7 +32,7 @@
             <field name="code">INC</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_gross_profit0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_revenue'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_revenue'))]" />
             <field name="groupby">account_id</field>
             <field name="sequence" eval="1"/>
             <field name="level" eval="2" />
@@ -43,7 +43,7 @@
             <field name="code">COS</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_gross_profit0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_direct_costs'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_direct_costs'))]" />
             <field name="groupby">account_id</field>
             <field name="sequence" eval="2"/>
             <field name="green_on_positive" eval="False"/>
@@ -64,7 +64,7 @@
             <field name="code">EXP</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_less_expenses0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_expenses'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_expenses'))]" />
             <field name="groupby">account_id</field>
             <field name="sequence" eval="1"/>
             <field name="green_on_positive" eval="False"/>
@@ -75,7 +75,7 @@
             <field name="code">DEP</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_less_expenses0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_depreciation'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_depreciation'))]" />
             <field name="groupby">account_id</field>
             <field name="sequence" eval="2"/>
             <field name="green_on_positive" eval="False"/>
@@ -110,7 +110,7 @@
             <field name="name">Receivables</field>
             <field name="code">REC</field>
             <field name="parent_id" ref='account_financial_report_current_assets_view0'/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'receivable')]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'receivable')]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="1"/>
@@ -120,7 +120,7 @@
             <field name="name">Current Assets</field>
             <field name="code">CAS</field>
             <field name="parent_id" ref='account_financial_report_current_assets_view0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_current_assets'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_current_assets'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="2"/>
@@ -130,7 +130,7 @@
             <field name="name">Prepayments</field>
             <field name="code">PRE</field>
             <field name="parent_id" ref='account_financial_report_current_assets_view0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_prepayments'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_prepayments'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="3"/>
@@ -140,7 +140,7 @@
             <field name="name">Plus Bank and Cash Accounts</field>
             <field name="code">BA</field>
             <field name="parent_id" ref='account_financial_report_total_assets0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_liquidity'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_liquidity'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="2"/>
@@ -150,7 +150,7 @@
             <field name="name">Plus Fixed Assets</field>
             <field name="code">FA</field>
             <field name="parent_id" ref='account_financial_report_total_assets0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_fixed_assets'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_fixed_assets'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="3"/>
@@ -160,7 +160,7 @@
             <field name="name">Plus Non-current Assets</field>
             <field name="code">PNCA</field>
             <field name="parent_id" ref='account_financial_report_total_assets0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_non_current_assets'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_non_current_assets'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="sequence" eval="4"/>
@@ -180,7 +180,7 @@
             <field name="name">Current Liabilities</field>
             <field name="code">CL</field>
             <field name="parent_id" ref='account_financial_report_liabilities_view0'/>
-            <field name="domain" eval="['|', ('account_id.user_type', '=', ref('account.data_account_type_current_liabilities')), ('account_id.user_type.type', '=', 'payable')]"/>
+            <field name="domain" eval="['|', ('account_id.user_type_id', '=', ref('account.data_account_type_current_liabilities')), ('account_id.user_type_id.type', '=', 'payable')]"/>
             <field name="groupby">account_id</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="sequence" eval="1"/>
@@ -191,7 +191,7 @@
             <field name="name">Non-current Liabilities</field>
             <field name="code">NL</field>
             <field name="parent_id" ref='account_financial_report_liabilities_view0'/>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_non_current_liabilities'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_non_current_liabilities'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="sequence" eval="2"/>
@@ -216,7 +216,7 @@
         <record id="account_financial_current_year_earnings0" model="account.financial.html.report.line">
             <field name="name">CURRENT YEAR EARNINGS</field>
             <field name="code">UNAFFECTED_EARNINGS</field>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_unaffected_earnings'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_unaffected_earnings'))]" />
             <field name="formulas">balance = NEP.balance - sum.balance</field>
             <field name="sequence" eval="1"/>
             <field name="special_date_changer">from_beginning</field>
@@ -226,7 +226,7 @@
         <record id="account_financial_retained_earnings0" model="account.financial.html.report.line">
             <field name="name">RETAINED EARNINGS</field>
             <field name="code">RETAINED_EARNINGS</field>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_account_type_equity'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_equity'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="sequence" eval="2"/>
@@ -262,7 +262,7 @@
             <field name="code">CRE</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_operating0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_revenue'), ref('account.data_account_type_other_income')]), ('account_id.tag_ids', '=', ref('account.account_tag_operating'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_revenue'), ref('account.data_account_type_other_income')]), ('account_id.tag_ids', '=', ref('account.account_tag_operating'))]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="level" eval="2" />
             <field name="groupby">partner_id</field>
@@ -272,7 +272,7 @@
             <field name="code">LCP</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_operating0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_operating'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_operating'))]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="level" eval="2" />
             <field name="groupby">account_id</field>
@@ -290,7 +290,7 @@
             <field name="code">INV_IN</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_investing0'/>
-            <field name="domain" eval="['|', '&amp;', ('account_id.user_type', '=', ref('account.data_account_type_fixed_assets')), ('journal_id.type', '=', 'sale'), '&amp;', ('account_id.user_type', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', '=', ref('account.account_tag_investing'))]" />
+            <field name="domain" eval="['|', '&amp;', ('account_id.user_type_id', '=', ref('account.data_account_type_fixed_assets')), ('journal_id.type', '=', 'sale'), '&amp;', ('account_id.user_type_id', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', '=', ref('account.account_tag_investing'))]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
@@ -300,7 +300,7 @@
             <field name="code">INV_OUT</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_investing0'/>
-            <field name="domain" eval="['|', '&amp;', ('account_id.user_type', '=', ref('account.data_account_type_fixed_assets')), ('journal_id.type', '=', 'purchase'), '&amp;', ('account_id.user_type', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_investing'))]" />
+            <field name="domain" eval="['|', '&amp;', ('account_id.user_type_id', '=', ref('account.data_account_type_fixed_assets')), ('journal_id.type', '=', 'purchase'), '&amp;', ('account_id.user_type_id', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_investing'))]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
@@ -328,7 +328,7 @@
             <field name="code">FI_OUT</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_financing0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_financing'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', '=', ref('account.account_tag_financing'))]" />
             <field name="formulas">balance = +sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
@@ -347,7 +347,7 @@
             <field name="code">UNC_IN</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_unclassified0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', 'not in', [ref('account.account_tag_financing'), ref('account.account_tag_investing'), ref('account.account_tag_operating')])]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', 'not in', [ref('account.account_tag_financing'), ref('account.account_tag_investing'), ref('account.account_tag_operating')])]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
@@ -357,7 +357,7 @@
             <field name="code">UNC_OUT</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_unclassified0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', 'not in', [ref('account.account_tag_financing'), ref('account.account_tag_investing'), ref('account.account_tag_operating')])]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_depreciation'), ref('account.data_account_type_expenses')]), ('account_id.tag_ids', 'not in', [ref('account.account_tag_financing'), ref('account.account_tag_investing'), ref('account.account_tag_operating')])]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
@@ -401,7 +401,7 @@
             <field name="code">CR</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_cash0'/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'liquidity')]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'liquidity')]" />
             <field name="formulas">balance = sum.debit</field>
             <field name="show_domain">never</field>
             <field name="level" eval="2" />
@@ -411,7 +411,7 @@
             <field name="code">CS</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_cash0'/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'liquidity')]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'liquidity')]" />
             <field name="formulas">balance = -sum.credit</field>
             <field name="show_domain">never</field>
             <field name="green_on_positive" eval="False"/>
@@ -486,7 +486,7 @@
             <field name="code">DEB</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_balancesheet0'/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'receivable')]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'receivable')]" />
             <field name="formulas">balance = sum.balance</field>
             <field name="show_domain">never</field>
             <field name="level" eval="2" />
@@ -496,7 +496,7 @@
             <field name="code">CRE</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_balancesheet0'/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'payable')]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'payable')]" />
             <field name="formulas">balance = sum.balance</field>
             <field name="show_domain">never</field>
             <field name="green_on_positive" eval="False"/>
@@ -590,7 +590,7 @@
         <record id="account_financial_report_agedpayable_line0" model="account.financial.html.report.line">
             <field name="name">Aged Payable</field>
             <field name="sequence" eval="1"/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'payable'), ('reconciled', '=', False)]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'payable'), ('reconciled', '=', False)]" />
             <field name="groupby">partner_id</field>
             <field name="formulas">balance = -sum.amount_residual</field>
             <field name="show_domain">always</field>
@@ -609,7 +609,7 @@
         <record id="account_financial_report_agedreceivable_line0" model="account.financial.html.report.line">
             <field name="name">Aged Receivable</field>
             <field name="sequence" eval="1"/>
-            <field name="domain" eval="[('account_id.user_type.type', '=', 'receivable'), ('reconciled', '=', False)]" />
+            <field name="domain" eval="[('account_id.user_type_id.type', '=', 'receivable'), ('reconciled', '=', False)]" />
             <field name="groupby">partner_id</field>
             <field name="formulas">balance = sum.amount_residual</field>
             <field name="show_domain">always</field>

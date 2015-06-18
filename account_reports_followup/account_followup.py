@@ -13,7 +13,7 @@ class followup(models.Model):
     _description = 'Account Follow-up'
     _rec_name = 'name'
 
-    followup_line = fields.One2many('account_followup.followup.line', 'followup_id', 'Follow-up', copy=True)
+    followup_line_ids = fields.One2many('account_followup.followup.line', 'followup_id', 'Follow-up', copy=True, oldname="followup_line")
     company_id = fields.Many2one('res.company', 'Company', required=True,
                                  default=lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'account_followup.followup', context=c))
     name = fields.Char(related='company_id.name', readonly=True)
@@ -87,7 +87,7 @@ class res_partner(models.Model):
                 "LEFT JOIN account_account AS a "\
                 "ON (l.account_id=a.id) "\
                 "LEFT JOIN account_account_type AS act "\
-                "ON (a.user_type=act.id) "\
+                "ON (a.user_type_id=act.id) "\
                 "LEFT JOIN account_followup_followup_line AS fl "\
                 "ON (l.followup_line_id=fl.id) "\
             "WHERE (l.reconciled IS FALSE) "\

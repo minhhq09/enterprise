@@ -18,7 +18,7 @@ class TestBatchDeposit(AccountingTestCase):
         journal_account = self.env['account.account'].create({
             'code': 'BNKT',
             'name': 'Bank Test',
-            'user_type': self.ref('account.data_account_type_liquidity')
+            'user_type_id': self.ref('account.data_account_type_liquidity')
         })
         self.journal = self.env['account.journal'].create({
             'name': 'Bank Test',
@@ -40,7 +40,7 @@ class TestBatchDeposit(AccountingTestCase):
         """ Create a batch deposit payment """
         return self.env['account.payment'].create({
             'journal_id': self.journal.id,
-            'payment_method': self.batch_deposit.id,
+            'payment_method_id': self.batch_deposit.id,
             'payment_type': 'inbound',
             'payment_date': time.strftime('%Y') + '-07-15',
             'amount': amount,
