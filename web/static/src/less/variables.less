@@ -102,6 +102,11 @@
 .btn-primary, .btn-default {
     text-transform: uppercase;
 }
+.btn-link { // do not place ':hover' on the same line because the mixin won't be extended
+    &:hover {
+        text-decoration: none;
+    }
+}
 
 //== Modals
 @modal-sm: 300px;

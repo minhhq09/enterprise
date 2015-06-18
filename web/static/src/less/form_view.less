@@ -4,14 +4,10 @@
         color: @odoo-brand-primary;
     }
 
-
-    // Utility classes
+    // Utility classes (+ oe_edit_only, oe_read_only, o_label_nowrap, o_text_overflow)
     .o_form_invisible, .o_form_field_empty {
         display: none!important;
     }
-    // .oe_edit_only below
-    // .oe_read_only below
-    // .o_label_nowrap below
     .oe_form_box_info {
         .bg-info;
         .o-webclient-padding(@top: 5px, @bottom: 5px);
@@ -19,12 +15,8 @@
     .oe_text_center {
         text-align: center;
     }
-    // .o_text_overflow
-    .oe_link { // Compatibility
+    .oe_link {
         .btn-link;
-        &:hover {
-            text-decoration: none;
-        }
     }
 
     // Readonly specific rules
@@ -33,7 +25,7 @@
             .o_form_invisible;
         }
 
-        .o_form_uri {
+        .o_form_uri { // FIXME maybe global?
             display: inline-block;
 
             color: @odoo-main-text-color;
@@ -60,8 +52,7 @@
             .o_form_input;
 
             > .o_form_field {
-                .o-flex(1, 0, auto);
-                width: 100px;
+                .o-flex(1, 0, 100px);
 
                 > .o_form_input_dropdown > .o_form_input {
                     border: none;
@@ -85,8 +76,7 @@
                     padding-left: 1em;
                 }
                 > span {
-                    left: 0;
-                    right: auto;
+                    .o-position-absolute(@top: 0, @left: 0);
                 }
             }
         }
@@ -121,9 +111,9 @@
                     display: block;
                     .o-position-absolute(0, -@odoo-statusbar-arrow-width + 1);
 
-                    border-top: @odoo-statusbar-height/2 solid rgba(128, 128, 128, 0);
-                    border-bottom: @odoo-statusbar-height/2 solid rgba(128, 128, 128, 0);
-                    border-right: 0 solid rgba(128, 128, 128, 0);
+                    border-top: @odoo-statusbar-height/2 solid transparent;
+                    border-bottom: @odoo-statusbar-height/2 solid transparent;
+                    border-right: none;
                     border-left: @odoo-statusbar-arrow-width solid @odoo-view-background-color;
                     -moz-transform: scale(0.9999); // Smooth the triangle on firefox
                 }
@@ -154,16 +144,12 @@
                 }
             }
             .o-status-more {
-                left: auto;
-                right: 0;
+                .o-position-absolute(100%, 0);
                 min-width: 100px;
                 > li > button {
                     width: 100%;
                     text-align: left;
                 }
-            }
-            .btn-default {
-                text-transform: uppercase;
             }
         }
     }
@@ -175,7 +161,7 @@
         overflow: auto;
         background-color: @odoo-view-background-color;
         .o_form_statusbar {
-            margin: -24px -@odoo-horizontal-padding 0 -@odoo-horizontal-padding;
+            margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding 0 -@odoo-horizontal-padding;
         }
     }
 
@@ -193,10 +179,6 @@
             .o_form_input {
                 width: 100%;
             }
-
-            &.o_row .o_form_input {
-                width: 0px;
-            }
         }
 
         .o_form_label {
@@ -213,7 +195,7 @@
         }
     }
 
-    // Statbox
+    // Button box
     .oe_button_box {
         margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding @odoo-sheet-vpadding -@odoo-horizontal-padding;
         background-color: @odoo-brand-lightsecondary;
@@ -221,22 +203,11 @@
         white-space: nowrap; // (the last button will overflow (see below))
         overflow-x: hidden; // To hide extra buttons (and overflow of the last one)
 
-        .oe_stat_button {
+        > .oe_stat_button {
             height: @odoo-statbutton-height;
             border-right: 1px solid @odoo-webclient-background-color;
 
-            width: percentage(1.0025/3); // Adapt the number of visible buttons for each screen width
-            @media (min-width: @screen-sm-min) {
-                width: percentage(1.0025/5); // (calculations are made to have to last button overflow its border and potential calculation gap)
-            }
-            @media (min-width: @screen-md-min) {
-                width: percentage(1.0025/7);
-            }
-            @media (min-width: @screen-lg-min) {
-                width: percentage(1.0025/8);
-            }
-
-            padding: @odoo-statbutton-vpadding @odoo-statbutton-spacing @odoo-statbutton-vpadding 0px;
+            padding: @odoo-statbutton-vpadding @odoo-statbutton-spacing @odoo-statbutton-vpadding 0; // padding-left will be achieved through margin-left of content
             text-align: left;
             background-color: transparent;
             &:hover {
@@ -244,7 +215,7 @@
                 color: inherit;
             }
 
-            .o_button_icon {
+            > .o_button_icon {
                 margin-left: @odoo-statbutton-spacing; // To create the button padding left (firefox bug)
                 display: inline-block;
                 vertical-align: middle;
@@ -256,11 +227,11 @@
                 width: 30%;
             }
 
-            .o_form_field_percent_pie {
+            > .o_form_field_percent_pie {
                 margin-left: @odoo-statbutton-spacing; // To create the button padding left (firefox bug)
             }
 
-            .o_stat_info { // contains the value and text
+            > .o_stat_info { // contains the value and text
                 display: inline-block;
                 vertical-align: middle;
 
@@ -272,7 +243,7 @@
                     .o_text_overflow;
                     .o-stat-value();
                 }
-                .o_stat_text {
+                > .o_stat_text {
                     .o_text_overflow;
                     font-size: small;
 
@@ -332,8 +303,7 @@
                     }
                 }
                 &:not(.active) {
-                    // Override bootstrap negative margin so that active and non-active tab have same height
-                    margin-bottom: 0;
+                    margin-bottom: 0; // Override bootstrap negative margin so that active and non-active tab have same height
                 }
                 &.active > a {
                     border-bottom: 1px solid @odoo-brand-primary;
@@ -363,15 +333,10 @@
 
     // All form fields
     .o_form_field {
-        max-width: 100%;
-
         > .btn {
             .o-flex(0, 0, auto);
             padding: 0 10px;
         }
-    }
-    select.o_form_field {
-        min-width: 150px;
     }
 
     .o_form_required {
@@ -398,28 +363,13 @@
         background-color: transparent;
 
         .o-appearance(none);
-        text-indent: -1.5px;
+        text-indent: -1.5px; // FIXME chrome
         background-image: url("/web/static/src/img/down-arrow.png");
         background-repeat: no-repeat;
         background-position: right center;
     }
-    .o_form_field {
-        .o_form_input, .o_form_input_dropdown {
-            width: 100%;
-        }
-    }
 
     // Textarea
-    .o_form_textarea {
-        white-space: pre-wrap;
-        width: 100%;
-        &.oe_inline {
-            width: 100%!important;
-            @media (min-width: @screen-xs-min) {
-                width: 45%!important;
-            }
-        }
-    }
     textarea.o_form_textarea {
         border: 1px solid @odoo-form-lightsecondary;
         outline: none;
@@ -521,8 +471,7 @@
         }
 
         > tfoot > tr > td {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding: 0;
             color: @odoo-main-text-color;
             background-color: @odoo-list-grey;
         }
@@ -565,11 +514,6 @@
     // HTML field
     .oe_form_field_html {
         display: inline-block;
-    }
-
-    // FIXME move?
-    .note-editor, .oe_form_field_html, .oe_form_field_html_text {
-        width: 100%;
     }
 
     // Timezone widget warning
@@ -644,38 +588,38 @@
 
     // Specific style classes
     .o_group.o_inner_group.oe_subtotal_footer {
-            border-top: 1px solid @odoo-brand-secondary;
+        border-top: 1px solid @odoo-brand-secondary;
 
-            > tbody > tr > td {
-                padding: 0;
+        > tbody > tr > td {
+            padding: 0;
 
-                &.o_td_label {
-                    text-align: right;
-                }
-
-                .o_form_label {
-                    padding-right: 20px;
-
-                    min-width: 0;
-                    white-space: nowrap;
-                    &:after {
-                        content: ":";
-                    }
-                }
-
-                .o_form_field {
-                    width: 100%;
-                    .o-justify-content(flex-end);
-                }
-            }
-
-            .oe_subtotal_footer_separator {
-                width: 100%;
+            &.o_td_label {
                 text-align: right;
-                border-top: 1px solid @odoo-brand-secondary;
-                font-weight: bold;
-                font-size: 1.3em;   
             }
+
+            .o_form_label {
+                padding-right: 20px;
+
+                min-width: 0;
+                white-space: nowrap;
+                &:after {
+                    content: ":";
+                }
+            }
+
+            .o_form_field {
+                width: 100%;
+                .o-justify-content(flex-end);
+            }
+        }
+
+        .oe_subtotal_footer_separator {
+            width: 100%;
+            text-align: right;
+            border-top: 1px solid @odoo-brand-secondary;
+            font-weight: bold;
+            font-size: 1.3em;   
+        }
     }
 
     .o_address_format {
