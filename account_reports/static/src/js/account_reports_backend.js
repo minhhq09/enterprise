@@ -150,8 +150,8 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
     },
     toggle_filter: function (target, toggle, is_open) {
         target
-            .toggleClass('closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
-            .toggleClass('open-menu', is_open);
+            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o-open-menu', is_open);
         toggle.toggle(is_open);
     },
     render_pager: function() {
@@ -190,7 +190,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         if (this.report_model == 'account.followup.report') {
             if (this.base_url.search('all') > -1) {
                 this.$searchview_buttons = $(QWeb.render("accountReports.followupSearchView", {context: this.context}));
-                this.$partnerFilter = this.$searchview_buttons.find('.oe-account-date-filter');
+                this.$partnerFilter = this.$searchview_buttons.siblings('.oe-account-date-filter');
                 this.$searchview_buttons.find('.oe-account-one-filter').bind('click', function (event) {
                     var url = self.base_url + '?partner_filter=' + $(event.target).parents('li').data('value');
                     self.$el.attr({src: url});
@@ -205,8 +205,8 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             return '';
         }
         this.$searchview_buttons = $(QWeb.render("accountReports.searchView", {report_type: this.report_type, context: this.context}));
-        this.$dateFilter = this.$searchview_buttons.find('.oe-account-date-filter');
-        this.$dateFilterCmp = this.$searchview_buttons.find('.oe-account-date-filter-cmp');
+        this.$dateFilter = this.$searchview_buttons.siblings('.oe-account-date-filter');
+        this.$dateFilterCmp = this.$searchview_buttons.siblings('.oe-account-date-filter-cmp');
         this.$useCustomDates = this.$dateFilter.find('.oe-account-use-custom');
         this.$CustomDates = this.$dateFilter.find('.oe-account-custom-dates');
         this.$useCustomDates.bind('click', function () {self.toggle_filter(self.$useCustomDates, self.$CustomDates);});

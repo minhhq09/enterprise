@@ -5,6 +5,13 @@
 .ui-dialog-titlebar {
     display:none
 }
+td ~ td span {
+    margin-left: 10px;
+}
+body {
+    background-color: white;
+    color: #8f8f8f;
+}
 div.page {
     padding-bottom: 2.5cm;
 }
@@ -13,6 +20,7 @@ div.oe-account-summary i.fa {
 }
 div.oe-account-summary {
     padding-bottom: 0.8cm;
+    padding-top: 0.3cm;
 }
 .oe-account-unfolded td + td {
     visibility: hidden;
@@ -26,10 +34,7 @@ div.oe-account-next-action i.fa {
 div.oe-account-next-action:hover i.fa {
     visibility: visible;
 }
-div.oe-account-saved-summary:hover {
-    border-left: thin groove;
-}
-input#summary, a, .oe-account-web-action, span.oe-account-web-action, div.dropdown, span.dropdown, i.fa, div.oe-account-saved-summary span, td.oe-account-unfoldable, td.oe-account-foldable, span.partner_id, span.move_line_id, span#public-link, input[type=checkbox], div.oe-account-next-action {
+input#summary, a, div.oe-account-summary, .oe-account-web-action, span.oe-account-web-action, div.dropdown, span.dropdown, i.fa, div.oe-account-saved-summary span, td.oe-account-unfoldable, td.oe-account-foldable, span.partner_id, span.move_line_id, span#public-link, input[type=checkbox], div.oe-account-next-action {
     cursor: pointer; cursor: hand;
 }
 td i.fa-pencil-square{
@@ -43,12 +48,6 @@ p.footnote i.fa, p.footnoteEdit i.fa {
 }
 p.footnote:hover i.fa {
     visibility: visible;
-}
-tr.oe-account-empty-line {
-    border-width: 2px;
-    border-style: solid;
-    border-left-style: hidden;
-    border-right-style: hidden;
 }
 span.footnoteIcons {
     position: absolute;
@@ -64,7 +63,7 @@ b.oe-account-footnote-sup {
 }
 span.oe-account-caret-icon {
     position: absolute;
-    margin-left: 3px;
+    margin-left: -3px;
 }
 span.pencilIcon {
     position: absolute;
@@ -72,16 +71,22 @@ span.pencilIcon {
     color: black;
 }
 span.oe-account-domain-line-1 {
-    font-style: italic;
-    margin-left: 45px;
-}
-span.oe-account-domain-line-2 {
-    font-style: italic;
     margin-left: 65px;
 }
+span.oe-account-domain-line-2 {
+    margin-left: 75px;
+}
 span.oe-account-domain-line-3 {
-    font-style: italic;
-    margin-left: 80px;
+    margin-left: 85px;
+}
+span.oe-account-domain-line-1.domain-total {
+    font-weight: bold;
+}
+span.oe-account-domain-line-2.domain-total {
+    font-weight: bold;
+}
+span.oe-account-domain-line-3.domain-total {
+    font-weight: bold;
 }
 span.unreconciled_aml {
     font-style: : italic;
@@ -89,18 +94,35 @@ span.unreconciled_aml {
 ul.oe-account-domain-dropdown {
     margin-left: 70px
 }
+.total {
+    font-weight: bold;
+    color: black;
+}
 tr.oe-account-level0 {
-    border-width: 2px;
-    border-style: solid;
-    background-color:#eee;
+    border-collapse: separate;
+    color: #893b74;
+    border-width:5px;
     border-left-style: hidden;
+    border-top-style: double;
+    border-bottom-style: hidden;
     border-right-style: hidden;
+    font-weight: bold;
+}
+tr.oe-account-level0 td {
+    padding-bottom: 45px;
 }
 tr.oe-account-level1 {
     border-width: 2px;
     border-style: solid;
+    border-top-style: hidden;
     border-left-style: hidden;
     border-right-style: hidden;
+}
+tr.oe-account-level1.total {
+    border-top-style: solid;
+}
+tr.oe-account-level1.total td {
+    padding-bottom: 25px;
 }
 tr.oe-account-level2 {
     border-width: 1px;
@@ -108,11 +130,20 @@ tr.oe-account-level2 {
     border-left-style: hidden;
     border-right-style: hidden;
 }
+tr.oe-account-level2 > td > span:last-child {
+    margin-left: 25px;
+}
+tr.oe-account-level2.total td {
+    padding-bottom: 50px;
+}
 tr.defaultStyle {
     border-width: 0;
     border-style: solid;
     border-left-style: hidden;
     border-right-style: hidden;
+}
+tr.defaultStyle > td > span:last-child {
+    margin-left: 50px;
 }
 .progress {
   position: relative;

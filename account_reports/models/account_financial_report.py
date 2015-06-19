@@ -283,9 +283,9 @@ class AccountFinancialReportLine(models.Model):
         }
         line2 = {
             'id': line['id'],
-            'name': line['name'] + ' ' + _('Total'),
+            'name': _('Total') + ' ' + line['name'],
             'type': 'total',
-            'level': line['level'],
+            'level': line['level'] + 1,
             'footnotes': self.env.context['context']._get_footnotes('total', line['id']),
             'columns': line['columns'],
             'unfoldable': False,
@@ -343,7 +343,7 @@ class AccountFinancialReportLine(models.Model):
                     vals = {
                         'id': domain_id,
                         'name': line._get_gb_name(domain_id),
-                        'level': line.level + 2,
+                        'level': 1,
                         'type': groupby,
                         'footnotes': context._get_footnotes(groupby, domain_id),
                         'columns': res[domain_id],
@@ -352,7 +352,7 @@ class AccountFinancialReportLine(models.Model):
                 if domain_ids:
                     lines.append({
                         'id': line.id,
-                        'name': line.name + ' Total',
+                        'name': _('Total') + ' ' + line.name,
                         'type': 'domain-total',
                         'level': 1,
                         'footnotes': context._get_footnotes('domain-total', line.id),
@@ -373,7 +373,7 @@ class AccountFinancialReportLine(models.Model):
 
             if len(lines) == 1:
                 new_lines = line.children_ids.get_lines(financial_report, context, currency_table, linesDicts)
-                if new_lines:
+                if new_lines and line.level > 0 and line.formulas:
                     divided_lines = self._divide_line(lines[0])
                     result = [divided_lines[0]] + new_lines + [divided_lines[1]]
                 else:

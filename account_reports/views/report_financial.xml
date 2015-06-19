@@ -14,23 +14,13 @@
 </template>
 
 <template id="report_financial_line">
-    <t t-if="(a.get('level') == 1 or a.get('level') == 0) and a['type'] == 'line'">
-        <tr class='oe-account-empty-line'>
-            <td height="22"></td>
-            <t t-foreach="context.get_columns_names()" t-as="column_name">
-                <td></td>
-            </t>
-        </tr>
-    </t>
-    <t t-set="trclass" t-value="'defaultStyle'"/>
-    <t t-set="style" t-value="'margin-left: ' + str(40 + ((a.get('level', 3) - 3) * 10)) + 'px'"/>
+    <t t-set="trclass" t-value="''"/>
+    <t t-if="a['type'] in ['line', 'total']"><t t-set="trclass" t-value="'defaultStyle'"/></t>
     <t t-if="a.get('level') == 0 and a['type'] in ['line', 'total']"><t t-set="trclass" t-value="'oe-account-level0'"/></t>
     <t t-if="a.get('level') == 1 and a['type'] in ['line', 'total']"><t t-set="trclass" t-value="'oe-account-level1'"/></t>
-    <t t-if="a.get('level') == 2 and a['type'] in ['line', 'total']"><t t-set="style" t-value="'font-weight: bold; margin-left: 20px;'"/><t t-set="trclass" t-value="'oe-account-level2'"/></t>
-    <t t-if="not a.get('level') &gt; 1"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+    <t t-if="a.get('level') == 2 and a['type'] in ['line', 'total']"><t t-set="trclass" t-value="'oe-account-level2'"/></t>
     <t t-set="domainClass" t-value="'oe-account-domain-line-2'"/>
     <t t-if="a['type'] not in ['line', 'total']">
-        <t t-set="style" t-value="'font-style: italic;'"/>
         <t t-if="a.get('level', False)">
             <t t-if="a['level'] == 1">
                 <t t-set="domainClass" t-value="'oe-account-domain-line-1'"/>
@@ -55,15 +45,15 @@
                 </t>
             </t>
             <t t-if="mode == 'print' and a['type'] not in ['line', 'total']"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/></span><t t-call="account_reports.report_financial_footnote_sup" /></t>
-            <t t-if="a['type'] not in ['account_id', 'line', 'tax_id', 'unreconciled_aml', 'bank_statement_id', 'partner_id', 'move_line_id', 'too_many', 'payment', 'total'] and mode != 'print'"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><span style="color: black;"><i class="fa fa-fw fa-pencil-square"></i></span><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span></t>
+            <t t-if="a['type'] not in ['account_id', 'line', 'tax_id', 'unreconciled_aml', 'bank_statement_id', 'partner_id', 'move_line_id', 'too_many', 'payment', 'total'] and mode != 'print'"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span></t>
             <a t-if="a['type'] == 'partner_id' and mode != 'print' and report.get_title() != 'Aged Payable'">
-                <span t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" t-att-class="'oe-account-web-action ' + domainClass"><span style="color: black;"><i class="fa fa-fw fa-pencil-square"></i></span><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span>
+                <span t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" t-att-class="'oe-account-web-action ' + domainClass"><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span>
             </a>
             <a t-if="a['type'] == 'too_many' and mode != 'print'">
                 <span t-att-data-active-id="a.get('id')" data-action-name="account.action_move_line_select" t-att-class="'oe-account-web-action ' + domainClass"><t t-esc="a.get('name')"/></span>
             </a>
             <span t-if="a['type'] == 'partner_id' and mode != 'print' and report.get_title() == 'Aged Payable'" t-att-class="domainClass">
-                <span style="color: black;"><i class="fa fa-fw fa-pencil-square"></i></span><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" />
+                <t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" />
             </span>
             <div class="dropdown" t-if="(a['type'] in ['account_id', 'tax_id', 'bank_statement_id', 'move_line_id']) and mode != 'print'">
                 <a data-toggle="dropdown">
@@ -86,8 +76,7 @@
                 </ul>
             </div>
             <t t-if="a['type'] in ['line', 'total']">
-                <span t-att-style="style" >
-                    <span style="color: black;"><i class="fa fa-fw fa-pencil-square"></i></span>
+                <span>
                     <a t-if="a.get('action_id')" data-force-context='true' t-att-data-action-id="a.get('action_id')" class="oe-account-web-action">
                         <t t-esc="a.get('name')"/>
                     </a>
@@ -98,26 +87,24 @@
                 </span>
             </t>
         </td>
-        <t t-set="base_style" t-value="style" />
         <t t-foreach="a['columns']" t-as="c">
             <t t-set="column" t-value="column + 1" />
             <td t-if="not (context.get_report_obj().get_name() == 'general_ledger' and a['type'] == 'line' and column &lt; 4)" t-att-class="context.get_columns_types()[column - 1] == 'number' and  'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;">
-                <t t-if="isinstance(c, tuple)"><t t-set="style" t-value="c[1] + base_style" /><t t-set="c" t-value="c[0]" /></t>
+                <t t-if="isinstance(c, tuple)"><t t-set="style" t-value="c[1]" /><t t-set="c" t-value="c[0]" /></t>
                 <span class="annotable" t-att-style="style">
-                    <span style="color: black;" t-if="c and c != ''"><i class="fa fa-fw fa-pencil-square"></i></span>
                     <t t-raw="c" /><t t-call="account_reports.report_financial_footnote_sup" />
                 </span>
-                <t t-if="style != base_style"><t t-set="style" t-value="base_style" /></t>
             </td>
         </t>
     </tr>
 </template>
 <template id="report_financial_body">
-    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['page', 'oe_account_report_widgets'])">
+    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['page', 'oe_account_report_widgets', 'o-form-view'])"> <!-- TODO: remove class form view once input rules are generalised -->
         <h2 t-esc="report.get_title()"/>
+        <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div t-if="mode != 'print' and context.summary == ''" class="oe-account-summary">
             <div class="addSummary" role="alert">
-                <span><input type='text' class="form-control" name='summary' placeholder='Click to add a summary' /></span>
+                <span><input type='text' class="o_form_input o_form_field" name='summary' placeholder='Click to add an introductory explanation' /></span>
             </div>
         </div>
         <div t-if="mode != 'print' and context.summary != ''" class="oe-account-summary mt32">
@@ -134,8 +121,10 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <t t-set="column" t-value="0" />
                         <t t-foreach="context.get_columns_names()" t-as="column_name">
-                            <th class="text-left" t-raw="column_name" width='1%' style='padding-left: 15px;'/>
+                            <t t-set="column" t-value="column + 1" />
+                            <th t-att-class="context.get_columns_types()[column - 1] == 'number' and 'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" t-raw="column_name" width='1%' style='padding-left: 15px;'/>
                         </t>
                     </tr>
                 </thead>
@@ -154,12 +143,76 @@
         </t>
     </div>
 </template>
+<template id="assets_financial_report">
+        <!-- Bootstrap -->
+    <script src="/web/static/lib/bootstrap/js/affix.js"></script>
+    <script src="/web/static/lib/bootstrap/js/alert.js"></script>
+    <script src="/web/static/lib/bootstrap/js/button.js"></script>
+    <script src="/web/static/lib/bootstrap/js/carousel.js"></script>
+    <script src="/web/static/lib/bootstrap/js/collapse.js"></script>
+    <script src="/web/static/lib/bootstrap/js/dropdown.js"></script>
+    <script src="/web/static/lib/bootstrap/js/modal.js"></script>
+    <script src="/web/static/lib/bootstrap/js/tooltip.js"></script>
+    <script src="/web/static/lib/bootstrap/js/popover.js"></script>
+    <script src="/web/static/lib/bootstrap/js/scrollspy.js"></script>
+    <script src="/web/static/lib/bootstrap/js/tab.js"></script>
+    <script src="/web/static/lib/bootstrap/js/transition.js"></script>
+
+    <!-- jQuery ui -->
+    <link rel="stylesheet" href="/web/static/lib/jquery.ui/jquery-ui.css"/>
+    <t t-call="web.jqueryui_conflict">
+        <script type="text/javascript" src="/web/static/lib/jquery.ui/jquery-ui.js"></script>
+    </t>
+
+    <link rel="stylesheet" href="/web/static/lib/jquery.ui.notify/css/ui.notify.css"/>
+    <script type="text/javascript" src="/web/static/lib/jquery.ui.notify/js/jquery.notify.js"></script>
+
+    <script type="text/javascript" src="/web/static/lib/py.js/lib/py.js"></script>
+
+    <script type="text/javascript" src="/web/static/src/js/framework/formats.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/view.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/pyeval.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/action_manager.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/control_panel.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/view_manager.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/web_client.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/data.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/compatibility.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/misc.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/crash_manager.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/dialog.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/app_switcher.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/menu.js"></script>
+    <script type="text/javascript" src="/base/static/src/js/apps.js"></script>
+
+    <link rel="stylesheet" href='/website/static/src/less/import_bootstrap.less'/>
+
+    <link rel="stylesheet" href="/web/static/src/less/fonts.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/webclient.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/webclient_layout.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/debug_manager.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/control_panel.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/control_panel_layout.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/modal.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/datepicker.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/progress_bar.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/dropdown.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/compatibility.less"/>
+    <link rel="stylesheet" href="/web/static/src/less/form_view.less"/> <!-- TODO: remove class form view less file once input rules are generalised -->
+</template>
+<template id="html_container" inherit_id="report.html_container" primary="True">
+    <xpath expr="//t" position="attributes"></xpath>
+    <xpath expr="//t" position="attributes">
+        <attribute name="t-call">account_reports.layout</attribute>
+    </xpath>
+</template>
 <template id="report_financial">
-    <t t-call="report.html_container">
+    <t t-call="account_reports.html_container">
         <span class="oe_account_report_widgets">
             <t t-call-assets="web.assets_common" t-css="false" />
-            <t t-call-assets="web.assets_backend" t-css="false" />
-
+            <t t-call-assets="account_reports.assets_financial_report" />
             <script type="text/javascript" src="/account_reports/static/src/js/account_report_widgets.js"></script>
             <script type="text/javascript" id='oe-account-inline-script'>
                 odoo.define('account.FinancialReport', function (require) {
@@ -175,8 +228,6 @@
                 });
             </script>
             <link rel="stylesheet" href="/account_reports/static/src/css/account_financial_report.css" />
-            <link href="/web/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-            <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
 
 
             <t t-call='account_reports.report_financial_body' />
@@ -212,7 +263,7 @@
                             </form>
                         </div>
                         <div class="modal-footer" style='text-align: left'>
-                            <button type="button" class="btn btn-primary" id="saveFootNote">Save changes</button> or <a data-dismiss="modal">Cancel</a>
+                            <button type="button" class="btn btn-primary" id="saveFootNote">Save changes</button> <a class='btn btn-default' data-dismiss="modal">Cancel</a>
                         </div>
                     </div>
                 </div>

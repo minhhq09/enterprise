@@ -49,14 +49,14 @@
     </xpath>
     <xpath expr="//span[@id='action-buttons']" position='replace'>
         <span id='action-buttons' t-if="mode != 'print'" class='oe-account-followup-not-clicked'>
-            <a t-if='context.level.send_letter' data-primary='1' type="button" class="btn btn-primary followup-letter" t-att-data-context="str(context.id)" t-att-data-target="'/account/followup_report/' + str(context.partner_id.id) + '/?pdf'">Print Letter</a>
-            <a t-if='not context.level.send_letter' data-primary='0' type="button" class="btn btn-default followup-letter" t-att-data-context="str(context.id)" t-att-data-target="'/account/followup_report/' + str(context.partner_id.id) + '/?pdf'">Print Letter</a>
-            <a t-if='context.level.send_email' data-primary='1' type="button" class="btn btn-primary followup-email" t-att-data-context="str(context.id)">Send by email</a>
-            <a t-if='not context.level.send_email' data-primary='0' type="button" class="btn btn-default followup-email" t-att-data-context="str(context.id)">Send by email</a>
-            <a t-if='context.level.manual_action' data-primary='1' type="button" class="btn btn-primary followup-action" t-att-data-context="str(context.id)"><t t-esc='context.level.manual_action_note'/></a>
-            <a type="button" data-time='none' class="btn btn-default oe-account-followup-set-next-action" t-att-data-partner="str(context.partner_id.id)">Log A Note</a>
-            <a type="button" class="btn btn-primary followup-done" t-att-data-partner="str(context.partner_id.id)">Done</a>
-            <a type="button" class="btn btn-default followup-skip" t-att-data-partner="str(context.partner_id.id)">Skip</a>
+            <button t-if='context.level.send_letter' data-primary='1' class="btn btn-primary followup-letter" t-att-data-context="str(context.id)" t-att-data-target="'/account/followup_report/' + str(context.partner_id.id) + '/?pdf'">Print Letter</button>
+            <button t-if='not context.level.send_letter' data-primary='0' class="btn btn-default followup-letter" t-att-data-context="str(context.id)" t-att-data-target="'/account/followup_report/' + str(context.partner_id.id) + '/?pdf'">Print Letter</button>
+            <button t-if='context.level.send_email' data-primary='1' class="btn btn-primary followup-email" t-att-data-context="str(context.id)">Send by email</button>
+            <button t-if='not context.level.send_email' data-primary='0' class="btn btn-default followup-email" t-att-data-context="str(context.id)">Send by email</button>
+            <button t-if='context.level.manual_action' data-primary='1' class="btn btn-primary followup-action" t-att-data-context="str(context.id)"><t t-esc='context.level.manual_action_note'/></button>
+            <button data-time='none' class="btn btn-default oe-account-followup-set-next-action" t-att-data-partner="str(context.partner_id.id)">Log a Note</button>
+            <button class="btn btn-primary followup-done" t-att-data-partner="str(context.partner_id.id)">Done</button>
+            <button class="btn btn-default followup-skip" t-att-data-partner="str(context.partner_id.id)">Do it Later</button>
         </span>
     </xpath>
 </template>

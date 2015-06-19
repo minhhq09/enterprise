@@ -46,7 +46,7 @@
     </t>
     <t t-name="addSummary">
         <div class="addSummary" role="alert">
-            <span><input type='text' class="form-control" name='summary' placeholder='Click to add a summary' /></span>
+            <span><input type='text' class="o_form_input o_form_field" name='summary' placeholder='Click to add an introductory explanation' /></span>
         </div>
     </t>
     <t t-name="editSummary">
@@ -80,7 +80,7 @@
         <tr t-att-class="l.type" t-att-data-type="l.type" t-att-data-id="l.id">
             <td t-att-colspan="l.colspan != undefined ? l.colspan : 1">
                 <t t-if="l.type != 'account_id' &amp; l.type != 'move_line_id' &amp; l.type != 'too_many'"><span t-att-data-id="l.id" t-att-class="l.type + ' ' + domainClass">
-                    <span style="color: black;"><i class="fa fa-pencil-square"></i></span><t t-esc="l.name"/></span>
+                    <t t-esc="l.name"/></span>
                     <t t-if="l.footnotes[column] != undefined">
                         <t t-set='footNoteSeqNum' t-value="l.footnotes[column]" />
                         <t t-call="supFootNoteSeqNum" />
@@ -110,16 +110,14 @@
             <t t-foreach="l.columns" t-as="c">
                 <t t-set="column" t-value="column + 1" />
                 <td t-att-class="types[column - 1] == 'number' and  'text-right' or types[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;">
-                    <t t-if="typeof c == 'string' || typeof c == 'number'"><span style="font-style: italic;">
-                        <span style="color: black;"><i class="fa fa-pencil-square"></i></span>
+                    <t t-if="typeof c == 'string' || typeof c == 'number'"><span>
                         <t t-raw="c"/>
                         <t t-if="l.footnotes[column] != undefined">
                             <t t-set='footNoteSeqNum' t-value="l.footnotes[column]" />
                             <t t-call="supFootNoteSeqNum" />
                         </t>
                     </span></t>
-                    <t t-if="typeof c != 'string' &amp; typeof c != 'number'"><span t-att-style="c[1] + 'font-style: italic;'">
-                        <span style="color: black;"><i class="fa fa-pencil-square"></i></span>
+                    <t t-if="typeof c != 'string' &amp; typeof c != 'number'"><span t-att-style="c[1]">
                         <t t-raw="c[0]"/>
                         <t t-if="l.footnotes[column] != undefined">
                             <t t-set='footNoteSeqNum' t-value="l.footnotes[column]" />
