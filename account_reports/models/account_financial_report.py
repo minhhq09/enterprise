@@ -187,8 +187,7 @@ class AccountFinancialReportLine(models.Model):
     def eval_formula(self, financial_report, debit_credit, context, currency_table, linesDict):
         debit_credit = debit_credit and financial_report.debit_credit
         formulas = self._split_formulas()
-
-        if self.code in linesDict:
+        if self.code and self.code in linesDict:
             res = linesDict[self.code]
         else:
             res = FormulaLine(self, linesDict=linesDict)

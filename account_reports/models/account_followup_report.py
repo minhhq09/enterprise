@@ -52,7 +52,7 @@ class report_account_followup_report(models.AbstractModel):
                     'columns': [aml.date, date_due, aml.invoice.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
                     'blocked': aml.blocked,
                 })
-            total = formatLang(self.env, abs(total), currency_obj=currency)
+            total = formatLang(self.env, total, currency_obj=currency)
             line_num += 1
             lines.append({
                 'id': line_num,

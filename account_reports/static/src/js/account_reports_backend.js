@@ -9,6 +9,7 @@ var Session = require('web.session');
 var time = require('web.time');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var IFrameWidget = require('web.IFrameWidget');
+var pager = require('web.Pager');
 
 var QWeb = core.qweb;
 
@@ -46,9 +47,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         return new Model(this.report_model).call('get_report_type', [id]).then(function (result) {
             self.report_type = result;
             return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) {
-                if (self.report_model == 'account.followup.report' && self.base_url.search('all') > -1) {
-                    self.page = 1;
-                }
+                self.page = 1;
             });
         });
     },
@@ -59,15 +58,12 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         if (!this.$searchview_buttons) {
             this.render_searchview_buttons();
         }
-        if (!this.$pager) {
-            this.render_pager();
-        }
         if (!this.$searchview) {
             this.render_searchview();
         }
         var status = {
             breadcrumbs: this.actionManager.get_breadcrumbs(),
-            cp_content: {$buttons: this.$buttons, $searchview_buttons: this.$searchview_buttons, $pager: this.$pager, $searchview: this.$searchview},
+            cp_content: {$buttons: this.$buttons, $searchview_buttons: this.$searchview_buttons, $pager: this.pager, $searchview: this.$searchview},
         };
         this.update_control_panel(status);
     },
@@ -99,6 +95,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                             self.render_buttons();
                             self.render_searchview_buttons()
                             self.render_searchview()
+                            self.render_pager()
                             self.update_cp();
                         });
                     });
@@ -157,21 +154,15 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         var self = this;
         if (this.report_model == 'account.followup.report') {
             if (this.base_url.search('all') > -1) {
-                this.$pager = $(QWeb.render("accountReports.followupPager"));
-                this.$pager.find('.oe-pager-button').bind('click', function (event) {
-                    if (self.page > 1 && $(event.target).data('pager-action') == 'previous') {
-                        self.$el.attr({src: '/account/followup_report/all/page/' + (self.page - 1)});
-                        self.page--;
-                    }
-                    if (self.page < self.context.last_page && $(event.target).data('pager-action') == 'next') {
-                        self.$el.attr({src: '/account/followup_report/all/page/' + (self.page + 1)});
-                        self.page++;
-                    }
-                })
-                return this.$pager
+                this.pager = new pager(this, this.context.last_page, this.page, 1);
+                this.pager.on('pager_changed', this, function (state) {
+                    self.page = state.current_min;
+                    self.$el.attr({src: '/account/followup_report/all/page/' + self.page});
+                });
+                return this.pager;
             }
         }
-        this.$pager = '';
+        this.pager = '';
         return ''
     },
     render_searchview: function() {

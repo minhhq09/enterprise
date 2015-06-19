@@ -78,7 +78,7 @@
                     <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
                         <div class='o_datepicker date oe-account-datetimepicker' t-att-data-default-value="context.date_from">
                             <input type='text' class="o_datepicker_input" name="date_from" />
-                            <span class="fa fa-calendar o_datepicker_button"/>
+                            <span class="o_datepicker_button"/>
                         </div>
                     </div>
                     <label class="custom-date" for="date_to" t-if="report_type != 'no_date_range' and report_type != 'bank_reconciliation'">End Date :</label>
@@ -86,7 +86,7 @@
                     <div class="form-group custom-date">
                         <div class='o_datepicker date oe-account-datetimepicker' t-att-data-default-value="context.date_to">
                             <input type='text' class="o_datepicker_input" name="date_to" />
-                            <span class="fa fa-calendar o_datepicker_button"/>
+                            <span class="o_datepicker_button"/>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary oe-account-one-filter">Apply</button>
@@ -122,7 +122,7 @@
                     <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
                         <div class='o_datepicker date oe-account-datetimepicker' t-att-data-default-value="context.date_from_cmp">
                             <input type='text' class="o_datepicker_input" name="date_from_cmp" />
-                            <span class="fa fa-calendar o_datepicker_button"/>
+                            <span class="o_datepicker_button"/>
                         </div>
                     </div>
                     <label class="custom-date" for="date_to_cmp" t-if="report_type != 'no_date_range'">End Date :</label>
@@ -130,7 +130,7 @@
                     <div class="form-group custom-date">
                         <div class='o_datepicker date oe-account-datetimepicker' t-att-data-default-value="context.date_to_cmp">
                             <input type='text' class="o_datepicker_input" name="date_to_cmp" />
-                            <span class="fa fa-calendar o_datepicker_button"/>
+                            <span class="o_datepicker_button"/>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary oe-account-one-filter-cmp">Apply</button>
@@ -140,23 +140,13 @@
         <div class="o_dropdown oe-account-date-filter-bool" t-if="report_type != 'bank_reconciliation'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-filter"/> Options:
-                <t t-esc="context.cash_basis and 'Cash Basis' or 'Accrual Basis'"/>,
+                <t t-if="report_type != 'date_range_cash'" t-esc="context.cash_basis and 'Cash Basis,' or 'Accrual Basis,'"/>
                 <t t-esc="context.all_entries and 'With Draft Entries' or 'Posted Entries Only'"/>
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o-filters-menu" role="menu">
-                <li title="Cash Basis Method" data-value="cash_basis" t-att-class="'oe-account-one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
+                <li t-if="report_type != 'date_range_cash'" title="Cash Basis Method" data-value="cash_basis" t-att-class="'oe-account-one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
                 <li title="Include unposted entries" data-value="all_entries" t-att-class="'oe-account-one-filter-bool ' + (context.all_entries and 'selected' or '')"><a>Include Unposted Entries</a></li>
-            </ul>
-        </div>
-        <div class="o_dropdown oe-account-date-filter-multi-company" t-if="context.multi_company">
-            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-filter"/> Companies: <span class="caret"/>
-            </a>
-            <ul class="dropdown-menu o-filters-menu" role="menu">
-                <t t-foreach="context.available_companies" t-as="c">
-                    <li t-att-title="c[1]" t-att-data-value="c[0]" t-att-class="'oe-account-one-company ' + ((context.company_ids.indexOf(c[0]) !== -1) and 'selected' or '')"><a><t t-esc='c[1]'/></a></li>
-                </t>
             </ul>
         </div>
         <div class="o_dropdown oe-account-date-filter-multi-company" t-if="context.multi_company">

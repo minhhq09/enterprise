@@ -34,8 +34,8 @@ class AccountMoveLine(models.Model):
         """Function used to display the right action on journal items on dropdown lists, in reports like general ledger"""
         if self.statement_id:
             return ['account.bank.statement', self.statement_id.id, _('View Bank Statement')]
-        if self.invoice:
-            return ['account.invoice', self.invoice.id, _('View Invoice')]
         if self.payment_id:
             return ['account.payment', self.payment_id.id, _('View Payment')]
+        if self.invoice:
+            return ['account.invoice', self.invoice.id, _('View Invoice')]
         return ['account.move', self.move_id.id, _('View Move')]

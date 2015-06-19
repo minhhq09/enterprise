@@ -10,6 +10,16 @@ class report_account_general_ledger(models.AbstractModel):
     _name = "account.general.ledger"
     _description = "General Ledger Report"
 
+    def _format(self, value):
+        if self.env.context.get('no_format'):
+            return round(value, 1)
+        currency_id = self.env.user.company_id.currency_id
+        if currency_id.is_zero(value):
+            # don't print -0.0 in reports
+            value = abs(value)
+        res = formatLang(self.env, value, currency_obj=currency_id)
+        return res
+
     @api.model
     def get_lines(self, context_id, line_id=None):
         if type(context_id) == int:
@@ -57,7 +67,6 @@ class report_account_general_ledger(models.AbstractModel):
 
     @api.model
     def _lines(self, line_id=None):
-        currency_id = self.env.user.company_id.currency_id
         lines = []
         context = self.env.context
         company_id = context.get('company_id') or self.env.user.company_id
@@ -73,7 +82,7 @@ class report_account_general_ledger(models.AbstractModel):
                 'type': 'line',
                 'name': account.code + " " + account.name,
                 'footnotes': self.env.context['context_id']._get_footnotes('line', account.id),
-                'columns': ['', '', '', amount_currency, formatLang(self.env, debit, currency_obj=currency_id), formatLang(self.env, credit, currency_obj=currency_id), formatLang(self.env, balance, currency_obj=currency_id)],
+                'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': account in context['context_id']['unfolded_accounts'],
@@ -111,7 +120,7 @@ class report_account_general_ledger(models.AbstractModel):
                         'action': line.get_model_id_and_name(),
                         'name': line.move_id.name if line.move_id.name else '/',
                         'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', line.id),
-                        'columns': [line.date, name, line.partner_id.name, currency, formatLang(self.env, line_debit, currency_obj=currency_id), formatLang(self.env, line_credit, currency_obj=currency_id), formatLang(self.env, progress, currency_obj=currency_id)],
+                        'columns': [line.date, name, line.partner_id.name, currency, self._format(line_debit), self._format(line_credit), self._format(progress)],
                         'level': 1,
                     })
                     if currency and initial_currency:
@@ -124,15 +133,15 @@ class report_account_general_ledger(models.AbstractModel):
                     'type': 'initial_balance',
                     'name': 'Initial Balance',
                     'footnotes': self.env.context['context_id']._get_footnotes('initial_balance', account.id),
-                    'columns': ['', '', '', initial_currency, formatLang(self.env, initial_debit, currency_obj=currency_id), formatLang(self.env, initial_credit, currency_obj=currency_id), formatLang(self.env, initial_balance, currency_obj=currency_id)],
+                    'columns': ['', '', '', initial_currency, self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
                     'level': 1,
                 }]
                 domain_lines.append({
                     'id': account.id,
                     'type': 'domain-total',
-                    'name': 'Total',
+                    'name': 'Total ' + account.name,
                     'footnotes': self.env.context['context_id']._get_footnotes('domain-total', account.id),
-                    'columns': ['', '', '', amount_currency, formatLang(self.env, debit, currency_obj=currency_id), formatLang(self.env, credit, currency_obj=currency_id), formatLang(self.env, balance, currency_obj=currency_id)],
+                    'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                     'level': 1,
                 })
                 if too_many:

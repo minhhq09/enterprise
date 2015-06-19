@@ -86,6 +86,7 @@ var ReportWidget = Widget.extend({
     onClickSummary: function(e) {
         e.stopPropagation();
         $(e.target).parents("div.oe-account-summary").html(QWeb.render("editSummary"));
+        this.$("textarea[name='summary']").focus();
     },
     saveSummary: function(e) {
         e.stopPropagation();
@@ -125,6 +126,7 @@ var ReportWidget = Widget.extend({
         var par = $el.parents("div.oe-account-summary")
         $el.parents("div.oe-account-summary").html(QWeb.render("editSummary", {summary: text}));
         par.find("textarea").height(height);
+        this.$("textarea[name='summary']").focus();
     },
     clickPencil: function(e) {
         e.stopPropagation();

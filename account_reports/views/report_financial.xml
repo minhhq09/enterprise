@@ -77,10 +77,10 @@
             </div>
             <t t-if="a['type'] in ['line', 'total']">
                 <span>
-                    <a t-if="a.get('action_id')" data-force-context='true' t-att-data-action-id="a.get('action_id')" class="oe-account-web-action">
+                    <a t-if="a.get('action_id') and mode != 'print'" data-force-context='true' t-att-data-action-id="a.get('action_id')" class="oe-account-web-action">
                         <t t-esc="a.get('name')"/>
                     </a>
-                    <t t-if="'action_id' not in a">
+                    <t t-if="'action_id' not in a or mode == 'print'">
                         <t t-esc="a.get('name')"/>
                     </t>
                     <t t-call="account_reports.report_financial_footnote_sup" />
