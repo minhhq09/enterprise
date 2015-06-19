@@ -1,9 +1,9 @@
-odoo.define('account.ReportWidget', function (require) {
+odoo.define('account_reports.ReportWidget', function (require) {
 'use strict';
 
 var core = require('web.core');
 var Widget = require('web.Widget');
-var Model = require('web.Model');
+var Model = require('web.DataModel');
 var Session = require('web.session');
 var time = require('web.time');
 
@@ -11,7 +11,7 @@ var QWeb = core.qweb;
 
 var ReportWidget = Widget.extend({
     events: {
-        "click a[data-toggle='dropdown']": 'toggleDropdown',
+        "click *[data-toggle='dropdown']": 'toggleDropdown',
         'click': 'hideDropdown',
         'click .fa-pencil-square': 'clickPencil',
         'click .fa-pencil': 'clickPencil',
@@ -102,17 +102,19 @@ var ReportWidget = Widget.extend({
         e.stopPropagation();
         e.preventDefault();
         self = this;
-        self.curFootNoteTarget = $(e.target).parents("div.dropdown").find("a");
-        var type = $(e.target).parents('tr').data('type');
-        var target_id = $(e.target).parents('tr').data('id');
-        var column = $(e.target).parents('td').index();
-        $("#footnoteModal #type").val(type);
-        $("#footnoteModal #target_id").val(target_id);
-        $("#footnoteModal #column").val(column);
-        $('#footnoteModal').on('hidden.bs.modal', function (e) {
-            $(this).find('form')[0].reset();
-        });
-        $('#footnoteModal').modal('show');
+        self.curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first");
+        if(self.curFootNoteTarget.parents('div.dropdown').find('sup').length == 0) {
+            var type = $(e.target).parents('tr').data('type');
+            var target_id = $(e.target).parents('tr').data('id');
+            var column = $(e.target).parents('td').index();
+            $("#footnoteModal #type").val(type);
+            $("#footnoteModal #target_id").val(target_id);
+            $("#footnoteModal #column").val(column);
+            $('#footnoteModal').on('hidden.bs.modal', function (e) {
+                $(this).find('form')[0].reset();
+            });
+            $('#footnoteModal').modal('show');
+        }
     },
     editSummary: function(e) {
         e.stopPropagation();

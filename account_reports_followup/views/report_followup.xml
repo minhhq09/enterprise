@@ -18,10 +18,10 @@
     <xpath expr="//script[@id='oe-account-inline-script']" position='replace'>
         <script type="text/javascript" src="/account_reports_followup/static/src/js/account_report_widgets.js"></script>
         <script type="text/javascript" id='oe-account-inline-script'>
-            odoo.define('account_followup.FollowupReport', function (require) {
+            odoo.define('account_reports_followup.FollowupReport', function (require) {
                 'use strict';
                 
-                var FollowupReportWidget = require('account_followup.FollowupReportWidget');
+                var FollowupReportWidget = require('account_reports_followup.FollowupReportWidget');
                 
                 $(document).ready(function() {
                     var followup_report_widget = new FollowupReportWidget();

@@ -46,7 +46,6 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         return new Model(this.report_model).call('get_report_type', [id]).then(function (result) {
             self.report_type = result;
             return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) {
-                self.context_model = new Model(JSON.parse(result)[self.report_model]);
                 if (self.report_model == 'account.followup.report' && self.base_url.search('all') > -1) {
                     self.page = 1;
                 }
@@ -79,7 +78,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             domain.push(['report_id', '=', parseInt(self.report_id)]);
         }
         var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
-        var select = ['id', 'date_filter', 'date_filter_cmp', 'company_id', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company']
+        var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
         if (this.report_model == 'account.followup.report' && this.base_url.search('all') > -1) {
             fetched_context_model = new Model('account.report.context.followup.all');
             select = ['id', 'valuenow', 'valuemax', 'percentage', 'partner_filter', 'last_page']

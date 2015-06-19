@@ -158,6 +158,8 @@
     <script src="/web/static/lib/bootstrap/js/tab.js"></script>
     <script src="/web/static/lib/bootstrap/js/transition.js"></script>
 
+    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+
     <!-- jQuery ui -->
     <link rel="stylesheet" href="/web/static/lib/jquery.ui/jquery-ui.css"/>
     <t t-call="web.jqueryui_conflict">
@@ -170,8 +172,10 @@
     <script type="text/javascript" src="/web/static/lib/py.js/lib/py.js"></script>
 
     <script type="text/javascript" src="/web/static/src/js/framework/formats.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/data_model.js"></script>
     <script type="text/javascript" src="/web/static/src/js/framework/view.js"></script>
     <script type="text/javascript" src="/web/static/src/js/framework/pyeval.js"></script>
+    <script type="text/javascript" src="/web/static/src/js/framework/session_instance.js"></script>
     <script type="text/javascript" src="/web/static/src/js/action_manager.js"></script>
     <script type="text/javascript" src="/web/static/src/js/control_panel.js"></script>
     <script type="text/javascript" src="/web/static/src/js/view_manager.js"></script>
@@ -202,23 +206,17 @@
     <link rel="stylesheet" href="/web/static/src/less/compatibility.less"/>
     <link rel="stylesheet" href="/web/static/src/less/form_view.less"/> <!-- TODO: remove class form view less file once input rules are generalised -->
 </template>
-<template id="html_container" inherit_id="report.html_container" primary="True">
-    <xpath expr="//t" position="attributes"></xpath>
-    <xpath expr="//t" position="attributes">
-        <attribute name="t-call">account_reports.layout</attribute>
-    </xpath>
-</template>
 <template id="report_financial">
-    <t t-call="account_reports.html_container">
+    <t t-call="report.html_container">
         <span class="oe_account_report_widgets">
             <t t-call-assets="web.assets_common" t-css="false" />
             <t t-call-assets="account_reports.assets_financial_report" />
             <script type="text/javascript" src="/account_reports/static/src/js/account_report_widgets.js"></script>
             <script type="text/javascript" id='oe-account-inline-script'>
-                odoo.define('account.FinancialReport', function (require) {
+                odoo.define('account_reports.FinancialReport', function (require) {
                     'use strict';
                     
-                    var ReportWidget = require('account.ReportWidget');
+                    var ReportWidget = require('account_reports.ReportWidget');
                     
                     $(document).ready(function() {
                         var report_widget = new ReportWidget();

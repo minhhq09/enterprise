@@ -96,7 +96,7 @@
         <div class="o_dropdown oe-account-date-filter-cmp" t-if="report_type != 'no_comparison' and report_type != 'bank_reconciliation'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-bar-chart"/> Comparison:
-                <t t-esc="context.date_filter_cmp == 'no_comparison' and 'None' or context.date_filter_cmp == 'previous_period' and 'Previous Periods' or context.date_filter_cmp == 'same_last_year' and 'Same Last Year' or context.date_filter == 'custom' and 'Custom'" />
+                <t t-esc="context.date_filter_cmp == 'no_comparison' and 'None' or context.date_filter_cmp == 'previous_period' and 'Previous Periods' or context.date_filter_cmp == 'same_last_year' and 'Same Last Year' or context.date_filter_cmp == 'custom' and 'Custom' or ''" />
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o-filters-menu" role="menu">

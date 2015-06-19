@@ -1,10 +1,10 @@
-odoo.define('account.FollowupReportWidget', function (require) {
+odoo.define('account_reports.FollowupReportWidget', function (require) {
 'use strict';
 
 var core = require('web.core');
 var Model = require('web.Model');
 var formats = require('web.formats');
-var ReportWidget = require('account.ReportWidget');
+var ReportWidget = require('account_reports.ReportWidget');
 var time = require('web.time');
 
 var QWeb = core.qweb;

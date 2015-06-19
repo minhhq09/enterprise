@@ -167,7 +167,7 @@ class AccountReportContextCommon(models.TransientModel):
             quarter = (dt_to.month - 1) / 3 + 1
             return dt_to.strftime('Quarter #' + str(quarter) + ' %Y')
         if 'year' in self.date_filter:
-            if self.company_id.fiscalyear_last_day == 31 and self.company_id.fiscalyear_last_month == 12:
+            if self.env.user.company_id.fiscalyear_last_day == 31 and self.env.user.company_id.fiscalyear_last_month == 12:
                 return dt_to.strftime('%Y')
             else:
                 return str(dt_to.year - 1) + ' - ' + str(dt_to.year)
@@ -198,7 +198,7 @@ class AccountReportContextCommon(models.TransientModel):
             return []
         dt_to = datetime.strptime(self.date_to, "%Y-%m-%d")
         if self.get_report_obj().get_report_type() != 'no_date_range':
-            dt_from = datetime.strptime(self.date_from, "%Y-%m-%d")
+            dt_from = self.date_from and datetime.strptime(self.date_from, "%Y-%m-%d") or self.env.user.company_id.compute_fiscalyear_dates(dt_to)['date_from']
         columns = []
         if self.date_filter_cmp == 'custom':
             if display:

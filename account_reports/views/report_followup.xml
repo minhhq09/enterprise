@@ -62,7 +62,7 @@
     <xpath expr="//h2" position="after">
         <div t-if="mode != 'print' and not context.env.context.get('public')">
             <div class='pull-right' id='history'>
-                <div t-if='context.get_history()' class="btn-group">
+                <div t-if='context.get_history()' class="btn-group dropdown">
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         History <span class="caret"></span>
                     </button>
@@ -93,6 +93,7 @@
             <small><a t-att-href="context.get_public_link()" target="_blank">(share)</a></small>
         </h2>
     </xpath>
+    <xpath expr="//h4" position="replace" />
     <xpath expr="//t[@t-call='account_reports.report_financial_line']" position="replace">
         <t t-call='account_reports.report_followup_line' />
     </xpath>
@@ -121,10 +122,10 @@
     </xpath>
     <xpath expr="//script[@id='oe-account-inline-script']" position='replace'>
         <script type="text/javascript" id='oe-account-inline-script'>
-            odoo.define('account.FollowupReport', function (require) {
+            odoo.define('account_reports.FollowupReport', function (require) {
                 'use strict';
                 
-                var FollowupReportWidget = require('account.FollowupReportWidget');
+                var FollowupReportWidget = require('account_reports.FollowupReportWidget');
                 
                 $(document).ready(function() {
                     var followup_report_widget = new FollowupReportWidget();
