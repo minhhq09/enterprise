@@ -24,3 +24,6 @@ class AccountConfigSettingsEnterpries(models.TransientModel):
     module_account_bank_statement_import_qif = fields.Boolean(string='Import of Bank Statements in .QIF Format.',
         help='Get your bank statements from your bank and import them in Odoo in the .QIF format.\n'
             'This installs the module account_bank_statement_import_qif.')
+    module_account_yodlee = fields.Boolean(string="Import of Bank Statements from Yodlee.",
+                                          help='Get your bank statements from you bank and import them through yodlee.com.\n'
+                                          '-that installs the module account_yodlee.')

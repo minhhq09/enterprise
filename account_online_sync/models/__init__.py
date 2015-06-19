@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
 import account_journal
-import online_synch
+import online_sync

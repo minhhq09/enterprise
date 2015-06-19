@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="assets_backend" name="account online sync assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <script type="text/javascript" src="/account_online_sync/static/src/js/online_sync.js"/>
+      </xpath>
+    </template>
+
+    <record id="view_config_online_sync_journal_form" model="ir.ui.view">
+            <field name="name">account.config.online.sync.journal.form</field>
+            <field name="model">account.journal.onlinesync.config</field>
+            <field name="arch" type="xml">
+                <form string="Online Sync configuration" version="7">
+                    <div class="oe_title">
+                        <label for="name" required="1" class="oe_edit_only"/>
+                        <h2><field name="journal_id" required="1"/></h2>
+                    </div>
+                    <group>
+                      <field name="online_institution_id" options="{'no_create': True}" attrs="{'readonly': [('online_account_id', '!=', False)]}"/>
+                      <field name="online_id" invisible="1"/>
+                      <field name="online_type" invisible="1"/>
+                      <field name="online_account_id" invisible="1"/>
+                    </group>
+                <footer>
+                    <button name="online_sync"
+                      string="Synchronize"
+                      type="object"
+                                  class="btn-primary"
+                      attrs="{'invisible': [('online_account_id', '=', False)]}"/>
+                    <button name="remove_online_account"
+                      string="Remove online account"
+                      type="object"
+                                  class="btn-default"
+                      attrs="{'invisible': [('online_account_id', '=', False)]}"/>
+                    <button string="Close" class="btn-default" special="cancel"/>
+                </footer>
+               </form>
+            </field>
+        </record>
+
+    <record id="action_config_online_sync_journal_form" model="ir.actions.act_window">
+        <field name="name">Online Synchronisation</field>
+        <field name="res_model">account.journal.onlinesync.config</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_config_online_sync_journal_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="account_journal_dashboard_inherit_online_sync" model="ir.ui.view">
+      <field name="name">account.journal.dashboard.inherit.online.sync</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+      <field name="arch" type="xml">
+        <field name="kanban_dashboard" position="after">
+          <field name="next_synchronization"/>
+          <field name="online_account_id"/>
+        </field>
+        <xpath expr='//div[@name="bank_journal_default_cta"]/button' position='after'>
+          <br/><button type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
+        </xpath>
+        <xpath expr='//div[@name="bank_journal_cta"]' position='inside'>
+          <button t-if="dashboard.bank_statements_source == 'online_sync'" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
+          <span t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- Cron to synchronize transaction -->
+    <record id="online_sync_cron" model="ir.cron">
+      <field name="name">online.sync.gettransaction.cron</field>
+      <field name="active" eval="True"/>
+      <field name="user_id" ref="base.user_root"/>
+      <field name="interval_number">4</field>
+      <field name="interval_type">hours</field>
+      <field name="numbercall">-1</field>
+      <field name="doall" eval="False"/>
+      <field name="model">account.journal</field>
+      <field name="function">launch_online_sync</field>
+      <field name="args">()</field>
+    </record>
+
+    <!-- Cron to get list of all institutions (take a while so don't run often) -->
+    <record id="fetch_institutions_cron" model="ir.cron">
+      <field name="name">online.sync.fetch.institution.cron</field>
+      <field name="active" eval="True"/>
+      <field name="user_id" ref="base.user_root"/>
+      <field name="interval_number">1</field>
+      <field name="interval_type">weeks</field>
+      <field name="numbercall">-1</field>
+      <field name="doall" eval="False"/>
+      <field name="model">account.journal</field>
+      <field name="function">fetch_all_institution</field>
+      <field name="args">()</field>
+    </record>
+  </data>
+</openerp>

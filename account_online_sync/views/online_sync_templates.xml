@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+  <t t-name="OnlineSynchLoginTemplate">
+    <div>
+      <div class="alert alert-danger hide error" role="alert">
+        <strong class="error_msg"></strong>
+      </div>
+      <form class="form-horizontal js_online_sync_form">
+      <t t-foreach="inputs" t-as="input">
+          <div class="form-group">      
+            <label class="col-sm-2"><t t-esc="input.displayName"/></label>
+            <t t-if="input.fieldType == 'text' || input.fieldType == 'password'">
+              <div class="col-sm-10">
+                <input t-att-id="input.indexResponse" t-att-type="input.fieldType" t-att-size="input.maxlength" class="form-control js_online_sync_input"/>
+              </div>
+            </t>
+            <!-- <t t-if="input.fieldType == 'radio'">
+
+            </t>
+            <t t-if="input.fieldType == 'checkbox'">
+
+            </t> -->
+            <t t-if="input.fieldType == 'option'">
+              <select t-att-id="input.indexResponse" class="form-control js_online_sync_input">
+                <t t-foreach="input.selectValues" t-as="v">
+                  <option t-att-value="v"><t t-esc="v"/></option>
+                </t>
+              </select>
+            </t>
+          </div>
+      </t>
+      </form>
+    </div>
+  </t>
+
+  <t t-name="OnlineSynchAccountSelector">
+      <div class="form-group">
+        <label class="col-sm-2">Synchronization date</label>
+        <div class="col-sm-10 js_online_sync_date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2">Accounts</label>
+        <t t-foreach="accounts" t-as="account">
+          <div class="radio col-sm-12">
+            <label>
+              <input type="radio" name="account-selection" t-att-account="account.accountId" t-att-value="account.name"><t t-esc="account.name"/></input>
+            </label>
+          </div>
+        </t>
+      </div>
+  </t>
+
+</templates>

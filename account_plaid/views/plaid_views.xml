@@ -7,133 +7,15 @@
       </xpath>
     </template>
 
-    <record id="plaid_account_view_form" model="ir.ui.view">
-      <field name="name">plaid.account.view.form</field>
-      <field name="model">plaid.account</field>
+    <record id="account_view_form_online_sync_inherit_plaid" model="ir.ui.view">
+      <field name="name">account.view.form.online.sync.inherit.plaid</field>
+      <field name="model">account.journal.onlinesync.config</field>
+      <field name="inherit_id" ref="account_online_sync.view_config_online_sync_journal_form"/>
       <field name="arch" type="xml">
-	<form>
-          <sheet>
-	    <group col="4">
-	      <field name="name" readonly="1"/>
-	      <field name="last_synch"/>
-	      <field name="institution_id" readonly="1"/>
-	    </group>
-	    <group col="4">
-	      <field name="balance_current" readonly="1"/>
-	      <field name="balance_available" readonly="1"/>
-	    </group>
-	    <div class="oe_chatter">
-	      <field name="message_follower_ids" widget="mail_followers"/>
-    	      <field name="message_ids" widget="mail_thread"/>
-  	    </div>
-          </sheet>
-	</form>
+        <field name="online_institution_id" position="after">
+          <field name="plaid_account_id" widget="plaidAccountConfiguration" attrs="{'invisible': ['|',('online_institution_id', '=', False), ('online_type', '!=', 'plaid')]}"/>
+        </field>
       </field>
-    </record>
-
-    <record id="plaid_institution_view_wizard" model="ir.ui.view">
-      <field name="name">plaid.institution.transient.wizard</field>
-      <field name="model">plaid.institution.transient</field>
-      <field name="arch" type="xml">
-	<form string="Institution">
-	  <field name="configured" invisible="1"/>
-	  <div attrs="{'invisible': [('configured', '=', True)]}">
-	    The Plaid.com account is not configured. You or your administrator must fill the credentials first.
-	    <span groups="base.group_system"><br/>You can do it <a type="action" name="%(account.action_account_config)d">here</a>.</span>
-	  </div> 
-	  <div attrs="{'invisible': [('configured', '=', False)]}">
-	    <field name="error" class="o_online_synch_error"
-		   attrs="{'invisible': [('error', '=', False)]}"
-		   readonly="1"/>
-	    <group>
-	      <field name="have_username" invisible="1"/>
-	      <field name="have_passwd" invisible="1"/>
-	      <field name="have_pin" invisible="1"/>
-	      <field name="username" 
-		     attrs="{'invisible': [('have_username', '=', False)],
-			    'required': [('have_username', '=', True)],}"/>
-	      <field name="passwd" password="True"
-		     attrs="{'invisible': [('have_passwd', '=', False)],
-			    'required': [('have_passwd', '=', True)],}"/>
-	      <field name="pin"
-		     attrs="{'invisible': [('have_pin', '=', False)],
-			    'required': [('have_pin', '=', True)],}"/>
-	    </group>
-	  </div>
-	  <footer>
-	    <button string="Login" type="object" name="plaid_login" class="btn-primary"
-		    attrs="{'invisible': [('configured', '=', False)]}"/>
-	    <button string="Cancel" class="oe_link btn-default" special="cancel"/>
-	  </footer>
-	</form>
-      </field>
-    </record>
-
-    <record id="plaid_mfa_response_view_wizard" model="ir.ui.view">
-      <field name="name">plaid.mfa.response.view.wizard</field>
-      <field name="model">plaid.mfa.response.wizard</field>
-      <field name="arch" type="xml">
-	<form string="MFA">
-	  <field name="mfa_type" invisible="1"/>
-	  <field name="error" class="o_online_synch_error"
-		 attrs="{'invisible': [('error', '=', False)]}"
-		 readonly="1"/>
-	  <field name="message" widget="label"
-		 readonly="1" attrs="{'invisible': [('mfa_type', '!=', 'message')]}"/>
-	  <group>
-	    <field name="response" attrs="{'invisible': [('mfa_type', '!=', 'message')],
-					  'required': [('mfa_type', '=', 'message')],}"/>
-	  </group>
-	  <field name="selections" widget="plaid_selections" attrs="{'invisible': [('mfa_type', '!=', 'selections')]}"/>
-	  <footer>
-	    <button string="continue" type="object" name="send_mfa" class="btn-primary"/>
-	    <button string="Cancel" class="oe_link btn-default" special="cancel"/>
-	  </footer>
-	</form>
-      </field>
-    </record>
-
-    <record id="plaid_code_view_wizard" model="ir.ui.view">
-      <field name="name">plaid.code.view_wizard</field>
-      <field name="model">plaid.code.wizard</field>
-      <field name="arch" type="xml">
-	<form string="MFA">
-	  <group>
-	    <field name="type_id" widget='selection'
-		   domain="[('wizard_id.id', '=', active_id)]"
-		   class="oe_inline" required="1"/>
-	  </group>
-	  <footer>
-	    <button string="Select" type="object" name="select" class="btn-primary"/>
-	    <button string="Cancel" class="oe_link btn-default" special="cancel"/>
-	  </footer>
-	</form>
-      </field>
-    </record>
-
-    <record id="plaid_select_account_view_wizard" model="ir.ui.view">
-      <field name="name">plaid.select.account.view.wizard</field>
-      <field name="model">plaid.select.account.wizard</field>
-      <field name="arch" type="xml">
-	<form string="Select Account">
-	  <group>
-	    <field name="first_synch" required="1"/>
-	    <field name="account_id" widget='radio' required="1"
-		   domain="[('wizard_id.id', '=', active_id)]"/>
-	  </group>
-	  <footer>
-	    <button string="Select" type="object" name="select" class="btn-primary"/>
-	    <button string="Cancel" class="oe_link btn-default" special="cancel"/>
-	  </footer>
-	</form>
-      </field>
-    </record>
-
-    <record id="plaid_credentials_action" model="ir.actions.act_window">
-      <field name="name">plaid.credentials.action</field>
-      <field name="res_model">plaid.credentials</field>
-      <field name='view_type'>form</field>
-      <field name='view_mode'>tree,form</field>
     </record>
 
     <record id="account_config_settings_view_inherit_plaid" model="ir.ui.view">
@@ -141,29 +23,20 @@
       <field name="model">account.config.settings</field>
       <field name="inherit_id" ref="account.view_account_config_settings"/>
       <field name="arch" type="xml">
-        <xpath expr="//div[@name='plaid_credentials']" position="inside">
-	  <div>
-	    <label for="plaid_id"/>
-	    <field name="plaid_id" class="oe_inline"/>
-	    <br/>
-	    <label for="plaid_secret"/>
-	    <field name="plaid_secret" class="oe_inline"/>
-	  </div>
-        </xpath>
+        <div name="bank_statement_import_options" position="after">
+          <label for="id" string="Plaid Configuration"/>
+          <div name="plaid_config">
+            <div>
+              <label for="plaid_id"/>
+              <field name="plaid_id" class="oe_inline"/>
+              <br/>
+              <label for="plaid_secret"/>
+              <field name="plaid_secret" class="oe_inline"/>
+            </div>
+          </div>
+        </div>
       </field>
     </record>
-
-    <record id="plaid_fetch_institutions_cron" model="ir.cron">
-      <field name="name">plaid.fetch.institution</field>
-      <field name="active" eval="True"/>
-      <field name="user_id" ref="base.user_root"/>
-      <field name="interval_number">1</field>
-      <field name="interval_type">weeks</field>
-      <field name="numbercall">-1</field>
-      <field name="doall" eval="False"/>
-      <field name="model">plaid.credentials</field>
-      <field name="function">fetch_all_institution</field>
-      <field name="args">()</field>
-    </record>
+    
   </data>
 </openerp>

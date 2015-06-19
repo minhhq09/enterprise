@@ -1632,6 +1632,7 @@ core.one2many_view_registry
 return {
     FieldMany2ManyTags: FieldMany2ManyTags,
     AbstractManyField: AbstractManyField,
+    FieldMany2One: FieldMany2One,
 };
 
 });
