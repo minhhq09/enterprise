@@ -675,7 +675,7 @@ var FieldBoolean = common.AbstractField.extend({
             this.internal_set_value(this.$el.prop('checked'));
         }
     },
-    hidden_if_empty: false, // Always display the checkboxes, even if unchecked
+    can_be_empty: false, // Unchecked and checked checkboxes are considered to have a value
     start: function() {
         this.$el.prop('disabled', this.get("effective_readonly"));
         this.on("change:effective_readonly", this, function() {
@@ -725,7 +725,7 @@ var FieldProgressBar = common.AbstractField.extend(common.ReinitializeFieldMixin
 */
 var FieldPercentPie = common.AbstractField.extend({
     template: 'FieldPercentPie',
-    hidden_if_empty: false, // Always display the percentpie, even if 0%
+    can_be_empty: false, // 0% percentpie is not an empty percentpie (value means something)
     start: function() {
         this.$left_mask = this.$('.o_mask').first();
         this.$right_mask = this.$('.o_mask').last();
@@ -1251,7 +1251,7 @@ var FieldBinaryFile = FieldBinary.extend({
 var FieldBinaryImage = FieldBinary.extend({
     template: 'FieldBinaryImage',
     placeholder: "/web/static/src/img/placeholder.png",
-    hidden_if_empty: false, // Display the placeholder if no image
+    can_be_empty: false, // Display the placeholder if no image
     render_value: function() {
         var url = this.placeholder;
         if(this.get('value')) {
@@ -1558,7 +1558,7 @@ var FieldToggleBoolean = common.AbstractField.extend({
     events: {
         'click': 'set_toggle_button'
     },
-    hidden_if_empty: false, // Always display the toggle button
+    can_be_empty: false, // Toggled and not toggled buttons have a meaningfull value
     render_value: function () {
         var $img = this.$('img');
         var src = $img.attr('src');

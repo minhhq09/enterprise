@@ -642,7 +642,7 @@ var FieldInterface = {
  *
  */
 var AbstractField = FormWidget.extend(FieldInterface, {
-    hidden_if_empty: true, // By default, hide empty fields in readonly
+    can_be_empty: true, // By default, indicates that a field can be empty (that 'false' is not a field value)
     /**
      * @constructs instance.web.form.AbstractField
      * @extends instance.web.form.FormWidget
@@ -716,8 +716,8 @@ var AbstractField = FormWidget.extend(FieldInterface, {
         var empty = this.get('effective_readonly') &&
                     !this.get('value') &&
                     this.get('value') !== 0;
-        this.$label.toggleClass('o_form_label_empty', empty);
-        this.$el.toggleClass('o_form_field_empty', this.hidden_if_empty && empty);
+        this.$label.toggleClass('o_form_label_empty', empty).toggleClass('o_cannot_be_empty', !this.can_be_empty);
+        this.$el.toggleClass('o_form_field_empty', empty && this.can_be_empty);
     },
     /**
      * Private. Do not use.
