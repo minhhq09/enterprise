@@ -240,12 +240,11 @@
                 line-height: 1.2;
 
                 .o_stat_value {
-                    .o_text_overflow;
+                    .o-text-overflow(block);
                     .o-stat-value();
                 }
                 > .o_stat_text {
-                    .o_text_overflow;
-                    font-size: small;
+                    .o-text-overflow(block);
 
                     .o_stat_value {
                         display: inline;
@@ -255,9 +254,8 @@
 
             // Some buttons only display text and directly use the WidgetButton template instead of StatInfo
             > span {
-                .o_text_overflow;
+                .o-text-overflow(block);
                 .o_stat_info; // layout
-                font-size: small;
                 white-space: normal; // text on several lines if needed
             }
         }
@@ -326,20 +324,13 @@
         &.o_form_invalid {
             color: @brand-danger;
         }
-        &.o_form_label_empty {
+        &.o_form_label_empty, &.o_form_label_false {
             opacity: 0.5;
             font-weight: normal;
         }
     }
 
     // All form fields
-    .o_form_field {
-        > .btn {
-            .o-flex(0, 0, auto);
-            padding: 0 10px;
-        }
-    }
-
     .o_form_required {
         &.o_form_input, .o_form_input, &.o_form_textarea, .o_form_textarea {
             border-bottom-width: 2px;

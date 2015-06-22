@@ -675,7 +675,6 @@ var FieldBoolean = common.AbstractField.extend({
             this.internal_set_value(this.$el.prop('checked'));
         }
     },
-    can_be_empty: false, // Unchecked and checked checkboxes are considered to have a value
     start: function() {
         this.$el.prop('disabled', this.get("effective_readonly"));
         this.on("change:effective_readonly", this, function() {
@@ -691,6 +690,9 @@ var FieldBoolean = common.AbstractField.extend({
     },
     focus: function() {
         return this.$el.focus();
+    },
+    is_false: function() {
+        return false;
     }
 });
 
@@ -717,6 +719,9 @@ var FieldProgressBar = common.AbstractField.extend(common.ReinitializeFieldMixin
                 self.set('value', self.progressbar.get('value'));
             });
         });
+    },
+    is_false: function() {
+        return false;
     }
 });
 
@@ -725,7 +730,6 @@ var FieldProgressBar = common.AbstractField.extend(common.ReinitializeFieldMixin
 */
 var FieldPercentPie = common.AbstractField.extend({
     template: 'FieldPercentPie',
-    can_be_empty: false, // 0% percentpie is not an empty percentpie (value means something)
     start: function() {
         this.$left_mask = this.$('.o_mask').first();
         this.$right_mask = this.$('.o_mask').last();
@@ -743,6 +747,9 @@ var FieldPercentPie = common.AbstractField.extend({
         this.$right_mask.css({transform: rightDeg, msTransform: rightDeg, mozTransform: rightDeg, webkitTransform: rightDeg});
 
         this.$pie_value.html(Math.round(value) + '%');
+    },
+    is_false: function() {
+        return false;
     }
 });
 
@@ -1251,7 +1258,6 @@ var FieldBinaryFile = FieldBinary.extend({
 var FieldBinaryImage = FieldBinary.extend({
     template: 'FieldBinaryImage',
     placeholder: "/web/static/src/img/placeholder.png",
-    can_be_empty: false, // Display the placeholder if no image
     render_value: function() {
         var url = this.placeholder;
         if(this.get('value')) {
@@ -1301,7 +1307,10 @@ var FieldBinaryImage = FieldBinary.extend({
                 newValue: value_
             });
         }
-    }
+    },
+    is_false: function() {
+        return false;
+    },
 });
 
 var FieldStatus = common.AbstractField.extend({
@@ -1546,7 +1555,6 @@ var StatInfo = common.AbstractField.extend({
         this.$el.html(QWeb.render("StatInfo", options));
         this.$el.addClass('o_stat_info');
     },
-
 });
 
 /**
@@ -1558,7 +1566,6 @@ var FieldToggleBoolean = common.AbstractField.extend({
     events: {
         'click': 'set_toggle_button'
     },
-    can_be_empty: false, // Toggled and not toggled buttons have a meaningfull value
     render_value: function () {
         var $img = this.$('img');
         var src = $img.attr('src');
@@ -1583,6 +1590,9 @@ var FieldToggleBoolean = common.AbstractField.extend({
     },
     reload_record: function () {
         this.view.reload();
+    },
+    is_false: function() {
+        return false;
     },
 });
 

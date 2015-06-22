@@ -642,7 +642,6 @@ var FieldInterface = {
  *
  */
 var AbstractField = FormWidget.extend(FieldInterface, {
-    can_be_empty: true, // By default, indicates that a field can be empty (that 'false' is not a field value)
     /**
      * @constructs instance.web.form.AbstractField
      * @extends instance.web.form.FormWidget
@@ -713,11 +712,9 @@ var AbstractField = FormWidget.extend(FieldInterface, {
         }
     },
     _toggle_label: function() {
-        var empty = this.get('effective_readonly') &&
-                    !this.get('value') &&
-                    this.get('value') !== 0;
-        this.$label.toggleClass('o_form_label_empty', empty).toggleClass('o_cannot_be_empty', !this.can_be_empty);
-        this.$el.toggleClass('o_form_field_empty', empty && this.can_be_empty);
+        var empty = this.get('effective_readonly') && this.is_false();
+        this.$label.toggleClass('o_form_label_empty', empty).toggleClass('o_form_label_false', this.get('effective_readonly') && this.get('value') === false);
+        this.$el.toggleClass('o_form_field_empty', empty);
     },
     /**
      * Private. Do not use.

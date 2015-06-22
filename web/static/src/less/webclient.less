@@ -25,13 +25,16 @@ h2 {
 // ------------------------------------------------------------------
 //  General
 // ------------------------------------------------------------------
-.o_text_overflow {
-    display: block;
+.o-text-overflow(@display: inline-block) {
+    display: @display;
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top; // To update display context changed by overflow:hidden
+}
+.o_text_overflow {
+    .o-text-overflow();
 }
 
 // ------------------------------------------------------------------

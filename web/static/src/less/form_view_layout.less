@@ -25,15 +25,13 @@
 
                         &.o_form_label_empty {
                             display: none;
-                            &.o_cannot_be_empty {
-                                display: inline-block;
-                            }
                         }
                     }
                 }
 
                 .o_form_input_dropdown {
                     width: auto;
+                    max-width: 100%;
                 }
             }
         }
@@ -295,6 +293,11 @@
                 @media (min-width: @screen-lg-min) {
                     max-width: 320px;
                 }
+            }
+
+            > .btn {
+                .o-flex(0, 0, auto);
+                padding: 0 10px;
             }
         }
     }

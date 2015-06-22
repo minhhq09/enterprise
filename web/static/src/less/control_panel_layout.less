@@ -4,7 +4,6 @@
 
     .o-breadcrumb-searchview() { // I will comment later
         @media (max-width: @screen-xs-max) {
-            .o-flex(1, 0, auto);
             width: 0;
             min-height: 30px;
             max-height: 30px;
@@ -12,16 +11,17 @@
             transition: width 400ms ease, max-height 0ms ease 0ms;
 
             &.o_full {
-                width: 87%;
+                width: 85%;
                 max-height: 1000px;
                 transition: width 400ms ease, max-height 0ms ease 400ms;
             }
         }
     }
 
-    .o_enable_searchview {
-        width: 10%;
+    .btn.o_enable_searchview {
+        width: 12%;
         margin-left: 3%;
+        padding: 0px;
     }
 
     .breadcrumb {
