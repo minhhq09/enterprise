@@ -528,7 +528,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             source: this.proxy('complete_global_search'),
             select: this.proxy('select_completion'),
             get_search_string: function () {
-                return self.$('div.o_searchview_input').text();
+                return self.$('div.o_searchview_input').text().trim();
             },
         });
         this.autocomplete.appendTo(this.$el);
