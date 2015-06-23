@@ -36,11 +36,6 @@ var Widget = require('web.Widget');
 
 var ControlPanel = Widget.extend({
     template: 'ControlPanel',
-    events: {
-        'click .o_enable_searchview': function(e) {
-            this.$el.toggleClass('o_breadcrumb_full');
-        }
-    },
     /**
      * @param {String} [template] the QWeb template to render the ControlPanel.
      * By default, the template 'ControlPanel' will be used
@@ -190,8 +185,21 @@ var ControlPanel = Widget.extend({
             // have been appended to a jQuery node not in the DOM at SearchView initialization
             searchview.$buttons = this.nodes.$searchview_buttons;
             searchview.toggle_visibility(!is_hidden);
-            this.$('.o_enable_searchview').toggle(!is_hidden && config.mobile);
             this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.mobile);
+
+            if(this.$enable_searchview === undefined) {
+                var self = this;
+                this.$enable_searchview = $('<button/>', {type: 'button'})
+                    .addClass('o_enable_searchview btn btn-sm btn-default fa fa-search')
+                    .on('click', function() {
+                        self.$el.toggleClass('o_breadcrumb_full');
+                });
+            }
+            if(!is_hidden && config.mobile) {
+                this.$enable_searchview.insertAfter(this.nodes.$searchview);
+            } else {
+                this.$enable_searchview.detach();
+            }
         } else {
             // Show the searchview buttons area, which might have been hidden by
             // the searchview, as client actions may insert elements into it
