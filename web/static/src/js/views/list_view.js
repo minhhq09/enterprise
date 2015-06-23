@@ -1779,7 +1779,7 @@ var ColumnBoolean = Column.extend({
      * @private
      */
     _format: function (row_data, options) {
-        return _.str.sprintf('<input type="checkbox" %s readonly="readonly"/>',
+        return _.str.sprintf('<div class="o_checkbox"><input type="checkbox" %s disabled="disabled"/><span/></div>',
                  row_data[this.id].value ? 'checked="checked"' : '');
     }
 });

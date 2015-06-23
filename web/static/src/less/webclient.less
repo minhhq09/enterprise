@@ -22,6 +22,40 @@ h2 {
     }
 }
 
+div.o_checkbox {
+    @odoo-checkbox-size: 15px;
+
+    display: inline-block;
+    position: relative;
+
+    > input {
+        width: @odoo-checkbox-size;
+        height: @odoo-checkbox-size;
+        margin: 0; // bootstrap override
+
+        opacity: 0;
+        .o-position-absolute();
+
+        + span {
+            display: block;
+            width: @odoo-checkbox-size;
+            height: @odoo-checkbox-size;
+            border: 1px solid @odoo-brand-secondary;
+            background-color: white;
+        }
+
+        &:checked + span {
+            background-repeat: no-repeat;
+            background-image: url(../img/checked.svg);
+            background-position: center center;
+        }
+
+        &:disabled + span {
+            border: 1px solid @odoo-brand-lightsecondary;
+        }
+    }
+}
+
 // ------------------------------------------------------------------
 //  General
 // ------------------------------------------------------------------

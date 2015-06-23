@@ -657,7 +657,7 @@ var FieldTextHtml = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
     },
     render_value: function() {
-        if (! this.get("effective_readonly")) {
+        if (!this.get("effective_readonly")) {
             this.$textarea.val(this.get('value') || '');
             this._updating_editor = true;
             this.$cleditor.updateFrame();
@@ -672,24 +672,26 @@ var FieldBoolean = common.AbstractField.extend({
     template: 'FieldBoolean',
     events: {
         'click': function() {
-            this.internal_set_value(this.$el.prop('checked'));
+            this.internal_set_value(this.$checkbox.prop('checked'));
         }
     },
     start: function() {
-        this.$el.prop('disabled', this.get("effective_readonly"));
+        this.$checkbox = this.$('input');
+
+        this.$checkbox.prop('disabled', this.get("effective_readonly"));
         this.on("change:effective_readonly", this, function() {
-            this.$el.prop('disabled', this.get("effective_readonly"));
+            this.$checkbox.prop('disabled', this.get("effective_readonly"));
         });
 
-        this.setupFocus(this.$el);
+        this.setupFocus(this.$checkbox);
 
         return this._super();
     },
     render_value: function() {
-        this.$el.prop('checked', this.get('value'));
+        this.$checkbox.prop('checked', this.get('value'));
     },
     focus: function() {
-        return this.$el.focus();
+        return this.$checkbox.focus();
     },
     is_false: function() {
         return false;

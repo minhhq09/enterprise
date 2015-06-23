@@ -687,7 +687,9 @@
                 </th>
             </t>
             <th t-if="options.selectable" class="o_list_record_selector" width="1">
-                <input type="checkbox"/>
+                <div class="o_checkbox">
+                    <input type="checkbox"/><span/>
+                </div>
             </th>
             <t t-foreach="columns" t-as="column">
                 <th t-if="!column.meta and column.invisible !== '1'" t-att-data-id="column.id"
@@ -735,7 +737,9 @@
     <td t-if="options.selectable" class="o_list_record_selector">
         <t t-set="checked" t-value="options.select_view_id == record.get('id') ? 'checked' : null"/>
         <input t-if="options.radio" type="radio" name="radiogroup" t-att-checked="checked"/>
-        <input t-if="!options.radio" type="checkbox" name="radiogroup" t-att-checked="checked"/>
+        <div t-if="!options.radio" class="o_checkbox">
+            <input type="checkbox" name="radiogroup" t-att-checked="checked"/><span/>
+        </div>
     </td>
     <t t-foreach="columns" t-as="column">
         <t t-set="number" t-value="column.type === 'integer' or column.type == 'float' or column.type == 'monetary'"/>
@@ -1184,12 +1188,14 @@
     </t>
 </t>
 <t t-name="FieldBoolean">
-    <input class="o_form_field_boolean"
-        type="checkbox"
-        t-att-id="widget.id_for_label"
-        t-att-name="widget.name"
-        t-att-tabindex="widget.node.attrs.tabindex"
-        t-att-autofocus="widget.node.attrs.autofocus"/>
+    <div class="o_checkbox o_form_field_boolean">
+        <input type="checkbox"
+            t-att-id="widget.id_for_label"
+            t-att-name="widget.name"
+            t-att-tabindex="widget.node.attrs.tabindex"
+            t-att-autofocus="widget.node.attrs.autofocus"/>
+        <span/>
+    </div>
 </t>
 <t t-name="ProgressBar">
     <div class="o_progressbar">
@@ -1541,10 +1547,10 @@
             <input type="text" class="form-control"></input>
         </li>
         <li class="o-save-name">
-            <span><input type="checkbox"/> Use by default</span>
+            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Use by default</span>
         </li>
         <li class="o-save-name">
-            <span><input type="checkbox"/> Share with all users </span><span class="fa fa-users"/>
+            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Share with all users </span><span class="fa fa-users"/>
         </li>
         <li class="o-save-name">
             <button type="button" class="btn btn-primary btn-sm">Save</button>
