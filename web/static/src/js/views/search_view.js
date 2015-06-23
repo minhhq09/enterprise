@@ -11,6 +11,7 @@ var pyeval = require('web.pyeval');
 var search_inputs = require('web.search_inputs');
 var utils = require('web.utils');
 var Widget = require('web.Widget');
+var _t = core._t;
 
 var Backbone = window.Backbone;
 
@@ -133,125 +134,32 @@ var InputView = Widget.extend({
     template: 'SearchView.InputView',
     events: {
         focus: function () { this.trigger('focused', this); },
-        blur: function () { this.$el.text(''); this.trigger('blurred', this); },
+        blur: function () { this.$el.val(''); this.trigger('blurred', this); },
         keydown: 'onKeydown',
-        paste: 'onPaste',
-    },
-    getSelection: function () {
-        this.el.normalize();
-        // get Text node
-        var root = this.el.childNodes[0];
-        if (!root || !root.textContent) {
-            // if input does not have a child node, or the child node is an
-            // empty string, then the selection can only be (0, 0)
-            return {start: 0, end: 0};
-        }
-        var range = window.getSelection().getRangeAt(0);
-        // In Firefox, depending on the way text is selected (drag, double- or
-        // triple-click) the range may start or end on the parent of the
-        // selected text node‽ Check for this condition and fixup the range
-        // note: apparently with C-a this can go even higher?
-        if (range.startContainer === this.el && range.startOffset === 0) {
-            range.setStart(root, 0);
-        }
-        if (range.endContainer === this.el && range.endOffset === 1) {
-            range.setEnd(root, root.length);
-        }
-        utils.assert(range.startContainer === root,
-               "selection should be in the input view");
-        utils.assert(range.endContainer === root,
-               "selection should be in the input view");
-        return {
-            start: range.startOffset,
-            end: range.endOffset
-        };
     },
     onKeydown: function (e) {
-        this.el.normalize();
-        var sel;
         switch (e.which) {
-        // Do not insert newline, but let it bubble so searchview can use it
-        case $.ui.keyCode.ENTER:
-            e.preventDefault();
-            break;
-
-        // FIXME: may forget content if non-empty but caret at index 0, ok?
-        case $.ui.keyCode.BACKSPACE:
-            sel = this.getSelection();
-            if (sel.start === 0 && sel.start === sel.end) {
-                e.preventDefault();
-                var preceding = this.getParent().siblingSubview(this, -1);
-                if (preceding && (preceding instanceof FacetView)) {
-                    preceding.model.destroy();
+            case $.ui.keyCode.BACKSPACE:
+                if(this.$el.val() === '') {
+                    var preceding = this.getParent().siblingSubview(this, -1);
+                    if (preceding && (preceding instanceof FacetView)) {
+                        preceding.model.destroy();
+                    }
                 }
-            }
-            break;
+                break;
 
-        // let left/right events propagate to view if caret is at input border
-        // and not a selection
-        case $.ui.keyCode.LEFT:
-            sel = this.getSelection();
-            if (sel.start !== 0 || sel.start !== sel.end) {
-                e.stopPropagation();
-            }
-            break;
-        case $.ui.keyCode.RIGHT:
-            sel = this.getSelection();
-            var len = this.$el.text().length;
-            if (sel.start !== len || sel.start !== sel.end) {
-                e.stopPropagation();
-            }
-            break;
+            case $.ui.keyCode.LEFT: // Stop propagation to parent if not at beginning of input value
+                if(this.el.selectionStart > 0) {
+                    e.stopPropagation();
+                }
+                break;
+
+            case $.ui.keyCode.RIGHT: // Stop propagation to parent if not at end of input value
+                if(this.el.selectionStart < this.$el.val().length) {
+                    e.stopPropagation();
+                }
+                break;
         }
-    },
-    setCursorAtEnd: function () {
-        this.el.normalize();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        var range = document.createRange();
-        // in theory, range.selectNodeContents should work here. In practice,
-        // MSIE9 has issues from time to time, instead of selecting the inner
-        // text node it would select the reference node instead (e.g. in demo
-        // data, company news, copy across the "Company News" link + the title,
-        // from about half the link to half the text, paste in search box then
-        // hit the left arrow key, getSelection would blow up).
-        //
-        // Explicitly selecting only the inner text node (only child node
-        // since we've normalized the parent) avoids the issue
-        range.selectNode(this.el.childNodes[0]);
-        range.collapse(false);
-        sel.addRange(range);
-    },
-    onPaste: function () {
-        this.el.normalize();
-        // In MSIE and Webkit, it is possible to get various representations of
-        // the clipboard data at this point e.g.
-        // window.clipboardData.getData('Text') and
-        // event.clipboardData.getData('text/plain') to ensure we have a plain
-        // text representation of the object (and probably ensure the object is
-        // pastable as well, so nobody puts an image in the search view)
-        // (nb: since it's not possible to alter the content of the clipboard
-        // — at least in Webkit — to ensure only textual content is available,
-        // using this would require 1. getting the text data; 2. manually
-        // inserting the text data into the content; and 3. cancelling the
-        // paste event)
-        //
-        // But Firefox doesn't support the clipboard API (as of FF18)
-        // although it correctly triggers the paste event (Opera does not even
-        // do that) => implement lowest-denominator system where onPaste
-        // triggers a followup "cleanup" pass after the data has been pasted
-        setTimeout(function () {
-            // Read text content (ignore pasted HTML)
-            var data = this.$el.text();
-            if (!data)
-                return;
-            // paste raw text back in
-            this.$el.empty().text(data);
-            this.el.normalize();
-            // Set the cursor at the end of the text, so the cursor is not lost
-            // in some kind of error-spawning limbo.
-            this.setCursorAtEnd();
-        }.bind(this), 0);
     }
 });
 
@@ -261,7 +169,7 @@ var FacetView = Widget.extend({
         'focus': function () { this.trigger('focused', this); },
         'blur': function () { this.trigger('blurred', this); },
         'click': function (e) {
-            if ($(e.target).is('.o-facet-remove')) {
+            if ($(e.target).hasClass('o_facet_remove')) {
                 this.model.destroy();
                 return false;
             }
@@ -271,10 +179,10 @@ var FacetView = Widget.extend({
         'keydown': function (e) {
             var keys = $.ui.keyCode;
             switch (e.which) {
-            case keys.BACKSPACE:
-            case keys.DELETE:
-                this.model.destroy();
-                return false;
+                case keys.BACKSPACE:
+                case keys.DELETE:
+                    this.model.destroy();
+                    return false;
             }
         }
     },
@@ -293,7 +201,7 @@ var FacetView = Widget.extend({
         return $.when(this._super()).then(function () {
             return $.when.apply(null, self.model.values.map(function (value, index) {
                 if (index > 0) {
-                    $('<span class="o_facet_values_sep"> or </span>').appendTo($e);
+                    $('<span/>', {html: _t(" or ")}).addClass('o_facet_values_sep').appendTo($e);
                 }
                 return new FacetValueView(self, value).appendTo($e);
             }));
@@ -323,34 +231,24 @@ var FacetValueView = Widget.extend({
 var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
     template: "SearchView",
     events: {
-        // focus last input if view itself is clicked
-        'click': function (e) {
-            if (e.target === this.$('.o_searchview_facets')[0]) {
-                this.$('.o_searchview_input:last').focus();
-            }
-        },
-        'click .o_searchview_caret': function (e) {
-            e.stopImmediatePropagation();
-            $(e.target).toggleClass('fa-caret-down fa-caret-up');
+        'click .o_searchview_more': function (e) {
+            $(e.target).toggleClass('fa-search-plus fa-search-minus');
             localStorage.visible_search_menu = (localStorage.visible_search_menu !== 'true');
             this.toggle_buttons();
         },
         'keydown .o_searchview_input, .o_searchview_facet': function (e) {
             switch(e.which) {
-            case $.ui.keyCode.LEFT:
-                this.focusPreceding(e.target);
-                e.preventDefault();
-                break;
-            case $.ui.keyCode.RIGHT:
-                if (!this.autocomplete.is_expandable()) {
-                    this.focusFollowing(e.target);
-                }
-                e.preventDefault();
-                break;
+                case $.ui.keyCode.LEFT:
+                    this.focusPreceding(e.target);
+                    e.preventDefault();
+                    break;
+                case $.ui.keyCode.RIGHT:
+                    if(!this.autocomplete.is_expandable()) {
+                        this.focusFollowing(e.target);
+                    }
+                    e.preventDefault();
+                    break;
             }
-        },
-        'autocompleteopen': function () {
-            this.$el.autocomplete('widget').css('z-index', 9999);
         },
     },
     /**
@@ -394,7 +292,6 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             this.$el.hide();
         }
         this.toggle_visibility(false);
-        this.$facets_container = this.$('div.o_searchview_facets');
         this.setup_global_completion();
         this.query = new SearchQuery()
                 .on('add change reset remove', this.proxy('do_search'))
@@ -405,9 +302,9 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             view_type: 'search',
             context: this.dataset.get_context(),
         });
-        this.$('.o_searchview_caret')
-            .toggleClass('fa-caret-up', !this.visible_filters)
-            .toggleClass('fa-caret-down', this.visible_filters);
+        this.$('.o_searchview_more')
+            .toggleClass('fa-search-minus', this.visible_filters)
+            .toggleClass('fa-search-plus', !this.visible_filters);
         return this.alive($.when(this._super(), this.alive(load_view).then(this.view_loaded.bind(this))));
     },
     get_title: function() {
@@ -528,7 +425,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             source: this.proxy('complete_global_search'),
             select: this.proxy('select_completion'),
             get_search_string: function () {
-                return self.$('div.o_searchview_input').text().trim();
+                return self.$('.o_searchview_input').val().trim();
             },
         });
         this.autocomplete.appendTo(this.$el);
@@ -601,11 +498,11 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
 
         this.query.each(function (facet) {
             var f = new FacetView(this, facet);
-            started.push(f.appendTo(self.$facets_container));
+            started.push(f.appendTo(self.$el));
             self.input_subviews.push(f);
         }, this);
         var i = new InputView(this);
-        started.push(i.appendTo(self.$facets_container));
+        started.push(i.appendTo(self.$el));
         self.input_subviews.push(i);
         _.each(this.input_subviews, function (childView) {
             childView.on('focused', self, self.proxy('childFocused'));

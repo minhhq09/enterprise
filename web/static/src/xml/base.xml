@@ -1367,21 +1367,17 @@
     </t>
 </t>
 
-<div t-name="SearchView" class="form-control input-sm o_searchview">
-    <div class="o_searchview_facets"/>
-    <div class="fa fa-lg o_searchview_caret" title="Advanced Search..."/>
+<div t-name="SearchView" class="o_searchview">
+    <span class="o_searchview_more fa" title="Advanced Search..."/>
 </div>
-<!-- InputView: tabindex makes div focusable -->
-<div t-name="SearchView.InputView" class="o_searchview_input" contenteditable="true" tabindex="0" data-ph="Search..."/>
+<input t-name="SearchView.InputView" class="o_searchview_input" placeholder="Search..."/>
 <div t-name="SearchView.FacetView" tabindex="0" class="o_searchview_facet">
-    <span t-if="widget.model.has('icon')"
-        t-att-class="'label label-default fa ' + widget.model.get('icon') + ' o_searchview_facet_label'">
-    </span><span t-if="!widget.model.has('icon')" class="label label-default o_searchview_facet_label">
+    <span t-if="widget.model.has('icon')" t-att-class="'fa ' + widget.model.get('icon') + ' o_searchview_facet_label'"/>
+    <span t-if="!widget.model.has('icon')" class="o_searchview_facet_label">
         <t t-esc="widget.model.get('category')"/>
-    </span><div class="o_searchview_facet_content">
-        <div class="o_facet_values"></div>
-        <div class="fa fa-sm fa-remove o-facet-remove"></div>
-    </div>
+    </span>
+    <div class="o_facet_values"/>
+    <div class="fa fa-sm fa-remove o_facet_remove"/>
 </div>
 <span t-name="SearchView.FacetView.Value">
     <t t-esc="widget.model.get('label')"/>

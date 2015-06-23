@@ -38,8 +38,7 @@ var ControlPanel = Widget.extend({
     template: 'ControlPanel',
     events: {
         'click .o_enable_searchview': function(e) {
-            this.$breadcrumbs.toggleClass('o_full');
-            this.nodes.$searchview.toggleClass('o_full');
+            this.$el.toggleClass('o_breadcrumb_full');
         }
     },
     /**
@@ -192,7 +191,7 @@ var ControlPanel = Widget.extend({
             searchview.$buttons = this.nodes.$searchview_buttons;
             searchview.toggle_visibility(!is_hidden);
             this.$('.o_enable_searchview').toggle(!is_hidden && config.mobile);
-            this.$breadcrumbs.toggleClass('o_full', is_hidden || config.mobile);
+            this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.mobile);
         } else {
             // Show the searchview buttons area, which might have been hidden by
             // the searchview, as client actions may insert elements into it
