@@ -1726,27 +1726,21 @@
 </div>
 
 <t t-name="AppSwitcher">
-    <div class="o-application-switcher">
-        <div class="o-apps">
-            <t t-foreach="widget.menu_data.children" t-as="primary_menu">
-                <div class=" o-app">
-                    <a href="#"
-                        class="thumbnail"
-                        t-att-data-menu="primary_menu.id"
-                        t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
-                        t-att-data-action-id="primary_menu.action ? primary_menu.action.split(',')[1] : ''">
-                        <img t-if="primary_menu.web_icon_data"
-                            class="o-app-web-icon"
-                            t-att-src="'data:image/png;base64,' + primary_menu.web_icon_data"/>
-                        <i t-if="!primary_menu.web_icon_data" t-att-class="'fa fa-4x o-app-icon ' + primary_menu.icon"></i>
-                        <div class="caption">
-                            <t t-esc="primary_menu.name"/>
-                        </div>
-                    </a>
-                </div>
-            </t>
+    <div class="o_application_switcher">
+        <div class="o_apps">
+            <a t-foreach="widget.menu_data.children" t-as="primary_menu"
+                href="#" class="o_app"
+                t-att-data-menu="primary_menu.id"
+                t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
+                t-att-data-action-id="primary_menu.action ? primary_menu.action.split(',')[1] : ''">
+                <img t-if="primary_menu.web_icon_data"
+                    class="o_app_web_icon"
+                    t-att-src="'data:image/png;base64,' + primary_menu.web_icon_data"/>
+                <span t-if="!primary_menu.web_icon_data" t-att-class="'fa fa-4x o_app_icon ' + primary_menu.icon"/>
+                <div class="o_caption"><t t-esc="primary_menu.name"/></div>
+            </a>
         </div>
-        <div class="o-application-switcher-footer">
+        <div class="o_application_switcher_footer">
             <img src="/web/static/src/img/odoo.png" alt="Odoo"/>
         </div>
     </div>

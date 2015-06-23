@@ -101,72 +101,48 @@ h2 {
 // ------------------------------------------------------------------
 // Application switcher
 // ------------------------------------------------------------------
-.o-application-switcher {
-    color: white;
+.o_application_switcher {
     background: url("../img/application-switcher-bg.jpg") no-repeat center center fixed;
     .o-background-size(cover);
-    margin-top: 45px;
-    @media (max-width: @screen-xs-max) {
-        margin-top: 10px;
-    }
 
-    .o-apps {
+    .o_apps {
         .user-select(none);
 
-            padding-left: 10%;
-            padding-right: 10%;
-            @media (max-width: @screen-xs-max) {
-                padding: 0;
+        .o_app {
+            background: transparent;
+            text-decoration: none;
+            text-align: center;
+
+            .o-app-icon-common() {
+                width: 100%;
+                max-width: 80px;
+                border-radius: 8%;
+                box-shadow: 0 1px 4px @gray-light;
             }
 
-
-        .o-app {
-            margin: 0px 15px 5px 15px;
-            @media (max-width: @screen-xs-max) {
-                margin: 5px 10px 5px 10px;
+            .o_app_web_icon {
+                .o-app-icon-common;
             }
 
-            > a {
-                text-decoration: none;
-                text-align: center;
+            // Applied to fontawesome icons
+            .o_app_icon {
+                .o-app-icon-common;
+                color: @odoo-brand-primary;
+                background-color: @gray-lighter;
             }
 
-            .thumbnail {
-                background: none;
-                border: 0;
-                .o-app-icon-common() {
-                    width: 78px;
-                    height: 78px;
-                    border-radius: 8px;
-                    box-shadow: 0 1px 4px @gray-light;
-                }
-
-                .o-app-web-icon {
-                    .o-app-icon-common;
-                }
-
-                // Applied to fontawesome thumbnails
-                .o-app-icon {
-                    .o-app-icon-common;
-                    color: @odoo-brand-primary;
-                    background-color: @gray-lighter;
-                    padding: 8px;
-                }
-            }
-
-            .caption {
+            .o_caption {
+                .o-text-overflow(block);
                 color: @gray-lighter;
+                margin-top: 8px;
             }
         }
     }
 
-    .o-application-switcher-footer {
+    .o_application_switcher_footer {
         .user-select(none);
-        cursor: default;
-
         > img {
             width: 130px;
-            .center-block;
         }
     }
 }

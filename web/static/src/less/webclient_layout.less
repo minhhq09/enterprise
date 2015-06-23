@@ -9,8 +9,7 @@ html {
         .o-flex-display();
         .o-flex-flow(column, nowrap);
         @media (max-width: @screen-xs-max) {
-            overflow-x: auto;  // horizontal scrollbar if necessary
-            height: auto;  // reset height inheritance
+            overflow: auto;  // scrollbar if necessary
         }
 
         .navbar {
@@ -23,8 +22,10 @@ html {
 
         .o_content {
             .o-flex(1, 1, auto);
-            overflow: auto;
-            height: 100%;
+            @media (min-width: @screen-sm-min) {
+                overflow: auto;
+                height: 100%;
+            }
             position: relative;  // Allow to redistribute the 100% height to its child
             @media (max-width: @screen-xs-max) {
                 position: static;  // reset the height 100% distribution on flex item
@@ -83,23 +84,32 @@ html {
 
     }
 
-    .o-application-switcher {
-        padding-top: @navbar-height + 2;
+    .o_application_switcher {
+        margin-top: @navbar-height;
+        padding-top: @navbar-height;
+        @media (max-width: @screen-xs-max) {
+            padding-top: 15px;
+        }
+
         height: 100%;
         overflow: auto;
         .o-flex-display();
         .o-flex-flow(column, nowrap);
+        .o-justify-content(space-between);
+        .o-align-items(center);
 
-        .o-apps {
-            .o-flex(1, 0, auto);
-            .o-flex-display();
-            .o-flex-flow(row, wrap);
-            .o-align-content(flex-start);
-            .o-justify-content(center);
+        .o_apps {
+            .o-flex(0, 0, auto);
+            width: 100%;
+            max-width: @screen-sm-min;
 
-            .o-app {
-                .o-flex(0, 0, auto);
-                width: 100px;
+            .o_app {
+                display: inline-block;
+                margin: 0 3% 15px 3%;
+                width: 10.66%; // +6% margin = 6 apps per line
+                @media (max-width: @screen-xs-max) {
+                    width: 19%; // +6% margin = 4 apps per line 
+                }
             }
         }
     }

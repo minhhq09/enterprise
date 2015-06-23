@@ -8,7 +8,7 @@ var UserMenu = require('web.UserMenu');
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
     events: {
-        'click .o-app a': 'on_app_click',
+        'click .o_app': 'on_app_click',
     },
     init: function (parent, menu_data) {
         this._super.apply(this, arguments);
