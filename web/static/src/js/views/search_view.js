@@ -405,7 +405,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         };
     },
     toggle_visibility: function (is_visible) {
-        this.$el.toggle(!this.headless && is_visible);
+        this.$el.toggleClass('o_searchview_hidden', this.headless || !is_visible);
         if (this.$buttons) {
             this.$buttons.toggle(!this.headless && is_visible && this.visible_filters);
         }
