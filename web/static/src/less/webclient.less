@@ -129,6 +129,13 @@ h2 {
                 .o-app-icon-common;
                 color: @odoo-brand-primary;
                 background-color: @gray-lighter;
+
+                padding: 2vw;
+                font-size: 15vw; // Adapt fa size (would be 100% of parent, which is himself 19% of body)
+                @media (min-width: 421px) { // Size where 19vw = 80px
+                    padding: 8px;
+                    font-size: 64px;
+                }
             }
 
             .o_caption {
