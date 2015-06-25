@@ -318,7 +318,7 @@
             <field name="code">FI_IN</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_cashsummary_financing0'/>
-            <field name="domain" eval="[('account_id.user_type', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', '=', ref('account.account_tag_financing'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [ref('account.data_account_type_revenue')]), ('account_id.tag_ids', '=', ref('account.account_tag_financing'))]" />
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
