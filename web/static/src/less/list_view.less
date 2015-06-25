@@ -8,6 +8,7 @@
     &.table {
         td, th {
            border: none;
+           vertical-align: middle;
         }
     }
 
@@ -15,7 +16,6 @@
         color: @odoo-main-text-color;
         background-color: @odoo-list-grey;
         > tr > th {
-            vertical-align: middle;
             &.o_column_sortable:hover {
                 background-color: darken(@odoo-list-grey, 5%);
             }
@@ -53,8 +53,7 @@
 
     .o_list_record_selector {
         width: 1px;  // to prevent the column to expand
-        vertical-align: middle;
-            > input {
+        > input {
             margin-left: 3px;
             .hidden-xs();
         }
