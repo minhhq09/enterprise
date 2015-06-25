@@ -161,32 +161,28 @@
 
         > .o_statusbar_status {
             .o-flex-flow(row-reverse, wrap-reverse);
-            .o-align-self(auto);
+            .o-align-self(stretch);
+            .o-align-items(stretch);
             overflow-x: hidden; // to prevent horizontal scroll due to last arrow
         }
 
-        @media (max-width: @screen-xs-max) {
-            > .o_statusbar_buttons > .btn-group {
-                > .dropdown-toggle {
-                    &:after {
-                        .o-caret-down();
-                        margin-left: 5px;
-                    }
-                }
-
-                > .dropdown-menu {
-                    padding: 5px 0 2px 0;
-                    min-width: 100px;
-
-                    > li > .btn {
-                        min-width: 100%;
-                        margin-bottom: 3px;
-                    }
+        // Touch device mode
+        > .o_statusbar_buttons > .btn-group {
+            > .dropdown-toggle {
+                &:after {
+                    .o-caret-down();
+                    margin-left: 5px;
                 }
             }
 
-            > .o_statusbar_status > .btn.dropdown-toggle {
-                padding: 5px 10px; // Should be fixed by fixing the desktop padding left for the first status
+            > .dropdown-menu {
+                padding: 5px 0 2px 0;
+                min-width: 100px;
+
+                > li > .btn {
+                    min-width: 100%;
+                    margin-bottom: 3px;
+                }
             }
         }
     }
