@@ -635,8 +635,7 @@
 </t>
 
 <t t-name="TreeView">
-    <select t-if="toolbar" style="width: 30%">
-    </select>
+    <select t-if="toolbar" style="width: 30%"/>
     <table class="o_treeview_table">
         <thead>
             <tr>
@@ -1201,7 +1200,7 @@
     <div class="o_progressbar">
         <div t-if="widget.title" class="o_progressbar_title"><t t-esc="widget.title"/></div><div class="o_progress">
             <div class="o_progressbar_complete"/>
-        </div><div t-if="widget.readonly" class="o_progressbar_value"/><input t-if="!widget.readonly" class="o_progressbar_value"/>
+        </div><div t-if="widget.readonly" class="o_progressbar_value"/><input t-if="!widget.readonly" class="o_progressbar_value" type="text"/>
     </div>
 </t>
 <t t-name="FieldPercentPie">
@@ -1375,7 +1374,7 @@
 <div t-name="SearchView" class="o_searchview">
     <span class="o_searchview_more fa" title="Advanced Search..."/>
 </div>
-<input t-name="SearchView.InputView" class="o_searchview_input" placeholder="Search..."/>
+<input t-name="SearchView.InputView" type="text" class="o_searchview_input" placeholder="Search..."/>
 <div t-name="SearchView.FacetView" tabindex="0" class="o_searchview_facet">
     <span t-if="widget.model.has('icon')" t-att-class="'fa ' + widget.model.get('icon') + ' o_searchview_facet_label'"/>
     <span t-if="!widget.model.has('icon')" class="o_searchview_facet_label">
@@ -1474,7 +1473,7 @@
     <li class="o-filter-condition">
         <span class="o-or-filter">or</span>
         <span>
-            <select class="o-searchview-extended-prop-field form-control">
+            <select class="o-searchview-extended-prop-field">
                 <t t-foreach="widget.attrs.fields" t-as="field">
                     <option t-att="{'selected': field === widget.attrs.selected ? 'selected' : null}"
                             t-att-value="field.name">
@@ -1484,31 +1483,21 @@
             </select>
             <span class="o-searchview-extended-delete-prop fa fa-trash-o"/>
         </span>
-        <select class="o-searchview-extended-prop-op form-control"/>
+        <select class="o-searchview-extended-prop-op"/>
         <span class="o-searchview-extended-prop-value"/>
     </li>
 </t>
-<t t-name="SearchView.extended_search.proposition.char">
-    <input class="field_char form-control"/>
-</t>
-<t t-name="SearchView.extended_search.proposition.empty">
-    <span/>
-</t>
-<t t-name="SearchView.extended_search.proposition.integer">
-    <input type="number" class="field_integer form-control" value = "0" step="1"/>
-</t>
 <t t-name="SearchView.extended_search.proposition.float">
-    <input class="field_float form-control"
-        t-att-type="widget.decimal_point === '.' ? 'number' : 'text'"
+    <input t-att-type="widget.decimal_point === '.' ? 'number' : 'text'"
         t-attf-title="Number using #{widget.decimal_point  || '.' } as decimal separator."
         t-attf-pattern="[0-9]+([\\#{widget.decimal_point || '.' }][0-9]+)?"
         t-attf-value="0#{widget.decimal_point || '.' }0" step="0.01"/>
 </t>
 <t t-name="SearchView.extended_search.proposition.selection">
-    <select class="form-control">
-        <t t-foreach="widget.field.selection" t-as="element">
-        <option t-att-value="element[0]"><t t-esc="element[1]"/></option>
-        </t>
+    <select>
+        <option t-foreach="widget.field.selection" t-as="element" t-att-value="element[0]">
+            <t t-esc="element[1]"/>
+        </option>
     </select>
 </t>
 
@@ -1524,7 +1513,7 @@
     </ul>
 </div>
 <t t-name="GroupByMenuSelector">
-    <li><select class="form-control o-add-group o-group-selector">
+    <li><select class="o-add-group o-group-selector">
         <t t-foreach="groupable_fields" t-as="field">
             <option t-att-data-name="field"><t t-esc="groupable_fields[field].string"/></option>
         </t>
@@ -1544,7 +1533,7 @@
             <a href="#">Save current search</a>
         </li>
         <li class="o-save-name">
-            <input type="text" class="form-control"></input>
+            <input type="text"></input>
         </li>
         <li class="o-save-name">
             <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Use by default</span>

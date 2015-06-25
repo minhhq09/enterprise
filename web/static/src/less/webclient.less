@@ -72,6 +72,34 @@ div.o_checkbox {
     .o-text-overflow();
 }
 
+.o-input() {
+    border: none;
+    border-bottom: 1px solid @odoo-form-lightsecondary;
+}
+input[type="text"], input[type="password"], input[type="number"], textarea, select {
+    .o-input();
+
+    width: 100%;
+    outline: none;
+    display: block;
+}
+select { // FIXME buggy 'padding-left'
+    cursor: pointer;
+    background-color: transparent;
+
+    .o-appearance(none);
+    background-image: url("/web/static/src/img/down-arrow.png");
+    background-repeat: no-repeat;
+    background-position: right center;
+
+    color: transparent; // This is a hack to remove the outline in FF
+    text-shadow: 0 0 0 @odoo-main-text-color;
+    > option {
+        color: @odoo-main-text-color;
+    }
+}
+
+
 // ------------------------------------------------------------------
 // Navbar
 // ------------------------------------------------------------------
@@ -153,6 +181,7 @@ div.o_checkbox {
             background: transparent;
             text-decoration: none;
             text-align: center;
+            outline: none;
 
             .o-app-icon-common() {
                 width: 100%;

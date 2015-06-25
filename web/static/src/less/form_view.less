@@ -49,7 +49,7 @@
         }
 
         .o_form_field_many2manytags {
-            .o_form_input;
+            .o-input();
 
             > .o_form_field {
                 .o-flex(1, 0, 100px);
@@ -344,30 +344,6 @@
         }
     }
 
-    // Input design
-    .o_form_input {
-        border: none;
-        border-bottom: 1px solid @odoo-form-lightsecondary;
-        outline: none;
-    }
-    select.o_form_input {
-        cursor: pointer;
-        background-color: transparent;
-
-        .o-appearance(none);
-        text-indent: -1.5px; // FIXME chrome
-        background-image: url("/web/static/src/img/down-arrow.png");
-        background-repeat: no-repeat;
-        background-position: right center;
-    }
-
-    // Textarea
-    textarea.o_form_textarea {
-        border: none;
-        border-bottom: 1px solid @odoo-form-lightsecondary;
-        outline: none;
-    }
-
     // Boolean
     .o_form_field_boolean {
         margin: 0 5px 0 0;
@@ -422,10 +398,8 @@
 
     // Dropdowns input (many2one, ...)
     .o_form_input_dropdown {
-        .o_form_input;
         .o-flex(1, 0, auto);
 
-        border: none;
         display: inline-block;
         position: relative;
 
@@ -495,11 +469,6 @@
     // Input loading/file
     .o_form_binary_progress, .o_hidden_input_file .o_form_input_file {
         display: none;
-    }
-
-    // Progressbar
-    .o_progressbar input.o_progressbar_value {
-        .o_form_input;
     }
 
     // HTML field

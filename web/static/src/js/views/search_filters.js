@@ -155,7 +155,10 @@ ExtendedSearchProposition.Field = Widget.extend({
 });
 
 ExtendedSearchProposition.Char = ExtendedSearchProposition.Field.extend({
-    template: 'SearchView.extended_search.proposition.char',
+    tagName: 'input',
+    attributes: {
+        type: 'text'
+    },
     operators: [
         {value: "ilike", text: _lt("contains")},
         {value: "not ilike", text: _lt("doesn't contain")},
@@ -170,7 +173,7 @@ ExtendedSearchProposition.Char = ExtendedSearchProposition.Field.extend({
 });
 
 ExtendedSearchProposition.DateTime = ExtendedSearchProposition.Field.extend({
-    template: 'SearchView.extended_search.proposition.empty',
+    tagName: 'span',
     operators: [
         {value: "=", text: _lt("is equal to")},
         {value: "!=", text: _lt("is not equal to")},
@@ -204,7 +207,11 @@ ExtendedSearchProposition.Date = ExtendedSearchProposition.DateTime.extend({
 });
 
 ExtendedSearchProposition.Integer = ExtendedSearchProposition.Field.extend({
-    template: 'SearchView.extended_search.proposition.integer',
+    tagName: 'input',
+    attributes: {
+        type: 'number',
+        value: '0',
+    },
     operators: [
         {value: "=", text: _lt("is equal to")},
         {value: "!=", text: _lt("is not equal to")},
@@ -280,7 +287,7 @@ ExtendedSearchProposition.Selection = ExtendedSearchProposition.Field.extend({
 });
 
 ExtendedSearchProposition.Boolean = ExtendedSearchProposition.Field.extend({
-    template: 'SearchView.extended_search.proposition.empty',
+    tagName: 'span',
     operators: [
         {value: "=", text: _lt("is true")},
         {value: "!=", text: _lt("is false")}
