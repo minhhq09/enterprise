@@ -6,14 +6,20 @@
             <field name="inherit_id" ref="account.view_account_config_settings"/>
             <field name="model">account.config.settings</field>
             <field name="arch" type="xml">
-                <div name="group_multi_currency" position="after">
+                <div name="customer_payments" position="inside">
                     <div>
                         <field name="module_account_batch_deposit" class="oe_inline"/>
                         <label for="module_account_batch_deposit"/>
                     </div>
+                </div>
+                <div name="bank_statement_import_options" position="inside">
                     <div>
                         <field name="module_account_sepa" class="oe_inline"/>
                         <label for="module_account_sepa"/>
+                    </div>
+                    <div name="plaid_credentials">
+                        <field name="module_account_plaid" class="oe_inline"/>
+                        <label for="module_account_plaid"/>
                     </div>
                 </div>
             </field>
