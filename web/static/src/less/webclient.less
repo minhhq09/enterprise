@@ -101,18 +101,20 @@ div.o_checkbox {
         font-weight: 500;
     }
 
-    .dropdown-menu {
+    .open .dropdown-menu {
         // we do not want the dropdown to overstep the viewport
         max-height: 90vh;
         overflow: auto;
 
         .o-menu-indentation(@index) when (@index < 6) {
-            .o_menu_header_lvl_@{index} {
+            > li .o_menu_header_lvl_@{index} {
                 color: @odoo-main-text-color;
-                padding: 5px @index*10px;
+                padding-left: @index*10px;
+                padding-right: @index*10px;
             }
-            .o_menu_entry_lvl_@{index} {
-                padding: 5px @index*12px;
+            > li .o_menu_entry_lvl_@{index} {
+                padding-left: @index*12px;
+                padding-right: @index*12px;
             }
             .o-menu-indentation(@index + 1);
         }
@@ -130,6 +132,10 @@ div.o_checkbox {
 // ------------------------------------------------------------------
 .o_web_client {
     background-color: @odoo-webclient-background-color;
+
+    @media (max-width: @screen-xs-max) {
+        font-size: @odoo-font-size-base-touch; // Then every font-size which should grow must be fixed with em and not px!
+    }
 }
 
 // ------------------------------------------------------------------

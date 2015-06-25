@@ -1,8 +1,5 @@
 .li-a-padding {
     padding: 3px 25px;
-    @media (max-width: @screen-xxs-max) {
-        padding: 10px 25px;
-    }
 }
 
 .ui-autocomplete { // Copy style of bootstrap dropdown
@@ -43,12 +40,19 @@
     }
 }
 
-.dropdown-menu > li {
-    > a {
-        &:focus, &:active, &:focus:active {
-            outline: none;
-        }
+.dropdown-menu-mixin {
+    .open .dropdown-menu > li {
+        > a {
+            &:focus, &:active, &:focus:active {
+                outline: none;
+            }
 
-        .li-a-padding;
+            .li-a-padding;
+        }
     }
+}
+
+.dropdown-menu-mixin();
+.navbar-nav {
+    .dropdown-menu-mixin();
 }
