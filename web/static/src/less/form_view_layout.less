@@ -1,5 +1,6 @@
 .form-break-table() {
     display: block;
+    margin-bottom: 20px;
 
     > tbody {
         display: block;
@@ -19,9 +20,13 @@
                 &.o_td_label {
                     width: 92%!important;
 
+                    font-size: 0.75em;
+                    line-height: 1;
+
                     .o_form_label { // Not pure layout ...
-                        font-size: 0.8em;
                         font-weight: normal;
+                        color: @odoo-brand-secondary;
+                        margin-top: 15px;
 
                         &.o_form_label_empty {
                             display: none;
