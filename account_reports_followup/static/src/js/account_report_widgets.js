@@ -44,7 +44,7 @@ var FollowupReportWidget = FollowupWidget.extend({
                 color = 'red'
                 break;
         }
-        return new Model('res.partner').call('write', [[parseInt(partner_id)], {'trust': newTrust}]).then(function (result) {
+        return new Model('res.partner').call('write', [[parseInt(partner_id, 10)], {'trust': newTrust}]).then(function (result) {
             $(e.target).parents('span.dropdown').find('i.oe-account_followup-trust').attr('style', 'color: ' + color + '; font-size: 0.8em;')
         });
     },
@@ -52,7 +52,7 @@ var FollowupReportWidget = FollowupWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var context_id = $(e.target).parents("div.page").data("context");
-        return new Model('account.report.context.followup').call('do_manual_action', [[parseInt(context_id)]]).then (function (result) {
+        return new Model('account.report.context.followup').call('do_manual_action', [[parseInt(context_id, 10)]]).then (function (result) {
             if ($(e.target).data('primary') == '1') {
                 $(e.target).parents('#action-buttons').addClass('oe-account-followup-clicked');
                 $(e.target).toggleClass('btn-primary btn-default');

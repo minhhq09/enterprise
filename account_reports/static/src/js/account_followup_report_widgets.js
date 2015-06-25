@@ -30,7 +30,7 @@ var FollowupReportWidget = ReportWidget.extend({
         var target_id = $("#nextActionModal #target_id").val();
         var date = $("#nextActionDate").val();
         date = formats.parse_value(date, {type:'date'})
-        return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id)], date, note]).then(function (result) {
+        return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id, 10)], date, note]).then(function (result) {
             $('#nextActionModal').modal('hide');
             $('div.page.' + target_id).find('.oe-account-next-action').html(QWeb.render("nextActionDate", {'note': note, 'date': date}));
         });
@@ -51,7 +51,7 @@ var FollowupReportWidget = ReportWidget.extend({
             $("div.page").find('div#followup-mode .oe-account-followup-manual').removeClass('btn-info');
             $('.oe-account-followup-no-action').remove();
         }
-        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]])
+        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id, 10)]])
     },
     setNextAction: function(e) {
         e.stopPropagation();
@@ -96,7 +96,7 @@ var FollowupReportWidget = ReportWidget.extend({
         else {
             $(e.target).parents('tr').attr('bgcolor', 'white');
         }
-        return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}])
+        return new Model('account.move.line').call('write', [[parseInt(target_id, 10)], {'blocked': checkbox}])
     },
     onKeyPress: function(e) {
         var report_name = $("div.page").data("report-name");
@@ -115,7 +115,7 @@ var FollowupReportWidget = ReportWidget.extend({
     },
     donePartner: function(e) {
         var partner_id = $(e.target).data("partner");
-        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id)]]).then(function (result) {
+        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id, 10)]]).then(function (result) {
             window.location.assign('?partner_done=' + partner_id, '_self');
         });
     },
@@ -138,7 +138,7 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var context_id = $(e.target).parents("div.page").attr("data-context");
-        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id)]]).then (function (result) {
+        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id, 10)]]).then (function (result) {
             if (result == true) {
                 window.$("div.page:first").prepend(QWeb.render("emailSent"));
                 if ($(e.target).data('primary') == '1') {
@@ -167,7 +167,7 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var note = $("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
-        return new Model('account.move.line').call('write', [[parseInt($("#paymentDateModal #target_id").val())], {expected_pay_date: formats.parse_value($("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
+        return new Model('account.move.line').call('write', [[parseInt($("#paymentDateModal #target_id").val(), 10)], {expected_pay_date: formats.parse_value($("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
             $('#paymentDateModal').modal('hide');
             location.reload(true);
         });

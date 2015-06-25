@@ -3,7 +3,7 @@ odoo.define('account_reports.ReportWidget', function (require) {
 
 var core = require('web.core');
 var Widget = require('web.Widget');
-var Model = require('web.DataModel');
+var Model = require('web.Model');
 var Session = require('web.session');
 var time = require('web.time');
 
@@ -48,11 +48,11 @@ var ReportWidget = Widget.extend({
         var context_id = $(e.target).parents('#footnoteModal').siblings("div.page").attr("data-context");
         var note = $("#note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
         var contextModel = new Model(this.context_by_reportname[report_name]);
-        return contextModel.call('get_next_footnote_number', [[parseInt(context_id)]]).then(function (footNoteSeqNum) {
+        return contextModel.call('get_next_footnote_number', [[parseInt(context_id, 10)]]).then(function (footNoteSeqNum) {
             self.curFootNoteTarget.after(QWeb.render("supFootNoteSeqNum", {footNoteSeqNum: footNoteSeqNum}));
             return contextModel.query(['footnotes_manager_id'])
             .filter([['id', '=', context_id]]).first().then(function (context) {
-                new Model('account.report.footnotes.manager').call('add_footnote', [[parseInt(context.footnotes_manager_id[0])], $("#type").val(), $("#target_id").val(), $("#column").val(), footNoteSeqNum, note]);
+                new Model('account.report.footnotes.manager').call('add_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], $("#type").val(), $("#target_id").val(), $("#column").val(), footNoteSeqNum, note]);
                 $('#footnoteModal').find('form')[0].reset();
                 $('#footnoteModal').modal('hide');
                 $("div.page").append(QWeb.render("savedFootNote", {num: footNoteSeqNum, note: note}));
@@ -97,7 +97,7 @@ var ReportWidget = Widget.extend({
             $(e.target).parents("div.oe-account-summary").html(QWeb.render("savedSummary", {summary : summary}));
         else
             $(e.target).parents("div.oe-account-summary").html(QWeb.render("addSummary"));
-        return new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id)], summary]);
+        return new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], summary]);
     },
     footnoteFromDropdown: function(e) {
         e.stopPropagation();
@@ -181,7 +181,7 @@ var ReportWidget = Widget.extend({
             $(e.target).siblings('textarea').replaceWith(text);
             new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id'])
             .filter([['id', '=', context_id]]).first().then(function (context) {
-                new Model('account.report.footnotes.manager').call('edit_footnote', [[parseInt(context.footnotes_manager_id[0])], parseInt(footNoteSeqNum), text]);
+                new Model('account.report.footnotes.manager').call('edit_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], parseInt(footNoteSeqNum, 10), text]);
             });
         }
         else {
@@ -189,7 +189,7 @@ var ReportWidget = Widget.extend({
                 $(e.target).parents("div.oe-account-summary").html(QWeb.render("savedSummary", {summary : text}));
             else
                 $(e.target).parents("div.oe-account-summary").html(QWeb.render("addSummary"));
-            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id)], text]);
+            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], text]);
         }
         $(e.target).remove();
     },
@@ -200,7 +200,7 @@ var ReportWidget = Widget.extend({
             var report_name = $(e.target).parents("div.page").attr("data-report-name");
             var context_id = $(e.target).parents("div.page").attr("data-context");
             $(e.target).parent().parent().replaceWith(QWeb.render("addSummary"));
-            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id)], '']);
+            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], '']);
         }
         else {
             var num = $(e.target).parent().parent().text().split('.')[0].replace(/ /g,'').replace(/\r?\n/g,'');
@@ -210,7 +210,7 @@ var ReportWidget = Widget.extend({
             var context_id = window.$("div.page").attr("data-context");
             new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id'])
             .filter([['id', '=', context_id]]).first().then(function (context) {
-                new Model('account.report.footnotes.manager').call('remove_footnote', [[parseInt(context.footnotes_manager_id[0])], parseInt(num)]);
+                new Model('account.report.footnotes.manager').call('remove_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], parseInt(num, 10)]);
             });
         }
     },
@@ -234,7 +234,7 @@ var ReportWidget = Widget.extend({
         $(e.target).parents('tr').find('td.oe-account-foldable').attr('class', 'oe-account-unfoldable ' + active_id)
         $(e.target).parents('tr').find('span.oe-account-foldable').replaceWith(QWeb.render("unfoldable", {lineId: active_id}));
         $(e.target).parents('tr').toggleClass('oe-account-unfolded');
-        return new Model(this.context_by_reportname[report_name]).call('remove_line', [[parseInt(context_id)], parseInt(active_id)]);
+        return new Model(this.context_by_reportname[report_name]).call('remove_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]);
     },
     unfold: function(e) {
         e.stopPropagation();
@@ -244,7 +244,7 @@ var ReportWidget = Widget.extend({
         var context_id = window.$("div.page").attr("data-context");
         var active_id = $(e.target).parents('tr').find('td.oe-account-unfoldable').data('id');
         var contextObj = new Model(this.context_by_reportname[report_name]);
-        return contextObj.call('add_line', [[parseInt(context_id)], parseInt(active_id)]).then(function (result) {
+        return contextObj.call('add_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]).then(function (result) {
             var el;
             var $el;
             var $nextEls = $(e.target).parents('tr').nextAll();
@@ -265,7 +265,7 @@ var ReportWidget = Widget.extend({
                     var f = function (lines) {
                         new Model(self.context_by_reportname[report_name]).query(['all_entries', 'cash_basis'])
                         .filter([['id', '=', context_id]]).first().then(function (context) {
-                            new Model(self.context_by_reportname[report_name]).call('get_columns_types', [[parseInt(context_id)]]).then(function (types) {
+                            new Model(self.context_by_reportname[report_name]).call('get_columns_types', [[parseInt(context_id, 10)]]).then(function (types) {
                                 var line;
                                 lines.shift();
                                 for (line in lines) {
@@ -278,11 +278,11 @@ var ReportWidget = Widget.extend({
                     if (report_name == 'financial_report') {
                         contextObj.query(['report_id'])
                         .filter([['id', '=', context_id]]).first().then(function (context) {
-                            reportObj.call('get_lines', [[parseInt(context.report_id[0])], parseInt(context_id), parseInt(active_id)]).then(f);
+                            reportObj.call('get_lines', [[parseInt(context.report_id[0], 10)], parseInt(context_id, 10), parseInt(active_id, 10)]).then(f);
                         });
                     }
                     else {
-                        reportObj.call('get_lines', [parseInt(context_id), parseInt(active_id)]).then(f);
+                        reportObj.call('get_lines', [parseInt(context_id, 10), parseInt(active_id, 10)]).then(f);
                     }
                 });
             }

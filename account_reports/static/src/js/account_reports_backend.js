@@ -14,30 +14,30 @@ var pager = require('web.Pager');
 var QWeb = core.qweb;
 
 var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
-    init: function(parent, context) {
+    init: function(parent, action) {
         var self = this;
         this.actionManager = parent;
-        this.base_url = context.context.url;
-        this.report_id = context.context.id ? parseInt(context.context.id) : undefined;
-        this.report_model = context.context.model;
+        this.base_url = action.context.url;
+        this.report_id = action.context.id ? parseInt(action.context.id, 10) : undefined;
+        this.report_model = action.context.model;
         var url = this.base_url;
-        if (context.context.addUrl) {
-            url += context.context.addUrl;
+        if (action.context.addUrl) {
+            url += action.context.addUrl;
         }
-        if (context.context.addActiveId) {
-            url += context.context.active_id;
+        if (action.context.addActiveId) {
+            url += action.context.active_id;
         }
-        if (context.context.force_context) {
-            if (context.context.addUrl) {
+        if (action.context.force_context) {
+            if (action.context.addUrl) {
                 url += '&';
             }
             else {
                 url += '?';
             }
-            url += 'date_filter=' + context.context.context.date_filter + '&date_filter_cmp=' + context.context.context.date_filter_cmp;
-            url += '&date_from=' + context.context.context.date_from + '&date_to=' + context.context.context.date_to + '&periods_number=' + context.context.context.periods_number;
-            url += '&date_from_cmp=' + context.context.context.date_from_cmp + '&date_to_cmp=' + context.context.context.date_to_cmp;
-            url += '&cash_basis=' + context.context.context.cash_basis + '&all_entries=' + context.context.context.all_entries;
+            url += encodeURIcomponent('date_filter=' + action.context.context.date_filter + '&date_filter_cmp=' + action.context.context.date_filter_cmp);
+            url += encodeURIcomponent('&date_from=' + action.context.context.date_from + '&date_to=' + action.context.context.date_to + '&periods_number=' + action.context.context.periods_number);
+            url += encodeURIcomponent('&date_from_cmp=' + action.context.context.date_from_cmp + '&date_to_cmp=' + action.context.context.date_to_cmp);
+            url += encodeURIcomponent('&cash_basis=' + action.context.context.cash_basis + '&all_entries=' + action.context.context.all_entries);
         }
         self._super(parent, url);
     },
@@ -47,6 +47,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         return new Model(this.report_model).call('get_report_type', [id]).then(function (result) {
             self.report_type = result;
             return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) {
+                self.context_model = new Model(JSON.parse(result)[self.report_model]);
                 self.page = 1;
             });
         });
@@ -71,7 +72,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         var self = this;
         var domain = [['create_uid', '=', self.session.uid]];
         if (self.report_id) {
-            domain.push(['report_id', '=', parseInt(self.report_id)]);
+            domain.push(['report_id', '=', parseInt(self.report_id, 10)]);
         }
         var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
         var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
@@ -157,7 +158,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 this.pager = new pager(this, this.context.last_page, this.page, 1);
                 this.pager.on('pager_changed', this, function (state) {
                     self.page = state.current_min;
-                    self.$el.attr({src: '/account/followup_report/all/page/' + self.page});
+                    self.$el.attr({src: encodeURIcomponent('/account/followup_report/all/page/' + self.page)});
                 });
                 return this.pager;
             }
@@ -182,7 +183,7 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 this.$searchview_buttons = $(QWeb.render("accountReports.followupSearchView", {context: this.context}));
                 this.$partnerFilter = this.$searchview_buttons.siblings('.oe-account-date-filter');
                 this.$searchview_buttons.find('.oe-account-one-filter').bind('click', function (event) {
-                    var url = self.base_url + '?partner_filter=' + $(event.target).parents('li').data('value');
+                    var url = self.base_url + encodeURIcomponent('?partner_filter=' + $(event.target).parents('li').data('value'));
                     self.$el.attr({src: url});
                 });
                 return this.$searchview_buttons;
@@ -214,9 +215,9 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             $('.oe-account-datetimepicker input').each(function () {
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             })
-            var url = self.base_url + '?date_filter=' + $(event.target).parents('li').data('value') + '&date_from=' + self.$searchview_buttons.find("input[name='date_from']").val() + '&date_to=' + self.$searchview_buttons.find("input[name='date_to']").val();
+            var url = self.base_url + encodeURIcomponent('?date_filter=' + $(event.target).parents('li').data('value') + '&date_from=' + self.$searchview_buttons.find("input[name='date_from']").val() + '&date_to=' + self.$searchview_buttons.find("input[name='date_to']").val());
             if (self.date_filter_cmp != 'no_comparison') {
-                url += '&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val();
+                url += encodeURIcomponent('&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val());
             }
             self.$el.attr({src: url});
         });
@@ -226,23 +227,23 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             })
             var filter = $(event.target).parents('li').data('value');
-            var url = self.base_url + '?date_filter_cmp=' + filter + '&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val();
+            var url = self.base_url + encodeURIcomponent('?date_filter_cmp=' + filter + '&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val());
             if (filter == 'previous_period' || filter == 'same_last_year') {
-                url += '&periods_number=' + $(event.target).siblings("input[name='periods_number']").val();
+                url += encodeURIcomponent('&periods_number=' + $(event.target).siblings("input[name='periods_number']").val());
             }
             self.$el.attr({src: url});
         });
         this.$searchview_buttons.find('.oe-account-one-filter-bool').bind('click', function (event) {
-            self.$el.attr({src: self.base_url + '?' + $(event.target).parents('li').data('value') + '=' + !$(event.target).parents('li').hasClass('selected')});
+            self.$el.attr({src: self.base_url + encodeURIcomponent('?' + $(event.target).parents('li').data('value') + '=' + !$(event.target).parents('li').hasClass('selected'))});
         });
         if (this.context.multi_company) {
             this.$searchview_buttons.find('.oe-account-one-company').bind('click', function (event) {
                 var value = $(event.target).parents('li').data('value');
                 if(self.context.company_ids.indexOf(value) === -1){
-                    self.$el.attr({src: self.base_url + '?add_company_ids=' + value});
+                    self.$el.attr({src: self.base_url + encodeURIcomponent('?add_company_ids=' + value)});
                 }
                 else {
-                    self.$el.attr({src: self.base_url + '?remove_company_ids=' + value});
+                    self.$el.attr({src: self.base_url + encodeURIcomponent('?remove_company_ids=' + value)});
                 }
             });
         }
