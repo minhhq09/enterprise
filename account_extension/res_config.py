@@ -12,3 +12,6 @@ class AccountConfigSettingsEnterpries(models.TransientModel):
     module_account_sepa = fields.Boolean(string='Use sepa payment',
         help='If you check this box, you will be able to register your payment using SEPA.\n'
             '-This installs the module account_sepa.')
+    module_account_plaid = fields.Boolean(string="Import of Bank Statements from Plaid.",
+                                          help='Get your bank statements from you bank and import them through plaid.com.\n'
+                                          '-that installs the module account_plaid.')
