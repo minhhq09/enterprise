@@ -118,7 +118,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
     get_default_view: function() {
         var default_view_type = this.view_in_url || this.flags.default_view || this.view_order[0].type;
         var default_view = this.views[default_view_type];
-        if (!this.view_in_url && config.mobile && !default_view.mobile_friendly) {
+        if (!this.view_in_url && config.device.xs && !default_view.mobile_friendly) {
             default_view = (_.find(this.views, function (v) { return v.mobile_friendly; })) || default_view;
         }
         return default_view.type;

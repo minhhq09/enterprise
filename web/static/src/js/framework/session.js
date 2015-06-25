@@ -429,9 +429,12 @@ odoo.define('web.config', function () {
 
 var config = {
     debug: ($.deparam($.param.querystring()).debug !== undefined),
+    device: {
+        touch: 'ontouchstart' in window || 'onmsgesturechange' in window,
+    },
 };
 
-Object.defineProperty(config, 'mobile', {
+Object.defineProperty(config.device, 'xs', {
     get: function () { return $(document.body).width() <= 768; },
 });
 

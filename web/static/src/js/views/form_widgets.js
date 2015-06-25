@@ -361,7 +361,7 @@ var FieldPhone = FieldEmail.extend({
     prefix: 'tel',
     init: function() {
         this._super.apply(this, arguments);
-        this.clickable = config.mobile;
+        this.clickable = config.device.xs;
     },
     render_value: function() {
         this._super();
@@ -1350,7 +1350,7 @@ var FieldStatus = common.AbstractField.extend({
     },
     render_value: function() {
         var self = this;
-        var $content = $(QWeb.render("FieldStatus.content." + ((config.mobile)? 'mobile' : 'desktop'), {
+        var $content = $(QWeb.render("FieldStatus.content." + ((config.device.xs)? 'mobile' : 'desktop'), {
             'widget': self, 
             'value_folded': _.find(self.selection.folded, function(i){return i[0] === self.get('value');})
         }));

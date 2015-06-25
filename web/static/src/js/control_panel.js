@@ -185,7 +185,7 @@ var ControlPanel = Widget.extend({
             // have been appended to a jQuery node not in the DOM at SearchView initialization
             searchview.$buttons = this.nodes.$searchview_buttons;
             searchview.toggle_visibility(!is_hidden);
-            this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.mobile);
+            this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.device.xs);
 
             if(this.$enable_searchview === undefined) {
                 var self = this;
@@ -195,7 +195,7 @@ var ControlPanel = Widget.extend({
                         self.$el.toggleClass('o_breadcrumb_full');
                 });
             }
-            if(!is_hidden && config.mobile) {
+            if(!is_hidden && config.device.xs) {
                 this.$enable_searchview.insertAfter(this.nodes.$searchview);
             } else {
                 this.$enable_searchview.detach();

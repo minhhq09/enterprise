@@ -2,6 +2,7 @@ odoo.define('web.WebClient', function (require) {
 "use strict";
 
 var ActionManager = require('web.ActionManager');
+var config = require('web.config');
 var core = require('web.core');
 var crash_manager = require('web.crash_manager');
 var data = require('web.data');
@@ -16,7 +17,6 @@ var Widget = require('web.Widget');
 
 var QWeb = core.qweb;
 var _t = core._t;
-
 
 var WebClient = Widget.extend({
     custom_events: {
@@ -55,6 +55,7 @@ var WebClient = Widget.extend({
         var self = this;
         this.on("change:title_part", this, this._title_changed);
         this._title_changed();
+        this.$el.toggleClass('o_touch_device', config.device.touch);
 
         return session.session_bind(this.origin).then(function () {
             self.bind_events();
