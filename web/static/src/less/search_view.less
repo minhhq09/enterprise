@@ -137,7 +137,7 @@
     padding-top: 5px;
 
     // Open and closed carets in dropdowns
-    .o-closed-menu {
+    .o_closed_menu {
         position: relative;
         a:before {
             .o-caret-right;
@@ -155,57 +155,57 @@
     }
 
     // Filters
-    .o-filters-menu {
+    .o_filters_menu {
         .o-selected-li;
 
-        .o-filter-condition {
+        .o_filter_condition {
             .o_search_options_dropdown_custom_li;
             margin-bottom: 8px;
-            .o-or-filter { // or between conditions
+            .o_or_filter { // or between conditions
                 display: none;  // hidden for the first condition
                 .o-position-absolute(@top: 7px, @left: -18px);
             }
         }
-        .o-filter-condition + .o-filter-condition {
-            .o-or-filter {
+        .o_filter_condition + .o_filter_condition {
+            .o_or_filter {
                 display: block; // displayed from second condition
             }
         }
-        .o-searchview-extended-prop-op {
+        .o_searchview_extended_prop_op {
             margin: 3px 0px; // vertical gap between selects
         }
-        .o-searchview-extended-prop-value { // date fields: datepicker position
+        .o_searchview_extended_prop_value { // date fields: datepicker position
             .datepickerbutton {
                 .o-position-absolute(3px, -20px);
                 cursor: pointer;
             }
         }
-        .o-searchview-extended-delete-prop { // delete condition button position
+        .o_searchview_extended_delete_prop { // delete condition button position
             .o-position-absolute(3px, -18px);
             cursor: pointer;
         }
-        .o-add-filter-menu { // apply and add buttons
+        .o_add_filter_menu { // apply and add buttons
             display: none;  // Needed by the webclient
             .o_search_options_dropdown_custom_li;
-            .o-add-condition {
+            .o_add_condition {
                 float: right;
             }
         }
     }
 
     // Group By
-    .o-group-by-menu {
+    .o_group_by_menu {
         .o-selected-li;
 
         .divider {display: none;} // hide the divider by default (no group)
-        .o-add-group { // add button
+        .o_add_group { // add button
             display: none;  // Needed by the webclient
             .o_search_options_dropdown_custom_li;
         }
     }
 
     // Favorites
-    .o-favorites-menu {
+    .o_favorites_menu {
         .o-selected-li;
 
         .divider {display: none;} // hide the divider by default (no favorite)
@@ -222,7 +222,7 @@
             margin-left: 5px;
             font-weight: normal;
         }
-        .o-save-name { // save button
+        .o_save_name { // save button
             display: none; // hidden by default
             .o_search_options_dropdown_custom_li;
         }

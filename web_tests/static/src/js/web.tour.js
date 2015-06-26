@@ -16,7 +16,7 @@ Tour.register({
         // create test discussion
         {
             title:      "create new discussion",
-            element:    '.o_web_client:has(.breadcrumb:contains(Discussions)) button.o-list-button-add'
+            element:    '.o_web_client:has(.breadcrumb:contains(Discussions)) button.o_list_button_add'
         },
         {
             title:      "insert title",
@@ -357,12 +357,12 @@ Tour.register({
         {
             title:      "switch to the second form view to test one2many with editable list (toggle menu dropdown)",
             waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
-            element:    'nav .o-menu-sections li a:containsExact(Discussions)'
+            element:    'nav .o_menu_sections li a:containsExact(Discussions)'
         },
 
         {
             title:      "switch to the second form view to test one2many with editable list (open submenu)",
-            element:    'nav .o-menu-sections ul li a:contains(Discussions 2)'
+            element:    'nav .o_menu_sections ul li a:contains(Discussions 2)'
         },
         {
             title:      "select previous created record",

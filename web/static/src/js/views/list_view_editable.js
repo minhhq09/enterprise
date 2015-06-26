@@ -318,10 +318,10 @@ ListView.include(/** @lends instance.web.ListView# */{
         this._super.apply(this, arguments); // Sets this.$buttons
         if (add_button && this.editable()) {
             this.$buttons
-                .off('click', '.o-list-button-save')
-                .on('click', '.o-list-button-save', this.proxy('save_edition'))
-                .off('click', '.o-list-button-discard')
-                .on('click', '.o-list-button-discard', function (e) {
+                .off('click', '.o_list_button_save')
+                .on('click', '.o_list_button_save', this.proxy('save_edition'))
+                .off('click', '.o_list_button_discard')
+                .on('click', '.o_list_button_discard', function (e) {
                     e.preventDefault();
                     self.cancel_edition();
                 });

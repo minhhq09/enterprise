@@ -32,7 +32,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
      * view should be displayed (if there is one active).
      */
     searchable: false,
-    template: "FormView",
+    className: "o_form_view",
     display_name: _lt('Form'),
     view_type: "form",
     multi_record: false,
@@ -166,7 +166,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
                          this.guard_active(this.on_button_cancel));
 
         if (this.options.footer_to_buttons) {
-            this.$el.find('footer').appendTo(this.$buttons);
+            this.$('footer').appendTo(this.$buttons);
         }
 
         $node = $node || this.options.$buttons;
@@ -228,8 +228,8 @@ var FormView = View.extend(common.FieldManagerMixin, {
     toggle_buttons: function() {
         var view_mode = this.get("actual_mode") === "view";
         if (this.$buttons) {
-            this.$buttons.find('.o-form-buttons-view').toggle(view_mode);
-            this.$buttons.find('.o-form-buttons-edit').toggle(!view_mode);
+            this.$buttons.find('.o_form_buttons_view').toggle(view_mode);
+            this.$buttons.find('.o_form_buttons_edit').toggle(!view_mode);
         }
     },
     /**

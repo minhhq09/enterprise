@@ -51,7 +51,7 @@ var AppSwitcher = Widget.extend({
 var AppSwitcherNavbar = Widget.extend({
     template: 'AppSwitcherNavbar',
     events: {
-        'click .o-back-button': function (ev) {
+        'click .o_back_button': function (ev) {
             ev.preventDefault();
             this.trigger_up('hide_app_switcher');
         }
@@ -71,11 +71,11 @@ var AppSwitcherNavbar = Widget.extend({
 
         var user_menu = new UserMenu(this);
         return this._super.apply(this, arguments).then(function () {
-            user_menu.appendTo(self.$el.find('.o_appswitcher_navbar_systray'));
+            user_menu.appendTo(self.$('.o_appswitcher_navbar_systray'));
         });
     },
     toggle_back_button: function (display) {
-        this.$('.o-back-button').toggleClass('hidden', display);
+        this.$('.o_back_button').toggleClass('hidden', display);
         this.backbutton_displayed = !display;
     },
 });

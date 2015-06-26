@@ -10,12 +10,12 @@ var QWeb = core.qweb;
 var Menu = Widget.extend({
     template: 'Menu',
     events: {
-        'click .o-menu-toggle': function (ev) {
+        'click .o_menu_toggle': function (ev) {
             ev.preventDefault();
             this.trigger_up('show_app_switcher');
         },
-        'mouseover .o-menu-sections > li:not(.open)': function(e) {
-            var $opened = this.$('.o-menu-sections > li.open');
+        'mouseover .o_menu_sections > li:not(.open)': function(e) {
+            var $opened = this.$('.o_menu_sections > li.open');
             if($opened.length) {
                 $opened.removeClass('open');
                 $(e.currentTarget).addClass('open').find('> a').focus();
@@ -47,8 +47,8 @@ var Menu = Widget.extend({
         this.systray_menu.start();
 
         // Navbar's menus event handlers
-        this.$menu_brand_placeholder = this.$('.o-menu-brand');
-        this.$section_placeholder = this.$('.o-menu-sections');
+        this.$menu_brand_placeholder = this.$('.o_menu_brand');
+        this.$section_placeholder = this.$('.o_menu_sections');
         _.each(this.$menu_sections, function ($section, primary_menu_id) {
             $section.on('click', 'a[data-menu]', self, function (ev) {
                 ev.preventDefault();

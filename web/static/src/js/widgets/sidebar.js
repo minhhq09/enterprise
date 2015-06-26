@@ -62,8 +62,8 @@ var Sidebar = Widget.extend({
         this.$("[title]").tooltip({
             delay: { show: 500, hide: 0}
         });
-        this.$('.o-sidebar-add-attachment .o_form_binary_form').change(this.on_attachment_changed);
-        this.$el.find('.o-sidebar-delete-attachment').click(this.on_attachment_delete);
+        this.$('.o_sidebar_add_attachment .o_form_binary_form').change(this.on_attachment_changed);
+        this.$('.o_sidebar_delete_attachment').click(this.on_attachment_delete);
     },
     /**
      * For each item added to the section:
@@ -190,10 +190,10 @@ var Sidebar = Widget.extend({
     on_attachment_changed: function(e) {
         var $e = $(e.target);
         if ($e.val() !== '') {
-            this.$el.find('form.o_form_binary_form').submit();
+            this.$('form.o_form_binary_form').submit();
             $e.parent().find('input[type=file]').prop('disabled', true);
             $e.parent().find('button').prop('disabled', true).find('img, span').toggle();
-            this.$('.o-sidebar-add-attachment a').text(_t('Uploading...'));
+            this.$('.o_sidebar_add_attachment a').text(_t('Uploading...'));
             framework.blockUI();
         }
     },

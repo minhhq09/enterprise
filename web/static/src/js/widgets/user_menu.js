@@ -33,7 +33,7 @@ var UserMenu = Widget.extend({
     do_update: function () {
         var self = this;
         var fct = function() {
-            var $avatar = self.$el.find('.oe_topbar_avatar');
+            var $avatar = self.$('.oe_topbar_avatar');
             $avatar.attr('src', $avatar.data('default-src'));
             if (!session.uid)
                 return;
@@ -44,7 +44,7 @@ var UserMenu = Widget.extend({
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, session.db);
                 if(res.company_id[0] > 1)
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
-                self.$el.find('.oe_topbar_name').text(topbar_name);
+                self.$('.oe_topbar_name').text(topbar_name);
                 if (!session.debug) {
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, session.db);
                 }

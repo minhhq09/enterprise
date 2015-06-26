@@ -46,16 +46,16 @@ var DataBaseManager = Widget.extend({
             $(form_id).show().siblings().hide();
             event.preventDefault();
         });
-        $('#back-to-login').click(self.do_exit);
-        self.$el.find("td").addClass("oe_form_group_cell");
-        self.$el.find("tr td:first-child").addClass("oe_form_group_cell_label");
-        self.$el.find("label").addClass("oe_form_label");
-        self.$el.find("form[name=create_db_form]").validate({ submitHandler: self.do_create });
-        self.$el.find("form[name=duplicate_db_form]").validate({ submitHandler: self.do_duplicate });
-        self.$el.find("form[name=drop_db_form]").validate({ submitHandler: self.do_drop });
-        self.$el.find("form[name=backup_db_form]").validate({ submitHandler: self.do_backup });
-        self.$el.find("form[name=restore_db_form]").validate({ submitHandler: self.do_restore });
-        self.$el.find("form[name=change_pwd_form]").validate({
+        $('#o_back_to_login').click(self.do_exit);
+        self.$("td").addClass("oe_form_group_cell");
+        self.$("tr td:first-child").addClass("oe_form_group_cell_label");
+        self.$("label").addClass("oe_form_label");
+        self.$("form[name=create_db_form]").validate({ submitHandler: self.do_create });
+        self.$("form[name=duplicate_db_form]").validate({ submitHandler: self.do_duplicate });
+        self.$("form[name=drop_db_form]").validate({ submitHandler: self.do_drop });
+        self.$("form[name=backup_db_form]").validate({ submitHandler: self.do_backup });
+        self.$("form[name=restore_db_form]").validate({ submitHandler: self.do_restore });
+        self.$("form[name=change_pwd_form]").validate({
             messages: {
                 old_pwd: _t("Please enter your previous password"),
                 new_pwd: _t("Please enter your new password"),
@@ -68,7 +68,7 @@ var DataBaseManager = Widget.extend({
         });
     },
     destroy: function () {
-        this.$el.find('#db-create, #db-drop, #db-backup, #db-restore, #db-change-password, #back-to-login').unbind('click').end().empty();
+        this.$('#db-create, #db-drop, #db-backup, #db-restore, #db-change-password, #o_back_to_login').unbind('click').end().empty();
         this._super();
     },
     /**

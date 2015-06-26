@@ -278,9 +278,7 @@
     </div>
 </t>
 <t t-name="DatabaseManager.user_menu">
-    <li>
-         <a id="back-to-login" href="#">Back to Login</a>
-    </li>
+    <li><a id="o_back_to_login" href="#">Back to Login</a></li>
 </t>
 <t t-name="DatabaseManager.menu">
     <div class="oe_secondary_menu_section">Database Management</div>
@@ -355,7 +353,7 @@
                     <div class="user-image">
                         <img src="/web/static/src/img/logo2.png" alt="Odoo (Formerly OpenERP)" title="Odoo (Formerly OpenERP)" class="img-circle"/>
                     </div>
-                    <div class="user-info-block">
+                    <div class="o_user_info_block">
                         <div class="user-heading">
                             <br/><span class="help-block">(Formerly OpenERP)</span>
                             <h3>Version <t t-esc="version_info.server_version"/></h3>
@@ -616,10 +614,10 @@
                     </t>
                     <a t-att-title="item.title or ''" t-att-data-section="section.name" t-att-data-index="item_index" t-att-href="item.url">
                         <t t-raw="item.label"/>
-                        <span t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="fa fa-trash-o o-sidebar-delete-attachment" t-att-data-id="item.id" title="Delete this attachment"/>
+                        <span t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="fa fa-trash-o o_sidebar_delete_attachment" t-att-data-id="item.id" title="Delete this attachment"/>
                     </a>
                 </li>
-                <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="o-sidebar-add-attachment">
+                <li t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files'" class="o_sidebar_add_attachment">
                     <t t-call="HiddenInputFile">
                         <t t-set="fileupload_id" t-value="widget.fileupload_id"/>
                         <t t-set="fileupload_action" t-translation="off">/web/binary/upload_attachment</t>
@@ -679,7 +677,7 @@
 <table t-name="ListView" class="o_list_view table table-condensed table-striped table-responsive">
     <t t-set="columns_count" t-value="visible_columns.length + (options.selectable ? 1 : 0) + (options.deletable ? 1 : 0)"/>
     <thead>
-        <tr t-if="options.header" class="o-list-header">
+        <tr t-if="options.header">
             <t t-foreach="columns" t-as="column">
                 <th t-if="column.meta">
                     <t t-esc="column.string"/>
@@ -711,8 +709,8 @@
 
 <t t-name="ListView.buttons">
     <t t-if="!widget.no_leaf and widget.options.action_buttons !== false and widget.options.addable and widget.is_action_enabled('create')">
-    <div class="o-list-buttons">
-        <button type="button" class="btn btn-primary btn-sm o-list-button-add">
+    <div class="o_list_buttons">
+        <button type="button" class="btn btn-primary btn-sm o_list_button_add">
             <t t-esc="widget.options.addable"/>
         </button>
     </div>
@@ -754,11 +752,11 @@
 </tr>
 
 <t t-extend="ListView.buttons">
-    <t t-jquery="button.o-list-button-add" t-operation="after">
-        <button type="button" class="btn btn-primary btn-sm o-list-button-save">
+    <t t-jquery="button.o_list_button_add" t-operation="after">
+        <button type="button" class="btn btn-primary btn-sm o_list_button_save">
             Save
         </button>
-        <button type="button" class="btn btn-default btn-sm o-list-button-discard">
+        <button type="button" class="btn btn-default btn-sm o_list_button_discard">
             Discard
         </button>
     </t>
@@ -784,13 +782,9 @@
     </t>
 </t>
 
-<t t-name="FormView">
-    <div class="o-form-view"/>
-</t>
-
-<div t-name="FormView.buttons" class="o-form-buttons">
+<div t-name="FormView.buttons">
     <t t-if="widget.options.action_buttons !== false">
-        <div class="o-form-buttons-view">
+        <div class="o_form_buttons_view">
             <button t-if="widget.is_action_enabled('edit')" type="button"
                     class="btn btn-primary btn-sm o_form_button_edit" accesskey="E">
                 Edit
@@ -800,7 +794,7 @@
                 Create
             </button>
         </div>
-        <div class="o-form-buttons-edit">
+        <div class="o_form_buttons_edit">
             <button type="button"
                     class="btn btn-primary btn-sm o_form_button_save" accesskey="S">
                 Save
@@ -1364,13 +1358,6 @@
     </t>
 </t>
 
-
-<t t-name="One2Many.formview" t-extend="FormView">
-    <t t-jquery=".oe_form_buttons" t-operation="inner">
-        <button type="button" class="oe_button oe_form_button_create">Add</button>
-    </t>
-</t>
-
 <div t-name="SearchView" class="o_searchview">
     <span class="o_searchview_more fa" title="Advanced Search..."/>
 </div>
@@ -1394,13 +1381,13 @@
     <a class="dropdown-toggle" data-toggle="dropdown">
         <span class="fa fa-filter"/> Filters <span class="caret"/>
     </a>
-    <ul class="dropdown-menu o-filters-menu" role="menu">
-        <li class="o-add-filter o-closed-menu">
+    <ul class="dropdown-menu o_filters_menu" role="menu">
+        <li class="o_add_filter o_closed_menu">
             <a href="#">Add Custom Filter</a>
         </li>
-        <li class="o-add-filter-menu">
-            <button class="btn btn-default btn-sm o-add-condition" type="button"><span class="fa fa-plus-circle"/> Add a condition</button>
-            <button class="btn btn-primary btn-sm o-apply-filter" type="button">Apply</button>
+        <li class="o_add_filter_menu">
+            <button class="btn btn-default btn-sm o_add_condition" type="button"><span class="fa fa-plus-circle"/> Add a condition</button>
+            <button class="btn btn-primary btn-sm o_apply_filter" type="button">Apply</button>
         </li>
     </ul>
 </div>
@@ -1408,9 +1395,7 @@
     <li t-foreach="widget.filters" t-as="filter" t-if="!filter.visible || filter.visible()"
             t-att-title="filter.attrs.string ? filter.attrs.help : undefined"
             t-att-data-index="filter_index">
-        <a href="#">
-            <t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'Ω'"/>
-        </a>
+        <a href="#"><t t-esc="filter.attrs.string or filter.attrs.help or filter.attrs.name or 'Ω'"/></a>
     </li>
 </t>
 <t t-name="SearchView.field">
@@ -1470,10 +1455,10 @@
     </div>
 </t>
 <t t-name="SearchView.extended_search.proposition">
-    <li class="o-filter-condition">
-        <span class="o-or-filter">or</span>
+    <li class="o_filter_condition">
+        <span class="o_or_filter">or</span>
         <span>
-            <select class="o-searchview-extended-prop-field">
+            <select class="o_searchview_extended_prop_field">
                 <t t-foreach="widget.attrs.fields" t-as="field">
                     <option t-att="{'selected': field === widget.attrs.selected ? 'selected' : null}"
                             t-att-value="field.name">
@@ -1481,10 +1466,10 @@
                     </option>
                 </t>
             </select>
-            <span class="o-searchview-extended-delete-prop fa fa-trash-o"/>
+            <span class="o_searchview_extended_delete_prop fa fa-trash-o"/>
         </span>
-        <select class="o-searchview-extended-prop-op"/>
-        <span class="o-searchview-extended-prop-value"/>
+        <select class="o_searchview_extended_prop_op"/>
+        <span class="o_searchview_extended_prop_value"/>
     </li>
 </t>
 <t t-name="SearchView.extended_search.proposition.float">
@@ -1505,21 +1490,21 @@
     <a class="dropdown-toggle" data-toggle="dropdown">
         <span class="fa fa-bars"/> Group By <span class="caret"/>
     </a>
-    <ul class="dropdown-menu o-group-by-menu" role="menu">
+    <ul class="dropdown-menu o_group_by_menu" role="menu">
         <li class="divider"/>
-        <li class="o-add-custom-group o-closed-menu">
+        <li class="o_add_custom_group o_closed_menu">
             <a href="#">Add custom group</a>
         </li>
     </ul>
 </div>
 <t t-name="GroupByMenuSelector">
-    <li><select class="o-add-group o-group-selector">
+    <li><select class="o_add_group o_group_selector">
         <t t-foreach="groupable_fields" t-as="field">
             <option t-att-data-name="field"><t t-esc="groupable_fields[field].string"/></option>
         </t>
     </select></li>
     <li>
-        <button type="button" class="btn btn-primary btn-sm o-add-group o-select-group">Apply</button>
+        <button type="button" class="btn btn-primary btn-sm o_add_group o_select_group">Apply</button>
     </li>
 </t>
 
@@ -1527,21 +1512,21 @@
     <a class="dropdown-toggle" data-toggle="dropdown">
         <span class="fa fa-star"/> Favorites <span class="caret"/>
     </a>
-    <ul class="dropdown-menu o-favorites-menu" role="menu">
+    <ul class="dropdown-menu o_favorites_menu" role="menu">
         <li class="divider"/>
-        <li class="o-save-search o-closed-menu">
+        <li class="o_save_search o_closed_menu">
             <a href="#">Save current search</a>
         </li>
-        <li class="o-save-name">
+        <li class="o_save_name">
             <input type="text"></input>
         </li>
-        <li class="o-save-name">
+        <li class="o_save_name">
             <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Use by default</span>
         </li>
-        <li class="o-save-name">
+        <li class="o_save_name">
             <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Share with all users </span><span class="fa fa-users"/>
         </li>
-        <li class="o-save-name">
+        <li class="o_save_name">
             <button type="button" class="btn btn-primary btn-sm">Save</button>
         </li>
     </ul>
@@ -1742,16 +1727,16 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#o-navbar-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#o_navbar_collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                 </button>
-                <a href="#" class="o-back-button navbar-brand hidden"><i class="fa fa-chevron-left"/></a>
+                <a href="#" class="o_back_button navbar-brand hidden"><i class="fa fa-chevron-left"/></a>
             </div>
 
-            <div class="collapse navbar-collapse" id="o-navbar-collapse">
+            <div class="collapse navbar-collapse" id="o_navbar_collapse">
                 <ul class="nav navbar-nav navbar-right o_appswitcher_navbar_systray"/>
             </div>
         </div>
@@ -1762,18 +1747,18 @@
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#o-navbar-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#o_navbar_collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                 </button>
-                <a class="navbar-brand o-menu-toggle" href="#"><i class="fa fa-th"/></a>
-                <span class="navbar-brand o-menu-brand"/>
+                <a class="navbar-brand o_menu_toggle" href="#"><i class="fa fa-th"/></a>
+                <span class="navbar-brand o_menu_brand"/>
             </div>
 
-            <div class="collapse navbar-collapse" id="o-navbar-collapse">
-                <ul class="nav navbar-nav o-menu-sections"/>
+            <div class="collapse navbar-collapse" id="o_navbar_collapse">
+                <ul class="nav navbar-nav o_menu_sections"/>
                 <ul class="nav navbar-nav navbar-right oe_systray"/>
             </div>
         </div>
@@ -1790,7 +1775,7 @@
             t-att-data-action-model="menu.action ? menu.action.split(',')[0] : ''"
             t-att-data-action-id="menu.action ? menu.action.split(',')[1] : ''"
             t-att-class="'o_menu_entry_lvl_' + depth"
-            data-toggle="collapse" data-target="#o-navbar-collapse.in">
+            data-toggle="collapse" data-target="#o_navbar_collapse.in">
             <span><t t-esc="menu.name"/></span>
         </a>
     </li>

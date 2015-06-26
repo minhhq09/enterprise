@@ -97,7 +97,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
                 return;
             }
 
-            var $select = self.$el.find('select')
+            var $select = self.$('select')
                 .change(function () {
                     var $option = $(this).find(':selected');
                     self.getdata($option.val(), $option.data('children'));
@@ -175,8 +175,8 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
                 children_ids = record[self.children_field];
 
             _(children_ids).each(function(childid) {
-                if (self.$el.find('[id=treerow_' + childid + '][data-row-parent-id='+ record_id +']').length ) {
-                    if (self.$el.find('[id=treerow_' + childid + '][data-row-parent-id='+ record_id +']').is(':hidden')) {
+                if (self.$('[id=treerow_' + childid + '][data-row-parent-id='+ record_id +']').length ) {
+                    if (self.$('[id=treerow_' + childid + '][data-row-parent-id='+ record_id +']').is(':hidden')) {
                         is_loaded = -1;
                     } else {
                         is_loaded++;
@@ -200,7 +200,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
             _(records).each(function (record) {
                 self.records[record.id] = record;
             });
-            var $curr_node = self.$el.find('#treerow_' + id);
+            var $curr_node = self.$('#treerow_' + id);
             var children_rows = QWeb.render('TreeView.rows', {
                 'records': records,
                 'children_field': self.children_field,
@@ -215,7 +215,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
                 $curr_node.addClass('o_open');
                 $curr_node.after(children_rows);
             } else {
-                self.$el.find('tbody').html(children_rows);
+                self.$('tbody').html(children_rows);
             }
         });
     },
@@ -251,7 +251,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
     showcontent: function (curnode,record_id, show) {
         curnode.parent('tr').toggleClass('o_open', show);
         _(this.records[record_id][this.children_field]).each(function (child_id) {
-            var $child_row = this.$el.find('[id=treerow_' + child_id + '][data-row-parent-id='+ curnode.data('id') +']');
+            var $child_row = this.$('[id=treerow_' + child_id + '][data-row-parent-id='+ curnode.data('id') +']');
             if ($child_row.hasClass('o_open')) {
                 $child_row.toggleClass('o_open',show);
                 this.showcontent($child_row, child_id, false);

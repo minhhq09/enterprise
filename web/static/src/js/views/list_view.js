@@ -273,7 +273,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
         if (!this.$buttons) {
             this.$buttons = $(QWeb.render("ListView.buttons", {'widget': this}));
 
-            this.$buttons.find('.o-list-button-add').click(this.proxy('do_add_record'));
+            this.$buttons.find('.o_list_button_add').click(this.proxy('do_add_record'));
 
             $node = $node || this.options.$buttons;
             this.$buttons.appendTo($node);
@@ -796,7 +796,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
     pad_columns: function (count, options) {
         options = options || {};
         // padding for action/pager header
-        var $first_header = this.$el.find('thead tr:first th');
+        var $first_header = this.$('thead tr:first th');
         var colspan = $first_header.attr('colspan');
         if (colspan) {
             if (!this.previous_colspan) {
@@ -819,7 +819,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
      * Removes all padding columns of the table
      */
     unpad_columns: function () {
-        this.$el.find('.oe_list_padding').remove();
+        this.$('.oe_list_padding').remove();
         if (this.previous_colspan) {
             this.$el
                     .find('thead tr:first th')

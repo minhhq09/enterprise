@@ -18,13 +18,13 @@ return Widget.extend({
         'click li a': function (event) {
             event.preventDefault();
         },
-        'click .o-save-search a': function (event) {
+        'click .o_save_search a': function (event) {
             event.preventDefault();
             this.toggle_save_menu();
         },
-        'click .o-save-name button': 'save_favorite',
+        'click .o_save_name button': 'save_favorite',
         'hidden.bs.dropdown': 'close_menus',
-        'keyup .o-save-name input': function (ev) {
+        'keyup .o_save_name input': function (ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 this.save_favorite();
             }
@@ -42,8 +42,8 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$save_search = this.$('.o-save-search');
-        this.$save_name = this.$('.o-save-name');
+        this.$save_search = this.$('.o_save_search');
+        this.$save_name = this.$('.o_save_name');
         this.$inputs = this.$save_name.find('input');
         this.$divider = this.$('.divider');
         this.$inputs.eq(0).val(this.searchview.get_title());
@@ -72,7 +72,7 @@ return Widget.extend({
     },
     toggle_save_menu: function (is_open) {
         this.$save_search
-            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o_closed_menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
             .toggleClass('o-open-menu', is_open);
         this.$save_name.toggle(is_open);
         if (this.$save_search.hasClass('o-open-menu')) {
@@ -265,7 +265,7 @@ var search_filters = require('web.search_filters'),
 return Widget.extend({
     template: 'SearchView.FilterMenu',
     events: {
-        'click .o-add-filter': function (event) {
+        'click .o_add_filter': function (event) {
             event.preventDefault();
             this.toggle_custom_filter_menu();
         },
@@ -276,8 +276,8 @@ return Widget.extend({
         'hidden.bs.dropdown': function () {
             this.toggle_custom_filter_menu(false);
         },
-        'click .o-add-condition': 'append_proposition',
-        'click .o-apply-filter': 'commit_search',
+        'click .o_add_condition': 'append_proposition',
+        'click .o_apply_filter': 'commit_search',
         'keyup .searchview_extended_prop_value': function (ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 this.commit_search();
@@ -303,10 +303,10 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$menu = this.$('.o-filters-menu');
-        this.$add_filter = this.$('.o-add-filter');
-        this.$apply_filter = this.$('.o-apply-filter');
-        this.$add_filter_menu = this.$('.o-add-filter-menu');
+        this.$menu = this.$('.o_filters_menu');
+        this.$add_filter = this.$('.o_add_filter');
+        this.$apply_filter = this.$('.o_apply_filter');
+        this.$add_filter_menu = this.$('.o_add_filter_menu');
         _.each(this.filters, function (group) {
             if (group.is_visible()) {
                 group.insertBefore(self.$add_filter);
@@ -319,13 +319,13 @@ return Widget.extend({
     },
     toggle_custom_filter_menu: function (is_open) {
         this.$add_filter
-            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o_closed_menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
             .toggleClass('o-open-menu', is_open);
         this.$add_filter_menu.toggle(is_open);
-        if (this.$add_filter.hasClass('o-closed-menu') && (!this.propositions.length)) {
+        if (this.$add_filter.hasClass('o_closed_menu') && (!this.propositions.length)) {
             this.append_proposition();
         }
-        this.$('.o-filter-condition').toggle(is_open);
+        this.$('.o_filter_condition').toggle(is_open);
     },
     append_proposition: function () {
         var self = this;
@@ -384,7 +384,7 @@ return Widget.extend({
         'hidden.bs.dropdown': function () {
             this.toggle_add_menu(false);
         },
-        'click .o-add-custom-group a': function (event) {
+        'click .o_add_custom_group a': function (event) {
             event.preventDefault();
             this.toggle_add_menu();
         },
@@ -398,18 +398,18 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$menu = this.$('.o-group-by-menu');
+        this.$menu = this.$('.o_group_by_menu');
         var divider = this.$menu.find('.divider');
         _.invoke(this.groups, 'insertBefore', divider);
         if (this.groups.length) {
             divider.show();
         }
-        this.$add_group = this.$menu.find('.o-add-custom-group');
+        this.$add_group = this.$menu.find('.o_add_custom_group');
         this.fields_def.then(function () {
             self.$menu.append(QWeb.render('GroupByMenuSelector', self));
-            self.$add_group_menu = self.$('.o-add-group');
-            self.$group_selector = self.$('.o-group-selector');
-            self.$('.o-select-group').click(function () {
+            self.$add_group_menu = self.$('.o_add_group');
+            self.$group_selector = self.$('.o_group_selector');
+            self.$('.o_select_group').click(function () {
                 self.toggle_add_menu(false);
                 var field = self.$group_selector.find(':selected').data('name');
                 self.add_groupby_to_menu(field);
@@ -428,7 +428,7 @@ return Widget.extend({
     },
     toggle_add_menu: function (is_open) {
         this.$add_group
-            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o_closed_menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
             .toggleClass('o-open-menu', is_open);
         this.$add_group_menu.toggle(is_open);
         if (this.$add_group.hasClass('o-open-menu')) {

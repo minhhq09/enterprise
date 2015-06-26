@@ -12,7 +12,7 @@ var ChangePassword = Widget.extend({ // FIXME
     start: function() {
         var self = this;
         this.getParent().set_title(_t("Change Password"));
-        var $button = self.$el.find('.oe_form_button');
+        var $button = self.$('.oe_form_button');
         $button.appendTo(this.getParent().$buttons);
         $button.eq(2).click(function(){
            self.$el.parents('.modal').modal('hide');

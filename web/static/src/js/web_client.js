@@ -106,7 +106,7 @@ var WebClient = Widget.extend({
         core.bus.on('click', this, function(ev) {
             $('.tooltip').remove();
             if (!$(ev.target).is('input[type=file]')) {
-                self.$el.find('.oe_dropdown_menu.oe_opened, .oe_dropdown_toggle.oe_opened').removeClass('oe_opened');
+                self.$('.oe_dropdown_menu.oe_opened, .oe_dropdown_toggle.oe_opened').removeClass('oe_opened');
             }
         });
         core.bus.on('set_full_screen', this, function (full_screen) {

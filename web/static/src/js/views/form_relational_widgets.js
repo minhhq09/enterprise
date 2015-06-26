@@ -1213,29 +1213,10 @@ var One2ManyGroups = ListView.Groups.extend({
     }
 });
 
-var One2ManyFormView = FormView.extend({
-    form_template: 'One2Many.formview',
-    load_form: function(data) {
-        this._super(data);
-        var self = this;
-        this.$buttons.find('button.oe_form_button_create').click(function() {
-            self.save().done(self.on_button_new);
-        });
-    },
-    do_notify_change: function() {
-        if (this.dataset.parent_view) {
-            this.dataset.parent_view.do_notify_change();
-        } else {
-            this._super.apply(this, arguments);
-        }
-    }
-});
-
 var FieldOne2Many = FieldX2Many.extend({
     init: function() {
         this._super.apply(this, arguments);
         this.x2many_views = {
-            form: One2ManyFormView,
             kanban: core.view_registry.get('one2many_kanban'),
             list: One2ManyListView,
         };
