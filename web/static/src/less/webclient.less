@@ -131,8 +131,7 @@ select { // FIXME buggy 'padding-left'
     }
 
     .open .dropdown-menu {
-        // we do not want the dropdown to overstep the viewport
-        max-height: 90vh;
+        max-height: 90vh; // the dropdown should not overstep the viewport
         overflow: auto;
 
         .o-menu-indentation(@index) when (@index < 6) {
@@ -148,11 +147,6 @@ select { // FIXME buggy 'padding-left'
             .o-menu-indentation(@index + 1);
         }
         .o-menu-indentation(2);
-
-        // cannot guard an attribute in the preceding mixin in less 1.4.2
-        .o_menu_header_lvl_2 {
-            border-top: 1px solid lighten(@odoo-main-text-color, 20%);
-        }
     }
 }
 
