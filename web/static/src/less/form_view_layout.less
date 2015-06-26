@@ -20,18 +20,22 @@
                 &.o_td_label {
                     width: 92%!important;
 
-                    font-size: 0.75em;
+                    font-size: 0.8em;
                     line-height: 1;
 
                     .o_form_label { // Not pure layout ...
                         font-weight: normal;
                         color: @odoo-brand-secondary;
-                        margin-top: 15px;
+                        margin-top: 6px;
 
                         &.o_form_label_empty {
                             display: none;
                         }
                     }
+                }
+
+                .o_form_field {
+                    margin-bottom: 15px;
                 }
 
                 .o_form_input_dropdown {
@@ -123,15 +127,13 @@
 
     // Editable specific rules
     &.o_form_editable {
-        .o_group.o_inner_group {
+        .o_inner_group {
             > tbody > tr > td {
-                &, > div {
-                    > .o_form_field {
-                        margin-bottom: 5px;
+                .o_form_field {
+                    margin-bottom: 5px;
 
-                        > .o_form_field {
-                            margin-bottom: 0px;
-                        }
+                    > .o_form_field {
+                        margin-bottom: 0px;
                     }
                 }
             }
