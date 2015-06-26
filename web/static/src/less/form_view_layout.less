@@ -10,15 +10,16 @@
             .o-flex-flow(row, wrap);
 
             > td {
-                display: block;
                 .o-flex(1, 0, auto);
+                display: block;
                 max-width: 100%;
 
+                line-height: 2;
                 padding: 0;
                 
                 width: auto!important;  // !important is required to override the width computed in JS
                 &.o_td_label {
-                    width: 92%!important;
+                    width: 94%!important;
 
                     font-size: 0.8em;
                     line-height: 1;
@@ -26,7 +27,7 @@
                     .o_form_label { // Not pure layout ...
                         font-weight: normal;
                         color: @odoo-brand-secondary;
-                        margin-top: 6px;
+                        margin-top: 10px;
 
                         &.o_form_label_empty {
                             display: none;
@@ -35,7 +36,7 @@
                 }
 
                 .o_form_field {
-                    margin-bottom: 15px;
+                    margin: 0 0 10px 0;
                 }
 
                 .o_form_input_dropdown {
@@ -48,7 +49,7 @@
 }
 
 .o-form-view {
-    .oe_inline { // Compatibility ?
+    .oe_inline {
         width: auto!important;
         @media (min-width: @screen-xs-min) {
             &.o_inner_group {
@@ -56,11 +57,11 @@
             }
         }
     }
-    .oe_left { // Compatibility ?
+    .oe_left {
         .oe_inline;
         float: left!important;
     }
-    .oe_right { // Compatibility ?
+    .oe_right {
         .oe_inline;
         float: right!important;
     }
@@ -203,12 +204,16 @@
         }
     }
 
-    // Title
+    // Title & avatar
     .oe_title {
         @media (min-width: @screen-xs-min) {
             padding-right: @odoo-innergroup-rpadding;
         }
         margin-bottom: 15px;
+
+        > h1, > h2, > h3 {
+            margin-top: 0;
+        }
     }
 
     .oe_avatar {
