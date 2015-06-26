@@ -168,6 +168,8 @@ select { // FIXME buggy 'padding-left'
     background: url("../img/application-switcher-bg.jpg") no-repeat center center fixed;
     .o-background-size(cover);
 
+    font-size: @odoo-font-size-base-touch;
+
     .o_apps {
         .user-select(none);
 
@@ -195,8 +197,8 @@ select { // FIXME buggy 'padding-left'
                 background-color: @gray-lighter;
 
                 padding: 2vw;
-                font-size: 15vw; // Adapt fa size (would be 100% of parent, which is himself 19% of body)
-                @media (min-width: 421px) { // Size where 19vw = 80px
+                font-size: 18vw; // Adapt fa size (would be 100% of parent, which is himself 22% of body)
+                @media (min-width: 363px) { // Size where 22vw = 80px
                     padding: 8px;
                     font-size: 64px;
                 }
