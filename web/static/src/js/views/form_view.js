@@ -70,7 +70,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
         _.defaults(this.options, {
             "not_interactible_on_create": false,
             "initial_mode": "view",
-            "disable_autofocus": false,
+            "disable_autofocus": config.device.touch,
             "footer_to_buttons": false,
         });
         this.is_initialized = $.Deferred();

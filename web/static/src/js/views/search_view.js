@@ -2,6 +2,7 @@ odoo.define('web.SearchView', function (require) {
 "use strict";
 
 var AutoComplete = require('web.AutoComplete');
+var config = require('web.config');
 var core = require('web.core');
 var FavoriteMenu = require('web.FavoriteMenu');
 var FilterMenu = require('web.FilterMenu');
@@ -409,6 +410,9 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         if (this.$buttons) {
             this.$buttons.toggle(!this.headless && is_visible && this.visible_filters);
         }
+        if(!config.device.touch) {
+            this.$('input').focus();
+        }
     },
     toggle_buttons: function (is_visible) {
         this.visible_filters = is_visible || !this.visible_filters;
@@ -509,7 +513,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             childView.on('blurred', self, self.proxy('childBlurred'));
         });
 
-         $.when.apply(null, started).then(function () {
+        $.when.apply(null, started).then(function () {
             _.last(self.input_subviews).$el.focus();
         });
     },
