@@ -61,7 +61,11 @@
         float: right!important;
     }
     .o_row {
-        .o-flex-display();
+        &, &.o_form_field { // Some field may want to use o_row as root and these rules must prevalue
+            .o-flex-display();
+            width: auto!important;
+        }
+
         .o-align-items(baseline);
         min-width: 50px;
 
