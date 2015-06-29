@@ -116,26 +116,6 @@ var Menu = Widget.extend({
         }
         return found;
     },
-    menu_id_to_primary_menu_id: function (menu_id) {
-        var primary_menu_id, found;
-        for (var i = 0; i < this.menu_data.children.length && !primary_menu_id; i++) {
-            found = this._menu_id_in_subtree(this.menu_data.children[i], menu_id);
-            if (found) {
-                primary_menu_id = this.menu_data.children[i].id;
-            }
-        }
-        return primary_menu_id;
-    },
-    _menu_id_in_subtree: function (root, menu_id) {
-        if (root.id == menu_id) {
-            return true;
-        }
-        var found;
-        for (var i = 0; i < root.children.length && !found; i++) {
-            found = this._menu_id_in_subtree(root.children[i], menu_id);
-        }
-        return found;
-    },
     menu_id_to_action_id: function (menu_id, root) {
         if (!root) {root = $.extend(true, {}, this.menu_data)}
 

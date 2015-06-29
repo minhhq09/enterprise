@@ -254,7 +254,8 @@ var WebClient = Widget.extend({
             if (!state.action && state.menu_id) {
                 var action_id = self.menu.menu_id_to_action_id(state.menu_id);
                 self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
-                    var primary_menu_id = self.menu.menu_id_to_primary_menu_id(state.menu_id);
+                    var action_id = self.action_manager.get_inner_action().get_action_descr().id;
+                    var primary_menu_id = self.menu.action_id_to_primary_menu_id(action_id);
                     if (primary_menu_id) {
                         self.menu.change_menu_section(primary_menu_id);
                     }
@@ -263,7 +264,8 @@ var WebClient = Widget.extend({
             } else if (state.action) {
                 state._push_me = false;  // no need to push state back...
                 self.action_manager.do_load_state(state, !!this._current_state).then(function () {
-                    var primary_menu_id = self.menu.action_id_to_primary_menu_id(state.action);
+                    var action_id = self.action_manager.get_inner_action().get_action_descr().id;
+                    var primary_menu_id = self.menu.action_id_to_primary_menu_id(action_id);
                     if (primary_menu_id) {
                         self.menu.change_menu_section(primary_menu_id);
                     }
