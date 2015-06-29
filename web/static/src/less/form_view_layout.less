@@ -14,7 +14,6 @@
                 display: block;
                 max-width: 100%;
 
-                line-height: 2;
                 padding: 0;
                 
                 width: auto!important;  // !important is required to override the width computed in JS
@@ -27,7 +26,7 @@
                     .o_form_label { // Not pure layout ...
                         font-weight: normal;
                         color: @odoo-brand-secondary;
-                        margin-top: 10px;
+                        margin-top: 5px;
 
                         &.o_form_label_empty {
                             display: none;
@@ -36,7 +35,11 @@
                 }
 
                 .o_form_field {
-                    margin: 0 0 10px 0;
+                    margin-bottom: 10px;
+
+                    &.o_form_field_boolean {
+                        margin-right: 0;
+                    }
                 }
 
                 .o_form_input_dropdown {
@@ -118,7 +121,9 @@
     // Readonly specific rules
     &.o_form_readonly {
         .o_group.o_inner_group > tbody > tr > td {
-            line-height: 2;
+            @media (min-width: @screen-xs-min) {
+                line-height: 2;
+            }
             .o_form_field {
                 width: auto;
                 .o-flex(0, 0, auto);
