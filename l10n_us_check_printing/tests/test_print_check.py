@@ -1,12 +1,12 @@
 # Make sure / performs a floating point division even if environment is python 2
 from __future__ import division
 
-from openerp.addons.account_check_writing.tests.test_check_writing import TestCheckWriting
+from openerp.addons.account_check_printing.tests.test_check_printing import TestCheckPrinting
 from openerp.addons.l10n_us_check_printing.report import print_check
 
 import math
 
-class TestPrintCheck(TestCheckWriting):
+class TestPrintCheck(TestCheckPrinting):
 
     def setUp(self):
         super(TestPrintCheck, self).setUp()
