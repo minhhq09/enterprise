@@ -1,6 +1,7 @@
 odoo.define('web.DebugManager', function (require) {
 "use strict";
 
+var ActionManager = require('web.ActionManager');
 var core = require('web.core');
 var Dialog = require('web.Dialog');
 var formats = require('web.formats');
@@ -659,6 +660,39 @@ if (core.debug) {
                         self.debug_manager.update('action', descr, widget);
                     });
                 };
+            });
+        },
+    });
+
+    ViewManager.include({
+        init: function() {
+            this._super.apply(this, arguments);
+            this.started = $.Deferred();
+        },
+
+        start: function() {
+            var self = this;
+            return this._super().then(function() {
+                self.started.resolve();
+            });
+        },
+    });
+
+    Dialog.include({
+        start: function() {
+            var self = this;
+            return this._super().then(function () {
+                // Instantiate the DebugManager and insert it into the DOM
+                self.debug_manager = new DebugManager(self);
+
+                return self.debug_manager.insertAfter(self.$el).then(function() {
+                    var parent = self.getParent();
+                    if(parent instanceof ActionManager && parent.dialog_widget) {
+                        return parent.dialog_widget.started.then(function() {
+                            self.debug_manager.update('action', parent.dialog_widget.action, parent.dialog_widget);
+                        });
+                    }
+                });
             });
         },
     });
