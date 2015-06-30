@@ -7,6 +7,7 @@ Tour.register({
     id:   'widget_x2many',
     name: "one2many and many2many checks",
     mode: 'test',
+    path: '/web#action=test_new_api.action_discussions',
 
     steps: [
         {
