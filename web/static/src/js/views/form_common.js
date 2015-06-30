@@ -815,7 +815,6 @@ var ViewDialog = Dialog.extend({ // FIXME should use ViewManager
         this.context = options.context || {};
         this.options = _.extend(this.options || {}, options || {});
 
-        this.on('closed', this, this.select);
         this.on_selected = options.on_selected || (function() {});
     },
 
@@ -839,10 +838,12 @@ var ViewDialog = Dialog.extend({ // FIXME should use ViewManager
         };
         this.dataset.parent_view = this.options.parent_view;
         this.dataset.child_name = this.options.child_name;
+
+        this.on('closed', this, this.select);
     },
 
     select: function() {
-        if (this.created_elements.length > 0) {
+        if(this.created_elements.length > 0) {
             this.on_selected(this.created_elements);
             this.created_elements = [];
         }
@@ -962,24 +963,24 @@ var SelectCreateDialog = ViewDialog.extend({
     },
     
     open: function() {
+        if(this.options.initial_view !== "search") {
+            return this.create_edit_record();
+        }
+
         this._super();
         this.init_dataset();
-        if (this.options.initial_view == "search") {
-            var context = pyeval.sync_eval_domains_and_contexts({
-                domains: [],
-                contexts: [this.context]
-            }).context;
-            var search_defaults = {};
-            _.each(context, function (value_, key) {
-                var match = /^search_default_(.*)$/.exec(key);
-                if (match) {
-                    search_defaults[match[1]] = value_;
-                }
-            });
-            this.setup(search_defaults);
-        } else { // "form"
-            this.create_edit_record();
-        }
+        var context = pyeval.sync_eval_domains_and_contexts({
+            domains: [],
+            contexts: [this.context]
+        }).context;
+        var search_defaults = {};
+        _.each(context, function (value_, key) {
+            var match = /^search_default_(.*)$/.exec(key);
+            if (match) {
+                search_defaults[match[1]] = value_;
+            }
+        });
+        this.setup(search_defaults);
         return this;
     },
 
@@ -1055,8 +1056,8 @@ var SelectCreateDialog = ViewDialog.extend({
         this.$footer.find(".o_selectcreatepopup_search_select").prop('disabled', this.selected_ids.length <= 0);
     },
     create_edit_record: function() {
-        new FormViewDialog(this.__parentedParent, this.options).open();
         this.close();
+        return new FormViewDialog(this.__parentedParent, this.options).open();
     },
 });
 

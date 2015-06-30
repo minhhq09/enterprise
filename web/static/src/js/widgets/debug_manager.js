@@ -682,17 +682,16 @@ if (core.debug) {
         start: function() {
             var self = this;
             return this._super().then(function () {
-                // Instantiate the DebugManager and insert it into the DOM
-                self.debug_manager = new DebugManager(self);
-
-                return self.debug_manager.insertAfter(self.$el).then(function() {
-                    var parent = self.getParent();
-                    if(parent instanceof ActionManager && parent.dialog_widget) {
+                var parent = self.getParent();
+                if(parent instanceof ActionManager && parent.dialog_widget) {
+                    // Instantiate the DebugManager and insert it into the DOM
+                    self.debug_manager = new DebugManager(self);
+                    return self.debug_manager.insertAfter(self.$el).then(function() {
                         return parent.dialog_widget.started.then(function() {
                             self.debug_manager.update('action', parent.dialog_widget.action, parent.dialog_widget);
                         });
-                    }
-                });
+                    });
+                }
             });
         },
     });
