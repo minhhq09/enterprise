@@ -23,13 +23,6 @@ var CompanyLogo = Widget.extend({
         this.$('.oe_logo img').attr('src', '').attr('src', img);
         this.$('.oe_logo_edit').toggleClass('oe_logo_edit_admin', session.uid === 1);
     },
-    on_logo_click: function(ev){
-        if (!this.getParent().getParent().has_uncommitted_changes()) {
-            return;
-        } else {
-            ev.preventDefault();
-        }
-    },
     logo_edit: function(ev) {
         var self = this;
         ev.preventDefault();

@@ -6,6 +6,7 @@ var config = require('web.config');
 var core = require('web.core');
 var crash_manager = require('web.crash_manager');
 var data = require('web.data');
+var framework = require('web.framework');
 var Loading = require('web.Loading');
 var AppSwitcher = require('web.AppSwitcher');
 var Menu = require('web.Menu');
@@ -142,10 +143,12 @@ var WebClient = Widget.extend({
 
         return $.when(defs);
     },
-    has_uncommitted_changes: function() {
-        var $e = $.Event('clear_uncommitted_changes');
-        core.bus.trigger('clear_uncommitted_changes', $e);
-        return $e.isDefaultPrevented();
+    clear_uncommitted_changes: function() {
+        var def = $.Deferred().resolve();
+        core.bus.trigger('clear_uncommitted_changes', function chain_callbacks(callback) {
+            def = def.then(callback);
+        });
+        return def;
     },
     /**
         Sets the first part of the title of the window, dedicated to the current action.
@@ -330,24 +333,26 @@ var WebClient = Widget.extend({
             });
     },
     toggle_app_switcher: function (display) {
-        if (!this.has_uncommitted_changes()) {
-            if (display) {
-                this.menu.$el.detach();
-                this.$web_client_content = this.$el.contents()
+        if (display) {
+            var self = this;
+            this.clear_uncommitted_changes().then(function() {
+                self.menu.$el.detach();
+                self.$web_client_content = self.$el.contents()
                                                 .not('.o_loading')
                                                 .not('.ui-autocomplete')
+                                                .not('.modal').not('.modal-backdrop') // FIXME
                                                 .detach();
-                this.app_switcher.$el.prependTo(this.$el);
-                this.app_switcher_navbar.$el.prependTo(this.$el);
-                this.app_switcher_navbar.toggle_back_button(this.action_manager.get_inner_action() === null);
-            } else if (display === false) {
-                this.app_switcher.$el.detach();
-                this.app_switcher_navbar.$el.detach();
-                if (this.$web_client_content) {
-                    this.$web_client_content.prependTo(this.$el);
-                }
-                this.menu.$el.prependTo(this.$el);
+                self.app_switcher.$el.prependTo(self.$el);
+                self.app_switcher_navbar.$el.prependTo(self.$el);
+                self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() === null);
+            });
+        } else if (display === false) {
+            this.app_switcher.$el.detach();
+            this.app_switcher_navbar.$el.detach();
+            if (this.$web_client_content) {
+                this.$web_client_content.prependTo(this.$el);
             }
+            this.menu.$el.prependTo(this.$el);
         }
     },
     // --------------------------------------------------------------

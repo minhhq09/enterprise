@@ -302,36 +302,37 @@ var ActionManager = Widget.extend({
     },
     select_action: function(action, index) {
         var self = this;
+        var def = this.webclient && this.webclient.clear_uncommitted_changes() || $.when();
 
-        if (this.webclient && this.webclient.has_uncommitted_changes()) {
-            return $.Deferred().reject();
-        }
+        return def.then(function() {
+            // Set the new inner_action/widget and update the action stack
+            var old_action = self.inner_action;
+            self.inner_action = action;
+            self.inner_widget = action.widget;
+            var action_index = self.action_stack.indexOf(action);
+            var to_destroy = self.action_stack.splice(action_index + 1);
 
-        // Set the new inner_action/widget and update the action stack
-        var old_action = this.inner_action;
-        this.inner_action = action;
-        this.inner_widget = action.widget;
-        var action_index = this.action_stack.indexOf(action);
-        var to_destroy = this.action_stack.splice(action_index + 1);
-
-        // Hide the ControlPanel if the widget doesn't use it
-        if (!this.inner_widget.need_control_panel) {
-            this.main_control_panel.do_hide();
-        }
-
-        return $.when(action.restore(index)).done(function() {
-            // Attach the DOM of the action and restore the scroll position only if necessary
-            if (action !== old_action) {
-                // Clear the action stack (this also removes the current action from the DOM)
-                self.clear_action_stack(to_destroy);
-                // Append the fragment of the action to restore to the DOM
-                self.$el.append(action.get_fragment());
-                // Restore the scroll position of the fragment (it cannot be restored by the view
-                // manager as the element was detached)
-                if (self.webclient) {
-                    self.webclient.set_scrollTop(action.get_scrollTop());
-                }
+            // Hide the ControlPanel if the widget doesn't use it
+            if (!self.inner_widget.need_control_panel) {
+                self.main_control_panel.do_hide();
             }
+
+            return $.when(action.restore(index)).done(function() {
+                // Attach the DOM of the action and restore the scroll position only if necessary
+                if (action !== old_action) {
+                    // Clear the action stack (this also removes the current action from the DOM)
+                    self.clear_action_stack(to_destroy);
+                    // Append the fragment of the action to restore to the DOM
+                    self.$el.append(action.get_fragment());
+                    // Restore the scroll position of the fragment (it cannot be restored by the view
+                    // manager as the element was detached)
+                    if (self.webclient) {
+                        self.webclient.set_scrollTop(action.get_scrollTop());
+                    }
+                }
+            });
+        }).fail(function() {
+            return $.Deferred().reject();
         });
     },
     clear_action_stack: function(action_stack) {
@@ -624,11 +625,14 @@ var ActionManager = Widget.extend({
             
             return this.dialog_widget.appendTo(this.dialog.$el);
         }
-        if (this.webclient && this.webclient.has_uncommitted_changes()) {
+        var self = this;
+        var def = this.inner_action && this.webclient && this.webclient.clear_uncommitted_changes() || $.when();
+        return def.then(function() {
+            self.dialog_stop(executor.action);
+            return self.push_action(executor.widget(), executor.action, options);
+        }).fail(function() {
             return $.Deferred().reject();
-        }
-        this.dialog_stop(executor.action);
-        return this.push_action(executor.widget(), executor.action, options);
+        });
     },
     ir_actions_act_window: function (action, options) {
         var self = this;

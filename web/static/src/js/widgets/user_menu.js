@@ -58,39 +58,33 @@ var UserMenu = Widget.extend({
         window.open('http://help.odoo.com', '_blank');
     },
     on_menu_logout: function() {
-        if (!this.getParent().getParent().has_uncommitted_changes()) {
-            this.getParent().getParent().action_manager.do_action('logout');
-        }
+        this.getParent().getParent().action_manager.do_action('logout');
     },
     on_menu_settings: function() {
         var self = this;
-        if (!this.getParent().getParent().has_uncommitted_changes()) {
-            self.rpc("/web/action/load", { action_id: "base.action_res_users_my" }).done(function(result) {
-                result.res_id = session.uid;
-                self.getParent().getParent().action_manager.do_action(result);
-            });
-        }
+        self.rpc("/web/action/load", { action_id: "base.action_res_users_my" }).done(function(result) {
+            result.res_id = session.uid;
+            self.getParent().getParent().action_manager.do_action(result);
+        });
     },
     on_menu_account: function() {
-        if (!this.getParent().getParent().has_uncommitted_changes()) {
-            var P = new Model('ir.config_parameter');
-            P.call('get_param', ['database.uuid']).then(function(dbuuid) {
-                var state = {
-                            'd': session.db,
-                            'u': window.location.protocol + '//' + window.location.host,
-                        };
-                var params = {
-                    response_type: 'token',
-                    client_id: dbuuid || '',
-                    state: JSON.stringify(state),
-                    scope: 'userinfo',
-                };
-                framework.redirect('https://accounts.odoo.com/oauth2/auth?'+$.param(params));
-            }).fail(function(result, ev){
-                ev.preventDefault();
-                framework.redirect('https://accounts.odoo.com/account');
-            });
-        }
+        var P = new Model('ir.config_parameter');
+        P.call('get_param', ['database.uuid']).then(function(dbuuid) {
+            var state = {
+                        'd': session.db,
+                        'u': window.location.protocol + '//' + window.location.host,
+                    };
+            var params = {
+                response_type: 'token',
+                client_id: dbuuid || '',
+                state: JSON.stringify(state),
+                scope: 'userinfo',
+            };
+            framework.redirect('https://accounts.odoo.com/oauth2/auth?'+$.param(params));
+        }).fail(function(result, ev){
+            ev.preventDefault();
+            framework.redirect('https://accounts.odoo.com/account');
+        });
     },
     on_menu_about: function() {
         var self = this;
