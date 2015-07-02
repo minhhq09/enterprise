@@ -17,7 +17,7 @@ var FollowupReportWidget = FollowupWidget.extend({
         return this._super();
     },
     onKeyPress: function(e) {
-        var report_name = $("div.page").data("report-name");
+        var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name == 'followup_report') {
             $("*[data-primary='1'].followup-email").trigger('click');
             var letter_context_list = [];
@@ -51,10 +51,10 @@ var FollowupReportWidget = FollowupWidget.extend({
     doManualAction: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var context_id = $(e.target).parents("div.page").data("context");
+        var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         return new Model('account.report.context.followup').call('do_manual_action', [[parseInt(context_id, 10)]]).then (function (result) {
             if ($(e.target).data('primary') == '1') {
-                $(e.target).parents('#action-buttons').addClass('oe-account-followup-clicked');
+                $(e.target).parents('#action-buttons').addClass('o_account_reports_followup-clicked');
                 $(e.target).toggleClass('btn-primary btn-default');
                 $(e.target).data('primary', '0');
             }

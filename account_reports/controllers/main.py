@@ -24,18 +24,6 @@ class FinancialReportController(http.Controller):
             report_obj = report_obj.browse(report_id)
         context_obj = request.env['account.report.context.common'].get_context_by_report_name(report_name)
         context_id = context_obj.sudo(uid).search(domain, limit=1)
-        if context_id and (('force_account' in kw and report_name == 'general_ledger') or 'force_fy' in kw):
-            context_id.unlink()
-            context_id = context_id.exists()
-        if not context_id:
-            create_vals = {}
-            if report_name == 'financial_report':
-                create_vals['report_id'] = report_id
-            if 'force_account' in kw and report_name == 'general_ledger':
-                create_vals['unfolded_accounts'] = [(4, kw['force_account'])]
-            if 'force_fy' in kw:
-                create_vals['force_fy'] = True
-            context_id = context_obj.sudo(uid).create(create_vals)
         if 'xls' in kw:
             response = request.make_response(None,
                 headers=[('Content-Type', 'application/vnd.ms-excel'),
@@ -52,29 +40,7 @@ class FinancialReportController(http.Controller):
                 headers=[('Content-Type', 'application/vnd.sun.xml.writer'),
                          ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xml;'),
                          ('Content-Length', len(content))])
-        if kw:
-            update = {}
-            for field in kw:
-                if field.startswith('add_'):
-                    update[field[4:]] = [(4, int(kw[field]))]
-                if field.startswith('remove_'):
-                    update[field[7:]] = [(3, int(kw[field]))]
-                if context_id._fields.get(field) and kw[field] != 'undefined':
-                    if kw[field] == 'false':
-                        kw[field] = False
-                    if kw[field] == 'none':
-                        kw[field] = None
-                    update[field] = kw[field]
-            context_id.write(update)
-        lines = report_obj.get_lines(context_id)
-        rcontext = {
-            'res_company': request.env['res.users'].browse(uid).company_id,
-            'context': context_id,
-            'report': report_obj,
-            'lines': lines,
-            'mode': 'display',
-        }
-        return request.render(report_obj.get_template(), rcontext)
+        return ''
 
     @http.route(['/account/followup_report/all/', '/account/followup_report/all/page/<int:page>'], type='http', auth='user')
     def followup_all(self, page=1, **kw):

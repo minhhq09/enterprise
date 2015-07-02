@@ -369,6 +369,32 @@ class AccountReportContextCommon(models.TransientModel):
 
         return self.env['report']._run_wkhtmltopdf([header], [footer], [(0, html)], landscape, self.env.user.company_id.paperformat_id)
 
+    @api.multi
+    def get_html(self, given_context={}):
+        if given_context:
+            update = {}
+            for field in given_context:
+                if field.startswith('add_'):
+                    update[field[4:]] = [(4, int(given_context[field]))]
+                if field.startswith('remove_'):
+                    update[field[7:]] = [(3, int(given_context[field]))]
+                if self._fields.get(field) and given_context[field] != 'undefined':
+                    if given_context[field] == 'false':
+                        given_context[field] = False
+                    if given_context[field] == 'none':
+                        given_context[field] = None
+                    update[field] = given_context[field]
+            self.write(update)
+        lines = self.get_report_obj().get_lines(self)
+        rcontext = {
+            'res_company': self.env['res.users'].browse(self.env.uid).company_id,
+            'context': self,
+            'report': self.get_report_obj(),
+            'lines': lines,
+            'mode': 'display',
+        }
+        return self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
+
     def get_xls(self, response):
         book = Workbook()
         report_id = self.get_report_obj()

@@ -8,18 +8,20 @@ var Model = require('web.Model');
 var Session = require('web.session');
 var time = require('web.time');
 var ControlPanelMixin = require('web.ControlPanelMixin');
-var IFrameWidget = require('web.IFrameWidget');
 var pager = require('web.Pager');
+var ReportWidget = require('account_reports.ReportWidget');
 
 var QWeb = core.qweb;
 
-var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
+var account_report_generic = Widget.extend(ControlPanelMixin, {
     init: function(parent, action) {
         var self = this;
+        this.action_id = action.id;
         this.actionManager = parent;
         this.base_url = action.context.url;
         this.report_id = action.context.id ? parseInt(action.context.id, 10) : undefined;
         this.report_model = action.context.model;
+        this.given_context = {}
         var url = this.base_url;
         if (action.context.addUrl) {
             url += action.context.addUrl;
@@ -27,19 +29,17 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         if (action.context.addActiveId) {
             url += action.context.active_id;
         }
-        if (action.context.force_context) {
-            if (action.context.addUrl) {
-                url += '&';
-            }
-            else {
-                url += '?';
-            }
-            url += encodeURIcomponent('date_filter=' + action.context.context.date_filter + '&date_filter_cmp=' + action.context.context.date_filter_cmp);
-            url += encodeURIcomponent('&date_from=' + action.context.context.date_from + '&date_to=' + action.context.context.date_to + '&periods_number=' + action.context.context.periods_number);
-            url += encodeURIcomponent('&date_from_cmp=' + action.context.context.date_from_cmp + '&date_to_cmp=' + action.context.context.date_to_cmp);
-            url += encodeURIcomponent('&cash_basis=' + action.context.context.cash_basis + '&all_entries=' + action.context.context.all_entries);
+        if (action.context.context) {
+            this.given_context = action.context.context
         }
-        self._super(parent, url);
+        self._super(parent);
+    },
+    restart: function(given_context) {
+        var self = this;
+        this.given_context = given_context;
+        return this.willStart().then(function() {
+            return self.start()
+        });
     },
     willStart: function () {
         var self = this;
@@ -49,6 +49,45 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) {
                 self.context_model = new Model(JSON.parse(result)[self.report_model]);
                 self.page = 1;
+                // Fetching the context_id or creating one if none exist.
+                var domain = [['create_uid', '=', self.session.uid]];
+                if (self.report_id) {
+                    domain.push(['report_id', '=', parseInt(self.report_id, 10)]);
+                }
+                return self.context_model.query(['id'])
+                .filter(domain).first().then(function (result) {
+                    var post_function = function () {
+                        return self.context_model.call('get_html', [self.context_id, self.given_context]).then(function (result) {
+                            self.html = result;
+                            return self.post_load();
+                        });
+                    };
+                    if(result && result.length > 1 && ((self.given_context.force_account && self.report_model == 'account.general.ledger') || self.given_context.force_fy)) {
+                        // We need to delete the old context to create a new one with the forced values.
+                        return self.context_model.call('unlink', [result.id]);
+                        result = null;
+                    }
+                    if(!result) {
+                        var create_vals = {};
+                        if (self.report_model == 'account.financial.html.report') {
+                            create_vals.report_id = self.report_id;
+                        }
+                        if (self.given_context.force_account && self.report_model == 'account.general.ledger') {
+                            create_vals.unfolded_accounts = [(4, self.given_context.force_account)];
+                        }
+                        if (self.given_context.force_fy) {
+                            create_vals.force_fy = true;
+                        }
+                        return self.context_model.call('create', [create_vals]).then(function (result) {
+                            self.context_id = result;
+                            return post_function();
+                        })
+                    }
+                    else {
+                        self.context_id = result.id;
+                        return post_function();
+                    }
+                });
             });
         });
     },
@@ -66,52 +105,51 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             breadcrumbs: this.actionManager.get_breadcrumbs(),
             cp_content: {$buttons: this.$buttons, $searchview_buttons: this.$searchview_buttons, $pager: this.pager, $searchview: this.$searchview},
         };
-        this.update_control_panel(status);
+        return this.update_control_panel(status);
     },
-    on_load: function() {
-        var self = this;
-        var domain = [['create_uid', '=', self.session.uid]];
-        if (self.report_id) {
-            domain.push(['report_id', '=', parseInt(self.report_id, 10)]);
+    post_load: function() {
+        if (this.report_model == 'account.followup.report' && self.given_context.followup_all) {
+            return this.update_cp();
         }
-        var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
-        var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
-        if (this.report_model == 'account.followup.report' && this.base_url.search('all') > -1) {
-            fetched_context_model = new Model('account.report.context.followup.all');
-            select = ['id', 'valuenow', 'valuemax', 'percentage', 'partner_filter', 'last_page']
-        }
-        return fetched_context_model.query(select)
-        .filter(domain).first().then(function (context) {
-            return new Model('res.users').query(['company_id'])
-            .filter([['id', '=', self.session.uid]]).first().then(function (user) {
-                return new Model('res.company').query(['fiscalyear_last_day', 'fiscalyear_last_month'])
-                .filter([['id', '=', user.company_id[0]]]).first().then(function (fy) {
-                    return new Model('account.financial.html.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
-                        return self.context_model.call('get_available_company_ids_and_names', [context.id]).then(function (available_companies) {
-                            self.xml_export = xml_export;
-                            self.fy = fy;
-                            self.context_id = context.id;
-                            self.context = context;
-                            self.context.available_companies = available_companies;
-                            self.render_buttons();
-                            self.render_searchview_buttons()
-                            self.render_searchview()
-                            self.render_pager()
-                            self.update_cp();
+        else {
+            var self = this;
+            var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
+            var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
+            if (this.report_model == 'account.followup.report' && this.base_url.search('all') > -1) {
+                fetched_context_model = new Model('account.report.context.followup.all');
+                select = ['id', 'valuenow', 'valuemax', 'percentage', 'partner_filter', 'last_page']
+            }
+            return fetched_context_model.query(select)
+            .filter([['id', '=', self.context_id]]).first().then(function (context) {
+                return new Model('res.users').query(['company_id'])
+                .filter([['id', '=', self.session.uid]]).first().then(function (user) {
+                    return new Model('res.company').query(['fiscalyear_last_day', 'fiscalyear_last_month'])
+                    .filter([['id', '=', user.company_id[0]]]).first().then(function (fy) {
+                        return new Model('account.financial.html.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
+                            return self.context_model.call('get_available_company_ids_and_names', [context.id]).then(function (available_companies) {
+                                self.xml_export = xml_export;
+                                self.fy = fy;
+                                self.context = context;
+                                self.context.available_companies = available_companies;
+                                self.render_buttons();
+                                self.render_searchview_buttons()
+                                self.render_searchview()
+                                self.render_pager()
+                                return self.update_cp();
+                            });
                         });
                     });
                 });
             });
-        });
+        }
     },
     start: function() {
-        if (this.report_model != 'account.followup.report' || this.base_url.search('all') > -1) {
-            this.$el.on("load", this.on_load);
-        }
-        else {
-            this.update_cp();
-        }
-        return this._super()
+        this.$el.html(this.html);
+        this.$el.contents().click(this.outbound_link.bind(this));
+        var report_widget = new ReportWidget();
+        report_widget.setElement(this.$el);
+        report_widget.start();
+        return this._super();
     },
     do_show: function() {
         this._super();
@@ -124,15 +162,15 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         }
         this.$buttons = $(QWeb.render("accountReports.buttons", {xml_export: this.xml_export}));
         this.$buttons.find('.o_account-widget-pdf').bind('click', function () {
-            self.$el.attr({src: self.base_url + '?pdf'});
+            window.open(self.base_url + '?pdf', '_blank')
         });
         this.$buttons.find('.o_account-widget-xls').bind('click', function () {
-            self.$el.attr({src: self.base_url + '?xls'});
+            window.open(self.base_url + '?xls', '_blank')
         });
         this.$buttons.find('.o_account-widget-xml').bind('click', function () {
             return new Model('account.financial.html.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
                 if (check === true) {
-                    self.$el.attr({src: self.base_url + '?xml'});
+                    window.open(self.base_url + '?xml', '_blank')
                 }
                 else {
                     if (!self.$errorModal) {
@@ -181,8 +219,8 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         if (this.report_model == 'account.followup.report') {
             if (this.base_url.search('all') > -1) {
                 this.$searchview_buttons = $(QWeb.render("accountReports.followupSearchView", {context: this.context}));
-                this.$partnerFilter = this.$searchview_buttons.siblings('.oe-account-date-filter');
-                this.$searchview_buttons.find('.oe-account-one-filter').bind('click', function (event) {
+                this.$partnerFilter = this.$searchview_buttons.siblings('.o_account_reports_date-filter');
+                this.$searchview_buttons.find('.o_account_reports_one-filter').bind('click', function (event) {
                     var url = self.base_url + encodeURIcomponent('?partner_filter=' + $(event.target).parents('li').data('value'));
                     self.$el.attr({src: url});
                 });
@@ -196,60 +234,73 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
             return '';
         }
         this.$searchview_buttons = $(QWeb.render("accountReports.searchView", {report_type: this.report_type, context: this.context}));
-        this.$dateFilter = this.$searchview_buttons.siblings('.oe-account-date-filter');
-        this.$dateFilterCmp = this.$searchview_buttons.siblings('.oe-account-date-filter-cmp');
-        this.$useCustomDates = this.$dateFilter.find('.oe-account-use-custom');
-        this.$CustomDates = this.$dateFilter.find('.oe-account-custom-dates');
+        this.$dateFilter = this.$searchview_buttons.siblings('.o_account_reports_date-filter');
+        this.$dateFilterCmp = this.$searchview_buttons.siblings('.o_account_reports_date-filter-cmp');
+        this.$useCustomDates = this.$dateFilter.find('.o_account_reports_use-custom');
+        this.$CustomDates = this.$dateFilter.find('.o_account_reports_custom-dates');
         this.$useCustomDates.bind('click', function () {self.toggle_filter(self.$useCustomDates, self.$CustomDates);});
-        this.$usePreviousPeriod = this.$dateFilterCmp.find('.oe-account-use-previous-period');
-        this.$previousPeriod = this.$dateFilterCmp.find('.oe-account-previous-period');
+        this.$usePreviousPeriod = this.$dateFilterCmp.find('.o_account_reports_use-previous-period');
+        this.$previousPeriod = this.$dateFilterCmp.find('.o_account_reports_previous-period');
         this.$usePreviousPeriod.bind('click', function () {self.toggle_filter(self.$usePreviousPeriod, self.$previousPeriod);});
-        this.$useSameLastYear = this.$dateFilterCmp.find('.oe-account-use-same-last-year');
-        this.$SameLastYear = this.$dateFilterCmp.find('.oe-account-same-last-year');
+        this.$useSameLastYear = this.$dateFilterCmp.find('.o_account_reports_use-same-last-year');
+        this.$SameLastYear = this.$dateFilterCmp.find('.o_account_reports_same-last-year');
         this.$useSameLastYear.bind('click', function () {self.toggle_filter(self.$useSameLastYear, self.$SameLastYear);});
-        this.$useCustomCmp = this.$dateFilterCmp.find('.oe-account-use-custom-cmp');
-        this.$CustomCmp = this.$dateFilterCmp.find('.oe-account-custom-cmp');
+        this.$useCustomCmp = this.$dateFilterCmp.find('.o_account_reports_use-custom-cmp');
+        this.$CustomCmp = this.$dateFilterCmp.find('.o_account_reports_custom-cmp');
         this.$useCustomCmp.bind('click', function () {self.toggle_filter(self.$useCustomCmp, self.$CustomCmp);});
-        this.$searchview_buttons.find('.oe-account-one-filter').bind('click', function (event) {
+        this.$searchview_buttons.find('.o_account_reports_one-filter').bind('click', function (event) {
             self.onChangeDateFilter(event);
-            $('.oe-account-datetimepicker input').each(function () {
+            $('.o_account_reports_datetimepicker input').each(function () {
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             })
-            var url = self.base_url + encodeURIcomponent('?date_filter=' + $(event.target).parents('li').data('value') + '&date_from=' + self.$searchview_buttons.find("input[name='date_from']").val() + '&date_to=' + self.$searchview_buttons.find("input[name='date_to']").val());
+            var report_context = {
+                date_filter: $(event.target).parents('li').data('value'),
+                date_from: self.$searchview_buttons.find("input[name='date_from']").val(),
+                date_to: self.$searchview_buttons.find("input[name='date_to']").val(),
+            };
             if (self.date_filter_cmp != 'no_comparison') {
-                url += encodeURIcomponent('&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val());
+                report_context.date_from_cmp = self.$searchview_buttons.find("input[name='date_from_cmp']").val();
+                report_context.date_to_cmp = self.$searchview_buttons.find("input[name='date_to_cmp']").val();
             }
-            self.$el.attr({src: url});
+            self.restart(report_context);
         });
-        this.$searchview_buttons.find('.oe-account-one-filter-cmp').bind('click', function (event) {
+        this.$searchview_buttons.find('.o_account_reports_one-filter-cmp').bind('click', function (event) {
             self.onChangeCmpDateFilter(event);
-            $('.oe-account-datetimepicker input').each(function () {
+            $('.o_account_reports_datetimepicker input').each(function () {
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             })
             var filter = $(event.target).parents('li').data('value');
-            var url = self.base_url + encodeURIcomponent('?date_filter_cmp=' + filter + '&date_from_cmp=' + self.$searchview_buttons.find("input[name='date_from_cmp']").val() + '&date_to_cmp=' + self.$searchview_buttons.find("input[name='date_to_cmp']").val());
+            var report_context = {
+                date_filter_cmp: filter,
+                date_from_cmp: self.$searchview_buttons.find("input[name='date_from_cmp']").val(),
+                date_to_cmp: self.$searchview_buttons.find("input[name='date_to_cmp']").val(),
+            };
             if (filter == 'previous_period' || filter == 'same_last_year') {
-                url += encodeURIcomponent('&periods_number=' + $(event.target).siblings("input[name='periods_number']").val());
+                report_context.periods_number = $(event.target).siblings("input[name='periods_number']").val();
             }
-            self.$el.attr({src: url});
+            self.restart(report_context);
         });
-        this.$searchview_buttons.find('.oe-account-one-filter-bool').bind('click', function (event) {
-            self.$el.attr({src: self.base_url + encodeURIcomponent('?' + $(event.target).parents('li').data('value') + '=' + !$(event.target).parents('li').hasClass('selected'))});
+        this.$searchview_buttons.find('.o_account_reports_one-filter-bool').bind('click', function (event) {
+            var report_context = {};
+            report_context[$(event.target).parents('li').data('value')] = !$(event.target).parents('li').hasClass('selected');
+            self.restart(report_context);
         });
         if (this.context.multi_company) {
-            this.$searchview_buttons.find('.oe-account-one-company').bind('click', function (event) {
+            this.$searchview_buttons.find('.o_account_reports_one-company').bind('click', function (event) {
+                var report_context = {};
                 var value = $(event.target).parents('li').data('value');
                 if(self.context.company_ids.indexOf(value) === -1){
-                    self.$el.attr({src: self.base_url + encodeURIcomponent('?add_company_ids=' + value)});
+                    report_context.add_company_ids = value;
                 }
                 else {
-                    self.$el.attr({src: self.base_url + encodeURIcomponent('?remove_company_ids=' + value)});
+                    report_context.remove_company_ids = value;
                 }
+                self.restart(report_context);
             });
         }
         this.$searchview_buttons.find('li').bind('click', function (event) {event.stopImmediatePropagation();});
         var l10n = core._t.database.parameters;
-        var $datetimepickers = this.$searchview_buttons.find('.oe-account-datetimepicker');
+        var $datetimepickers = this.$searchview_buttons.find('.o_account_reports_datetimepicker');
         var options = {
             language : moment.locale(),
             format : time.strftime_to_moment_format(l10n.date_format),
@@ -282,8 +333,8 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         }
         return this.$searchview_buttons;
     },
-    iframe_clicked: function(e) {
-        if ($(e.target).is('.oe-account-web-action')) {
+    outbound_link: function(e) {
+        if ($(e.target).is('.o_account_reports_web-action')) {
             var self = this
             var action_id = $(e.target).data('action-id');
             var action_name = $(e.target).data('action-name');
@@ -384,9 +435,9 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 }
             }
             if (!no_date_range) {
-                this.$searchview_buttons.find("input[name='date_from_cmp']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dtFrom));
+                this.$searchview_buttons.find("input[name='date_from_cmp']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dtFrom));
             }
-            this.$searchview_buttons.find("input[name='date_to_cmp']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dtTo));
+            this.$searchview_buttons.find("input[name='date_to_cmp']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dtTo));
         }
     },
     onChangeDateFilter: function(event) {
@@ -396,26 +447,26 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
         switch($(event.target).parents('li').data('value')) {
             case 'today':
                 var dt = new Date();
-                self.$searchview_buttons.find("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 break;
             case 'last_month':
                 var dt = new Date();
                 dt.setDate(0); // Go to last day of last month (date to)
-                self.$searchview_buttons.find("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 if (!no_date_range) {
                     dt.setDate(1); // and then first day of last month (date from)
-                    self.$searchview_buttons.find("input[name='date_from']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                    self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 }
                 break;
             case 'last_quarter':
                 var dt = new Date();
                 dt.setMonth((moment(dt).quarter() - 1) * 3); // Go to the first month of this quarter
                 dt.setDate(0); // Then last day of last month (= last day of last quarter)
-                self.$searchview_buttons.find("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 if (!no_date_range) {
                     dt.setDate(1);
                     dt.setMonth(dt.getMonth() - 2);
-                    self.$searchview_buttons.find("input[name='date_from']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                    self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 }
                 break;
             case 'last_year':
@@ -425,20 +476,20 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 else {
                     var dt = new Date(today.getFullYear(), self.fy.fiscalyear_last_month - 1, self.fy.fiscalyear_last_day, 12, 0, 0, 0)
                 }
-                $("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                $("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 if (!no_date_range) {
                     dt.setDate(dt.getDate() + 1);
                     dt.setFullYear(dt.getFullYear() - 1)
-                    self.$searchview_buttons.find("input[name='date_from']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                    self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 }
                 break;
             case 'this_month':
                 var dt = new Date();
                 dt.setDate(1);
-                self.$searchview_buttons.find("input[name='date_from']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 dt.setMonth(dt.getMonth() + 1);
                 dt.setDate(0);
-                self.$searchview_buttons.find("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 break;
             case 'this_year':
                 if (today.getMonth() + 1 < self.fy.fiscalyear_last_month || (today.getMonth() + 1 == self.fy.fiscalyear_last_month && today.getDate() <= self.fy.fiscalyear_last_day)) {
@@ -447,11 +498,11 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
                 else {
                     var dt = new Date(today.getFullYear() + 1, self.fy.fiscalyear_last_month - 1, self.fy.fiscalyear_last_day, 12, 0, 0, 0)
                 }
-                self.$searchview_buttons.find("input[name='date_to']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 if (!no_date_range) {
                     dt.setDate(dt.getDate() + 1);
                     dt.setFullYear(dt.getFullYear() - 1);
-                    self.$searchview_buttons.find("input[name='date_from']").parents('.oe-account-datetimepicker').data("DateTimePicker").setValue(moment(dt));
+                    self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 }
                 break;
         }
@@ -460,4 +511,5 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
 });
 
 core.action_registry.add("account_report_generic", account_report_generic);
+return account_report_generic;
 });
