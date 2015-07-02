@@ -1,0 +1,55 @@
+
+/* Signature Dialog */
+.o_sign_font_dialog {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    height: 100%;
+    
+    .o_sign_font_selection {
+        overflow: auto;
+        height: 90%;
+        padding: 0;
+
+        > a {
+            height: 100px;
+            padding: 0;
+
+            > img {
+                height: 100%;
+            }
+        }
+    }
+
+    .o_sign_loading {
+        background-image: url(../../img/loading.gif);
+        width: 31px;
+        height: 31px;
+        margin: 35px auto 0;
+    }
+
+    .o_sign_load {
+        visibility: hidden;
+    }
+}
+
+.o_sign_signature_draw .o_sign_signature {
+    padding: 0;
+}
+
+.o_sign_validate_banner {
+    display: none;
+    opacity: 0;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+
+    background-color: #A24689; // @odoo-brand-primary;
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
+}
