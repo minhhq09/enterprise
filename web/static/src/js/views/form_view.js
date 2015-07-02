@@ -747,7 +747,9 @@ var FormView = View.extend(common.FieldManagerMixin, {
             title: _t("Warning"),
             confirm_callback: function() {
                 self.$el.removeClass('oe_form_dirty');
-                def.resolve();
+                this.on('closed', null, function() { // 'this' is the dialog widget
+                    def.resolve();
+                });
             },
             cancel_callback: function() {
                 def.reject();

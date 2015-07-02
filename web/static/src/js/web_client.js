@@ -340,7 +340,6 @@ var WebClient = Widget.extend({
                 self.$web_client_content = self.$el.contents()
                                                 .not('.o_loading')
                                                 .not('.ui-autocomplete')
-                                                .not('.modal').not('.modal-backdrop') // FIXME
                                                 .detach();
                 self.app_switcher.$el.prependTo(self.$el);
                 self.app_switcher_navbar.$el.prependTo(self.$el);
