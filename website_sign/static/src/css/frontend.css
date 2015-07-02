@@ -1,0 +1,231 @@
+
+.modal .modal-footer { /* TODO this rule is a backend rule... */
+    text-align: left;
+}
+
+/* Sign Home */
+.sign_dashboard_row {
+    display: none;
+}
+
+.sign_dashboard_title {
+    font-weight: bold;
+    border-bottom: 1px solid lightgray;
+}
+
+.sign_dashboard_item > .btn, .sign_dashboard_item:hover > .btn {
+    position: relative;
+    height: 150px;
+    padding: 0px;
+    
+    background-color: #EEEEEE;
+    color: dimgray;
+
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.sign_dashboard_item > .btn::before, .sign_dashboard_item > .btn::after {
+    content: " ";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.sign_dashboard_item_content {
+    max-width: 95%;
+    margin: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sign_dashboard_item_content > div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.8em;
+}
+
+.sign_dashboard_item_content > .sign_dashboard_item_title {
+    font-size: 1em;
+}
+
+.sign_dashboard_item_content > div span:not(:first-child)::before {
+    content: ', ';
+    color: dimgray;
+}
+
+.sign_dashboard_item .favorite_button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    color: silver;
+}
+
+.sign_dashboard_item .favorite_button:hover {
+    color: orange;
+}
+
+.sign_dashboard_item.favorited .favorite_button {
+    color: orange;
+}
+
+.sign_dashboard_item.favorited .favorite_button:hover {
+    color: red;
+}
+
+.sign_dashboard_item .archive_button {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    bottom: 3px;
+    right: 3px;
+    font-size: 0.7em;
+    
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.sign_dashboard_item:hover .archive_button {
+    opacity: 1;
+}
+
+.sign_dashboard_item .archive_button::after {
+    content: "Archive";
+}
+
+.sign_dashboard_item.archived .archive_button::after {
+    content: "Unarchive";
+}
+
+.sign_dashboard_item.archived {
+    /* can differentiate archives */
+}
+
+.sign_dashboard_item_icon {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#upload_template_button {
+    background-color: #0CC497;
+    border-color: #0CC497;
+    color: white;
+}
+
+/* Edit mode */
+.fa-pencil {
+    cursor: pointer;
+
+    opacity: 0.1;
+    transition: opacity ease 250ms;
+}
+
+:hover > .fa-pencil {
+    opacity: 1.0; 
+}
+
+#template_name_input {
+    border: 1px dashed white;
+}
+
+#template_name_input:focus {
+    border: 1px solid silver;
+}
+
+#template_name_input[disabled] {
+    background-color: transparent;
+    border: none;
+}
+
+#template-saved-info {
+    margin: 0;
+    padding: 5px;
+    
+    opacity: 0;
+}
+
+/* Sign page */
+.media, .media-body {
+    overflow: auto;
+    background-color: #F7F5FA;
+    padding: 5px;
+}
+
+.request_follower_name:not(:first-child)::before {
+    content: ', ';
+}
+
+#signature-validate-banner {
+    display: none;
+    opacity: 0;
+
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px;
+
+    background-color: #A4498C;
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
+}
+
+#website_sign_chatter ul {
+    max-height: 300px;
+    overflow: auto;
+}
+
+/* Signature Dialog */
+div#font_dialog {
+    display: none;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+div#font_dialog #sign_font_selection {
+    overflow: auto;
+    height: 90%;
+    padding: 0;
+}
+
+div#font_dialog a {
+    height: 100px;
+    padding: 0;
+}
+
+div#font_dialog a img {
+    height: 100%;
+}
+
+div#font_dialog .loading {
+    background-image: url(../img/loading.gif);
+    width: 31px;
+    height: 31px;
+    margin: auto;
+    margin-top: 35px;
+}
+
+.odoo_signed {
+    background: transparent;
+    background-image: url(../img/odoo_signed.png);
+    background-repeat: no-repeat;
+    background-position: 99% 1.5%;
+    background-size: 20% auto;
+
+    border-top: 1px solid #A4498C;
+    border-radius: 10% 0px 0px 0px;
+}
+
+.odoo_signed_powered {
+    color: gray;
+    font-style: italic;
+}
+
+.odoo_signed_powered::before {
+    content: "Powered by";
+    float: right;
+    margin-right: 15%;
+}
