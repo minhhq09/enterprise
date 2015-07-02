@@ -7,7 +7,7 @@ MIT License <http://www.opensource.org/licenses/mit-license.php>
 */
 ;(function() {
 
-var apinamespace = 'jSignature'
+var apinamespace = 'jSignature_custom'
 
 /**
 Allows one to delay certain eventual action by setting up a timer for it and allowing one to delay it

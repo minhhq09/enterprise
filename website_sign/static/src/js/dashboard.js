@@ -1,10 +1,10 @@
 
-odoo.define('website_sign.dashboard', function(require) {
+(function() {
     'use strict';
 
-    var session = require('web.session');
-    var Widget = require('web.Widget');
-    var website = require('website.website');
+    var session; // initialized when ready
+    var Widget = openerp.Widget;
+    var website = openerp.website;
     
     var WIDGETS = {};
 
@@ -233,10 +233,10 @@ odoo.define('website_sign.dashboard', function(require) {
     
     website.if_dom_contains('#o_sign_dashboard', function(dashboardDOM) {
         website.ready().then(function() {
+            session = website.session;
+
             var dashboard = new WIDGETS.Dashboard(null, dashboardDOM);
             return dashboard.start();
         });
     });
-        
-    return WIDGETS;
-});
+})();

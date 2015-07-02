@@ -1,14 +1,27 @@
 
-odoo.define('website_sign.backend_iframe', function(require) {
+openerp.website_sign = function(instance, local) {
     'use strict';
 
-    var core = require('web.core');
-    var IFrameWidget = require('web.IFrameWidget'); // FIXME ugly
-    var ControlPanelMixin = require('web.ControlPanelMixin');
+    var IFrameWidget = openerp.Widget.extend({ // FIXME ugly
+        tagName: 'iframe',
+        init: function(parent, url) {
+            this._super(parent);
+            this.url = url;
+        },
+        start: function() {
+            this.$el.css({height: '100%', width: '100%', border: 0});
+            this.$el.attr({src: this.url});
+            this.$el.on("load", this.bind_events.bind(this));
+            return this._super();
+        },
+        bind_events: function(){
+            this.$el.contents().click(this.iframe_clicked.bind(this));
+        },
+        iframe_clicked: function(e){
+        }
+    });
 
-    var WIDGETS = {};
-
-    WIDGETS.SignIFrameWidget = IFrameWidget.extend(ControlPanelMixin, {
+    local.SignIFrameWidget = IFrameWidget.extend({
         init: function(parent, options, cp_content) {
             if(!options.context.src) { // FIXME ugly
                 window.location.href = '/web';
@@ -40,35 +53,6 @@ odoo.define('website_sign.backend_iframe', function(require) {
             var $mainContent = this.$el.contents().find('body main').detach();
             if($mainContent.length > 0)
                 $mainContent.appendTo(this.$el.contents().find('body').html(''));
-
-            var realContent = this.$el.contents();
-            for(var components in this.cp_content) {
-                this.cp_content[components].each((function() {
-                    function fct(i, el) {
-                        var $elem = $(el);
-                        var eventComponent = realContent.find($elem.data('eventSelector')).first();
-                        var hideComponent = realContent.find($elem.data('hideSelector')).add(eventComponent);
-
-                        if(eventComponent.length > 0) {
-                            $elem.toggleClass('selected', eventComponent.prop('checked') === true);
-                            $elem.off('click').on('click', function(e) {
-                                eventComponent.trigger('click');
-                                $elem.toggleClass('selected', eventComponent.prop('checked') === true);
-                            });
-                        }
-                        else if($elem.data('eventSelector') !== undefined)
-                            $elem.hide();
-
-                        if(hideComponent.length > 0)
-                            hideComponent.hide();
-
-                        $elem.children().each(fct);
-                    }
-                    return fct;
-                })());
-            }
-
-            this.refresh_panel();
         },
 
         getOnLeaveAction: function(newURL) {
@@ -85,16 +69,9 @@ odoo.define('website_sign.backend_iframe', function(require) {
             this._super();
             this.$el.attr('src', this.url);
         },
-
-        refresh_panel: function() {
-            this.update_control_panel({
-                breadcrumbs: this.actionManager.get_breadcrumbs(),
-                cp_content: this.cp_content
-            });
-        }
     });
 
-    WIDGETS.DashboardIframe = WIDGETS.SignIFrameWidget.extend({
+    local.DashboardIframe = local.SignIFrameWidget.extend({
         init: function(parent) {
             var $toggleGroup = $('<div/>').addClass("btn-group btn-group-sm");
 
@@ -140,7 +117,7 @@ odoo.define('website_sign.backend_iframe', function(require) {
         }
     });
 
-    WIDGETS.TemplateIframe = WIDGETS.SignIFrameWidget.extend({
+    local.TemplateIframe = local.SignIFrameWidget.extend({
         init: function(parent, options) {
             var sendButton = $('<button/>', {html: "Send"}).addClass('btn btn-primary btn-sm').data('eventSelector', '.o_sign_send_template_button');
             var shareButton = $('<button/>', {html: "Share"}).addClass('btn btn-link btn-sm').data('eventSelector', '.o_sign_share_template_button');
@@ -168,7 +145,7 @@ odoo.define('website_sign.backend_iframe', function(require) {
         },
     });
 
-    WIDGETS.DocumentIframe = WIDGETS.SignIFrameWidget.extend({
+    local.DocumentIframe = local.SignIFrameWidget.extend({
         init: function(parent, options) {
             var cancelButton = $('<button/>', {html: "Cancel Request"}).addClass('btn btn-default btn-sm').data('eventSelector', '.o_sign_cancel_request_button');
 
@@ -194,10 +171,8 @@ odoo.define('website_sign.backend_iframe', function(require) {
         },
     });
 
-    core.action_registry.add('website_sign.dashboard', WIDGETS.DashboardIframe);
+    instance.web.client_actions.add('website_sign.dashboard', 'instance.website_sign.DashboardIframe');
 
-    core.action_registry.add('website_sign.dashboard_item_template', WIDGETS.TemplateIframe);
-    core.action_registry.add('website_sign.dashboard_item_document', WIDGETS.DocumentIframe);
-    
-    return WIDGETS;
-});
+    instance.web.client_actions.add('website_sign.dashboard_item_template', 'instance.website_sign.TemplateIframe');
+    instance.web.client_actions.add('website_sign.dashboard_item_document', 'instance.website_sign.DocumentIframe');
+};

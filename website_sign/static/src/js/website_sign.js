@@ -1,12 +1,12 @@
 
-odoo.define('website_sign.page', function(require) {
+(function() {
     'use strict';
 
-    var core = require('web.core');
-    var ajax = require('web.ajax');
-    var Widget = require('web.Widget');
-    var Class = require('web.Class');
-    var website = require('website.website');
+    var qweb = openerp.qweb;
+    var ajax = openerp;
+    var Widget = openerp.Widget;
+    var Class = openerp.Class;
+    var website = openerp.website;
 
     var CLASSES = {}, WIDGETS = {};
 
@@ -305,7 +305,7 @@ odoo.define('website_sign.page', function(require) {
                 var width = this.$signatureField.width();
                 var height = width / this.signatureRatio;
 
-                this.$signatureField.empty().jSignature({
+                this.$signatureField.empty().jSignature_custom({
                     'decor-color': 'transparent',
                     'background-color': '#FFF',
                     'color': '#000',
@@ -313,7 +313,7 @@ odoo.define('website_sign.page', function(require) {
                     'width': width,
                     'height': height
                 });
-                this.emptySignature = this.$signatureField.jSignature("getData");
+                this.emptySignature = this.$signatureField.jSignature_custom("getData");
 
                 this.$modeButtons.filter('.btn-primary').click();
                 this.$('.modal-footer .btn-primary').prop('disabled', false).focus();
@@ -322,7 +322,7 @@ odoo.define('website_sign.page', function(require) {
             'click a.o_sign_mode': function(e) {
                 this.$modeButtons.removeClass('btn-primary');
                 $(e.target).addClass('btn-primary');
-                this.$signatureField.jSignature('reset');
+                this.$signatureField.jSignature_custom('reset');
 
                 this.mode = $(e.target).data('mode');
 
@@ -332,7 +332,7 @@ odoo.define('website_sign.page', function(require) {
 
                 if(this.mode === 'load')
                     this.$loadButton.click();
-                this.$signatureField.jSignature((this.mode === 'draw')? "enable" : "disable");
+                this.$signatureField.jSignature_custom((this.mode === 'draw')? "enable" : "disable");
 
                 this.$fontDialog.hide().css('width', 0);
                 this.$signerNameInput.trigger('input');
@@ -363,7 +363,7 @@ odoo.define('website_sign.page', function(require) {
             },
 
             'click .o_sign_clean': function (e) {
-                this.$signatureField.jSignature('reset');
+                this.$signatureField.jSignature_custom('reset');
             },
 
             'change .o_sign_load': function(e) {
@@ -381,7 +381,7 @@ odoo.define('website_sign.page', function(require) {
             },
 
             'click .modal-footer .btn-primary': function(e) {
-                this.confirmFunction(this.$signerNameInput.val(), this.$signatureField.jSignature("getData"));
+                this.confirmFunction(this.$signerNameInput.val(), this.$signatureField.jSignature_custom("getData"));
             },
         },
 
@@ -428,7 +428,7 @@ odoo.define('website_sign.page', function(require) {
         },
 
         getSVGText: function(font, text) {
-            return ("data:image/svg+xml;base64," + btoa(core.qweb.render('website_sign.svg_text', {
+            return ("data:image/svg+xml;base64," + btoa(qweb.render('website_sign.svg_text', {
                 width: this.$signatureField.find('canvas')[0].width,
                 height: this.$signatureField.find('canvas')[0].height,
                 font: font,
@@ -455,7 +455,7 @@ odoo.define('website_sign.page', function(require) {
                     var width = 0, height = 0;
                     var ratio = image.width/image.height
 
-                    self.$signatureField.jSignature('reset');
+                    self.$signatureField.jSignature_custom('reset');
                     var $canvas = self.$signatureField.find('canvas'), context = $canvas[0].getContext("2d");
 
                     if(image.width / $canvas[0].width > image.height / $canvas[0].height) {
@@ -1047,7 +1047,7 @@ odoo.define('website_sign.page', function(require) {
             var readonly = self.readonlyFields || (responsible > 0 && responsible !== self.role);
             var type = websiteSign.getTypeData(typeID);
 
-            var $signatureItem = $(core.qweb.render('website_sign.signature_item', {
+            var $signatureItem = $(qweb.render('website_sign.signature_item', {
                 readonly: readonly,
                 type: type['type'],
                 value: (value)? ("" + value).split('\n').join('<br/>') : "",
@@ -1781,9 +1781,4 @@ odoo.define('website_sign.page', function(require) {
             });
         });
     });
-    
-    return {
-        'classes': CLASSES,
-        'widgets': WIDGETS
-    };
-});
+})();
