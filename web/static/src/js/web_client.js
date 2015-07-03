@@ -116,6 +116,13 @@ var WebClient = Widget.extend({
 
         core.bus.on('connection_lost', this, this.on_connection_lost);
         core.bus.on('connection_restored', this, this.on_connection_restored);
+
+        // Fastclick
+        if ('addEventListener' in document) {
+            document.addEventListener('DOMContentLoaded', function() {
+                FastClick.attach(document.body);
+            }, false);
+        }
     },
     show_common: function() {
         var self = this;
