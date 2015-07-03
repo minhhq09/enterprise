@@ -1,0 +1,162 @@
+.o_account_reports_body {
+    background-color: @odoo-view-background-color;
+    color: @odoo-main-text-color;
+}
+.o_account_reports_page {
+    padding-bottom: 2.5cm;
+    td ~ td span {
+        margin-left: 10px;
+    }
+    .o_account_reports_summary {
+        padding-bottom: 0.8cm;
+        padding-top: 0.3cm;
+        i.fa {
+            visibility: hidden;
+        }
+        &:hover i.fa {
+            visibility: visible;
+        }
+    }
+    .o_account_reports_next-action {
+        i.fa {
+            visibility: hidden;
+        }
+        &:hover i.fa {
+            visibility: visible;
+        }
+    }
+    .o_account_reports_unfolded td + td {
+        visibility: hidden;
+    }
+    input#summary, a, div.o_account_reports_summary, .o_account_reports_web-action,
+    span.o_account_reports_web-action, div.dropdown, span.dropdown, i.fa, div.o_account_reports_saved-summary span,
+    td.o_account_reports_unfoldable, td.o_account_reports_foldable, span.partner_id, span.move_line_id,
+    span#public-link, input[type=checkbox], div.o_account_reports_next-action {
+        cursor: pointer; cursor: hand;
+    }
+    p.footnote i.fa, p.footnoteEdit i.fa {
+        visibility: hidden;
+    }
+    p.footnote:hover i.fa {
+        visibility: visible;
+    }
+    .footnoteIcons {
+        position: absolute;
+        margin-left: 3px;
+    }
+    .o_account_reports_caret-icon {
+        position: absolute;
+        margin-left: -3px;
+    }
+    .pencilIcon {
+        position: absolute;
+        margin-left: -15px;
+        color: @odoo-main-text-color;
+    }
+    .o_account_reports_domain-line-1 {
+        margin-left: 65px;
+    }
+    .o_account_reports_domain-line-2 {
+        margin-left: 75px;
+    }
+    .o_account_reports_domain-line-3 {
+        margin-left: 85px;
+    }
+    .domain-total {
+        &.o_account_reports_domain-line-1,
+        &.o_account_reports_domain-line-2,
+        &.o_account_reports_domain-line-3 {
+            font-weight: bold;
+        }
+    }
+    .unreconciled_aml {
+        font-style: : italic;
+    }
+    th {
+        border-bottom: thin groove;
+    }
+    b.o_account_reports_footnote-sup {
+        position: absolute;
+        margin-top: 10px;
+        color: @odoo-main-text-color;
+    }
+    ul.o_account_reports_domain-dropdown {
+        margin-left: 70px
+    }
+    .total {
+        font-weight: bold;
+        color: @odoo-main-text-color;
+    }
+    .o_account_reports_level0 {
+        border-collapse: separate;
+        color: @odoo-brand-primary;
+        border-width:5px;
+        border-left-style: hidden;
+        border-top-style: double;
+        border-bottom-style: hidden;
+        border-right-style: hidden;
+        font-weight: bold;
+        td {
+            padding-bottom: 45px;
+        }
+    }
+    .o_account_reports_level1 {
+        border-width: 2px;
+        border-style: solid;
+        border-top-style: hidden;
+        border-left-style: hidden;
+        border-right-style: hidden;
+        &.total {
+            border-top-style: solid;
+            td {
+                padding-bottom: 25px;
+            }
+        }
+    }
+    .o_account_reports_level2 {
+        border-width: 1px;
+        border-style: solid;
+        border-left-style: hidden;
+        border-right-style: hidden;
+        > td > span:last-child {
+            margin-left: 25px;
+        }
+        &.total td {
+            padding-bottom: 50px;
+        }
+    }
+    .defaultStyle {
+        border-width: 0;
+        border-style: solid;
+        border-left-style: hidden;
+        border-right-style: hidden;
+        > td > span:last-child {
+            margin-left: 50px;
+        }
+    }
+    .progress {
+        position: relative;
+        span {
+            position: absolute;
+            display: block;
+            width: 100%;
+            color: @odoo-main-text-color;
+        }
+    }
+    .o_account_reports_followup-not-clicked {
+        .followup-skip {
+            display: inline-block;
+        }
+        .followup-done {
+            display: none;
+        }
+    }
+    .o_account_reports_followup-clicked {
+        .followup-skip {
+            display: none;
+        }
+        .followup-done {
+            display: inline-block;
+        }
+    }
+}
