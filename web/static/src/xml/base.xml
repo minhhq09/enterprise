@@ -694,38 +694,40 @@
     </td>
 </tr>
 
-<table t-name="ListView" class="o_list_view table table-condensed table-striped table-responsive">
-    <t t-set="columns_count" t-value="visible_columns.length + (options.selectable ? 1 : 0) + (options.deletable ? 1 : 0)"/>
-    <thead>
-        <tr t-if="options.header">
-            <t t-foreach="columns" t-as="column">
-                <th t-if="column.meta">
-                    <t t-esc="column.string"/>
+<div t-name="ListView" class="table-responsive">
+    <table class="o_list_view table table-condensed table-striped">
+        <t t-set="columns_count" t-value="visible_columns.length + (options.selectable ? 1 : 0) + (options.deletable ? 1 : 0)"/>
+        <thead>
+            <tr t-if="options.header">
+                <t t-foreach="columns" t-as="column">
+                    <th t-if="column.meta">
+                        <t t-esc="column.string"/>
+                    </th>
+                </t>
+                <th t-if="options.selectable" class="o_list_record_selector" width="1">
+                    <div class="o_checkbox">
+                        <input type="checkbox"/><span/>
+                    </div>
                 </th>
-            </t>
-            <th t-if="options.selectable" class="o_list_record_selector" width="1">
-                <div class="o_checkbox">
-                    <input type="checkbox"/><span/>
-                </div>
-            </th>
-            <t t-foreach="columns" t-as="column">
-                <th t-if="!column.meta and column.invisible !== '1'" t-att-data-id="column.id"
-                    t-attf-class="#{((options.sortable and column.sortable and column.tag !== 'button') ? 'o_column_sortable' : '')}">
-                    <t t-if="column.tag !== 'button'"><t t-esc="column.string"/></t>
-                </th>
-            </t>
-            <th t-if="options.deletable" class="o_list_record_delete"/>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td t-if="options.selectable"/>
-            <td t-foreach="aggregate_columns" t-as="column" t-att-data-field="column.id" t-att-title="column.label">
-            </td>
-            <td t-if="options.deletable" class="o_list_record_delete"/>
-        </tr>
-    </tfoot>
-</table>
+                <t t-foreach="columns" t-as="column">
+                    <th t-if="!column.meta and column.invisible !== '1'" t-att-data-id="column.id"
+                        t-attf-class="#{((options.sortable and column.sortable and column.tag !== 'button') ? 'o_column_sortable' : '')}">
+                        <t t-if="column.tag !== 'button'"><t t-esc="column.string"/></t>
+                    </th>
+                </t>
+                <th t-if="options.deletable" class="o_list_record_delete"/>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td t-if="options.selectable"/>
+                <td t-foreach="aggregate_columns" t-as="column" t-att-data-field="column.id" t-att-title="column.label">
+                </td>
+                <td t-if="options.deletable" class="o_list_record_delete"/>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 <t t-name="ListView.buttons">
     <t t-if="!widget.no_leaf and widget.options.action_buttons !== false and widget.options.addable and widget.is_action_enabled('create')">
