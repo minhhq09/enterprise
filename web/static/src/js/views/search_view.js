@@ -410,7 +410,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         if (this.$buttons) {
             this.$buttons.toggle(!this.headless && is_visible && this.visible_filters);
         }
-        if(!config.device.touch) {
+        if (!config.device.touch && !config.device.xs) {
             this.$('input').focus();
         }
     },
