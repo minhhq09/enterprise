@@ -210,8 +210,11 @@ var FormView = View.extend(common.FieldManagerMixin, {
     render_pager: function($node) {
         if (this.options.pager) {
             var self = this;
+            var options = {
+                validate: _.bind(this.can_be_discarded, this),
+            };
 
-            this.pager = new Pager(this, this.dataset.ids.length, this.dataset.index + 1, 1);
+            this.pager = new Pager(this, this.dataset.ids.length, this.dataset.index + 1, 1, options);
             this.pager.on('pager_changed', this, function (new_state) {
                 this.pager.disable();
                 this.dataset.index = new_state.current_min - 1;
