@@ -13,7 +13,6 @@ var session = require('web.session');
 var utils = require('web.utils');
 var ViewManager = require('web.ViewManager');
 
-
 var _t = core._t;
 var QWeb = core.qweb;
 var COMMANDS = common.commands;
@@ -26,48 +25,46 @@ var M2ODialog = Dialog.extend({
         this._super(parent, {
             title: _.str.sprintf(_t("Create a %s"), parent.string),
             size: 'medium',
+            buttons: [
+                {text: _t('Create'), classes: 'btn-primary', click: function() {
+                    if (this.$("input").val() !== ''){
+                        this.getParent()._quick_create(self.$("input").val());
+                        this.close();
+                    } else {
+                        e.preventDefault();
+                        this.$("input").focus();
+                    }
+                }},
+
+                {text: _t('Create and edit'), classes: 'btn-primary', close: true, click: function() {
+                    this.getParent()._search_create_popup("form", undefined, this.getParent()._create_context(this.$("input").val()));
+                }},
+
+                {text: _t('Cancel'), close: true}
+            ]
         });
     },
     start: function() {
-        var self = this;
         var text = _.str.sprintf(_t("You are creating a new %s, are you sure it does not exist yet?"), self.name);
-        this.$("p").text( text );
-        this.$buttons.html(QWeb.render("M2ODialog.buttons"));
+        this.$("p").text(text);
         this.$("input").val(this.getParent().$input.val());
-        this.$buttons.find(".oe_form_m2o_qc_button").click(function(e){
-            if (self.$("input").val() !== ''){
-                self.getParent()._quick_create(self.$("input").val());
-                self.destroy();
-            } else{
-                e.preventDefault();
-                self.$("input").focus();
-            }
-        });
-        this.$buttons.find(".oe_form_m2o_sc_button").click(function(){
-            self.getParent()._search_create_popup("form", undefined, self.getParent()._create_context(self.$("input").val()));
-            self.destroy();
-        });
-        this.$buttons.find(".oe_form_m2o_cancel_button").click(function(){
-            self.destroy();
-        });
     },
 });
 
-var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, common.ReinitializeFieldMixin, {
+var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, common.ReinitializeFieldMixin, { // FIXME: should be reviewed
     template: "FieldMany2One",
     events: {
         'keydown input': function (e) {
             switch (e.which) {
-            case $.ui.keyCode.UP:
-            case $.ui.keyCode.DOWN:
-                e.stopPropagation();
+                case $.ui.keyCode.UP:
+                case $.ui.keyCode.DOWN:
+                    e.stopPropagation();
             }
         },
     },
     init: function(field_manager, node) {
         this._super(field_manager, node);
         common.CompletionFieldMixin.init.call(this);
-        this.set({'value': false});
         this.display_value = {};
         this.display_value_backup = {};
         this.last_search = [];
@@ -93,13 +90,14 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         common.ReinitializeFieldMixin.initialize_field.call(this);
     },
     initialize_content: function() {
-        if (!this.get("effective_readonly"))
+        if (!this.get("effective_readonly")) {
             this.render_editable();
+        }
     },
     destroy_content: function () {
-        if (this.$drop_down) {
-            this.$drop_down.off('click');
-            delete this.$drop_down;
+        if (this.$dropdown) {
+            this.$dropdown.off('click');
+            delete this.$dropdown;
         }
         if (this.$input) {
             this.$input.closest(".modal .modal-content").off('scroll');
@@ -127,16 +125,15 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
     },
     render_editable: function() {
         var self = this;
-        this.$input = this.$el.find("input");
+        this.$input = this.$("input");
 
         this.init_error_displayer();
-
         self.$input.on('focus', function() {
             self.hide_error_displayer();
         });
 
-        this.$drop_down = this.$el.find(".oe_m2o_drop_down_button");
-        this.$follow_button = $(".oe_m2o_cm_button", this.$el);
+        this.$dropdown = this.$(".o_dropdown_button");
+        this.$follow_button = this.$(".o_external_button");
 
         this.$follow_button.click(function(ev) {
             ev.preventDefault();
@@ -144,20 +141,17 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
                 self.focus();
                 return;
             }
-            var pop = new common.FormOpenPopup(self);
             var context = self.build_context().eval();
             var model_obj = new Model(self.field.relation);
             model_obj.call('get_formview_id', [self.get("value"), context]).then(function(view_id){
-                pop.show_element(
-                    self.field.relation,
-                    self.get("value"),
-                    self.build_context(),
-                    {
-                        title: _t("Open: ") + self.string,
-                        view_id: view_id,
-                        readonly: !self.can_write
-                    }
-                );
+                var pop = new common.FormViewDialog(self, {
+                    res_model: self.field.relation,
+                    res_id: self.get("value"),
+                    context: self.build_context(),
+                    title: _t("Open: ") + self.string,
+                    view_id: view_id,
+                    readonly: !self.can_write
+                }).open();
                 pop.on('write_completed', self, function(){
                     self.display_value = {};
                     self.display_value_backup = {};
@@ -182,7 +176,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         };
         this.$input.keydown(input_changed);
         this.$input.change(input_changed);
-        this.$drop_down.click(function() {
+        this.$dropdown.click(function() {
             self.$input.focus();
             if (self.$input.autocomplete("widget").is(":visible")) {
                 self.$input.autocomplete("close");                
@@ -261,7 +255,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
                 // autocomplete open
                 if (ignore_blur) { $(this).focus(); return; }
                 if (_(self.getChildren()).any(function (child) {
-                    return child instanceof common.AbstractFormPopup;
+                    return child instanceof common.ViewDialog;
                 })) { return; }
                 self.trigger('blurred');
             }
@@ -287,8 +281,8 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
                     item.action();
                     // Cancel widget blurring, to avoid form blur event
                     self.trigger('focused');
-                    return false;
                 }
+                return false;
             },
             focus: function(e, ui) {
                 e.preventDefault();
@@ -299,7 +293,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
             minLength: 0,
             delay: 200,
         });
-        var appendTo = this.$input.parents('.oe-view-manager-content:visible, .modal-dialog:visible').last();
+        var appendTo = this.$input.parents('.o_view_manager_content:visible, .modal-dialog:visible').last();
         if (appendTo.length === 0) {
             appendTo = '.oe_application > *:visible:last';
         }
@@ -308,7 +302,6 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         });
         // set position for list of suggestions box
         this.$input.autocomplete( "option", "position", { my : "left top", at: "left bottom" } );
-        this.$input.autocomplete("widget").openerpClass();
         // used to correct a bug when selecting an element by pushing 'enter' in an editable list
         this.$input.keyup(function(e) {
             if (e.which === 13) { // ENTER
@@ -321,7 +314,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
     },
     render_value: function(no_recurse) {
         var self = this;
-        if (! this.get("value")) {
+        if (!this.get("value")) {
             this.display_string("");
             return;
         }
@@ -330,7 +323,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
             this.display_string(display);
             return;
         }
-        if (! no_recurse) {
+        if (!no_recurse) {
             var dataset = new data.DataSetStatic(this, this.field.relation, self.build_context());
             var def = this.alive(dataset.name_get([self.get("value")])).done(function(data) {
                 if (!data[0]) {
@@ -351,37 +344,32 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         }
     },
     display_string: function(str) {
-        var self = this;
         if (!this.get("effective_readonly")) {
             this.$input.val(str.split("\n")[0]);
             this.current_display = this.$input.val();
-            if (this.is_false()) {
-                this.$('.oe_m2o_cm_button').css({'display':'none'});
-            } else {
-                this.$('.oe_m2o_cm_button').css({'display':'inline'});
-            }
+            this.$follow_button.toggle(!this.is_false());
+            this.$el.toggleClass('o_with_button', this.$follow_button && !this.is_false());
         } else {
-            var lines = _.escape(str).split("\n");
-            var link = "";
-            var follow = "";
-            link = lines[0];
-            follow = _.rest(lines).join("<br />");
-            if (follow)
-                link += "<br />";
-            var $link = this.$el.find('.oe_form_uri')
-                 .unbind('click')
-                 .html(link);
-            if (! this.options.no_open)
-                $link.click(function () {
-                    var context = self.build_context().eval();
-                    var model_obj = new Model(self.field.relation);
-                    model_obj.call('get_formview_action', [self.get("value"), context]).then(function(action){
-                        self.do_action(action);
-                    });
-                    return false;
-                 });
-            $(".oe_form_m2o_follow", this.$el).html(follow);
+            this.$el.html(_.escape(str).split("\n").join("<br/>"));
+            // Define callback to perform when clicking on the field
+            if (!this.options.no_open) {
+                // Remove potential previously added event handler
+                this.$el.off('click');
+                // Ensure that the callback is performed only once even with multiple clicks
+                var execute_formview_action_once = _.once(this.execute_formview_action.bind(this));
+                this.$el.click(function (ev) {
+                    ev.preventDefault();
+                    execute_formview_action_once();
+                });
+            }
         }
+    },
+    execute_formview_action: function() {
+        var self = this;
+        var context = self.build_context().eval();
+        (new Model(self.field.relation)).call('get_formview_action', [self.get("value"), context]).then(function(action) {
+            self.do_action(action);
+        });
     },
     set_value: function(value_) {
         if (value_ instanceof Array) {
@@ -430,8 +418,9 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
     },
     set_dimensions: function (height, width) {
         this._super(height, width);
-        if (!this.get("effective_readonly") && this.$input)
+        if (!this.get("effective_readonly") && this.$input) {
             this.$input.css('height', height);
+        }
     }
 });
 
@@ -746,13 +735,14 @@ var FieldOne2Many = AbstractManyField.extend({
     },
     start: function() {
         this._super.apply(this, arguments);
-        this.$el.addClass('oe_form_field oe_form_field_one2many');
+        this.$el.addClass('o_form_field_one2many');
 
         var self = this;
 
         self.load_views();
         var destroy = function() {
             self.is_loaded = self.is_loaded.then(function() {
+                self.renderElement();
                 self.viewmanager.destroy();
                 return $.when(self.load_views()).done(function() {
                     self.reload_current_view();
@@ -851,7 +841,9 @@ var FieldOne2Many = AbstractManyField.extend({
         });
         $.async_when().done(function () {
             if (!self.isDestroyed()) {
-                self.viewmanager.appendTo(self.$el);
+                self.viewmanager.setElement(self.$el);
+                self.$el.addClass('o_view_manager_content');
+                self.viewmanager.start();
             }
         });
         return def;
@@ -929,7 +921,6 @@ var One2ManyDataSet = data.BufferedDataSet.extend({
 });
 
 var One2ManyListView = ListView.extend({
-    _template: 'One2Many.listview',
     init: function (parent, dataset, view_id, options) {
         this._super(parent, dataset, view_id, _.extend(options || {}, {
             GroupsType: One2ManyGroups,
@@ -950,6 +941,12 @@ var One2ManyListView = ListView.extend({
             }
         };
         $(document).on('mousedown', this._mousedown_blur_line);
+    },
+    render_pager: function($node, options) {
+        options = _.extend(options || {}, {
+            single_page_hidden: true,
+        });
+        this._super($node, options);
     },
     is_valid: function () {
         var self = this;
@@ -987,35 +984,34 @@ var One2ManyListView = ListView.extend({
             this._super.apply(this, arguments);
         } else {
             var self = this;
-            var pop = new common.SelectCreatePopup(this);
-            pop.select_element(
-                self.o2m.field.relation,
-                {
-                    title: _t("Create: ") + self.o2m.string,
-                    initial_view: "form",
-                    alternative_form_view: self.o2m.field.views ? self.o2m.field.views.form : undefined,
-                    create_function: function(data, options) {
-                        return self.o2m.data_create(data, options);
-                    },
-                    read_function: function(ids, fields, options) {
-                        return self.o2m.data_read(ids, fields, options);
-                    },
-                    parent_view: self.o2m.view,
-                    child_name: self.o2m.name,
-                    form_view_options: {'not_interactible_on_create':true}
+            new common.SelectCreateDialog(this, {
+                res_model: self.o2m.field.relation,
+                domain: self.o2m.build_domain(),
+                context: self.o2m.build_context(),
+                title: _t("Create: ") + self.o2m.string,
+                initial_view: "form",
+                alternative_form_view: self.o2m.field.views ? self.o2m.field.views.form : undefined,
+                create_function: function(data, options) {
+                    return self.o2m.data_create(data, options);
                 },
-                self.o2m.build_domain(),
-                self.o2m.build_context()
-            );
-            pop.on("elements_selected", self, function() {
-                self.o2m.reload_current_view();
-            });
+                read_function: function(ids, fields, options) {
+                    return self.o2m.data_read(ids, fields, options);
+                },
+                parent_view: self.o2m.view,
+                child_name: self.o2m.name,
+                form_view_options: {'not_interactible_on_create':true},
+                on_selected: function() {
+                    self.o2m.reload_current_view();
+                }
+            }).open();
         }
     },
     do_activate_record: function(index, id) {
         var self = this;
-        var pop = new common.FormOpenPopup(self);
-        pop.show_element(self.o2m.field.relation, id, self.o2m.build_context(), {
+        new common.FormViewDialog(self, {
+            res_model: self.o2m.field.relation,
+            res_id: id,
+            context: self.o2m.build_context(),
             title: _t("Open: ") + self.o2m.string,
             write_function: function(id, data) {
                 return self.o2m.data_update(id, data, {}).done(function() {
@@ -1030,7 +1026,7 @@ var One2ManyListView = ListView.extend({
             },
             form_view_options: {'not_interactible_on_create':true},
             readonly: !this.is_action_enabled('edit') || self.o2m.get("effective_readonly")
-        });
+        }).open();
     },
     do_button_action: function (name, id, callback) {
         if (!_.isNumber(id)) {
@@ -1144,24 +1140,6 @@ var One2ManyList = AddAnItemList.extend({
     },
 });
 
-var One2ManyFormView = FormView.extend({
-    form_template: 'One2Many.formview',
-    load_form: function(data) {
-        this._super(data);
-        var self = this;
-        this.$buttons.find('button.oe_form_button_create').click(function() {
-            self.save().done(self.on_button_new);
-        });
-    },
-    do_notify_change: function() {
-        if (this.dataset.parent_view) {
-            this.dataset.parent_view.do_notify_change();
-        } else {
-            this._super.apply(this, arguments);
-        }
-    }
-});
-
 var One2ManyViewManager = ViewManager.extend({
     init: function(parent, dataset, views, flags) {
         // By default, render buttons and pager in O2M fields, but no sidebar
@@ -1175,10 +1153,7 @@ var One2ManyViewManager = ViewManager.extend({
         this.control_panel = new ControlPanel(parent, "One2ManyControlPanel");
         this.set_cp_bus(this.control_panel.get_bus());
         this._super(parent, dataset, views, flags);
-        this.registry = core.view_registry.extend({
-            list: One2ManyListView,
-            form: One2ManyFormView,
-        });
+        this.registry = core.one2many_view_registry;
         this.__ignore_blur = false;
     },
     start: function() {
@@ -1191,9 +1166,15 @@ var One2ManyViewManager = ViewManager.extend({
         }
         var self = this;
         var id = self.o2m.dataset.index !== null ? self.o2m.dataset.ids[self.o2m.dataset.index] : null;
-        var pop = new common.FormOpenPopup(this);
-        pop.show_element(self.o2m.field.relation, id, self.o2m.build_context(), {
-            title: _t("Open: ") + self.o2m.string,
+
+        var pop = new common.FormViewDialog(this, {
+            res_model: this.o2m.field.relation,
+            res_id: id,
+            context: this.o2m.build_context(),
+            title: _t("Open: ") + this.o2m.string,
+            alternative_form_view: this.o2m.field.views ? this.o2m.field.views.form : undefined,
+            parent_view: this.o2m.view,
+            child_name: self.o2m.name,
             create_function: function(data, options) {
                 return self.o2m.data_create(data, options);
             },
@@ -1202,15 +1183,13 @@ var One2ManyViewManager = ViewManager.extend({
                     self.o2m.reload_current_view();
                 });
             },
-            alternative_form_view: self.o2m.field.views ? self.o2m.field.views.form : undefined,
-            parent_view: self.o2m.view,
-            child_name: self.o2m.name,
             read_function: function(ids, fields, options) {
                 return self.o2m.data_read(ids, fields, options);
             },
             form_view_options: {'not_interactible_on_create':true},
             readonly: self.o2m.get("effective_readonly")
-        });
+        }).open();
+
         pop.on("elements_selected", self, function() {
             self.o2m.reload_current_view();
         });
@@ -1218,125 +1197,58 @@ var One2ManyViewManager = ViewManager.extend({
 });
 
 var FieldMany2ManyTags = AbstractManyField.extend(common.CompletionFieldMixin, common.ReinitializeFieldMixin, {
-    template: "FieldMany2ManyTags",
+    className: "o_form_field_many2manytags",
     tag_template: "FieldMany2ManyTag",
-    init: function() {
-        this._super.apply(this, arguments);
+
+    events: {
+        'click .o_delete': function(e) {
+            this.remove_id($(e.target).parent().data('id'));
+        }
+    },
+
+    init: function(field_manager, node) {
+        this._super(field_manager, node);
         common.CompletionFieldMixin.init.call(this);
         this.set({"value": []});
         this._display_orderer = new utils.DropMisordered();
-        this._drop_shown = false;
-    },
-    initialize_texttext: function(){
-        var self = this;
-        return {
-            plugins : 'tags arrow autocomplete',
-            autocomplete: {
-                render: function(suggestion) {
-                    return $('<span class="text-label"/>').
-                             data('index', suggestion.index).html(suggestion.label);
-                }
-            },
-            ext: {
-                autocomplete: {
-                    selectFromDropdown: function() {
-                        this.trigger('hideDropdown');
-                        var index = Number(this.selectedSuggestionElement().children().children().data('index'));
-                        var data = self.search_result[index];
-                        if (data.id) {
-                            self.add_id(data.id);
-                        } else {
-                            self.ignore_blur = true;
-                            data.action();
-                        }
-                        this.trigger('setSuggestions', {result : []});
-                    },
-                },
-                tags: {
-                    isTagAllowed: function(tag) {
-                        return !!tag.name;
-
-                    },
-                    removeTag: function(tag) {
-                        var id = tag.data("id");
-                        self.set({"value": _.without(self.get("value"), id)});
-                    },
-                    renderTag: function(stuff) {
-                        return $.fn.textext.TextExtTags.prototype.renderTag.
-                            call(this, stuff).data("id", stuff.id);
-                    },
-                },
-                itemManager: {
-                    itemToString: function(item) {
-                        return item.name;
-                    },
-                },
-                core: {
-                    onSetInputData: function(e, data) {
-                        if (data === '') {
-                            this._plugins.autocomplete._suggestions = null;
-                        }
-                        this.input().val(data);
-                    },
-                },
-            },
-        };
     },
     initialize_content: function() {
-        if (this.get("effective_readonly"))
-            return;
-        var self = this;
-        self.ignore_blur = false;
-        self.$text = this.$("textarea");
-        self.$text.textext(self.initialize_texttext()).bind('getSuggestions', function(e, data) {
-            var _this = this;
-            var str = !!data ? data.query || '' : '';
-            self.get_search_result(str).done(function(result) {
-                self.search_result = result;
-                $(_this).trigger('setSuggestions', {result : _.map(result, function(el, i) {
-                    return _.extend(el, {index:i});
-                })});
-            });
-        }).bind('hideDropdown', function() {
-            self._drop_shown = false;
-        }).bind('showDropdown', function() {
-            self._drop_shown = true;
-        });
-        self.tags = self.$text.textext()[0].tags();
-        self.$text
-            .focusin(function () {
-                self.trigger('focused');
-                self.ignore_blur = false;
-            })
-            .focusout(function() {
-                self.$text.trigger("setInputData", "");
-                if (!self.ignore_blur) {
-                    self.trigger('blurred');
-                }
-            }).keydown(function(e) {
-                if (e.which === $.ui.keyCode.TAB && self._drop_shown) {
-                    self.$text.textext()[0].autocomplete().selectFromDropdown();
+        if(!this.get("effective_readonly")) {
+            this.many2one = new FieldMany2One(this.field_manager, this.node);
+            this.many2one.options.no_open = true;
+            this.many2one.on('changed_value', this, function() {
+                var newValue = this.many2one.get('value');
+                if(newValue) {
+                    this.add_id(newValue);
+                    this.many2one.set({'value': false});
                 }
             });
+
+            this.many2one.prependTo(this.$el);
+
+            var self = this;
+            this.many2one.$('input').on('keydown', function(e) {
+                if(!$(e.target).val() && e.which === 8) {
+                    var $badges = self.$('.badge');
+                    if($badges.length) {
+                        self.remove_id($badges.last().data('id'));
+                    }
+                }
+            });
+        }
     },
-    get_search_blacklist: function() {
-        return this.get("value");
-    },
-    map_tag: function(data){
-        return _.map(data, function(el) {return {name: el[1], id:el[0]};});
+    destroy_content: function() {
+        if(this.many2one) {
+            this.many2one.destroy();
+            this.many2one = undefined;
+        }
     },
     get_render_data: function(ids){
         return this.dataset.name_get(ids);
     },
     render_tag: function(data) {
-        var self = this;
-        if (! self.get("effective_readonly")) {
-            self.tags.containerElement().children().remove();
-            self.$('textarea').css("padding-left", "3px");
-            self.tags.addTags(self.map_tag(data));
-        } else {
-            self.$el.html(QWeb.render(self.tag_template, {elements: data}));
-        }
+        this.$('.badge').remove();
+        this.$el.prepend(QWeb.render(this.tag_template, {elements: data, readonly: this.get('effective_readonly')}));
     },
     render_value: function() {
         var self = this;
@@ -1351,7 +1263,7 @@ var FieldMany2ManyTags = AbstractManyField.extend(common.CompletionFieldMixin, c
             data = _.map(values, function(el) { return indexed[el]; });
             self.render_tag(data);
         };
-        if (! values || values.length > 0) {
+        if (!values || values.length > 0) {
             return this._display_orderer.add(self.get_render_data(values)).done(handle_names);
         } else {
             handle_names([]);
@@ -1360,21 +1272,22 @@ var FieldMany2ManyTags = AbstractManyField.extend(common.CompletionFieldMixin, c
     add_id: function(id) {
         this.set({'value': _.uniq(this.get('value').concat([id]))});
     },
+    remove_id: function(id) {
+        this.set({'value': _.without(this.get("value"), id)});
+    },
     focus: function () {
-        var input = this.$text && this.$text[0];
-        return input ? input.focus() : false;
+        if(!this.get("effective_readonly")) {
+            return this.many2one.focus();
+        }
+        return false;
     },
     set_dimensions: function (height, width) {
-        this._super(height, width);        
-        this.$("textarea").css({
-            width: width,
-            minHeight: height
-        });
-    },
-    _search_create_popup: function() {
-        this.ignore_blur = true;
-        return common.CompletionFieldMixin._search_create_popup.apply(this, arguments);
-    },
+        this._super(height, width);
+        var $input = this.$('input');
+        if (!this.get("effective_readonly") && $input) {
+            $input.css('height', height);
+        }
+    }
 });
 
 /**
@@ -1396,7 +1309,7 @@ var FieldMany2Many = AbstractManyField.extend(common.ReinitializeFieldMixin, {
     initialize_content: function() {
         var self = this;
 
-        this.$el.addClass('oe_form_field oe_form_field_many2many');
+        this.$el.addClass('o_form_field_many2many');
 
         this.list_view = new Many2ManyListView(this, this.dataset, false, {
                     'addable': null,
@@ -1455,31 +1368,37 @@ var Many2ManyListView = ListView.extend(/** @lends instance.web.form.Many2ManyLi
             ListType: Many2ManyList,
         }));
     },
+    view_loading: function() {
+        this._super.apply(this, arguments);
+        // Setup columns and load list here as reload_content() is not called for Many2ManyListViews
+        this.setup_columns(this.fields_view.fields, this.grouped);
+        this.load_list();
+    },
     do_add_record: function () {
-        var pop = new common.SelectCreatePopup(this);
-        pop.select_element(
-            this.model,
-            {
-                title: _t("Add: ") + this.m2m_field.string,
-                alternative_form_view: this.m2m_field.field.views ? this.m2m_field.field.views.form : undefined,
-                no_create: this.m2m_field.options.no_create,
-            },
-            new data.CompoundDomain(this.m2m_field.build_domain(), ["!", ["id", "in", this.m2m_field.dataset.ids]]),
-            this.m2m_field.build_context()
-        );
         var self = this;
-        pop.on("elements_selected", self, function(element_ids) {
-            return self.dataset.o2m.data_link_multi(element_ids);
-        });
+
+        new common.SelectCreateDialog(this, {
+            res_model: this.model,
+            domain: new data.CompoundDomain(this.m2m_field.build_domain(), ["!", ["id", "in", this.m2m_field.dataset.ids]]),
+            context: this.m2m_field.build_context(),
+            title: _t("Add: ") + this.m2m_field.string,
+            alternative_form_view: this.m2m_field.field.views ? this.m2m_field.field.views.form : undefined,
+            no_create: this.m2m_field.options.no_create,
+            on_selected: function(element_ids) {
+                return self.dataset.o2m.data_link_multi(element_ids);
+            }
+        }).open();
     },
     do_activate_record: function(index, id) {
         var self = this;
-        var pop = new common.FormOpenPopup(this);
-        pop.show_element(this.dataset.model, id, this.m2m_field.build_context(), {
+        var pop = new common.FormViewDialog(this, {
+            res_model: this.dataset.model,
+            res_id: id,
+            context: this.m2m_field.build_context(),
             title: _t("Open: ") + this.m2m_field.string,
             alternative_form_view: this.m2m_field.field.views ? this.m2m_field.field.views.form : undefined,
             readonly: this.getParent().get("effective_readonly")
-        });
+        }).open();
         pop.on('write_completed', self, function () {
             self.dataset.evict_record(id);
             self.reload_content();
@@ -1569,22 +1488,21 @@ var FieldMany2ManyKanban = AbstractManyField.extend(common.CompletionFieldMixin,
         var self = this;
         var pop;
         if (this.dataset.index === null) {
-            pop = new common.SelectCreatePopup(this);
-            pop.select_element(
-                this.field.relation,
-                {
-                    title: _t("Add: ") + this.string
-                },
-                new data.CompoundDomain(this.build_domain(), ["!", ["id", "in", this.dataset.ids]]),
-                this.build_context()
-            );
-            pop.on("elements_selected", self, function(element_ids) {
-                return self.data_link_multi(element_ids);
-            });
+            new common.SelectCreateDialog(this, {
+                res_model: this.field.relation,
+                domain: new data.CompoundDomain(this.build_domain(), ["!", ["id", "in", this.dataset.ids]]),
+                context: this.build_context(),
+                title: _t("Add: ") + this.string,
+                on_selected: function(element_ids) {
+                    return self.data_link_multi(element_ids);
+                }
+            }).open();
         } else {
             var id = self.dataset.ids[self.dataset.index];
-            pop = new common.FormOpenPopup(this);
-            pop.show_element(self.field.relation, id, self.build_context(), {
+            pop = new common.FormViewDialog(this, {
+                res_model: self.field.relation,
+                res_id: id,
+                context: self.build_context(),
                 title: _t("Open: ") + self.string,
                 write_function: function(id, data, options) {
                     return self.data_update(id, data, {}).done(function() {
@@ -1595,7 +1513,7 @@ var FieldMany2ManyKanban = AbstractManyField.extend(common.CompletionFieldMixin,
                 parent_view: self.view,
                 child_name: self.name,
                 readonly: self.get("effective_readonly")
-            });
+            }).open();
         }
     },
     add_id: function(id) {
@@ -1626,7 +1544,7 @@ var FieldMany2ManyBinaryMultiFiles = AbstractManyField.extend(common.Reinitializ
         $(window).on(this.fileupload_id, _.bind(this.on_file_loaded, this));
     },
     initialize_content: function() {
-        this.$el.on('change', 'input.oe_form_binary_file', this.on_file_change );
+        this.$el.on('change', 'input.o-form-input-file', this.on_file_change );
     },
     get_file_url: function (attachment) {
         return this.session.url('/web/binary/saveas', {model: 'ir.attachment', field: 'datas', filename_field: 'datas_fname', id: attachment.id});
@@ -1658,7 +1576,7 @@ var FieldMany2ManyBinaryMultiFiles = AbstractManyField.extend(common.Reinitializ
             self.$('.oe_placeholder_files, .oe_attachments').replaceWith( render );
 
             // reinit input type file
-            var $input = self.$('input.oe_form_binary_file');
+            var $input = self.$('input.o-form-input-file');
             $input.after($input.clone(true)).remove();
             self.$(".oe_fileupload").show();
 
@@ -1689,7 +1607,7 @@ var FieldMany2ManyBinaryMultiFiles = AbstractManyField.extend(common.Reinitializ
             // TODO : unactivate send on wizard and form
 
             // submit file
-            this.$('form.oe_form_binary_form').submit();
+            this.$('form.o-form-binary-form').submit();
             this.$(".oe_fileupload").hide();
             // add file on data result
             this.data[0] = {
@@ -1801,11 +1719,14 @@ core.form_widget_registry
     .add('many2one', FieldMany2One)
     .add('many2many', FieldMany2Many)
     .add('many2many_tags', FieldMany2ManyTags)
-    .add('many2many_kanban', FieldMany2ManyKanban)
+    .add('many2many_kanban', FieldMany2ManyKanban) // TODO
     .add('one2many', FieldOne2Many)
     .add('one2many_list', FieldOne2Many)
-    .add('many2many_binary', FieldMany2ManyBinaryMultiFiles)
-    .add('many2many_checkboxes', FieldMany2ManyCheckBoxes);
+    .add('many2many_binary', FieldMany2ManyBinaryMultiFiles) // TODO
+    .add('many2many_checkboxes', FieldMany2ManyCheckBoxes); // TODO
+
+core.one2many_view_registry
+    .add('list', One2ManyListView);
 
 return {
     FieldMany2ManyTags: FieldMany2ManyTags,

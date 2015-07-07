@@ -12,7 +12,6 @@ var _t = core._t;
 
 var DataExport = Dialog.extend({
     template: 'ExportTreeView',
-    dialog_title: {toString: function () { return _t("Export Data"); }},
     events: {
         'click #add_field': function () {
             var self = this;
@@ -38,8 +37,8 @@ var DataExport = Dialog.extend({
         var self = this;
         var options = {
             buttons: [
+                {text: _t("Export To File"), click: function () { self.on_click_export_data(); }, classes: "btn-primary"},
                 {text: _t("Close"), click: function () { self.$el.parents('.modal').modal('hide'); }},
-                {text: _t("Export To File"), click: function () { self.on_click_export_data(); }}
             ],
             close: function () { self.close();}
         };
@@ -48,6 +47,7 @@ var DataExport = Dialog.extend({
         this.dataset = dataset;
         this.exports = new data.DataSetSearch(
             this, 'ir.exports', this.dataset.get_context());
+        this.set_title(_t("Export Data"));
     },
     start: function() {
         var self = this;
@@ -152,7 +152,8 @@ var DataExport = Dialog.extend({
             export_node.append(new Option(field.label, field.name));
         });
     },
-    on_show_save_list: function() {
+    on_show_save_list: function(ev) {
+        ev.preventDefault();
         var self = this;
         var current_node = self.$el.find("#savenewlist");
         if (!(current_node.find("label")).length) {

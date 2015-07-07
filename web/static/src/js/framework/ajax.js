@@ -1,6 +1,7 @@
 odoo.define('web.ajax', function (require) {
 "use strict";
 
+var bus = require('web.core').bus;
 var time = require('web.time');
 
 function genericJsonRpc (fct_name, params, fct) {
@@ -12,6 +13,7 @@ function genericJsonRpc (fct_name, params, fct) {
     };
     var xhr = fct(data);    
     var result = xhr.pipe(function(result) {
+        bus.trigger('rpc:result', data, result);
         if (result.error !== undefined) {
             console.error("Server application error", result.error);
             return $.Deferred().reject("server", result.error);
@@ -38,7 +40,7 @@ function jsonRpc(url, fct_name, params, settings) {
             contentType: 'application/json'
         }));
     });
-};
+}
 
 function jsonpRpc(url, fct_name, params, settings) {
     settings = settings || {};
@@ -112,7 +114,7 @@ function jsonpRpc(url, fct_name, params, settings) {
             return deferred;
         }
     });
-};
+}
 
 // helper
 function realSetTimeout (fct, millis) {
@@ -136,7 +138,7 @@ function loadCSS(url) {
             'type': 'text/css'
         }));
     }
-};
+}
 
 function loadJS(url) {
     var def = $.Deferred();
@@ -161,7 +163,7 @@ function loadJS(url) {
         head.appendChild(script);
     }
     return def;
-};
+}
 
 /**
  * Cooperative file download implementation, for ajaxy APIs.

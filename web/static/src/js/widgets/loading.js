@@ -9,7 +9,8 @@ var Widget = require('web.Widget');
 var _t = core._t;
 
 var Loading = Widget.extend({
-    template: _t("Loading"),
+    template: "Loading",
+
     init: function(parent) {
         this._super(parent);
         this.count = 0;
@@ -31,11 +32,11 @@ var Loading = Widget.extend({
     on_rpc_event : function(increment) {
         var self = this;
         if (!this.count && increment === 1) {
-            // Block UI after 3s
+            // Block UI after 0.3s
             this.long_running_timer = setTimeout(function () {
                 self.blocked_ui = true;
                 framework.blockUI();
-            }, 3000);
+            }, 600);
         }
 
         this.count += increment;

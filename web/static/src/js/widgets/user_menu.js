@@ -11,7 +11,7 @@ var Widget = require('web.Widget');
 var _t = core._t;
 var QWeb = core.qweb;
 
-var SystrayMenu = Widget.extend({
+var UserMenu = Widget.extend({
     template: "UserMenu",
     init: function(parent) {
         this._super(parent);
@@ -26,8 +26,9 @@ var SystrayMenu = Widget.extend({
                 f($(this));
             }
         });
-        this.$el.parent().show();
-        return this._super.apply(this, arguments);
+        return this._super.apply(this, arguments).then(function () {
+            self.do_update();
+        });
     },
     do_update: function () {
         var self = this;
@@ -49,8 +50,6 @@ var SystrayMenu = Widget.extend({
                 }
                 var avatar_src = session.url('/web/binary/image', {model:'res.users', field: 'image_small', id: session.uid});
                 $avatar.attr('src', avatar_src);
-
-                core.bus.trigger('resize');  // Re-trigger the reflow logic
             });
         };
         this.update_promise = this.update_promise.then(fct, fct);
@@ -59,19 +58,21 @@ var SystrayMenu = Widget.extend({
         window.open('http://help.odoo.com', '_blank');
     },
     on_menu_logout: function() {
-        this.trigger('user_logout');
+        if (!this.getParent().getParent().has_uncommitted_changes()) {
+            this.getParent().getParent().action_manager.do_action('logout');
+        }
     },
     on_menu_settings: function() {
         var self = this;
-        if (!this.getParent().has_uncommitted_changes()) {
+        if (!this.getParent().getParent().has_uncommitted_changes()) {
             self.rpc("/web/action/load", { action_id: "base.action_res_users_my" }).done(function(result) {
                 result.res_id = session.uid;
-                self.getParent().action_manager.do_action(result);
+                self.getParent().getParent().action_manager.do_action(result);
             });
         }
     },
     on_menu_account: function() {
-        if (!this.getParent().has_uncommitted_changes()) {
+        if (!this.getParent().getParent().has_uncommitted_changes()) {
             var P = new Model('ir.config_parameter');
             P.call('get_param', ['database.uuid']).then(function(dbuuid) {
                 var state = {
@@ -101,12 +102,13 @@ var SystrayMenu = Widget.extend({
             });
             new Dialog(this, {
                 size: 'medium',
-                dialogClass: 'oe_act_window',
+                dialogClass: 'o_act_window',
                 title: _t("About"),
-            }, $help).open();
+                $content: $help
+            }).open();
         });
     },
 });
 
-return SystrayMenu;
+return UserMenu;
 });

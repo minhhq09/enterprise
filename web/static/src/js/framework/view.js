@@ -23,6 +23,11 @@ var View = Widget.extend({
     // multi_record is used to distinguish views displaying a single record
     // (e.g. FormView) from those that display several records (e.g. ListView)
     multi_record: true,
+    // mobile_friendly is used in mobile mode.  If the default view is not mobile
+    // friendly, but another defined view is configured as mobile friendly, then
+    // the mobile view will be used by default.  The intended use is for kanban
+    // views to be used instead of list views in mobile mode
+    mobile_friendly: false,
     init: function(parent, dataset, view_id, options) {
         this._super(parent);
         this.ViewManager = parent;
@@ -53,11 +58,8 @@ var View = Widget.extend({
         }
         return this.alive(view_loaded_def).then(function(r) {
             self.fields_view = r;
-            // add css classes that reflect the (absence of) access rights
-            self.$el.addClass('oe_view')
-                .toggleClass('oe_cannot_create', !self.is_action_enabled('create'))
-                .toggleClass('oe_cannot_edit', !self.is_action_enabled('edit'))
-                .toggleClass('oe_cannot_delete', !self.is_action_enabled('delete'));
+            // add classname that reflect the (absence of) access rights
+            self.$el.toggleClass('o_cannot_create', !self.is_action_enabled('create'));
             return $.when(self.view_loading(r)).then(function() {
                 self.trigger('view_loaded', r);
             });
@@ -70,7 +72,6 @@ var View = Widget.extend({
         _.defaults(this.options, {
             // All possible views options should be defaulted here
             $sidebar: null,
-            sidebar_id: null,
             action: null,
             action_views_ids: {}
         });
@@ -142,9 +143,7 @@ var View = Widget.extend({
                 }
             }
             args.push(context);
-            return dataset.call_button(action_data.name, args).then(handler).then(function () {
-                core.bus.trigger('do_reload_needaction');
-            });
+            return dataset.call_button(action_data.name, args).then(handler);
         } else if (action_data.type=="action") {
             return this.rpc('/web/action/load', {
                 action_id: action_data.name,
@@ -207,27 +206,24 @@ var View = Widget.extend({
 
     },
     /**
-     * This function should render the buttons of the view, set this.$buttons to
-     * the produced jQuery element and define some listeners on it.
-     * This function should be called after start().
+     * This function should render the action buttons of the view.
+     * It should be called after start().
      * @param {jQuery} [$node] a jQuery node where the rendered buttons should be inserted
      * $node may be undefined, in which case the View can insert the buttons somewhere else
      */
     render_buttons: function($node) {
     },
     /**
-     * This function should instantiate and render the sidebar of the view, set this.sidebar to
-     * the instantiated Sidebar Widget and possibly add custom items in it.
-     * This function should be called after start().
+     * This function should render the sidebar of the view.
+     * It should be called after start().
      * @param {jQuery} [$node] a jQuery node where the sidebar should be inserted
      * $node may be undefined, in which case the View can insert the sidebar somewhere else
      */
     render_sidebar: function($node) {
     },
     /**
-     * This function should render the pager of the view, set this.$pager to
-     * the produced jQuery element and define some listeners on it.
-     * This function should be called after start().
+     * This function should render the pager of the view.
+     * It should be called after start().
      * @param {jQuery} [$node] a jQuery node where the pager should be inserted
      * $node may be undefined, in which case the View can insert the pager somewhere else
      */
@@ -263,6 +259,12 @@ var View = Widget.extend({
     get_context: function () {
         return {};
     },
+    set_scrollTop: function(scrollTop) {
+        this.scrollTop = scrollTop;
+    },
+    get_scrollTop: function() {
+        return this.scrollTop;
+    }
 });
 
 return View;

@@ -261,7 +261,7 @@ var FacetView = Widget.extend({
         'focus': function () { this.trigger('focused', this); },
         'blur': function () { this.trigger('blurred', this); },
         'click': function (e) {
-            if ($(e.target).is('.oe_facet_remove')) {
+            if ($(e.target).is('.o-facet-remove')) {
                 this.model.destroy();
                 return false;
             }
@@ -289,9 +289,12 @@ var FacetView = Widget.extend({
     },
     start: function () {
         var self = this;
-        var $e = this.$('> span:last-child');
+        var $e = this.$('.o_facet_values').last();
         return $.when(this._super()).then(function () {
-            return $.when.apply(null, self.model.values.map(function (value) {
+            return $.when.apply(null, self.model.values.map(function (value, index) {
+                if (index > 0) {
+                    $('<span class="o_facet_values_sep"> or </span>').appendTo($e);
+                }
                 return new FacetValueView(self, value).appendTo($e);
             }));
         });
@@ -322,22 +325,17 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
     events: {
         // focus last input if view itself is clicked
         'click': function (e) {
-            if (e.target === this.$('.oe_searchview_facets')[0]) {
-                this.$('.oe_searchview_input:last').focus();
+            if (e.target === this.$('.o_searchview_facets')[0]) {
+                this.$('.o_searchview_input:last').focus();
             }
         },
-        // search button
-        'click div.oe_searchview_search': function (e) {
-            e.stopImmediatePropagation();
-            this.do_search();
-        },
-        'click .oe_searchview_unfold_drawer': function (e) {
+        'click .o_searchview_caret': function (e) {
             e.stopImmediatePropagation();
             $(e.target).toggleClass('fa-caret-down fa-caret-up');
             localStorage.visible_search_menu = (localStorage.visible_search_menu !== 'true');
             this.toggle_buttons();
         },
-        'keydown .oe_searchview_input, .oe_searchview_facet': function (e) {
+        'keydown .o_searchview_input, .o_searchview_facet': function (e) {
             switch(e.which) {
             case $.ui.keyCode.LEFT:
                 this.focusPreceding(e.target);
@@ -396,7 +394,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             this.$el.hide();
         }
         this.toggle_visibility(false);
-        this.$facets_container = this.$('div.oe_searchview_facets');
+        this.$facets_container = this.$('div.o_searchview_facets');
         this.setup_global_completion();
         this.query = new SearchQuery()
                 .on('add change reset remove', this.proxy('do_search'))
@@ -407,9 +405,9 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             view_type: 'search',
             context: this.dataset.get_context(),
         });
-        this.$('.oe_searchview_unfold_drawer')
-            .toggleClass('fa-caret-down', !this.visible_filters)
-            .toggleClass('fa-caret-up', this.visible_filters);
+        this.$('.o_searchview_caret')
+            .toggleClass('fa-caret-up', !this.visible_filters)
+            .toggleClass('fa-caret-down', this.visible_filters);
         return this.alive($.when(this._super(), this.alive(load_view).then(this.view_loaded.bind(this))));
     },
     get_title: function() {
@@ -514,9 +512,6 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         if (this.$buttons) {
             this.$buttons.toggle(!this.headless && is_visible && this.visible_filters);
         }
-        if (!this.headless && is_visible) {
-            this.$('div.oe_searchview_input').last().focus();
-        }
     },
     toggle_buttons: function (is_visible) {
         this.visible_filters = is_visible || !this.visible_filters;
@@ -533,7 +528,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             source: this.proxy('complete_global_search'),
             select: this.proxy('select_completion'),
             get_search_string: function () {
-                return self.$('div.oe_searchview_input').text();
+                return self.$('div.o_searchview_input').text();
             },
         });
         this.autocomplete.appendTo(this.$el);
@@ -567,10 +562,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
      */
     select_completion: function (e, ui) {
         e.preventDefault();
-        var input_index = _(this.input_subviews).indexOf(
-            this.subviewForRoot(
-                this.$('div.oe_searchview_input:focus')[0]));
-        this.query.add(ui.item.facet, {at: input_index / 2});
+        this.query.add(ui.item.facet);
     },
     subviewForRoot: function (subview_root) {
         return _(this.input_subviews).detect(function (subview) {
@@ -607,34 +599,21 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         _.invoke(this.input_subviews, 'destroy');
         this.input_subviews = [];
 
-        var i = new InputView(this);
-        started.push(i.appendTo(this.$facets_container));
-        this.input_subviews.push(i);
         this.query.each(function (facet) {
             var f = new FacetView(this, facet);
             started.push(f.appendTo(self.$facets_container));
             self.input_subviews.push(f);
-
-            var i = new InputView(this);
-            started.push(i.appendTo(self.$facets_container));
-            self.input_subviews.push(i);
         }, this);
+        var i = new InputView(this);
+        started.push(i.appendTo(self.$facets_container));
+        self.input_subviews.push(i);
         _.each(this.input_subviews, function (childView) {
             childView.on('focused', self, self.proxy('childFocused'));
             childView.on('blurred', self, self.proxy('childBlurred'));
         });
 
-        $.when.apply(null, started).then(function () {
-            if (options && options.focus_input === false) return;
-            var input_to_focus;
-            // options.at: facet inserted at given index, focus next input
-            // otherwise just focus last input
-            if (!options || typeof options.at !== 'number') {
-                input_to_focus = _.last(self.input_subviews);
-            } else {
-                input_to_focus = self.input_subviews[(options.at + 1) * 2];
-            }
-            input_to_focus.$el.focus();
+         $.when.apply(null, started).then(function () {
+            _.last(self.input_subviews).$el.focus();
         });
     },
     childFocused: function () {
@@ -841,19 +820,11 @@ return Widget.extend({
     },
     render_search_results: function (results) {
         var self = this;
-        var $list = this.$('ul');
+        var $list = this.$el;
         $list.empty();
-        var render_separator = false;
         results.forEach(function (result) {
-            if (result.is_separator) {
-                if (render_separator)
-                    $list.append($('<li>').addClass('oe-separator'));
-                render_separator = false;
-            } else {
-                var $item = self.make_list_item(result).appendTo($list);
-                result.$el = $item;
-                render_separator = true;
-            }
+            var $item = self.make_list_item(result).appendTo($list);
+            result.$el = $item;
         });
         this.show();
     },
@@ -865,25 +836,26 @@ return Widget.extend({
                 if (ev.button === 0) { // left button
                     self.select(ev, {item: {facet: result.facet}});
                     self.close();
-                } else {
-                    ev.preventDefault();
                 }
             })
             .data('result', result);
         if (result.expand) {
-            var $expand = $('<span class="oe-expand">').text('▶').appendTo($li);
+            var $expand = $('<a class="o-expand" href="#">').appendTo($li);
             $expand.mousedown(function (ev) {
-                ev.preventDefault();
                 ev.stopPropagation();
-                if (result.expanded)
+                if (result.expanded) {
                     self.fold();
-                else
+                } else {
                     self.expand();
+                }
+            });
+            $expand.click(function(ev) {
+                ev.preventDefault();
             });
             result.expanded = false;
         }
-        if (result.indent) $li.addClass('oe-indent');
-        $li.append($('<span>').html(result.label));
+        if (result.indent) $li.addClass('o-indent');
+        $li.append($('<a href="#">').html(result.label));
         return $li;
     },
     expand: function () {
@@ -895,22 +867,22 @@ return Widget.extend({
                 var $li = self.make_list_item(result);
                 current_result.$el.after($li);
             });
-            current_result.expanded = true;
-            current_result.$el.find('span.oe-expand').html('▼');
+            self.current_result.expanded = true;
+            self.current_result.$el.find('a.o-expand').removeClass('o-expand').addClass('o-expanded');
         });
     },
     fold: function () {
         var $next = this.current_result.$el.next();
-        while ($next.hasClass('oe-indent')) {
+        while ($next.hasClass('o-indent')) {
             $next.remove();
             $next = this.current_result.$el.next();
         }
         this.current_result.expanded = false;
-        this.current_result.$el.find('span.oe-expand').html('▶');
+        this.current_result.$el.find('a.o-expanded').removeClass('o-expanded').addClass('o-expand');
     },
     focus_element: function ($li) {
-        this.$('li').removeClass('oe-selection-focus');
-        $li.addClass('oe-selection-focus');
+        this.$('li').removeClass('o-selection-focus');
+        $li.addClass('o-selection-focus');
         this.current_result = $li.data('result');
     },
     select_item: function (ev) {
@@ -931,16 +903,16 @@ return Widget.extend({
     move: function (direction) {
         var $next;
         if (direction === 'down') {
-            $next = this.$('li.oe-selection-focus').nextAll(':not(.oe-separator)').first();
-            if (!$next.length) $next = this.$('li:first-child');
+            $next = this.$('li.o-selection-focus').next();
+            if (!$next.length) $next = this.$('li').first();
         } else {
-            $next = this.$('li.oe-selection-focus').prevAll(':not(.oe-separator)').first();
-            if (!$next.length) $next = this.$('li:not(.oe-separator)').last();
+            $next = this.$('li.o-selection-focus').prev();
+            if (!$next.length) $next = this.$('li').last();
         }
         this.focus_element($next);
     },
     is_expandable: function () {
-        return !!this.$('.oe-selection-focus .oe-expand').length;
+        return !!this.$('.o-selection-focus .o-expand').length;
     },
 });
 });

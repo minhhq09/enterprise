@@ -418,3 +418,23 @@ var Session = core.Class.extend(mixins.EventDispatcherMixin, {
 return Session;
 
 });
+
+
+odoo.define('web.config', function () {
+"use strict";
+// Configuration module.
+// To do: refactor session, and this module in a sane way.  Session accomplish
+// several concerns (rpc, configuration, currencies (wtf?), user permissions, ...)
+// they should be clarified and separated.
+
+var config = {
+    debug: ($.deparam($.param.querystring()).debug !== undefined),
+};
+
+Object.defineProperty(config, 'mobile', {
+    get: function () { return $(document.body).width() <= 768; },
+});
+
+return config;
+
+});

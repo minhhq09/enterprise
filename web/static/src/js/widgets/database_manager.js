@@ -34,10 +34,10 @@ var DataBaseManager = Widget.extend({
     },
     do_render: function() {
         var self = this;
-        core.bus.trigger('web_client_toggle_bars', true);
         self.$el.html(QWeb.render("DatabaseManager", { widget : self }));
-        $('.oe_user_menu_placeholder').append(QWeb.render("DatabaseManager.user_menu",{ widget : self }));
-        $('.oe_secondary_menus_container').append(QWeb.render("DatabaseManager.menu",{ widget : self }));
+        var $body = $(document.body);
+        $body.prepend(QWeb.render("DatabaseManager.user_menu",{ widget : self }));
+        $body.prepend(QWeb.render("DatabaseManager.menu",{ widget : self }));
         $('ul.oe_secondary_submenu > li:first').addClass('active');
         $('ul.oe_secondary_submenu > li').bind('click', function (event) {
             var menuitem = $(this);
@@ -99,10 +99,8 @@ var DataBaseManager = Widget.extend({
         return new Dialog(this, {
             size: 'medium',
             title: error.title,
-            buttons: [
-                {text: _t("Ok"), click: function() { this.parents('.modal').modal('hide'); }}
-            ]
-        }, $('<div>').html(error.error)).open();
+            $content: $('<div>').html(error.error)
+        }).open();
     },
     do_create: function(form) {
         var fields = $(form).serializeArray();

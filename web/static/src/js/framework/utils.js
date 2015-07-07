@@ -391,6 +391,12 @@ var DropMisordered = Class.extend({
     },
 });
 
+function swap(array, elem1, elem2) {
+    var i1 = array.indexOf(elem1);
+    var i2 = array.indexOf(elem2);
+    array[i2] = elem1;
+    array[i1] = elem2;
+}
 
 return {
     divmod: divmod,
@@ -416,6 +422,7 @@ return {
     assert: assert,
     xor: xor,
     DropMisordered: DropMisordered,
+    swap: swap,
 };
 
 });

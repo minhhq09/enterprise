@@ -10,6 +10,7 @@ var ajax = require('web.ajax');
 var core = require('web.core');
 var Dialog = require('web.Dialog');
 var session = require('web.session');
+var NotificationManager = require('web.NotificationManager');
 
 var QWeb = core.qweb;
 var _t = core._t;
@@ -40,22 +41,17 @@ var CrashManager = core.Class.extend({
         if (!this.active) {
             return;
         }
-        if (this.$indicator){
+        if (this.connection_lost) {
             return;
         }
         if (error.code == -32098) {
-            $.blockUI({ message: '' , overlayCSS: {'z-index': 9999, backgroundColor: '#FFFFFF', opacity: 0.0, cursor: 'wait'}});
-            this.$indicator = $('<div class="oe_indicator">' + _t("Trying to reconnect... ") + '<i class="fa fa-refresh"></i></div>');
-            this.$indicator.prependTo("body");
-            var timeinterval = setInterval(function(){
+            core.bus.trigger('connection_lost');
+            this.connection_lost = true;
+            var timeinterval = setInterval(function() {
                 ajax.jsonRpc('/web/webclient/version_info').then(function() {
                     clearInterval(timeinterval);
-                    self.$indicator.html(_t("You are back online"));
-                    self.$indicator.delay(2000).fadeOut('slow',function(){
-                        $(this).remove();
-                        self.$indicator.remove();
-                    });
-                    $.unblockUI();
+                    core.bus.trigger('connection_restored');
+                    self.connection_lost = false;
                 });
             }, 2000);
             return;
@@ -118,23 +114,17 @@ var CrashManager = core.Class.extend({
             size: 'medium',
             title: "Odoo " + (_.str.capitalize(error.type) || _t("Warning")),
             subtitle: error.data.title,
-            buttons: [
-                {text: _t("Ok"), click: function() { this.parents('.modal').modal('hide'); }}
-            ],
-        }, $('<div>' + QWeb.render('CrashManager.warning', {error: error}) + '</div>')).open();
+            $content: $('<div>').html(QWeb.render('CrashManager.warning', {error: error}))
+        }).open();
     },
     show_error: function(error) {
         if (!this.active) {
             return;
         }
-        var buttons = {};
-        buttons[_t("Ok")] = function() {
-            this.parents('.modal').modal('hide');
-        };
         new Dialog(this, {
             title: "Odoo " + _.str.capitalize(error.type),
-            buttons: buttons
-        }, QWeb.render('CrashManager.error', {session: session, error: error})).open();
+            $content: QWeb.render('CrashManager.error', {session: session, error: error})
+        }).open();
     },
     show_message: function(exception) {
         this.show_error({
@@ -181,16 +171,14 @@ var RedirectWarningHandler = Dialog.extend(ExceptionHandler, {
             size: 'medium',
             title: "Odoo " + (_.str.capitalize(error.type) || "Warning"),
             buttons: [
-                {text: error.data.arguments[2],
-                    oe_link_class : 'oe_highlight',
-                    post_text : _t("or"),
-                    click: function() {
-                        window.location.href='#action='+error.data.arguments[1];
-                        self.destroy();
-                    }},
-                {text: _t("Cancel"), oe_link_class: 'oe_link', click: function() { self.$el.parents('.modal').modal('hide');  self.destroy();}}
+                {text: error.data.arguments[2], classes : "btn-primary", click: function() {
+                    window.location.href = '#action='+error.data.arguments[1];
+                    self.destroy();
+                }},
+                {text: _t("Cancel"), click: function() { self.destroy(); }, close: true}
             ],
-        }, QWeb.render('CrashManager.warning', {error: error})).open();
+            $content: QWeb.render('CrashManager.warning', {error: error})
+        }).open();
     }
 });
 

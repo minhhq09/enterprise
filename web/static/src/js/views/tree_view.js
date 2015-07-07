@@ -184,7 +184,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
                 }
             });
             if (is_loaded === 0) {
-                if (!$this.parent().hasClass('oe_open')) {
+                if (!$this.parent().hasClass('o_open')) {
                     self.getdata(record_id, children_ids);
                 }
             } else {
@@ -212,7 +212,7 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
                 'row_parent_id': id
             });
             if ($curr_node.length) {
-                $curr_node.addClass('oe_open');
+                $curr_node.addClass('o_open');
                 $curr_node.after(children_rows);
             } else {
                 self.$el.find('tbody').html(children_rows);
@@ -249,11 +249,11 @@ var TreeView = View.extend(/** @lends instance.web.TreeView# */{
 
     // show & hide the contents
     showcontent: function (curnode,record_id, show) {
-        curnode.parent('tr').toggleClass('oe_open', show);
+        curnode.parent('tr').toggleClass('o_open', show);
         _(this.records[record_id][this.children_field]).each(function (child_id) {
             var $child_row = this.$el.find('[id=treerow_' + child_id + '][data-row-parent-id='+ curnode.data('id') +']');
-            if ($child_row.hasClass('oe_open')) {
-                $child_row.toggleClass('oe_open',show);
+            if ($child_row.hasClass('o_open')) {
+                $child_row.toggleClass('o_open',show);
                 this.showcontent($child_row, child_id, false);
             }
             $child_row.toggle(show);

@@ -30,11 +30,18 @@ return ControlPanelMixin;
 odoo.define('web.ControlPanel', function (require) {
 "use strict";
 
+var config = require('web.config');
 var core = require('web.core');
 var Widget = require('web.Widget');
 
 var ControlPanel = Widget.extend({
     template: 'ControlPanel',
+    events: {
+        'click .o_enable_searchview': function(e) {
+            this.$breadcrumbs.toggleClass('o_full');
+            this.nodes.$searchview.toggleClass('o_full');
+        }
+    },
     /**
      * @param {String} [template] the QWeb template to render the ControlPanel.
      * By default, the template 'ControlPanel' will be used
@@ -50,22 +57,20 @@ var ControlPanel = Widget.extend({
         this.bus.on("update_breadcrumbs", this, this.update_breadcrumbs);
     },
     start: function() {
-        this.$title_col = this.$('.oe-cp-title');
-        this.$breadcrumbs = this.$('.oe-view-title');
+        this.$breadcrumbs = this.$('.breadcrumb');
 
         // Exposed jQuery nodesets
         this.nodes = {
-            $buttons: this.$('.oe-cp-buttons'),
-            $pager: this.$('.oe-cp-pager'),
-            $searchview: this.$('.oe-cp-search-view'),
-            $searchview_buttons: this.$('.oe-search-options'),
-            $sidebar: this.$('.oe-cp-sidebar'),
-            $switch_buttons: this.$('.oe-cp-switch-buttons'),
+            $searchview: this.$('.o_cp_searchview'),
+            $searchview_buttons: this.$('.o_search_options'),
+            $buttons: this.$('.o_cp_buttons'),
+            $sidebar: this.$('.o_cp_sidebar'),
+            $pager: this.$('.o_cp_pager'),
+            $switch_buttons: this.$('.o_cp_switch_buttons'),
         };
 
         // By default, hide the ControlPanel and remove its contents from the DOM
-        this.$el.hide();
-        this.contents = this.$el.contents().detach();
+        this.toggle_visibility(false);
 
         return this._super();
     },
@@ -79,13 +84,13 @@ var ControlPanel = Widget.extend({
      * Hides (or shows) the ControlPanel in headless (resp. non-headless) mode
      * Also detaches or attaches its contents to clean the DOM
      */
-    toggle_visibility: function(hidden) {
-        this.$el.toggle(!hidden);
-        if (hidden && !this.contents) {
-            this.contents = this.$el.contents().detach();
-        } else if (this.contents) {
-            this.contents.appendTo(this.$el);
-            this.contents = null;
+    toggle_visibility: function(visible) {
+        this.$el.toggle(visible);
+        if (!visible && !this.$content) {
+            this.$content = this.$el.contents().detach();
+        } else if (this.$content) {
+            this.$content.appendTo(this.$el);
+            this.$content = null;
         }
     },
     /**
@@ -119,7 +124,7 @@ var ControlPanel = Widget.extend({
      * @param {Boolean} [status.search_view_hidden] true if the searchview is hidden, false otherwise
      */
     update: function(status) {
-        this.toggle_visibility(status.hidden);
+        this.toggle_visibility(!status.hidden);
         if (!status.hidden) {
             // Don't update the ControlPanel in headless mode as the views have
             // inserted themselves the buttons where they want, so inserting them
@@ -150,16 +155,21 @@ var ControlPanel = Widget.extend({
         if (!breadcrumbs.length) return;
 
         var $breadcrumbs = breadcrumbs.map(function (bc, index) {
-            return make_breadcrumb(bc, index === breadcrumbs.length - 1);
+            return make_breadcrumb(bc, index, breadcrumbs.length);
         });
 
         this.$breadcrumbs
             .empty()
             .append($breadcrumbs);
 
-        function make_breadcrumb (bc, is_last) {
+        function make_breadcrumb (bc, index, length) {
+            var is_last = (index === length-1);
+            var is_before_last = index === length-2
+
             var $bc = $('<li>')
-                    .append(is_last ? bc.title : $('<a>').text(bc.title))
+                    .append(is_last ? bc.title : $('<a>').html(bc.title))
+                    .toggleClass('hidden-xs', !is_last && !is_before_last)
+                    .toggleClass('o_back_button', is_before_last)
                     .toggleClass('active', is_last);
             if (!is_last) {
                 $bc.click(function () {
@@ -176,11 +186,13 @@ var ControlPanel = Widget.extend({
      **/
     update_search_view: function(searchview, is_hidden) {
         if (searchview) {
+            this.nodes.$searchview.toggle(!is_hidden);
             // Set the $buttons div (in the DOM) of the searchview as the $buttons
             // have been appended to a jQuery node not in the DOM at SearchView initialization
             searchview.$buttons = this.nodes.$searchview_buttons;
             searchview.toggle_visibility(!is_hidden);
-            this.$title_col.toggleClass('col-md-6', !is_hidden).toggleClass('col-md-12', is_hidden);
+            this.$('.o_enable_searchview').toggle(!is_hidden && config.mobile);
+            this.$breadcrumbs.toggleClass('o_full', is_hidden || config.mobile);
         } else {
             // Show the searchview buttons area, which might have been hidden by
             // the searchview, as client actions may insert elements into it

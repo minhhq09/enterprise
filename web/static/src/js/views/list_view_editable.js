@@ -78,9 +78,9 @@ var Editor = Widget.extend({
             throw new Error("Editor delegate's #edition_view must be a" +
                             " version 7 view");
         }
-        if (!/\boe_form_container\b/.test(arch.attrs['class'])) {
+        if (!/\bo_list_editable_form\b/.test(arch.attrs['class'])) {
             throw new Error("Editor delegate's #edition_view must have the" +
-                            " class 'oe_form_container' on its root" +
+                            " class 'o_list_editable_form' on its root" +
                             " element");
         }
 
@@ -112,6 +112,7 @@ var Editor = Widget.extend({
         var loaded = record
             ? form.trigger('load_record', _.extend({}, record))
             : form.load_defaults();
+        var focus_field = options && options.focus_field && form.fields[options.focus_field];
         return $.when(loaded).then(function () {
             return form.do_show({reload: false});
         }).then(function () {
@@ -119,6 +120,11 @@ var Editor = Widget.extend({
             _(form.fields).each(function (field, name) {
                 configureField(name, field);
             });
+
+            // Focus on the clicked field
+            if (focus_field) {
+                focus_field.$el.focus();
+            }
             return form;
         });
     },
@@ -190,12 +196,12 @@ ListView.include(/** @lends instance.web.ListView# */{
             }
         });
         this.on('edit:after', this, function () {
-            self.$el.add(self.$buttons).addClass('oe_editing');
+            self.$el.add(self.$buttons).addClass('o-editing');
             self.$('.ui-sortable').sortable('disable');
         });
         this.on('save:after cancel:after', this, function () {
             self.$('.ui-sortable').sortable('enable');
-            self.$el.add(self.$buttons).removeClass('oe_editing');
+            self.$el.add(self.$buttons).removeClass('o-editing');
         });
     },
     destroy: function () {
@@ -266,8 +272,8 @@ ListView.include(/** @lends instance.web.ListView# */{
     do_add_record: function () {
         var self = this;
         if (this.editable()) {
-            this.$el.find('table:first').show();
-            this.$el.find('.oe_view_nocontent').remove();
+            this.$('table:first').show();
+            this.$('.oe_view_nocontent').remove();
             this.start_edition();
         } else {
             this._super();
@@ -287,13 +293,13 @@ ListView.include(/** @lends instance.web.ListView# */{
         this.editor = this.make_editor();
 
         if (this.editable()) {
-            this.$el.addClass('oe_list_editable');
+            this.$el.addClass('o_list_editable');
             var editor_ready = this.editor.prependTo(this.$el)
                 .done(this.proxy('setup_events'));
 
             return $.when(result, editor_ready);
         } else {
-            this.$el.removeClass('oe_list_editable');
+            this.$el.removeClass('o_list_editable');
         }
 
         return result;
@@ -312,10 +318,10 @@ ListView.include(/** @lends instance.web.ListView# */{
         this._super.apply(this, arguments); // Sets this.$buttons
         if (add_button && this.editable()) {
             this.$buttons
-                .off('click', '.oe_list_save')
-                .on('click', '.oe_list_save', this.proxy('save_edition'))
-                .off('click', '.oe_list_discard')
-                .on('click', '.oe_list_discard', function (e) {
+                .off('click', '.o-list-button-save')
+                .on('click', '.o-list-button-save', this.proxy('save_edition'))
+                .off('click', '.o-list-button-discard')
+                .on('click', '.o-list-button-discard', function (e) {
                     e.preventDefault();
                     self.cancel_edition();
                 });
@@ -407,7 +413,7 @@ ListView.include(/** @lends instance.web.ListView# */{
                     fields[field_name] = field;
                     self.fields_for_resize.push({field: field, cell: cell});
                 }, options).then(function () {
-                    $recordRow.addClass('oe_edition');
+                    $recordRow.addClass('o_row_edition');
                     self.resize_fields();
                     var focus_field = options && options.focus_field ? options.focus_field : undefined;
                     if (!focus_field || !fields[focus_field]){
@@ -452,7 +458,6 @@ ListView.include(/** @lends instance.web.ListView# */{
      */
     resize_field: function (field, cell) {
         var $cell = $(cell);
-
         field.set_dimensions($cell.outerHeight(), $cell.outerWidth());
         field.$el.position({
             my: 'left top',
@@ -460,10 +465,10 @@ ListView.include(/** @lends instance.web.ListView# */{
             of: $cell
         });
         if (field.get('effective_readonly')) {
-            field.$el.addClass('oe_readonly');
+            field.$el.addClass('o_readonly');
         }
         if(field.widget == "handle")
-            field.$el.addClass('oe_list_field_handle');
+            field.$el.addClass('o_row_handle');
     },
     /**
      * @return {jQuery.Deferred}
@@ -565,7 +570,7 @@ ListView.include(/** @lends instance.web.ListView# */{
         var view = $.extend(true, {}, this.fields_view);
         view.arch.tag = 'form';
         _.extend(view.arch.attrs, {
-            'class': 'oe_form_container',
+            'class': 'o_list_editable_form',
             version: '7.0'
         });
         _(view.arch.children).chain()
@@ -830,13 +835,17 @@ ListView.Groups.include(/** @lends instance.web.ListView.Groups# */{
 
 ListView.List.include(/** @lends instance.web.ListView.List# */{
     row_clicked: function (event) {
-        if (!this.view.editable() || ! this.view.is_action_enabled('edit')) {
+        if (!this.view.editable() || !this.view.is_action_enabled('edit')) {
             return this._super.apply(this, arguments);
         }
+        var self = this;
         var record_id = $(event.currentTarget).data('id');
         return this.view.start_edition(
             record_id ? this.records.get(record_id) : null, {
-            focus_field: $(event.target).not(".oe_readonly").data('field')
+            focus_field: $(event.target).not(".o_readonly").data('field')
+        }).fail(function() {
+            // The record can't be edited so open it in a modal (use-case: readonly mode)
+            return self._super.apply(self, arguments);
         });
     },
     /**

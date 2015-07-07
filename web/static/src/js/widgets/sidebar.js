@@ -51,16 +51,19 @@ var Sidebar = Widget.extend({
         });
     },
     redraw: function() {
-        var self = this;
-        self.$el.html(QWeb.render('Sidebar', {widget: self}));
+        this.$el.html(QWeb.render('Sidebar', {widget: this}));
 
         // Hides Sidebar sections when item list is empty
-        this.$('.oe_form_dropdown_section').each(function() {
-            $(this).toggle(!!$(this).find('li').length);
+        this.$('.o_dropdown').each(function() {
+            if (!$(this).find('li').length) {
+                $(this).hide();
+            }
         });
-        self.$("[title]").tooltip({
+        this.$("[title]").tooltip({
             delay: { show: 500, hide: 0}
         });
+        this.$('.o-sidebar-add-attachment .o_form_binary_form').change(this.on_attachment_changed);
+        this.$el.find('.o-sidebar-delete-attachment').click(this.on_attachment_delete);
     },
     /**
      * For each item added to the section:
@@ -102,7 +105,6 @@ var Sidebar = Widget.extend({
                     items[i] = {
                         label: items[i]['name'],
                         action: items[i],
-                        classname: 'oe_sidebar_' + type
                     };
                 }
                 self.add_items(type=='print' ? 'print' : 'other', items);
@@ -121,7 +123,7 @@ var Sidebar = Widget.extend({
                 domain = $.Deferred().resolve(undefined);
             }
             if (ids.length === 0) {
-                new Dialog(this, { title: _t("Warning"), size: 'medium',}, $("<div />").text(_t("You must choose at least one record."))).open();
+                new Dialog(this, {title: _t("Warning"), size: 'medium', $content: $("<div/>").html(_t("You must choose at least one record."))}).open();
                 return false;
             }
             var dataset = self.getParent().dataset;
@@ -184,16 +186,14 @@ var Sidebar = Widget.extend({
         });
         self.items.files = attachments;
         self.redraw();
-        this.$('.oe_sidebar_add_attachment .oe_form_binary_file').change(this.on_attachment_changed);
-        this.$el.find('.oe_sidebar_delete_item').click(this.on_attachment_delete);
     },
     on_attachment_changed: function(e) {
         var $e = $(e.target);
         if ($e.val() !== '') {
-            this.$el.find('form.oe_form_binary_form').submit();
+            this.$el.find('form.o_form_binary_form').submit();
             $e.parent().find('input[type=file]').prop('disabled', true);
             $e.parent().find('button').prop('disabled', true).find('img, span').toggle();
-            this.$('.oe_sidebar_add_attachment a').text(_t('Uploading...'));
+            this.$('.o-sidebar-add-attachment a').text(_t('Uploading...'));
             framework.blockUI();
         }
     },
@@ -202,11 +202,11 @@ var Sidebar = Widget.extend({
         e.stopPropagation();
         var self = this;
         var $e = $(e.currentTarget);
-        if (confirm(_t("Do you really want to delete this attachment ?"))) {
+        Dialog.confirm(this, _t("Do you really want to delete this attachment ?"), function () {
             (new data.DataSet(this, 'ir.attachment')).unlink([parseInt($e.attr('data-id'), 10)]).done(function() {
                 self.do_attachement_update(self.dataset, self.model_id);
             });
-        }
+        });
     }
 });
 

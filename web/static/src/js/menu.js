@@ -2,260 +2,156 @@ odoo.define('web.Menu', function (require) {
 "use strict";
 
 var core = require('web.core');
-var session = require('web.session');
 var Widget = require('web.Widget');
+var SystrayMenu = require('web.SystrayMenu');
 
 var QWeb = core.qweb;
 
 var Menu = Widget.extend({
-    init: function() {
+    template: 'Menu',
+    events: {
+        'click .o-menu-toggle': function (ev) {
+            ev.preventDefault();
+            this.trigger_up('show_app_switcher');
+        },
+        'mouseover .o-menu-sections > li:not(.open)': function(e) {
+            var $opened = this.$('.o-menu-sections > li.open');
+            if($opened.length) {
+                $opened.removeClass('open');
+                $(e.currentTarget).addClass('open').find('> a').focus();
+            }
+        }
+    },
+    init: function (parent, menu_data) {
         var self = this;
         this._super.apply(this, arguments);
-        this.is_bound = $.Deferred();
-        this.data = {data:{children:[]}};
-        this.on("menu_bound", this, function() {
-            // launch the fetch of needaction counters, asynchronous
-            var $all_menus = self.$el.parents('body').find('.oe_webclient').find('[data-menu]');
-            var all_menu_ids = _.map($all_menus, function (menu) {return parseInt($(menu).attr('data-menu'), 10);});
-            if (!_.isEmpty(all_menu_ids)) {
-                this.do_load_needaction(all_menu_ids);
-            }
+
+        this.$menu_sections = {};
+        this.menu_data = menu_data;
+
+        // Prepare navbar's menus
+        var $menu_sections = $(QWeb.render('Menu.sections', {'menu_data': this.menu_data}));
+        $menu_sections.siblings('section').each(function () {
+            self.$menu_sections[parseInt(this.className, 10)] = $(this).children('li');
         });
-        core.bus.on('do_reload_needaction', this, this.do_reload_needaction);
-    },
-    start: function() {
-        this._super.apply(this, arguments);
-        return this.bind_menu();
-    },
-    do_reload: function() {
-        var self = this;
-        self.bind_menu();
-    },
-    bind_menu: function() {
-        var self = this;
-        this.$secondary_menus = this.$el.parents().find('.oe_secondary_menus_container');
-        this.$secondary_menus.on('click', 'a[data-menu]', this.on_menu_click);
-        this.$el.on('click', 'a[data-menu]', this.on_top_menu_click);
-        // Hide second level submenus
-        this.$secondary_menus.find('.oe_menu_toggler').siblings('.oe_secondary_submenu').hide();
-        if (self.current_menu) {
-            self.open_menu(self.current_menu);
-        }
-        this.trigger('menu_bound');
 
-        var lazyreflow = _.debounce(this.reflow.bind(this), 200);
-        core.bus.on('resize', this, function() {
-            if ($(window).width() < 768 ) {
-                lazyreflow('all_outside');
-            } else {
-                lazyreflow();
-            }
-        });
-        core.bus.trigger('resize');
-
-        this.is_bound.resolve();
+        // Bus event
+        core.bus.on('change_menu_section', this, this.change_menu_section);
     },
-    do_load_needaction: function (menu_ids) {
+    start: function () {
         var self = this;
-        menu_ids = _.compact(menu_ids);
-        if (_.isEmpty(menu_ids)) {
-            return $.when();
-        }
-        return this.rpc("/web/menu/load_needaction", {'menu_ids': menu_ids}).done(function(r) {
-            self.on_needaction_loaded(r);
-        });
-    },
-    on_needaction_loaded: function(data) {
-        var self = this;
-        this.needaction_data = data;
-        _.each(this.needaction_data, function (item, menu_id) {
-            var $item = self.$secondary_menus.find('a[data-menu="' + menu_id + '"]');
-            $item.find('.badge').remove();
-            if (item.needaction_counter && item.needaction_counter > 0) {
-                $item.append(QWeb.render("Menu.needaction_counter", { widget : item }));
-            }
-        });
-    },
-    /**
-     * Reflow the menu items and dock overflowing items into a "More" menu item.
-     * Automatically called when 'menu_bound' event is triggered and on window resizing.
-     *
-     * @param {string} behavior If set to 'all_outside', all the items are displayed.
-     * If not set, only the overflowing items are hidden.
-     */
-    reflow: function(behavior) {
-        var self = this;
-        var $more_container = this.$('#menu_more_container').hide();
-        var $more = this.$('#menu_more');
-        var $systray = this.$el.parents().find('.oe_systray');
 
-        $more.children('li').insertBefore($more_container);  // Pull all the items out of the more menu
+        // Systray Menu
+        this.systray_menu = new SystrayMenu(this);
+        this.systray_menu.setElement(this.$('.oe_systray'));
+        this.systray_menu.start();
 
-        // 'all_outside' beahavior should display all the items, so hide the more menu and exit
-        if (behavior === 'all_outside') {
-            // Show list of menu items
-            self.$el.show();
-            this.$el.find('li').show();
-            $more_container.hide();
-            return;
-        }
-
-        // Hide all menu items
-        var $toplevel_items = this.$el.find('li').not($more_container).not($systray.find('li')).hide();
-        // Show list of menu items (which is empty for now since all menu items are hidden)
-        self.$el.show();
-        $toplevel_items.each(function() {
-            var remaining_space = self.$el.parent().width() - $more_container.outerWidth();
-            self.$el.parent().children(':visible').each(function() {
-                remaining_space -= $(this).outerWidth();
+        // Navbar's menus event handlers
+        this.$menu_brand_placeholder = this.$('.o-menu-brand');
+        this.$section_placeholder = this.$('.o-menu-sections');
+        _.each(this.$menu_sections, function ($section, primary_menu_id) {
+            $section.on('click', 'a[data-menu]', self, function (ev) {
+                ev.preventDefault();
+                var menu_id = $(ev.currentTarget).data('menu');
+                var action_id = $(ev.currentTarget).data('action-id');
+                self._on_secondary_menu_click(menu_id, action_id);
             });
-
-            if ($(this).width() >= remaining_space) {
-                return false; // the current item will be appended in more_container
-            }
-            $(this).show(); // show the current item in menu bar
         });
-        $more.append($toplevel_items.filter(':hidden').show());
-        $more_container.toggle(!!$more.children().length);
-        // Hide toplevel item if there is only one
-        var $toplevel = self.$el.children("li:visible");
-        if ($toplevel.length === 1) {
-            $toplevel.hide();
-        }
+
+        return this._super.apply(this, arguments);
     },
-    /**
-     * Opens a given menu by id, as if a user had browsed to that menu by hand
-     * except does not trigger any event on the way
-     *
-     * @param {Number} id database id of the terminal menu to select
-     */
-    open_menu: function (id) {
-        this.current_menu = id;
-        session.active_id = id;
-        var $clicked_menu, $sub_menu, $main_menu;
-        $clicked_menu = this.$el.add(this.$secondary_menus).find('a[data-menu=' + id + ']');
-        this.trigger('open_menu', id, $clicked_menu);
-
-        if (this.$secondary_menus.has($clicked_menu).length) {
-            $sub_menu = $clicked_menu.parents('.oe_secondary_menu');
-            $main_menu = this.$el.find('a[data-menu=' + $sub_menu.data('menu-parent') + ']');
-        } else {
-            $sub_menu = this.$secondary_menus.find('.oe_secondary_menu[data-menu-parent=' + $clicked_menu.attr('data-menu') + ']');
-            $main_menu = $clicked_menu;
+    change_menu_section: function (primary_menu_id) {
+        if (this.current_primary_menu) {
+            this.$menu_sections[this.current_primary_menu].detach();
         }
 
-        // Activate current main menu
-        this.$el.find('.active').removeClass('active');
-        $main_menu.parent().addClass('active');
-
-        // Show current sub menu
-        this.$secondary_menus.find('.oe_secondary_menu').hide();
-        $sub_menu.show();
-
-        // Hide/Show the leftbar menu depending of the presence of sub-items
-        this.$secondary_menus.parent('.oe_leftbar').toggle(!!$sub_menu.children().length);
-
-        // Activate current menu item and show parents
-        this.$secondary_menus.find('.active').removeClass('active');
-        if ($main_menu !== $clicked_menu) {
-            $clicked_menu.parents().show();
-            if ($clicked_menu.is('.oe_menu_toggler')) {
-                $clicked_menu.toggleClass('oe_menu_opened').siblings('.oe_secondary_submenu:first').toggle();
-            } else {
-                $clicked_menu.parent().addClass('active');
+        // Get back the application name
+        for (var i = 0; i < this.menu_data.children.length; i++) {
+            if (this.menu_data.children[i].id === primary_menu_id) {
+                this.$menu_brand_placeholder.text(this.menu_data.children[i].name);
+                break;
             }
         }
-        // add a tooltip to cropped menu items
-        this.$secondary_menus.find('.oe_secondary_submenu li a span').each(function() {
-            $(this).tooltip(this.scrollWidth > this.clientWidth ? {title: $(this).text().trim(), placement: 'right'} :'destroy');
-       });
-    },
-    /**
-     * Call open_menu with the first menu_item matching an action_id
-     *
-     * @param {Number} id the action_id to match
-     */
-    open_action: function (id) {
-        var $menu = this.$el.add(this.$secondary_menus).find('a[data-action-id="' + id + '"]');
-        var menu_id = $menu.data('menu');
-        if (menu_id) {
-            this.open_menu(menu_id);
-        }
-    },
-    /**
-     * Process a click on a menu item
-     *
-     * @param {Number} id the menu_id
-     * @param {Boolean} [needaction=false] whether the triggered action should execute in a `needs action` context
-     */
-    menu_click: function(id, needaction) {
-        if (!id) { return; }
 
-        // find back the menuitem in dom to get the action
-        var $item = this.$el.find('a[data-menu=' + id + ']');
-        if (!$item.length) {
-            $item = this.$secondary_menus.find('a[data-menu=' + id + ']');
-        }
-        var action_id = $item.data('action-id');
-        // If first level menu doesnt have action trigger first leaf
-        if (!action_id) {
-            if(this.$el.has($item).length) {
-                var $sub_menu = this.$secondary_menus.find('.oe_secondary_menu[data-menu-parent=' + id + ']');
-                var $items = $sub_menu.find('a[data-action-id]').filter('[data-action-id!=""]');
-                if($items.length) {
-                    action_id = $items.data('action-id');
-                    id = $items.data('menu');
-                }
-            }
-        }
+        this.$menu_sections[primary_menu_id].appendTo(this.$section_placeholder);
+        this.current_primary_menu = primary_menu_id;
+    },
+    _trigger_menu_clicked: function(menu_id, action_id) {
+        this.trigger_up('menu_clicked', {
+            id: menu_id,
+            action_id: action_id,
+            previous_menu_id: this.current_secondary_menu || this.current_primary_menu,
+        });
+    },
+    _on_secondary_menu_click: function(menu_id, action_id) {
+        var self = this;
+
+        // It is still possible that we don't have an action_id (for example, menu toggler)
         if (action_id) {
-            this.trigger('menu_click', {
-                action_id: action_id,
-                needaction: needaction,
-                id: id,
-                previous_menu_id: this.current_menu // Here we don't know if action will fail (in which case we have to revert menu)
-            }, $item);
-        } else {
-            console.log('Menu no action found web test 04 will fail');
-        }
-        this.open_menu(id);
-    },
-    do_reload_needaction: function () {
-        var self = this;
-        if (self.current_menu) {
-            self.do_load_needaction([self.current_menu]).then(function () {
-                self.trigger("need_action_reloaded");
-            });
+            self._trigger_menu_clicked(menu_id, action_id);
+            this.current_secondary_menu = menu_id;
         }
     },
     /**
-     * Jquery event handler for menu click
-     *
-     * @param {Event} ev the jquery event
+     * Helpers used by web_client in order to restore the state from
+     * an url (by restore, read re-synchronize menu and action manager)
      */
-    on_top_menu_click: function(ev) {
-        ev.preventDefault();
-        var self = this;
-        var id = $(ev.currentTarget).data('menu');
-
-        // Fetch the menu leaves ids in order to check if they need a 'needaction'
-        var $secondary_menu = this.$el.parents().find('.oe_secondary_menu[data-menu-parent=' + id + ']');
-        var $menu_leaves = $secondary_menu.children().find('.oe_menu_leaf');
-        var menu_ids = _.map($menu_leaves, function (leave) {return parseInt($(leave).attr('data-menu'), 10);});
-
-        self.do_load_needaction(menu_ids).then(function () {
-            self.trigger("need_action_reloaded");
-        });
-        this.$el.parents().find(".oe_secondary_menus_container").scrollTop(0,0);
-
-        this.on_menu_click(ev);
+    action_id_to_primary_menu_id: function (action_id) {
+        var primary_menu_id, found;
+        for (var i = 0; i < this.menu_data.children.length && !primary_menu_id; i++) {
+            found = this._action_id_in_subtree(this.menu_data.children[i], action_id);
+            if (found) {
+                primary_menu_id = this.menu_data.children[i].id;
+            }
+        }
+        return primary_menu_id;
     },
-    on_menu_click: function(ev) {
-        ev.preventDefault();
-        var needaction = $(ev.target).is('div#menu_counter');
-        this.menu_click($(ev.currentTarget).data('menu'), needaction);
+    _action_id_in_subtree: function (root, action_id) {
+        if (root.action && root.action.split(',')[1] == action_id) {
+            return true;
+        }
+        var found;
+        for (var i = 0; i < root.children.length && !found; i++) {
+            found = this._action_id_in_subtree(root.children[i], action_id);
+        }
+        return found;
+    },
+    menu_id_to_primary_menu_id: function (menu_id) {
+        var primary_menu_id, found;
+        for (var i = 0; i < this.menu_data.children.length && !primary_menu_id; i++) {
+            found = this._menu_id_in_subtree(this.menu_data.children[i], menu_id);
+            if (found) {
+                primary_menu_id = this.menu_data.children[i].id;
+            }
+        }
+        return primary_menu_id;
+    },
+    _menu_id_in_subtree: function (root, menu_id) {
+        if (root.id == menu_id) {
+            return true;
+        }
+        var found;
+        for (var i = 0; i < root.children.length && !found; i++) {
+            found = this._menu_id_in_subtree(root.children[i], menu_id);
+        }
+        return found;
+    },
+    menu_id_to_action_id: function (menu_id, root) {
+        if (!root) {root = $.extend(true, {}, this.menu_data)}
+
+        if (root.id == menu_id) {
+            return root.action.split(',')[1] ;
+        }
+        for (var i = 0; i < root.children.length; i++) {
+            var action_id = this.menu_id_to_action_id(menu_id, root.children[i]);
+            if (action_id !== undefined) {
+                return action_id;
+            }
+        }
+        return undefined;
     },
 });
 
 return Menu;
+
 });

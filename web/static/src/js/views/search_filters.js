@@ -12,9 +12,9 @@ var _lt = core._lt;
 var ExtendedSearchProposition = Widget.extend(/** @lends instance.web.search.ExtendedSearchProposition# */{
     template: 'SearchView.extended_search.proposition',
     events: {
-        'change .searchview_extended_prop_field': 'changed',
-        'change .searchview_extended_prop_op': 'operator_changed',
-        'click .searchview_extended_delete_prop': function (e) {
+        'change .o-searchview-extended-prop-field': 'changed',
+        'change .o-searchview-extended-prop-op': 'operator_changed',
+        'click .o-searchview-extended-delete-prop': function (e) {
             e.stopPropagation();
             this.getParent().remove_proposition(this);
         },
@@ -40,13 +40,13 @@ var ExtendedSearchProposition = Widget.extend(/** @lends instance.web.search.Ext
         return this._super().done(this.proxy('changed'));
     },
     changed: function() {
-        var nval = this.$(".searchview_extended_prop_field").val();
+        var nval = this.$(".o-searchview-extended-prop-field").val();
         if(this.attrs.selected === null || this.attrs.selected === undefined || nval != this.attrs.selected.name) {
             this.select_field(_.detect(this.fields, function(x) {return x.name == nval;}));
         }
     },
     operator_changed: function (e) {
-        var $value = this.$('.searchview_extended_prop_value');
+        var $value = this.$('.o-searchview-extended-prop-value');
         switch ($(e.target).val()) {
         case '∃':
         case '∄':
@@ -66,7 +66,7 @@ var ExtendedSearchProposition = Widget.extend(/** @lends instance.web.search.Ext
         if(this.attrs.selected !== null && this.attrs.selected !== undefined) {
             this.value.destroy();
             this.value = null;
-            this.$('.searchview_extended_prop_op').html('');
+            this.$('.o-searchview-extended-prop-op').html('');
         }
         this.attrs.selected = field;
         if(field === null || field === undefined) {
@@ -80,9 +80,9 @@ var ExtendedSearchProposition = Widget.extend(/** @lends instance.web.search.Ext
         _.each(this.value.operators, function(operator) {
             $('<option>', {value: operator.value})
                 .text(String(operator.text))
-                .appendTo(self.$('.searchview_extended_prop_op'));
+                .appendTo(self.$('.o-searchview-extended-prop-op'));
         });
-        var $value_loc = this.$('.searchview_extended_prop_value').show().empty();
+        var $value_loc = this.$('.o-searchview-extended-prop-value').show().empty();
         this.value.appendTo($value_loc);
 
     },
@@ -90,7 +90,7 @@ var ExtendedSearchProposition = Widget.extend(/** @lends instance.web.search.Ext
         if (this.attrs.selected === null || this.attrs.selected === undefined)
             return null;
         var field = this.attrs.selected,
-            op_select = this.$('.searchview_extended_prop_op')[0],
+            op_select = this.$('.o-searchview-extended-prop-op')[0],
             operator = op_select.options[op_select.selectedIndex];
 
         return {

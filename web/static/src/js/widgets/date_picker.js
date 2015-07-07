@@ -8,13 +8,13 @@ var Widget = require('web.Widget');
 
 var _t = core._t;
 
-var DateTimeWidget = Widget.extend({
+var DateWidget = Widget.extend({
     template: "web.datepicker",
-    type_of_date: "datetime",
+    type_of_date: "date",
     events: {
-        'dp.change .oe_datepicker_main': 'change_datetime',
-        'dp.show .oe_datepicker_main': 'set_datetime_default',
-        'change .oe_datepicker_master': 'change_datetime',
+        'dp.change': 'change_datetime',
+        'dp.show': 'set_datetime_default',
+        'keypress .o_datepicker_input': 'change_datetime',
     },
     init: function(parent) {
         this._super(parent);
@@ -37,13 +37,14 @@ var DateTimeWidget = Widget.extend({
             language : moment.locale(),
             format : time.strftime_to_moment_format(l10n.date_format +' '+ l10n.time_format),
         };
-        this.$input = this.$el.find('input.oe_datepicker_master');
+        this.$input = this.$('input.o_datepicker_input');
         if (this.type_of_date === 'date') {
             options.pickTime = false;
             options.useSeconds = false;
             options.format = time.strftime_to_moment_format(l10n.date_format);
         }
-        this.picker = this.$('.oe_datepicker_main').datetimepicker(options);
+        this.$el.datetimepicker(options);
+        this.picker = this.$el.data('DateTimePicker');
         this.set_readonly(false);
         this.set({'value': false});
     },
@@ -89,7 +90,7 @@ var DateTimeWidget = Widget.extend({
             if (this.$input.val().length !== 0 && this.is_valid_()){
                 value = this.$input.val();
             }
-            this.$('.oe_datepicker_main').data('DateTimePicker').setValue(value);
+            this.$el.data('DateTimePicker').setValue(value);
         }
     },
     change_datetime: function(e) {
@@ -101,14 +102,19 @@ var DateTimeWidget = Widget.extend({
     commit_value: function () {
         this.change_datetime();
     },
+    destroy: function () {
+        this.picker.destroy();
+        this._super();
+    },
 });
 
-var DateWidget = DateTimeWidget.extend({
-    type_of_date: "date"
+var DateTimeWidget = DateWidget.extend({
+    type_of_date: "datetime"
 });
 
 return {
-    DateTimeWidget: DateTimeWidget,
     DateWidget: DateWidget,
+    DateTimeWidget: DateTimeWidget,
 };
+
 });

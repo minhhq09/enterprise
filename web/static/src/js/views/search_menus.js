@@ -15,12 +15,16 @@ return Widget.extend({
         'click li': function (event) {
             event.stopImmediatePropagation();
         },
-        'click .oe-save-search a': function () {
+        'click li a': function (event) {
+            event.preventDefault();
+        },
+        'click .o-save-search a': function (event) {
+            event.preventDefault();
             this.toggle_save_menu();
         },
-        'click .oe-save-name button': 'save_favorite',
+        'click .o-save-name button': 'save_favorite',
         'hidden.bs.dropdown': 'close_menus',
-        'keyup .oe-save-name input': function (ev) {
+        'keyup .o-save-name input': function (ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 this.save_favorite();
             }
@@ -38,8 +42,8 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$save_search = this.$('.oe-save-search');
-        this.$save_name = this.$('.oe-save-name');
+        this.$save_search = this.$('.o-save-search');
+        this.$save_name = this.$('.o-save-name');
         this.$inputs = this.$save_name.find('input');
         this.$divider = this.$('.divider');
         this.$inputs.eq(0).val(this.searchview.get_title());
@@ -68,10 +72,10 @@ return Widget.extend({
     },
     toggle_save_menu: function (is_open) {
         this.$save_search
-            .toggleClass('closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
-            .toggleClass('open-menu', is_open);
+            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o-open-menu', is_open);
         this.$save_name.toggle(is_open);
-        if (this.$save_search.hasClass('open-menu')) {
+        if (this.$save_search.hasClass('o-open-menu')) {
             this.$save_name.find('input').first().focus();
         }
     },
@@ -202,14 +206,13 @@ return Widget.extend({
             this.filters[key] = filter;
             $filter = $('<li></li>')
                 .insertBefore(this.$divider)
-                .toggleClass('oe_searchview_custom_default', filter.is_default)
-                .append($('<a>').text(filter.name));
+                .append($('<a>', {'href': '#'}).text(filter.name));
 
             this.$filters[key] = $filter;
-            this.$filters[key].addClass(filter.user_id ? 'oe_searchview_custom_private'
-                                         : 'oe_searchview_custom_public');
+            this.$filters[key].addClass(filter.user_id ? 'o-searchview-custom-private'
+                                         : 'o-searchview-custom-public');
             $('<span>')
-                .addClass('fa fa-trash-o remove-filter')
+                .addClass('fa fa-trash-o o-remove-filter')
                 .click(function (event) {
                     event.stopImmediatePropagation();
                     self.remove_filter(filter, $filter, key);
@@ -262,15 +265,19 @@ var search_filters = require('web.search_filters'),
 return Widget.extend({
     template: 'SearchView.FilterMenu',
     events: {
-        'click .oe-add-filter': function () {
+        'click .o-add-filter': function (event) {
+            event.preventDefault();
             this.toggle_custom_filter_menu();
         },
-        'click li': function (event) {event.stopImmediatePropagation();},
+        'click li': function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        },
         'hidden.bs.dropdown': function () {
             this.toggle_custom_filter_menu(false);
         },
-        'click .oe-add-condition': 'append_proposition',
-        'click .oe-apply-filter': 'commit_search',
+        'click .o-add-condition': 'append_proposition',
+        'click .o-apply-filter': 'commit_search',
         'keyup .searchview_extended_prop_value': function (ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 this.commit_search();
@@ -296,10 +303,10 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$menu = this.$('.filters-menu');
-        this.$add_filter = this.$('.oe-add-filter');
-        this.$apply_filter = this.$('.oe-apply-filter');
-        this.$add_filter_menu = this.$('.oe-add-filter-menu');
+        this.$menu = this.$('.o-filters-menu');
+        this.$add_filter = this.$('.o-add-filter');
+        this.$apply_filter = this.$('.o-apply-filter');
+        this.$add_filter_menu = this.$('.o-add-filter-menu');
         _.each(this.filters, function (group) {
             if (group.is_visible()) {
                 group.insertBefore(self.$add_filter);
@@ -312,13 +319,13 @@ return Widget.extend({
     },
     toggle_custom_filter_menu: function (is_open) {
         this.$add_filter
-            .toggleClass('closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
-            .toggleClass('open-menu', is_open);
+            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o-open-menu', is_open);
         this.$add_filter_menu.toggle(is_open);
-        if (this.$add_filter.hasClass('closed-menu') && (!this.propositions.length)) {
+        if (this.$add_filter.hasClass('o-closed-menu') && (!this.propositions.length)) {
             this.append_proposition();
         }
-        this.$('.oe-filter-condition').toggle(is_open);
+        this.$('.o-filter-condition').toggle(is_open);
     },
     append_proposition: function () {
         var self = this;
@@ -377,7 +384,8 @@ return Widget.extend({
         'hidden.bs.dropdown': function () {
             this.toggle_add_menu(false);
         },
-        'click .add-custom-group a': function () {
+        'click .o-add-custom-group a': function (event) {
+            event.preventDefault();
             this.toggle_add_menu();
         },
     },
@@ -390,18 +398,18 @@ return Widget.extend({
     },
     start: function () {
         var self = this;
-        this.$menu = this.$('.group-by-menu');
+        this.$menu = this.$('.o-group-by-menu');
         var divider = this.$menu.find('.divider');
         _.invoke(this.groups, 'insertBefore', divider);
         if (this.groups.length) {
             divider.show();
         }
-        this.$add_group = this.$menu.find('.add-custom-group');
+        this.$add_group = this.$menu.find('.o-add-custom-group');
         this.fields_def.then(function () {
             self.$menu.append(QWeb.render('GroupByMenuSelector', self));
-            self.$add_group_menu = self.$('.oe-add-group');
-            self.$group_selector = self.$('.oe-group-selector');
-            self.$('.oe-select-group').click(function () {
+            self.$add_group_menu = self.$('.o-add-group');
+            self.$group_selector = self.$('.o-group-selector');
+            self.$('.o-select-group').click(function () {
                 self.toggle_add_menu(false);
                 var field = self.$group_selector.find(':selected').data('name');
                 self.add_groupby_to_menu(field);
@@ -420,10 +428,10 @@ return Widget.extend({
     },
     toggle_add_menu: function (is_open) {
         this.$add_group
-            .toggleClass('closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
-            .toggleClass('open-menu', is_open);
+            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o-open-menu', is_open);
         this.$add_group_menu.toggle(is_open);
-        if (this.$add_group.hasClass('open-menu')) {
+        if (this.$add_group.hasClass('o-open-menu')) {
             this.$group_selector.focus();
         }
     },

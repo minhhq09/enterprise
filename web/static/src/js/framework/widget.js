@@ -378,14 +378,11 @@ var Widget = core.Class.extend(mixins.PropertiesMixin, {
         }
         return false;
     },
-    do_notify: function() {
-        if (this.getParent()) {
-            return this.getParent().do_notify.apply(this,arguments);
-        }
-        return false;
+    do_notify: function(title, message) { // FIXME remove
+        this.trigger_up('display_notification', {title: title, message: message});
     },
-    do_warn: function(title, message) {
-        core.bus.trigger('display_notification_warning', title, message);
+    do_warn: function(title, message) { // FIXME remove
+        this.trigger_up('display_warning', {title: title, message: message});
     },
     rpc: function(url, data, options) {
         return this.alive(session.rpc(url, data, options));

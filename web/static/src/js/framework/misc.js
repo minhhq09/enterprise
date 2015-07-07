@@ -232,6 +232,16 @@ if ('nv' in window) {
     nv.tooltip.cleanup = function () {
         $('.nvtooltip').remove();
     };
+
+    // monkey patch nvd3 to prevent it to display a tooltip (position: absolute) with
+    // a negative `top`; with this patch the highest tooltip's position is still in the
+    // graph
+    var originalCalcTooltipPosition = nv.tooltip.calcTooltipPosition;
+    nv.tooltip.calcTooltipPosition = function () {
+        var container = originalCalcTooltipPosition.apply(this, arguments);
+        container.style.top = container.style.top.split('px')[0] < 0 ? 0 + 'px' : container.style.top;
+        return container;
+    };
 }
 
 // Bootstrap customization
@@ -328,6 +338,12 @@ return {
     redirect: redirect,
 };
 
+});
+
+odoo.define('web.session', function (require) {
+    var Session = require('web.Session');
+    var modules = odoo._modules;
+    return new Session(undefined, undefined, {modules:modules});
 });
 
 odoo.define('web.IFrameWidget', function (require) {
