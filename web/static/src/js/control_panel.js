@@ -78,7 +78,7 @@ var ControlPanel = Widget.extend({
         return this.bus;
     },
     /**
-     * Updates the content and display of the ControlPanel
+     * Updates the content and displays the ControlPanel
      * @param {Object} [status.active_view] the current active view
      * @param {Array} [status.breadcrumbs] the breadcrumbs to display (see _render_breadcrumbs() for
      * precise description)
@@ -94,7 +94,7 @@ var ControlPanel = Widget.extend({
 
         // Don't update the ControlPanel in headless mode as the views have
         // inserted themselves the buttons where they want, so inserting them
-        // again in the ControlPanel will removed them from there they should be
+        // again in the ControlPanel will remove them from where they should be
         if (!status.hidden) {
             options = _.defaults({}, options, {
                 clear: true, // clear control panel by default
@@ -127,6 +127,7 @@ var ControlPanel = Widget.extend({
     /**
      * Private function that hides (or shows) the ControlPanel in headless (resp. non-headless) mode
      * Also detaches or attaches its contents to clean the DOM
+     * @param {Boolean} [visible] true to show the control panel, false to hide it
      */
     _toggle_visibility: function(visible) {
         this.$el.toggle(visible);
@@ -203,7 +204,7 @@ var ControlPanel = Widget.extend({
         }
     },
     /**
-     * Private function that pdates the SearchView's visibility and extend the
+     * Private function that updates the SearchView's visibility and extend the
      * breadcrumbs area if the SearchView is not visible
      * @param {openerp.web.SearchView} [searchview] the searchview Widget
      * @param {Boolean} [is_hidden] visibility of the searchview
