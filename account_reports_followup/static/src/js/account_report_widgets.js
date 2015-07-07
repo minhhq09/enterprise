@@ -19,13 +19,13 @@ var FollowupReportWidget = FollowupWidget.extend({
     onKeyPress: function(e) {
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name == 'followup_report') {
-            $("*[data-primary='1'].followup-email").trigger('click');
+            this.$("*[data-primary='1'].followup-email").trigger('click');
             var letter_context_list = [];
-            $("*[data-primary='1'].followup-letter").each(function() {
+            this.$("*[data-primary='1'].followup-letter").each(function() {
                 letter_context_list.push($(this).data('context'))
             });
             var action_context_list = [];
-            $("*[data-primary='1'].followup-action").each(function() {
+            this.$("*[data-primary='1'].followup-action").each(function() {
                 action_context_list.push($(this).data('context'))
             });
             window.open('?pdf&letter_context_list=' + letter_context_list, '_blank');

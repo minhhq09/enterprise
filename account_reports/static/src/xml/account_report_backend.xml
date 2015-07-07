@@ -8,7 +8,7 @@
                 <t t-esc="context.partner_filter == 'action' and 'In Need of Action' or 'With Overdue Invoices'"/>
                 <span class="caret"/>
             </a>
-            <ul class="dropdown-menu o-filters-menu" role="menu">
+            <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li title="In Need of Action" data-value="action" t-att-class="'o_account_reports_one-filter ' + (context.partner_filter == 'action' and 'selected' or '')"><a>In Need of Action</a></li>
                 <li title="With Overdue Invoices" data-value="all" t-att-class="'o_account_reports_one-filter ' + (context.partner_filter == 'all' and 'selected' or '')"><a>With Overdue Invoices</a></li>
             </ul>
@@ -56,7 +56,7 @@
                 <t t-esc="context.date_filter == 'today' and 'Today' or context.date_filter == 'last_month' and 'Last Month' or context.date_filter == 'last_quarter' and 'Last Quarter' or context.date_filter == 'last_year' and 'Last Year' or context.date_filter == 'this_year' and 'This Year' or context.date_filter == 'this_month' and 'This Month' or context.date_filter == 'custom' and 'Custom'"/>
                 <span class="caret"/>
             </a>
-            <ul class="dropdown-menu o-filters-menu" role="menu">
+            <ul class="dropdown-menu o_filters_menu" role="menu">
                 <t t-if="report_type == 'no_date_range' or report_type == 'bank_reconciliation'">
                     <li title="Today" data-value="today" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'today' and 'selected' or '')"><a>Today</a></li>
                     <li title="End of Last Month" data-value="last_month" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'last_month' and 'selected' or '')"><a>End of Last Month</a></li>
@@ -99,7 +99,7 @@
                 <t t-esc="context.date_filter_cmp == 'no_comparison' and 'None' or context.date_filter_cmp == 'previous_period' and 'Previous Periods' or context.date_filter_cmp == 'same_last_year' and 'Same Last Year' or context.date_filter_cmp == 'custom' and 'Custom' or ''" />
                 <span class="caret"/>
             </a>
-            <ul class="dropdown-menu o-filters-menu" role="menu">
+            <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li title="No Comparison" data-value="no_comparison" t-att-class="'o_account_reports_one-filter-cmp ' + (context.date_filter_cmp == 'no_comparison' and 'selected' or '')"><a>No Comparison</a></li>
                 <li class="divider"></li>
                 <li t-att-class="'o_account_reports_use-previous-period ' + (context.date_filter_cmp == 'previous_period' and 'o_open_menu' or 'o_closed_menu')"><a>Previous Period</a></li>
@@ -144,7 +144,7 @@
                 <t t-esc="context.all_entries and 'With Draft Entries' or 'Posted Entries Only'"/>
                 <span class="caret"/>
             </a>
-            <ul class="dropdown-menu o-filters-menu" role="menu">
+            <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li t-if="report_type != 'date_range_cash'" title="Cash Basis Method" data-value="cash_basis" t-att-class="'o_account_reports_one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
                 <li title="Include unposted entries" data-value="all_entries" t-att-class="'o_account_reports_one-filter-bool ' + (context.all_entries and 'selected' or '')"><a>Include Unposted Entries</a></li>
             </ul>

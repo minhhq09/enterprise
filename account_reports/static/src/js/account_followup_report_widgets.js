@@ -30,9 +30,9 @@ var FollowupReportWidget = ReportWidget.extend({
         var target_id = $("#nextActionModal #target_id").val();
         var date = $("#nextActionDate").val();
         date = formats.parse_value(date, {type:'date'})
-        return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id, 10)], date, note]).then(function (result) {
-            $('#nextActionModal').modal('hide');
-            $('div.o_account_reports_page.' + target_id).find('.o_account_reports_next-action').html(QWeb.render("nextActionDate", {'note': note, 'date': date}));
+        return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id)], date, note]).then(function (result) {
+            this.$('#nextActionModal').modal('hide');
+            this.$('div.o_account_reports_page.' + target_id).find('.o_account_reports_next-action').html(QWeb.render("nextActionDate", {'note': note, 'date': date}));
         });
     },
     enableAuto: function(e) {
@@ -45,13 +45,13 @@ var FollowupReportWidget = ReportWidget.extend({
         }
         else if ($(e.target).is('div.alert a')) {
             target_id = $("div.o_account_reports_page").data('context');
-            $("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').addClass('btn-info');
-            $("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').removeClass('btn-default');
-            $("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').addClass('btn-default');
-            $("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').removeClass('btn-info');
-            $('.o_account_reports_followup-no-action').remove();
+            this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').addClass('btn-info');
+            this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').removeClass('btn-default');
+            this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').addClass('btn-default');
+            this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').removeClass('btn-info');
+            this.$('.o_account_reports_followup-no-action').remove();
         }
-        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id, 10)]])
+        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]])
     },
     setNextAction: function(e) {
         e.stopPropagation();
@@ -62,7 +62,7 @@ var FollowupReportWidget = ReportWidget.extend({
         }
         if ($(e.target).parents("div.o_account_reports_page").length > 0){
             var target_id = $(e.target).parents("div.o_account_reports_page").data('context');
-            $("#nextActionModal #target_id").val(target_id);
+            this.$("#nextActionModal #target_id").val(target_id);
         }
         var dt = new Date();
         switch($(e.target).data('time')) {
@@ -79,11 +79,11 @@ var FollowupReportWidget = ReportWidget.extend({
                 dt.setMonth(dt.getMonth() + 2);
                 break;
         }
-        $('.o_account_reports_picker-next-action-date').data("DateTimePicker").setValue(moment(dt));
-        $('#nextActionModal').on('hidden.bs.modal', function (e) {
+        this.$('.o_account_reports_picker-next-action-date').data("DateTimePicker").setValue(moment(dt));
+        this.$('#nextActionModal').on('hidden.bs.modal', function (e) {
             $(this).find('form')[0].reset();
         });
-        $('#nextActionModal').modal('show');
+        this.$('#nextActionModal').modal('show');
     },
     onChangeBlocked: function(e) {
         e.stopPropagation();
@@ -96,17 +96,17 @@ var FollowupReportWidget = ReportWidget.extend({
         else {
             $(e.target).parents('tr').attr('bgcolor', 'white');
         }
-        return new Model('account.move.line').call('write', [[parseInt(target_id, 10)], {'blocked': checkbox}])
+        return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}])
     },
     onKeyPress: function(e) {
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name == 'followup_report') {
             var letter_context_list = [];
             var email_context_list = [];
-            $("*[data-primary='1'].followup-email").each(function() {
+            this.$("*[data-primary='1'].followup-email").each(function() {
                 email_context_list.push($(this).data('context'))
             });
-            $("*[data-primary='1'].followup-letter").each(function() {
+            this.$("*[data-primary='1'].followup-letter").each(function() {
                 letter_context_list.push($(this).data('context'))
             });
             window.open('?pdf&letter_context_list=' + letter_context_list, '_blank');
@@ -115,7 +115,7 @@ var FollowupReportWidget = ReportWidget.extend({
     },
     donePartner: function(e) {
         var partner_id = $(e.target).data("partner");
-        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id, 10)]]).then(function (result) {
+        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id)]]).then(function (result) {
             window.location.assign('?partner_done=' + partner_id, '_self');
         });
     },
@@ -138,7 +138,7 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
-        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id, 10)]]).then (function (result) {
+        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id)]]).then (function (result) {
             if (result == true) {
                 window.$("div.o_account_reports_page:first").prepend(QWeb.render("emailSent"));
                 if ($(e.target).data('primary') == '1') {
@@ -156,19 +156,19 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var target_id = $(e.target).parents('tr').data('id');
-        $("#paymentDateLabel").text($(e.target).parents("div.dropdown").find("span.invoice_id").text());
-        $("#paymentDateModal #target_id").val(target_id);
-        $('#paymentDateModal').on('hidden.bs.modal', function (e) {
+        this.$("#paymentDateLabel").text($(e.target).parents("div.dropdown").find("span.invoice_id").text());
+        this.$("#paymentDateModal #target_id").val(target_id);
+        this.$('#paymentDateModal').on('hidden.bs.modal', function (e) {
             $(this).find('form')[0].reset();
         });
-        $('#paymentDateModal').modal('show');
+        this.$('#paymentDateModal').modal('show');
     },
     changeExpDate: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var note = $("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
-        return new Model('account.move.line').call('write', [[parseInt($("#paymentDateModal #target_id").val(), 10)], {expected_pay_date: formats.parse_value($("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
-            $('#paymentDateModal').modal('hide');
+        var note = this.$("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+        return new Model('account.move.line').call('write', [[parseInt(this.$("#paymentDateModal #target_id").val())], {expected_pay_date: formats.parse_value(this.$("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
+            this.$('#paymentDateModal').modal('hide');
             location.reload(true);
         });
     },
@@ -184,7 +184,7 @@ var FollowupReportWidget = ReportWidget.extend({
     start: function() {
         $(document).on("keypress", this, this.onKeyPress);
         var l10n = core._t.database.parameters;
-        var $datetimepickers = $('.o_account_reports_datetimepicker');
+        var $datetimepickers = this.$('.o_account_reports_datetimepicker');
         var options = {
             language : moment.locale(),
             format : time.strftime_to_moment_format(l10n.date_format),

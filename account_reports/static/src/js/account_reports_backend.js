@@ -14,18 +14,15 @@ var ReportWidget = require('account_reports.ReportWidget');
 var QWeb = core.qweb;
 
 var account_report_generic = Widget.extend(ControlPanelMixin, {
+    // Stores all the parameters of the action.
     init: function(parent, action) {
         var self = this;
-        this.action_id = action.id;
         this.actionManager = parent;
         this.base_url = action.context.url;
         this.report_id = action.context.id ? parseInt(action.context.id, 10) : undefined;
         this.report_model = action.context.model;
-        this.given_context = {}
+        this.given_context = {};
         var url = this.base_url;
-        if (action.context.addUrl) {
-            url += action.context.addUrl;
-        }
         if (action.context.addActiveId) {
             url += action.context.active_id;
         }
@@ -34,56 +31,75 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         }
         self._super(parent);
     },
+    willStart: function () {
+        return this.get_html();
+    },
+    // Sets the html of the page, then creates a report widget and sets it on the page.
+    start: function() {
+        this.$el.html(this.html);
+        var report_widget = new ReportWidget(this.actionManager);
+        report_widget.setElement(this.$el);
+        report_widget.start(this.context);
+        return this._super();
+    },
+    /* When the report has to be reloaded with a new context (the user has chosen new options).
+       Fetches the html again with the new options then sets the report widget. */
     restart: function(given_context) {
         var self = this;
         this.given_context = given_context;
-        return this.willStart().then(function() {
-            return self.start()
+        return this.get_html().then(function() {
+            self.$el.html(self.html);
+            var report_widget = new ReportWidget(self.actionManager);
+            report_widget.setElement(self.$el);
+            report_widget.start(self.context);
         });
     },
-    willStart: function () {
+    // Fetches the html
+    get_html: function() {
         var self = this;
         var id = this.report_id ? [this.report_id] : [];
-        return new Model(this.report_model).call('get_report_type', [id]).then(function (result) {
+        return new Model(this.report_model).call('get_report_type', [id]).then(function (result) { // Get the report_type
             self.report_type = result;
-            return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) {
+            return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) { // Get the dictionnary context name -> report model
                 self.context_model = new Model(JSON.parse(result)[self.report_model]);
                 self.page = 1;
-                // Fetching the context_id or creating one if none exist.
+                // Fetch the context_id or create one if none exist.
+                // Look for a context with create_uid = current user (and with possibly a report_id)
                 var domain = [['create_uid', '=', self.session.uid]];
                 if (self.report_id) {
                     domain.push(['report_id', '=', parseInt(self.report_id, 10)]);
                 }
                 return self.context_model.query(['id'])
                 .filter(domain).first().then(function (result) {
-                    var post_function = function () {
+                    var post_function = function () { // Finally, actually get the html after giving the context.
                         return self.context_model.call('get_html', [self.context_id, self.given_context]).then(function (result) {
                             self.html = result;
                             return self.post_load();
                         });
                     };
-                    if(result && result.length > 1 && ((self.given_context.force_account && self.report_model == 'account.general.ledger') || self.given_context.force_fy)) {
-                        // We need to delete the old context to create a new one with the forced values.
+                    if(result && result.length > 0 && (self.given_context.force_account || self.given_context.force_fy)) { // If some values have to be forced
+                        // Delete the old context to create a new one with the forced values.
                         return self.context_model.call('unlink', [result.id]);
                         result = null;
                     }
+                    // If no context is found (or it has been deleted above), create a new one
                     if(!result) {
                         var create_vals = {};
-                        if (self.report_model == 'account.financial.html.report') {
+                        if (self.report_id) { // In some cases, a report_id needs to be given
                             create_vals.report_id = self.report_id;
                         }
-                        if (self.given_context.force_account && self.report_model == 'account.general.ledger') {
+                        if (self.given_context.force_account) { // Force the account in the new context
                             create_vals.unfolded_accounts = [(4, self.given_context.force_account)];
                         }
-                        if (self.given_context.force_fy) {
+                        if (self.given_context.force_fy) { // Force the financial year in the new context
                             create_vals.force_fy = true;
                         }
-                        return self.context_model.call('create', [create_vals]).then(function (result) {
+                        return self.context_model.call('create', [create_vals]).then(function (result) { // Eventually, create the report
                             self.context_id = result;
                             return post_function();
                         })
                     }
-                    else {
+                    else { // If the context was found, simply store its id
                         self.context_id = result.id;
                         return post_function();
                     }
@@ -91,6 +107,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             });
         });
     },
+    // Updates the control panel and render the elements that have yet to be rendered
     update_cp: function() {
         if (!this.$buttons) {
             this.render_buttons();
@@ -107,6 +124,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         };
         return this.update_control_panel(status);
     },
+    // Once the html is loaded, fetches the context, the company_id, the fy, if there is xml export available and the company ids and names.
     post_load: function() {
         if (this.report_model == 'account.followup.report' && self.given_context.followup_all) {
             return this.update_cp();
@@ -143,21 +161,13 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             });
         }
     },
-    start: function() {
-        this.$el.html(this.html);
-        this.$el.contents().click(this.outbound_link.bind(this));
-        var report_widget = new ReportWidget();
-        report_widget.setElement(this.$el);
-        report_widget.start();
-        return this._super();
-    },
     do_show: function() {
         this._super();
         this.update_cp();
     },
     render_buttons: function() {
         var self = this;
-        if (this.report_model == 'account.followup.report') {
+        if (this.report_model == 'account.followup.report') { // No buttons for followups
             return '';
         }
         this.$buttons = $(QWeb.render("accountReports.buttons", {xml_export: this.xml_export}));
@@ -168,11 +178,12 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             window.open(self.base_url + '?xls', '_blank')
         });
         this.$buttons.find('.o_account-widget-xml').bind('click', function () {
+            // For xml exports, first check if the export can be done
             return new Model('account.financial.html.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
                 if (check === true) {
                     window.open(self.base_url + '?xml', '_blank')
                 }
-                else {
+                else { // If it can't be done, show why.
                     if (!self.$errorModal) {
                         self.$errorModal = $(QWeb.render("accountReports.errorModal"));
                     }
@@ -233,6 +244,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         if (this.report_type == 'date_range_extended') {
             return '';
         }
+        // Render the searchview buttons and bind them to the correct actions
         this.$searchview_buttons = $(QWeb.render("accountReports.searchView", {report_type: this.report_type, context: this.context}));
         this.$dateFilter = this.$searchview_buttons.siblings('.o_account_reports_date-filter');
         this.$dateFilterCmp = this.$searchview_buttons.siblings('.o_account_reports_date-filter-cmp');
@@ -249,22 +261,22 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         this.$CustomCmp = this.$dateFilterCmp.find('.o_account_reports_custom-cmp');
         this.$useCustomCmp.bind('click', function () {self.toggle_filter(self.$useCustomCmp, self.$CustomCmp);});
         this.$searchview_buttons.find('.o_account_reports_one-filter').bind('click', function (event) {
-            self.onChangeDateFilter(event);
-            $('.o_account_reports_datetimepicker input').each(function () {
+            self.onChangeDateFilter(event); // First trigger the onchange
+            $('.o_account_reports_datetimepicker input').each(function () { // Parse all the values of the date pickers
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             })
-            var report_context = {
+            var report_context = { // Create the context that will be given to the restart method
                 date_filter: $(event.target).parents('li').data('value'),
                 date_from: self.$searchview_buttons.find("input[name='date_from']").val(),
                 date_to: self.$searchview_buttons.find("input[name='date_to']").val(),
             };
-            if (self.date_filter_cmp != 'no_comparison') {
+            if (self.date_filter_cmp != 'no_comparison') { // Add elements to the context if needed
                 report_context.date_from_cmp = self.$searchview_buttons.find("input[name='date_from_cmp']").val();
                 report_context.date_to_cmp = self.$searchview_buttons.find("input[name='date_to_cmp']").val();
             }
-            self.restart(report_context);
+            self.restart(report_context); // Then restart the report
         });
-        this.$searchview_buttons.find('.o_account_reports_one-filter-cmp').bind('click', function (event) {
+        this.$searchview_buttons.find('.o_account_reports_one-filter-cmp').bind('click', function (event) { // Same for the comparison filter
             self.onChangeCmpDateFilter(event);
             $('.o_account_reports_datetimepicker input').each(function () {
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
@@ -280,12 +292,12 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             }
             self.restart(report_context);
         });
-        this.$searchview_buttons.find('.o_account_reports_one-filter-bool').bind('click', function (event) {
+        this.$searchview_buttons.find('.o_account_reports_one-filter-bool').bind('click', function (event) { // Same for the boolean filters
             var report_context = {};
             report_context[$(event.target).parents('li').data('value')] = !$(event.target).parents('li').hasClass('selected');
             self.restart(report_context);
         });
-        if (this.context.multi_company) {
+        if (this.context.multi_company) { // Same for th ecompany filter
             this.$searchview_buttons.find('.o_account_reports_one-company').bind('click', function (event) {
                 var report_context = {};
                 var value = $(event.target).parents('li').data('value');
@@ -299,9 +311,9 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             });
         }
         this.$searchview_buttons.find('li').bind('click', function (event) {event.stopImmediatePropagation();});
-        var l10n = core._t.database.parameters;
+        var l10n = core._t.database.parameters; // Get the localisation parameters
         var $datetimepickers = this.$searchview_buttons.find('.o_account_reports_datetimepicker');
-        var options = {
+        var options = { // Set the options for the datetimepickers
             language : moment.locale(),
             format : time.strftime_to_moment_format(l10n.date_format),
             icons: {
@@ -309,15 +321,15 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             },
             pickTime: false,
         }
-        $datetimepickers.each(function () {
+        $datetimepickers.each(function () { // Start each datetimepicker
             $(this).datetimepicker(options);
-            if($(this).data('default-value')) {
+            if($(this).data('default-value')) { // Set its default value if there is one
                 $(this).data("DateTimePicker").setValue(moment($(this).data('default-value')));
             }
         })
-        if (this.context.date_filter != 'custom') {
-            this.toggle_filter(this.$useCustomDates, this.$CustomDates, false);
-            this.$dateFilter.bind('hidden.bs.dropdown', function () {self.toggle_filter(self.$useCustomDates, self.$CustomDates, false);});
+        if (this.context.date_filter != 'custom') { // For each foldable element in the dropdowns
+            this.toggle_filter(this.$useCustomDates, this.$CustomDates, false); // First toggle it so it is closed
+            this.$dateFilter.bind('hidden.bs.dropdown', function () {self.toggle_filter(self.$useCustomDates, self.$CustomDates, false);}); // When closing the dropdown, also close the foldable element
         }
         if (this.context.date_filter_cmp != 'previous_period') {
             this.toggle_filter(this.$usePreviousPeriod, this.$previousPeriod, false);
@@ -332,52 +344,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             this.$dateFilterCmp.bind('hidden.bs.dropdown', function () {self.toggle_filter(self.$useCustomCmp, self.$CustomCmp, false);});
         }
         return this.$searchview_buttons;
-    },
-    outbound_link: function(e) {
-        if ($(e.target).is('.o_account_reports_web-action')) {
-            var self = this
-            var action_id = $(e.target).data('action-id');
-            var action_name = $(e.target).data('action-name');
-            var active_id = $(e.target).data('active-id');
-            var res_model = $(e.target).data('res-model');
-            var force_context = $(e.target).data('force-context');
-            var additional_context = {}
-            if (active_id) {
-                additional_context = {active_id: active_id}
-            }
-            if (res_model && active_id) {
-                return this.do_action({
-                    type: 'ir.actions.act_window',
-                    res_model: res_model,
-                    res_id: active_id,
-                    views: [[false, 'form']],
-                    target: 'current'
-                });
-            }
-            if (!_.isUndefined(force_context)) {
-                var context = {
-                    date_filter: this.context.date_filter,
-                    date_filter_cmp: this.context.date_filter_cmp,
-                    date_from: self.report_type != 'no_date_range' ? this.context.date_from : 'none',
-                    date_to: this.context.date_to,
-                    periods_number: this.context.periods_number,
-                    date_from_cmp: this.context.date_from_cmp,
-                    date_to_cmp: this.context.date_to_cmp,
-                    cash_basis: this.context.cash_basis,
-                    all_entries: this.context.all_entries,
-                };
-                additional_context.context = context;
-                additional_context.force_context = true;
-            }
-            if (action_name && !action_id) {
-                var dataModel = new Model('ir.model.data');
-                var res = action_name.split('.')
-                return dataModel.call('get_object_reference', [res[0], res[1]]).then(function (result) {
-                    return self.do_action(result[1], {additional_context: additional_context});
-                });
-            }
-            this.do_action(action_id, {additional_context: additional_context});
-        }
     },
     onChangeCmpDateFilter: function(event, fromDateFilter) {
         var filter_cmp = (_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.context.date_filter_cmp;

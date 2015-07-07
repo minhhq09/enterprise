@@ -20,7 +20,6 @@ var ReportWidget = Widget.extend({
         'click .saveFootNote': 'saveFootNote',
         'click span.aml': 'displayMoveLine',
         'click .fa-trash-o': 'rmContent',
-        'click .closeSummary': 'rmContent',
         'click .o_account_reports_saved-summary > span': 'editSummary',
         "change *[name='date_filter']": 'onChangeDateFilter',
         "change *[name='date_filter_cmp']": 'onChangeCmpDateFilter',
@@ -33,6 +32,69 @@ var ReportWidget = Widget.extend({
         'click button#saveFootNote': 'saveFootNote',
         'click .o_account_reports_add-footnote': 'footnoteFromDropdown',
         'click .o_account_reports_to-graph': 'displayMoveLinesByAccountGraph',
+        'click .o_account_reports_web-action': 'outboundLink',
+    },
+    start: function(context) {
+        var self = this;
+        this.context = context;
+        QWeb.add_template("/account_reports/static/src/xml/account_report_financial_line.xml");
+        this.$('[data-toggle="tooltip"]').tooltip() // start the tooltip widget
+        this.curFootNoteTarget;
+        var res = this._super.apply(this, arguments);;
+        var report_name = window.$("div.o_account_reports_page").data("report-name");
+        Session.on('error', this, function(error) { // Show the error modal when a session error happens
+            this.$('#report_error').modal('show');
+        });
+        var load_info = new Model('account.report.context.common').call('get_context_name_by_report_name_json').then(function (result) { // load the dictionnary
+            self.context_by_reportname = JSON.parse(result);
+        });
+        $(window).on("keydown", this, this.onKeyPress); // Bind key press to the right function
+        return $.when(res, load_info);
+    },
+    // Used to trigger actions
+    outboundLink: function(e) {
+        var self = this
+        var action_id = $(e.target).data('action-id');
+        var action_name = $(e.target).data('action-name');
+        var active_id = $(e.target).data('active-id');
+        var res_model = $(e.target).data('res-model');
+        var force_context = $(e.target).data('force-context');
+        var additional_context = {}
+        if (active_id) { 
+            additional_context = {active_id: active_id}
+        }
+        if (res_model && active_id) { // Open the view form of the given model
+            return this.do_action({
+                type: 'ir.actions.act_window',
+                res_model: res_model,
+                res_id: active_id,
+                views: [[false, 'form']],
+                target: 'current'
+            });
+        }
+        if (!_.isUndefined(force_context)) {
+            var context = {
+                date_filter: this.context.date_filter,
+                date_filter_cmp: this.context.date_filter_cmp,
+                date_from: self.report_type != 'no_date_range' ? this.context.date_from : 'none',
+                date_to: this.context.date_to,
+                periods_number: this.context.periods_number,
+                date_from_cmp: this.context.date_from_cmp,
+                date_to_cmp: this.context.date_to_cmp,
+                cash_basis: this.context.cash_basis,
+                all_entries: this.context.all_entries,
+            };
+            additional_context.context = context;
+            additional_context.force_context = true;
+        }
+        if (action_name && !action_id) { // If an action name is given, resolve it then do_action
+            var dataModel = new Model('ir.model.data');
+            var res = action_name.split('.')
+            return dataModel.call('get_object_reference', [res[0], res[1]]).then(function (result) {
+                return self.do_action(result[1], {additional_context: additional_context});
+            });
+        }
+        this.do_action(action_id, {additional_context: additional_context});
     },
     hideDropdown: function(e) {
         this.$('.dropdown-menu').hide();
@@ -42,187 +104,133 @@ var ReportWidget = Widget.extend({
         e.preventDefault();
         $(e.target).parents('.dropdown').find('.dropdown-menu').toggle();
     },
+    // From the modal, create the footnote
     saveFootNote: function(e) {
         self = this;
-        var report_name = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').attr("data-report-name");
-        var context_id = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').attr("data-context");
-        var note = $("#note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+        var report_name = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').data("report-name"); // get the report name and context
+        var context_id = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').data("context");
+        var note = this.$("#note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' '); // Get the note and strip off extra spaces and line returns
         var contextModel = new Model(this.context_by_reportname[report_name]);
-        return contextModel.call('get_next_footnote_number', [[parseInt(context_id, 10)]]).then(function (footNoteSeqNum) {
-            self.curFootNoteTarget.after(QWeb.render("supFootNoteSeqNum", {footNoteSeqNum: footNoteSeqNum}));
-            return contextModel.query(['footnotes_manager_id'])
+        return contextModel.call('get_next_footnote_number', [[parseInt(context_id, 10)]]).then(function (footNoteSeqNum) { // Get the next sequence number
+            self.curFootNoteTarget.after(QWeb.render("supFootNoteSeqNum", {footNoteSeqNum: footNoteSeqNum})); // Render the link to the footnote in the report
+            return contextModel.query(['footnotes_manager_id']) // Store the footnote
             .filter([['id', '=', context_id]]).first().then(function (context) {
-                new Model('account.report.footnotes.manager').call('add_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], $("#type").val(), $("#target_id").val(), $("#column").val(), footNoteSeqNum, note]);
-                $('#footnoteModal').find('form')[0].reset();
-                $('#footnoteModal').modal('hide');
-                $("div.o_account_reports_page").append(QWeb.render("savedFootNote", {num: footNoteSeqNum, note: note}));
+                new Model('account.report.footnotes.manager').call('add_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], this.$("#type").val(), this.$("#target_id").val(), this.$("#column").val(), footNoteSeqNum, note]);
+                this.$('#footnoteModal').find('form')[0].reset(); // Close the modal
+                this.$('#footnoteModal').modal('hide');
+                this.$("div.o_account_reports_page").append(QWeb.render("savedFootNote", {num: footNoteSeqNum, note: note})); // Render the footnote at the bottom
             });
         });
     },
     onKeyPress: function(e) {
         if ((e.which === 70) && (e.ctrlKey || e.metaKey) && e.shiftKey) { // Fold all
-            $(".o_account_reports_foldable").trigger('click');
+            this.$(".o_account_reports_foldable").trigger('click');
         }
         else if ((e.which === 229) && (e.ctrlKey || e.metaKey) && e.shiftKey) { // Unfold all
-            $(".o_account_reports_unfoldable").trigger('click');
+            this.$(".o_account_reports_unfoldable").trigger('click');
         }
     },
-    start: function() {
-        var self = this;
-        QWeb.add_template("/account_reports/static/src/xml/account_report_financial_line.xml");
-        this.$('[data-toggle="tooltip"]').tooltip()
-        this.curFootNoteTarget;
-        var res = this._super.apply(this, arguments);;
-        var report_name = window.$("div.o_account_reports_page").attr("data-report-name");
-        Session.on('error', this, function(error){
-            $('#report_error').modal('show');
-        });
-        var load_info = new Model('account.report.context.common').call('get_context_name_by_report_name_json').then(function (result) {
-            self.context_by_reportname = JSON.parse(result);
-        });
-        $(window).on("keydown", this, this.onKeyPress);
-        return $.when(res, load_info);
-    },
+    // Changes the placeholder into an editable textarea and give it the focus
     onClickSummary: function(e) {
         e.stopPropagation();
         $(e.target).parents("div.o_account_reports_summary").html(QWeb.render("editSummary"));
         this.$("textarea[name='summary']").focus();
     },
+    // When the user is done editing the summary
     saveSummary: function(e) {
         e.stopPropagation();
-        var report_name = $(e.target).parents("div.o_account_reports_page").attr("data-report-name");
-        var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
+        var report_name = $(e.target).parents("div.o_account_reports_page").data("report-name");
+        var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         var summary = this.$("textarea[name='summary']").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
-        if (summary != '')
+        if (summary != '') // If it isn't empty, display it normally
             $(e.target).parents("div.o_account_reports_summary").html(QWeb.render("savedSummary", {summary : summary}));
-        else
+        else // If it's empty, delete the summary and display the default placeholder
             $(e.target).parents("div.o_account_reports_summary").html(QWeb.render("addSummary"));
         return new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], summary]);
     },
+    // Displays the footnote modal
     footnoteFromDropdown: function(e) {
         e.stopPropagation();
         e.preventDefault();
         self = this;
-        self.curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first");
-        if(self.curFootNoteTarget.parents('div.dropdown').find('sup').length == 0) {
-            var type = $(e.target).parents('tr').data('type');
+        self.curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first"); // Save the current footnote target that will be used in the saveFootNote method
+        if(self.curFootNoteTarget.parents('div.dropdown').find('sup').length == 0) { // Make sure there's no footnote yet
+            var type = $(e.target).parents('tr').data('type'); // Store the type, target_id and column in hidden fields
             var target_id = $(e.target).parents('tr').data('id');
             var column = $(e.target).parents('td').index();
-            $("#footnoteModal #type").val(type);
-            $("#footnoteModal #target_id").val(target_id);
-            $("#footnoteModal #column").val(column);
-            $('#footnoteModal').on('hidden.bs.modal', function (e) {
+            this.$("#footnoteModal #type").val(type);
+            this.$("#footnoteModal #target_id").val(target_id);
+            this.$("#footnoteModal #column").val(column);
+            this.$('#footnoteModal').on('hidden.bs.modal', function (e) { // Resets the modal form when closing it
                 $(this).find('form')[0].reset();
             });
-            $('#footnoteModal').modal('show');
+            this.$('#footnoteModal').modal('show'); // And display it
         }
     },
+    // When clicking on the summary, display a textarea to edit it.
     editSummary: function(e) {
         e.stopPropagation();
         e.preventDefault;
         var $el = $(e.target);
-        var height = Math.max($el.height(), 100);
-        var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, '');
+        var height = Math.max($el.height(), 100); // Compute the height that will be needed
+        var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, ''); // Remove unnecessary spaces and line returns
         var par = $el.parents("div.o_account_reports_summary")
-        $el.parents("div.o_account_reports_summary").html(QWeb.render("editSummary", {summary: text}));
-        par.find("textarea").height(height);
-        this.$("textarea[name='summary']").focus();
+        $el.parents("div.o_account_reports_summary").html(QWeb.render("editSummary", {summary: text})); // Render the textarea
+        par.find("textarea").height(height); // Give it the right height
+        this.$("textarea[name='summary']").focus(); // And the focus
     },
     clickPencil: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        self = this;
-        if ($(e.target).parent().is('.o_account_reports_next-action')) {
-            self.setNextAction(e);
-        }
-        else if ($(e.target).parents("div.o_account_reports_summary, p.footnote").length > 0) {
-            var num = 0;
-            if ($(e.target).parent().parent().is("p.footnote")) {
-                $(e.target).parent().parent().attr('class', 'footnoteEdit')
-                var $el = $(e.target).parent().parent().find('span.text');
-                var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, '');
-                text = text.split('.');
-                var num = text[0];
-                text = text[1];
-                $el.html(QWeb.render("editContent", {num: num, text: text}));
-            }
-            else {
-                var $el = $(e.target).parents('div.o_account_reports_saved-summary').children('span');
-                var height = $el.height();
-                var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, '');
-                var par = $el.parent()
-                $el.replaceWith(QWeb.render("editContent", {num: 0, text: text}));
-                par.find("textarea").height(height);
-            }
-        }
-        else if ($(e.target).parent().parent().find("sup").length == 0) {
-            self.curFootNoteTarget = $(e.target).parent().parent();
-            var type = $(e.target).parents('tr').data('type');
-            var target_id = $(e.target).parents('tr').data('id');
-            var column = $(e.target).parents('td').index();
-            $("#footnoteModal #type").val(type);
-            $("#footnoteModal #target_id").val(target_id);
-            $("#footnoteModal #column").val(column);
-            $('#footnoteModal').on('hidden.bs.modal', function (e) {
-                $(this).find('form')[0].reset();
-            });
-            $('#footnoteModal').modal('show');
+        if ($(e.target).parents("p.footnote").length > 0) { // If it's to edit a footnote at the bottom
+            $(e.target).parents('.footnote').attr('class', 'footnoteEdit')
+            var $el = $(e.target).parents('.footnoteEdit').find('span.text');
+            var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, ''); // Remove unnecessary spaces and line returns
+            text = text.split('.'); // The text needs to be split into the number of the footnote and the actually content of the footnot
+            var num = text[0];
+            text = text[1];
+            $el.html(QWeb.render("editContent", {num: num, text: text})); // Render the textarea to edit the footnote.
         }
     },
     saveContent: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var report_name = $(e.target).parents("div.o_account_reports_page").attr("data-report-name");
-        var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
-        var text = $(e.target).siblings('textarea').val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+        var report_name = $(e.target).parents("div.o_account_reports_page").data("report-name");
+        var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
+        var text = $(e.target).siblings('textarea').val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' '); // Remove unnecessary spaces and line returns
         var footNoteSeqNum = $(e.target).parents('p.footnoteEdit').text().split('.')[0];
         if ($(e.target).parents("p.footnoteEdit").length > 0) {
-            $(e.target).parents("p.footnoteEdit").attr('class', 'footnote')
+            $(e.target).parents("p.footnoteEdit").attr('class', 'footnote') // Remove textarea and change back class name
             $(e.target).siblings('textarea').replaceWith(text);
-            new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id'])
+            new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id']) // And store the footnote
             .filter([['id', '=', context_id]]).first().then(function (context) {
                 new Model('account.report.footnotes.manager').call('edit_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], parseInt(footNoteSeqNum, 10), text]);
             });
-        }
-        else {
-            if (text != '')
-                $(e.target).parents("div.o_account_reports_summary").html(QWeb.render("savedSummary", {summary : text}));
-            else
-                $(e.target).parents("div.o_account_reports_summary").html(QWeb.render("addSummary"));
-            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], text]);
         }
         $(e.target).remove();
     },
     rmContent: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        if ($(e.target).parents("div.o_account_reports_summary").length > 0) {
-            var report_name = $(e.target).parents("div.o_account_reports_page").attr("data-report-name");
-            var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
-            $(e.target).parent().parent().replaceWith(QWeb.render("addSummary"));
-            new Model(this.context_by_reportname[report_name]).call('edit_summary', [[parseInt(context_id, 10)], '']);
-        }
-        else {
-            var num = $(e.target).parent().parent().text().split('.')[0].replace(/ /g,'').replace(/\r?\n/g,'');
-            this.$("sup b a:contains('" + num + "')").parents('sup').remove();
-            $(e.target).parent().parent().remove();
-            var report_name = window.$("div.o_account_reports_page").attr("data-report-name");
-            var context_id = window.$("div.o_account_reports_page").attr("data-context");
-            new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id'])
-            .filter([['id', '=', context_id]]).first().then(function (context) {
-                new Model('account.report.footnotes.manager').call('remove_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], parseInt(num, 10)]);
-            });
-        }
+        var num = $(e.target).parents('.footnote').text().split('.')[0].replace(/ /g,'').replace(/\r?\n/g,'');
+        this.$("sup b a:contains('" + num + "')").parents('sup').remove(); // Remove the footnote number in the report
+        $(e.target).parents('footnote').remove();
+        var report_name = window.$("div.o_account_reports_page").data("report-name");
+        var context_id = window.$("div.o_account_reports_page").data("context");
+        new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id']) // And delete the footnote
+        .filter([['id', '=', context_id]]).first().then(function (context) {
+            new Model('account.report.footnotes.manager').call('remove_footnote', [[parseInt(context.footnotes_manager_id[0], 10)], parseInt(num, 10)]);
+        });
     },
     fold: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var report_name = $(e.target).parents("div.o_account_reports_page").attr("data-report-name");
-        var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
+        var report_name = $(e.target).parents("div.o_account_reports_page").data("report-name");
+        var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         var el;
         var $el;
-        var $nextEls = $(e.target).parents('tr').nextAll();
-        for (el in $nextEls) {
+        var $nextEls = $(e.target).parents('tr').nextAll(); // Get all the next lines
+        for (el in $nextEls) { // While domain lines are found, keep hiding them. Stop when they aren't domain lines anymore
             $el = $($nextEls[el]).find("td span.o_account_reports_domain-line-1, td span.o_account_reports_domain-line-2, td span.o_account_reports_domain-line-3");
             if ($el.length == 0)
                 break;
@@ -231,7 +239,7 @@ var ReportWidget = Widget.extend({
             }
         }
         var active_id = $(e.target).parents('tr').find('td.o_account_reports_foldable').data('id');
-        $(e.target).parents('tr').find('td.o_account_reports_foldable').attr('class', 'o_account_reports_unfoldable ' + active_id)
+        $(e.target).parents('tr').find('td.o_account_reports_foldable').attr('class', 'o_account_reports_unfoldable ' + active_id) // Change the class, rendering, and remove line from model
         $(e.target).parents('tr').find('span.o_account_reports_foldable').replaceWith(QWeb.render("unfoldable", {lineId: active_id}));
         $(e.target).parents('tr').toggleClass('o_account_reports_unfolded');
         return new Model(this.context_by_reportname[report_name]).call('remove_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]);
@@ -240,42 +248,39 @@ var ReportWidget = Widget.extend({
         e.stopPropagation();
         e.preventDefault();
         var self = this;
-        var report_name = window.$("div.o_account_reports_page").attr("data-report-name");
-        var context_id = window.$("div.o_account_reports_page").attr("data-context");
+        var report_name = window.$("div.o_account_reports_page").data("report-name");
+        var context_id = window.$("div.o_account_reports_page").data("context");
         var active_id = $(e.target).parents('tr').find('td.o_account_reports_unfoldable').data('id');
         var contextObj = new Model(this.context_by_reportname[report_name]);
-        return contextObj.call('add_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]).then(function (result) {
+        return contextObj.call('add_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]).then(function (result) { // First add the line to the model
             var el;
             var $el;
             var $nextEls = $(e.target).parents('tr').nextAll();
             var isLoaded = false;
-            for (el in $nextEls) {
+            for (el in $nextEls) { // Look at all the element
                 $el = $($nextEls[el]).find("td span.o_account_reports_domain-line-1, td span.o_account_reports_domain-line-2, td span.o_account_reports_domain-line-3");
-                if ($el.length == 0)
+                if ($el.length == 0) // If you find an element that is not a domain line, break out
                     break;
-                else {
+                else { // If you find an domain line element, it means the element has already been loaded and you only need to show it.
                     $($el[0]).parents("tr").show();
                     isLoaded = true;
                 }
             }
-            if (!isLoaded) {
+            if (!isLoaded) { // If the lines have not yet been loaded
                 var $cursor = $(e.target).parents('tr');
                 new Model('account.report.context.common').call('get_full_report_name_by_report_name', [report_name]).then(function (result) {
                     var reportObj = new Model(result);
-                    var f = function (lines) {
-                        new Model(self.context_by_reportname[report_name]).query(['all_entries', 'cash_basis'])
-                        .filter([['id', '=', context_id]]).first().then(function (context) {
-                            new Model(self.context_by_reportname[report_name]).call('get_columns_types', [[parseInt(context_id, 10)]]).then(function (types) {
-                                var line;
-                                lines.shift();
-                                for (line in lines) {
-                                    $cursor.after(QWeb.render("report_financial_line", {l: lines[line], context: context, types: types}));
-                                    $cursor = $cursor.next();
-                                }
-                            });
+                    var f = function (lines) {// After loading the line
+                        new Model(self.context_by_reportname[report_name]).call('get_columns_types', [[parseInt(context_id, 10)]]).then(function (types) {
+                            var line;
+                            lines.shift();
+                            for (line in lines) { // Render each line
+                                $cursor.after(QWeb.render("report_financial_line", {l: lines[line], types: types}));
+                                $cursor = $cursor.next();
+                            }
                         });
                     };
-                    if (report_name == 'financial_report') {
+                    if (report_name == 'financial_report') { // Fetch the report_id first if needed
                         contextObj.query(['report_id'])
                         .filter([['id', '=', context_id]]).first().then(function (context) {
                             reportObj.call('get_lines', [[parseInt(context.report_id[0], 10)], parseInt(context_id, 10), parseInt(active_id, 10)]).then(f);
@@ -286,7 +291,7 @@ var ReportWidget = Widget.extend({
                     }
                 });
             }
-            $(e.target).parents('tr').find('td.o_account_reports_unfoldable').attr('class', 'o_account_reports_foldable ' + active_id)
+            $(e.target).parents('tr').find('td.o_account_reports_unfoldable').attr('class', 'o_account_reports_foldable ' + active_id) // Change the class, and rendering of the unfolded line
             $(e.target).parents('tr').find('span.o_account_reports_unfoldable').replaceWith(QWeb.render("foldable", {lineId: active_id}));
             $(e.target).parents('tr').toggleClass('o_account_reports_unfolded');
         });
