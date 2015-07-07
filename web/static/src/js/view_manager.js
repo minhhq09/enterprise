@@ -4,7 +4,6 @@ odoo.define('web.ViewManager', function (require) {
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var config = require('web.config');
 var core = require('web.core');
-var data = require('web.data');
 var Model = require('web.Model');
 var pyeval = require('web.pyeval');
 var SearchView = require('web.SearchView');
