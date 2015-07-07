@@ -1199,11 +1199,11 @@ odoo.define_section('search.serialization', ['web.search_inputs', 'web.SearchVie
         var $fix = $('#qunit-fixture');
         return view.appendTo($fix)
             .done(function () {
-                assert.ok(view.$buttons.find('.filters-menu').length,
+                assert.ok(view.$buttons.find('.o-filters-menu').length,
                    "filters menu has been drawn");
-                assert.ok(view.$buttons.find('.group-by-menu').length,
+                assert.ok(view.$buttons.find('.o-group-by-menu').length,
                    "group by menu has been drawn");
-                assert.ok(view.$buttons.find('.favorites-menu').length,
+                assert.ok(view.$buttons.find('.o-favorites-menu').length,
                    "favorites menu has been drawn");
             });
     });
@@ -1234,9 +1234,9 @@ odoo.define_section('search.filters', ['web.search_inputs', 'web.SearchView', 'w
 
         return view.appendTo($fix)
             .done(function () {
-                var $filters = view.$buttons.find('.filters-menu li'),
-                    $favorites = view.$buttons.find('.favorites-menu li'),
-                    $groupby = view.$buttons.find('.group-by-menu li');
+                var $filters = view.$buttons.find('.o-filters-menu li'),
+                    $favorites = view.$buttons.find('.o-favorites-menu li'),
+                    $groupby = view.$buttons.find('.o-group-by-menu li');
                 // 3 filters, 1 separator, 1 button add filter, 
                 // 1 filter condition menu, 1 apply button
                 assert.equal($filters.length, 7,
@@ -1266,7 +1266,7 @@ odoo.define_section('search.filters', ['web.search_inputs', 'web.SearchView', 'w
         var $fix = $('#qunit-fixture');
         return view.appendTo($fix)
             .done(function () {
-                var $fs = view.$buttons.find('.filters-menu li a');
+                var $fs = view.$buttons.find('.o-filters-menu li a');
                 $fs.eq(2).trigger('click');
                 assert.equal(view.query.length, 1, "click should have added a facet");
                 var facet = view.query.at(0);
@@ -1287,7 +1287,7 @@ odoo.define_section('search.filters', ['web.search_inputs', 'web.SearchView', 'w
         var $fix = $('#qunit-fixture');
         return view.appendTo($fix)
             .done(function () {
-                var $fs = view.$buttons.find('.filters-menu li a');
+                var $fs = view.$buttons.find('.o-filters-menu li a');
                 $fs.eq(2).trigger('click');
                 assert.equal(view.query.length, 1, "click should not have changed facet count");
                 var facet = view.query.at(0);
@@ -1314,7 +1314,7 @@ odoo.define_section('search.filters', ['web.search_inputs', 'web.SearchView', 'w
         var $fix = $('#qunit-fixture');
         return view.appendTo($fix)
             .done(function () {
-                var $fs = view.$buttons.find('.filters-menu li a');
+                var $fs = view.$buttons.find('.o-filters-menu li a');
                 // sanity check
                 assert.equal(view.query.length, 1, "query should have default facet");
                 assert.strictEqual(calls, 0);
@@ -1430,7 +1430,7 @@ odoo.define_section('search.filters.saved', ['web.search_inputs', 'web.SearchVie
                 var $li = view.favorite_menu.$el.find('li:first').click();
 
                 assert.ok($li.hasClass('selected'), "should check/select the filter's row");
-                assert.ok($li.hasClass("oe_searchview_custom_private"),
+                assert.ok($li.hasClass("o-searchview-custom-private"),
                     "should have private filter note/class");
                 assert.equal(view.query.length, 1, "should have only one facet");
                 var values = view.query.at(0).values;
@@ -1524,8 +1524,8 @@ odoo.define_section('search.filters.saved', ['web.search_inputs', 'web.SearchVie
         var $fix = $('#qunit-fixture');
         return view.appendTo($fix)
         .then(function () {
-            view.favorite_menu.$el.find('.oe-save-name input').first().val("filter name");
-            view.favorite_menu.$el.find('.oe-save-name button').click();
+            view.favorite_menu.$el.find('.o-save-name input').first().val("filter name");
+            view.favorite_menu.$el.find('.o-save-name button').click();
             return done.promise();
         });
     });
@@ -1542,9 +1542,9 @@ odoo.define_section('search.advanced', ['web.search_inputs', 'web.SearchView', '
             .done(function () {
                 var $filter_menu = view.filter_menu.$el;
                 // open advanced search (not actually useful)
-                $filter_menu.find('.oe-add-filter').click();
+                $filter_menu.find('.o-add-filter').click();
                 // select proposition (only one)
-                var $prop = $filter_menu.find('.oe-filter-condition');
+                var $prop = $filter_menu.find('.o-filter-condition');
                 // field select should have two possible values, dummy and id
                 assert.equal($prop.find('select:first option').length,
                       2, "advanced search should provide choice between two fields");
@@ -1553,13 +1553,13 @@ odoo.define_section('search.advanced', ['web.search_inputs', 'web.SearchView', '
                       'dummy',
                       "only field should be dummy");
                 // operator should be "contains"/'ilike'
-                assert.equal($prop.find('.searchview_extended_prop_op').val(),
+                assert.equal($prop.find('.o-searchview-extended-prop-op').val(),
                       'ilike', "default char operator should be ilike");
                 // put value in
-                $prop.find('.searchview_extended_prop_value input')
+                $prop.find('.o-searchview-extended-prop-value input')
                      .val("stupid value");
                 // validate advanced search
-                $filter_menu.find('button.oe-apply-filter').click();
+                $filter_menu.find('button.o-apply-filter').click();
                 // resulting search
                 assert.equal(view.query.length, 1, "search query should have a single facet");
                 var facet = view.query.at(0);
@@ -1581,26 +1581,26 @@ odoo.define_section('search.advanced', ['web.search_inputs', 'web.SearchView', '
             .done(function () {
                 var $filter_menu = view.filter_menu.$el;
                 // open advanced search (not actually useful)
-                $filter_menu.find('.oe-add-filter').click();
+                $filter_menu.find('.o-add-filter').click();
                 // open second condition
-                $filter_menu.find('a.oe-add-condition').click();
+                $filter_menu.find('button.o-add-condition').click();
 
                 // select first proposition
-                var $prop1 = $filter_menu.find('.oe-filter-condition:first');
-                $prop1.find('select.searchview_extended_prop_field').val("dummy").change();
-                $prop1.find('select.searchview_extended_prop_op').val('ilike');
-                $prop1.find('.searchview_extended_prop_value input')
+                var $prop1 = $filter_menu.find('.o-filter-condition:first');
+                $prop1.find('select.o-searchview-extended-prop-field').val("dummy").change();
+                $prop1.find('select.o-searchview-extended-prop-op').val('ilike');
+                $prop1.find('.o-searchview-extended-prop-value input')
                      .val("stupid value");
 
                 // select first proposition
-                var $prop2 = $filter_menu.find('.oe-filter-condition:last');
+                var $prop2 = $filter_menu.find('.o-filter-condition:last');
                 // need to trigger event manually or op not changed
-                $prop2.find('select.searchview_extended_prop_field').val('id').change();
-                $prop2.find('select.searchview_extended_prop_op').val('=');
-                $prop2.find('.searchview_extended_prop_value input')
+                $prop2.find('select.o-searchview-extended-prop-field').val('id').change();
+                $prop2.find('select.o-searchview-extended-prop-op').val('=');
+                $prop2.find('.o-searchview-extended-prop-value input')
                      .val(42);
                 // validate advanced search
-                $filter_menu.find('button.oe-apply-filter').click();
+                $filter_menu.find('button.o-apply-filter').click();
 
                 // resulting search
                 assert.equal(view.query.length, 1, "search query should have a single facet");

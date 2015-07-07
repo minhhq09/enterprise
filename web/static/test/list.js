@@ -21,7 +21,6 @@ odoo.define_section('list.buttons', ['web.ListView', 'web.data'], function (test
             throw new Error(JSON.stringify(_.toArray(arguments)));
         });
         mock.add('demo:search_read', function (args, kwargs) {
-            console.log(args);
             if (_.isEqual(args[0], [['id', 'in', [2]]])) {
                 return [];
             }

@@ -44,7 +44,7 @@ Tour.register({
         {
             title:     "click on Settings",
             element:   '.oe_application_menu_placeholder a[data-menu]:contains(Settings)',
-            waitNot:   '.oe_loading:visible, button.oe_form_button:contains(Apply).already_tested',
+            waitNot:   '.oe_loading:visible, button.o-form-button:contains(Apply).already_tested',
         },
 
         //  add technical features to admin user
@@ -64,7 +64,7 @@ Tour.register({
         },
         {
             title:     "click on Edit button",
-            element:   'button.oe_form_button_edit',
+            element:   'button.o_form_button_edit',
         },
         {
             title:     "click on Technical Features",
@@ -76,7 +76,7 @@ Tour.register({
         {
             title:     "click on Save User",
             waitFor:   'td:contains(Technical Features) + td input:checked:not(:disabled):visible',
-            element:   'button.oe_form_button_save',
+            element:   'button.o_form_button_save',
         },
 
         //  add technical features to demo user
@@ -96,7 +96,7 @@ Tour.register({
         },
         {
             title:     "click on Edit button",
-            element:   'button.oe_form_button_edit',
+            element:   'button.o_form_button_edit',
         },
         {
             title:     "click on Technical Features",
@@ -116,7 +116,7 @@ Tour.register({
         {
             title:     "click on Save User",
             waitFor:   'td:contains(Technical Features) + td input:checked:not(:disabled):visible',
-            element:   'button.oe_form_button_save',
+            element:   'button.o_form_button_save',
             onload: function () {
                 openmenu();
             },
@@ -249,10 +249,10 @@ Tour.register({
         {
             title:    "Select next action",
             onload: function () {
-                if ($(".oe_error_detail").size()) {
+                if ($(".o_error_detail").size()) {
                     console.log("Tour 'test_menu' has detected an error.");
                 }
-                if ($(".oe_dialog_warning").size()) {
+                if ($(".o_dialog_warning").size()) {
                     console.log("Tour 'test_menu' has detected a warning.");
                 }
 

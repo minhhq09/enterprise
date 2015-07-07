@@ -43,7 +43,7 @@ odoo.define_section('editor', ['web.ListEditor'], function (test, mock) {
                 tag: 'form',
                 attrs: {
                     version: '7.0',
-                    'class': 'oe_form_container'
+                    'class': 'o_list_editable_form'
                 },
                 children: children
             },
@@ -133,9 +133,6 @@ odoo.define_section('editor', ['web.ListEditor'], function (test, mock) {
         assert.expect(2);
 
         var warnings = 0;
-        core.bus.on('display_notification_warning', null, function () {
-            warnings++;
-        });
 
         var e = new ListEditor({
             dataset: new data.DataSetSearch(null, 'test.model'),
@@ -143,7 +140,12 @@ odoo.define_section('editor', ['web.ListEditor'], function (test, mock) {
             edition_view: function () {
                 return makeFormView([
                     field('a', {required: true}), field('b'), field('c') ]);
-            }
+            },
+            _trigger_up: function (event) {
+                if (event.name === 'display_warning') {
+                    warnings++;
+                }
+            },
         });
         var counter = 0;
         var $fix = $( "#qunit-fixture");
@@ -362,6 +364,7 @@ odoo.define_section('list.edition.onwrite', ['web.data', 'web.ListView'], functi
             return l.start_edition();
         })
         .then(function () {
+            debugger;
             $fix.find('.oe_form_field input').val("some value").change();
         })
         .then(function () {
