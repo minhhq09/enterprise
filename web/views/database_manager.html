@@ -21,14 +21,26 @@
         <script src="/web/static/lib/jquery.ba-bbq/jquery.ba-bbq.js" type="text/javascript"></script>
 
         <script src="/web/static/lib/jquery.validate/jquery.validate.js" type="text/javascript"></script>
-        <script src="/web/static/lib/jquery.autosize/jquery.autosize.js" type="text/javascript"></script>
+        <script src="/web/static/lib/autosize/autosize.js" type="text/javascript"></script>
         <script src="/web/static/lib/jquery.scrollTo/jquery.scrollTo.js" type="text/javascript"></script>
-        <script src="/web/static/lib/cleditor/jquery.cleditor.js" type="text/javascript"></script>
         <script src="/web/static/lib/jquery.textext/jquery.textext.js" type="text/javascript"></script>
         <script src="/web/static/lib/select2/select2.js" type="text/javascript"></script>
         <script src="/web/static/lib/jquery.ui/jquery-ui.js" type="text/javascript"></script>
         <script src="/web/static/lib/jquery.ui.notify/js/jquery.notify.js" type="text/javascript"></script>
-        <script src="/web/static/lib/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+
+            <script src="/web/static/lib/bootstrap/js/affix.js"></script>
+            <script src="/web/static/lib/bootstrap/js/alert.js"></script>
+            <script src="/web/static/lib/bootstrap/js/button.js"></script>
+            <script src="/web/static/lib/bootstrap/js/carousel.js"></script>
+            <script src="/web/static/lib/bootstrap/js/collapse.js"></script>
+            <script src="/web/static/lib/bootstrap/js/dropdown.js"></script>
+            <script src="/web/static/lib/bootstrap/js/modal.js"></script>
+            <script src="/web/static/lib/bootstrap/js/tooltip.js"></script>
+            <script src="/web/static/lib/bootstrap/js/popover.js"></script>
+            <script src="/web/static/lib/bootstrap/js/scrollspy.js"></script>
+            <script src="/web/static/lib/bootstrap/js/tab.js"></script>
+            <script src="/web/static/lib/bootstrap/js/transition.js"></script>
+
         <script src="/web/static/lib/backbone/backbone.js" type="text/javascript"></script>
         <script src="/web/static/lib/qweb/qweb2.js" type="text/javascript"></script>
         <script src="/web/static/lib/py.js/lib/py.js" type="text/javascript"></script>
@@ -39,13 +51,18 @@
         </script>
         <script type="text/javascript" src="/web/static/src/js/framework/class.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/translation.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/app_switcher.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/widgets/pager.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/widgets/progress_bar.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/ajax.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/time.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/mixins.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/widget.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/registry.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/session.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/framework/session_instance.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/model.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/framework/data_model.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/utils.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/core.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/formats.js"></script>
@@ -53,9 +70,7 @@
         <script type="text/javascript" src="/web/static/src/js/framework/pyeval.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/data.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/misc.js"></script>
-        <script type="text/javascript" src="/web/static/src/js/framework/session_instance.js"></script>
         <script type="text/javascript" src="/web/static/src/js/framework/crash_manager.js"></script>
-        <script type="text/javascript" src="/web/static/src/js/framework/barcode_events.js"></script>
         <script type="text/javascript" src="/web/static/src/js/action_manager.js"></script>
         <script type="text/javascript" src="/web/static/src/js/control_panel.js"></script>
         <script type="text/javascript" src="/web/static/src/js/view_manager.js"></script>
@@ -74,6 +89,9 @@
         <script type="text/javascript" src="/web/static/src/js/views/list_view.js"></script>
         <script type="text/javascript" src="/web/static/src/js/views/form_view.js"></script>
         <script type="text/javascript" src="/web/static/src/js/views/form_common.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/views/form_widgets.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/views/form_relational_widgets.js"></script>
+        <script type="text/javascript" src="/web/static/src/js/views/list_view_editable.js"></script>
         <script type="text/javascript" src="/web/static/src/js/views/search_view.js"></script>
         <script type="text/javascript" src="/web/static/src/js/views/search_filters.js"></script>
         <script type="text/javascript" src="/web/static/src/js/views/search_inputs.js"></script>
@@ -83,12 +101,11 @@
         <script type="text/javascript" src="/web/static/lib/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
         <link rel="stylesheet" href="/web/static/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
         <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
-        <link href="/web/static/lib/cleditor/jquery.cleditor.css" rel="stylesheet"/>
         <link href="/web/static/lib/jquery.textext/jquery.textext.css" rel="stylesheet"/>
         <link href="/web/static/lib/select2/select2.css" rel="stylesheet"/>
         <link href="/web/static/lib/jquery.ui/jquery-ui.css" rel="stylesheet"/>
         <link href="/web/static/lib/jquery.ui.notify/css/ui.notify.css" rel="stylesheet"/>
-        <link href="/web/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+        <link href="/web/static/lib/bootstrap/less/bootstrap.less" rel="stylesheet"/>
         <link href="/web/static/src/css/base.css" rel="stylesheet"/>
         <link href="/web/static/src/css/data_export.css" rel="stylesheet"/>
         <link href="/base/static/src/css/modules.css" rel="stylesheet"/>
@@ -105,37 +122,7 @@
             });
         </script>
     </head>
-    <body>
-        <nav id="oe_main_menu_navbar" class="navbar navbar-inverse" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>    
-            </div>
-            <div class="navbar-collapse collapse" id="oe_main_menu_placeholder">              
-                <ul class="nav navbar-nav navbar-right oe_user_menu_placeholder"></ul>
-            </div>
-        </nav>
-        <div class="openerp openerp_webclient_container oe_webclient">
-            <div class="oe_leftbar">
-                <a class="oe_logo">
-                    <span class="oe_logo_edit">Edit Company data</span>
-                    <img src='/web/binary/company_logo'/>
-                </a>
-                <div class="oe_secondary_menus_container"></div>
-                <div class="oe_footer">
-                    Powered by <a href="http://www.odoo.com" target="_blank"><span>Odoo</span></a>
-                </div>
-            </div>
-            <div class="oe_application">
-            </div>
-        </div>
-
-        <!--[if lte IE 8]>
-        <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-        <script>CFInstall.check({mode: "overlay"});</script>
-        <![endif]-->
+    <body class="o_web_client">
     </body>
+
 </html>

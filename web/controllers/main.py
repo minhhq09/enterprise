@@ -475,8 +475,7 @@ class Home(http.Controller):
             if not request.uid:
                 request.uid = request.session.uid
 
-            menu_data = request.registry['ir.ui.menu'].load_menus(request.cr, request.uid, context=request.context)
-            return request.render('web.webclient_bootstrap', qcontext={'menu_data': menu_data})
+            return request.render('web.webclient_bootstrap')
         else:
             return login_redirect()
 
@@ -881,14 +880,9 @@ class Session(http.Controller):
 
 class Menu(http.Controller):
 
-    @http.route('/web/menu/load_needaction', type='json', auth="user")
-    def load_needaction(self, menu_ids):
-        """ Loads needaction counters for specific menu ids.
-
-            :return: needaction data
-            :rtype: dict(menu_id: {'needaction_enabled': boolean, 'needaction_counter': int})
-        """
-        return request.session.model('ir.ui.menu').get_needaction_data(menu_ids, request.context)
+    @http.route('/web/menu/menu_data', type='json', auth="public")
+    def menu_data(self):
+        return request.registry['ir.ui.menu'].load_menus(request.cr, request.uid, context=request.context)
 
 class DataSet(http.Controller):
 

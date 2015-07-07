@@ -31,16 +31,14 @@
             <script type="text/javascript" src="/web/static/src/js/framework/session.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/model.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/utils.js"></script>
-            <script type="text/javascript" src="/web/static/src/js/framework/barcode_events.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/core.js"></script>
             <script type="text/javascript" src="/web/static/src/js/tour.js"></script>
             <script type="text/javascript" src="/web/static/test/menu.js"></script>
 
             <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
-            <link rel="stylesheet" href="/web/static/src/font/lato/stylesheet.css" />
+            <link rel="stylesheet" href="/web/static/src/fonts/lato/stylesheet.css" />
 
             <!-- Datetime Picker -->
-            <link rel="stylesheet" href="/web/static/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>
             <script type="text/javascript" src="/web/static/lib/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
         </template>
 
@@ -58,23 +56,8 @@
         </template>
 
         <template id="web.assets_backend">
-            <!-- jQuery addons -->
-            <script type="text/javascript" src="/web/static/lib/jquery.validate/jquery.validate.js"></script>
-            <script type="text/javascript" src="/web/static/lib/jquery.autosize/jquery.autosize.js"></script>
-            <script type="text/javascript" src="/web/static/lib/jquery.scrollTo/jquery.scrollTo.js"></script>
 
-            <link rel="stylesheet" href="/web/static/lib/cleditor/jquery.cleditor.css"/>
-            <script type="text/javascript" src="/web/static/lib/cleditor/jquery.cleditor.js"></script>
-
-            <link rel="stylesheet" href="/web/static/lib/jquery.textext/jquery.textext.css"/>
-            <script type="text/javascript" src="/web/static/lib/jquery.textext/jquery.textext.js"></script>
-
-            <link rel="stylesheet" href="/web/static/lib/select2/select2.css"/>
-            <script type="text/javascript" src="/web/static/lib/select2/select2.js"></script>
-
-            <link rel="stylesheet" href='/website/static/src/less/import_bootstrap.less'/>
-            <link rel="stylesheet" href="/web/static/src/less/enterprise_compatibility.less"/>
-            <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
+            <!-- Bootstrap -->
             <script src="/web/static/lib/bootstrap/js/affix.js"></script>
             <script src="/web/static/lib/bootstrap/js/alert.js"></script>
             <script src="/web/static/lib/bootstrap/js/button.js"></script>
@@ -88,9 +71,22 @@
             <script src="/web/static/lib/bootstrap/js/tab.js"></script>
             <script src="/web/static/lib/bootstrap/js/transition.js"></script>
 
+            <!-- jQuery addons -->
+            <script type="text/javascript" src="/web/static/lib/jquery.validate/jquery.validate.js"></script>
+            <script type="text/javascript" src="/web/static/lib/autosize/autosize.js"></script>
+            <script type="text/javascript" src="/web/static/lib/jquery.scrollTo/jquery.scrollTo.js"></script>
+
+            <link rel="stylesheet" href="/web/static/lib/cleditor/jquery.cleditor.css"/>
+            <script type="text/javascript" src="/web/static/lib/cleditor/jquery.cleditor.js"></script>
+
+            <link rel="stylesheet" href="/web/static/lib/jquery.textext/jquery.textext.css"/>
+            <script type="text/javascript" src="/web/static/lib/jquery.textext/jquery.textext.js"></script>
+
+            <link rel="stylesheet" href="/web/static/lib/select2/select2.css"/>
+            <script type="text/javascript" src="/web/static/lib/select2/select2.js"></script>
+
             <!-- jQuery ui -->
             <link rel="stylesheet" href="/web/static/lib/jquery.ui/jquery-ui.css"/>
-
             <t t-call="web.jqueryui_conflict">
                 <script type="text/javascript" src="/web/static/lib/jquery.ui/jquery-ui.js"></script>
             </t>
@@ -110,7 +106,7 @@
             <script type="text/javascript" charset="utf-8">
                 odoo._modules = <t t-raw="get_modules_order()"/>;
             </script>
-            <link rel="stylesheet" href="/web/static/src/css/base.css"/>
+            <!-- <link rel="stylesheet" href="/web/static/src/css/base.css"/> -->
             <link rel="stylesheet" href="/web/static/src/css/data_export.css"/>
             <link rel="stylesheet" href="/base/static/src/css/modules.css"/>
 
@@ -129,7 +125,6 @@
             <script type="text/javascript" src="/web/static/src/js/framework/data.js"></script>
             <script type="text/javascript" src="/web/static/src/js/compatibility.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/misc.js"></script>
-            <script type="text/javascript" src="/web/static/src/js/framework/session_instance.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/crash_manager.js"></script>
             <script type="text/javascript" src="/web/static/src/js/widgets/change_password.js"></script>
             <script type="text/javascript" src="/web/static/src/js/widgets/database_manager.js"></script>
@@ -143,7 +138,9 @@
             <script type="text/javascript" src="/web/static/src/js/widgets/pager.js"></script>
             <script type="text/javascript" src="/web/static/src/js/widgets/systray_menu.js"></script>
             <script type="text/javascript" src="/web/static/src/js/widgets/user_menu.js"></script>
+            <script type="text/javascript" src="/web/static/src/js/widgets/company_logo.js"></script>
             <script type="text/javascript" src="/web/static/src/js/framework/dialog.js"></script>
+            <script type="text/javascript" src="/web/static/src/js/app_switcher.js"></script>
             <script type="text/javascript" src="/web/static/src/js/menu.js"></script>
             <script type="text/javascript" src="/web/static/src/js/views/list_common.js"></script>
             <script type="text/javascript" src="/web/static/src/js/views/list_view.js"></script>
@@ -162,6 +159,30 @@
             <script type="text/javascript" src="/web/static/src/js/views/tree_view.js"></script>
             <script type="text/javascript" src="/base/static/src/js/apps.js"></script>
 
+            <link rel="stylesheet" href='/website/static/src/less/import_bootstrap.less'/>
+            <link rel="stylesheet" href='/web/static/lib/bootstrap-datetimepicker/src/less/bootstrap-datetimepicker.less'/>
+
+            <link rel="stylesheet" href="/web/static/src/less/fonts.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/webclient.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/webclient_layout.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/datepicker.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/progress_bar.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/dropdown.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/debug_manager.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/control_panel.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/control_panel_layout.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/views.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/pivot_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/graph_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/tree_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/form_view_layout.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/form_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/list_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/search_view.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/modal.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/compatibility.less"/>
         </template>
 
         <template id="web.assets_webclient_manifest">
@@ -188,109 +209,6 @@
                     <t t-raw="0"/>
                 </body>
             </html>
-        </template>
-
-        <template id="web.menu">
-            <ul class="nav navbar-nav navbar-left oe_application_menu_placeholder" style="display: none;">
-                <li t-foreach="menu_data['children']" t-as="menu">
-                    <t t-call="web.menu_link"/>
-                </li>
-                <li id="menu_more_container" class="dropdown" style="display: none;">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-                    <ul id="menu_more" class="dropdown-menu"></ul>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right oe_user_menu_placeholder" style="display: none;"/>
-            <ul class="nav navbar-nav navbar-right oe_systray" style="display: none;"/>
-        </template>
-        <template id="web.menu_secondary">
-            <a class="oe_logo" t-att-href="'/web/?debug' if debug else '/web'">
-                <span class="oe_logo_edit">Edit Company data</span>
-                <img src='/web/binary/company_logo'/>
-            </a>
-            <div class="oe_secondary_menus_container">
-                <t t-foreach="menu_data['children']" t-as="menu">
-                    <div style="display: none" class="oe_secondary_menu" t-att-data-menu-parent="menu['id']">
-                        <t t-foreach="menu['children']" t-as="menu">
-                            <div class="oe_secondary_menu_section">                                
-                                <t t-if="menu['children']"><t t-esc="menu['name']"/></t>
-                                <t t-if="not menu['children']"><t t-call="web.menu_link"/></t>
-                            </div>
-                            <t t-call="web.menu_secondary_submenu"/>
-                        </t>
-                    </div>
-                </t>
-            </div>
-            <div class="oe_footer">
-                Powered by <a href="http://www.odoo.com" target="_blank"><span>Odoo</span></a>
-            </div>
-        </template>
-        <template id="web.menu_secondary_submenu">
-            <ul t-if="menu['children']" class="oe_secondary_submenu nav nav-pills nav-stacked">
-                <li t-foreach="menu['children']" t-as="menu">
-                    <t t-call="web.menu_link"/>
-                    <t t-call="web.menu_secondary_submenu"/>
-                </li>
-            </ul>
-        </template>
-        <template id="web.menu_link">
-            <t t-set="debug_param" t-value="'?&amp;debug=' if debug else ''"/>
-            <a t-att-href="'/web%s#menu_id=%s&amp;action=%s' % (debug_param, menu['id'], menu['action'] and menu['action'].split(',')[1] or '')"
-                t-att-class="'oe_menu_toggler' if menu.get('children') else 'oe_menu_leaf'"
-                t-att-data-menu="menu['id']"
-                t-att-data-action-model="menu['action'] and menu['action'].split(',')[0] or ''"
-                t-att-data-action-id="menu['action'] and menu['action'].split(',')[1] or ''">
-                <i t-if="menu.get('icon')" t-attf-class="fa #{menu.get('icon')} fa-lg fa-fw"/>
-                <span class="oe_menu_text">
-                    <t t-esc="menu['name']"/>
-                </span>
-            </a>
-        </template>
-
-        <template id="web.webclient_bootstrap" name="Webclient Bootstrap">
-            <t t-call="web.layout">
-                <t t-set="head">
-                    <t t-call-assets="web.assets_common"/>
-                    <t t-call-assets="web.assets_backend"/>
-                    &lt;!--[if lte IE 9]&gt; <link rel="stylesheet" href="/web/static/src/css/ie.css"/> &lt;![endif]--&gt;
-                    <script type="text/javascript">
-                        $(function() {
-                            <t t-if="init">
-                                <t t-raw="init"/>
-                            </t>
-                            <t t-if="not init">
-                                odoo.define('web.web_client', function (require) {
-                                    var WebClient = require('web.WebClient');
-                                    var web_client = new WebClient();
-                                    web_client.setElement($(document.body));
-                                    web_client.start();
-                                    return web_client;
-                                });
-                                odoo.init();
-                            </t>
-                        });
-                    </script>
-                </t>
-
-                <nav id="oe_main_menu_navbar" class="navbar navbar-inverse" role="navigation" groups="base.group_user,base.group_portal">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div class="navbar-collapse collapse" id="oe_main_menu_placeholder">
-                        <t t-call="web.menu"/>
-                    </div>
-                </nav>
-                <div class="openerp openerp_webclient_container oe_webclient">
-                    <div class="oe_leftbar" groups="base.group_user,base.group_portal">
-                        <t t-call="web.menu_secondary"/>
-                    </div><div class="oe_application"/>
-                </div>
-            </t>
         </template>
 
         <template id="web.login_layout" name="Login Layout">
@@ -408,8 +326,50 @@
                     <div id="qunit-fixture"></div>
                 </body>
             </html>
-
         </template>
 
+<template id="web.webclient_bootstrap">
+    &lt;!DOCTYPE html&gt;
+    <html>
+        <head>
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+            <title>Odoo</title>
+
+            <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+            <t t-call-assets="web.assets_common"/>
+            <t t-call-assets="web.assets_backend"/>
+
+            <![CDATA[
+                <!--[if lt IE 10]>
+                    <body class="ie9">
+                <![endif]-->
+            ]]>
+
+            <script type="text/javascript">
+                $(function() {
+                    <t t-if="init">
+                        <t t-raw="init"/>
+                    </t>
+                    <t t-if="not init">
+                        odoo.define('web.web_client', function (require) {
+                            var WebClient = require('web.WebClient');
+                            var web_client = new WebClient();
+                            web_client.setElement($(document.body));
+                            web_client.start();
+                            return web_client;
+                        });
+                        odoo.init();
+                    </t>
+                });
+            </script>
+        </head>
+        <body class="o_web_client">
+        </body>
+    </html>
+</template>
     </data>
 </openerp>
