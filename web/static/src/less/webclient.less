@@ -1,0 +1,254 @@
+// ------------------------------------------------------------------
+// Typography
+// ------------------------------------------------------------------
+a {
+    color: @odoo-brand-optional;
+    &:hover {
+        color: darken(@odoo-brand-optional, 10%);
+    }
+}
+
+h1 {
+    font-size: 32px;
+    @media (max-width: @screen-xs-max) {
+        font-size: 24px;
+    }
+}
+
+h2 {
+    font-size: 24px;
+    @media (max-width: @screen-xs-max) {
+        font-size: 18px;
+    }
+}
+
+// ------------------------------------------------------------------
+//  General
+// ------------------------------------------------------------------
+.o_text_overflow {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top; // To update display context changed by overflow:hidden
+}
+
+// ------------------------------------------------------------------
+// Navbar
+// ------------------------------------------------------------------
+.navbar {
+    .box-shadow(0px 0px 8px @odoo-main-text-color);
+
+    .o-menu-toggle, .o-back-button {
+        .user-select(none);
+        padding-left: 16px;
+        padding-right: 16px;
+        &:hover {
+            background-color: @navbar-inverse-link-hover-bg;
+        }
+        &:focus, &:active, &:focus:active {
+            outline: none;
+        }
+    }
+
+    .o-menu-toggle {
+        margin-right: 4px;
+    }
+
+    .o-menu-brand {
+        .user-select(none);
+        cursor: default;
+        margin-right: 25px;
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .dropdown-menu {
+        // we do not want the dropdown to overstep the viewport
+        max-height: 90vh;
+        overflow: auto;
+
+        .o-menu-indentation(@index) when (@index < 6) {
+            .o_menu_header_lvl_@{index} {
+                color: @odoo-main-text-color;
+                padding: 5px @index*10px;
+            }
+            .o_menu_entry_lvl_@{index} {
+                padding: 5px @index*12px;
+            }
+            .o-menu-indentation(@index + 1);
+        }
+        .o-menu-indentation(2);
+
+        // cannot guard an attribute in the preceding mixin in less 1.4.2
+        .o_menu_header_lvl_2 {
+            border-top: 1px solid lighten(@odoo-main-text-color, 20%);
+        }
+    }
+}
+
+// ------------------------------------------------------------------
+// Layout
+// ------------------------------------------------------------------
+.o_web_client {
+    background-color: @odoo-webclient-background-color;
+}
+
+// ------------------------------------------------------------------
+// Application switcher
+// ------------------------------------------------------------------
+.o-application-switcher {
+    color: white;
+    background: url("../img/application-switcher-bg.jpg") no-repeat center center fixed;
+    .o-background-size(cover);
+    margin-top: 45px;
+    @media (max-width: @screen-xs-max) {
+        margin-top: 10px;
+    }
+
+    .o-apps {
+        .user-select(none);
+
+            padding-left: 10%;
+            padding-right: 10%;
+            @media (max-width: @screen-xs-max) {
+                padding: 0;
+            }
+
+
+        .o-app {
+            margin: 0px 15px 5px 15px;
+            @media (max-width: @screen-xs-max) {
+                margin: 5px 10px 5px 10px;
+            }
+
+            > a {
+                text-decoration: none;
+                text-align: center;
+            }
+
+            .thumbnail {
+                background: none;
+                border: 0;
+                .o-app-icon-common() {
+                    width: 78px;
+                    height: 78px;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 4px @gray-light;
+                }
+
+                .o-app-web-icon {
+                    .o-app-icon-common;
+                }
+
+                // Applied to fontawesome thumbnails
+                .o-app-icon {
+                    .o-app-icon-common;
+                    color: @odoo-brand-primary;
+                    background-color: @gray-lighter;
+                    padding: 8px;
+                }
+            }
+
+            .caption {
+                color: @gray-lighter;
+            }
+        }
+    }
+
+    .o-application-switcher-footer {
+        .user-select(none);
+        cursor: default;
+
+        > img {
+            width: 130px;
+            .center-block;
+        }
+    }
+}
+
+// ------------------------------------------------------------------
+// Misc. widgets
+// ------------------------------------------------------------------
+.o_loading {
+    background-color: @odoo-brand-primary;
+    color: white;
+    padding: 4px;
+}
+
+.o_user_menu {
+    .oe_topbar_avatar {
+        height: 15px;
+    }
+}
+
+@notification-error-bg-color: #F16567;
+@notification-info-bg-color: #FCFBEA;
+.o_notification_manager {
+    width: 300px;
+    max-width: 100%;
+
+    position: fixed;
+    top: @navbar-height;
+    right: 0;
+
+    z-index: 50;  // same as debug manager. Fixme: expose a variable
+
+    .o_notification {
+        padding: 0;
+        margin: 5px 0 0 0;
+
+        opacity: 0;
+
+        background-color: @notification-info-bg-color;
+        box-shadow: 0px 0px 5px 1px @odoo-main-text-color;
+
+        position: relative;
+        .o_close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+
+            color: rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+
+        .o_notification_title {
+            .o-flex-display();
+            .o-align-items(center);
+
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 10px 10px 20px;
+
+            font-weight: bold;
+
+            .o_icon {
+                display: inline-block;
+                margin-right: 20px;
+                color: rgba(0, 0, 0, 0.3);
+
+                &.o_error {
+                    display: none;
+                }
+            }
+        }
+
+        .o_notification_content {
+            padding: 10px;
+        }
+
+        &.o_error {
+            color: white;
+            background-color: @notification-error-bg-color;
+
+            .o_icon {
+                display: none;
+
+                &.o_error {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

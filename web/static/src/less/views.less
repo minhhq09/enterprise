@@ -1,0 +1,59 @@
+// --------------------------------------------------------------------------
+// This file contains rules applying on elements shared between views
+// --------------------------------------------------------------------------
+.o_view_manager_content {
+    .oe_view_nocontent {
+        margin: 10px @odoo-horizontal-padding;
+        padding: 15px 10px 10px 10px;
+        color: white;
+        background-color: darken(@odoo-brand-secondary, 15%);
+        max-width: 500px;
+        .oe_view_nocontent_create {
+            font-weight: bold;
+            position: relative;
+            &:before {
+                content: " ";
+                display: block;
+                border-bottom: 25px solid darken(@odoo-brand-secondary, 15%);
+                border-top: none;
+                border-left: 25px solid transparent;
+                border-right: 25px solid transparent;
+
+                position: absolute;
+                bottom: 100%;
+                left: 0;
+            }
+        }
+    }
+    .o_cannot_create .oe_view_nocontent_create {
+       display: none;
+    }
+}
+
+// Buttons containing only an icon
+.o_icon_button {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    outline: none;
+}
+
+
+// Stars
+.o_priority {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    > a {
+        display: inline-block;
+    }
+    .o_star_on, .o_star_off {
+        color: @odoo-main-color-muted;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    .o_star_on {
+        color: gold;
+    }
+}

@@ -1,0 +1,384 @@
+.form-break-table() {
+    display: block;
+
+    > tbody {
+        display: block;
+
+        > tr {
+            .o-flex-display();
+            .o-flex-flow(row, wrap);
+
+            > td {
+                display: block;
+                .o-flex(1, 0, auto);
+
+                padding: 0;
+                
+                width: auto!important;  // !important is required to override the width computed in JS
+                &.o_td_label {
+                    width: 92%!important;
+
+                    .o_form_label { // Not pure layout ...
+                        font-size: 0.8em;
+                        font-weight: normal;
+
+                        &.o_form_label_empty {
+                            display: none;
+                        }
+                    }
+                }
+
+                .o_form_input_dropdown {
+                    width: auto;
+                }
+            }
+        }
+    }
+}
+
+.o-form-view {
+    .oe_inline { // Compatibility ?
+        width: auto!important;
+        @media (min-width: @screen-xs-min) {
+            &.o_inner_group {
+                width: 1px!important;
+            }
+        }
+    }
+    .oe_left { // Compatibility ?
+        .oe_inline;
+        float: left!important;
+    }
+    .oe_right { // Compatibility ?
+        .oe_inline;
+        float: right!important;
+    }
+    .o_row {
+        .o-flex-display();
+        .o-align-items(baseline);
+        min-width: 50px;
+
+        margin-left: -@odoo-form-row-spacing/2;
+        margin-right: -@odoo-form-row-spacing/2;
+
+        .o-row-item {
+            margin-right: @odoo-form-row-spacing/2;
+            margin-left: @odoo-form-row-spacing/2;
+        }
+        .o-row-item-grow {
+            width: 0;
+            .o-flex(1, 1, auto);
+        }
+        .o-row-item-nogrow {
+            width: auto;
+            .o-flex(0, 0, auto);
+        }
+
+        > .o_form_field, > .o_form_label, > div {
+            .o-row-item;
+            .o-row-item-grow;
+
+            &.o_form_field_boolean, &.o_priority, &.o_kanban_selection {
+                .o-row-item-nogrow;
+            }
+
+            &.o_kanban_selection {
+                margin-left: auto;
+            }
+        }
+
+        > .btn, > span, > span.o_form_field, > .o_form_uri {
+            .o-row-item;
+            .o-row-item-nogrow;
+
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    @media (min-width: @screen-xs-min) {
+        .o_row , .oe_title {
+            .o_form_field_many2one {
+                &.o_with_button {
+                    &:not(:last-child) { // If invisible element as last child, this line has no effect but that's not very important
+                        margin-right: (35px + (@odoo-form-row-spacing/2));
+                    }
+                }
+            }
+        }
+
+        .o_form_field_many2one.oe_inline {
+            &.o_with_button {
+                &:not(:last-child) { // If invisible element as last child, this line has no effect but that's not very important
+                    margin-right: 35px;
+                }
+            }
+        }
+    }
+
+    // Readonly specific rules
+    &.o_form_readonly {
+        .o_group > tbody > tr > td  {
+            line-height: 2;
+            .o_form_field {
+                .o-flex(0, 0, auto);
+            }
+        }
+    }
+
+    // Editable specific rules
+    &.o_form_editable {
+        .o_group {
+            > tbody > tr > td {
+                &, > div {
+                    > .o_form_field {
+                        margin-bottom: 5px;
+
+                        > .o_form_field {
+                            margin-bottom: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Header containing status/workflow buttons
+    .o_form_statusbar {
+        .o-flex-display();
+        .o-justify-content(space-between);
+
+        padding-left: @odoo-horizontal-padding;
+
+        > .o_statusbar_buttons, > .o_statusbar_status {
+            .o-flex-display();
+            .o-align-items(center);
+            .o-align-content(space-around);
+        }
+
+        > .o_form_field {
+            .o-align-self(center);
+        }
+
+        > .o_statusbar_buttons {
+            .o-flex-flow(row, wrap);
+
+            > .btn {
+                margin: 2px 3px 2px 0;
+            }
+        }
+
+        > .o_statusbar_status {
+            .o-flex-flow(row-reverse, wrap-reverse);
+            .o-align-self(auto);
+            overflow-x: hidden; // to prevent horizontal scroll due to last arrow
+        }
+
+        @media (max-width: @screen-xs-max) {
+            > .o_statusbar_buttons > .btn-group {
+                > .dropdown-toggle {
+                    &:after {
+                        .o-caret-down();
+                        margin-left: 5px;
+                    }
+                }
+
+                > .dropdown-menu {
+                    padding: 5px 0 2px 0;
+                    min-width: 100px;
+
+                    > li > .btn {
+                        min-width: 100%;
+                        margin-bottom: 3px;
+                    }
+                }
+            }
+
+            > .o_statusbar_status > .btn.dropdown-toggle {
+                padding: 5px 10px; // Should be fixed by fixing the desktop padding left for the first status
+            }
+        }
+    }
+
+    // Sheet
+    .o_form_sheet {
+        .container;
+        .o-webclient-padding(@top: 24px, @bottom: 24px);
+        margin: auto;
+        @media (min-width: @screen-sm-min) {
+            margin: 8px auto;
+        }
+    }
+
+    // Title
+    .oe_title {
+        @media (min-width: @screen-xs-min) {
+            padding-right: @odoo-innergroup-rpadding;
+        }
+        margin-bottom: 15px;
+    }
+
+    .oe_avatar {
+        margin-bottom: 10px;
+        
+        > img {
+            max-width: @odoo-avatar-size;
+            max-height: @odoo-avatar-size;
+        }
+
+        + .oe_title {
+            clear: left;
+            @media (min-width: @screen-xs-min) {
+                clear: none;
+                padding-left: @odoo-avatar-size + 10;
+            }
+        }
+    }
+
+    // Groups
+    .o_group {
+        display: inline-block;
+        width: 100%;
+        margin: 10px 0;
+
+        // o_group contains nested groups
+        .o-generate-groups(@odoo-form-group-cols);
+        .o-generate-groups(@n, @i: 1) when (@i =< @n) {
+            .o_group_col_@{i} {
+                width: floor(100% / 12 * @i);
+                vertical-align: top;
+                @media (max-width: @screen-sm-max) {
+                    width: 100%;
+                }
+            }
+            .o-generate-groups(@n, @i + 1);
+        }
+
+        &.o_inner_group {
+            display: inline-table;
+
+            > tbody > tr > td {
+                padding: 0 @odoo-innergroup-rpadding 0 0;
+                &.o_td_label {
+                    width: 0%;
+                    padding: 0 15px 0 0;
+                    min-width: 150px;
+                }
+                vertical-align: top;
+
+                .o_form_field {
+                    &.o_view_manager_content, &.o_form_field_one2many, &.o_form_field_many2many {
+                        width: 100%;
+                    }
+                }
+
+                .o_text_overflow {
+                    @media (min-width: @screen-sm-min) {
+                        max-width: 450px;
+                    }
+                    @media (min-width: @screen-md-min) {
+                        max-width: 220px;
+                    }
+                    @media (min-width: @screen-lg-min) {
+                        max-width: 320px;
+                    }
+                }
+            }
+
+            @media (max-width: @screen-xxs-max) { // Not xs max to keep sm layout a bit further
+                .form-break-table();
+            }
+        }
+
+        .o_form_field {
+            width: 100%;
+        }
+        span, .o_form_field_boolean, .oe_avatar, .o_form_uri { // FIXME is span.o_form_field as efficient as .o_form_field ?
+            &.o_form_field {
+                width: auto;
+            }
+        }
+    }
+
+    // Form fields
+    .o_form_field {
+        .o-inline-flex-display();
+        .o-flex-flow(row, nowrap);
+        &.o_view_manager_content {
+            display: block;
+        }
+
+        > span {
+            .o-flex(0, 0, auto);
+        }
+    }
+    select.o_form_field {
+        display: inline-block;
+    }
+
+    // Radio buttons
+    .o_form_field_radio {
+        .o_radio_item {
+            .o-flex(0, 0, auto);
+            .o-flex-display();
+            .o-align-items(center);
+        }
+
+        &.o_horizontal {
+            .o_radio_item {
+                .o-flex-flow(column-reverse, nowrap);
+            }
+        }
+
+        &.o_vertical {
+            .o-flex-flow(column, nowrap);
+        }
+    }
+
+    // One2Many, Many2Many
+    .o_form_field {
+        &.o_view_manager_content, &.o_form_field_one2many, &.o_form_field_many2many {
+            width: 100%;
+            > div {
+                width: 100%;
+            }
+        }
+    }
+
+    // Many2many tags
+    .o_form_field_many2manytags {
+        .o-flex-flow(row, wrap);
+        .o-align-items(center);
+        .badge {
+            .o-flex(0, 0, auto);
+        }
+    }
+
+    // Percent pie
+    .o_form_field_percent_pie {
+        .o-align-items(center);
+        > .o_pie {
+            margin-right: 10px;
+        }
+    }
+
+    // Specific style classes
+    .o_group.o_inner_group.oe_subtotal_footer {
+        .oe_right;
+    }
+}
+
+// Overriden style when form view in modal
+.modal .modal-dialog {
+    &:not(.modal-lg) .o-form-view {
+        .o_group {
+            width: 100%;
+        }
+    }
+
+    &.modal-sm .o-form-view {
+        .o_group {
+            .form-break-table();    
+        }
+    }
+}

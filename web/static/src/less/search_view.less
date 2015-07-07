@@ -1,0 +1,251 @@
+.o_search_options_dropdown_custom_li() {
+    margin: 3px 25px;
+    width: auto;
+    max-width: 250px;
+}
+
+.o_searchview {
+    height: auto;  // Increase the height of the searchview input according to its content
+    position: relative;
+
+    // FIXME: make these changes global? Probably required for FormViews
+    &.form-control {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+    &.input-sm {
+        padding: 0px 0px 0px 0px;
+    }
+
+    // Drawer icon
+    .o_searchview_caret {
+        cursor: pointer;
+        .o-position-absolute(6px, 0);
+        .user-select(none);  // Prevent text selection when toggling the search options
+    }
+
+    .o_searchview_facets {
+        min-height: 22px;
+        padding-right: 10px; // To prevent overlapping the caret
+        margin-top: 4px;  // Align the searchview input with the breadcrumb title
+
+        .o_searchview_input {
+            margin-right: 5px; // FIXME
+            display: inline;
+            cursor: text;  // Text cursor, same as input box
+            &:focus {outline: none;}
+            &[contentEditable=true]:empty:not(:focus):before {
+                content:attr(data-ph); // Display 'Search...'
+                color: @odoo-main-text-color;
+            }
+        }
+
+        .o_searchview_facet {
+            display: inline-block;
+            margin: 1px 3px 1px 0px;
+            cursor: pointer;
+
+            .o_searchview_facet_label {
+                display: inline-block;
+                padding: 3px;
+                background-color: @odoo-brand-primary;
+                border: 1px solid @odoo-brand-primary;
+            }
+
+            .o_searchview_facet_content {
+                display: inline-block;
+                padding-left: 6px;
+                vertical-align: top;
+                &:focus {box-shadow: 0 0 3px 1px @odoo-brand-secondary;}
+                border: 1px solid @odoo-brand-secondary;
+                border-left: 0px;
+                background: @gray-lighter; // FIXME: set adequate color
+                color: @odoo-brand-secondary;
+
+                .o_facet_values {
+                    display: inline-block;
+                    .o_facet_values_sep {
+                        font-style: italic;
+                    }
+                }
+                .o-facet-remove {
+                    padding: 0 4px;
+                    &:hover {
+                        color: @gray;
+                    }
+                }
+            }
+        }
+    }
+
+    .o_searchview_autocomplete {
+        width: 400px;
+        left: auto;
+        top: auto;
+
+        li {
+            padding-left: 20px;
+            position: relative;
+            &.o-indent {
+                padding-left: 40px;
+            }
+            &.o-selection-focus {
+                background-color: @table-bg-hover;
+            }
+            a {
+                display: inline-block;
+                padding-left: 0px;
+                padding-right: 0px;
+                &:hover {
+                    background-color: inherit;
+                }
+                &.o-expand, &.o-expanded { // caret
+                    .o-position-absolute(@left: 8px);
+                }
+                &.o-expand:before {
+                    .o-caret-right;
+                }
+                &.o-expanded:before {
+                    .o-caret-down;
+                }
+            }
+        }
+    }
+}
+
+// Searchview and Sidebar dropdowns
+// FIXME: move me out of here
+.o_dropdown {
+    white-space: nowrap;  // prevent the arrow from going under the dropdown when too little space
+    .dropdown-toggle:first-child {
+        // apply the padding to the first element so that when the `favorites` menu goes under
+        // the `filters` menu, they're still aligned
+        padding-right: 10px;
+    }
+
+    display: inline-block;
+    cursor: pointer;
+    .user-select(none);  // Prevent text selection when toggling the dropdowns
+    > a { // dropdown togglers
+        color: @odoo-main-text-color;
+        &:hover {
+            text-decoration: none;
+            font-weight: bold;
+            color: darken(@odoo-main-text-color, 10%);
+        }
+    }
+    &.open > a {
+        font-weight: bold;
+        color: darken(@odoo-main-text-color, 10%);
+    }
+    .dropdown-menu { // dropdowns position
+        left: auto;
+        top: auto;
+    }
+}
+
+// Searchview dropdowns
+.o_search_options {
+    padding-top: 5px;
+
+    // Open and closed carets in dropdowns
+    .o-closed-menu {
+        position: relative;
+        a:before {
+            .o-caret-right;
+            .o-position-absolute(@top: 50%, @left: 10px);
+            margin-top: (-@caret-width-base);
+        }
+    }
+    .o-open-menu {
+        position: relative;
+        a:before {
+            .o-caret-down;
+            .o-position-absolute(@top: 50%, @left: 10px);
+            margin-top: (-@caret-width-base);
+        }
+    }
+
+    // Filters
+    .o-filters-menu {
+        .o-selected-li;
+
+        .o-filter-condition {
+            .o_search_options_dropdown_custom_li;
+            margin-bottom: 8px;
+            .o-or-filter { // or between conditions
+                display: none;  // hidden for the first condition
+                .o-position-absolute(@top: 7px, @left: -18px);
+            }
+        }
+        .o-filter-condition + .o-filter-condition {
+            .o-or-filter {
+                display: block; // displayed from second condition
+            }
+        }
+        .o-searchview-extended-prop-op {
+            margin: 3px 0px; // vertical gap between selects
+        }
+        .o-searchview-extended-prop-value { // date fields: datepicker position
+            .datepickerbutton {
+                .o-position-absolute(11px, -20px);
+                cursor: pointer;
+            }
+        }
+        .o-searchview-extended-delete-prop { // delete condition button position
+            .o-position-absolute(10px, -18px);
+            cursor: pointer;
+        }
+        .o-add-filter-menu { // apply and add buttons
+            display: none;  // Needed by the webclient
+            .o_search_options_dropdown_custom_li;
+            .o-add-condition {
+                float: right;
+            }
+        }
+    }
+
+    // Group By
+    .o-group-by-menu {
+        .o-selected-li;
+
+        .divider {display: none;} // hide the divider by default (no group)
+        .o-add-group { // add button
+            display: none;  // Needed by the webclient
+            .o_search_options_dropdown_custom_li;
+        }
+    }
+
+    // Favorites
+    .o-favorites-menu {
+        .o-selected-li;
+
+        .divider {display: none;} // hide the divider by default (no favorite)
+        .o-searchview-custom-private, .o-searchview-custom-public {
+            .o-remove-filter {
+                .o-position-absolute(50%, 12px);
+                margin-top: -6px;
+                cursor: pointer;
+            }
+        }
+        .o-searchview-custom-public a:after {
+            font-family: FontAwesome;
+            content: "\f0c0";
+            margin-left: 5px;
+            font-weight: normal;
+        }
+        .o-save-name { // save button
+            display: none; // hidden by default
+            .o_search_options_dropdown_custom_li;
+        }
+
+        // FIXME: move this to dashboard.less
+        .o-add-to-dashboard {
+            display: none; // hidden by default
+            .o_search_options_dropdown_custom_li;
+        }
+    }
+}
