@@ -15,3 +15,6 @@ class AccountConfigSettingsEnterpries(models.TransientModel):
     module_account_plaid = fields.Boolean(string="Import of Bank Statements from Plaid.",
                                           help='Get your bank statements from you bank and import them through plaid.com.\n'
                                           '-that installs the module account_plaid.')
+    module_account_reports_followup =  fields.Boolean(string="Manage customer payment follow-ups",
+        help='This allows to automate letters for unpaid invoices, with multi-level recalls.\n'
+             '-This installs the module account_reports_followup.')
