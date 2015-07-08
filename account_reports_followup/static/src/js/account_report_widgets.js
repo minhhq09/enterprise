@@ -54,7 +54,7 @@ var FollowupReportWidget = FollowupWidget.extend({
         var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         return new Model('account.report.context.followup').call('do_manual_action', [[parseInt(context_id, 10)]]).then (function (result) {
             if ($(e.target).data('primary') == '1') {
-                $(e.target).parents('#action-buttons').addClass('o_account_reports_followup-clicked');
+                $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
                 $(e.target).toggleClass('btn-primary btn-default');
                 $(e.target).data('primary', '0');
             }

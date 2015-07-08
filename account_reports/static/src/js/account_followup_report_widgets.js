@@ -15,8 +15,8 @@ var FollowupReportWidget = ReportWidget.extend({
         'click #savePaymentDate': 'changeExpDate',
         'click .followup-email': 'sendFollowupEmail',
         'click .followup-letter': 'printFollowupLetter',
-        'click .followup-skip': 'skipPartner',
-        'click .followup-done': 'donePartner',
+        'click .o_account_reports_followup_skip': 'skipPartner',
+        'click .o_account_reports_followup_done': 'donePartner',
         'click .o_account_reports_followup-auto': 'enableAuto',
         "change *[name='blocked']": 'onChangeBlocked',
         'click .o_account_reports_set-next-action': 'setNextAction',
@@ -129,7 +129,7 @@ var FollowupReportWidget = ReportWidget.extend({
         var url = $(e.target).data("target");
         window.open(url, '_blank');
         if ($(e.target).data('primary') == '1') {
-            $(e.target).parents('#action-buttons').addClass('o_account_reports_followup-clicked');
+            $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
             $(e.target).toggleClass('btn-primary btn-default');
             $(e.target).data('primary', '0');
         }
@@ -142,7 +142,7 @@ var FollowupReportWidget = ReportWidget.extend({
             if (result == true) {
                 window.$("div.o_account_reports_page:first").prepend(QWeb.render("emailSent"));
                 if ($(e.target).data('primary') == '1') {
-                    $(e.target).parents('#action-buttons').addClass('o_account_reports_followup-clicked');
+                    $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
                     $(e.target).toggleClass('btn-primary btn-default');
                     $(e.target).data('primary', '0');
                 }

@@ -352,9 +352,9 @@ class AccountFinancialReportLine(models.Model):
                     lines.append({
                         'id': line.id,
                         'name': _('Total') + ' ' + line.name,
-                        'type': 'domain-total',
+                        'type': 'o_account_reports_domain_total',
                         'level': 1,
-                        'footnotes': context._get_footnotes('domain-total', line.id),
+                        'footnotes': context._get_footnotes('o_account_reports_domain_total', line.id),
                         'columns': list(lines[0]['columns']),
                     })
 

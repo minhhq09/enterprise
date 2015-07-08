@@ -20,7 +20,7 @@ var ReportWidget = Widget.extend({
         'click .saveFootNote': 'saveFootNote',
         'click span.aml': 'displayMoveLine',
         'click .fa-trash-o': 'rmContent',
-        'click .o_account_reports_saved-summary > span': 'editSummary',
+        'click .o_account_reports_saved_summary > span': 'editSummary',
         "change *[name='date_filter']": 'onChangeDateFilter',
         "change *[name='date_filter_cmp']": 'onChangeCmpDateFilter',
         "change *[name='date_to']": 'onChangeCmpDateFilter',
@@ -32,7 +32,7 @@ var ReportWidget = Widget.extend({
         'click button#saveFootNote': 'saveFootNote',
         'click .o_account_reports_add-footnote': 'footnoteFromDropdown',
         'click .o_account_reports_to-graph': 'displayMoveLinesByAccountGraph',
-        'click .o_account_reports_web-action': 'outboundLink',
+        'click .o_account_reports_web_action': 'outboundLink',
     },
     start: function(context) {
         var self = this;
@@ -183,8 +183,8 @@ var ReportWidget = Widget.extend({
         e.stopPropagation();
         e.preventDefault();
         if ($(e.target).parents("p.footnote").length > 0) { // If it's to edit a footnote at the bottom
-            $(e.target).parents('.footnote').attr('class', 'footnoteEdit')
-            var $el = $(e.target).parents('.footnoteEdit').find('span.text');
+            $(e.target).parents('.footnote').attr('class', 'o_account_reports_footnote_edit')
+            var $el = $(e.target).parents('.o_account_reports_footnote_edit').find('span.text');
             var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, ''); // Remove unnecessary spaces and line returns
             text = text.split('.'); // The text needs to be split into the number of the footnote and the actually content of the footnot
             var num = text[0];
@@ -198,9 +198,9 @@ var ReportWidget = Widget.extend({
         var report_name = $(e.target).parents("div.o_account_reports_page").data("report-name");
         var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         var text = $(e.target).siblings('textarea').val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' '); // Remove unnecessary spaces and line returns
-        var footNoteSeqNum = $(e.target).parents('p.footnoteEdit').text().split('.')[0];
-        if ($(e.target).parents("p.footnoteEdit").length > 0) {
-            $(e.target).parents("p.footnoteEdit").attr('class', 'footnote') // Remove textarea and change back class name
+        var footNoteSeqNum = $(e.target).parents('p.o_account_reports_footnote_edit').text().split('.')[0];
+        if ($(e.target).parents("p.o_account_reports_footnote_edit").length > 0) {
+            $(e.target).parents("p.o_account_reports_footnote_edit").attr('class', 'footnote') // Remove textarea and change back class name
             $(e.target).siblings('textarea').replaceWith(text);
             new Model(this.context_by_reportname[report_name]).query(['footnotes_manager_id']) // And store the footnote
             .filter([['id', '=', context_id]]).first().then(function (context) {
@@ -231,7 +231,7 @@ var ReportWidget = Widget.extend({
         var $el;
         var $nextEls = $(e.target).parents('tr').nextAll(); // Get all the next lines
         for (el in $nextEls) { // While domain lines are found, keep hiding them. Stop when they aren't domain lines anymore
-            $el = $($nextEls[el]).find("td span.o_account_reports_domain-line-1, td span.o_account_reports_domain-line-2, td span.o_account_reports_domain-line-3");
+            $el = $($nextEls[el]).find("td span.o_account_reports_domain_line_1, td span.o_account_reports_domain_line_2, td span.o_account_reports_domain_line_3");
             if ($el.length == 0)
                 break;
             else {
@@ -258,7 +258,7 @@ var ReportWidget = Widget.extend({
             var $nextEls = $(e.target).parents('tr').nextAll();
             var isLoaded = false;
             for (el in $nextEls) { // Look at all the element
-                $el = $($nextEls[el]).find("td span.o_account_reports_domain-line-1, td span.o_account_reports_domain-line-2, td span.o_account_reports_domain-line-3");
+                $el = $($nextEls[el]).find("td span.o_account_reports_domain_line_1, td span.o_account_reports_domain_line_2, td span.o_account_reports_domain_line_3");
                 if ($el.length == 0) // If you find an element that is not a domain line, break out
                     break;
                 else { // If you find an domain line element, it means the element has already been loaded and you only need to show it.
