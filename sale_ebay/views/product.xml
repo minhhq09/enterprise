@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="product_template_sale_ebay_form_view" model="ir.ui.view">
+      <field name="name">product.sale.ebay.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//form//sheet" position="before">
+            <header attrs="{'invisible': [('ebay_published', '=', False)]}">
+              <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': [('ebay_listing_status','!=', 'Unlisted'), ('ebay_listing_status','!=', False)]}"/>
+              <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': [('ebay_listing_status','!=', 'Ended'),('ebay_listing_status','!=','Completed')]}"/>
+              <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+              <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+            </header>
+        </xpath>
+        <div name="options" position="inside">
+          <div>          
+            <field name="ebay_published"/>
+            <label for="ebay_published"/>
+          </div>
+        </div>
+        <notebook position="inside">
+          <page string="eBay Sale" name="ebay_sale" attrs="{'invisible':[('ebay_published','=',False)]}">
+            <group>
+              <field name="ebay_url" readonly="True" attrs="{'invisible': [('ebay_url','=', False)]}" widget="url"/>
+              <field name="ebay_listing_status"/>
+              <field name="ebay_quantity_sold" attrs="{'invisible': ['|',('product_variant_count', '>', 1),('ebay_listing_status','=', 'Unlisted')]}"/>
+            </group>
+            
+            <group colspan="2">
+              <group>
+                <field name="ebay_title"/>
+                <field name="ebay_subtitle"/>
+                <field name="ebay_category_id" domain="[('leaf_category','=',True)]" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_store_category_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_store_category_2_id" attrs="{'invisible': [('ebay_store_category_id', '=', False)]}" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_item_condition_id" options="{'no_create': True, 'no_open': True}"/>
+              </group>
+              <group>
+                <field name="ebay_listing_type"/>
+                <field name="ebay_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
+                <field name="ebay_buy_it_now_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
+                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_use_variant','=',True),('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('ebay_use_variant','=',True),('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_listing_duration"/>
+                <field name="ebay_best_offer"/>
+                <field name="ebay_private_listing"/>
+
+              </group>
+              <group name="ebay_policies">
+                <field name="ebay_seller_payment_policy_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_seller_return_policy_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_seller_shipping_policy_id" options="{'no_create': True, 'no_open': True}"/>
+              </group>
+            </group>
+
+            <group colspan="2">
+              <field name="ebay_use_variant" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
+            </group>
+            <label for="product_variant_ids" 
+              attrs="{'invisible': ['|',('ebay_use_variant','=',False),'|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
+            <field name="product_variant_ids" widget="one2many_list" 
+              attrs="{'invisible': ['|',('ebay_use_variant','=',False),'|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}">
+              <tree string="Variants" editable="bottom" create="false" delete="false">
+                <field name="attribute_value_ids" widget="many2many_tags"/>
+                <field name="ebay_published"/>
+                <field name="ebay_fixed_price"/>
+                <field name="ebay_quantity"/>
+                <field name="virtual_available"/>
+                <field name="ebay_quantity_sold"/>
+              </tree>
+            </field>
+            <label for="ebay_description"/>
+            <field name="ebay_description" placeholder="describe the product characteristics..."/>
+          </page>
+        </notebook>
+      </field>
+    </record>
+
+    <!-- server actions to add option in the menu "More" -->
+    <record id="action_list_items" model="ir.actions.server">
+      <field name="name">List Items</field>
+      <field name="model_id" ref="sale.model_product_template"/>
+      <field name="state">code</field>
+      <field name="code">
+        if context.get('active_model') == 'product.template':
+          ids = []
+          if(context['active_ids']):
+              ids = context['active_ids']
+          else:
+              ids = context['active_id']
+          self.push_product_ebay(cr, uid, ids, context=context)
+      </field>
+    </record>
+
+    <record id="value_list_items" model="ir.values">
+      <field eval="'client_action_multi'" name="key2"/>
+      <field eval="'product.template'" name="model"/>
+      <field name="name">List Items</field>
+      <field eval="'ir.actions.server,%d'%action_list_items" name="value"/>
+    </record>
+
+    <record id="action_revise_items" model="ir.actions.server">
+      <field name="name">Revise Items</field>
+      <field name="model_id" ref="sale.model_product_template"/>
+      <field name="state">code</field>
+      <field name="code">
+        if context.get('active_model') == 'product.template':
+          ids = []
+          if(context['active_ids']):
+              ids = context['active_ids']
+          else:
+              ids = context['active_id']
+          self.revise_product_ebay(cr, uid, ids, context=context)
+      </field>
+    </record>
+
+    <record id="value_revise_items" model="ir.values">
+      <field eval="'client_action_multi'" name="key2"/>
+      <field eval="'product.template'" name="model"/>
+      <field name="name">Revise Items</field>
+      <field eval="'ir.actions.server,%d'%action_revise_items" name="value"/>
+    </record>
+
+    <record id="action_relist_items" model="ir.actions.server">
+      <field name="name">Relist Items</field>
+      <field name="model_id" ref="sale.model_product_template"/>
+      <field name="state">code</field>
+      <field name="code">
+        if context.get('active_model') == 'product.template':
+          ids = []
+          if(context['active_ids']):
+              ids = context['active_ids']
+          else:
+              ids = context['active_id']
+          self.relist_product_ebay(cr, uid, ids, context=context)
+      </field>
+    </record>
+
+    <record id="value_relist_items" model="ir.values">
+      <field eval="'client_action_multi'" name="key2"/>
+      <field eval="'product.template'" name="model"/>
+      <field name="name">Relist Items</field>
+      <field eval="'ir.actions.server,%d'%action_relist_items" name="value"/>
+    </record>
+
+    <record id="action_end_items_listings" model="ir.actions.server">
+      <field name="name">End Items' Listings</field>
+      <field name="model_id" ref="sale.model_product_template"/>
+      <field name="state">code</field>
+      <field name="code">
+        if context.get('active_model') == 'product.template':
+          ids = []
+          if(context['active_ids']):
+              ids = context['active_ids']
+          else:
+              ids = context['active_id']
+          self.end_listing_product_ebay(cr, uid, ids, context=context)
+      </field>
+    </record>
+
+    <record id="value_end_items_listings" model="ir.values">
+      <field eval="'client_action_multi'" name="key2"/>
+      <field eval="'product.template'" name="model"/>
+      <field name="name">End Items' Listings</field>
+      <field eval="'ir.actions.server,%d'%action_end_items_listings" name="value"/>
+    </record>
+
+  </data>
+</openerp>
