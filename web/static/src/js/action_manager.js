@@ -81,6 +81,11 @@ var Action = core.Class.extend({
     get_fragment: function() {
         return this.$fragment;
     },
+    /**
+     * Not implemented for client actions
+     */
+    set_is_in_DOM: function() {
+    },
 });
 /**
  * Specialization of Action for client actions that are Widgets
@@ -163,6 +168,13 @@ var ViewManagerAction = WidgetAction.extend({
     get_nb_views: function() {
         return this.widget.view_stack.length;
     },
+    /**
+     * Sets is_in_DOM on this.widget
+     * @param {Boolean} [is_in_DOM] true iff the widget is attached in the DOM
+     */
+    set_is_in_DOM: function(is_in_DOM) {
+        this.widget.is_in_DOM = is_in_DOM;
+    },
 });
 
 var ActionManager = Widget.extend({
@@ -176,6 +188,7 @@ var ActionManager = Widget.extend({
         this.dialog = null;
         this.dialog_widget = null;
         this.on('history_back', this, this.proxy('history_back'));
+        this.is_in_DOM = false; // used to know if this.$el is attached in the DOM or not
     },
     start: function() {
         this._super();
@@ -253,12 +266,25 @@ var ActionManager = Widget.extend({
             // Detach the fragment of the previous action and store it within the action
             if (old_action) {
                 old_action.set_fragment(self.$el.contents().detach());
+                old_action.set_is_in_DOM(false);
             }
-            self.$el.append(new_widget_fragment);
+            framework.append(self.$el, new_widget_fragment, self.is_in_DOM);
+            self.inner_action.set_is_in_DOM(self.is_in_DOM);
             if (options.clear_breadcrumbs) {
                 self.clear_action_stack(to_destroy);
             }
         });
+    },
+    /**
+     * Sets is_in_DOM to know if the action manager is attached in the DOM
+     * Calls set_is_in_DOM() on this.inner_action
+     * @param {Boolean} [is_in_DOM] true iff the action_manager is attached in the DOM
+     */
+    set_is_in_DOM: function(is_in_DOM) {
+        this.is_in_DOM = is_in_DOM;
+        if (this.inner_action) {
+            this.inner_action.set_is_in_DOM(this.is_in_DOM);
+        }
     },
     get_breadcrumbs: function () {
         return _.flatten(_.map(this.action_stack, function (action) {
@@ -322,8 +348,9 @@ var ActionManager = Widget.extend({
                 if (action !== old_action) {
                     // Clear the action stack (this also removes the current action from the DOM)
                     self.clear_action_stack(to_destroy);
-                    // Append the fragment of the action to restore to the DOM
-                    self.$el.append(action.get_fragment());
+                    // Append the fragment of the action to restore to self.$el
+                    framework.append(self.$el, action.get_fragment(), self.is_in_DOM);
+                    self.inner_action.set_is_in_DOM(self.is_in_DOM);
                     // Restore the scroll position of the fragment (it cannot be restored by the view
                     // manager as the element was detached)
                     if (self.webclient) {

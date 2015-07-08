@@ -303,8 +303,8 @@ var WebClient = Widget.extend({
                         self.toggle_app_switcher(true);
                         completed.resolve();
                     }).done(function () {
-                        self.toggle_app_switcher(false);
                         core.bus.trigger('change_menu_section', ev.data.menu_id);
+                        self.toggle_app_switcher(false);
                         completed.resolve();
                     });
 
@@ -348,6 +348,7 @@ var WebClient = Widget.extend({
                                                 .not('.o_loading')
                                                 .not('.ui-autocomplete')
                                                 .detach();
+                self.action_manager.set_is_in_DOM(false);
                 self.app_switcher.$el.prependTo(self.$el);
                 self.app_switcher_navbar.$el.prependTo(self.$el);
                 self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() === null);
@@ -355,10 +356,8 @@ var WebClient = Widget.extend({
         } else if (display === false) {
             this.app_switcher.$el.detach();
             this.app_switcher_navbar.$el.detach();
-            if (this.$web_client_content) {
-                this.$web_client_content.prependTo(this.$el);
-            }
-            this.menu.$el.prependTo(this.$el);
+            framework.prepend(this.$el, [this.menu.$el, this.$web_client_content], true);
+            this.action_manager.set_is_in_DOM(true);
         }
     },
     // --------------------------------------------------------------

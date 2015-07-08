@@ -4,6 +4,7 @@ odoo.define('web.ViewManager', function (require) {
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var config = require('web.config');
 var core = require('web.core');
+var framework = require('web.framework');
 var Model = require('web.Model');
 var pyeval = require('web.pyeval');
 var SearchView = require('web.SearchView');
@@ -34,6 +35,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
         this.active_view = null;
         this.registry = core.view_registry;
         this.title = this.action && this.action.name;
+        this.is_in_DOM = false; // used to know if the view manager is attached in the DOM
         _.each(views, function (view) {
             var view_type = view[1] || view.view_type;
             var View = core.view_registry.get(view_type, true);
@@ -171,6 +173,17 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
 
         // Show the view
         return $.when(view_controller.do_show(view_options)).done(function () {
+            // Prepare the ControlPanel content and update it
+            var cp_status = {
+                active_view_selector: '.o_cp_switch_' + self.active_view.type,
+                breadcrumbs: self.action_manager && self.action_manager.get_breadcrumbs(),
+                cp_content: _.extend({}, self.searchview_elements, view_control_elements),
+                hidden: self.flags.headless,
+                searchview: self.searchview,
+                search_view_hidden: view_controller.searchable === false,
+            };
+            self.update_control_panel(cp_status);
+
             // Detach the old view and store it
             if (old_view && old_view !== self.active_view) {
                 // Store the scroll position
@@ -180,8 +193,8 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                 // Do not detach ui-autocomplete elements to let jquery-ui garbage-collect them
                 old_view.fragment = self.$el.contents().not('.ui-autocomplete').detach();
             }
-            // Append the view fragment to the DOM
-            self.$el.append(view_fragment);
+            // Append the view fragment to self.$el
+            framework.append(self.$el, view_fragment, self.is_in_DOM);
 
             // Scroll to the provided position or to the top
             // Note: self.action_manager is not always defined (see one2many viewmanager).
@@ -202,17 +215,6 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     }
                 }
             }
-
-            // Prepare the ControlPanel content and update it
-            var cp_status = {
-                active_view_selector: '.o_cp_switch_' + self.active_view.type,
-                breadcrumbs: self.action_manager && self.action_manager.get_breadcrumbs(),
-                cp_content: _.extend({}, self.searchview_elements, view_control_elements),
-                hidden: self.flags.headless,
-                searchview: self.searchview,
-                search_view_hidden: view_controller.searchable === false,
-            };
-            self.update_control_panel(cp_status);
         });
     },
     create_view: function(view, view_options) {
