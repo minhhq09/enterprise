@@ -6,6 +6,8 @@ from datetime import datetime
 from hashlib import md5
 from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
+import time
+from openerp.tools.safe_eval import safe_eval
 
 
 class report_account_followup_report(models.AbstractModel):
@@ -143,6 +145,63 @@ class account_report_context_followup_all(models.TransientModel):
             })
         return alerts
 
+    @api.multi
+    def get_html(self, given_context={}):
+        context_obj = self.env['account.report.context.followup']
+        report_obj = self.env['account.followup.report']
+        reports = []
+        emails_not_sent = context_obj.browse()
+        if 'partner_skipped' in given_context:
+            self.skip_partner(self.env['res.partner'].browse(int(given_context['partner_skipped'])))
+        partners = self.env['res.partner'].get_partners_in_need_of_action() - self.skipped_partners_ids
+        if 'partner_filter' in given_context:
+            self.write({'partner_filter': given_context['partner_filter']})
+        if 'partner_done' in given_context and 'partner_filter' not in given_context:
+            try:
+                self.write({'skipped_partners_ids': [(4, int(given_context['partner_done']))]})
+            except ValueError:
+                pass
+            if self.partner_filter == 'action':
+                if given_context['partner_done'] == 'all':
+                    if 'email_context_list' in given_context:
+                        email_context_list = safe_eval('[' + given_context['email_context_list'] + ']')
+                        email_contexts = self.env['account.report.context.followup'].browse(email_context_list)
+                        for email_context in email_contexts:
+                            if not email_context.send_email():
+                                emails_not_sent = emails_not_sent | email_context
+                    partners_done = partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)] - emails_not_sent.partner_id
+                    partners_done.update_next_action()
+                    self.write({'valuenow': min(self.valuemax, self.valuenow + 2)})
+                    partners = partners - partners_done
+                else:
+                    self.write({'valuenow': self.valuenow + 1})
+        if self.valuemax != self.valuenow + len(partners):
+            self.write({'valuemax': self.valuenow + len(partners)})
+        if self.partner_filter == 'all':
+            partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
+        for partner in partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)]:
+            context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
+            if not context_id:
+                context_id = context_obj.with_context(lang=partner.lang).create({'partner_id': partner.id})
+            lines = report_obj.with_context(lang=partner.lang).get_lines(context_id)
+            reports.append({
+                'context': context_id.with_context(lang=partner.lang),
+                'lines': lines,
+            })
+        rcontext = {
+            'reports': reports,
+            'report': report_obj,
+            'mode': 'display',
+            'emails_not_sent': emails_not_sent,
+            'context_all': self,
+            'all_partners_done': given_context.get('partner_done') == 'all',
+            'just_arrived': 'partner_done' not in given_context and 'partner_skipped' not in given_context,
+            'time': time,
+            'today': datetime.today().strftime('%Y-%m-%d'),
+            'res_company': self.env.user.company_id,
+        }
+        return self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup_all').render(rcontext)
+
 
 class account_report_context_followup(models.TransientModel):
     _name = "account.report.context.followup"
@@ -270,3 +329,17 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def to_auto(self):
         self.partner_id.write({'payment_next_action_date': datetime.today().strftime('%Y-%m-%d')})
+
+    @api.multi
+    def get_html(self, given_context={}):
+        lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self)
+        rcontext = {
+            'context': self.with_context(lang=self.partner_id.lang),
+            'report': self.env['account.followup.report'].with_context(lang=self.partner_id.lang),
+            'lines': lines,
+            'mode': 'display',
+            'time': time,
+            'today': datetime.today().strftime('%Y-%m-%d'),
+            'res_company': self.env['res.users'].browse(self.env.uid).company_id,
+        }
+        return self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup').render(rcontext)

@@ -42,73 +42,14 @@ class FinancialReportController(http.Controller):
                          ('Content-Length', len(content))])
         return ''
 
-    @http.route(['/account/followup_report/all/', '/account/followup_report/all/page/<int:page>'], type='http', auth='user')
-    def followup_all(self, page=1, **kw):
-        uid = request.session.uid
-        context_obj = request.env['account.report.context.followup']
-        report_obj = request.env['account.followup.report']
-        context_all_obj = request.env['account.report.context.followup.all']
-        reports = []
-        emails_not_sent = context_obj.browse()
-        context_all_id = context_all_obj.sudo(uid).search([('create_uid', '=', uid)], limit=1)
+    @http.route(['/account/followup_report/all/'], type='http', auth='user')
+    def followup_all(self, **kw):
         if 'letter_context_list' in kw and 'pdf' in kw:
             letter_context_list = safe_eval('[' + kw['letter_context_list'] + ']')
             letter_contexts = request.env['account.report.context.followup'].browse(letter_context_list)
             return request.make_response(letter_contexts.with_context(public=True).get_pdf(log=True),
                 headers=[('Content-Type', 'application/pdf'),
                          ('Content-Disposition', 'attachment; filename=followups.pdf;')])
-        if 'partner_skipped' in kw:
-            context_all_id.skip_partner(request.env['res.partner'].browse(int(kw['partner_skipped'])))
-        partners = request.env['res.partner'].get_partners_in_need_of_action() - context_all_id.skipped_partners_ids
-        if not context_all_id:
-            context_all_id = context_all_obj.sudo(uid).create({'valuemax': len(partners)})
-        if 'partner_filter' in kw:
-            context_all_id.write({'partner_filter': kw['partner_filter']})
-        if 'partner_done' in kw and 'partner_filter' not in kw:
-            try:
-                context_all_id.write({'skipped_partners_ids': [(4, int(kw['partner_done']))]})
-            except ValueError:
-                pass
-            if context_all_id.partner_filter == 'action':
-                if kw['partner_done'] == 'all':
-                    if 'email_context_list' in kw:
-                        email_context_list = safe_eval('[' + kw['email_context_list'] + ']')
-                        email_contexts = request.env['account.report.context.followup'].browse(email_context_list)
-                        for email_context in email_contexts:
-                            if not email_context.send_email():
-                                emails_not_sent = emails_not_sent | email_context
-                    partners_done = partners[((page - 1) * 15):(page * 15)] - emails_not_sent.partner_id
-                    partners_done.update_next_action()
-                    context_all_id.write({'valuenow': min(context_all_id.valuemax, context_all_id.valuenow + 2)})
-                    partners = partners - partners_done
-                else:
-                    context_all_id.write({'valuenow': context_all_id.valuenow + 1})
-        if context_all_id.valuemax != context_all_id.valuenow + len(partners):
-            context_all_id.write({'valuemax': context_all_id.valuenow + len(partners)})
-        if context_all_id.partner_filter == 'all':
-            partners = request.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
-        for partner in partners[((page - 1) * 15):(page * 15)]:
-            context_id = context_obj.sudo(uid).search([('partner_id', '=', partner.id)], limit=1)
-            if not context_id:
-                context_id = context_obj.with_context(lang=partner.lang).create({'partner_id': partner.id})
-            lines = report_obj.with_context(lang=partner.lang).get_lines(context_id)
-            reports.append({
-                'context': context_id.with_context(lang=partner.lang),
-                'lines': lines,
-            })
-        rcontext = {
-            'reports': reports,
-            'report': report_obj,
-            'mode': 'display',
-            'emails_not_sent': emails_not_sent,
-            'context_all': context_all_id,
-            'all_partners_done': kw.get('partner_done') == 'all',
-            'just_arrived': 'partner_done' not in kw and 'partner_skipped' not in kw,
-            'time': time,
-            'today': datetime.today().strftime('%Y-%m-%d'),
-            'res_company': request.env['res.users'].browse(uid).company_id,
-        }
-        return request.render('account_reports.report_followup_all', rcontext)
 
     @http.route('/account/followup_report/<int:partner>/', type='http', auth='user')
     def followup(self, partner, **kw):

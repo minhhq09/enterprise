@@ -26,7 +26,7 @@ var FollowupReportWidget = ReportWidget.extend({
     saveNextAction: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var note = $("#nextActionNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+        var note = $(".o_account_reports_next_action_note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
         var target_id = $("#nextActionModal #target_id").val();
         var date = $("#nextActionDate").val();
         date = formats.parse_value(date, {type:'date'})
@@ -60,7 +60,7 @@ var FollowupReportWidget = ReportWidget.extend({
             $(e.target).toggleClass('btn-default btn-info');
             $(e.target).siblings().toggleClass('btn-default btn-info');
         }
-        if ($(e.target).parents("div.o_account_reports_page").length > 0){
+        if ($(e.target).parents("div.o_account_reports_page").length > 0) {
             var target_id = $(e.target).parents("div.o_account_reports_page").data('context');
             this.$("#nextActionModal #target_id").val(target_id);
         }
@@ -110,18 +110,22 @@ var FollowupReportWidget = ReportWidget.extend({
                 letter_context_list.push($(this).data('context'))
             });
             window.open('?pdf&letter_context_list=' + letter_context_list, '_blank');
-            window.location.assign('?partner_done=all&email_context_list=' + email_context_list, '_self');
+            var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report
+            this.getParent().restart(report_context);
         }
     },
     donePartner: function(e) {
         var partner_id = $(e.target).data("partner");
+        var self = this;
         return new Model('res.partner').call('update_next_action', [[parseInt(partner_id)]]).then(function (result) {
-            window.location.assign('?partner_done=' + partner_id, '_self');
+            var report_context = {partner_done: partner_id}; // Restart the report
+            self.getParent().restart(report_context);
         });
     },
     skipPartner: function(e) {
         var partner_id = $(e.target).data("partner");
-        window.location.assign('?partner_skipped=' + partner_id, '_self');
+        var report_context = {partner_skipped: partner_id}; // Restart the report
+        this.getParent().restart(report_context);
     },
     printFollowupLetter: function(e) {
         e.stopPropagation();
@@ -169,7 +173,7 @@ var FollowupReportWidget = ReportWidget.extend({
         var note = this.$("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
         return new Model('account.move.line').call('write', [[parseInt(this.$("#paymentDateModal #target_id").val())], {expected_pay_date: formats.parse_value(this.$("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
             this.$('#paymentDateModal').modal('hide');
-            location.reload(true);
+            this.getParent().restart({});
         });
     },
     clickPencil: function(e) {

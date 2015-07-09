@@ -669,12 +669,12 @@
         </record>
         <record id="action_account_followup_all" model="ir.actions.client">
             <field name="name">Manage Follow-ups</field>
-            <field name="tag">account_report_generic</field>
+            <field name="tag">account_report_followup_generic</field>
             <field name="context" eval="{'url': '/account/followup_report/', 'model': 'account.followup.report', 'followup_all': True}" />
         </record>
         <record id="action_account_followup" model="ir.actions.client">
             <field name="name">Manage Follow-ups</field>
-            <field name="tag">account_report_generic</field>
+            <field name="tag">account_report_followup_generic</field>
             <field name="context" eval="{'url': '/account/followup_report/', 'addActiveId': True, 'model': 'account.followup.report'}" />
         </record>
         <record id="action_account_general_ledger_force_account" model="ir.actions.client">
@@ -702,6 +702,7 @@
         <template id="account_reports_backend" inherit_id="web.assets_backend" active="True">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/account_reports/static/src/js/account_reports_backend.js"></script>
+                <script type="text/javascript" src="/account_reports/static/src/js/account_reports_followup_backend.js"></script>
             </xpath>
         </template>
 

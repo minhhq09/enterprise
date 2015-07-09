@@ -1,4 +1,4 @@
-odoo.define('account.ReportsBackend', function (require) {
+odoo.define('account_reports.account_report_generic', function (require) {
 'use strict';
 
 var core = require('web.core');
@@ -23,9 +23,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         this.report_model = action.context.model;
         this.given_context = {};
         var url = this.base_url;
-        if (action.context.addActiveId) {
-            url += action.context.active_id;
-        }
         if (action.context.context) {
             this.given_context = action.context.context
         }
@@ -62,7 +59,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             self.report_type = result;
             return new Model('account.report.context.common').call('get_context_name_by_report_model_json').then(function (result) { // Get the dictionnary context name -> report model
                 self.context_model = new Model(JSON.parse(result)[self.report_model]);
-                self.page = 1;
                 // Fetch the context_id or create one if none exist.
                 // Look for a context with create_uid = current user (and with possibly a report_id)
                 var domain = [['create_uid', '=', self.session.uid]];
@@ -126,40 +122,35 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     // Once the html is loaded, fetches the context, the company_id, the fy, if there is xml export available and the company ids and names.
     post_load: function() {
-        if (this.report_model == 'account.followup.report' && self.given_context.followup_all) {
-            return this.update_cp();
+        var self = this;
+        var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
+        var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
+        if (this.report_model == 'account.followup.report' && this.base_url.search('all') > -1) {
+            fetched_context_model = new Model('account.report.context.followup.all');
+            select = ['id', 'valuenow', 'valuemax', 'percentage', 'partner_filter', 'last_page']
         }
-        else {
-            var self = this;
-            var fetched_context_model = self.context_model; // used if the context model that is used to fetch the required information for the control panel is not the same that the normal context model.
-            var select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company'];
-            if (this.report_model == 'account.followup.report' && this.base_url.search('all') > -1) {
-                fetched_context_model = new Model('account.report.context.followup.all');
-                select = ['id', 'valuenow', 'valuemax', 'percentage', 'partner_filter', 'last_page']
-            }
-            return fetched_context_model.query(select)
-            .filter([['id', '=', self.context_id]]).first().then(function (context) {
-                return new Model('res.users').query(['company_id'])
-                .filter([['id', '=', self.session.uid]]).first().then(function (user) {
-                    return new Model('res.company').query(['fiscalyear_last_day', 'fiscalyear_last_month'])
-                    .filter([['id', '=', user.company_id[0]]]).first().then(function (fy) {
-                        return new Model('account.financial.html.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
-                            return self.context_model.call('get_available_company_ids_and_names', [context.id]).then(function (available_companies) {
-                                self.xml_export = xml_export;
-                                self.fy = fy;
-                                self.context = context;
-                                self.context.available_companies = available_companies;
-                                self.render_buttons();
-                                self.render_searchview_buttons()
-                                self.render_searchview()
-                                self.render_pager()
-                                return self.update_cp();
-                            });
+        return fetched_context_model.query(select)
+        .filter([['id', '=', self.context_id]]).first().then(function (context) {
+            return new Model('res.users').query(['company_id'])
+            .filter([['id', '=', self.session.uid]]).first().then(function (user) {
+                return new Model('res.company').query(['fiscalyear_last_day', 'fiscalyear_last_month'])
+                .filter([['id', '=', user.company_id[0]]]).first().then(function (fy) {
+                    return new Model('account.financial.html.report.xml.export').call('is_xml_export_available', [self.report_model, self.report_id]).then(function (xml_export) {
+                        return self.context_model.call('get_available_company_ids_and_names', [context.id]).then(function (available_companies) {
+                            self.xml_export = xml_export;
+                            self.fy = fy;
+                            self.context = context;
+                            self.context.available_companies = available_companies;
+                            self.render_buttons();
+                            self.render_searchview_buttons()
+                            self.render_searchview()
+                            self.render_pager()
+                            return self.update_cp();
                         });
                     });
                 });
             });
-        }
+        });
     },
     do_show: function() {
         this._super();
@@ -167,9 +158,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     render_buttons: function() {
         var self = this;
-        if (this.report_model == 'account.followup.report') { // No buttons for followups
-            return '';
-        }
         this.$buttons = $(QWeb.render("accountReports.buttons", {xml_export: this.xml_export}));
         this.$buttons.find('.o_account-widget-pdf').bind('click', function () {
             window.open(self.base_url + '?pdf', '_blank')
@@ -201,48 +189,18 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         toggle.toggle(is_open);
     },
     render_pager: function() {
-        var self = this;
-        if (this.report_model == 'account.followup.report') {
-            if (this.base_url.search('all') > -1) {
-                this.pager = new pager(this, this.context.last_page, this.page, 1);
-                this.pager.on('pager_changed', this, function (state) {
-                    self.page = state.current_min;
-                    self.$el.attr({src: encodeURIcomponent('/account/followup_report/all/page/' + self.page)});
-                });
-                return this.pager;
-            }
-        }
         this.pager = '';
         return ''
     },
     render_searchview: function() {
-        if (this.report_model == 'account.followup.report') {
-            if (this.base_url.search('all') > -1) {
-                this.$searchview = $(QWeb.render("accountReports.followupProgressbar", {context: this.context}));
-                return this.$searchview;
-            }
-        }
         this.$searchview = '';
         return this.$searchview;
     },
     render_searchview_buttons: function() {
         var self = this;
-        if (this.report_model == 'account.followup.report') {
-            if (this.base_url.search('all') > -1) {
-                this.$searchview_buttons = $(QWeb.render("accountReports.followupSearchView", {context: this.context}));
-                this.$partnerFilter = this.$searchview_buttons.siblings('.o_account_reports_date-filter');
-                this.$searchview_buttons.find('.o_account_reports_one-filter').bind('click', function (event) {
-                    var url = self.base_url + encodeURIcomponent('?partner_filter=' + $(event.target).parents('li').data('value'));
-                    self.$el.attr({src: url});
-                });
-                return this.$searchview_buttons;
-            }
-            else {
-                return '';
-            }
-        }
         if (this.report_type == 'date_range_extended') {
-            return '';
+            this.$searchview_buttons = '';
+            return this.$searchview_buttons;
         }
         // Render the searchview buttons and bind them to the correct actions
         this.$searchview_buttons = $(QWeb.render("accountReports.searchView", {report_type: this.report_type, context: this.context}));

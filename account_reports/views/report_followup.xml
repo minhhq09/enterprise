@@ -30,7 +30,7 @@
             </a>
             <t t-call="account_reports.report_financial_footnote_sup" />
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <li role="presentation"><a class='o_account_reports_web_action' role="menuitem" tabindex="-1" data-res-model='account.invoice' t-att-data-active-id="context.env['account.move.line'].browse(int(a.get('id'))).invoice.id">View Invoice</a></li>
+                <li role="presentation"><a class='o_account_reports_web_action' role="menuitem" tabindex="-1" data-res-model='account.invoice' t-att-data-active-id="context.env['account.move.line'].browse(int(a.get('id'))).invoice_id">View Invoice</a></li>
                 <li role="presentation"><a role="menuitem" tabindex="-1" class="change_exp_date">Change expected payment date/note</a></li>
             </ul>
         </div>
@@ -151,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div t-if="mode != 'print'" class="modal fade" id="nextActionModal" tabindex="-1" role="dialog" aria-labelledby="nextActionLabel" aria-hidden="true">
+        <div t-if="mode != 'print'" class="modal fade nextActionModal" tabindex="-1" role="dialog" aria-labelledby="nextActionLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -172,8 +172,8 @@
                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
                                 </div>
                             </div>
-                            <label for='nextActionNote'>Note</label>
-                            <textarea name="nextActionNote" id="nextActionNote" rows='4' class="form-control" placeholder="Insert note here"></textarea>
+                            <label for='o_account_reports_next_action_note'>Note</label>
+                            <textarea name="o_account_reports_next_action_note" id="o_account_reports_next_action_note" rows='4' class="form-control" placeholder="Insert note here"></textarea>
                             <input type='hidden' id='target_id' />
                         </form>
                     </div>

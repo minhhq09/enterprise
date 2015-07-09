@@ -106,7 +106,7 @@ var ReportWidget = Widget.extend({
     },
     // From the modal, create the footnote
     saveFootNote: function(e) {
-        self = this;
+        var self = this;
         var report_name = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').data("report-name"); // get the report name and context
         var context_id = $(e.target).parents('#footnoteModal').siblings("div.o_account_reports_body").find('div.o_account_reports_page').data("context");
         var note = this.$("#note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' '); // Get the note and strip off extra spaces and line returns
@@ -152,7 +152,7 @@ var ReportWidget = Widget.extend({
     footnoteFromDropdown: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        self = this;
+        var self = this;
         self.curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first"); // Save the current footnote target that will be used in the saveFootNote method
         if(self.curFootNoteTarget.parents('div.dropdown').find('sup').length == 0) { // Make sure there's no footnote yet
             var type = $(e.target).parents('tr').data('type'); // Store the type, target_id and column in hidden fields

@@ -26,6 +26,7 @@ class ResPartner(models.Model):
 
     def get_followup_lines_domain(self, date, overdue_only=False, only_unblocked=False):
         domain = super(ResPartner, self).get_followup_lines_domain(date, overdue_only=overdue_only, only_unblocked=only_unblocked)
+        overdue_domain = ['|', '&', ('date_maturity', '!=', False), ('date_maturity', '<=', date), '&', ('date_maturity', '=', False), ('date', '<=', date)]
         if not overdue_only:
             domain += ['|', '&', ('next_action_date', '=', False)] + overdue_domain + ['&', ('next_action_date', '!=', False), ('next_action_date', '<=', date)]
         return domain
