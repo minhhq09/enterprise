@@ -3,138 +3,136 @@ odoo.define('account_reports.FollowupReportWidget', function (require) {
 
 var core = require('web.core');
 var Model = require('web.Model');
-var formats = require('web.formats');
 var ReportWidget = require('account_reports.ReportWidget');
-var time = require('web.time');
+var datepicker = require('web.datepicker');
+var Dialog = require('web.Dialog');
 
 var QWeb = core.qweb;
 
 var FollowupReportWidget = ReportWidget.extend({
     events: _.defaults({
         'click .change_exp_date': 'displayExpNoteModal',
-        'click #savePaymentDate': 'changeExpDate',
         'click .followup-email': 'sendFollowupEmail',
         'click .followup-letter': 'printFollowupLetter',
         'click .o_account_reports_followup_skip': 'skipPartner',
         'click .o_account_reports_followup_done': 'donePartner',
         'click .o_account_reports_followup-auto': 'enableAuto',
         "change *[name='blocked']": 'onChangeBlocked',
-        'click .o_account_reports_set-next-action': 'setNextAction',
-        'click #saveNextAction': 'saveNextAction',
         'click .o_account_reports_followup-set-next-action': 'setNextAction',
     }, ReportWidget.prototype.events),
-    saveNextAction: function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var note = $(".o_account_reports_next_action_note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
-        var target_id = $("#nextActionModal #target_id").val();
-        var date = $("#nextActionDate").val();
-        date = formats.parse_value(date, {type:'date'})
-        return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id)], date, note]).then(function (result) {
-            this.$('#nextActionModal').modal('hide');
-            this.$('div.o_account_reports_page.' + target_id).find('.o_account_reports_next-action').html(QWeb.render("nextActionDate", {'note': note, 'date': date}));
-        });
-    },
-    enableAuto: function(e) {
+    enableAuto: function(e) { // Auto mode is enabled -> Next action is computed automatically when clicking on 'Done'
         var target_id;
-        if ($(e.target).is('.btn-default')) { // change which button is highlighted
+        if ($(e.target).is('.btn-default')) { // If auto mode wasn't alreayd enabled
             target_id = $(e.target).parents("div.o_account_reports_page").data('context');
+            // change which button is highlighted
             $(e.target).toggleClass('btn-default btn-info');
             $(e.target).siblings().toggleClass('btn-default btn-info');
-            $(e.target).parents("div.o_account_reports_page").find('.o_account_reports_followup-no-action').remove();
+            $(e.target).parents("div.o_account_reports_page").find('.o_account_reports_followup-no-action').remove(); // Remove the alert stating that auto mode is disabled
         }
-        else if ($(e.target).is('div.alert a')) {
+        else if ($(e.target).is('div.alert a')) { // If auto mode is enabled from the alert
             target_id = $("div.o_account_reports_page").data('context');
+            // change which button is highlighted
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').addClass('btn-info');
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-auto').removeClass('btn-default');
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').addClass('btn-default');
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').removeClass('btn-info');
-            this.$('.o_account_reports_followup-no-action').remove();
+            $(e.target).parents('.o_account_reports_followup-no-action').remove(); // Remove the alert
         }
-        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]])
+        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]]); // Go to auto python-side
     },
+    // Opens the modal to select a next action
     setNextAction: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        if ($(e.target).is('.o_account_reports_followup-manual.btn-default')){
-            $(e.target).toggleClass('btn-default btn-info');
+        if ($(e.target).is('.o_account_reports_followup-manual.btn-default')){ // If manual mode isn't enabled yet
+            $(e.target).toggleClass('btn-default btn-info'); // Change the highlighted buttons
             $(e.target).siblings().toggleClass('btn-default btn-info');
         }
-        if ($(e.target).parents("div.o_account_reports_page").length > 0) {
-            var target_id = $(e.target).parents("div.o_account_reports_page").data('context');
-            this.$("#nextActionModal #target_id").val(target_id);
+
+        // Get the target and store it in a hidden field
+        var target_id = $(e.target).parents("div.o_account_reports_page").data('context');
+        var $content = $(QWeb.render("nextActionForm", {target_id: target_id}));
+        var nextActionDatePicker = new datepicker.DateWidget(this);
+        nextActionDatePicker.appendTo($content.find('div.o_account_reports_next_action_date_picker'));
+
+        var changeDate = function (e) {
+            var dt = new Date();
+            switch($(e.target).data('time')) { // Depending on which button is clicked, change the date accordingly
+                case 'one-week':
+                    dt.setDate(dt.getDate() + 7);
+                    break;
+                case 'two-weeks':
+                    dt.setDate(dt.getDate() + 14);
+                    break;
+                case 'one-month':
+                    dt.setMonth(dt.getMonth() + 1);
+                    break;
+                case 'two-months':
+                    dt.setMonth(dt.getMonth() + 2);
+                    break;
+            }
+            nextActionDatePicker.set_value(dt);
         }
-        var dt = new Date();
-        switch($(e.target).data('time')) {
-            case 'one-week':
-                dt.setDate(dt.getDate() + 7);
-                break;
-            case 'two-weeks':
-                dt.setDate(dt.getDate() + 14);
-                break;
-            case 'one-month':
-                dt.setMonth(dt.getMonth() + 1);
-                break;
-            case 'two-months':
-                dt.setMonth(dt.getMonth() + 2);
-                break;
+        $content.find('.o_account_reports_followup_next_action_date_button').bind('click', changeDate);
+        
+        var save = function () {
+            var note = $content.find(".o_account_reports_next_action_note").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+            var date = nextActionDatePicker.get_value();
+            var target_id = $content.find("#target_id").val();
+            return new Model('account.report.context.followup').call('change_next_action', [[parseInt(target_id)], date, note])
         }
-        this.$('.o_account_reports_picker-next-action-date').data("DateTimePicker").setValue(moment(dt));
-        this.$('#nextActionModal').on('hidden.bs.modal', function (e) {
-            $(this).find('form')[0].reset();
-        });
-        this.$('#nextActionModal').modal('show');
+        new Dialog(this, {size: 'medium', $content: $content, buttons: [{text: 'Save', classes: 'btn-primary', close: true, click: save}, {text: 'Cancel', close: true}]}).open();
     },
-    onChangeBlocked: function(e) {
+    onChangeBlocked: function(e) { // When clicking on the 'blocked' checkbox
         e.stopPropagation();
         e.preventDefault();
-        var checkbox = $(e.target).is(":checked")
+        var checkbox = $(e.target).is(":checked");
         var target_id = $(e.target).parents('tr').data('id');
-        if (checkbox) {
+        if (checkbox) { // If the checkbox was checked, change the line colour to gray else back to white
             $(e.target).parents('tr').attr('bgcolor', 'LightGray');
         }
         else {
             $(e.target).parents('tr').attr('bgcolor', 'white');
         }
-        return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}])
+        return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}]); // Write the change in db
     },
     onKeyPress: function(e) {
         var report_name = $("div.o_account_reports_page").data("report-name");
-        if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name == 'followup_report') {
-            var letter_context_list = [];
+        if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name === 'followup_report') { // on ctrl-enter
+            var letter_partner_list = [];
             var email_context_list = [];
-            this.$("*[data-primary='1'].followup-email").each(function() {
-                email_context_list.push($(this).data('context'))
+            this.$("*[data-primary='1'].followup-email").each(function() { // List all the followups where sending an email is needed
+                email_context_list.push($(this).data('context'));
             });
-            this.$("*[data-primary='1'].followup-letter").each(function() {
-                letter_context_list.push($(this).data('context'))
+            this.$("*[data-primary='1'].followup-letter").each(function() { // List all the followups where printing a pdf is needed
+                letter_partner_list.push($(this).data('partner'));
             });
-            window.open('?pdf&letter_context_list=' + letter_context_list, '_blank');
-            var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report
+            window.open('/account_reports/followup_report/' + letter_partner_list + '/', '_blank'); // Open the pdf of all the partners
+            var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
             this.getParent().restart(report_context);
         }
     },
     donePartner: function(e) {
         var partner_id = $(e.target).data("partner");
         var self = this;
-        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id)]]).then(function (result) {
-            var report_context = {partner_done: partner_id}; // Restart the report
+        return new Model('res.partner').call('update_next_action', [[parseInt(partner_id)]]).then(function () { // Update in db and restart report
+            var report_context = {partner_done: partner_id};
             self.getParent().restart(report_context);
         });
     },
     skipPartner: function(e) {
         var partner_id = $(e.target).data("partner");
-        var report_context = {partner_skipped: partner_id}; // Restart the report
+        var report_context = {partner_skipped: partner_id}; // Restart the report with the skipped partner
         this.getParent().restart(report_context);
     },
     printFollowupLetter: function(e) {
         e.stopPropagation();
         e.preventDefault();
         var url = $(e.target).data("target");
-        window.open(url, '_blank');
-        if ($(e.target).data('primary') == '1') {
-            $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
-            $(e.target).toggleClass('btn-primary btn-default');
+        window.open(url, '_blank'); // Open the link to the pdf
+        if ($(e.target).data('primary') === 1) { // If letter printing was required
+            $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked'); // Change the class to show the done button
+            $(e.target).toggleClass('btn-primary btn-default'); // change the class of the print letter button
             $(e.target).data('primary', '0');
         }
     },
@@ -142,65 +140,47 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
-        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id)]]).then (function (result) {
-            if (result == true) {
-                window.$("div.o_account_reports_page:first").prepend(QWeb.render("emailSent"));
-                if ($(e.target).data('primary') == '1') {
+        return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id)]]).then (function (result) { // send the email server side
+            if (result === true) {
+                $(e.target).parents("div.o_account_reports_page").prepend(QWeb.render("emailSent")); // If all went well, notify the user
+                if ($(e.target).data('primary') === 1) { // same as for letter printing
                     $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
                     $(e.target).toggleClass('btn-primary btn-default');
                     $(e.target).data('primary', '0');
                 }
             }
             else {
-                window.$("div.o_account_reports_page:first").prepend(QWeb.render("emailNotSent"));
+                $(e.target).parents("div.o_account_reports_page").prepend(QWeb.render("emailNotSent")); // If something went wrong
             }
         });
     },
     displayExpNoteModal: function(e) {
         e.stopPropagation();
         e.preventDefault();
+        var self = this;
         var target_id = $(e.target).parents('tr').data('id');
-        this.$("#paymentDateLabel").text($(e.target).parents("div.dropdown").find("span.invoice_id").text());
-        this.$("#paymentDateModal #target_id").val(target_id);
-        this.$('#paymentDateModal').on('hidden.bs.modal', function (e) {
-            $(this).find('form')[0].reset();
-        });
-        this.$('#paymentDateModal').modal('show');
-    },
-    changeExpDate: function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var note = this.$("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
-        return new Model('account.move.line').call('write', [[parseInt(this.$("#paymentDateModal #target_id").val())], {expected_pay_date: formats.parse_value(this.$("#expectedDate").val(), {type:'date'}), internal_note: note}]).then(function (result) {
-            this.$('#paymentDateModal').modal('hide');
-            this.getParent().restart({});
-        });
-    },
-    clickPencil: function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        self = this;
-        if ($(e.target).parent().hasClass('o_account_reports_next-action')) {
-            self.setNextAction(e);
+        var title = $(e.target).parents("div.dropdown").find("span.unreconciled_aml").text();
+        var $content = $(QWeb.render("paymentDateForm", {target_id: target_id}));
+        var paymentDatePicker = new datepicker.DateWidget(this);
+        paymentDatePicker.appendTo($content.find('div.o_account_reports_payment_date_picker'));
+        var save = function () {
+            var note = $content.find("#internalNote").val().replace(/\r?\n/g, '<br />').replace(/\s+/g, ' ');
+            var date = paymentDatePicker.get_value();
+            return new Model('account.move.line').call('write', [[parseInt($content.find("#target_id").val())], {expected_pay_date: date, internal_note: note}]).then(function () {
+                return self.getParent().restart({});
+            });
         }
-        return this._super()
+        new Dialog(this, {title: title, size: 'medium', $content: $content, buttons: [{text: 'Save', classes: 'btn-primary', close: true, click: save}, {text: 'Cancel', close: true}]}).open();
     },
     start: function() {
-        $(document).on("keypress", this, this.onKeyPress);
-        var l10n = core._t.database.parameters;
-        var $datetimepickers = this.$('.o_account_reports_datetimepicker');
-        var options = {
-            language : moment.locale(),
-            format : time.strftime_to_moment_format(l10n.date_format),
-            icons: {
-                date: "fa fa-calendar",
-            },
-            pickTime: false,
-        }
-        $datetimepickers.each(function () {
-            $(this).datetimepicker(options);
-        })
-        return this._super();
+        var res = this._super();
+        core.bus.on("keypress", this, this.onKeyPress);
+
+        // Start the date pickers
+        this.nextActionDatePicker = new datepicker.DateWidget(this);
+        var res2 = this.nextActionDatePicker.appendTo(this.$('div.o_account_reports_next_action_date_picker'));
+
+        return $.when(res, res2);
     },
 
 });

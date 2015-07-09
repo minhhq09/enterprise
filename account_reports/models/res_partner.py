@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from openerp import api, fields, models
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 class ResPartner(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
-    _description = 'Partner'
 
     payment_next_action = fields.Text('Next Action', copy=False, company_dependent=True,
                                       help="Note regarding the next action.")

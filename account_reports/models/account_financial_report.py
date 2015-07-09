@@ -28,7 +28,7 @@ class ReportAccountFinancialReport(models.Model):
             'name': self.get_title(),
             'tag': 'account_report_generic',
             'context': {
-                'url': '/account/financial_report/' + str(self.id),
+                'url': '/account_reports/output_format/financial_report/' + str(self.id),
                 'model': 'account.financial.html.report',
                 'id': self.id,
             },
@@ -388,12 +388,13 @@ class AccountFinancialReportLine(models.Model):
 
         return final_result_table
 
+
 class AccountFinancialReportXMLExport(models.AbstractModel):
     _name = "account.financial.html.report.xml.export"
     _description = "All the xml exports available for the financial reports"
 
     @api.model
-    def is_xml_export_available(self, report_name, report_id=None):
+    def is_xml_export_available(self, report_obj):
         return False
 
     def check(self, report_name, report_id=None):
@@ -401,6 +402,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
     def do_xml_export(self, report_id, context_id):
         return ''
+
 
 class FormulaLine(object):
     def __init__(self, obj, type='balance', linesDict={}):

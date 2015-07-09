@@ -31,7 +31,7 @@
         </t>
     </t>
     <t t-set="column" t-value="0" />
-    <tr t-att-data-type="a['type']" t-att-data-id="a['id']" t-att-class="trclass + ' ' + a['type'] + ' ' + ((a.get('unfoldable') and a.get('unfolded')) and 'o_account_reports_unfolded' or '')" id='tr-line'>
+    <tr t-att-data-type="a['type']" t-att-data-id="a['id']" t-att-class="trclass + ' ' + a['type'] + ' ' + ((a.get('unfoldable') and a.get('unfolded')) and 'o_account_reports_unfolded' or '')">
         <t t-set="tdclass" t-value="''" />
         <t t-if="a.get('unfoldable') and a.get('unfolded')"><t t-set="tdclass" t-value="'o_account_reports_foldable'" /></t>
         <t t-if="a.get('unfoldable') and not a.get('unfolded')"><t t-set="tdclass" t-value="'o_account_reports_unfoldable'" /></t>
@@ -56,7 +56,7 @@
                 <t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" />
             </span>
             <div class="dropdown" t-if="(a['type'] in ['account_id', 'tax_id', 'bank_statement_id', 'move_line_id']) and mode != 'print'">
-                <a data-toggle="dropdown">
+                <a data-toggle="dropdown" href='#'>
                     <span t-att-data-id="a.get('id')" t-att-class="' '.join([a['type'], domainClass])">
                         <t t-esc="a.get('name')"/>
                     </span>
@@ -99,7 +99,7 @@
     </tr>
 </template>
 <template id="report_financial_body">
-    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', 'o-form-view'])"> <!-- TODO: remove class form view once input rules are generalised -->
+    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', 'o-form-view', mode != 'print' and 'o_account_reports_no_print' or ''])"> <!-- TODO: remove class form view once input rules are generalised -->
         <h2 t-esc="report.get_title()"/>
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div t-if="mode != 'print' and context.summary == ''" class="o_account_reports_summary">
@@ -108,16 +108,16 @@
             </div>
         </div>
         <div t-if="mode != 'print' and context.summary != ''" class="o_account_reports_summary mt32">
-            <i style="font-size: 16px; margin-left: -19px; position: absolute;" class="fa fa-fw fa-pencil"></i> 
-            <div class="o_account_reports_saved_summary" role="alert" style='padding-left: 5px;'>
+            <i class="fa fa-fw fa-pencil o_account_reports_edit_summary_pencil"></i>
+            <div class="o_account_reports_saved_summary" role="alert">
                 <span><t t-raw="context.summary" /></span>
             </div>
         </div>
-        <div t-if="mode == 'print' and context.summary != ''" class="o_account_reports_saved_summary" id='print-summary' role="alert">
+        <div t-if="mode == 'print' and context.summary != ''" class="o_account_reports_saved_summary" role="alert">
             <span><t t-raw="context.summary" /></span>
         </div>
-        <div t-att-class="mode != 'print' and 'table-responsive' or ''" style='margin-bottom: 25px;'>
-            <table width='100%' style='white-space: nowrap;'>
+        <div t-att-class="mode != 'print' and 'table-responsive' or ''">
+            <table width='100%' class='o_account_reports_table'>
                 <thead>
                     <tr>
                         <th></th>
@@ -144,124 +144,29 @@
     </div>
 </template>
 <template id="assets_financial_report">
-        <!-- Bootstrap -->
-    <script src="/web/static/lib/bootstrap/js/affix.js"></script>
-    <script src="/web/static/lib/bootstrap/js/alert.js"></script>
-    <script src="/web/static/lib/bootstrap/js/button.js"></script>
-    <script src="/web/static/lib/bootstrap/js/carousel.js"></script>
-    <script src="/web/static/lib/bootstrap/js/collapse.js"></script>
-    <script src="/web/static/lib/bootstrap/js/dropdown.js"></script>
-    <script src="/web/static/lib/bootstrap/js/modal.js"></script>
-    <script src="/web/static/lib/bootstrap/js/tooltip.js"></script>
-    <script src="/web/static/lib/bootstrap/js/popover.js"></script>
-    <script src="/web/static/lib/bootstrap/js/scrollspy.js"></script>
-    <script src="/web/static/lib/bootstrap/js/tab.js"></script>
-    <script src="/web/static/lib/bootstrap/js/transition.js"></script>
-
-    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
-
-    <!-- jQuery ui -->
-    <link rel="stylesheet" href="/web/static/lib/jquery.ui/jquery-ui.css"/>
-    <t t-call="web.jqueryui_conflict">
-        <script type="text/javascript" src="/web/static/lib/jquery.ui/jquery-ui.js"></script>
-    </t>
-
-    <link rel="stylesheet" href="/web/static/lib/jquery.ui.notify/css/ui.notify.css"/>
-    <script type="text/javascript" src="/web/static/lib/jquery.ui.notify/js/jquery.notify.js"></script>
-
-    <script type="text/javascript" src="/web/static/lib/py.js/lib/py.js"></script>
-
-    <script type="text/javascript" src="/web/static/src/js/framework/formats.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/model.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/view.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/pyeval.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/session_instance.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/action_manager.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/control_panel.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/view_manager.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/web_client.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/data.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/compatibility.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/misc.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/crash_manager.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/framework/dialog.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/app_switcher.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/menu.js"></script>
-    <script type="text/javascript" src="/web/static/src/js/apps.js"></script>
-
     <link rel="stylesheet" href='/website/static/src/less/import_bootstrap.less'/>
-
     <link rel="stylesheet" href="/web/static/src/less/fonts.less"/>
     <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
     <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/webclient.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/webclient_layout.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/debug_manager.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/control_panel.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/control_panel_layout.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/modal.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/datepicker.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/progress_bar.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/dropdown.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/compatibility.less"/>
-    <link rel="stylesheet" href="/web/static/src/less/form_view.less"/> <!-- TODO: remove class form view less file once input rules are generalised -->
+    <link rel="stylesheet" href="/account_reports/static/src/less/account_financial_report.less" />
 </template>
 <template id="assets_backend" name="account_reports_assets" inherit_id="web.assets_backend">
     <xpath expr="." position="inside">
-        <script type="text/javascript" src="/account_reports/static/src/js/account_report_widgets.js"></script>
-        <script type="text/javascript" src="/account_reports/static/src/js/account_followup_report_widgets.js"></script>
+        <script type="text/javascript" src="/account_reports/static/src/js/account_reports_widgets.js"></script>
+        <script type="text/javascript" src="/account_reports/static/src/js/account_reports_followup_widgets.js"></script>
         <link rel="stylesheet" href="/account_reports/static/src/less/account_financial_report.less" />
     </xpath>
 </template>
 <template id="report_financial">
-        <!-- <t t-call-assets="web.assets_common" t-css="false" /> -->
-        <!-- <t t-call-assets="account_reports.assets_financial_report" /> -->
-
-
         <div class='o_account_reports_body'>
             <t t-call='account_reports.report_financial_body' />
-        </div>
-
-
-        <!-- Modal -->
-        <div class="modal" id="report_error" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true" style="z-index:9999;">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 class="modal-title">Error</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p>An error has occured!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div t-if="mode != 'print'" class="modal fade" id="footnoteModal" tabindex="-1" role="dialog" aria-labelledby="footnoteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&amp;times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="footnoteLabel">Annotate</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form role="form">
-                            <textarea name="note" id="note" rows='4' class="form-control" placeholder="Insert foot note here"></textarea>
-                            <input type='hidden' id='type' />
-                            <input type='hidden' id='target_id' />
-                            <input type='hidden' id='column' />
-                        </form>
-                    </div>
-                    <div class="modal-footer" style='text-align: left'>
-                        <button type="button" class="btn btn-primary" id="saveFootNote">Save changes</button> <a class='btn btn-default' data-dismiss="modal">Cancel</a>
-                    </div>
-                </div>
-            </div>
         </div>
 </template>
 <template id="report_financial_letter">
     <t t-raw="'&lt;base href=%s&gt;' % base_url"/>
     <t t-call="report.html_container">
+        <t t-call-assets="web.assets_common" t-css="false" />
+        <t t-call-assets="account_reports.assets_financial_report" />
         <t t-call="account_reports.report_financial" />
     </t>
 </template>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, osv
 from xlwt import Workbook, easyxf
 from openerp.exceptions import Warning
 from datetime import timedelta, datetime
@@ -370,7 +370,8 @@ class AccountReportContextCommon(models.TransientModel):
         return self.env['report']._run_wkhtmltopdf([header], [footer], [(0, html)], landscape, self.env.user.company_id.paperformat_id)
 
     @api.multi
-    def get_html(self, given_context={}):
+    def get_html_and_data(self, given_context={}):
+        result = {}
         if given_context:
             update = {}
             for field in given_context:
@@ -393,7 +394,17 @@ class AccountReportContextCommon(models.TransientModel):
             'lines': lines,
             'mode': 'display',
         }
-        return self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
+        result['html'] = self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
+        result['report_type'] = self.get_report_obj().get_report_type()
+        select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company']
+        result['report_context'] = self.read(select)[0]
+        result['xml_export'] = self.env['account.financial.html.report.xml.export'].is_xml_export_available(self.get_report_obj())
+        result['fy'] = {
+            'fiscalyear_last_day': self.env.user.company_id.fiscalyear_last_day,
+            'fiscalyear_last_month': self.env.user.company_id.fiscalyear_last_month,
+        }
+        result['available_companies'] = self.get_available_company_ids_and_names()
+        return result
 
     def get_xls(self, response):
         book = Workbook()
@@ -474,6 +485,30 @@ class AccountReportContextCommon(models.TransientModel):
             sheet.write(len(lines) + y_offset, x, None, upper_line_style)
 
         book.save(response.stream)
+
+    # Tries to find the corresponding context (model name and id) and creates it if none is found.
+    @api.model
+    def return_context(self, report_model, given_context, report_id=None):
+        context_model = self._report_model_to_report_context()[report_model]
+        # Fetch the context_id or create one if none exist.
+        # Look for a context with create_uid = current user (and with possibly a report_id)
+        domain = [('create_uid', '=', self.env.user.id)]
+        if report_id:
+            domain.append(('report_id', '=', int(report_id)))
+        context = self.env[context_model].search(domain, limit=1)
+        if context and (given_context.get('force_fy') or given_context.get('force_account')):
+            context.unlink()
+            context = self.env[context_model].browse([]) # set it to an empty set to indicate the contexts have been removed
+        if not context:
+            create_vals = {}
+            if report_id:
+                create_vals['report_id'] = report_id
+            if 'force_account' in given_context:
+                create_vals['unfolded_accounts'] = [(4, given_context['active_id'])]
+            if 'force_fy' in given_context:
+                create_vals['force_fy'] = True
+            context = self.env[context_model].create(create_vals)
+        return [context_model, context.id]
 
 
 class AccountReportFootnote(models.TransientModel):

@@ -1,42 +1,59 @@
-.o_account_reports_body {
-    background-color: @odoo-view-background-color;
-    color: @odoo-main-text-color;
+.o_account_reports_i_fa_toggle {
+    i.fa {
+        visibility: hidden;
+    }
+    &:hover i.fa {
+        visibility: visible;
+    }
+}
+.o_account_reports_lines(@border-width: 5px, @color: inherit, @font-weight: inherit, @border-top-style: initial, @border-bottom-style: initial) {
+    border-width: @border-width;
+    border-left-style: hidden;
+    border-right-style: hidden;
+    color: @color;
+    font-weight: @font-weight;
+    border-top-style: @border-top-style;
+    border-bottom-style: @border-bottom-style;
 }
 .o_account_reports_page {
+    background-color: @odoo-view-background-color;
+    color: @odoo-main-text-color;
     padding-bottom: 125px;
-    td ~ td span {
+    &.o_account_reports_no_print {
+        margin: @odoo-horizontal-padding auto;
+        .o-webclient-padding(@top: @odoo-sheet-vpadding, @bottom: @odoo-sheet-vpadding);
+    }
+    .o_account_reports_table {
+        white-space: nowrap;
+    }
+    .o_account_reports_edit_summary_pencil {
+        font-size: 16px;
+        margin-left: -15px;
+        position: absolute;
+    }
+    table > tbody > tr > td ~ td > span {
         margin-left: 10px;
     }
     .o_account_reports_summary {
         padding-bottom: 40px;
         padding-top: 15px;
-        i.fa {
-            visibility: hidden;
-        }
-        &:hover i.fa {
-            visibility: visible;
-        }
-    }
-    .o_account_reports_next-action {
-        i.fa {
-            visibility: hidden;
-        }
-        &:hover i.fa {
-            visibility: visible;
-        }
+        .o_account_reports_i_fa_toggle;
     }
     .o_account_reports_unfolded td + td {
         visibility: hidden;
     }
-    a, div.o_account_reports_summary, .o_account_reports_web_action, div.o_account_reports_next-action,
-    span.o_account_reports_web_action, div.dropdown, span.dropdown, i.fa, div.o_account_reports_saved_summary span,
-    td.o_account_reports_unfoldable, td.o_account_reports_foldable, span.partner_id, span.move_line_id, input[type=checkbox] {
-        cursor: pointer; cursor: hand;
+    div.o_account_reports_saved_summary {
+        padding-left: 5px;
     }
-    p.footnote i.fa, p.o_account_reports_footnote_edit i.fa {
+    div.o_account_reports_summary, .o_account_reports_web_action,
+    span.o_account_reports_web_action, i.fa, div.o_account_reports_saved_summary span,
+    td.o_account_reports_unfoldable, td.o_account_reports_foldable, span.partner_id, span.move_line_id, input[type=checkbox] {
+        cursor: pointer;
+    }
+    p.footnote > .o_account_reports_footnote_icons, p.o_account_reports_footnote_edit > .o_account_reports_footnote_icons {
         visibility: hidden;
     }
-    p.footnote:hover i.fa {
+    p.footnote:hover > .o_account_reports_footnote_icons {
         visibility: visible;
     }
     .o_account_reports_footnote_icons {
@@ -75,7 +92,6 @@
         border-bottom: thin groove;
     }
     b.o_account_reports_footnote_sup {
-        position: absolute;
         margin-top: 10px;
         color: @odoo-main-text-color;
     }
@@ -87,24 +103,14 @@
         color: @odoo-main-text-color;
     }
     .o_account_reports_level0 {
+        .o_account_reports_lines(@border-width: 5px, @color: @odoo-brand-primary, @font-weight: bold, @border-top-style: double, @border-bottom-style: hidden);
         border-collapse: separate;
-        color: @odoo-brand-primary;
-        border-width:5px;
-        border-left-style: hidden;
-        border-top-style: double;
-        border-bottom-style: hidden;
-        border-right-style: hidden;
-        font-weight: bold;
         td {
             padding-bottom: 45px;
         }
     }
     .o_account_reports_level1 {
-        border-width: 2px;
-        border-style: solid;
-        border-top-style: hidden;
-        border-left-style: hidden;
-        border-right-style: hidden;
+        .o_account_reports_lines(@border-width: 2px, @border-top-style: hidden, @border-bottom-style: solid);
         &.total {
             border-top-style: solid;
             td {
@@ -113,10 +119,7 @@
         }
     }
     .o_account_reports_level2 {
-        border-width: 1px;
-        border-style: solid;
-        border-left-style: hidden;
-        border-right-style: hidden;
+        .o_account_reports_lines(@border-width: 1px, @border-top-style: solid, @border-bottom-style: solid);
         > td > span:last-child {
             margin-left: 25px;
         }
@@ -125,21 +128,9 @@
         }
     }
     .o_account_reports_default_style {
-        border-width: 0;
-        border-style: solid;
-        border-left-style: hidden;
-        border-right-style: hidden;
+        .o_account_reports_lines(@border-width: 0px, @border-top-style: solid, @border-bottom-style: solid);
         > td > span:last-child {
             margin-left: 50px;
-        }
-    }
-    .progress {
-        position: relative;
-        span {
-            position: absolute;
-            display: block;
-            width: 100%;
-            color: @odoo-main-text-color;
         }
     }
     .o_account_reports_followup_not_clicked {

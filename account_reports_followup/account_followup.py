@@ -75,6 +75,7 @@ class account_move_line(models.Model):
 class res_partner(models.Model):
     _inherit = "res.partner"
 
+    @api.model
     def get_partners_in_need_of_action_and_update(self):
         company_id = self.env.user.company_id
         context = self.env.context
@@ -167,11 +168,16 @@ class res_partner(models.Model):
         for partner in self:
             for aml in partner.unreconciled_aml_ids:
                 followup_line_id = aml.followup_line_id.id or None
+                delete_context = False
                 if aml.date_maturity:
                     if aml.date_maturity <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
                         aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
+                        delete_context = True
                 elif aml.date and aml.date <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
                     aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
+                    delete_context = True
+                if delete_context:
+                    self.env['account.report.context.followup'].search([('partner_id', '=', partner.id), ('create_uid', '=', self.env.user.id)]).unlink()
 
     payment_responsible_id = fields.Many2one('res.users', ondelete='set null', string='Follow-up Responsible',
                                              help="Optionally you can assign a user to this field, which will make him responsible for the action.",

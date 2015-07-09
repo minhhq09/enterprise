@@ -145,52 +145,34 @@ class account_report_context_followup_all(models.TransientModel):
             })
         return alerts
 
-    @api.multi
-    def get_html(self, given_context={}):
+    def _get_html_get_partners(self):
+        return self.env['res.partner'].get_partners_in_need_of_action() - self.skipped_partners_ids
+
+    def _get_html_partner_done(self, given_context, partners):
         context_obj = self.env['account.report.context.followup']
-        report_obj = self.env['account.followup.report']
-        reports = []
         emails_not_sent = context_obj.browse()
-        if 'partner_skipped' in given_context:
-            self.skip_partner(self.env['res.partner'].browse(int(given_context['partner_skipped'])))
-        partners = self.env['res.partner'].get_partners_in_need_of_action() - self.skipped_partners_ids
-        if 'partner_filter' in given_context:
-            self.write({'partner_filter': given_context['partner_filter']})
-        if 'partner_done' in given_context and 'partner_filter' not in given_context:
-            try:
-                self.write({'skipped_partners_ids': [(4, int(given_context['partner_done']))]})
-            except ValueError:
-                pass
-            if self.partner_filter == 'action':
-                if given_context['partner_done'] == 'all':
-                    if 'email_context_list' in given_context:
-                        email_context_list = safe_eval('[' + given_context['email_context_list'] + ']')
-                        email_contexts = self.env['account.report.context.followup'].browse(email_context_list)
-                        for email_context in email_contexts:
-                            if not email_context.send_email():
-                                emails_not_sent = emails_not_sent | email_context
-                    partners_done = partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)] - emails_not_sent.partner_id
-                    partners_done.update_next_action()
-                    self.write({'valuenow': min(self.valuemax, self.valuenow + 2)})
-                    partners = partners - partners_done
-                else:
-                    self.write({'valuenow': self.valuenow + 1})
-        if self.valuemax != self.valuenow + len(partners):
-            self.write({'valuemax': self.valuenow + len(partners)})
-        if self.partner_filter == 'all':
-            partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
-        for partner in partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)]:
-            context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
-            if not context_id:
-                context_id = context_obj.with_context(lang=partner.lang).create({'partner_id': partner.id})
-            lines = report_obj.with_context(lang=partner.lang).get_lines(context_id)
-            reports.append({
-                'context': context_id.with_context(lang=partner.lang),
-                'lines': lines,
-            })
-        rcontext = {
+        if given_context['partner_done'] == 'all':
+            if 'email_context_list' in given_context:
+                email_context_list = given_context['email_context_list']
+                email_contexts = context_obj.browse(email_context_list)
+                for email_context in email_contexts:
+                    if not email_context.send_email():
+                        emails_not_sent = emails_not_sent | email_context
+            partners_done = partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)] - emails_not_sent.partner_id
+            partners_done.update_next_action()
+            self.write({'valuenow': min(self.valuemax, self.valuenow + 2)})
+            partners = partners - partners_done
+        else:
+            self.write({'valuenow': self.valuenow + 1})
+        return [partners, emails_not_sent]
+
+    def _get_html_create_context(self, partner):
+        return self.env['account.report.context.followup'].with_context(lang=partner.lang).create({'partner_id': partner.id})
+
+    def _get_html_build_rcontext(self, reports, emails_not_sent, given_context):
+        return {
             'reports': reports,
-            'report': report_obj,
+            'report': self.env['account.followup.report'],
             'mode': 'display',
             'emails_not_sent': emails_not_sent,
             'context_all': self,
@@ -200,6 +182,38 @@ class account_report_context_followup_all(models.TransientModel):
             'today': datetime.today().strftime('%Y-%m-%d'),
             'res_company': self.env.user.company_id,
         }
+
+    @api.multi
+    def get_html(self, given_context={}):
+        context_obj = self.env['account.report.context.followup']
+        report_obj = self.env['account.followup.report']
+        reports = []
+        emails_not_sent = context_obj.browse()
+        if 'partner_skipped' in given_context:
+            self.skip_partner(self.env['res.partner'].browse(int(given_context['partner_skipped'])))
+        partners = self._get_html_get_partners()
+        if 'partner_filter' in given_context:
+            self.write({'partner_filter': given_context['partner_filter']})
+        if 'partner_done' in given_context and 'partner_filter' not in given_context:
+            try:
+                self.write({'skipped_partners_ids': [(4, int(given_context['partner_done']))]})
+            except ValueError:
+                pass
+            [partners, emails_not_sent] = self._get_html_partner_done(given_context, partners)
+        if self.valuemax != self.valuenow + len(partners):
+            self.write({'valuemax': self.valuenow + len(partners)})
+        if self.partner_filter == 'all':
+            partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
+        for partner in partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)]:
+            context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
+            if not context_id:
+                context_id = self._get_html_create_context(partner)
+            lines = report_obj.with_context(lang=partner.lang).get_lines(context_id)
+            reports.append({
+                'context': context_id.with_context(lang=partner.lang),
+                'lines': lines,
+            })
+        rcontext = self._get_html_build_rcontext(reports, emails_not_sent, given_context)
         return self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup_all').render(rcontext)
 
 
@@ -289,7 +303,6 @@ class account_report_context_followup(models.TransientModel):
                 msg = fields.Date.context_today(self) + _(': Sent a followup letter')
                 context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
-
         return self.env['report']._run_wkhtmltopdf(headers, footers, bodies, False, self.env.user.company_id.paperformat_id)
 
     @api.multi
@@ -321,7 +334,7 @@ class account_report_context_followup(models.TransientModel):
         db_uuid = self.env['ir.config_parameter'].get_param('database.uuid')
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         check = md5(str(db_uuid) + self.partner_id.name).hexdigest()
-        return base_url + '/account/public_followup_report/' + str(self.partner_id.id) + '/' + check
+        return base_url + '/account_reports/public_followup_report/' + str(self.partner_id.id) + '/' + check
 
     def get_history(self):
         return self.env['mail.message'].search([('subtype_id', '=', self.env['ir.model.data'].xmlid_to_res_id('account.followup_logged_action')), ('id', 'in', self.partner_id.message_ids.ids)], limit=5)

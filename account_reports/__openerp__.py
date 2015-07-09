@@ -24,4 +24,5 @@ Accounting Reports
         'static/src/xml/account_report_backend.xml',
     ],
     'auto_install': True,
+    'installable': True,
 }
