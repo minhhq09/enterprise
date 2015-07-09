@@ -112,7 +112,6 @@ var Editor = Widget.extend({
         var loaded = record
             ? form.trigger('load_record', _.extend({}, record))
             : form.load_defaults();
-        var focus_field = options && options.focus_field && form.fields[options.focus_field];
         return $.when(loaded).then(function () {
             return form.do_show({reload: false});
         }).then(function () {
@@ -120,11 +119,6 @@ var Editor = Widget.extend({
             _(form.fields).each(function (field, name) {
                 configureField(name, field);
             });
-
-            // Focus on the clicked field
-            if (focus_field) {
-                focus_field.$el.focus();
-            }
             return form;
         });
     },
@@ -415,11 +409,19 @@ ListView.include(/** @lends instance.web.ListView# */{
                 }, options).then(function () {
                     $recordRow.addClass('o_row_edition');
                     self.resize_fields();
+                    // Local function that returns true if field is visible and editable
+                    var is_focusable = function(field) {
+                        return field && field.$el.is(':visible:not(.o_readonly)');
+                    };
                     var focus_field = options && options.focus_field ? options.focus_field : undefined;
-                    if (!focus_field || !fields[focus_field]){
-                        focus_field = _.find(self.editor.form.fields_order, function(field){ return fields[field] && fields[field].$el.is(':visible:has(input)'); });
+                    if (!is_focusable(fields[focus_field])) {
+                        focus_field = _.find(self.editor.form.fields_order, function(field) {
+                            return is_focusable(fields[field]);
+                        });
                     }
-                    if (focus_field  && fields[focus_field]) fields[focus_field].$el.find('input').select();
+                    if (fields[focus_field]) {
+                        fields[focus_field].$el.find('input').andSelf().filter('input').focus();
+                    }
                     return record.attributes;
                 });
             }).fail(function () {
