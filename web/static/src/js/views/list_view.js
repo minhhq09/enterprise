@@ -316,9 +316,18 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             this.pager.appendTo($node || this.options.$pager);
 
             this.pager.on('pager_changed', this, function (new_state) {
+                var self = this;
+                var limit_changed = (this._limit !== new_state.limit);
+
                 this._limit = new_state.limit;
                 this.current_min = new_state.current_min;
-                this.reload_content();
+                this.reload_content().then(function() {
+                    // Reset the scroll position to the top on page changed only
+                    if (!limit_changed) {
+                        self.set_scrollTop(0);
+                        core.bus.trigger('scrollTop_updated');
+                    }
+                });
             });
         }
     },
