@@ -44,11 +44,21 @@ var Action = core.Class.extend({
         this.on_reverse_breadcrumb_callback = callback;
     },
     /**
+     * Not implemented for client actions
+     */
+    set_scrollTop: function() {
+    },
+    /**
      * Stores the DOM fragment of the action
      * @param {jQuery} [fragment] the DOM fragment
      */
     set_fragment: function($fragment) {
         this.$fragment = $fragment;
+    },
+    /**
+     * Not implemented for client actions
+     */
+    set_is_in_DOM: function() {
     },
     /**
      * Not implemented for client actions
@@ -80,11 +90,6 @@ var Action = core.Class.extend({
      */
     get_fragment: function() {
         return this.$fragment;
-    },
-    /**
-     * Not implemented for client actions
-     */
-    set_is_in_DOM: function() {
     },
 });
 /**
@@ -141,7 +146,21 @@ var ViewManagerAction = WidgetAction.extend({
      */
     set_on_reverse_breadcrumb: function(callback, scrollTop) {
         this._super(callback);
+        this.set_scrollTop(scrollTop);
+    },
+    /**
+     * Sets the scroll position of the widgets's active_view
+     * @param {int} [scrollTop] the number of pixels to scroll
+     */
+    set_scrollTop: function(scrollTop) {
         this.widget.active_view.controller.set_scrollTop(scrollTop);
+    },
+    /**
+     * Sets is_in_DOM on this.widget
+     * @param {Boolean} [is_in_DOM] true iff the widget is attached in the DOM
+     */
+    set_is_in_DOM: function(is_in_DOM) {
+        this.widget.is_in_DOM = is_in_DOM;
     },
     /**
      * @return {int} the number of pixels the webclient is scrolled when leaving the action
@@ -168,13 +187,6 @@ var ViewManagerAction = WidgetAction.extend({
     get_nb_views: function() {
         return this.widget.view_stack.length;
     },
-    /**
-     * Sets is_in_DOM on this.widget
-     * @param {Boolean} [is_in_DOM] true iff the widget is attached in the DOM
-     */
-    set_is_in_DOM: function(is_in_DOM) {
-        this.widget.is_in_DOM = is_in_DOM;
-    },
 });
 
 var ActionManager = Widget.extend({
@@ -199,6 +211,14 @@ var ActionManager = Widget.extend({
         // clicking on a part of the breadcrumbs. Call select_action for this breadcrumb.
         this.main_control_panel.on("on_breadcrumb_click", this, function(action, index) {
             this.select_action(action, index);
+        });
+
+        // Listen to event "DOM_updated" to restore the scroll position
+        core.bus.on('DOM_updated', this, function() {
+            if (this.webclient && this.inner_action) {
+                var scrollTop = this.inner_action.get_scrollTop() || 0;
+                this.webclient.set_scrollTop(scrollTop);
+            }
         });
 
         // Insert the main control panel into the DOM
@@ -286,6 +306,11 @@ var ActionManager = Widget.extend({
             this.inner_action.set_is_in_DOM(this.is_in_DOM);
         }
     },
+    set_scrollTop: function(scrollTop) {
+        if (this.inner_action) {
+            this.inner_action.set_scrollTop(scrollTop);
+        }
+    },
     get_breadcrumbs: function () {
         return _.flatten(_.map(this.action_stack, function (action) {
             return action.get_breadcrumbs();
@@ -348,14 +373,10 @@ var ActionManager = Widget.extend({
                 if (action !== old_action) {
                     // Clear the action stack (this also removes the current action from the DOM)
                     self.clear_action_stack(to_destroy);
+
                     // Append the fragment of the action to restore to self.$el
                     framework.append(self.$el, action.get_fragment(), self.is_in_DOM);
                     self.inner_action.set_is_in_DOM(self.is_in_DOM);
-                    // Restore the scroll position of the fragment (it cannot be restored by the view
-                    // manager as the element was detached)
-                    if (self.webclient) {
-                        self.webclient.set_scrollTop(action.get_scrollTop());
-                    }
                 }
             });
         }).fail(function() {

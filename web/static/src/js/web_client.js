@@ -343,6 +343,8 @@ var WebClient = Widget.extend({
         if (display) {
             var self = this;
             this.clear_uncommitted_changes().then(function() {
+                // Save the current scroll position of the action_manager
+                self.action_manager.set_scrollTop(self.get_scrollTop());
                 self.menu.$el.detach();
                 self.$web_client_content = self.$el.contents()
                                                 .not('.o_loading')

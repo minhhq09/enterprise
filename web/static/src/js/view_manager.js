@@ -193,28 +193,15 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                 // Do not detach ui-autocomplete elements to let jquery-ui garbage-collect them
                 old_view.fragment = self.$el.contents().not('.ui-autocomplete').detach();
             }
+
+            // If the user switches from a multi-record to a mono-record view,
+            // the action manager should be scrolled to the top.
+            if (old_view && old_view.controller.multi_record === true && view_controller.multi_record === false) {
+                view_controller.set_scrollTop(0);
+            }
+
             // Append the view fragment to self.$el
             framework.append(self.$el, view_fragment, self.is_in_DOM);
-
-            // Scroll to the provided position or to the top
-            // Note: self.action_manager is not always defined (see one2many viewmanager).
-            if (self.action_manager && self.action_manager.webclient) {
-                // Special case: if this is the first view displayed or if the
-                // user clicks on a monorecord view while he is on a multirecord
-                // view, the action manager should be scrolled to the top.
-                if (!old_view || (view_controller.multi_record === false && old_view.controller.multi_record === true)) {
-                    self.action_manager.webclient.set_scrollTop(0);
-                } else {
-                    // Check if we have a stored scrollTop value for the oepend view
-                    var scrollTop = view_controller.get_scrollTop();
-                    if (_.isNumber(scrollTop)) {
-                        self.action_manager.webclient.set_scrollTop(scrollTop);
-                    } else {
-                        // If not, scroll to the top
-                        self.action_manager.webclient.set_scrollTop(0);
-                    }
-                }
-            }
         });
     },
     create_view: function(view, view_options) {
