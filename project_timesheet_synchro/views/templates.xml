@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <template id="index" name="Timesheet Index">
+    <html>
+      <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Odoo Project Timesheet</title>
+        <link rel="shortcut icon" href="static/src/img/favicon.ico" type="image/x-icon"/>
+
+        <t t-call-assets="web.assets_common"/>
+        <t t-call-assets="web.assets_backend"/>
+        <t t-call-assets="project_timesheet_synchro.assets_timesheet_app"/>
+
+        <script type="text/javascript" src="static/src/js/project_timesheet.js"></script>
+        <script type="text/javascript" id="loading-script" src="static/src/js/init.js"></script>
+      </head>
+      <body>
+      </body>
+    </html>
+  </template>
+  <template id="assets_common" inherit_id="web.assets_common" name="Timesheet App common assets">
+    <xpath expr='.' position="inside">
+        <script type="text/javascript" src="/project_timesheet_synchro/static/src/js/timesheet_app_test_ui.js"/>
+    </xpath>
+</template>
+  <template id="assets_timesheet_app" name="Timesheet Assets">
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_alerts.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_buttons.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_cards.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_checkboxes.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_colors.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_dialogs.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_dividers.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_icons.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_icons-material-design.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_inputs.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_labels.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_lists.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_mixins.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_navbar.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_panels.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_plugin-dropdownjs.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_plugin-nouislider.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_plugin-selectize.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_plugin-snackbarjs.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_popups.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_progress.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_radios.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/roboto.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_shadows.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_tabs.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_togglebutton.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_variables.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/_welljumbo.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/lib/material-design/less/material-no-imports.less" rel="stylesheet"/>
+    <link href="/project_timesheet_synchro/static/src/less/project_timesheet.less" rel="stylesheet"/> -->
+  </template>
+</openerp>
