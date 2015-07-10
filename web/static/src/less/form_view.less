@@ -422,22 +422,6 @@
         }
     }
 
-    // List view
-    .o_list_view {
-        margin-bottom: 10px;
-        border: none;
-
-        > thead {
-            background: transparent;
-            border-bottom: 1px solid @odoo-form-lightsecondary;
-        }
-
-        > tfoot > tr > td {
-            padding: 0;
-            color: @odoo-main-text-color;
-            background-color: @odoo-list-grey;
-        }
-    }
 
     // Image
     .o_form_field_image {
@@ -480,12 +464,37 @@
         cursor : pointer;
     }
 
-	// One2Many Kanban views
-    .o_kanban_view.o_kanban_ungrouped {
+    // One2Many Kanban views
+    .o_form_field .o_kanban_view.o_kanban_ungrouped {
         padding: 0;
         .o_kanban_record {
             box-shadow: none;
         }
+    }
+
+    // One2Many List views
+    .o_form_field .o_list_view {
+        margin-bottom: 10px;
+        border: none;
+
+        > thead {
+            background: transparent;
+            border-bottom: 1px solid @odoo-form-lightsecondary;
+        }
+
+        > tfoot > tr > td {
+            padding: 0;
+            color: @odoo-main-text-color;
+            background-color: @odoo-list-grey;
+        }
+    }
+    &.o_form_editable .o_form_field .o_list_view {
+        td.o_readonly {
+            background-color: lightgrey;  // Readonly fields on edit mode
+        }
+    }
+    &.o_form_readonly .o_form_field .o_list_view .o_row_handle {
+        display: none;  // Hide the handler in non-edit mode
     }
 
     .o_form_field_percent_pie {
