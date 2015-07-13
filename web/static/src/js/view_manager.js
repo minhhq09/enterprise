@@ -89,7 +89,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                 action : self.action,
                 action_views_ids : views_ids,
             }, self.flags, self.flags[view.type], view.options);
-            view.fragment = undefined;
+            view.$fragment = undefined;
         });
 
         if (this.flags.search_view) {
@@ -168,7 +168,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
     _display_view: function (view_options, old_view) {
         var self = this;
         var view_controller = this.active_view.controller;
-        var view_fragment = this.active_view.fragment;
+        var view_fragment = this.active_view.$fragment;
         var view_control_elements = this.render_view_control_elements();
 
         // Show the view
@@ -191,7 +191,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     old_view.controller.set_scrollTop(self.action_manager.webclient.get_scrollTop());
                 }
                 // Do not detach ui-autocomplete elements to let jquery-ui garbage-collect them
-                old_view.fragment = self.$el.contents().not('.ui-autocomplete').detach();
+                old_view.$fragment = self.$el.contents().not('.ui-autocomplete').detach();
             }
 
             // If the user switches from a multi-record to a mono-record view,
@@ -216,7 +216,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
         }
         var controller = new View(this, this.dataset, view.view_id, options);
         view.controller = controller;
-        view.fragment = $('<div>');
+        view.$fragment = $('<div>');
 
         if (view.embedded_view) {
             controller.set_embedded_view(view.embedded_view);
@@ -234,10 +234,10 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
         controller.on('view_loaded', this, function () {
             view_loaded.resolve();
         });
-        return $.when(controller.appendTo(view.fragment), view_loaded)
+        return $.when(controller.appendTo(view.$fragment), view_loaded)
                 .done(function () {
                     // Remove the unnecessary outer div
-                    view.fragment = view.fragment.contents();
+                    view.$fragment = view.$fragment.contents();
                     self.trigger("controller_inited", view.type, controller);
                 });
     },

@@ -358,10 +358,10 @@ var ActionManager = Widget.extend({
         return def.then(function() {
             // Set the new inner_action/widget and update the action stack
             var old_action = self.inner_action;
-            self.inner_action = action;
-            self.inner_widget = action.widget;
             var action_index = self.action_stack.indexOf(action);
             var to_destroy = self.action_stack.splice(action_index + 1);
+            self.inner_action = action;
+            self.inner_widget = action.widget;
 
             // Hide the ControlPanel if the widget doesn't use it
             if (!self.inner_widget.need_control_panel) {
