@@ -17,7 +17,7 @@ class AccountJournal(models.Model):
 
     def _default_inbound_payment_methods(self):
         vals = super(AccountJournal, self)._default_inbound_payment_methods()
-        return vals + [(4, self.env.ref('account_batch_deposit.account_payment_method_batch_deposit').id, None)]
+        return vals + self.env.ref('account_batch_deposit.account_payment_method_batch_deposit')
 
     @api.model
     def create(self, vals):

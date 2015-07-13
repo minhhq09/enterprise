@@ -7,7 +7,7 @@ class AccountJournal(models.Model):
 
     def _default_outbound_payment_methods(self):
         vals = super(AccountJournal, self)._default_outbound_payment_methods()
-        return vals + [(4, self.env.ref('account_sepa.account_payment_method_sepa_ct').id, None)]
+        return vals + self.env.ref('account_sepa.account_payment_method_sepa_ct')
 
     @api.model
     def _enable_sepa_ct_on_bank_journals(self):
