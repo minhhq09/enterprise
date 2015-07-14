@@ -1,0 +1,5 @@
+import account_analytic_account
+import account_analytic_account_wizard
+import payment_acquirer
+import sale_order
+import sale_quote_template
