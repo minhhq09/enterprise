@@ -101,7 +101,7 @@ class report_account_generic_tax_report(models.AbstractModel):
                     'columns': ['' for k in range(0, (len(context['periods']) + 1) * 2)],
                     'level': 1,
                 })
-            for key, tax in groups[tp].items():
+            for key, tax in sorted(groups[tp].items(), key=lambda k: k[1]['obj'].sequence):
                 if tax['show']:
                     lines.append({
                         'id': tax['obj'].id,
