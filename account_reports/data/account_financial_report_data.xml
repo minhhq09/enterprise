@@ -62,7 +62,7 @@
         <record id="account_financial_report_expense0" model="account.financial.html.report.line">
             <field name="name">Expenses</field>
             <field name="code">EXP</field>
-            <field name="formulas">balance = -sum.balance</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_less_expenses0'/>
             <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_expenses'))]" />
             <field name="groupby">account_id</field>
