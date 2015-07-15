@@ -263,29 +263,26 @@ var WebClient = Widget.extend({
             var state = event.getState(true);
             if (!state.action && state.menu_id) {
                 var action_id = self.menu.menu_id_to_action_id(state.menu_id);
-                self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
-                    var action_id = self.action_manager.get_inner_action().get_action_descr().id;
-                    var primary_menu_id = self.menu.action_id_to_primary_menu_id(action_id);
-                    if (primary_menu_id) {
-                        self.menu.change_menu_section(primary_menu_id);
-                    }
-                    self.toggle_app_switcher(false);
-                });
+                self.do_action(action_id, {clear_breadcrumbs: true}).then(update_menu);
             } else if (state.action) {
                 state._push_me = false;  // no need to push state back...
-                self.action_manager.do_load_state(state, !!this._current_state).then(function () {
-                    var action_id = self.action_manager.get_inner_action().get_action_descr().id;
-                    var primary_menu_id = self.menu.action_id_to_primary_menu_id(action_id);
-                    if (primary_menu_id) {
-                        self.menu.change_menu_section(primary_menu_id);
-                    }
-                    self.toggle_app_switcher(false);
-                });
+                self.action_manager.do_load_state(state, !!this._current_state).then(update_menu);
             } else {
                 self.toggle_app_switcher(true);
             }
         }
         this._current_state = stringstate;
+
+        function update_menu() {
+            var action = self.action_manager.get_inner_action();
+            if (action) {
+                var menu_id = self.menu.action_id_to_primary_menu_id(action.get_action_descr().id);
+                if (menu_id) {
+                    self.menu.change_menu_section(menu_id);
+                }
+            }
+            self.toggle_app_switcher(false);
+        }
     },
     // --------------------------------------------------------------
     // Menu handling
