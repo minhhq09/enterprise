@@ -260,6 +260,7 @@
         .o-generate-groups(@odoo-form-group-cols);
         .o-generate-groups(@n, @i: 1) when (@i =< @n) {
             .o_group_col_@{i} {
+                display: inline-block;
                 width: floor(100% / 12 * @i);
                 vertical-align: top;
                 @media (max-width: @screen-sm-max) {
