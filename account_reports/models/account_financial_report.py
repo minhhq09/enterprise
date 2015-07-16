@@ -62,7 +62,7 @@ class ReportAccountFinancialReport(models.Model):
                 currency_table[company.currency_id.id] = used_currency.rate / company.currency_id.rate
         linesDicts = [{} for _ in context_id.get_periods()]
         res = line_obj.with_context(
-            target_move=context_id.all_entries and 'all' or 'posted',
+            state=context_id.all_entries and 'all' or 'posted',
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
             strict_range=self.report_type == 'date_range_extended',
             aged_balance=self.report_type == 'date_range_extended',
@@ -200,7 +200,7 @@ class AccountFinancialReportLine(models.Model):
         results = {}
         if self.domain and self.groupby and self.show_domain != 'never':
             aml_obj = self.env['account.move.line']
-            where_clause, where_params = aml_obj._query_get(domain=self.domain)
+            tables, where_clause, where_params = aml_obj._query_get(domain=self.domain)
 
             if currency_table.keys():
                 groupby = self.groupby or 'id'
@@ -221,7 +221,7 @@ class AccountFinancialReportLine(models.Model):
                     select += 'ELSE \"account_move_line\".credit END)'
                 if self.env.context.get('cash_basis'):
                     select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-                sql = "SELECT \"account_move_line\"." + groupby + "%s FROM \"account_move_line\" WHERE %s GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
+                sql = "SELECT \"account_move_line\"." + groupby + "%s FROM " + tables + " WHERE %s GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
             else:
                 groupby = self.groupby or 'id'
                 select = ',COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_residual)'
@@ -229,9 +229,9 @@ class AccountFinancialReportLine(models.Model):
                     select += ',SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
                 if self.env.context.get('cash_basis'):
                     select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-                sql = "SELECT \"account_move_line\"." + groupby + "%s FROM \"account_move_line\" WHERE %s GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
+                sql = "SELECT \"account_move_line\"." + groupby + "%s FROM " + tables + " WHERE %s GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
 
-            where_clause, where_params = aml_obj._query_get(domain=self.domain)
+            table, where_clause, where_params = aml_obj._query_get(domain=self.domain)
             query = sql % (select, where_clause)
             self.env.cr.execute(query, where_params)
             results = self.env.cr.fetchall()

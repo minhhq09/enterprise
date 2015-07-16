@@ -20,8 +20,8 @@ class AccountMoveLine(models.Model):
         if len(self) == 0:
             return []
         select = ','.join(['\"account_move_line\".' + k + ((self.env.context.get('cash_basis') and k in ['balance', 'credit', 'debit']) and '_cash_basis' or '') for k in field_names])
-        where_clause, where_params = self._query_get()
-        sql = "SELECT account_move_line.id," + select + " FROM account_move_line WHERE " + where_clause + " AND account_move_line.id IN %s GROUP BY account_move_line.id"
+        tables, where_clause, where_params = self._query_get()
+        sql = "SELECT account_move_line.id," + select + " FROM " + tables + " WHERE " + where_clause + " AND account_move_line.id IN %s GROUP BY account_move_line.id"
 
         where_params += [tuple(self.ids)]
         self.env.cr.execute(sql, where_params)

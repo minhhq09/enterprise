@@ -28,7 +28,7 @@ class report_account_general_ledger(models.AbstractModel):
         new_context.update({
             'date_from': context_id.date_from,
             'date_to': context_id.date_to,
-            'target_move': context_id.all_entries and 'all' or 'posted',
+            'state': context_id.all_entries and 'all' or 'posted',
             'cash_basis': context_id.cash_basis,
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
@@ -40,10 +40,10 @@ class report_account_general_ledger(models.AbstractModel):
         select = ',COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_currency),SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
         if self.env.context.get('cash_basis'):
             select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-        sql = "SELECT \"account_move_line\".account_id%s FROM \"account_move_line\" WHERE %s%s GROUP BY \"account_move_line\".account_id"
-        where_clause, where_params = self.env['account.move.line']._query_get()
+        sql = "SELECT \"account_move_line\".account_id%s FROM %s WHERE %s%s GROUP BY \"account_move_line\".account_id"
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
         line_clause = line_id and ' AND \"account_move_line\".account_id = ' + str(line_id) or ''
-        query = sql % (select, where_clause, line_clause)
+        query = sql % (select, tables, where_clause, line_clause)
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()
         results = dict([(k[0], {'balance': k[1], 'amount_currency': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
@@ -51,7 +51,7 @@ class report_account_general_ledger(models.AbstractModel):
         base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', self.env.context['company_ids'])]
         if context['date_from_aml']:
             base_domain.append(('date', '>=', context['date_from_aml']))
-        if context['target_move'] == 'posted':
+        if context['state'] == 'posted':
             base_domain.append(('move_id.state', '=', 'posted'))
         for account_id, result in results.items():
             domain = list(base_domain)  # copying the base domain

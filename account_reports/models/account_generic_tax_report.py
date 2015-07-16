@@ -24,7 +24,7 @@ class report_account_generic_tax_report(models.AbstractModel):
         return self.with_context(
             date_from=context_id.date_from,
             date_to=context_id.date_to,
-            target_move=context_id.all_entries and 'all' or 'posted',
+            state=context_id.all_entries and 'all' or 'posted',
             comparison=context_id.comparison,
             date_from_cmp=context_id.date_from_cmp,
             date_to_cmp=context_id.date_to_cmp,
@@ -36,10 +36,10 @@ class report_account_generic_tax_report(models.AbstractModel):
 
     def _compute_from_amls(self, taxes, period_number):
         sql = """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
-                    FROM "account_move_line"
+                    FROM %s
                     WHERE %s GROUP BY "account_move_line".tax_line_id"""
-        where_clause, where_params = self.env['account.move.line']._query_get()
-        query = sql % (where_clause)
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        query = sql % (tables, where_clause)
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()
         for result in results:
@@ -47,13 +47,13 @@ class report_account_generic_tax_report(models.AbstractModel):
                 taxes[result[0]]['periods'][period_number]['tax'] = result[1]
                 taxes[result[0]]['show'] = True
         sql = """SELECT r.account_tax_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
-                 FROM account_tax t
-                 INNER JOIN account_move_line_account_tax_rel r ON (r.account_tax_id = t.id)
-                 INNER JOIN "account_move_line" ON ("account_move_line".id = r.account_move_line_id)
+                 FROM %s
+                 INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
+                 INNER JOIN account_tax t ON (r.account_tax_id = t.id)
                  WHERE %s GROUP BY r.account_tax_id"""
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-        query = sql % (where_clause)
+        query = sql % (tables, where_clause)
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()
         for result in results:
