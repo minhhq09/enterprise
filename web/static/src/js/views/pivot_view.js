@@ -202,11 +202,10 @@ var PivotView = View.extend({
     do_show: function () {
         var self = this;
         this.do_push_state({});
-        this.data_loaded.done(function () {
+        return this.data_loaded.done(function () {
             self.display_table(); 
-            self.$el.show();
+            self._super();
         });
-        return this._super();
     },
     get_context: function () {
         return !this.ready ? {} : {

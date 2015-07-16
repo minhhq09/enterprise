@@ -76,7 +76,6 @@ var GraphView = View.extend({
     },
     do_show: function () {
         this.do_push_state({});
-        this.$el.show();
         return this._super();
     },
     prepare_fields: function (fields) {
@@ -103,7 +102,6 @@ var GraphView = View.extend({
                 fields: this.fields,
             });
             // append widget
-            this.$el.hide();
             this.widget.appendTo(this.$el);
         } else {
             var groupbys = group_by.length ? group_by : this.initial_groupbys.slice(0);
