@@ -16,8 +16,8 @@
     'version': '0.1',
     'depends': ['account_online_sync'],
     'data': [
-        # 'security/ir.model.access.csv',
         'views/yodlee_views.xml',
+        'data/online.institution.csv',
     ],
     'qweb': [
         'views/yodlee_templates.xml',
