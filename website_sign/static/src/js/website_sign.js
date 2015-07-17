@@ -1141,6 +1141,7 @@
                 if(e.target !== e.currentTarget)
                     return true;
 
+                e.stopPropagation();
                 self.$('.ui-selected').removeClass('ui-selected');
                 $signatureItem.addClass('ui-selected');
 
