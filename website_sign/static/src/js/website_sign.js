@@ -556,6 +556,7 @@
 
             'click .modal-footer .btn-default': function(e) {
                 this.updateTargetResponsible();
+                this.$currentTarget.draggable('destroy').resizable('destroy');
                 this.$currentTarget.trigger('itemClone');
             }
         },
