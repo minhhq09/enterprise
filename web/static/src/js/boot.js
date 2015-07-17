@@ -5,6 +5,10 @@
 /**
  * @name openerp
  * @namespace openerp
+ *
+ * Modules can return a deferred the module is mark as loaded only when
+ * the deferred is resolved, and the service value equal the resolved value.
+ * The module can be rejected (unloaded) and logged as info.
  */
 
 (function() {
@@ -14,7 +18,7 @@
     var factories = Object.create(null);
     var job_names = [];
     var job_deps = [];
-    var failed = {};
+    var job_deferred = [];
 
     var services = Object.create({
         qweb: new QWeb2.Engine(),
@@ -30,6 +34,7 @@
     var odoo = window.odoo = {
         testing: typeof QUnit === "object",
         debug: debug,
+        remaining_jobs: jobs,
 
         __DEBUG__: {
             get_dependencies: function (name, transitive) {
@@ -63,10 +68,10 @@
                         }
                     });
                 });
-                return _.difference(_.uniq(missing), waited);
+                return _.filter(_.difference(_.uniq(missing), waited), function (job) {return !job.error;});
             },
             get_failed_jobs: function () {
-                return failed;
+                return _.filter(jobs, function (job) {return !!job.error;});
             },
             factories: factories,
             services: services,
@@ -122,8 +127,12 @@
             odoo.__DEBUG__.remaining_jobs = jobs;
             odoo.__DEBUG__.web_client = services['web.web_client'];
 
-            if (!_.isEmpty(failed) || jobs.length) {
-                var debug_jobs = {}, job;
+            if (jobs.length) {
+                var debug_jobs = {};
+                var rejected = [];
+                var rejected_linked = [];
+                var job;
+                var jobdep;
 
                 for (var k=0; k<jobs.length; k++) {
                     debug_jobs[jobs[k].name] = job = {
@@ -131,37 +140,69 @@
                         dependents: odoo.__DEBUG__.get_dependents(jobs[k].name),
                         name: jobs[k].name
                     };
+                    if (jobs[k].error) {
+                        job.error = jobs[k].error;
+                    }
+                    if (jobs[k].rejected) {
+                        job.rejected = jobs[k].rejected;
+                        rejected.push(job.name);
+                    }
                     var deps = odoo.__DEBUG__.get_dependencies( job.name );
                     for (var i=0; i<deps.length; i++) {
                         if (job.name !== deps[i] && !(deps[i] in services)) {
-                            if (!job.missing) {
-                                job.missing = [];
+                            jobdep = debug_jobs[deps[i]] || (deps[i] in factories && _.find(jobs, function (job) { return job.name === deps[i];}));
+                            if (jobdep && jobdep.rejected) {
+                                if (!job.rejected) {
+                                    job.rejected = [];
+                                    rejected_linked.push(job.name);
+                                }
+                                job.rejected.push(deps[i]);
+                            } else {
+                                if (!job.missing) {
+                                    job.missing = [];
+                                }
+                                job.missing.push(deps[i]);
                             }
-                            job.missing.push(deps[i]);
                         }
                     }
                 }
-                console.warn('Warning: Some modules could not be started !'+
-                    '\nMissing dependencies: ', !jobs.length ? null : odoo.__DEBUG__.get_missing_jobs(),
-                    '\nFailed modules:       ', _.isEmpty(failed) ? null : failed,
+                var missing = odoo.__DEBUG__.get_missing_jobs();
+                var failed = odoo.__DEBUG__.get_failed_jobs();
+                console.error('Warning: Some modules could not be started !'+
+                    '\nMissing dependencies: ', !missing.length ? null : missing,
+                    '\nFailed modules:       ', _.isEmpty(failed) ? null : _.map(failed, function (job) {return job.name;}),
                     '\nUnloaded modules:     ', _.isEmpty(debug_jobs) ? null : debug_jobs);
             }
         },
         process_jobs: function (jobs, services) {
-            var job, require;
-            while (jobs.length && (job = _.find(jobs, is_ready))) {
-                require = make_require(job);
+            var job;
+            var require;
+            var time;
+
+            function process_job (job) {
+                var require = make_require(job);
                 try {
-                    services[job.name] = job.factory.call(null, require);
+                    var def = $.Deferred();
+                    $.when(job.factory.call(null, require)).then(
+                        function (data) {
+                            services[job.name] = data;
+                            clearTimeout(time);
+                            time = _.defer(odoo.process_jobs, jobs, services);
+                            def.resolve();
+                        }, function (e) {
+                            job.rejected = e || true;
+                            jobs.push(job);
+                            def.resolve();
+                        });
+                    jobs.splice(jobs.indexOf(job), 1);
+                    job_deferred.push(def);
                 } catch (e) {
-                    failed[job.name] = e;
+                    job.error = e;
                 }
-                jobs.splice(jobs.indexOf(job), 1);
             }
-            return services;
 
             function is_ready (job) {
-                return _.every(job.factory.deps, function (name) { return name in services; });
+                return !job.error && !job.rejected && _.every(job.factory.deps, function (name) { return name in services; });
             }
 
             function make_require (job) {
@@ -179,6 +220,12 @@
                 require.__require_calls = 0;
                 return require;
             }
+
+            while (jobs.length && (job = _.find(jobs, is_ready))) {
+                process_job(job);
+            }
+
+            return services;
         }
     };
 
