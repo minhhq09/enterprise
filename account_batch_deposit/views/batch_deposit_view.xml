@@ -59,8 +59,10 @@
                         </group>
                     </group>
 
-                    <field name="payment_ids" widget="many2many" attrs="{'readonly': ['|', ('journal_id', '=', False), ('state', '!=', 'draft')]}" domain="[('batch_deposit_id', '=', False), ('state', '!=', 'reconciled'), ('payment_method_id.code', '=', 'batch_deposit'), ('journal_id', '=', journal_id)]" context="{'default_payment_type': 'inbound', 'default_journal_id': journal_id}">
-                        <tree string="Payments" create="false" edit="false" delete="false">
+                    <field name="payment_ids"
+                           domain="[('batch_deposit_id', '=', False), ('state', '!=', 'reconciled'), ('payment_method_id.code', '=', 'batch_deposit'), ('journal_id', '=', journal_id)]"
+                           context="{'default_payment_type': 'inbound', 'default_journal_id': journal_id}">
+                        <tree string="Payments">
                             <field name="payment_date"/>
                             <field name="partner_id" string="Customer"/>
                             <field name="communication"/>
