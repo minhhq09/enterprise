@@ -56,7 +56,9 @@
 </template>
 <template id="report_followup_line_public" inherit_id="account_reports.report_followup_line" primary="True">
     <xpath expr="//ul[@class='dropdown-menu']" position="replace"></xpath>
-    <xpath expr="//span[@class='caret']" position="replace"></xpath>
+    <xpath expr="//div[@class='dropdown']/a" position="replace"> <!-- used to go to the invoice report in the website -->
+        <a t-att-href="'/report/pdf/account.report_invoice/'+str(context.env['account.move.line'].browse(int(a.get('id'))).invoice_id.id)"><t t-esc="a.get('name')"/></a>
+    </xpath>
 </template>
 <template id="report_followup_body" inherit_id="account_reports.report_financial_body" primary="True">
     <xpath expr="//h2" position="after">
@@ -149,8 +151,6 @@
 </template>
 <template id="report_followup_public" inherit_id="account_reports.report_followup" primary="True">
     <xpath expr="//t[@t-call='account_reports.report_followup_body']" position="replace">
-        <t t-call-assets="web.assets_common" t-css="false" />
-        <t t-call-assets="account_reports.assets_financial_report" />
         <t t-call='account_reports.report_followup_public_body' />
     </xpath>
     <xpath expr="//div[@id='no-action']" position='replace'>
@@ -160,15 +160,19 @@
     <xpath expr="//div[@id='history']" position="replace"></xpath>
     <xpath expr="//span[@id='action-buttons']" position='replace'></xpath>
     <xpath expr="//div[@class='o_account_reports_summary']" position="replace"></xpath>
+    <xpath expr="//div[@class='o_account_reports_saved_summary']" position="replace"></xpath>
     <xpath expr="//div[@class='o_account_reports_summary mt32']" position="replace"></xpath>
-    <xpath expr="//div[@class='o_account_reports_saved_summary']" position="attributes">
-        <attribute name="t-if"></attribute>
-        <attribute name="class"></attribute>
-        <attribute name="style">padding-top: 15px; padding-bottom: 15px;</attribute>
-    </xpath>
-    <xpath expr="//h2/small" position="replace"></xpath>
     <xpath expr="//t[@t-call='account_reports.report_followup_line']" position="attributes">
         <attribute name="t-call">account_reports.report_followup_line_public</attribute>
+    </xpath>
+    <xpath expr="//table" position='attributes'> <!-- Adding the bootstrap classes for the front end view -->
+        <attribute name='class'>table</attribute>
+    </xpath>
+    <xpath expr="//thead/tr" position='attributes'>
+        <attribute name='class'>active</attribute>
+    </xpath>
+    <xpath expr="//h2" position="replace">
+        <h3 class="page-header">Follow-ups</h3>
     </xpath>
 </template>
 <template id="report_followup_letter">
