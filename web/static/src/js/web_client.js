@@ -27,6 +27,8 @@ var WebClient = Widget.extend({
             this.toggle_app_switcher(true);
         },
         'hide_app_switcher': function () {
+            // Restore the url
+            $.bbq.pushState(this.url);
             this.toggle_app_switcher(false);
         },
         'notification': function (e) {
@@ -249,21 +251,24 @@ var WebClient = Widget.extend({
     // URL state handling
     // --------------------------------------------------------------
     on_hashchange: function(event) {
-        var self = this;
-        var stringstate = event.getState(false);
-        if (!_.isEqual(this._current_state, stringstate)) {
-            var state = event.getState(true);
-            if (!state.action && state.menu_id) {
-                var action_id = self.menu.menu_id_to_action_id(state.menu_id);
-                self.do_action(action_id, {clear_breadcrumbs: true}).then(update_menu);
-            } else if (state.action) {
-                state._push_me = false;  // no need to push state back...
-                self.action_manager.do_load_state(state, !!this._current_state).then(update_menu);
-            } else {
-                self.toggle_app_switcher(true);
+        if (!this._ignore_hashchange) {
+            var self = this;
+            var stringstate = event.getState(false);
+            if (!_.isEqual(this._current_state, stringstate)) {
+                var state = event.getState(true);
+                if (!state.action && state.menu_id) {
+                    var action_id = self.menu.menu_id_to_action_id(state.menu_id);
+                    self.do_action(action_id, {clear_breadcrumbs: true}).then(update_menu);
+                } else if (state.action) {
+                    state._push_me = false;  // no need to push state back...
+                    self.action_manager.do_load_state(state, !!this._current_state).then(update_menu);
+                } else {
+                    self.toggle_app_switcher(true);
+                }
             }
+            this._current_state = stringstate;
         }
-        this._current_state = stringstate;
+        this._ignore_hashchange = false;
 
         function update_menu() {
             var action = self.action_manager.get_inner_action();
@@ -343,6 +348,10 @@ var WebClient = Widget.extend({
                 self.app_switcher.$el.prependTo(self.$el);
                 self.app_switcher_navbar.$el.prependTo(self.$el);
                 self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() === null);
+                // Save and clear the url
+                self.url = $.bbq.getState();
+                self._ignore_hashchange = true;
+                $.bbq.removeState();
             });
         } else if (display === false) {
             this.app_switcher.$el.detach();
