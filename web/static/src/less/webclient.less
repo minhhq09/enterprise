@@ -243,10 +243,7 @@ select { // FIXME buggy 'padding-left'
     width: 300px;
     max-width: 100%;
 
-    position: fixed;
-    top: @navbar-height;
-    right: 0;
-
+    .o-position-absolute(@navbar-height, 0px);
     z-index: 50;  // same as debug manager. Fixme: expose a variable
 
     .o_notification {
@@ -260,10 +257,7 @@ select { // FIXME buggy 'padding-left'
 
         position: relative;
         .o_close {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-
+            .o-position-absolute(5px, 5px);
             color: rgba(0, 0, 0, 0.3);
             text-decoration: none;
         }
@@ -281,10 +275,6 @@ select { // FIXME buggy 'padding-left'
                 display: inline-block;
                 margin-right: 20px;
                 color: rgba(0, 0, 0, 0.3);
-
-                &.o_error {
-                    display: none;
-                }
             }
         }
 
@@ -295,14 +285,6 @@ select { // FIXME buggy 'padding-left'
         &.o_error {
             color: white;
             background-color: @notification-error-bg-color;
-
-            .o_icon {
-                display: none;
-
-                &.o_error {
-                    display: inline-block;
-                }
-            }
         }
     }
 }

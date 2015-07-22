@@ -11,7 +11,7 @@ var Loading = require('web.Loading');
 var AppSwitcher = require('web.AppSwitcher');
 var Menu = require('web.Menu');
 var Model = require('web.DataModel');
-var NotificationManager = require('web.NotificationManager');
+var NotificationManager = require('web.notification').NotificationManager;
 var session = require('web.session');
 var utils = require('web.utils');
 var Widget = require('web.Widget');
@@ -29,16 +29,16 @@ var WebClient = Widget.extend({
         'hide_app_switcher': function () {
             this.toggle_app_switcher(false);
         },
-        'display_notification': function (e) {
+        'notification': function (e) {
             if(this.notification_manager) {
                 this.notification_manager.notify(e.data.title, e.data.message, e.data.sticky);
             }
         },
-        'display_warning': function (e) {
+        'warning': function (e) {
             if(this.notification_manager) {
                 this.notification_manager.warn(e.data.title, e.data.message, e.data.sticky);
             }
-        }
+        },
     },
     init: function(parent, client_options) {
         this.client_options = {};
@@ -236,14 +236,6 @@ var WebClient = Widget.extend({
         return this.session.session_reload().then(function () {
             session.load_modules(true).then(
                 self.menu.proxy('do_reload')); });
-    },
-    do_notify: function() {
-        var n = this.notification_manager;
-        return n.notify.apply(n, arguments);
-    },
-    do_warn: function() {
-        var n = this.notification_manager;
-        return n.warn.apply(n, arguments);
     },
     do_push_state: function(state) {
         this.set_title(state.title);

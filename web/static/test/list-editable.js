@@ -142,7 +142,7 @@ odoo.define_section('editor', ['web.ListEditor'], function (test, mock) {
                     field('a', {required: true}), field('b'), field('c') ]);
             },
             _trigger_up: function (event) {
-                if (event.name === 'display_warning') {
+                if (event.name === 'warning') {
                     warnings++;
                 }
             },

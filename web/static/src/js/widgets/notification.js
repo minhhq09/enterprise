@@ -1,4 +1,4 @@
-odoo.define('web.NotificationManager', function (require) {
+odoo.define('web.notification', function (require) {
 "use strict";
 
 var core = require('web.core');
@@ -10,57 +10,64 @@ var Notification = Widget.extend({
     events: {
         'click .o_close': function(e) {
             e.preventDefault();
-            this.destroy();
+            this.destroy(true);
         }
     },
-    init: function() {
+    init: function(parent, title, text, sticky) {
         this._super.apply(this, arguments);
-        this.classes = "";
-        this.title = _t('Message');
-        this.text = '';
-        this.sticky = false;
+        this.title = title;
+        this.text = text;
+        this.sticky = !!sticky;
     },
     start: function() {
         this._super.apply(this, arguments);
 
         var self = this;
-        this.$el.addClass(this.classes).animate({opacity: 1.0}, 500, "swing", function() {
+        this.$el.animate({opacity: 1.0}, 400, "swing", function() {
             if(!self.sticky) {
                 setTimeout(function() {
-                    self.$el.animate({opacity: 0.0}, 500, "swing", function() {
-                        self.destroy();
-                    });
+                    self.destroy(true);
                 }, 2500);
             }
         });
     },
-    notify: function(title, text, sticky, classes) {
-        this.classes = classes || "";
-        this.title = title;
-        this.text = text;
-        this.sticky = !!sticky;
-        this.appendTo(this.getParent().$el);
+    destroy: function(animate) {
+        if(!animate) {
+            return this._super.apply(this, arguments);
+        }
+
+        var self = this, 
+            superDestroy = this._super;
+        this.$el.animate({opacity: 0.0}, 400, "swing", function() {
+            self.$el.animate({height: 0}, 400, "swing", function() {
+                superDestroy.call(self);
+            });
+        });
     },
-    warn: function(title, text, sticky) {
-        this.notify(title, text, sticky, 'o_error');
-    }
+});
+
+var Warning = Notification.extend({
+    template: 'Warning',
 });
 
 var NotificationManager = Widget.extend({
     className: 'o_notification_manager',
 
+    display: function(notification) {
+        return notification.appendTo(this.$el);
+    },
     notify: function(title, text, sticky) {
-        var notification = new Notification(this);
-        notification.notify(title, text, sticky);
-        return notification;
+        return this.display(new Notification(this, title, text, sticky));
     },
     warn: function(title, text, sticky) {
-        var notification = new Notification(this);
-        notification.warn(title, text, sticky);
-        return notification;
-    }
+        return this.display(new Warning(this, title, text, sticky));
+    },
 });
 
-return NotificationManager;
+return {
+    Notification: Notification,
+    Warning: Warning,
+    NotificationManager: NotificationManager,
+};
 
 });

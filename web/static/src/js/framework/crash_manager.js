@@ -10,7 +10,6 @@ var ajax = require('web.ajax');
 var core = require('web.core');
 var Dialog = require('web.Dialog');
 var session = require('web.session');
-var NotificationManager = require('web.NotificationManager');
 
 var QWeb = core.qweb;
 var _t = core._t;
