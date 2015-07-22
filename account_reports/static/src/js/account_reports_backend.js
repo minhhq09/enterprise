@@ -146,8 +146,8 @@ var account_report_generic = IFrameWidget.extend(ControlPanelMixin, {
     },
     toggle_filter: function (target, toggle, is_open) {
         target
-            .toggleClass('o-closed-menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
-            .toggleClass('o-open-menu', is_open);
+            .toggleClass('o_closed_menu', !(_.isUndefined(is_open)) ? !is_open : undefined)
+            .toggleClass('o_open_menu', is_open);
         toggle.toggle(is_open);
     },
     render_pager: function() {

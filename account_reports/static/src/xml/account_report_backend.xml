@@ -72,7 +72,7 @@
                     <li title="Last Financial Year" data-value="last_year" t-att-class="'oe-account-one-filter ' + (context.date_filter == 'last_year' and 'selected' or '')"><a>Last Financial Year</a></li>
                 </t>
                 <li class="divider"></li>
-                <li t-att-class="'oe-account-use-custom ' + (context.date_filter == 'custom' and 'o-open-menu' or 'o-closed-menu')"><a>Custom</a></li>
+                <li t-att-class="'oe-account-use-custom ' + (context.date_filter == 'custom' and 'o_open_menu' or 'o_closed_menu')"><a>Custom</a></li>
                 <li class="oe-account-custom-dates" data-value='custom' style='margin-left: 10px; margin-right: 10px;'>
                     <label class="custom-date" t-if="report_type != 'no_date_range' and report_type != 'bank_reconciliation'" for="date_from">Start Date :</label>
                     <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
@@ -102,21 +102,21 @@
             <ul class="dropdown-menu o-filters-menu" role="menu">
                 <li title="No Comparison" data-value="no_comparison" t-att-class="'oe-account-one-filter-cmp ' + (context.date_filter_cmp == 'no_comparison' and 'selected' or '')"><a>No Comparison</a></li>
                 <li class="divider"></li>
-                <li t-att-class="'oe-account-use-previous-period ' + (context.date_filter_cmp == 'previous_period' and 'o-open-menu' or 'o-closed-menu')"><a>Previous Period</a></li>
+                <li t-att-class="'oe-account-use-previous-period ' + (context.date_filter_cmp == 'previous_period' and 'o_open_menu' or 'o_closed_menu')"><a>Previous Period</a></li>
                 <li class="oe-account-previous-period" data-value='previous_period' style='margin-left: 10px; margin-right: 10px;'>
                     <label for="periods_number">Number of periods :</label><br />
                     <input type="number" name="periods_number" t-att-value="context.periods_number"/><br />
                     <button type="button" class="btn btn-primary oe-account-one-filter-cmp">Apply</button>
                 </li>
                 <li class="divider"></li>
-                <li t-att-class="'oe-account-use-same-last-year ' + (context.date_filter_cmp == 'same_last_year' and 'o-open-menu' or 'o-closed-menu')"><a>Same Period Last Year</a></li>
+                <li t-att-class="'oe-account-use-same-last-year ' + (context.date_filter_cmp == 'same_last_year' and 'o_open_menu' or 'o_closed_menu')"><a>Same Period Last Year</a></li>
                 <li class="oe-account-same-last-year" data-value='same_last_year' style='margin-left: 10px; margin-right: 10px;'>
                     <label for="periods_number">Number of periods :</label><br />
                     <input type="number" name="periods_number" t-att-value="context.periods_number"/><br />
                     <button type="button" class="btn btn-primary oe-account-one-filter-cmp">Apply</button>
                 </li>
                 <li class="divider"></li>
-                <li t-att-class="'oe-account-use-custom-cmp ' + (context.date_filter_cmp == 'custom' and 'o-open-menu' or 'o-closed-menu')"><a>Custom</a></li>
+                <li t-att-class="'oe-account-use-custom-cmp ' + (context.date_filter_cmp == 'custom' and 'o_open_menu' or 'o_closed_menu')"><a>Custom</a></li>
                 <li class="oe-account-custom-cmp" data-value='custom' style='margin-left: 10px; margin-right: 10px;'>
                     <label class="custom-date" t-if="report_type != 'no_date_range'" for="date_from_cmp">Start Date :</label>
                     <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
