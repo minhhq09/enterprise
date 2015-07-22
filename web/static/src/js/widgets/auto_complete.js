@@ -144,6 +144,7 @@ return Widget.extend({
             var $expand = $('<a class="o-expand" href="#">').appendTo($li);
             $expand.mousedown(function (ev) {
                 ev.stopPropagation();
+                ev.preventDefault(); // to prevent dropdown from closing
                 if (result.expanded) {
                     self.fold();
                 } else {
@@ -151,7 +152,7 @@ return Widget.extend({
                 }
             });
             $expand.click(function(ev) {
-                ev.preventDefault();
+                ev.preventDefault(); // to prevent url from changing due to href="#"
             });
             result.expanded = false;
         }
