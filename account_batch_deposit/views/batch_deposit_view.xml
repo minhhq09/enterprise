@@ -45,21 +45,22 @@
                 <form string="Batch Deposit">
                 <header>
                     <field name="id" invisible="1"/>
-                    <button name="print_batch_deposit" class="oe_highlight" string="Print" type="object" attrs="{'readonly': [('id', '=', False)]}"/>
+                    <button name="print_batch_deposit" class="oe_highlight" string="Print" type="object"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="journal_id" domain="[('type', '=', 'bank')]" widget="selection" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="journal_id" domain="[('type', '=', 'bank')]" widget="selection"/>
                             <field name="currency_id" invisible="1"/>
                         </group><group>
-                            <field name="date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="name" placeholder="auto ..." required="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="date"/>
+                            <field name="name" placeholder="auto ..." required="0"/>
                         </group>
                     </group>
 
                     <field name="payment_ids"
+                           widget="many2many"
                            domain="[('batch_deposit_id', '=', False), ('state', '!=', 'reconciled'), ('payment_method_id.code', '=', 'batch_deposit'), ('journal_id', '=', journal_id)]"
                            context="{'default_payment_type': 'inbound', 'default_journal_id': journal_id}">
                         <tree string="Payments">

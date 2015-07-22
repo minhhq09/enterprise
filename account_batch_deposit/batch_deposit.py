@@ -8,11 +8,11 @@ class AccountBatchDeposit(models.Model):
     _description = "Batch Deposit"
     _order = "date desc, id desc"
 
-    name = fields.Char(required=True, states={'sent': [('readonly', True)]}, copy=False, string='Reference')
-    date = fields.Date(required=True, states={'sent': [('readonly', True)]}, copy=False, default=fields.Date.context_today)
+    name = fields.Char(required=True, copy=False, string='Reference', readonly=True, states={'draft': [('readonly', False)]})
+    date = fields.Date(required=True, copy=False, default=fields.Date.context_today, readonly=True, states={'draft': [('readonly', False)]})
     state = fields.Selection([('draft', 'New'), ('sent', 'Printed'), ('reconciled', 'Reconciled')], readonly=True, default='draft', copy=False)
-    journal_id = fields.Many2one('account.journal', string='Bank', domain=[('type', '=', 'bank')], required=True, states={'sent': [('readonly', True)]})
-    payment_ids = fields.One2many('account.payment', 'batch_deposit_id', string="Payments", required=True, states={'sent': [('readonly', True)]})
+    journal_id = fields.Many2one('account.journal', string='Bank', domain=[('type', '=', 'bank')], required=True, readonly=True, states={'draft': [('readonly', False)]})
+    payment_ids = fields.One2many('account.payment', 'batch_deposit_id', string="Payments", required=True, readonly=True, states={'draft': [('readonly', False)]})
     amount = fields.Monetary(compute='_compute_amount', store=True, readonly=True)
     currency_id = fields.Many2one('res.currency', compute='_compute_currency', store=True, readonly=True)
 
