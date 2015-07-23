@@ -1,0 +1,109 @@
+.o_control_panel {
+    .o-webclient-padding(@top: 10px, @bottom: 10px);
+    background-color: @odoo-view-background-color;
+    border-bottom: 1px solid @odoo-main-color-muted;
+    .breadcrumb {
+        font-size: 18px;
+        margin: 0px;
+        > li > a {
+            color: @odoo-brand-optional;
+            cursor: pointer;
+            &:hover {
+                color: darken(@odoo-brand-optional, 10%);
+                text-decoration: none;
+            }
+        }
+    }
+
+    // Unfortunately needed for the bounce effect
+    .o_form_buttons_view {
+        > button {
+            float: left;
+            &:last-child {
+                float: right;
+                margin-left: 3px;
+            }
+        }
+    } // FIXME: Move me to view_form.less?
+
+    .o_list_buttons { // Needed by the webclient
+        .o_list_button_save, .o_list_button_discard {
+            display: none;
+        }
+        &.o-editing { // for list view editable
+            .o_list_button_add {
+                display: none
+            }
+            .o_list_button_save, .o_list_button_discard {
+                display: inline-block
+            }
+        }
+    } // FIXME: Move me to view_list.less
+
+    // Sidebar
+    .o_cp_sidebar {
+        padding-top: 5px;
+        padding-right: 10px;
+
+        .o_hidden_input_file {
+            position: relative;
+            input.o_form_input_file {
+                position: absolute;
+                top: 1px;
+                opacity: 0;
+                width: 100%;
+                height: 26px;
+            }
+            .o_form_binary_form span {
+                padding: 3px 25px;
+                color: @btn-default-color;
+            }
+            .o_form_binary_form:hover {
+                background-color: @table-bg-hover;
+            }
+        }
+        .o_sidebar_delete_attachment {
+            padding: 0px;
+            position: absolute;
+            top: 5px;
+            right: 10px;
+        }
+    }
+
+    // Pager
+    .o_cp_pager {
+        text-align: center;
+        padding-left: 5px;
+        .user-select(none);
+    }
+
+    // View Switcher icons
+    // FIXME: shouldn't web_knaban and calendar define their own styles?
+    .o_cp_switch_buttons {
+        padding-left: 5px;
+        .o_cp_switch_kanban:before {content: "\f009";}
+        .o_cp_switch_list:before {content: "";}
+        .o_cp_switch_form:before {content: "\f044";}
+        .o_cp_switch_graph:before {content: "\f1fe";}
+        .o_cp_switch_calendar:before {content: "\f073";}
+        .o_cp_switch_gantt:before {content: "\f0ae";}
+        .o_cp_switch_pivot:before {content: "\f0ce";}
+        .o_cp_switch_diagram:before {content: "";}
+    }
+}
+
+.o_x2m_control_panel {
+    .o_cp_buttons > div {
+        margin-top: 5px;
+    }
+}
+
+// Pager input (to edit pager values)
+.o_pager_value > input {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    &:focus {
+        outline: none;
+    }
+}
