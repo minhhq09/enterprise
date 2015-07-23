@@ -819,6 +819,7 @@ ListView.include(/** @lends instance.web.ListView# */{
             e.preventDefault();
             return this._next();
         }
+        this.editor.form.__clicked_inside = true;
         return $.when();
     }
 });
