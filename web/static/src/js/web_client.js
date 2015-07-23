@@ -190,8 +190,8 @@ var WebClient = Widget.extend({
         var self = this;
         this.set_title();
 
-        // FIXME: use ajx.jsonRpc and remove the `/web/menu/menu_data` controller.
-        return this.rpc('/web/menu/menu_data').then(function(menu_data) {
+        var Menus = new Model('ir.ui.menu');
+        return Menus.call('load_menus', {context: session.user_context}).then(function(menu_data) {
             // Here, we instanciate every menu widgets and we immediately append them into dummy
             // document fragments, so that their `start` method are executed before inserting them
             // into the DOM.
@@ -204,7 +204,7 @@ var WebClient = Widget.extend({
             defs.push(self.app_switcher_navbar.appendTo(document.createDocumentFragment()));
             defs.push(self.menu.appendTo(document.createDocumentFragment()));
             return $.when(defs);
-        }).then(function (res) {
+        }).then(function () {
             $(window).bind('hashchange', self.on_hashchange);
 
             // Unclean: if the url's state is empty we display the app switcher, if not we trigger

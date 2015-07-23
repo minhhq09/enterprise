@@ -885,12 +885,6 @@ class Session(http.Controller):
         request.session.logout(keep_db=True)
         return werkzeug.utils.redirect(redirect, 303)
 
-class Menu(http.Controller):
-
-    @http.route('/web/menu/menu_data', type='json', auth="public")
-    def menu_data(self):
-        return request.registry['ir.ui.menu'].load_menus(request.cr, request.uid, context=request.context)
-
 class DataSet(http.Controller):
 
     @http.route('/web/dataset/search_read', type='json', auth="user")
