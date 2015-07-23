@@ -51,6 +51,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     button_label: View ? _.str.sprintf(_t('%(view_type)s view'), {'view_type': (view_label || view_type)}) : (void 'nope'),
                     multi_record: View ? View.prototype.multi_record : undefined,
                     mobile_friendly: View ? View.prototype.mobile_friendly : undefined,
+                    accesskey: View ? View.prototype.accesskey : undefined,
                 };
             self.view_order.push(view_descr);
             self.views[view_type] = view_descr;
