@@ -293,13 +293,6 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
             minLength: 0,
             delay: 200,
         });
-        var appendTo = this.$input.parents('.o_view_manager_content:visible, .modal-dialog:visible').last();
-        if (appendTo.length === 0) {
-            appendTo = '.oe_application > *:visible:last';
-        }
-        this.$input.autocomplete({
-            appendTo: appendTo
-        });
         // set position for list of suggestions box
         this.$input.autocomplete( "option", "position", { my : "left top", at: "left bottom" } );
         // used to correct a bug when selecting an element by pushing 'enter' in an editable list
