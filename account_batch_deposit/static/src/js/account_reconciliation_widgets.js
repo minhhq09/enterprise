@@ -1,5 +1,3 @@
-/*global _:false */
-
 odoo.define('account_batch_deposit.reconciliation_custom', function (require) {
 "use strict";
 
@@ -78,6 +76,7 @@ widgets.bankStatementReconciliationLine.include({
     },
 
     batchDepositClickHandler: function(e) {
+        e.preventDefault();
         var self = this;
         var deposit_id = parseInt(e.currentTarget.dataset.batch_deposit_id);
         new Model("account.bank.statement.line")
