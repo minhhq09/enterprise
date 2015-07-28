@@ -1024,7 +1024,7 @@ var FieldReference = common.AbstractField.extend(common.ReinitializeFieldMixin, 
         }
         this.m2o.field.relation = this.get('value')[0];
         this.m2o.set_value(this.get('value')[1]);
-        this.m2o.$el.toggle(!!this.get('value')[0]);
+        this.m2o.do_toggle(!!this.get('value')[0]);
         this.reference_ready = true;
     },
     is_false: function() {
@@ -1176,7 +1176,7 @@ var FieldBinaryFile = FieldBinary.extend({
     },
     render_value: function() {
         if (this.get("effective_readonly")) {
-            this.$el.toggle(!!this.get('value'));
+            this.do_toggle(!!this.get('value'));
             if (this.get('value')) {
                 this.$el.empty().append($("<span/>").addClass('fa fa-download'));
                 if (this.filename) {
