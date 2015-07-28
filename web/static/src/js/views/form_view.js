@@ -141,7 +141,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
 
         // Add bounce effect on button 'Edit' when click on readonly page view.
         this.$(".oe_title,.o_group").on('mouseup', function (e) { // 'mouseup' event because some widget need bootstrap click event to go up to body
-            if(self.get("actual_mode") == "view" && self.$buttons) {
+            if(self.get("actual_mode") == "view" && self.$buttons && !$(e.target).is('[data-toggle]')) {
                 var $button = self.$buttons.find(".o_form_button_edit");
                 $button.openerpBounce();
                 e.stopPropagation();
