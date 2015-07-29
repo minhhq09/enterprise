@@ -329,13 +329,6 @@ class account_report_context_followup(models.TransientModel):
             return True
         return False
 
-    @api.multi
-    def get_public_link(self):
-        db_uuid = self.env['ir.config_parameter'].get_param('database.uuid')
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        check = md5(str(db_uuid) + self.partner_id.name).hexdigest()
-        return base_url + '/account_reports/public_followup_report/' + str(self.partner_id.id) + '/' + check
-
     def get_history(self):
         return self.env['mail.message'].search([('subtype_id', '=', self.env['ir.model.data'].xmlid_to_res_id('account.followup_logged_action')), ('id', 'in', self.partner_id.message_ids.ids)], limit=5)
 

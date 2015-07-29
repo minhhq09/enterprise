@@ -47,25 +47,3 @@ class FinancialReportController(http.Controller):
         return request.make_response(context_ids.with_context(public=True).get_pdf(log=True),
             headers=[('Content-Type', 'application/pdf'),
                      ('Content-Disposition', 'attachment; filename=' + (len(partners) == 1 and partners.name or 'followups') + '.pdf;')])
-
-    @http.route('/account_reports/public_followup_report/<int:partner>/<string:password>', type='http', auth='none')
-    def followup_public(self, partner, password, **kw):
-        partner = request.env['res.partner'].sudo().browse(partner)
-        db_uuid = request.env['ir.config_parameter'].get_param('database.uuid')
-        check = md5(str(db_uuid) + partner.name).hexdigest()
-        if check != password:
-            return request.not_found()
-        context_obj = request.env['account.report.context.followup']
-        report_obj = request.env['account.followup.report']
-        context_id = context_obj.sudo().search([('partner_id', '=', int(partner))], limit=1)
-        if not context_id:
-            context_id = context_obj.sudo().with_context(lang=partner.lang).create({'partner_id': int(partner)})
-        lines = report_obj.sudo().with_context(lang=partner.lang).get_lines(context_id, public=True)
-        rcontext = {
-            'context': context_id.with_context(lang=partner.lang, public=True),
-            'report': report_obj.with_context(lang=partner.lang),
-            'lines': lines,
-            'mode': 'display',
-            'res_company': request.env['res.users'].browse(request.session.uid).company_id,
-        }
-        return request.render('account_reports.report_followup_public', rcontext)
