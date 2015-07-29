@@ -164,6 +164,7 @@ Dialog.alert = function (owner, message, options) {
         $content: $('<div>', {
             text: message,
         }),
+        title: _t("Alert"),
     }, options)).open();
 };
 
@@ -181,7 +182,6 @@ Dialog.confirm = function (owner, message, options) {
             close: true,
             click: options && options.cancel_callback
         }
-
     ];
     return new Dialog(owner, _.extend({
         size: 'medium',
@@ -189,6 +189,7 @@ Dialog.confirm = function (owner, message, options) {
         $content: $('<div>', {
             text: message,
         }),
+        title: _t("Confirmation"),
     }, options)).open();
 };
 
