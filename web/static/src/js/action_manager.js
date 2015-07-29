@@ -275,9 +275,6 @@ var ActionManager = Widget.extend({
         if (widget.need_control_panel) {
             // Set the ControlPanel bus on the widget to allow it to communicate its status
             widget.set_cp_bus(this.main_control_panel.get_bus());
-        } else {
-            // Hide the main ControlPanel for widgets that do not use it
-            this.main_control_panel.do_hide();
         }
 
         // render the inner_widget in a fragment, and append it to the
@@ -288,6 +285,10 @@ var ActionManager = Widget.extend({
             if (old_action) {
                 old_action.set_fragment(self.$el.contents().detach());
                 old_action.set_is_in_DOM(false);
+            }
+            if (!widget.need_control_panel) {
+                // Hide the main ControlPanel for widgets that do not use it
+                self.main_control_panel.do_hide();
             }
             framework.append(self.$el, new_widget_fragment, self.is_in_DOM);
             self.inner_action.set_is_in_DOM(self.is_in_DOM);
