@@ -258,11 +258,6 @@
         @media (max-width: @screen-xxs-max) {
             > tbody > tr > td.o_td_label {
                 font-size: 0.8em;
-
-                .o_form_label {
-                    font-weight: normal;
-                    color: @odoo-brand-secondary;
-                }
             }
         }
     }
@@ -317,13 +312,17 @@
 
     // Labels
     .o_form_label {
-        margin: 0;
         &.o_form_invalid {
             color: @brand-danger;
         }
         &.o_form_label_empty, &.o_form_label_false {
             opacity: 0.5;
             font-weight: normal;
+        }
+
+        @media (max-width: @screen-xxs-max) {
+            font-weight: normal;
+            color: @odoo-brand-secondary;
         }
     }
 
