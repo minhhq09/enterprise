@@ -881,6 +881,11 @@ var X2ManyDataSet = data.BufferedDataSet.extend({
 });
 
 var X2ManyViewManager = ViewManager.extend({
+    custom_events: {
+        // Catch event scrollTo to prevent scrolling to the top when using the
+        // pager of List and Kanban views in One2Many fields
+        'scrollTo': function() {},
+    },
     init: function(parent, dataset, views, flags, x2many_views) {
         // By default, render buttons and pager in X2M fields, but no sidebar
         var flags = _.extend({}, flags, {

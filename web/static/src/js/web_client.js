@@ -23,6 +23,7 @@ var WebClient = Widget.extend({
     custom_events: {
         'app_clicked': 'on_app_clicked',
         'menu_clicked': 'on_menu_clicked',
+        'scrollTo': 'scrollTo',
         'show_app_switcher': function () {
             this.toggle_app_switcher(true);
         },
@@ -385,17 +386,32 @@ var WebClient = Widget.extend({
     // Scrolltop handling
     // --------------------------------------------------------------
     get_scrollTop: function () {
-        if (window.matchMedia("(max-width: 767px)").matches) {
+        if (config.device.xs) {
             return this.el.scrollTop;
         } else {
             return this.action_manager.el.scrollTop;
         }
     },
-    set_scrollTop: function (scrollTop) {
-        if (window.matchMedia("(max-width: 767px)").matches) {
-            this.el.scrollTop = scrollTop;
+    /**
+     * Scrolls the webclient to either a given offset or a target element
+     * Must be called with: trigger_up('scrollTo', options)
+     * @param {Integer} [options.offset] the number of pixels to scroll
+     * @param {String} [options.selector] the selector of the target element to scroll to
+     */
+    scrollTo: function (ev) {
+        var offset = ev.data.offset;
+        var xs_device = config.device.xs;
+        if (!offset) {
+            offset = framework.getPosition(document.querySelector(ev.data.selector)).top;
+            if (!xs_device) {
+                // Substract the position of the action_manager as it is the scrolling part
+                offset -= framework.getPosition(this.action_manager.el).top;
+            }
+        }
+        if (xs_device) {
+            this.el.scrollTop = offset;
         } else {
-            this.action_manager.el.scrollTop = scrollTop;
+            this.action_manager.el.scrollTop = offset;
         }
     },
     // --------------------------------------------------------------

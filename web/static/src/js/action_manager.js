@@ -214,11 +214,10 @@ var ActionManager = Widget.extend({
             this.select_action(action, index);
         });
 
-        // Listen to events "DOM_updated" and "scrollTop_updated" to restore the scroll position
-        core.bus.on('DOM_updated scrollTop_updated', this, function() {
-            if (this.webclient && this.inner_action) {
-                var scrollTop = this.inner_action.get_scrollTop() || 0;
-                this.webclient.set_scrollTop(scrollTop);
+        // Listen to event "DOM_updated" to restore the scroll position
+        core.bus.on('DOM_updated', this, function() {
+            if (this.inner_action) {
+                this.trigger_up('scrollTo', {offset: this.inner_action.get_scrollTop() || 0});
             }
         });
 
