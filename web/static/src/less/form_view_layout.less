@@ -19,7 +19,7 @@
                 width: auto!important;  // !important is required to override the width computed in JS
                 &.o_td_label {
                     width: 94%!important;
-                    line-height: 1;
+                    line-height: @odoo-label-font-size-factor;
                 }
 
                 .o_form_field {
@@ -215,6 +215,8 @@
 
         > h1, > h2, > h3 {
             margin-top: 0;
+            margin-bottom: 0;
+            line-height: inherit;
         }
     }
 

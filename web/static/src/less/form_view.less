@@ -254,12 +254,6 @@
                 white-space: nowrap;
             }
         }
-
-        @media (max-width: @screen-xxs-max) {
-            > tbody > tr > td.o_td_label {
-                font-size: 0.8em;
-            }
-        }
     }
 
     // Separators
@@ -312,6 +306,15 @@
 
     // Labels
     .o_form_label {
+        font-size: @font-size-base; // The label muse have the same size whatever their position
+        line-height: @line-height-base;
+        @media (max-width: @screen-xs-max) {
+            font-size: @odoo-font-size-base-touch;
+        }
+        @media (max-width: @screen-xxs-max) {
+            font-size: @odoo-label-font-size-factor * @odoo-font-size-base-touch;
+        }
+
         &.o_form_invalid {
             color: @brand-danger;
         }
@@ -415,7 +418,10 @@
 
     // Many2many tags
     .badge {
-        margin: 3px 3px 0 0;
+        margin: 1px 2px 1px 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        line-height: inherit;
         .o_delete {
             cursor: pointer;
         }
