@@ -435,7 +435,7 @@ var config = {
 };
 
 Object.defineProperty(config.device, 'xs', {
-    get: function () { return $(document.body).width() <= 768; },
+    get: function () { return window.matchMedia("(max-width: 767px)").matches; },
 });
 
 return config;
