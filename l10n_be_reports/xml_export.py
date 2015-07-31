@@ -9,11 +9,11 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
     _inherit = "account.financial.html.report.xml.export"
 
     @api.model
-    def is_xml_export_available(self, report_name, report_id=None):
-        if report_name == 'l10n.be.report.partner.vat.listing' or (report_name == 'account.financial.report' and report_id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0')):
+    def is_xml_export_available(self, report_obj):
+        if report_obj._name == 'l10n.be.report.partner.vat.listing' or (report_obj._name == 'account.financial.report' and report_obj.id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0')):
             return True
         else:
-            return super(AccountFinancialReportXMLExport, self).is_xml_export_available(report_name, report_id)
+            return super(AccountFinancialReportXMLExport, self).is_xml_export_available(report_obj)
 
     def do_xml_export(self, context):
         if context.get_report_obj()._name == 'account.financial.report' and context.get_report_obj().id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0'):

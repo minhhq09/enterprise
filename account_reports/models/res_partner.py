@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from openerp import api, fields, models
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 class ResPartner(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
-    _description = 'Partner'
 
     payment_next_action = fields.Text('Next Action', copy=False, company_dependent=True,
                                       help="Note regarding the next action.")
@@ -26,6 +28,7 @@ class ResPartner(models.Model):
 
     def get_followup_lines_domain(self, date, overdue_only=False, only_unblocked=False):
         domain = super(ResPartner, self).get_followup_lines_domain(date, overdue_only=overdue_only, only_unblocked=only_unblocked)
+        overdue_domain = ['|', '&', ('date_maturity', '!=', False), ('date_maturity', '<=', date), '&', ('date_maturity', '=', False), ('date', '<=', date)]
         if not overdue_only:
             domain += ['|', '&', ('next_action_date', '=', False)] + overdue_domain + ['&', ('next_action_date', '!=', False), ('next_action_date', '<=', date)]
         return domain

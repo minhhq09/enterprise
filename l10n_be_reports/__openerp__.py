@@ -10,7 +10,7 @@
         Accounting reports for Belgium
     """,
     'depends': [
-        'l10n_be',
+        'l10n_be', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml',
