@@ -1061,25 +1061,19 @@
     <div class="btn-group o_kanban_selection">
         <a href="#" data-toggle="dropdown"><span/></a>
         <ul class="dropdown-menu state" role="menu">
-            <t t-foreach="widget.states" t-as="rec">
-                <li t-att-data-value="rec.name">
-                    <a href="#">
-                        <span t-att-class="rec.state_class"/>
-                        <t t-raw="rec.state_name"/>
-                    </a>
-                </li>
-            </t>
+            <li t-foreach="widget.states" t-as="rec" t-att-data-value="rec.name">
+                <a href="#">
+                    <span t-att-class="rec.state_class"/>
+                    <t t-raw="rec.state_name"/>
+                </a>
+            </li>
         </ul>
     </div>
 </t>
-<t t-name="Priority">
-    <div class="o_priority">
-        <t t-foreach="widget.priorities" t-as="rec" >
-            <a t-if="!widget.get('readonly')" href="#" t-att-data-value="rec.click_value" t-att-title="rec.name" t-att-class="widget.get('value') gte rec.value and 'fa fa-star o_star_on' or 'fa fa-star o_star_off'"/>
-            <span t-if="widget.get('readonly')" t-att-data-value="rec.click_value" t-att-title="rec.name" t-att-class="widget.get('value') gte rec.value and 'fa fa-star o_star_on' or 'fa fa-star o_star_off'"/>
-        </t>
-    </div>
-</t>
+<div t-name="Priority" class="o_priority">
+    <a t-if="!widget.readonly" t-foreach="widget.values.slice(1)" t-as="v" href="#" t-att-data-value="v[0]" t-att-title="v[1]" class="o_priority_star fa"/>
+    <span t-if="widget.readonly" t-foreach="widget.values.slice(1)" t-as="v" t-att-data-value="v[0]" t-att-title="v[1]" class="o_priority_star fa"/>
+</div>
 <t t-name="FieldEmail" t-extend="FieldChar">
     <t t-jquery="span" t-operation="replace">
         <t t-if="widget.get('effective_readonly')">

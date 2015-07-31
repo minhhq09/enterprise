@@ -6,6 +6,7 @@ var core = require('web.core');
 var crash_manager = require('web.crash_manager');
 var data = require('web.data');
 var datepicker = require('web.datepicker');
+var Priority = require('web.Priority');
 var ProgressBar = require('web.ProgressBar');
 var Dialog = require('web.Dialog');
 var common = require('web.form_common');
@@ -258,67 +259,54 @@ var KanbanSelection = common.AbstractField.extend({
     },
 });
 
-var Priority = common.AbstractField.extend({
-    template: "Priority",
+var FieldPriority = common.AbstractField.extend({
     events: {
         'mouseup': function(e) {
             e.stopPropagation();
-        }
+        },
     },
-    init: function() {
-        this._super.apply(this, arguments);
-        this.priorities = this.prepare_priority();
-    },
-    prepare_priority: function() {
-        var self = this;
-        var selection = this.field.selection || [];
-        var init_value = selection && selection[0][0] || 0;
-        var data = _.map(selection.slice(1), function(element, index) {
-            var value = {
-                'value': element[0],
-                'name': element[1],
-                'click_value': element[0],
-            };
-            if (index === 0 && self.get('value') === element[0]) {
-                value['click_value'] = init_value;
-            }
-            return value;
+    start: function() {
+        this.priority = new Priority(this, {
+            readonly: this.get('readonly'),
+            value: this.get('value'),
+            values: this.field.selection || [],
         });
-        return data;
+
+        this.priority.on('update', this, function(update) {
+            /* setting the value: in view mode, perform an asynchronous call and reload
+            the form view; in edit mode, use set_value to save the new value that will
+            be written when saving the record. */
+            var view = this.view;
+            if(view.get('actual_mode') === 'view') {
+                var write_values = {};
+                write_values[this.name] = update.value;
+                view.dataset._model.call('write', [
+                    [view.datarecord.id],
+                    write_values,
+                    view.dataset.get_context()
+                ]).done(function() {
+                    view.reload();
+                });
+            } else {
+                this.set_value(update.value);
+            }
+        });
+
+        this.on('change:readonly', this, function() {
+            this.priority.readonly = this.get('readonly');
+            var $div = $('<div/>').insertAfter(this.$el);
+            this.priority.replace($div);
+            this.setElement(this.priority.$el);
+        });
+
+        var self = this;
+        return $.when(this._super(), this.priority.appendTo('<div>').then(function() {
+            self.priority.$el.addClass(self.$el.attr('class'));
+            self.replaceElement(self.priority.$el);
+        }));
     },
     render_value: function() {
-        this.priorities = this.prepare_priority();
-        this.renderElement();
-        if (!this.get('readonly')){
-            this.$el.on('click', 'a', this.set_priority.bind(this));
-        }
-    },
-    /* setting the value: in view mode, perform an asynchronous call and reload
-    the form view; in edit mode, use set_value to save the new value that will
-    be written when saving the record. */
-    set_priority: function (event) {
-        event.stopPropagation();
-        event.preventDefault();
-        var $li = $(event.currentTarget);
-        if ($li.length) {
-            var value = String($li.data('value'));
-            if (this.view.get('actual_mode') == 'view') {
-                var write_values = {};
-                write_values[this.name] = value;
-                return this.view.dataset._model.call(
-                    'write', [
-                        [this.view.datarecord.id],
-                        write_values,
-                        this.view.dataset.get_context()
-                    ]).done(this.reload_record.bind(this));
-            }
-            else {
-                return this.set_value(value);
-            }
-        }
-    },
-    reload_record: function() {
-        this.view.reload();
+        this.priority.set_value(this.get('value'));
     },
 });
 
@@ -1568,7 +1556,7 @@ core.form_widget_registry
     .add('binary', FieldBinaryFile)
     .add('statusbar', FieldStatus)
     .add('monetary', FieldMonetary)
-    .add('priority', Priority)
+    .add('priority', FieldPriority)
     .add('kanban_state_selection', KanbanSelection)
     .add('statinfo', StatInfo)
     .add('timezone_mismatch', TimezoneMismatch)
