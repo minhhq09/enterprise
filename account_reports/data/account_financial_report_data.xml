@@ -710,8 +710,16 @@
 
         <template id="account_reports_backend" inherit_id="web.assets_backend" active="True">
             <xpath expr="." position="inside">
+                <script type="text/javascript" src="/account_reports/static/src/js/account_reports_widgets.js"></script>
+                <script type="text/javascript" src="/account_reports/static/src/js/account_reports_followup_widgets.js"></script>
                 <script type="text/javascript" src="/account_reports/static/src/js/account_reports_backend.js"></script>
                 <script type="text/javascript" src="/account_reports/static/src/js/account_reports_followup_backend.js"></script>
+                <link rel="stylesheet" href="/account_reports/static/src/less/account_financial_report.less" />
+            </xpath>
+        </template>
+        <template id="assets_common" name="account_reports_assets_common" inherit_id="web.assets_common">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/account_reports/static/src/js/account_reports_tours.js"></script>
             </xpath>
         </template>
 

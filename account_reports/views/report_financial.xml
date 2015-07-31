@@ -150,13 +150,6 @@
     <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
     <link rel="stylesheet" href="/account_reports/static/src/less/account_financial_report.less" />
 </template>
-<template id="assets_backend" name="account_reports_assets" inherit_id="web.assets_backend">
-    <xpath expr="." position="inside">
-        <script type="text/javascript" src="/account_reports/static/src/js/account_reports_widgets.js"></script>
-        <script type="text/javascript" src="/account_reports/static/src/js/account_reports_followup_widgets.js"></script>
-        <link rel="stylesheet" href="/account_reports/static/src/less/account_financial_report.less" />
-    </xpath>
-</template>
 <template id="report_financial">
         <div class='o_account_reports_body'>
             <t t-call='account_reports.report_financial_body' />
