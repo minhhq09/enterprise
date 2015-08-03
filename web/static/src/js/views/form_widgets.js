@@ -31,6 +31,13 @@ var WidgetButton = common.FormWidget.extend({
             // TODO fme: provide enter key binding to widgets
             this.view.default_focus_button = this;
         }
+        if (this.node.attrs.icon) {
+            // if the icon isn't a font-awesome one, find it in the icons folder
+            this.fa_icon = this.node.attrs.icon.indexOf('fa-') === 0;
+            if (!this.fa_icon && (! /\//.test(this.node.attrs.icon))) {
+                this.node.attrs.icon = '/web/static/src/img/icons/' + this.node.attrs.icon + '.png';
+            }
+        }
     },
     start: function() {
         this._super.apply(this, arguments);
