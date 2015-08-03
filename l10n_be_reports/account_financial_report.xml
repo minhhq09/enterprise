@@ -403,7 +403,7 @@
         <record id="account_financial_be_current_year_earnings0" model="account.financial.html.report.line">
             <field name="name">149 - Bénéfice (Perte) en cours</field>
             <field name="code">BE_UNAFFECTED_EARNINGS</field>
-            <field name="domain" eval="[('account_id.user_type', '=', ref('account.data_unaffected_earnings'))]" />
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_unaffected_earnings'))]" />
             <field name="formulas">balance = NEP.balance - sum.balance</field>
             <field name="sequence" eval="1"/>
             <field name="special_date_changer">from_beginning</field>
