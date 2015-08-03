@@ -30,6 +30,7 @@ var ReportWidget = Widget.extend({
         'click .o_account_reports_add-footnote': 'footnoteFromDropdown',
         'click .o_account_reports_to-graph': 'displayMoveLinesByAccountGraph',
         'click .o_account_reports_web_action': 'outboundLink',
+        'click .o_account_reports_footnote_sup': 'goToFootNote',
     },
     init: function(parent, context, context_model) {
         this.context = context;
@@ -264,6 +265,11 @@ var ReportWidget = Widget.extend({
             $(e.target).parents('tr').find('span.o_account_reports_unfoldable').replaceWith(QWeb.render("foldable", {lineId: active_id}));
             $(e.target).parents('tr').toggleClass('o_account_reports_unfolded');
         });
+    },
+    goToFootNote: function(e) {
+        e.preventDefault();
+        var elem = $(e.currentTarget).find('a').attr('href');
+        this.trigger_up('scrollTo', {selector: elem});
     },
 });
 
