@@ -343,31 +343,44 @@ class AccountReportContextCommon(models.TransientModel):
         lines = report_obj.with_context(print_mode=True).get_lines(self)
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         rcontext = {
-            'context': self,
-            'report': report_obj,
-            'lines': lines,
             'mode': 'print',
             'base_url': base_url,
-            'css': '',
-            'o': self.env.user,
             'company': self.env.user.company_id,
-            'res_company': self.env.user.company_id,
         }
-        html = self.pool['ir.ui.view'].render(self._cr, self._uid, "account_reports.report_financial_letter", rcontext, context=self.env.context)
 
-        header = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.external_layout_header", rcontext, context=self.env.context)
-        rcontext['body'] = header
-        header = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.minimal_layout", rcontext, context=self.env.context)
-        footer = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.external_layout_footer", rcontext, context=self.env.context)
-        rcontext['body'] = footer
-        rcontext['subst'] = True
-        footer = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.minimal_layout", rcontext, context=self.env.context)
+        body = self.pool['ir.ui.view'].render(
+            self._cr, self._uid, "account_reports.report_financial_letter",
+            values=dict(rcontext, lines=lines, report=report_obj, context=self),
+            context=self.env.context
+        )
+
+        header = self.pool['report'].render(
+            self._cr, self._uid, [], "report.external_layout_header",
+            values=rcontext,
+            context=self.env.context
+        )
+        header = self.pool['report'].render(
+            self._cr, self._uid, [], "report.minimal_layout",
+            values=dict(rcontext, subst=True, body=header),
+            context=self.env.context
+        )
+
+        footer = self.pool['report'].render(
+            self._cr, self._uid, [], "report.external_layout_footer",
+            values=rcontext,
+            context=self.env.context
+        )
+        footer = self.pool['report'].render(
+            self._cr, self._uid, [], "report.minimal_layout",
+            values=dict(rcontext, subst=True, body=footer),
+            context=self.env.context
+        )
 
         landscape = False
         if len(self.get_columns_names()) > 4:
             landscape = True
 
-        return self.env['report']._run_wkhtmltopdf([header], [footer], [(0, html)], landscape, self.env.user.company_id.paperformat_id)
+        return self.env['report']._run_wkhtmltopdf([header], [footer], [(0, body)], landscape, self.env.user.company_id.paperformat_id)
 
     @api.multi
     def get_html_and_data(self, given_context={}):
