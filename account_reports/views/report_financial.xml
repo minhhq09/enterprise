@@ -99,7 +99,7 @@
     </tr>
 </template>
 <template id="report_financial_body">
-    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', 'o-form-view', mode != 'print' and 'o_account_reports_no_print' or ''])"> <!-- TODO: remove class form view once input rules are generalised -->
+    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or ''])">
         <h2 t-esc="report.get_title()"/>
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div t-if="mode != 'print' and context.summary == ''" class="o_account_reports_summary">
@@ -162,13 +162,19 @@
             <t t-call='account_reports.report_financial_body' />
         </div>
 </template>
+
+<!-- This template is only used when printing a financial report to a PDF output -->
 <template id="report_financial_letter">
     <t t-raw="'&lt;base href=%s&gt;' % base_url"/>
-    <t t-call="report.html_container">
-        <t t-call-assets="web.assets_common" t-css="false" />
-        <t t-call-assets="account_reports.assets_financial_report" />
-        <t t-call="account_reports.report_financial" />
-    </t>
+    <html>
+        <head>
+            <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+            <t t-call-assets="account_reports.assets_financial_report" t-js="False"/>
+        </head>
+        <body class="o_account_reports_body_print">
+            <t t-call="account_reports.report_financial"/>
+        </body>
+    </html>
 </template>
 </data>
 </openerp>
