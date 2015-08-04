@@ -254,10 +254,12 @@
     }
 
     // Groups
-    .o_group {
-        &.o_label_nowrap {
-            .o_form_label {
-                white-space: nowrap;
+    @media (min-width: @screen-md-min) {
+        .o_group {
+            &.o_label_nowrap {
+                .o_form_label {
+                    white-space: nowrap;
+                }
             }
         }
     }
