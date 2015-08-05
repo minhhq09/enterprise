@@ -8,7 +8,7 @@ from openerp.http import request
 class FinancialReportController(http.Controller):
 
     @http.route('/account_reports/<string:output_format>/<string:report_name>/<string:report_id>', type='http', auth='user')
-    def report(self, output_format, report_name, report_id=None, **kw):
+    def report(self, output_format, report_name, token, report_id=None, **kw):
         uid = request.session.uid
         domain = [('create_uid', '=', uid)]
         report_model = request.env['account.report.context.common'].get_full_report_name_by_report_name(report_name)
@@ -20,21 +20,39 @@ class FinancialReportController(http.Controller):
         context_obj = request.env['account.report.context.common'].get_context_by_report_name(report_name)
         context_id = context_obj.sudo(uid).search(domain, limit=1)
         if output_format == 'xls':
-            response = request.make_response(None,
-                headers=[('Content-Type', 'application/vnd.ms-excel'),
-                         ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xls;')])
+            response = request.make_response(
+                None,
+                headers=[
+                    ('Content-Type', 'application/vnd.ms-excel'),
+                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xls;')
+                ]
+            )
             context_id.get_xls(response)
+            response.set_cookie('fileToken', token)
             return response
         if output_format == 'pdf':
-            return request.make_response(context_id.get_pdf(),
-                headers=[('Content-Type', 'application/pdf'),
-                         ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.pdf;')])
+            response = request.make_response(
+                context_id.get_pdf(),
+                headers=[
+                    ('Content-Type', 'application/pdf'),
+                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.pdf;')
+                ]
+            )
+            raise Exception("aaaa")
+            response.set_cookie('fileToken', token)
+            return response
         if output_format == 'xml':
             content = context_id.get_xml()
-            return request.make_response(content,
-                headers=[('Content-Type', 'application/vnd.sun.xml.writer'),
-                         ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xml;'),
-                         ('Content-Length', len(content))])
+            response = request.make_response(
+                content,
+                headers=[
+                    ('Content-Type', 'application/vnd.sun.xml.writer'),
+                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xml;'),
+                    ('Content-Length', len(content))
+                ]
+            )
+            response.set_cookie('fileToken', token)
+            return response
         return request.not_found()
 
     @http.route('/account_reports/followup_report/<string:partners>/', type='http', auth='user')

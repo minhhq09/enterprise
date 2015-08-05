@@ -9,6 +9,9 @@ var time = require('web.time');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var ReportWidget = require('account_reports.ReportWidget');
 var Dialog = require('web.Dialog');
+var session = require('web.session');
+var framework = require('web.framework');
+var crash_manager = require('web.crash_manager');
 
 var QWeb = core.qweb;
 
@@ -110,17 +113,38 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     render_buttons: function() {
         var self = this;
         this.$buttons = $(QWeb.render("accountReports.buttons", {xml_export: this.xml_export}));
+
+        // pdf output
         this.$buttons.find('.o_account-widget-pdf').bind('click', function () {
-            window.open(self.controller_url.replace('output_format', 'pdf'), '_blank');
+            framework.blockUI();
+            session.get_file({
+                url: self.controller_url.replace('output_format', 'pdf'),
+                complete: framework.unblockUI,
+                error: crash_manager.rpc_error.bind(crash_manager),
+            });
         });
+
+        // xls output
         this.$buttons.find('.o_account-widget-xls').bind('click', function () {
-            window.open(self.controller_url.replace('output_format', 'xls'), '_blank');
+            framework.blockUI();
+            session.get_file({
+                url: self.controller_url.replace('output_format', 'xls'),
+                complete: framework.unblockUI,
+                error: crash_manager.rpc_error.bind(crash_manager),
+            });
         });
+
+        // xml output
         this.$buttons.find('.o_account-widget-xml').bind('click', function () {
             // For xml exports, first check if the export can be done
             return new Model('account.financial.html.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
                 if (check === true) {
-                    window.open(self.controller_url.replace('output_format', 'xml'), '_blank');
+                    framework.blockUI();
+                    session.get_file({
+                        url: self.controller_url.replace('output_format', 'xml'),
+                        complete: framework.unblockUI,
+                        error: crash_manager.rpc_error.bind(crash_manager),
+                    });
                 } else { // If it can't be done, show why.
                     Dialog.alert(this, check, {});
                 }
