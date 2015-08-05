@@ -52,6 +52,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             core.bus.on('reset', this, this.reset_app);
 
             self.session = session; // This makes session accessible in QWEB templates.
+            self.syncable = false; // Sync flag. Enabled if the user has a valid session with a server where the appropiate sync module is installed.
 
         },
         /**
@@ -103,7 +104,7 @@ odoo.define('project_timeshee.ui', function (require ) {
 
             // Append ASAP for best UX;
             // Don't wait for sync to load.
-            $.when(screen_defs).then(function () {
+            $.when.apply($, screen_defs).then(function () {
                 self.current_screen = self.activities_screen;
                 self.go_to_screen({"id": "activities"});
             });
@@ -112,10 +113,17 @@ odoo.define('project_timeshee.ui', function (require ) {
                 session.origin = self.server;
                 session.setup(self.server, {use_cors : true});
                 session.session_reload().then(function(){
-                    sync_defs.push(self.sync({
-                        callback : function(){
-                            core.bus.trigger('change_screen', {
-                                id : 'activities',
+                    // Check if the sync module is installed in the backend and set the syncable flag accordingly
+                    var modules = new Model('ir.module.module');
+                    sync_defs.push(modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
+                        if (response.length > 0) {
+                            self.syncable = true;
+                            self.sync({
+                                callback : function(){
+                                    core.bus.trigger('change_screen', {
+                                        id : 'activities',
+                                    });
+                                }
                             });
                         }
                     }));
@@ -126,7 +134,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                 core.bus.trigger('sync');
             } , 36000000);
 
-            return $.when(sync_defs);
+            return $.when.apply($, sync_defs);
         },
         load_template: function() {
             var xml = $.ajax({
@@ -212,7 +220,16 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.$('.pt_drawer_menu_wrapper').removeClass('shown');
         },
         // Data management methods
+
+        // Options should only contain a callback function.
+        // If there is a callback, it is always called even if the sync failed or was skipped.
         sync: function(options) {
+            if (!this.syncable) {
+                if (options && options.callback) {
+                    options.callback();
+                }
+                return;
+            }
             var defer = $.Deferred();
             var self = this;
             self.$('.pt_nav_sync a').addClass('pt_sync_in_progress');
@@ -375,7 +392,6 @@ odoo.define('project_timeshee.ui', function (require ) {
                             self.flush_project(project.id);
                         }
                     });
-                    //self.count_sync_errors();
                     self.sync_time = new Date();
                     self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
                     self.flush_activities(MAX_AGE);
@@ -913,7 +929,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
 
             var activity = {
-                id : self.getParent().data.module_key + self.getParent().username + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id,
+                id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id,
                 project_id : event.currentTarget.dataset.project_id,
                 task_id : task_id,
                 date : time_module.date_to_str(new Date()),
@@ -988,7 +1004,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().username + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
+                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1119,7 +1135,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().username + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
+                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1161,7 +1177,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().username + self.getParent().data.original_timestamp + "_task." + self.getParent().data.next_task_id,
+                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_task." + self.getParent().data.next_task_id,
                         name : user_input.trim(),
                         isNew: true,
                         project_id: self.activity.project_id
@@ -1277,7 +1293,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             // Create operations
             if (_.isUndefined(stored_activity)) {
                 this.getParent().data.account_analytic_lines.unshift({
-                    id : self.getParent().data.module_key + self.getParent().username + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id
+                    id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id
                 });
                 stored_activity = this.getParent().data.account_analytic_lines[0];
                 stored_activity.date = this.activity.date;
@@ -1482,7 +1498,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     "click .pt_send_logout" : "send_logout",
                     "click .pt_odoo_login_link" : "select_odoo_login",
                     "click .pt_premise_login_link" : "show_premise_login_url_screen",
-                    "click .pt_create_account_link" : "show_account_creation_screen",
+                    //"click .pt_create_account_link" : "show_account_creation_screen", // account creation screen comment
                     "click .pt_reset_app" : "reset_app",
                     "click .pt_keep_data" : "on_keep_data",
                     "click .pt_discard_data" : "on_discard_data",
@@ -1514,11 +1530,12 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.$('div.pt_sync_screen').empty();
             this.db_selector_screen.appendTo(this.$('div.pt_sync_screen'));
         },
-        show_account_creation_screen: function() {
-            this.account_creation_screen = new Account_creation_screen(this);
-            this.$('div.pt_sync_screen').empty();
-            this.account_creation_screen.appendTo(this.$('div.pt_sync_screen'));
-        },
+        // Account creation screen comment
+        // show_account_creation_screen: function() {
+        //     this.account_creation_screen = new Account_creation_screen(this);
+        //     this.$('div.pt_sync_screen').empty();
+        //     this.account_creation_screen.appendTo(this.$('div.pt_sync_screen'));
+        // },
         show_premise_login_url_screen: function() {
             this.premise_login_url_screen = new Premise_login_url_screen(this);
             this.$('div.pt_sync_screen').empty();
@@ -1570,7 +1587,17 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         on_successful_login: function() {
             var self = this;
-            self.$('.pt_keep_guest_data').modal();
+            var modules = new Model('ir.module.module');
+            modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
+                if (response.length > 0) {
+                    self.getParent().syncable = true;
+                    self.$('.pt_keep_guest_data').modal();
+                } else {
+                    self.getParent().syncable = false;
+                    alert("The server you connected to doest not support timesheet synchronization. You should contact your administrator if you would like tu use it.");
+                    self.on_keep_data(); // We automatically keep the data, as there won't be any sync anyway.
+                }
+            });
         },
         on_keep_data: function() {
             this.getParent().get_user_data(session.username, session.server, true);
@@ -1617,7 +1644,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var login = this.$(".pt_odoo_login").val();
             var password = this.$(".pt_odoo_password").val();
             var db_name = 'openerp';
-            var server_address = 'https://www.odoo.com'; // TODO : In prod, replace with the appropriate server address
+            var server_address = 'https://www.odoo.com';
             session.origin = server_address;
             session.setup(server_address, {use_cors : true});
             session._session_authenticate(db_name, login, password).then(function() {
@@ -1625,10 +1652,10 @@ odoo.define('project_timeshee.ui', function (require ) {
                 self.getParent().show_db_selector_screen();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
-                    console.log("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
+                    alert.log("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
                 }
                 else {
-                    console.log("Could not login. Please check that the information you entered is correct.");
+                    alert.log("Could not login. Please check that the information you entered is correct.");
                 }
             });
         },
@@ -1650,7 +1677,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     }
                 });
             }).fail(function(res) {
-                console.log('Something went wrong.');
+                alert.log('Something went wrong.');
             });
         },
 
@@ -1705,7 +1732,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var protocol = this.$(".pt_premise_protocol").val();
             session.origin = protocol + server_address;
             session.setup(protocol + server_address, {use_cors : true});
-            session.rpc('/web/database/get_list', {}).then(function(result) {
+            session.rpc('/jsonrpc',  { method : 'list' , service : 'db', args : []}).then(function(result) {
                 self.getParent().db_list = result;
                 self.getParent().show_premise_login_form_screen();
             }).fail(function(error) {
@@ -1746,20 +1773,21 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
     });
 
-    var Account_creation_screen = Widget.extend({
-        template : "account_creation",
-        events:{
-            "click .pt_create_instance": "create_instance",
-        },
-        create_instance: function() {
-            var self = this;
-            self.instance_name = this.$(".pt_creation_instance").val();
-            self.email = this.$(".pt_creation_email").val();
-            self.password = this.$(".pt_creation_password").val();
-            self.name = this.$(".pt_creation_name").val();
-            // TODO : send user to odoo account and instance creation
-        },
-    });
+    // Account creation system commented
+    // var Account_creation_screen = Widget.extend({
+    //     template : "account_creation",
+    //     events:{
+    //         "click .pt_create_instance": "create_instance",
+    //     },
+    //     create_instance: function() {
+    //         var self = this;
+    //         self.instance_name = this.$(".pt_creation_instance").val();
+    //         self.email = this.$(".pt_creation_email").val();
+    //         self.password = this.$(".pt_creation_password").val();
+    //         self.name = this.$(".pt_creation_name").val();
+    //         // TODO : send user to odoo account and instance creation
+    //     },
+    // });
 
     var Successful_login_screen = Widget.extend({
         template : "successful_login_screen",

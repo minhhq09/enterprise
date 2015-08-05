@@ -21,7 +21,7 @@ cp ../web/static/src/js/framework/widget.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/data.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/session.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/model.js extension/static/src/js/framework
-#cp ../web/static/src/js/framework/data_model.js extension/static/src/js/framework
+cp ../web/static/src/js/framework/data_model.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/pyeval.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/utils.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/core.js extension/static/src/js/framework
@@ -44,7 +44,6 @@ cp -r ../web/static/lib/fontawesome extension/static/lib
 lessc ../web/static/lib/bootstrap/less/bootstrap.less > extension/static/lib/bootstrap/css/bootstrap.min.css
 
 [ -d extension/static/lib/bootstrap/js ] || mkdir -p extension/static/lib/bootstrap/js
-cp ../web/static/lib/bootstrap/js/bootstrap.min.js extension/static/lib/bootstrap/js
-
+cp ../web/static/lib/bootstrap/js/modal.js extension/static/lib/bootstrap/js
 
 echo "Extension created"

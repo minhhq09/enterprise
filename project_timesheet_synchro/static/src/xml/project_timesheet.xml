@@ -421,8 +421,21 @@
                         <p> Logged in as <t t-esc="widget.session.username"/></p>
                         <p> On server <t t-esc="widget.session.origin"/></p>
                         <a href="#" class="btn btn-primary pt_send_logout">Logout</a>
-                        <a href="#" class="btn btn-primary pt_sync_btn">Sync Now</a>
-                        <p class="pt_last_sync"><span class="text-muted">Last sync : <t t-esc="moment(widget.sync_time).fromNow()"/></span></p>
+                        <t t-if="widget.getParent().syncable">
+                            <a href="#" class="btn btn-primary pt_sync_btn">Sync Now</a>
+                            <p class="pt_last_sync">
+                                <span class="text-muted">
+                                    Last sync :  <t t-esc="moment(widget.sync_time).fromNow()"/>
+                                </span>
+                            </p>
+                        </t>
+                        <t t-if="!widget.getParent().syncable">
+                            <p class="pt_last_sync">
+                                <span class="text-muted">
+                                    The server you are connected to does not support timesheet synchronization.
+                                </span>
+                            </p>
+                        </t>
                     </t>
                     <!-- User is not logged-->
                     <t t-if="!widget.session || !widget.session.uid">
@@ -430,7 +443,7 @@
                         <br/>
                         <div>
                             <a href="#" class="btn btn-primary pt_odoo_login_link">Sign In</a>
-                            <a href="#" class="btn btn-primary pt_create_account_link">Sign Up</a>
+                            <!-- Account creation comment, to be restored <a href="#" class="btn btn-primary pt_create_account_link">Sign Up</a> -->
                         </div>
                     </t>
                 </div>
@@ -518,7 +531,7 @@
             <a href="#" class="btn btn-primary pt_send_premise_login">Login</a>
         </form>
     </t>
-    <t t-name="account_creation">
+    <!-- Account creation comment, to be restored <t t-name="account_creation">
         <h3>Start using Odoo now !</h3> <p>You will be able to create invoices based on your timesheets.</p>
         <form>
             <div class="form-group">
@@ -539,7 +552,7 @@
             </div>
             <a href="#" class="btn btn-primary pt_create_instance">Go !</a>
         </form>
-    </t>
+    </t> -->
     <t t-name="db_selector">
         <div>
             Select your Odoo instance from the list below :

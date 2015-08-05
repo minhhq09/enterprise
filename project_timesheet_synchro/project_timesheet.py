@@ -66,10 +66,8 @@ class account_analytic_line(models.Model):
             '&',
                 '|',
                     '|',
-                        '|',
-                        ("id", "in", project_ids_list),
-                        ("user_id", '=', self.env.uid),  # User is the manager of the project
-                    ('members', '=', self.env.uid),  # User is member of ther project
+                    ("id", "in", project_ids_list),
+                    ("user_id", '=', self.env.uid),  # User is the manager of the project
                 ("analytic_account_id", "in", account_ids_list),
             ('invoice_on_timesheets', '=', True),
         ])
