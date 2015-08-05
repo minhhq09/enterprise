@@ -3,6 +3,10 @@
 
 from openerp import http
 from openerp.http import request
+from openerp.addons.web.controllers.main import _serialize_exception
+from openerp.tools import html_escape
+
+import simplejson
 
 
 class FinancialReportController(http.Controller):
@@ -19,41 +23,50 @@ class FinancialReportController(http.Controller):
             report_obj = report_obj.browse(report_id)
         context_obj = request.env['account.report.context.common'].get_context_by_report_name(report_name)
         context_id = context_obj.sudo(uid).search(domain, limit=1)
-        if output_format == 'xls':
-            response = request.make_response(
-                None,
-                headers=[
-                    ('Content-Type', 'application/vnd.ms-excel'),
-                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xls;')
-                ]
-            )
-            context_id.get_xls(response)
-            response.set_cookie('fileToken', token)
-            return response
-        if output_format == 'pdf':
-            response = request.make_response(
-                context_id.get_pdf(),
-                headers=[
-                    ('Content-Type', 'application/pdf'),
-                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.pdf;')
-                ]
-            )
-            raise Exception("aaaa")
-            response.set_cookie('fileToken', token)
-            return response
-        if output_format == 'xml':
-            content = context_id.get_xml()
-            response = request.make_response(
-                content,
-                headers=[
-                    ('Content-Type', 'application/vnd.sun.xml.writer'),
-                    ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xml;'),
-                    ('Content-Length', len(content))
-                ]
-            )
-            response.set_cookie('fileToken', token)
-            return response
-        return request.not_found()
+        try:
+            if output_format == 'xls':
+                response = request.make_response(
+                    None,
+                    headers=[
+                        ('Content-Type', 'application/vnd.ms-excel'),
+                        ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xls;')
+                    ]
+                )
+                context_id.get_xls(response)
+                response.set_cookie('fileToken', token)
+                return response
+            if output_format == 'pdf':
+                response = request.make_response(
+                    context_id.get_pdf(),
+                    headers=[
+                        ('Content-Type', 'application/pdf'),
+                        ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.pdf;')
+                    ]
+                )
+                response.set_cookie('fileToken', token)
+                return response
+            if output_format == 'xml':
+                content = context_id.get_xml()
+                response = request.make_response(
+                    content,
+                    headers=[
+                        ('Content-Type', 'application/vnd.sun.xml.writer'),
+                        ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xml;'),
+                        ('Content-Length', len(content))
+                    ]
+                )
+                response.set_cookie('fileToken', token)
+                return response
+        except Exception, e:
+            se = _serialize_exception(e)
+            error = {
+                'code': 200,
+                'message': 'Odoo Server Error',
+                'data': se
+            }
+            return request.make_response(html_escape(simplejson.dumps(error)))
+        else:
+            return request.not_found()
 
     @http.route('/account_reports/followup_report/<string:partners>/', type='http', auth='user')
     def followup(self, partners, **kw):
