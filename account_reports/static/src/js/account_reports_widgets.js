@@ -14,21 +14,12 @@ var ReportWidget = Widget.extend({
         'click .fa-pencil': 'clickPencil',
         'click .o_account_reports_foldable': 'fold',
         'click .o_account_reports_unfoldable': 'unfold',
-        'click .saveFootNote': 'saveFootNote',
-        'click span.aml': 'displayMoveLine',
         'click .fa-trash-o': 'rmContent',
         'click .o_account_reports_saved_summary > span': 'editSummary',
-        "change *[name='date_filter']": 'onChangeDateFilter',
-        "change *[name='date_filter_cmp']": 'onChangeCmpDateFilter',
-        "change *[name='date_to']": 'onChangeCmpDateFilter',
-        "change *[name='date_from']": 'onChangeCmpDateFilter',
-        "change *[name='comparison']": 'onChangeComparison',
         "click input[name='summary']": 'onClickSummary',
         "click button.saveSummary": 'saveSummary',
         'click button.saveContent': 'saveContent',
-        'click button.o_account_reports_footnote_save': 'saveFootNote',
         'click .o_account_reports_add-footnote': 'footnoteFromDropdown',
-        'click .o_account_reports_to-graph': 'displayMoveLinesByAccountGraph',
         'click .o_account_reports_web_action': 'outboundLink',
         'click .o_account_reports_footnote_sup': 'goToFootNote',
     },
@@ -87,7 +78,7 @@ var ReportWidget = Widget.extend({
                 return self.do_action(result[1], {additional_context: additional_context});
             });
         }
-        this.do_action(action_id, {additional_context: additional_context});
+        return this.do_action(action_id, {additional_context: additional_context});
     },
     onKeyPress: function(e) {
         if ((e.which === 70) && (e.ctrlKey || e.metaKey) && e.shiftKey) { // Fold all
@@ -121,7 +112,7 @@ var ReportWidget = Widget.extend({
         e.preventDefault();
         var self = this;
         var context_id = $(e.target).parents("div.o_account_reports_body").find('div.o_account_reports_page').data("context");
-        var curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first"); // Save the current footnote target that will be used in the saveFootNote method
+        var curFootNoteTarget = $(e.target).parents("div.dropdown").find("a:first"); // Save the current footnote target
         if(curFootNoteTarget.parents('div.dropdown').find('sup').length === 0) { // Make sure there's no footnote yet
             var type = $(e.target).parents('tr').data('type'); // Store the type, target_id and column in hidden fields
             var target_id = $(e.target).parents('tr').data('id');
