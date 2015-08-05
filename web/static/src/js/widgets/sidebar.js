@@ -202,11 +202,16 @@ var Sidebar = Widget.extend({
         e.stopPropagation();
         var self = this;
         var $e = $(e.currentTarget);
-        Dialog.confirm(this, _t("Do you really want to delete this attachment ?"), function () {
-            (new data.DataSet(this, 'ir.attachment')).unlink([parseInt($e.attr('data-id'), 10)]).done(function() {
-                self.do_attachement_update(self.dataset, self.model_id);
-            });
-        });
+        var options = {
+            confirm_callback: function () {
+                new data.DataSet(this, 'ir.attachment')
+                    .unlink([parseInt($e.attr('data-id'), 10)])
+                    .done(function() {
+                        self.do_attachement_update(self.dataset, self.model_id);
+                    });
+            }
+        };
+        Dialog.confirm(this, _t("Do you really want to delete this attachment ?"), options);
     }
 });
 
