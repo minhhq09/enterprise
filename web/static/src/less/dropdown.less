@@ -42,6 +42,7 @@
 
 .dropdown-menu-mixin {
     .open .dropdown-menu > li {
+        position: relative; // to allow absolute positionning inside the li
         > a {
             &:focus, &:active, &:focus:active {
                 outline: none;
