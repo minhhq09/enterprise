@@ -3,7 +3,6 @@
 
 from openerp import http
 from openerp.http import request
-from hashlib import md5
 
 
 class FinancialReportController(http.Controller):
