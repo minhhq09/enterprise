@@ -69,11 +69,27 @@ class FinancialReportController(http.Controller):
             return request.not_found()
 
     @http.route('/account_reports/followup_report/<string:partners>/', type='http', auth='user')
-    def followup(self, partners, **kw):
+    def followup(self, partners, token, **kw):
         uid = request.session.uid
-        context_obj = request.env['account.report.context.followup']
-        partners = request.env['res.partner'].browse([int(i) for i in partners.split(',')])
-        context_ids = context_obj.search([('partner_id', 'in', partners.ids), ('create_uid', '=', uid)])
-        return request.make_response(context_ids.with_context(public=True).get_pdf(log=True),
-            headers=[('Content-Type', 'application/pdf'),
-                     ('Content-Disposition', 'attachment; filename=' + (len(partners) == 1 and partners.name or 'followups') + '.pdf;')])
+        try:
+            context_obj = request.env['account.report.context.followup']
+            partners = request.env['res.partner'].browse([int(i) for i in partners.split(',')])
+            context_ids = context_obj.search([('partner_id', 'in', partners.ids), ('create_uid', '=', uid)])
+            response = request.make_response(
+                context_ids.with_context(public=True).get_pdf(log=True),
+                headers=[
+                    ('Content-Type', 'application/pdf'),
+                    ('Content-Disposition', 'attachment; filename=' + (len(partners) == 1 and partners.name or 'followups') + '.pdf;')
+                ]
+            )
+            response.set_cookie('fileToken', token)
+            return response
+        except Exception, e:
+            se = _serialize_exception(e)
+            error = {
+                'code': 200,
+                'message': 'Odoo Server Error',
+                'data': se
+            }
+            return request.make_response(html_escape(simplejson.dumps(error)))
+

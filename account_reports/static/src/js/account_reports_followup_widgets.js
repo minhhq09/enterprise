@@ -6,6 +6,9 @@ var Model = require('web.Model');
 var ReportWidget = require('account_reports.ReportWidget');
 var datepicker = require('web.datepicker');
 var Dialog = require('web.Dialog');
+var session = require('web.session');
+var framework = require('web.framework');
+var crash_manager = require('web.crash_manager');
 
 var QWeb = core.qweb;
 
@@ -107,7 +110,12 @@ var FollowupReportWidget = ReportWidget.extend({
             this.$("*[data-primary='1'].followup-letter").each(function() { // List all the followups where printing a pdf is needed
                 letter_partner_list.push($(this).data('partner'));
             });
-            window.open('/account_reports/followup_report/' + letter_partner_list + '/', '_blank'); // Open the pdf of all the partners
+            framework.blockUI();
+            session.get_file({
+                url: '/account_reports/followup_report/' + letter_partner_list + '/',
+                complete: framework.unblockUI,
+                error: crash_manager.rpc_error.bind(crash_manager),
+            });
             var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
             this.getParent().restart(report_context);
         }
@@ -129,7 +137,12 @@ var FollowupReportWidget = ReportWidget.extend({
         e.stopPropagation();
         e.preventDefault();
         var url = $(e.target).data("target");
-        window.open(url, '_blank'); // Open the link to the pdf
+        framework.blockUI();
+        session.get_file({
+            url: url,
+            complete: framework.unblockUI,
+            error: crash_manager.rpc_error.bind(crash_manager),
+        });
         if ($(e.target).data('primary') === 1) { // If letter printing was required
             $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked'); // Change the class to show the done button
             $(e.target).toggleClass('btn-primary btn-default'); // change the class of the print letter button

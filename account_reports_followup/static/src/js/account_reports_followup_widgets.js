@@ -4,6 +4,9 @@ odoo.define('account_reports_followup.FollowupReportWidget', function (require) 
 var FollowupReportWidget = require('account_reports.FollowupReportWidget');
 var Model = require('web.Model');
 var account_report_followup_generic = require('account_reports.account_report_followup_generic');
+var session = require('web.session');
+var framework = require('web.framework');
+var crash_manager = require('web.crash_manager');
 
 account_report_followup_generic.include({
     _prepare_html_fetching: function() {
@@ -54,7 +57,12 @@ FollowupReportWidget.include({
             this.$("*[data-primary='1'].followup-action").each(function() { // List all the followups where action is needed
                 action_context_list.push($(this).data('context'));
             });
-            window.open('/account_reports/followup_report/' + letter_partner_list + '/', '_blank');
+            framework.blockUI();
+            session.get_file({
+                url: '/account_reports/followup_report/' + letter_partner_list + '/',
+                complete: framework.unblockUI,
+                error: crash_manager.rpc_error.bind(crash_manager),
+            });
             var report_context = {partner_done: 'all', email_context_list: email_context_list, action_context_list: action_context_list}; // Restart the report giving the list for the emails and actions
             this.getParent().restart(report_context);
         }
