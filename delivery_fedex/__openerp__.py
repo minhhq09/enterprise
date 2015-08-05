@@ -7,7 +7,7 @@
     'website': "https://www.odoo.com",
     'category': 'Technical Settings',
     'version': '1.0',
-    'depends': ['delivery', 'delivery_stored_price', 'mail'],
+    'depends': ['delivery', 'mail'],
     'data': [
         'data/delivery_fedex.xml',
         'views/delivery_fedex.xml',
