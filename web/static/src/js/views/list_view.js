@@ -1077,7 +1077,7 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
     },
     render: function () {
         var self = this;
-        this.$current.empty().append(
+        this.$current.html(
             QWeb.render('ListView.rows', _.extend({
                     render_cell: function () {
                         return self.render_cell.apply(self, arguments); }
