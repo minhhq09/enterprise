@@ -1,0 +1,214 @@
+
+.modal .modal-footer { /* TODO this rule is a backend rule... */
+    text-align: left;
+}
+
+/* Sign Home */
+#o_sign_dashboard {
+    padding-top: 10px;
+}
+
+.o_sign_dashboard_row {
+    display: none;
+}
+
+.o_sign_dashboard_title {
+    font-weight: bold;
+    border-bottom: 1px solid lightgray;
+}
+
+.o_sign_dashboard_item > .btn, .o_sign_dashboard_item:hover > .btn {
+    position: relative;
+    height: 150px;
+    padding: 0px;
+    
+    background-color: #EEEEEE;
+    color: dimgray;
+
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.o_sign_dashboard_item > .btn::before, .o_sign_dashboard_item > .btn::after {
+    content: " ";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.o_sign_dashboard_item_content {
+    max-width: 95%;
+    margin: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.o_sign_dashboard_item_content > div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0.8em;
+}
+
+.o_sign_dashboard_item_content > .o_sign_dashboard_item_title {
+    font-size: 1em;
+}
+
+.o_sign_dashboard_item_content > div span:not(:first-child)::before {
+    content: ', ';
+    color: dimgray;
+}
+
+.o_sign_dashboard_item .o_sign_favorite_button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    color: silver;
+}
+
+.o_sign_dashboard_item .o_sign_favorite_button:hover {
+    color: orange;
+}
+
+.o_sign_dashboard_item.o_sign_favorited .o_sign_favorite_button {
+    color: orange;
+}
+
+.o_sign_dashboard_item.o_sign_favorited .o_sign_favorite_button:hover {
+    color: red;
+}
+
+.o_sign_dashboard_item .o_sign_archive_button {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    bottom: 3px;
+    right: 3px;
+    font-size: 0.7em;
+    
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.o_sign_dashboard_item:hover .o_sign_archive_button {
+    opacity: 1;
+}
+
+.o_sign_dashboard_item .o_sign_archive_button::after {
+    content: "Archive";
+}
+
+.o_sign_dashboard_item.archived .o_sign_archive_button::after {
+    content: "Unarchive";
+}
+
+.o_sign_dashboard_item.o_sign_archived {
+    /* can differentiate archives */
+}
+
+.o_sign_dashboard_item_icon {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.o_sign_dashboard_item > .o_sign_upload_template_button, .o_sign_dashboard_item:hover > .o_sign_upload_template_button {
+    background-color: #0CC497;
+    border-color: #0CC497;
+    color: white;
+}
+
+/* Edit mode */
+.fa-pencil {
+    cursor: pointer;
+
+    opacity: 0.1;
+    transition: opacity ease 250ms;
+}
+
+:hover > .fa-pencil {
+    opacity: 1.0; 
+}
+
+.o_sign_template_name_input {
+    border: 1px dashed white;
+    margin: 6px;
+}
+
+.o_sign_template_name_input:focus {
+    border: 1px solid silver;
+}
+
+.o_sign_template_name_input[disabled] {
+    background-color: transparent;
+    border: none;
+}
+
+.o_sign_template_saved_info {
+    margin: 0;
+    padding: 5px;
+    
+    opacity: 0;
+}
+
+/* Sign page */
+.media, .media-body {
+    overflow: auto;
+    background-color: #F7F5FA;
+    padding: 5px;
+}
+
+.o_sign_request_follower_name:not(:first-child)::before {
+    content: ', ';
+}
+
+.o_sign_validate_banner {
+    display: none;
+    opacity: 0;
+
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px;
+
+    background-color: #A4498C;
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
+}
+
+.o_sign_chatter ul {
+    max-height: 300px;
+    overflow: auto;
+}
+
+/* Signature Dialog */
+div.o_sign_font_dialog {
+    display: none;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    right: 0%;
+}
+
+div.o_sign_font_dialog .o_sign_font_selection {
+    overflow: auto;
+    height: 90%;
+    padding: 0;
+}
+
+div.o_sign_font_dialog a {
+    height: 100px;
+    padding: 0;
+}
+
+div.o_sign_font_dialog a img {
+    height: 100%;
+}
+
+div.o_sign_font_dialog .o_sign_loading {
+    background-image: url(../../img/loading.gif);
+    width: 31px;
+    height: 31px;
+    margin: auto;
+    margin-top: 35px;
+}
