@@ -22,6 +22,7 @@ var total = _t("Total");
 var PivotView = View.extend({
     template: 'PivotView',
     display_name: _lt('Pivot'),
+    icon: 'fa-table',
     view_type: 'pivot',
     events: {
         'click .o_pivot_header_cell_opened': 'on_open_header_click',

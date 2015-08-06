@@ -55,6 +55,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
         //whether the editable property of the view has to be disabled
         'disable_editable_mode': false,
     },
+    icon: 'fa-list-ul',
     view_type: 'tree',
     events: {
         'click thead th.o_column_sortable[data-id]': 'sort_by_column',

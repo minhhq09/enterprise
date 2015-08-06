@@ -28,6 +28,8 @@ var View = Widget.extend({
     // the mobile view will be used by default.  The intended use is for kanban
     // views to be used instead of list views in mobile mode
     mobile_friendly: false,
+    // icon is the font-awesome icon to display in the view switcher
+    icon: 'fa-question',
     init: function(parent, dataset, view_id, options) {
         this._super(parent);
         this.ViewManager = parent;

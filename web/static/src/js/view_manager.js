@@ -52,6 +52,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     multi_record: View ? View.prototype.multi_record : undefined,
                     mobile_friendly: View ? View.prototype.mobile_friendly : undefined,
                     accesskey: View ? View.prototype.accesskey : undefined,
+                    icon: View ? View.prototype.icon: undefined,
                 };
             self.view_order.push(view_descr);
             self.views[view_type] = view_descr;
