@@ -465,6 +465,7 @@ class Home(http.Controller):
         if kw.get('redirect'):
             return werkzeug.utils.redirect(kw.get('redirect'), 303)
 
+        request.uid = request.session.uid
         return request.render('web.webclient_bootstrap')
 
     @http.route('/web/dbredirect', type='http', auth="none")
