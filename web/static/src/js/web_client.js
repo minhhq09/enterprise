@@ -395,24 +395,26 @@ var WebClient = Widget.extend({
     /**
      * Scrolls the webclient to either a given offset or a target element
      * Must be called with: trigger_up('scrollTo', options)
-     * @param {Integer} [options.offset] the number of pixels to scroll
+     * @param {Integer} [options.offset] the number of pixels to scroll from top
+     * @param {Integer} [options.offset_left] the number of pixels to scroll from left
      * @param {String} [options.selector] the selector of the target element to scroll to
      */
     scrollTo: function (ev) {
-        var offset = ev.data.offset;
+        var offset = {top: ev.data.offset, left: ev.data.offset_left || 0};
         var xs_device = config.device.xs;
-        if (!offset) {
-            offset = framework.getPosition(document.querySelector(ev.data.selector)).top;
+        if (!offset.top) {
+            offset = framework.getPosition(document.querySelector(ev.data.selector));
             if (!xs_device) {
                 // Substract the position of the action_manager as it is the scrolling part
-                offset -= framework.getPosition(this.action_manager.el).top;
+                offset.top -= framework.getPosition(this.action_manager.el).top;
             }
         }
         if (xs_device) {
-            this.el.scrollTop = offset;
+            this.el.scrollTop = offset.top;
         } else {
-            this.action_manager.el.scrollTop = offset;
+            this.action_manager.el.scrollTop = offset.top;
         }
+        this.action_manager.el.scrollLeft = offset.left;
     },
     // --------------------------------------------------------------
     // Misc.
