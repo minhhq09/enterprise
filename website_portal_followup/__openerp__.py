@@ -7,7 +7,7 @@
     'complexity': 'easy',
     'description': """
 This module adds a followup menu and features to your portal if followup and portal are installed.
-==========================================================================================
+==================================================================================================
     """,
     'author': 'Odoo SA',
     'depends': ['account_reports', 'website_portal', 'website'],
