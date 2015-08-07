@@ -716,7 +716,7 @@
 
     <!-- Modify website_portal templates -->
     <template id="account" name="Account" inherit_id="website_portal.account">
-        <xpath expr="//t[@t-call='website_portal.quotations']" position="before">
+        <xpath expr="//div[contains(@class,'o_my_documents')]" position="inside">
             <t t-call="website_contract.contracts" />
         </xpath>
     </template>
