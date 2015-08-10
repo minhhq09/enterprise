@@ -2,7 +2,6 @@ from openerp import models, fields, api, _
 from ebaysdk.trading import Connection as Trading
 from datetime import datetime, timedelta
 from ebaysdk.exception import ConnectionError
-from pprint import pprint
 
 
 class ebay_configuration(models.TransientModel):
@@ -163,21 +162,18 @@ class ebay_configuration(models.TransientModel):
             product = self.env['product.template'].search([('ebay_id', '=', item['ItemID'])])
             if product and product.ebay_listing_status != 'Ended'\
                and product.ebay_listing_status != 'Out Of Stock':
-                if product.ebay_listing_status != item['SellingStatus']['ListingStatus']:
-                    product.ebay_listing_status = item['SellingStatus']['ListingStatus']
+                product.ebay_listing_status = item['SellingStatus']['ListingStatus']
                 if int(item['SellingStatus']['QuantitySold']) > 0:
                     resp = prod.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
-                    if isinstance(resp['TransactionArray']['Transaction'], list):
-                        for transaction in resp['TransactionArray']['Transaction']:
-                            if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
-                                self.create_sale_order(product, transaction)
-                    elif resp['TransactionArray']['Transaction']['Status']['CheckoutStatus'] == 'CheckoutComplete':
-                        self.create_sale_order(product, resp['TransactionArray']['Transaction'])
-        self.check_available_qty()
-
+                    transactions = resp['TransactionArray']['Transaction']
+                    if not isinstance(transactions, list):
+                        transactions = [transactions]
+                    for transaction in transactions:
+                        if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                            self.create_sale_order(product, transaction)
+            product.sync_available_qty()
         if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
-            page_number += 1
-            self._sync_product_status(page_number)
+            self._sync_product_status(page_number + 1)
 
     @api.model
     def create_sale_order(self, product, transaction):
@@ -195,30 +191,30 @@ class ebay_configuration(models.TransientModel):
                 if 'BuyerInfo' in transaction['Buyer'] and\
                    'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
                     infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
-                    partner_data['name'] = infos['Name'] if 'Name' in infos else False
-                    partner_data['street'] = infos['Street1'] if 'Street1' in infos else False
-                    partner_data['city'] = infos['CityName'] if 'CityName' in infos else False
-                    partner_data['zip'] = infos['PostalCode'] if 'PostalCode' in infos else False
-                    partner_data['phone'] = infos['Phone'] if 'Phone' in infos else False
+                    partner_data['name'] = infos.get('Name')
+                    partner_data['street'] = infos.get('Street1')
+                    partner_data['city'] = infos.get('CityName')
+                    partner_data['zip'] = infos.get('PostalCode')
+                    partner_data['phone'] = infos.get('Phone')
                     partner_data['country_id'] = self.env['res.country'].search([
                         ('code', '=', infos['Country'])
                     ]).id
 
                 partner = self.env['res.partner'].create(partner_data)
             if product.product_variant_count > 1 and 'Variation' in transaction:
-                variant = product.product_variant_ids.filtered('ebay_published')
-                variant = variant.filtered(lambda l:
-                   l.ebay_variant_url.split("vti", 1)[1] ==
-                   transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+                variant = product.product_variant_ids.filtered(lambda l:
+                    l.ebay_use and
+                    l.ebay_variant_url.split("vti", 1)[1] ==
+                    transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
             else:
                 variant = product.product_variant_ids[0]
             if not product.ebay_sync_stock:
                 variant.write({
-                    'ebay_quantity_sold': int(transaction['QuantityPurchased']),
+                    'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
                     'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
                     })
             else:
-                variant.ebay_quantity_sold = int(transaction['QuantityPurchased'])
+                variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
@@ -227,7 +223,7 @@ class ebay_configuration(models.TransientModel):
             if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
                 sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
             if 'BuyerCheckoutMessage' in transaction:
-                sale_order.message_post(_('The Buyer posted :') + transaction['BuyerCheckoutMessage'])
+                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
 
             currency = self.env['res.currency'].search([
                 ('name', '=', transaction['TransactionPrice']['_currencyID'])])
@@ -256,55 +252,11 @@ class ebay_configuration(models.TransientModel):
             invoice.invoice_validate()
 
     @api.model
-    def check_available_qty(self):
-        products = self.env['product.template'].search([
-            ('ebay_published', '=', True),
-            ('ebay_sync_stock', '=', True),
-            ('ebay_listing_status', '=', 'Active'),
-            ('virtual_available', '<=', 0)])
-        if products:
-            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                products.mapped(lambda p: p.revise_product_ebay())
-            else:
-                products.mapped(lambda p: p.end_listing_product_ebay())
-            products.ebay_listing_status = 'Out Of Stock'
-        products = self.env['product.template'].search([
-            ('ebay_published', '=', True),
-            ('ebay_sync_stock', '=', True),
-            ('ebay_listing_status', '=', 'Out Of Stock'),
-            ('virtual_available', '>', 0)])
-        if products:
-            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                products.mapped(lambda p: p.revise_product_ebay())
-            else:
-                products.mapped(lambda p: p.relist_product_ebay())
-        products = self.env['product.template'].search([
-            ('ebay_published', '=', True),
-            ('ebay_sync_stock', '=', True),
-            ('ebay_listing_status', '=', 'Active'),
-            ('virtual_available', '>', 0),
-            ('ebay_use_variant', '=', False)])
-        if products:
-            map(lambda p: p.revise_product_ebay(), [p for p in products if p.ebay_quantity != p.virtual_available])
-        products = self.env['product.template'].search([
-            ('ebay_published', '=', True),
-            ('ebay_sync_stock', '=', True),
-            ('ebay_listing_status', '=', 'Active'),
-            ('virtual_available', '>', 0),
-            ('ebay_use_variant', '=', True)])
-        if products:
-            for product in products:
-                for variant in product.product_variant_ids:
-                    if variant.virtual_available != variant.ebay_quantity:
-                        product.revise_product_ebay()
-                        break
-
-    @api.model
     def sync_ebay_details(self, context=None):
-        call_data = {
-            'DetailName': ['CountryDetails', 'SiteDetails', 'CurrencyDetails'],
-        }
-        response = self.env['product.template'].ebay_execute('GeteBayDetails', call_data)
+        response = self.env['product.template'].ebay_execute(
+            'GeteBayDetails',
+            {'DetailName': ['CountryDetails', 'SiteDetails', 'CurrencyDetails']}
+        )
         for country in self.env['res.country'].search([('ebay_available', '=', True)]):
             country.ebay_available = False
         for country in response.dict()['CountryDetails']:
@@ -330,20 +282,20 @@ class ebay_configuration(models.TransientModel):
 class country(models.Model):
     _inherit = "res.country"
 
-    ebay_available = fields.Boolean("Availability To Use For eBay API")
+    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
 
 
 class currency(models.Model):
     _inherit = "res.currency"
 
-    ebay_available = fields.Boolean("Availability To Use For eBay API")
+    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
 
 
 class ebay_site(models.Model):
     _name = "ebay.site"
 
-    name = fields.Char("Name")
-    ebay_id = fields.Char("eBay ID")
+    name = fields.Char("Name", readonly=True)
+    ebay_id = fields.Char("eBay ID", readonly=True)
 
 # MULTI ACCOUNT DRAFT 
 #class ebay_config_settings(models.Model):

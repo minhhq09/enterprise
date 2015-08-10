@@ -12,19 +12,26 @@ class ebay_category(models.Model):
     category_id = fields.Integer('Category ID')
     category_parent_id = fields.Integer('Category Parent ID')
     leaf_category = fields.Boolean(default=False)
-    category_type = fields.Char('Category Type')
+    category_type = fields.Selection(
+        [('ebay', 'Official eBay Category'), ('store', 'Custom Store Category')],
+        string='Category Type',
+    )
+    # if we want relation between item condition and category
+    # ebay_item_condition_ids = fields.Many2many(comodel_name='ebay.item.condition', string='Item Conditions')
 
     @api.model
     def sync_categories(self):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
         prod = self.env['product.template']
+        # First call to 'GetCategories' to only get the categories' version
         categories = prod.ebay_execute('GetCategories')
         ebay_version = categories.dict()['Version']
         version = self.env['ir.config_parameter'].get_param('ebay_sandbox_category_version'
                                                             if domain == 'sand'
                                                             else 'ebay_prod_category_version')
-        version = 10
         if version != ebay_version:
+            # If the version returned by eBay is different than the one in Odoo
+            # Another call to 'GetCategories' with all the information (ReturnAll) is done
             self.env['ir.config_parameter'].set_param('ebay_sandbox_category_version'
                                                       if domain == 'sand'
                                                       else 'ebay_prod_category_version',
@@ -42,40 +49,45 @@ class ebay_category(models.Model):
         for category in categories:
             cat = self.search([
                 ('category_id', '=', int(category['CategoryID'])),
-                ('category_type', '=', 'ebay')])
+                ('category_type', '=', 'ebay'),
+            ])
             if not cat:
                 cat = self.create({
                     'category_id': category['CategoryID'],
-                    'category_type': 'ebay'})
-            cat.write({'name': category['CategoryName'],
-                       'category_parent_id': category['CategoryParentID']
-                       if category['CategoryID'] != category['CategoryParentID']
-                       else 0,
-                       'leaf_category': category['LeafCategory']
-                       if 'LeafCategory' in category else False})
+                    'category_type': 'ebay',
+                })
+            cat.write({
+                'name': category['CategoryName'],
+                'category_parent_id': category['CategoryParentID'] if category['CategoryID'] != category['CategoryParentID'] else 0,
+                'leaf_category': category.get('LeafCategory'),
+            })
             if category['CategoryLevel'] == '1':
                 call_data = {
                     'CategoryID': category['CategoryID'],
                     'ViewAllNodes': True,
                     'DetailLevel': 'ReturnAll',
-                    'AllFeaturesForCategory': True
+                    'AllFeaturesForCategory': True,
                 }
                 response = self.env['product.template'].ebay_execute('GetCategoryFeatures', call_data)
                 if 'ConditionValues' in response.dict()['Category']:
                     conditions = response.dict()['Category']['ConditionValues']['Condition']
-                    if isinstance(conditions, list):
-                        for condition in response.dict()['Category']['ConditionValues']['Condition']:
-                            if not self.env['ebay.item.condition'].search([('code', '=', condition['ID'])]):
-                                self.env['ebay.item.condition'].create({
-                                    'code': condition['ID'],
-                                    'name': condition['DisplayName']
-                                })
-                    else:
-                        if not self.env['ebay.item.condition'].search([('code', '=', conditions['ID'])]):
+                    if not isinstance(conditions, list):
+                        conditions = [conditions]
+                    for condition in conditions:
+                        if not self.env['ebay.item.condition'].search([('code', '=', condition['ID'])]):
                             self.env['ebay.item.condition'].create({
-                                'code': conditions['ID'],
-                                'name': conditions['DisplayName']
+                                'code': condition['ID'],
+                                'name': condition['DisplayName'],
                             })
+                    # if we want relation between item condition and category
+                    # cond = self.env['ebay.item.condition'].search([('code', '=', condition['ID'])])
+                    # if cond:
+                    #     cat.ebay_item_condition_ids = [(4, cond.id)]
+                    # else:
+                    #     cat.ebay_item_condition_ids = [(0, 0,{
+                    #         'code': condition['ID'],
+                    #         'name': condition['DisplayName'],
+                    #     })]
         categories = self.search([('leaf_category', '=', True)])
         for category in categories:
             name = category.name
@@ -83,7 +95,8 @@ class ebay_category(models.Model):
             while parent_id != 0:
                 parent = self.search([
                     ('category_id', '=', parent_id),
-                    ('category_type', '=', 'ebay')])
+                    ('category_type', '=', 'ebay'),
+                ])
                 name = parent.name + " > " + name
                 parent_id = parent.category_parent_id
             category.name = name
@@ -92,25 +105,17 @@ class ebay_category(models.Model):
     def sync_store_categories(self):
         response = self.env['product.template'].ebay_execute('GetStore')
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
-        if isinstance(categories, list):
-            for category in categories:
-                cat = self.search([
-                    ('category_id', '=', int(category['CategoryID'])),
-                    ('category_type', '=', 'store')])
-                if not cat:
-                    cat = self.create({
-                        'category_id': category['CategoryID'],
-                        'category_type': 'store'})
-                cat.name = category['Name']
-        else:
+        if not isinstance(categories, list):
+            categories = [categories]
+        for category in categories:
             cat = self.search([
-                ('category_id', '=', int(categories['CategoryID'])),
+                ('category_id', '=', int(category['CategoryID'])),
                 ('category_type', '=', 'store')])
             if not cat:
                 cat = self.create({
-                    'category_id': categories['CategoryID'],
+                    'category_id': category['CategoryID'],
                     'category_type': 'store'})
-            cat.name = categories['Name']
+            cat.name = category['Name']
 
 
 class ebay_policy(models.Model):
@@ -126,31 +131,21 @@ class ebay_policy(models.Model):
         response = self.env['product.template'].ebay_execute('GetUserPreferences',
             {'ShowSellerProfilePreferences': True})
         if 'SellerProfilePreferences' not in response.dict() or \
-           response.dict()['SellerProfilePreferences']['SupportedSellerProfiles'] is None:
+           not response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']:
                 raise Warning(_('No Business Policies'))
         policies = response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']['SupportedSellerProfile']
-        if isinstance(policies, list):
-            for policy in policies:
-                record = self.search([('policy_id', '=', policy['ProfileID'])])
-                if not record:
-                    record = self.create({
-                        'policy_id': policy['ProfileID'],
-                    })
-                record.write({
-                    'name': policy['ProfileName'],
-                    'policy_type': policy['ProfileType'],
-                    'short_summary': policy['ShortSummary'] if 'ShortSummary' in policy else ' ',
-                })
-        else:
-            record = self.search([('policy_id', '=', policies['ProfileID'])])
+        if not isinstance(policies, list):
+            policies = [policies]
+        for policy in policies:
+            record = self.search([('policy_id', '=', policy['ProfileID'])])
             if not record:
-                self.create({
-                    'policy_id': policies['ProfileID'],
+                record = self.create({
+                    'policy_id': policy['ProfileID'],
                 })
             record.write({
-                'name': policies['ProfileName'],
-                'policy_type': policies['ProfileType'],
-                'short_summary': policies['ShortSummary'] if 'ShortSummary' in policies else ' ',
+                'name': policy['ProfileName'],
+                'policy_type': policy['ProfileType'],
+                'short_summary': policy['ShortSummary'] if 'ShortSummary' in policy else ' ',
             })
 
 
@@ -159,3 +154,5 @@ class ebay_item_condition(models.Model):
 
     name = fields.Char('Name')
     code = fields.Integer('Code')
+    # if we want relation between item condition and category
+    # ebay_category_ids = fields.Many2many(comodel_name='ebay.category', string='Categories')
