@@ -254,13 +254,28 @@
     }
 
     // Groups
-    @media (min-width: @screen-md-min) {
-        .o_group {
+    .o_group {
+        @media (min-width: @screen-md-min) {
             &.o_label_nowrap {
                 .o_form_label {
                     white-space: nowrap;
                 }
             }
+        }
+
+        .o_form_label {
+            font-weight: normal;
+        }
+        .o_td_label .o_form_label {
+            @media (min-width: @screen-xs-min) {
+                font-weight: bold;
+            }
+            margin-right: 0px;
+        }
+    }
+    &.oe_form_configuration {
+        .o_group .o_form_label {
+            white-space: nowrap;
         }
     }
 
@@ -322,6 +337,7 @@
         @media (max-width: @screen-xxs-max) {
             font-size: @odoo-label-font-size-factor * @odoo-font-size-base-touch;
         }
+        margin-right: 5px;
 
         &.o_form_invalid {
             color: @brand-danger;
