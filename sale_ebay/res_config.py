@@ -147,8 +147,6 @@ class ebay_configuration(models.TransientModel):
         self._sync_product_status(1)
 
     def _sync_product_status(self, page_number=1):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
 
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=59)),
                      'StartTimeTo': str(datetime.today()+timedelta(days=59)),
@@ -157,10 +155,8 @@ class ebay_configuration(models.TransientModel):
                                     'PageNumber': page_number,
                                     }
                      }
-        try:
-            response = ebay_api.execute('GetSellerList', call_data)
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        prod = self.env['product.template']
+        response = prod.ebay_execute('GetSellerList', call_data)
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
@@ -170,10 +166,7 @@ class ebay_configuration(models.TransientModel):
                 if product.ebay_listing_status != item['SellingStatus']['ListingStatus']:
                     product.ebay_listing_status = item['SellingStatus']['ListingStatus']
                 if int(item['SellingStatus']['QuantitySold']) > 0:
-                    try:
-                        resp = ebay_api.execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
-                    except ConnectionError as e:
-                        self.env['product.template']._manage_ebay_error(e)
+                    resp = prod.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
                     if isinstance(resp['TransactionArray']['Transaction'], list):
                         for transaction in resp['TransactionArray']['Transaction']:
                             if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
@@ -308,15 +301,10 @@ class ebay_configuration(models.TransientModel):
 
     @api.model
     def sync_ebay_details(self, context=None):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
         call_data = {
             'DetailName': ['CountryDetails', 'SiteDetails', 'CurrencyDetails'],
         }
-        try:
-            response = ebay_api.execute('GeteBayDetails', call_data)
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        response = self.env['product.template'].ebay_execute('GeteBayDetails', call_data)
         for country in self.env['res.country'].search([('ebay_available', '=', True)]):
             country.ebay_available = False
         for country in response.dict()['CountryDetails']:

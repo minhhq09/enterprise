@@ -17,11 +17,8 @@ class ebay_category(models.Model):
     @api.model
     def sync_categories(self):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
-        try:
-            categories = ebay_api.execute('GetCategories')
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        prod = self.env['product.template']
+        categories = prod.ebay_execute('GetCategories')
         ebay_version = categories.dict()['Version']
         version = self.env['ir.config_parameter'].get_param('ebay_sandbox_category_version'
                                                             if domain == 'sand'
@@ -36,15 +33,12 @@ class ebay_category(models.Model):
                 'DetailLevel': 'ReturnAll',
                 'LevelLimit': 4,
             }
-            try:
-                categories = ebay_api.execute('GetCategories', call_data)
-            except ConnectionError as e:
-                self.env['product.template']._manage_ebay_error(e)
-            self.create_categories(ebay_api, categories.dict()['CategoryArray']['Category'])
-        self.sync_store_categories(ebay_api)
+            categories = prod.ebay_execute('GetCategories', call_data)
+            self.create_categories(categories.dict()['CategoryArray']['Category'])
+        self.sync_store_categories()
 
     @api.model
-    def create_categories(self, ebay_api, categories):
+    def create_categories(self, categories):
         for category in categories:
             cat = self.search([
                 ('category_id', '=', int(category['CategoryID'])),
@@ -66,10 +60,7 @@ class ebay_category(models.Model):
                     'DetailLevel': 'ReturnAll',
                     'AllFeaturesForCategory': True
                 }
-                try:
-                    response = ebay_api.execute('GetCategoryFeatures', call_data)
-                except ConnectionError as e:
-                    self.env['product.template']._manage_ebay_error(e)
+                response = self.env['product.template'].ebay_execute('GetCategoryFeatures', call_data)
                 if 'ConditionValues' in response.dict()['Category']:
                     conditions = response.dict()['Category']['ConditionValues']['Condition']
                     if isinstance(conditions, list):
@@ -98,11 +89,8 @@ class ebay_category(models.Model):
             category.name = name
 
     @api.model
-    def sync_store_categories(self, ebay_api):
-        try:
-            response = ebay_api.execute('GetStore')
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+    def sync_store_categories(self):
+        response = self.env['product.template'].ebay_execute('GetStore')
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if isinstance(categories, list):
             for category in categories:
@@ -135,12 +123,8 @@ class ebay_policy(models.Model):
 
     @api.model
     def sync_policies(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
-        try:
-            response = ebay_api.execute('GetUserPreferences', {'ShowSellerProfilePreferences': True})
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        response = self.env['product.template'].ebay_execute('GetUserPreferences',
+            {'ShowSellerProfilePreferences': True})
         if 'SellerProfilePreferences' not in response.dict() or \
            response.dict()['SellerProfilePreferences']['SupportedSellerProfiles'] is None:
                 raise Warning(_('No Business Policies'))

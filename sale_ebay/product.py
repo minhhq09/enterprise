@@ -6,9 +6,9 @@ from openerp import models, fields, api, _
 from openerp.exceptions import UserError, RedirectWarning
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
-from pprint import pprint
 from StringIO import StringIO
 from xml.sax.saxutils import escape
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 
 
 class product_template(models.Model):
@@ -60,7 +60,7 @@ class product_template(models.Model):
     @api.multi
     def _prepare_item_dict(self, picture_urls):
         if self.ebay_sync_stock:
-            self.ebay_quantity = int(self.virtual_available) if int(self.virtual_available) > 0 else 0
+            self.ebay_quantity = max(int(self.virtual_available), 0)
         country_id = self.env['ir.config_parameter'].get_param('ebay_country')
         country = self.env['res.country'].browse(int(country_id))
         currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
@@ -68,12 +68,8 @@ class product_template(models.Model):
         item = {
             "Item": {
                 "Title": escape(self.ebay_title.strip().encode('utf-8')),
-                "Description": '<![CDATA['+self.ebay_description+']]>'
-                if self.ebay_description and '<html>' in self.ebay_description
-                else escape(self.ebay_description.strip().encode('utf-8')),
                 "PrimaryCategory": {"CategoryID": self.ebay_category_id.category_id},
-                "StartPrice": self.ebay_price if self.ebay_listing_type == 'Chinese'
-                else self.ebay_fixed_price,
+                "StartPrice": self.ebay_price if self.ebay_listing_type == 'Chinese' else self.ebay_fixed_price,
                 "CategoryMappingAllowed": "true",
                 "Country": country.code,
                 "Currency": currency.name,
@@ -114,6 +110,10 @@ class product_template(models.Model):
                 # },
             }
         }
+        if self.ebay_description and '<html>' in self.ebay_description:
+            item['Item']['Description'] = '<![CDATA['+self.ebay_description+']]>'
+        else:
+            item['Item']['Description'] = escape(self.ebay_description.strip().encode('utf-8'))
         if self.ebay_subtitle:
             item['Item']['SubTitle'] = escape(self.ebay_subtitle.strip().encode('utf-8'))
         if picture_urls:
@@ -139,13 +139,7 @@ class product_template(models.Model):
                 'StoreCategoryID': self.ebay_store_category_id.id,
                 'StoreCategoryName': self.ebay_store_category_id.name,
             }
-        if self.ebay_store_category_2_id:
-            if 'Storefront' not in item['Item']:
-                item['Item']['Storefront'] = {
-                    'StoreCategory2ID': self.ebay_store_category_2_id.id,
-                    'StoreCategory2Name': self.ebay_store_category_2_id.name,
-                }
-            else:
+            if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.id
                 item['Item']['Storefront']['StoreCategory2Name'] = self.ebay_store_category_2_id.name
         return item
@@ -165,7 +159,7 @@ class product_template(models.Model):
                 variant.ebay_quantity = int(variant.virtual_available)
             if not variant.ebay_quantity and\
                not self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                raise UserError(_('All the quantities must be greater than 0 or you need to activate the Out Of Stock option.'))
+                raise UserError(_('All the quantities must be greater than 0 or you need to enable the Out Of Stock option.'))
             variant_name_values = []
             for spec in variant.attribute_value_ids:
                 if len(spec.attribute_id.value_ids) > 1:
@@ -193,8 +187,8 @@ class product_template(models.Model):
         return items
 
     @api.multi
-    def _get_item_dict(self, ebay_api):
-        picture_urls = self._create_picture_url(ebay_api)
+    def _get_item_dict(self):
+        picture_urls = self._create_picture_url()
         if self.ebay_use_variant and self.product_variant_count > 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict(picture_urls)
@@ -203,7 +197,7 @@ class product_template(models.Model):
         return item_dict
 
     @api.one
-    def _set_variant_url(self, ebay_api, item_id):
+    def _set_variant_url(self, item_id):
         if self.ebay_use_variant and self.product_variant_count > 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
             for variant in self.product_variant_ids.filtered('ebay_published'):
@@ -217,7 +211,7 @@ class product_template(models.Model):
                         'NameValueList': name_value_list
                     }
                 }
-                item = ebay_api.execute('GetItem', call_data)
+                item = self.ebay_execute('GetItem', call_data)
                 variant.ebay_variant_url = item.dict()['Item']['ListingDetails']['ViewItemURL']
 
     @api.model
@@ -249,8 +243,17 @@ class product_template(models.Model):
                        token=token,
                        siteid=int(site.ebay_id))
 
+    @api.model
+    def ebay_execute(self, verb, data=None, list_nodes=[], verb_attrs=None, files=None):
+        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
+        ebay_api = self.get_ebay_api(domain)
+        try:
+            return ebay_api.execute(verb, data, list_nodes, verb_attrs, files)
+        except ConnectionError as e:
+            self._handle_ebay_error(e)
+
     @api.multi
-    def _create_picture_url(self, ebay_api):
+    def _create_picture_url(self):
         attachments = self.env['ir.attachment'].search([('res_model', '=', 'product.template'),
                                                         ('res_id', '=', self.id)])
         urls = []
@@ -261,12 +264,13 @@ class product_template(models.Model):
                 "WarningLevel": "High",
                 "PictureName": self.name
             }
-            response = ebay_api.execute('UploadSiteHostedPictures', pictureData, files=files)
+            response = self.ebay_execute('UploadSiteHostedPictures', pictureData, files=files)
             urls.append(response.dict()['SiteHostedPictureDetails']['FullURL'])
         return urls
 
     @api.one
-    def _update_ebay_data(self, item_id, domain):
+    def _update_ebay_data(self, item_id):
+        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
         self.write({
             'ebay_listing_status': 'Active',
             'ebay_id': item_id,
@@ -276,62 +280,42 @@ class product_template(models.Model):
 
     @api.one
     def push_product_ebay(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.get_ebay_api(domain)
-        try:
-            item_dict = self._get_item_dict(ebay_api)
-            response = ebay_api.execute('AddItem' if self.ebay_listing_type == 'Chinese'
-                                        else 'AddFixedPriceItem', item_dict)
-            self._set_variant_url(ebay_api, response.dict()['ItemID'])
-            self._update_ebay_data(response.dict()['ItemID'], domain)
-        except ConnectionError as e:
-            self._manage_ebay_error(e)
+        item_dict = self._get_item_dict()
+        response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
+                                     else 'AddFixedPriceItem', item_dict)
+        self._set_variant_url(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict()['ItemID'])
 
     @api.one
     def end_listing_product_ebay(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.get_ebay_api(domain)
         call_data = {"ItemID": self.ebay_id,
                      "EndingReason": "NotAvailable"}
-        try:
-            ebay_api.execute('EndItem' if self.ebay_listing_type == 'Chinese'
-                             else 'EndFixedPriceItem', call_data)
-            self.env['sale.config.settings']._sync_product_status()
-        except ConnectionError as e:
-            self._manage_ebay_error(e)
+        self.ebay_execute('EndItem' if self.ebay_listing_type == 'Chinese'
+                          else 'EndFixedPriceItem', call_data)
+        self.env['sale.config.settings']._sync_product_status()
 
     @api.one
     def relist_product_ebay(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.get_ebay_api(domain)
-        try:
-            item_dict = self._get_item_dict(ebay_api)
-            # set the item id to relist the correct ebay listing
-            item_dict['Item']['ItemID'] = self.ebay_id
-            response = ebay_api.execute('RelistItem' if self.ebay_listing_type == 'Chinese'
-                                        else 'RelistFixedPriceItem', item_dict)
-            self._set_variant_url(ebay_api, response.dict()['ItemID'])
-            self._update_ebay_data(response.dict()['ItemID'], domain)
-        except ConnectionError as e:
-            self._manage_ebay_error(e)
+        item_dict = self._get_item_dict()
+        # set the item id to relist the correct ebay listing
+        item_dict['Item']['ItemID'] = self.ebay_id
+        response = self.ebay_execute('RelistItem' if self.ebay_listing_type == 'Chinese'
+                                     else 'RelistFixedPriceItem', item_dict)
+        self._set_variant_url(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict()['ItemID'])
 
     @api.one
     def revise_product_ebay(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.get_ebay_api(domain)
-        try:
-            item_dict = self._get_item_dict(ebay_api)
-            # set the item id to revise the correct ebay listing
-            item_dict['Item']['ItemID'] = self.ebay_id
-            response = ebay_api.execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
-                                        else 'ReviseFixedPriceItem', item_dict)
-            self._set_variant_url(ebay_api, response.dict()['ItemID'])
-            self._update_ebay_data(response.dict()['ItemID'], domain)
-        except ConnectionError as e:
-            self._manage_ebay_error(e)
+        item_dict = self._get_item_dict()
+        # set the item id to revise the correct ebay listing
+        item_dict['Item']['ItemID'] = self.ebay_id
+        response = self.ebay_execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
+                                     else 'ReviseFixedPriceItem', item_dict)
+        self._set_variant_url(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict()['ItemID'])
 
     @api.model
-    def _manage_ebay_error(self, connectionError):
+    def _handle_ebay_error(self, connectionError):
         errors = connectionError.response.dict()['Errors']
         if isinstance(errors, list):
             error_message = ''
@@ -341,10 +325,10 @@ class product_template(models.Model):
         else:
             error_message = errors['LongMessage']
         if 'Condition is required for this category.' in error_message:
-            error_message += 'Maybe the condition is not compatible with the category.'
+            error_message += 'Or the condition is not compatible with the category.'
         if 'Internal error to the application' in error_message:
             error_message = 'eBay is unreachable. Please try again later.'
-        raise UserError(_("The listing can not be finish!\n'%s'") % (error_message,))
+        raise UserError(_("Error Encountered.\n'%s'") % (error_message,))
 
 
 class product_product(models.Model):
