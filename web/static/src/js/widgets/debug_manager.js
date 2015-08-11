@@ -66,10 +66,10 @@ var DebugManager = Widget.extend({
         // whether the current user is an administrator
         this._is_admin = false;
         return $.when(
-            new Model('res.users').call('check_access_rights', {operation: 'write'}),
+            new Model('res.users').call('check_access_rights', {operation: 'write', raise_exception: false}),
             this.session.user_has_group('base.group_no_one'),
             new Model('ir.model.data').call('xmlid_to_res_id', {xmlid: 'base.group_no_one'}),
-            this.session.user_has_group('base.group_no_one'),
+            this.session.user_has_group('base.group_system'),
             this._super()
         ).then(function (can_write_user, has_group_no_one, group_no_one_id, is_admin) {
             this._features_group = can_write_user && group_no_one_id;
@@ -306,7 +306,8 @@ DebugManager.include({
         return $.when(
             this._super(),
             new Model('ir.ui.view').call(
-                'check_access_rights', {operation: 'write'}).then(function (ar) {
+                'check_access_rights', {operation: 'write', raise_exception: false}
+            ).then(function (ar) {
                 this._can_edit_views = ar;
             }.bind(this))
         );
