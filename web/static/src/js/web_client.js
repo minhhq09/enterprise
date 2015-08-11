@@ -276,7 +276,7 @@ var WebClient = Widget.extend({
             if (action) {
                 var menu_id = self.menu.action_id_to_primary_menu_id(action.get_action_descr().id);
                 if (menu_id) {
-                    self.menu.change_menu_section(menu_id);
+                    core.bus.trigger('change_menu_section', menu_id);
                 }
             }
             self.toggle_app_switcher(false);
