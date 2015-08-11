@@ -5,6 +5,10 @@ from openerp.exceptions import UserError
 
 import json
 
+class stockInventoryLine(models.Model):
+    _inherit = "stock.inventory.line"
+    product_barcode = fields.Char(related='product_id.barcode')
+
 class StockInventory(models.Model):
     _name = 'stock.inventory'
     _inherit = ['stock.inventory', 'barcodes.barcode_events_mixin']
