@@ -31,7 +31,7 @@ var Menu = Widget.extend({
 
         // Prepare navbar's menus
         var $menu_sections = $(QWeb.render('Menu.sections', {'menu_data': this.menu_data}));
-        $menu_sections.siblings('section').each(function () {
+        $menu_sections.filter('section').each(function () {
             self.$menu_sections[parseInt(this.className, 10)] = $(this).children('li');
         });
 
