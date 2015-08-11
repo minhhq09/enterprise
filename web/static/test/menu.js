@@ -13,87 +13,6 @@ Tour.register({
             title:     "begin test",
         },
 
-        // log as admin
-        {
-            title:     "log on as admin",
-            element:   ".oe_login_form button",
-            onload: function () {
-                $('input[name="login"], input[name="password"]').val("admin");
-                localStorage.setItem('user', 'admin');
-            },
-        },
-        {
-            title:     "click on Settings",
-            waitFor:   '.o_application_switcher',
-            waitNot:   '.o_loading:visible',
-            element:   '.o_application_switcher a[data-menu]:contains(Settings)',
-        },
-
-        //  add technical features to admin user
-        {
-            title:     "click on Admin",
-            element:   '.o_list_view td:contains(Admin)',
-        },
-        {
-            waitFor:   '.breadcrumb li:contains(Admin)',
-            waitNot:   ".o_loading:visible",
-        },
-        {
-            title:     "click on Edit button",
-            element:   'button.o_form_button_edit',
-        },
-        {
-            title:     "click on Technical Features",
-            element:   'td:contains(Technical Features) + td input:not(:disabled):visible',
-            onend: function () {
-                $('td:contains(Technical Features) + td input:not(:disabled):visible').attr("checked", true);
-            },
-        },
-        {
-            title:     "click on Save User",
-            element:   'button.o_form_button_save',
-        },
-
-        //  add technical features to demo user
-        {
-            title:     "click on Users",
-            element:   '.breadcrumb .o_back_button',
-            waitFor:   'td:contains(Technical Features) + td input:disabled:visible',
-        },
-        {
-            title:     "click on Demo User",
-            element:   '.o_list_view td:contains(Demo)',
-        },
-        {
-            waitFor:   '.breadcrumb li:contains(Demo)',
-            waitNot:   ".o_loading:visible",
-        },
-        {
-            title:     "click on Edit button",
-            element:   'button.o_form_button_edit',
-        },
-        {
-            title:     "click on Technical Features",
-            element:   'td:contains(Technical Features) + td input:not(:disabled):visible',
-            onend: function () {
-                $('td:contains(Technical Features) + td input:not(:disabled):visible').attr("checked", true);
-            },
-        },
-        {
-            title:     "click on Save User",
-            waitFor:   'td:contains(Technical Features) + td input:checked:not(:disabled):visible',
-            element:   'button.o_form_button_save',
-        },
-        {
-            title:     "toggle app switcher",
-            waitFor:   'td:contains(Technical Features) + td input:disabled:visible',
-            element:   '.o_menu_toggle',
-        },
-        {
-            title:     "wait for app switcher",
-            waitFor:   ".o_application_switcher",
-        },
-
         // click all menu items
         {
             title:     "click on top menu",
@@ -106,6 +25,7 @@ Tour.register({
             },
             onend: function () {
                 this.$current_app.addClass('already_tested');
+                $('.o_menu_sections .dropdown-menu').show();
             },
         },
         {
@@ -115,7 +35,6 @@ Tour.register({
             element:   '.o_menu_sections a:not(.dropdown-toggle):visible:not(.already_tested):first',
             next:      "check",
             onload: function () {
-                $('.o_menu_sections .dropdown-menu').show();
                 console.log("Tour 'test_menu' click on Menu: '" +
                     $(this.element).find('span:first').text().replace(/^\s+|\s+$/g, '') + "'");
             },
@@ -144,9 +63,6 @@ Tour.register({
         {
             title:    "check",
             waitNot:  ".o_loading:visible",
-            onerror: function () {
-                return "Select next action";
-            }
         },
         {
             title:    "Select next action",
@@ -167,39 +83,7 @@ Tour.register({
                         return step.id;
                     }
                 }
-
-                // end tour if we had tested admin and demo user
-                if (localStorage.getItem('user') === "demo") {
-                    return "finish";
-                }
             },
-        },
-
-        // log out and re-run as demo user
-        {
-            title:     "open user menu",
-            wait:      50,
-            onload: function() {
-                $('.o_user_menu ul').show();
-            },
-        },
-        {
-            title:     "logout admin",
-            element:   'a[data-menu="logout"]',
-        },
-        {
-            title:     "log on as demo user",
-            wait:      '.oe_login_form',
-            element:   '.oe_login_form button',
-            onload: function () {
-                $('input[name="login"], input[name="password"]').val("demo");
-                localStorage.setItem('user', 'demo');
-            },
-        },
-        {
-            title:     "wait for app switcher and re-run as demo user",
-            waitFor:   ".o_application_switcher",
-            next:      "check",
         },
 
         // finish tour
