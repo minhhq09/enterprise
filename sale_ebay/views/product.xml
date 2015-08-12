@@ -26,6 +26,7 @@
               <field name="ebay_url" readonly="True" attrs="{'invisible': [('ebay_url','=', False)]}" widget="url"/>
               <field name="ebay_listing_status"/>
               <field name="ebay_quantity_sold" attrs="{'invisible': ['|',('product_variant_count', '>', 1),('ebay_listing_status','=', 'Unlisted')]}"/>
+              <field name="ebay_start_date" attrs="{'invisible': [('ebay_listing_status','=', 'Unlisted')]}"/>
             </group>
             
             <group colspan="2">

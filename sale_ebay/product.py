@@ -3,6 +3,7 @@
 import base64
 
 from openerp import models, fields, api, _
+from datetime import datetime, timedelta
 from openerp.exceptions import UserError, RedirectWarning
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
@@ -55,6 +56,7 @@ class product_template(models.Model):
     ebay_sync_stock = fields.Boolean(string="Use The Stock's Quantity", default=False)
     ebay_best_offer = fields.Boolean(string="Allow Best Offer", default=False)
     ebay_private_listing = fields.Boolean(string="Private Listing", default=False)
+    ebay_start_date = fields.Datetime('Start Date', readonly=1)
 
     @api.multi
     def _prepare_item_dict(self):
@@ -76,6 +78,7 @@ class product_template(models.Model):
                 "ListingDuration": self.ebay_listing_duration,
                 "ListingType": self.ebay_listing_type,
                 "PostalCode": self.env['ir.config_parameter'].get_param('ebay_zip_code'),
+                "Location": self.env['ir.config_parameter'].get_param('ebay_location'),
                 "Quantity": self.ebay_quantity,
                 "BestOfferDetails": {'BestOfferEnabled': self.ebay_best_offer},
                 "PrivateListing": self.ebay_private_listing,
@@ -285,13 +288,14 @@ class product_template(models.Model):
         return urls
 
     @api.one
-    def _update_ebay_data(self, item_id):
+    def _update_ebay_data(self, response):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
         self.write({
             'ebay_listing_status': 'Active',
-            'ebay_id': item_id,
+            'ebay_id': response['ItemID'],
             'ebay_url': ('cgi.sandbox.ebay.com/' if domain == "sand"
-                         else 'http://www.ebay.com/itm/')+item_id,
+                         else 'http://www.ebay.com/itm/')+response['ItemID'],
+            'ebay_start_date': datetime.strptime(response['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         })
 
     @api.one
@@ -300,7 +304,7 @@ class product_template(models.Model):
         response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
                                      else 'AddFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict())
 
     @api.one
     def end_listing_product_ebay(self):
@@ -318,7 +322,7 @@ class product_template(models.Model):
         response = self.ebay_execute('RelistItem' if self.ebay_listing_type == 'Chinese'
                                      else 'RelistFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict())
 
     @api.one
     def revise_product_ebay(self):
@@ -328,7 +332,126 @@ class product_template(models.Model):
         response = self.ebay_execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
                                      else 'ReviseFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict()['ItemID'])
+        self._update_ebay_data(response.dict())
+
+    @api.model
+    def _sync_product_status(self, page_number=1):
+        call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
+                     'StartTimeTo': str(datetime.today()),
+                     'DetailLevel': 'ReturnAll',
+                     'Pagination': {'EntriesPerPage': 200,
+                                    'PageNumber': page_number,
+                                    }
+                     }
+        response = self.ebay_execute('GetSellerList', call_data)
+        if response.dict()['ItemArray'] is None:
+            return
+        for item in response.dict()['ItemArray']['Item']:
+            product = self.search([('ebay_id', '=', item['ItemID'])])
+            if product:
+                product._sync_transaction(item)
+        if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
+            self._sync_product_status(page_number + 1)
+
+    @api.model
+    def _sync_old_product_status(self):
+        date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
+        products = self.search([('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
+        for product in products:
+            response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
+            product._sync_transaction(response.dict()['Item'])
+        return
+
+    @api.one
+    def _sync_transaction(self, item):
+        if self.ebay_listing_status != 'Ended'\
+           and self.ebay_listing_status != 'Out Of Stock':
+            self.ebay_listing_status = item['SellingStatus']['ListingStatus']
+            if int(item['SellingStatus']['QuantitySold']) > 0:
+                resp = self.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
+                transactions = resp['TransactionArray']['Transaction']
+                if not isinstance(transactions, list):
+                    transactions = [transactions]
+                for transaction in transactions:
+                    if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                        self.create_sale_order(transaction)
+        self.sync_available_qty()
+
+    @api.one
+    def create_sale_order(self, transaction):
+        if not self.env['sale.order'].search([
+           ('client_order_ref', '=', transaction['OrderLineItemID'])]):
+            partner = self.env['res.partner'].search([
+                ('email', '=', transaction['Buyer']['Email'])])
+            if not partner:
+                partner_data = {
+                    'name': transaction['Buyer']['UserID'],
+                    'ebay_id': transaction['Buyer']['UserID'],
+                    'email': transaction['Buyer']['Email'],
+                    'ref': 'eBay',
+                }
+                if 'BuyerInfo' in transaction['Buyer'] and\
+                   'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
+                    infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
+                    partner_data['name'] = infos.get('Name')
+                    partner_data['street'] = infos.get('Street1')
+                    partner_data['city'] = infos.get('CityName')
+                    partner_data['zip'] = infos.get('PostalCode')
+                    partner_data['phone'] = infos.get('Phone')
+                    partner_data['country_id'] = self.env['res.country'].search([
+                        ('code', '=', infos['Country'])
+                    ]).id
+
+                partner = self.env['res.partner'].create(partner_data)
+            if self.product_variant_count > 1 and 'Variation' in transaction:
+                variant = self.product_variant_ids.filtered(lambda l:
+                    l.ebay_use and
+                    l.ebay_variant_url.split("vti", 1)[1] ==
+                    transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+            else:
+                variant = self.product_variant_ids[0]
+            if not self.ebay_sync_stock:
+                variant.write({
+                    'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
+                    'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
+                    })
+            else:
+                variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
+            sale_order = self.env['sale.order'].create({
+                'partner_id': partner.id,
+                'state': 'draft',
+                'client_order_ref': transaction['OrderLineItemID']
+            })
+            if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
+                sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
+            if 'BuyerCheckoutMessage' in transaction:
+                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
+
+            currency = self.env['res.currency'].search([
+                ('name', '=', transaction['TransactionPrice']['_currencyID'])])
+            self.env['sale.order.line'].create({
+                'product_id': variant.id,
+                'order_id': sale_order.id,
+                'name': self.name,
+                'product_uom_qty': float(transaction['QuantityPurchased']),
+                'price_unit': currency.compute(
+                    float(transaction['TransactionPrice']['value']),
+                    self.env.user.company_id.currency_id),
+            })
+            if 'ShippingServiceSelected' in transaction:
+                self.env['sale.order.line'].create({
+                    'order_id': sale_order.id,
+                    'name': transaction['ShippingServiceSelected']['ShippingService'],
+                    'product_uom_qty': 1,
+                    'price_unit': currency.compute(
+                        float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
+                        self.env.user.company_id.currency_id)
+                    })
+            sale_order.action_button_confirm()
+
+            invoice_id = sale_order.action_invoice_create()
+            invoice = self.env['account.invoice'].browse(invoice_id)
+            invoice.invoice_validate()
 
     @api.one
     def sync_available_qty(self):

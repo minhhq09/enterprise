@@ -9,8 +9,9 @@ class ebay_category(models.Model):
     _name = 'ebay.category'
 
     name = fields.Char('Name')
-    category_id = fields.Integer('Category ID')
-    category_parent_id = fields.Integer('Category Parent ID')
+    # The IDS are string because of the limitation of the SQL integer range
+    category_id = fields.Char('Category ID')
+    category_parent_id = fields.Char('Category Parent ID')
     leaf_category = fields.Boolean(default=False)
     category_type = fields.Selection(
         [('ebay', 'Official eBay Category'), ('store', 'Custom Store Category')],
