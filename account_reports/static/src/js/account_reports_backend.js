@@ -85,7 +85,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.render_searchview();
                 self.render_pager();
                 defs.push(self.update_cp());
-                return $.when(defs);
+                return $.when.apply($, defs);
             });
         });
     },
