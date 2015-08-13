@@ -151,7 +151,7 @@ var WebClient = Widget.extend({
         defs.push(this.notification_manager.appendTo(this.$el));
         defs.push(this.loading.appendTo(this.$el));
 
-        return $.when(defs);
+        return $.when.apply($, defs);
     },
     clear_uncommitted_changes: function() {
         var def = $.Deferred().resolve();
@@ -204,7 +204,7 @@ var WebClient = Widget.extend({
             defs.push(self.app_switcher.appendTo(document.createDocumentFragment()));
             defs.push(self.app_switcher_navbar.appendTo(document.createDocumentFragment()));
             defs.push(self.menu.appendTo(document.createDocumentFragment()));
-            return $.when(defs);
+            return $.when.apply($, defs);
         }).then(function () {
             $(window).bind('hashchange', self.on_hashchange);
 
