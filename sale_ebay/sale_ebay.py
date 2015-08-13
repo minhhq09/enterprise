@@ -17,11 +17,11 @@ class ebay_category(models.Model):
         [('ebay', 'Official eBay Category'), ('store', 'Custom Store Category')],
         string='Category Type',
     )
-    # if we want relation between item condition and category
-    # ebay_item_condition_ids = fields.Many2many(comodel_name='ebay.item.condition', string='Item Conditions')
 
     @api.model
     def sync_categories(self):
+        self.sync_store_categories()
+
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
         prod = self.env['product.template']
         # First call to 'GetCategories' to only get the categories' version
@@ -43,13 +43,12 @@ class ebay_category(models.Model):
             }
             categories = prod.ebay_execute('GetCategories', call_data)
             self.create_categories(categories.dict()['CategoryArray']['Category'])
-        self.sync_store_categories()
 
     @api.model
     def create_categories(self, categories):
         for category in categories:
             cat = self.search([
-                ('category_id', '=', int(category['CategoryID'])),
+                ('category_id', '=', category['CategoryID']),
                 ('category_type', '=', 'ebay'),
             ])
             if not cat:
@@ -59,7 +58,7 @@ class ebay_category(models.Model):
                 })
             cat.write({
                 'name': category['CategoryName'],
-                'category_parent_id': category['CategoryParentID'] if category['CategoryID'] != category['CategoryParentID'] else 0,
+                'category_parent_id': category['CategoryParentID'] if category['CategoryID'] != category['CategoryParentID'] else '0',
                 'leaf_category': category.get('LeafCategory'),
             })
             if category['CategoryLevel'] == '1':
@@ -80,20 +79,11 @@ class ebay_category(models.Model):
                                 'code': condition['ID'],
                                 'name': condition['DisplayName'],
                             })
-                    # if we want relation between item condition and category
-                    # cond = self.env['ebay.item.condition'].search([('code', '=', condition['ID'])])
-                    # if cond:
-                    #     cat.ebay_item_condition_ids = [(4, cond.id)]
-                    # else:
-                    #     cat.ebay_item_condition_ids = [(0, 0,{
-                    #         'code': condition['ID'],
-                    #         'name': condition['DisplayName'],
-                    #     })]
-        categories = self.search([('leaf_category', '=', True)])
+        categories = self.search([('leaf_category', '=', True),('category_type', '=', 'ebay')])
         for category in categories:
             name = category.name
             parent_id = category.category_parent_id
-            while parent_id != 0:
+            while parent_id != '0':
                 parent = self.search([
                     ('category_id', '=', parent_id),
                     ('category_type', '=', 'ebay'),
@@ -108,15 +98,28 @@ class ebay_category(models.Model):
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if not isinstance(categories, list):
             categories = [categories]
+        self._create_store_categories(categories, '0')
+
+    @api.model
+    def _create_store_categories(self, categories, parent_id):
         for category in categories:
             cat = self.search([
-                ('category_id', '=', int(category['CategoryID'])),
-                ('category_type', '=', 'store')])
+                ('category_id', '=', category['CategoryID']),
+                ('category_type', '=', 'store'),
+            ])
             if not cat:
                 cat = self.create({
                     'category_id': category['CategoryID'],
-                    'category_type': 'store'})
-            cat.name = category['Name']
+                    'category_type': 'store',
+                })
+            cat.write({
+                'name': category['Name'],
+                'category_parent_id': parent_id,
+            })
+            if 'ChildCategory' in category:
+                cat._create_store_categories(category['ChildCategory'], cat.category_id)
+            else:
+                cat.leaf_category = True
 
 
 class ebay_policy(models.Model):
@@ -155,5 +158,3 @@ class ebay_item_condition(models.Model):
 
     name = fields.Char('Name')
     code = fields.Integer('Code')
-    # if we want relation between item condition and category
-    # ebay_category_ids = fields.Many2many(comodel_name='ebay.category', string='Categories')

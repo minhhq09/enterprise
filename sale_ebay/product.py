@@ -26,11 +26,11 @@ class product_template(models.Model):
     ebay_description = fields.Text('Description')
     ebay_item_condition_id = fields.Many2one('ebay.item.condition', string="Item Condition")
     ebay_category_id = fields.Many2one('ebay.category',
-        string="Category", domain=[('category_type', '=', 'ebay')])
+        string="Category", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)])
     ebay_store_category_id = fields.Many2one('ebay.category',
-        string="Store Category", domain=[('category_type', '=', 'store')])
+        string="Store Category", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_store_category_2_id = fields.Many2one('ebay.category',
-        string="Store Category 2", domain=[('category_type', '=', 'store')])
+        string="Store Category 2", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_price = fields.Float(string='Starting Price for Auction')
     ebay_buy_it_now_price = fields.Float(string='Buy It Now Price')
     ebay_listing_type = fields.Selection([
