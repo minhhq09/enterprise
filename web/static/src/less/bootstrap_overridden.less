@@ -1,0 +1,111 @@
+// ------------------------------------------------------------------
+// Bootstrap variables
+// ------------------------------------------------------------------
+
+//== Colors
+@brand-primary: @odoo-brand-primary;
+
+//== Scaffolding
+@body-bg: @odoo-brand-secondary;
+@text-color: @odoo-main-text-color;
+@link-color: @odoo-brand-optional;
+
+//== Typography
+@font-family-monospace: Roboto;
+@font-family-sans-serif: Roboto;
+@font-family-serif: Roboto;
+@font-size-base: 13px;
+@headings-font-weight: 400;
+
+//== Components
+@border-radius-base: 0;
+@component-active-bg: @gray-lighter;
+@component-active-color: @odoo-brand-optional;
+
+//== Badges
+@badge-bg: transparent;
+@badge-color: @odoo-brand-optional;
+
+//== Breadcrumbs
+@breadcrumb-active-color: @odoo-brand-secondary;
+@breadcrumb-bg: white;
+@breadcrumb-color: @odoo-brand-secondary;
+@breadcrumb-padding-horizontal: 0;
+@breadcrumb-padding-vertical: 0;
+
+//== Buttons
+@btn-default-bg: white;
+@btn-default-border: white;
+@btn-default-color: @odoo-brand-optional;
+@btn-primary-bg: @odoo-brand-optional;
+@btn-primary-border: @odoo-brand-optional;
+@btn-primary-color: white;
+@btn-icon-bg: white;
+@btn-icon-border: white;
+@btn-icon-color: @odoo-main-text-color;
+
+//== Modals
+@modal-sm: 300px;
+@modal-md: 650px;
+@modal-lg: 980px;
+
+//== Grid system
+@grid-gutter-width: 0;
+
+//== Navs
+@nav-link-padding: 5px 10px;
+
+//== Navbar
+@navbar-height: 44px;
+@navbar-margin-bottom: 0;
+@navbar-inverse-bg: @odoo-brand-primary;
+@navbar-inverse-link-color: white;
+@navbar-inverse-link-hover-bg: darken(@odoo-brand-primary, 10%);
+@navbar-inverse-toggle-hover-bg: @odoo-brand-primary;
+
+//== Tables
+@table-bg-accent: #eef0f0; // FIXME: expose
+
+
+// ------------------------------------------------------------------
+// Bootstrap components rules (non exposed features variables)
+// ------------------------------------------------------------------
+
+//== Badges
+.badge {
+    border: 1px solid @odoo-brand-optional;
+}
+
+//== Buttons
+.btn-icon {
+  .button-variant(@btn-icon-color; @btn-icon-bg; @btn-icon-border);
+}
+.btn, .btn-sm, .btn-group > .btn {
+    border-radius: 0px;
+    border: none;
+    &:hover, &:active, &:focus, &:active:focus {
+        outline: none;
+    }
+}
+.btn-primary.active, .btn-default.active, .btn-icon.active {
+    .box-shadow(none);
+}
+.btn-primary, .btn-default {
+    text-transform: uppercase;
+}
+.btn-link { // do not place ':hover' on the same line because the mixin won't be extended
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+//== Navbar
+.navbar .navbar-toggle {
+    border-color: transparent;
+}
+
+//== Labels
+.label {
+    border-radius: 0;
+    font-size: 1em; // Override 75% of .label
+}

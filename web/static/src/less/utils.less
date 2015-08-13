@@ -186,3 +186,15 @@
     bottom: @bottom;
     right: @right;
 }
+
+// ------------------------------------------------------------------
+// Text overflow
+// ------------------------------------------------------------------
+.o-text-overflow(@display: inline-block) {
+    display: @display;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top; // To update display context changed by overflow:hidden
+}

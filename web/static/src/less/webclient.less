@@ -61,14 +61,6 @@ div.o_checkbox {
 // ------------------------------------------------------------------
 //  General
 // ------------------------------------------------------------------
-.o-text-overflow(@display: inline-block) {
-    display: @display;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top; // To update display context changed by overflow:hidden
-}
 .o_text_overflow {
     .o-text-overflow();
 }
@@ -100,57 +92,6 @@ select { // FIXME buggy 'padding-left'
     text-shadow: 0 0 0 @odoo-main-text-color;
     > option {
         color: @odoo-main-text-color;
-    }
-}
-
-
-// ------------------------------------------------------------------
-// Navbar
-// ------------------------------------------------------------------
-.navbar {
-    .box-shadow(0px 0px 8px @odoo-main-text-color);
-
-    .o_menu_toggle, .o_back_button {
-        .user-select(none);
-        padding-left: 16px;
-        padding-right: 16px;
-        &:hover {
-            background-color: @navbar-inverse-link-hover-bg;
-        }
-        &:focus, &:active, &:focus:active {
-            outline: none;
-        }
-    }
-
-    .o_menu_toggle {
-        margin-right: 4px;
-    }
-
-    .o_menu_brand {
-        .user-select(none);
-        cursor: default;
-        margin-right: 25px;
-        font-size: 22px;
-        font-weight: 500;
-    }
-
-    .open .dropdown-menu {
-        max-height: 90vh; // the dropdown should not overstep the viewport
-        overflow: auto;
-
-        .o-menu-indentation(@index) when (@index < 6) {
-            > li .o_menu_header_lvl_@{index} {
-                color: @odoo-main-text-color;
-                padding-left: @index*10px;
-                padding-right: @index*10px;
-            }
-            > li .o_menu_entry_lvl_@{index} {
-                padding-left: @index*12px;
-                padding-right: @index*12px;
-            }
-            .o-menu-indentation(@index + 1);
-        }
-        .o-menu-indentation(2);
     }
 }
 
