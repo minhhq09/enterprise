@@ -1591,7 +1591,7 @@ var FieldMany2ManyCheckBoxes = AbstractManyField.extend(common.ReinitializeField
         this.set("records", []);
         this.field_manager.on("view_content_has_changed", this, function() {
             var domain = new data.CompoundDomain(this.build_domain()).eval();
-            if (! _.isEqual(domain, this.get("domain"))) {
+            if(!_.isEqual(domain, this.get("domain"))) {
                 this.set("domain", domain);
             }
         });
@@ -1613,20 +1613,23 @@ var FieldMany2ManyCheckBoxes = AbstractManyField.extend(common.ReinitializeField
         });
     },
     render_value: function() {
-        this.$().html(QWeb.render("FieldMany2ManyCheckBoxes", {widget: this}));
-        var inputs = this.$("input");
-        inputs.change(_.bind(this.from_dom, this));
-        if (this.get("effective_readonly"))
-            inputs.attr("disabled", "true");
+        this.$el.html(QWeb.render("FieldMany2ManyCheckBoxes", {widget: this}));
+        var $inputs = this.$("input");
+        $inputs.change(_.bind(this.from_dom, this));
+        if(this.get("effective_readonly")) {
+            $inputs.attr("disabled", "true");
+        }
     },
     from_dom: function() {
         var new_value = this.$("input:checked").map(function() { return +$(this).data("record-id"); }).get();
-        if (! _.isEqual(new_value, this.get("value"))) {
+        if (!_.isEqual(new_value, this.get("value"))) {
             this.internal_set_value(new_value);
         }
-    }
+    },
+    is_false: function() {
+        return false;
+    },
 });
-
 
 core.form_widget_registry
     .add('many2one', FieldMany2One)
@@ -1636,7 +1639,7 @@ core.form_widget_registry
     .add('one2many', FieldOne2Many)
     .add('one2many_list', FieldOne2Many)
     .add('many2many_binary', FieldMany2ManyBinaryMultiFiles) // TODO
-    .add('many2many_checkboxes', FieldMany2ManyCheckBoxes); // TODO
+    .add('many2many_checkboxes', FieldMany2ManyCheckBoxes);
 
 core.one2many_view_registry
     .add('list', One2ManyListView);
