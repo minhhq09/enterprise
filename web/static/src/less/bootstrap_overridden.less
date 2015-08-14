@@ -9,6 +9,7 @@
 @body-bg: @odoo-brand-secondary;
 @text-color: @odoo-main-text-color;
 @link-color: @odoo-brand-optional;
+@link-hover-decoration: none;
 
 //== Typography
 @font-family-monospace: Roboto;
@@ -89,11 +90,6 @@
 }
 .btn-primary, .btn-default {
     text-transform: uppercase;
-}
-.btn-link { // do not place ':hover' on the same line because the mixin won't be extended
-    &:hover {
-        text-decoration: none;
-    }
 }
 
 //== Navbar

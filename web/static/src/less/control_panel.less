@@ -15,31 +15,6 @@
         }
     }
 
-    // Unfortunately needed for the bounce effect
-    .o_form_buttons_view {
-        > button {
-            float: left;
-            &:last-child {
-                float: right;
-                margin-left: 3px;
-            }
-        }
-    } // FIXME: Move me to view_form.less?
-
-    .o_list_buttons { // Needed by the webclient
-        .o_list_button_save, .o_list_button_discard {
-            display: none;
-        }
-        &.o-editing { // for list view editable
-            .o_list_button_add {
-                display: none
-            }
-            .o_list_button_save, .o_list_button_discard {
-                display: inline-block
-            }
-        }
-    } // FIXME: Move me to view_list.less
-
     // Sidebar
     .o_cp_sidebar {
         padding-top: 5px;

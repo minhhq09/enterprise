@@ -186,3 +186,18 @@
         }
     }
 }
+
+// Buttons in ControlPanel
+.o_list_buttons {
+    .o_list_button_save, .o_list_button_discard {
+        display: none;
+    }
+    &.o-editing { // for list view editable
+        .o_list_button_add {
+            display: none
+        }
+        .o_list_button_save, .o_list_button_discard {
+            display: inline-block
+        }
+    }
+}
