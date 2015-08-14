@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
+from datetime import datetime, timedelta
 from openerp.exceptions import Warning
 from ebaysdk.exception import ConnectionError
 
@@ -158,3 +159,104 @@ class ebay_item_condition(models.Model):
 
     name = fields.Char('Name')
     code = fields.Integer('Code')
+
+
+class ebay_link_listing(models.TransientModel):
+    _name = 'ebay.link.listing'
+
+    ebay_id = fields.Char('eBay Listing ID')
+
+    @api.one
+    def link_listing(self):
+        response = self.env['product.template'].ebay_execute('GetItem', {
+            'ItemID': self.ebay_id,
+            'DetailLevel': 'ReturnAll'
+        })
+        item = response.dict()['Item']
+        currency = self.env['res.currency'].search([
+            ('name', '=', item['StartPrice']['_currencyID'])])
+        product = self.env['product.template'].browse(self._context.get('active_id'))
+        product.write({
+            'ebay_id': item['ItemID'],
+            'ebay_url': item['ListingDetails']['ViewItemURL'],
+            'ebay_listing_status': item['SellingStatus']['ListingStatus'],
+            'ebay_title': item['Title'],
+            'ebay_subtitle': item['SubTitle'] if 'SubTitle' in item else False,
+            'ebay_description': item['Description'],
+            'ebay_item_condition_id': self.env['ebay.item.condition'].search([
+                ('code', '=', item['ConditionID'])
+            ]).id if 'ConditionID' in item else False,
+            'ebay_category_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['PrimaryCategory']['CategoryID']),
+                ('category_type', '=', 'ebay')
+            ]).id,
+            'ebay_store_category_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['Storefront']['StoreCategoryID']),
+                ('category_type', '=', 'store')
+            ]).id,
+            'ebay_store_category_2_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['Storefront']['StoreCategory2ID']),
+                ('category_type', '=', 'store')
+            ]).id,
+            'ebay_price': currency.compute(
+                float(item['StartPrice']['value']),
+                self.env.user.company_id.currency_id
+            ),
+            'ebay_buy_it_now_price': currency.compute(
+                float(item['BuyItNowPrice']['value']),
+                self.env.user.company_id.currency_id
+            ),
+            'ebay_listing_type': item['ListingType'],
+            'ebay_listing_duration': item['ListingDuration'],
+            'ebay_seller_payment_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'PAYMENT'),
+                ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
+            ]).id,
+            'ebay_seller_return_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'RETURN_POLICY'),
+                ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
+            ]).id,
+            'ebay_seller_shipping_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'SHIPPING'),
+                ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
+            ]).id,
+            'ebay_best_offer': True if 'BestOfferDetails' in item
+                and item['BestOfferDetails']['BestOfferEnabled'] == 'true' else False,
+            'ebay_private_listing': True if item['PrivateListing'] == 'true' else False,
+            'ebay_start_date': datetime.strptime(
+                item['ListingDetails']['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S'),
+        })
+
+        if 'Variations' in item:
+            variations = item['Variations']['Variation']
+            if not isinstance(variations, list):
+                variations = [variations]
+            for variation in variations:
+                specs = variation['VariationSpecifics']['NameValueList']
+                attrs = []
+                if not isinstance(specs, list):
+                    specs = [specs]
+                for spec in specs:
+                    attr = self.env['product.attribute.value'].search([('name', '=', spec['Value'])])
+                    attrs.append(('attribute_value_ids', '=', attr.id))
+                variant = self.env['product.product'].search(attrs).filtered(
+                    lambda l: l.product_tmpl_id.id == product.id)
+                variant.write({
+                    'ebay_use': True,
+                    'ebay_quantity_sold': variation['SellingStatus']['QuantitySold'],
+                    'ebay_fixed_price': currency.compute(
+                        float(variation['StartPrice']['value']),
+                        self.env.user.company_id.currency_id
+                    ),
+                    'ebay_quantity': int(variation['Quantity']) - int(variation['SellingStatus']['QuantitySold']),
+                })
+            product._set_variant_url(self.ebay_id)
+        elif product.product_variant_count == 1:
+            product.product_variant_ids.write({
+                'ebay_quantity_sold': item['SellingStatus']['QuantitySold'],
+                'ebay_fixed_price': currency.compute(
+                    float(item['StartPrice']['value']),
+                    self.env.user.company_id.currency_id
+                ),
+                'ebay_quantity': int(item['Quantity']) - int(item['SellingStatus']['QuantitySold']),
+            })

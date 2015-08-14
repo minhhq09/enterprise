@@ -50,13 +50,13 @@ class product_template(models.Model):
         string="Return Policy", domain=[('policy_type', '=', 'RETURN_POLICY')])
     ebay_seller_shipping_policy_id = fields.Many2one('ebay.policy',
         string="Shipping Policy", domain=[('policy_type', '=', 'SHIPPING')])
-    ebay_quantity_sold = fields.Integer(related='product_variant_ids.ebay_quantity_sold', store=True)
-    ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
-    ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
     ebay_sync_stock = fields.Boolean(string="Use The Stock's Quantity", default=False)
     ebay_best_offer = fields.Boolean(string="Allow Best Offer", default=False)
     ebay_private_listing = fields.Boolean(string="Private Listing", default=False)
     ebay_start_date = fields.Datetime('Start Date', readonly=1)
+    ebay_quantity_sold = fields.Integer(related='product_variant_ids.ebay_quantity_sold', store=True)
+    ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
+    ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
 
     @api.multi
     def _prepare_item_dict(self):
@@ -290,11 +290,11 @@ class product_template(models.Model):
     @api.one
     def _update_ebay_data(self, response):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
+        response_url = self.ebay_execute('GetItem', {'ItemID': response['ItemID']})
         self.write({
             'ebay_listing_status': 'Active',
             'ebay_id': response['ItemID'],
-            'ebay_url': ('cgi.sandbox.ebay.com/' if domain == "sand"
-                         else 'http://www.ebay.com/itm/')+response['ItemID'],
+            'ebay_url': response_url.dict()['Item']['ListingDetails']['ViewItemURL'],
             'ebay_start_date': datetime.strptime(response['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         })
 

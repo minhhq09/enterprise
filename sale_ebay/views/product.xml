@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
+    <!-- Wizzard to link existing listing with existing product -->
+    <record model="ir.ui.view" id="ebay_link_listing_view">
+        <field name="name">ebay.link.listing.form</field>
+        <field name="model">ebay.link.listing</field>
+        <field name="arch" type="xml">
+            <form string="Link Existing Listing">
+              <group>
+                <field name="ebay_id"/>
+              </group>
+              <footer>
+                <button name="link_listing" type="object" string="Link Listing" class="oe_highlight"/>
+                or
+                <button string="Cancel" class="oe_link" special="cancel" />
+              </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_ebay_link_listing">
+        <field name="name">Link Existing Listing</field>
+        <field name="res_model">ebay.link.listing</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ebay_link_listing_view"/>
+        <field name="target">new</field>
+    </record>
+
     <record id="product_template_sale_ebay_form_view" model="ir.ui.view">
       <field name="name">product.sale.ebay.form</field>
       <field name="model">product.template</field>
@@ -12,6 +39,7 @@
               <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': [('ebay_listing_status','!=', 'Ended'),('ebay_listing_status','!=','Completed')]}"/>
               <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
               <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+              <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing Listing' attrs="{'invisible': [('ebay_listing_status','!=', 'Unlisted')]}"/>
             </header>
         </xpath>
         <div name="options" position="inside">
@@ -42,7 +70,7 @@
                 <field name="ebay_listing_type"/>
                 <field name="ebay_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
                 <field name="ebay_buy_it_now_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
-                <field name="ebay_fixed_price" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '>', 1)]}"/>
                 <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('product_variant_count','>',1),('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_listing_duration"/>
