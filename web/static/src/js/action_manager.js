@@ -789,6 +789,7 @@ var ActionManager = Widget.extend({
     ir_actions_act_url: function (action) {
         if (action.target === 'self') {
             framework.redirect(action.url);
+            return $.Deferred(); // The action is finished only when the redirection is done
         } else {
             window.open(action.url, '_blank');
         }
