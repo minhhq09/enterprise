@@ -28,7 +28,7 @@ var account_report_followup_generic = account_report_generic.extend({
         var self = this;
         var def = $.when();
         if (!this.followup_report_widget) {
-            this.followup_report_widget = new FollowupReportWidget(this, this.report_context, this.context_model);
+            this.followup_report_widget = new FollowupReportWidget(this, this.report_context, new Model('account.report.context.followup'));
             def = this.followup_report_widget.appendTo(this.$el);
         }
         def.then(function () {
