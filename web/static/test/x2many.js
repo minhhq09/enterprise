@@ -133,16 +133,16 @@ Tour.register({
         },
         {
             title:      "select Admin",
-            element:    '.modal .oe_list_content tr:has(td[data-field="name"]:containsExact(Administrator)) .oe_list_record_selector input[type="checkbox"]'
+            element:    '.modal tr:has(td[data-field="name"]:containsExact(Administrator)) .o_list_record_selector input[type="checkbox"]'
         },
         {
             title:      "select Demo User",
-            waitFor:    '.modal .oe_list_content tr:has(td[data-field="name"]:containsExact(Administrator)) .oe_list_record_selector input[type="checkbox"]:propChecked',
-            element:    '.modal .oe_list_content tr:has(td[data-field="name"]:containsExact(Demo User)) .oe_list_record_selector input[type="checkbox"]'
+            waitFor:    '.modal tr:has(td[data-field="name"]:containsExact(Administrator)) .o_list_record_selector input[type="checkbox"]:propChecked',
+            element:    '.modal tr:has(td[data-field="name"]:containsExact(Demo User)) .o_list_record_selector input[type="checkbox"]'
         },
         {
             title:      "save selected participants",
-            waitFor:    '.modal .oe_list_content tr:has(td[data-field="name"]:containsExact(Demo User)) .oe_list_record_selector input[type="checkbox"]:propChecked',
+            waitFor:    '.modal tr:has(td[data-field="name"]:containsExact(Demo User)) .o_list_record_selector input[type="checkbox"]:propChecked',
             element:    '.o_selectcreatepopup_search_select'
         },
 
@@ -245,21 +245,21 @@ Tour.register({
         {
             title:      "edit message e",
             waitNot:    '.modal',
-            waitFor:    '.oe_list_field_text:contains(aaa)',
-            element:    '.oe_list_field_cell:containsExact(e)'
+            waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr td:contains(aaa)',
+            element:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr td:containsExact(e)'
         },
 
         {
-            title:      "open the many2one to select an other user",
-            element:    '.modal .oe_m2o_drop_down_button',
+            title:      "open the many2one to select another user",
+            element:    '.modal .o_dropdown_button',
         },
         {
-            title:      "select an other user",
+            title:      "select another user",
             element:    '.ui-autocomplete li:contains(Demo User)',
         },
         {
             title:      "test one2many's line onchange after many2one",
-            waitFor:    '.oe_form_char_content:contains([test_trigger] Demo User)',
+            waitFor:    '.modal .o_form_field:contains([test_trigger] Demo User)',
         },
         {
             title:      "test one2many field not triggered onchange",
@@ -267,11 +267,11 @@ Tour.register({
         },
         {
             title:      "save changes",
-            element:    '.o_formdialog_save'
+            element:    '.modal .modal-footer button:contains(Save)'
         },
         {
             title:      "test one2many triggered the onchange on save for the line",
-            waitFor:    '.oe_list_content td.oe_list_field_cell.oe_readonly:contains([test_trigger] Demo User)',
+            waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr td.o_readonly:contains([test_trigger] Demo User)',
         },
         {
             title:      "test one2many triggered the onchange on save",
