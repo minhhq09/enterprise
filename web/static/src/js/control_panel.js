@@ -191,7 +191,7 @@ var ControlPanel = Widget.extend({
             var is_before_last = (index === length-2);
 
             var $bc = $('<li>')
-                    .append(is_last ? bc.title : $('<a>').html(bc.title))
+                    .append(is_last ? _.escape(bc.title) : $('<a>').text(bc.title))
                     .toggleClass('hidden-xs', !is_last && !is_before_last)
                     .toggleClass('o_back_button', is_before_last)
                     .toggleClass('active', is_last);
