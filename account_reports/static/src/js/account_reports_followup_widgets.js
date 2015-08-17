@@ -57,6 +57,7 @@ var FollowupReportWidget = ReportWidget.extend({
         var $content = $(QWeb.render("nextActionForm", {target_id: target_id}));
         var nextActionDatePicker = new datepicker.DateWidget(this);
         nextActionDatePicker.appendTo($content.find('div.o_account_reports_next_action_date_picker'));
+        nextActionDatePicker.set_value(new Date());
 
         var changeDate = function (e) {
             var dt = new Date();
