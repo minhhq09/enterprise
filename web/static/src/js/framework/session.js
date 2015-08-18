@@ -430,7 +430,7 @@ odoo.define('web.config', function () {
 var config = {
     debug: ($.deparam($.param.querystring()).debug !== undefined),
     device: {
-        touch: !!(window.ontouchstart) || !!(window.onmsgesturechange),
+        touch: 'ontouchstart' in window || 'onmsgesturechange' in window,
     },
 };
 
