@@ -18,3 +18,9 @@ class AccountConfigSettingsEnterpries(models.TransientModel):
     module_account_reports_followup =  fields.Boolean(string="Manage customer payment follow-ups",
         help='This allows to automate letters for unpaid invoices, with multi-level recalls.\n'
              '-This installs the module account_reports_followup.')
+    module_account_bank_statement_import_ofx = fields.Boolean(string='Import of Bank Statements in .OFX Format',
+        help='Get your bank statements from your bank and import them in Odoo in the .OFX format.\n'
+            'This installs the module account_bank_statement_import_ofx.')
+    module_account_bank_statement_import_qif = fields.Boolean(string='Import of Bank Statements in .QIF Format.',
+        help='Get your bank statements from your bank and import them in Odoo in the .QIF format.\n'
+            'This installs the module account_bank_statement_import_qif.')
