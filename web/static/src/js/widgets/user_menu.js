@@ -3,8 +3,7 @@ odoo.define('web.UserMenu', function (require) {
 
 var core = require('web.core');
 var Dialog = require('web.Dialog');
-var framework = require('web.framework');
-var Model = require('web.DataModel');
+var Model = require('web.Model');
 var session = require('web.session');
 var Widget = require('web.Widget');
 
@@ -35,19 +34,20 @@ var UserMenu = Widget.extend({
         var fct = function() {
             var $avatar = self.$('.oe_topbar_avatar');
             $avatar.attr('src', $avatar.data('default-src'));
-            if (!session.uid)
+            if(!session.uid) {
                 return;
+            }
             var func = new Model("res.users").get_func("read");
             return self.alive(func(session.uid, ["name", "company_id"])).then(function(res) {
                 var topbar_name = res.name;
-                if(session.debug)
-                    topbar_name = _.str.sprintf("%s (%s)", topbar_name, session.db);
-                if(res.company_id[0] > 1)
-                    topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
-                self.$('.oe_topbar_name').text(topbar_name);
-                if (!session.debug) {
+                if(session.debug) {
                     topbar_name = _.str.sprintf("%s (%s)", topbar_name, session.db);
                 }
+                if(res.company_id[0] > 1) {
+                    topbar_name = _.str.sprintf("%s (%s)", topbar_name, res.company_id[1]);
+                }
+                self.$('.oe_topbar_name').text(topbar_name);
+
                 var avatar_src = session.url('/web/image', {model:'res.users', field: 'image_small', id: session.uid});
                 $avatar.attr('src', avatar_src);
             });
@@ -58,13 +58,14 @@ var UserMenu = Widget.extend({
         window.open('http://help.odoo.com', '_blank');
     },
     on_menu_logout: function() {
-        this.getParent().getParent().action_manager.do_action('logout');
+        this.do_action('logout');
     },
     on_menu_settings: function() {
         var self = this;
-        self.rpc("/web/action/load", { action_id: "base.action_res_users_my" }).done(function(result) {
+        return self.rpc("/web/action/load", { action_id: "base.action_res_users_my" }).then(function(result) {
             result.res_id = session.uid;
-            self.getParent().getParent().action_manager.do_action(result);
+            self.do_action(result);
+            return result;
         });
     },
     on_menu_account: function() {
@@ -80,10 +81,10 @@ var UserMenu = Widget.extend({
                 state: JSON.stringify(state),
                 scope: 'userinfo',
             };
-            framework.redirect('https://accounts.odoo.com/oauth2/auth?'+$.param(params));
+            window.location.href = 'https://accounts.odoo.com/oauth2/auth?'+$.param(params);
         }).fail(function(result, ev){
             ev.preventDefault();
-            framework.redirect('https://accounts.odoo.com/account');
+            window.location.href = 'https://accounts.odoo.com/account';
         });
     },
     on_menu_about: function() {
