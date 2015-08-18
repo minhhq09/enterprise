@@ -428,14 +428,19 @@ class product_template(models.Model):
                     self.env.user.company_id.currency_id),
             })
             if 'ShippingServiceSelected' in transaction:
+                company_id = self.env.user.company_id
+                ir_values = self.env['ir.values']
+                taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
+                shipping_name = transaction['ShippingServiceSelected']['ShippingService']
                 self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
                     'name': transaction['ShippingServiceSelected']['ShippingService'],
                     'product_uom_qty': 1,
                     'price_unit': currency.compute(
-                        float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
-                        self.env.user.company_id.currency_id)
-                    })
+                            float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
+                            company_id.currency_id),
+                    'tax_id': [(6, 0, taxes_id)],
+                })
             sale_order.action_button_confirm()
             if 'BuyerCheckoutMessage' in transaction:
                 sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
