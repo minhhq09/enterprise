@@ -76,8 +76,8 @@ var AppSwitcherNavbar = Widget.extend({
         });
     },
     toggle_back_button: function (display) {
-        this.$('.o_back_button').toggleClass('hidden', display);
-        this.backbutton_displayed = !display;
+        this.$('.o_back_button').toggleClass('hidden', !display);
+        this.backbutton_displayed = display;
     },
 });
 

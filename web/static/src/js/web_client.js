@@ -349,7 +349,7 @@ var WebClient = Widget.extend({
                 self.app_switcher.$el.prependTo(self.$el);
                 self.app_switcher.do_show();
                 self.app_switcher_navbar.$el.prependTo(self.$el);
-                self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() === null);
+                self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() !== null);
                 // Save and clear the url
                 self.url = $.bbq.getState();
                 self._ignore_hashchange = true;
