@@ -41,8 +41,15 @@ class ebay_category(models.Model):
                 'DetailLevel': 'ReturnAll',
                 'LevelLimit': 4,
             }
-            categories = prod.ebay_execute('GetCategories', call_data)
-            self.create_categories(categories.dict()['CategoryArray']['Category'])
+            response = prod.ebay_execute('GetCategories', call_data)
+            categories = response.dict()['CategoryArray']['Category']
+            # Delete the eBay categories not existing anymore on eBay
+            category_ids = map(lambda c: c['CategoryID'], categories)
+            self.search([
+                ('category_id', 'not in', category_ids),
+                ('category_type', '=', 'ebay'),
+            ]).unlink()
+            self.create_categories(categories)
 
     @api.model
     def create_categories(self, categories):
@@ -98,6 +105,12 @@ class ebay_category(models.Model):
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if not isinstance(categories, list):
             categories = [categories]
+        # Delete the store categories not existing anymore on eBay
+        category_ids = map(lambda c: c['CategoryID'], categories)
+        self.search([
+            ('category_id', 'not in', category_ids),
+            ('category_type', '=', 'store'),
+        ]).unlink()
         self._create_store_categories(categories, '0')
 
     @api.model
@@ -140,6 +153,9 @@ class ebay_policy(models.Model):
         policies = response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']['SupportedSellerProfile']
         if not isinstance(policies, list):
             policies = [policies]
+        # Delete the policies not existing anymore on eBay
+        policy_ids = map(lambda p: p['ProfileID'], policies)
+        self.search([('policy_id', 'not in', policy_ids)]).unlink()
         for policy in policies:
             record = self.search([('policy_id', '=', policy['ProfileID'])])
             if not record:

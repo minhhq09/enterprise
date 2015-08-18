@@ -309,6 +309,8 @@ class product_template(models.Model):
         item_dict = self._get_item_dict()
         # set the item id to revise the correct ebay listing
         item_dict['Item']['ItemID'] = self.ebay_id
+        if not self.ebay_subtitle:
+            item_dict['DeletedField'] = 'Item.SubTitle'
         response = self.ebay_execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
                                      else 'ReviseFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
@@ -354,12 +356,13 @@ class product_template(models.Model):
             self.ebay_listing_status = item['SellingStatus']['ListingStatus']
             if int(item['SellingStatus']['QuantitySold']) > 0:
                 resp = self.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
-                transactions = resp['TransactionArray']['Transaction']
-                if not isinstance(transactions, list):
-                    transactions = [transactions]
-                for transaction in transactions:
-                    if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
-                        self.create_sale_order(transaction)
+                if 'TransactionArray' in resp:
+                    transactions = resp['TransactionArray']['Transaction']
+                    if not isinstance(transactions, list):
+                        transactions = [transactions]
+                    for transaction in transactions:
+                        if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                            self.create_sale_order(transaction)
         self.sync_available_qty()
 
     @api.one
@@ -386,7 +389,10 @@ class product_template(models.Model):
                     partner_data['country_id'] = self.env['res.country'].search([
                         ('code', '=', infos['Country'])
                     ]).id
-
+                    partner_data['state_id'] = self.env['res.country.state'].search([
+                        ('name', '=', infos.get('StateOrProvince')),
+                        ('country_id', '=', partner_data['country_id'])
+                    ]).id
                 partner = self.env['res.partner'].create(partner_data)
             if self.product_variant_count > 1 and 'Variation' in transaction:
                 variant = self.product_variant_ids.filtered(lambda l:
@@ -409,8 +415,6 @@ class product_template(models.Model):
             })
             if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
                 sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
-            if 'BuyerCheckoutMessage' in transaction:
-                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
 
             currency = self.env['res.currency'].search([
                 ('name', '=', transaction['TransactionPrice']['_currencyID'])])
@@ -433,7 +437,9 @@ class product_template(models.Model):
                         self.env.user.company_id.currency_id)
                     })
             sale_order.action_button_confirm()
-
+            if 'BuyerCheckoutMessage' in transaction:
+                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
+                sale_order.picking_ids.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
             invoice_id = sale_order.action_invoice_create()
             invoice = self.env['account.invoice'].browse(invoice_id)
             invoice.invoice_validate()
