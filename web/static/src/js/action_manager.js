@@ -622,6 +622,7 @@ var ActionManager = Widget.extend({
      * @return {*}
      */
     ir_actions_common: function(executor, options) {
+        var self = this;
         if (executor.action.target === 'new') {
             var pre_dialog = (this.dialog && !this.dialog.isDestroyed()) ? this.dialog : null;
             if (pre_dialog){
@@ -672,9 +673,12 @@ var ActionManager = Widget.extend({
             this.dialog_widget.setParent(this.dialog);
             this.dialog.open();
             
-            return this.dialog_widget.appendTo(this.dialog.$el);
+            return this.dialog_widget.appendTo(this.dialog.$el).then(function() {
+                if(options.state && self.dialog_widget.do_load_state) {
+                    return self.dialog_widget.do_load_state(options.state);
+                }
+            });
         }
-        var self = this;
         var def = this.inner_action && this.webclient && this.webclient.clear_uncommitted_changes() || $.when();
         return def.then(function() {
             self.dialog_stop(executor.action);
