@@ -193,10 +193,24 @@ var WebClient = Widget.extend({
 
         var Menus = new Model('ir.ui.menu');
         return Menus.call('load_menus', {context: session.user_context}).then(function(menu_data) {
+            // Compute action_id if not defined on a top menu item
+            for (var i = 0; i < menu_data.children.length; i++) {
+                var child = menu_data.children[i];
+                if (child.action === false) {
+                    while (child.children && child.children.length) {
+                        child = child.children[0];
+                        if (child.action) {
+                            menu_data.children[i].action = child.action;
+                            break;
+                        }
+                    }
+                }
+            }
+
             // Here, we instanciate every menu widgets and we immediately append them into dummy
             // document fragments, so that their `start` method are executed before inserting them
             // into the DOM.
-            self.app_switcher = new AppSwitcher.AppSwitcher(self, menu_data);
+            self.app_switcher = new AppSwitcher.AppSwitcher(self, menu_data.children);
             self.app_switcher_navbar = new AppSwitcher.AppSwitcherNavbar(self);
             self.menu = new Menu(self, menu_data);
 

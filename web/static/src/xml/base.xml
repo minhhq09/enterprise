@@ -1290,47 +1290,6 @@
     </span>
 </div>
 
-<t t-name="AppSwitcher">
-    <div class="o_application_switcher">
-        <div class="o_apps">
-            <a t-foreach="widget.menu_data.children" t-as="primary_menu"
-                href="#" class="o_app"
-                t-att-data-menu="primary_menu.id"
-                t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
-                t-att-data-action-id="primary_menu.action ? primary_menu.action.split(',')[1] : ''">
-                <img t-if="primary_menu.web_icon_data"
-                    class="o_app_web_icon"
-                    t-att-src="'data:image/png;base64,' + primary_menu.web_icon_data"/>
-                <span t-if="!primary_menu.web_icon_data" class="o_app_icon fa fa-cube"/>
-                <div class="o_caption"><t t-esc="primary_menu.name"/></div>
-            </a>
-        </div>
-        <div class="o_application_switcher_footer">
-            <img src="/web/static/src/img/odoo.png" alt="Odoo"/>
-        </div>
-    </div>
-</t>
-
-<t t-name="AppSwitcherNavbar">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#o_navbar_collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                </button>
-                <a href="#" class="o_back_button navbar-brand hidden"><i class="fa fa-chevron-left"/></a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="o_navbar_collapse">
-                <ul class="nav navbar-nav navbar-right o_appswitcher_navbar_systray"/>
-            </div>
-        </div>
-    </nav>
-</t>
-
 <t t-name="Menu">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
