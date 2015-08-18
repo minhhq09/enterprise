@@ -117,15 +117,12 @@
 
     // Editable specific rules
     &.o_form_editable {
-        .o_inner_group {
-            > tbody > tr > td {
-                .o_form_field {
-                    margin-bottom: 5px;
-
-                    > .o_form_field {
-                        margin-bottom: 0px;
-                    }
-                }
+        .o_form_field {
+            margin-bottom: 5px;
+        }
+        .o_form_field, .btn, .o_form_statusbar {
+            .o_form_field {
+                margin-bottom: 0px;
             }
         }
         @media (min-width: @screen-xs-min) {
