@@ -28,16 +28,17 @@ var AppSwitcher = Widget.extend({
             }
         }
     },
-    start: function () {
-        var res = this._super.apply(this, arguments);
-
+    willStart: function() {
         // Force the background image to be in the browser cache before the
         // stylesheet requests it
+        var bg_loaded = $.Deferred();
         var bg = new Image();
         bg.onload = function () {
-            return res;
-        }
+            bg_loaded.resolve();
+        };
         bg.src = '/web/static/src/img/application-switcher-bg.jpg';
+
+        return $.when(this._super.apply(this, arguments), bg_loaded);
     },
     on_app_click: function (ev) {
         ev.preventDefault();

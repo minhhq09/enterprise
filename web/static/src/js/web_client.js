@@ -347,6 +347,7 @@ var WebClient = Widget.extend({
                                                 .detach();
                 self.action_manager.set_is_in_DOM(false);
                 self.app_switcher.$el.prependTo(self.$el);
+                self.app_switcher.do_show();
                 self.app_switcher_navbar.$el.prependTo(self.$el);
                 self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() === null);
                 // Save and clear the url
@@ -356,6 +357,7 @@ var WebClient = Widget.extend({
             });
         } else if (display === false) {
             this.app_switcher.$el.detach();
+            this.app_switcher.do_hide();
             this.app_switcher_navbar.$el.detach();
             framework.prepend(this.$el, [this.menu.$el, this.$web_client_content], true);
             this.action_manager.set_is_in_DOM(true);
