@@ -376,16 +376,26 @@
             .o-flex(0, 0, auto);
             .o-flex-display();
             .o-align-items(center);
+
+            > input {
+                margin: 0 5px 0 0;
+            }
+            > label {
+                margin: 0;
+            }
         }
 
         &.o_horizontal {
             .o_radio_item {
-                .o-flex-flow(column-reverse, nowrap);
+                margin-right: 10px;
             }
         }
 
         &.o_vertical {
             .o-flex-flow(column, nowrap);
+            .o_radio_item {
+                margin-bottom: 5px;
+            }
         }
     }
 
