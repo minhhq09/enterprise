@@ -48,5 +48,5 @@ Key Features
   'js': ['static/src/js/*.js'],
   'css': ['static/src/css/*.css'],
   'qweb': ['static/src/xml/*.xml'],
-  'application': True,
+  'application': False,
 }
