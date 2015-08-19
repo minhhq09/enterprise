@@ -17,18 +17,25 @@
 }
 .o_account_reports_body_print {
     background-color: white;
+    color: black;
+    .o_account_reports_level0 {
+        .o_account_reports_lines(@border-width: 5px, @font-weight: bold, @border-top-style: double, @border-bottom-style: hidden);
+    }
 }
 
 .o_account_reports_page {
     background-color: @odoo-view-background-color;
     color: @odoo-main-text-color;
-    padding-bottom: 125px;
     &.o_account_reports_no_print {
+        padding-bottom: 125px;
         margin: @odoo-horizontal-padding auto;
         .o-webclient-padding(@top: @odoo-sheet-vpadding, @bottom: @odoo-sheet-vpadding);
-    }
-    .o_account_reports_table {
-        white-space: nowrap;
+        .o_account_reports_level0 {
+            .o_account_reports_lines(@border-width: 5px, @color: @odoo-brand-primary, @font-weight: bold, @border-top-style: double, @border-bottom-style: hidden);
+        }
+        .o_account_reports_table {
+            white-space: nowrap;
+        }
     }
     .o_account_reports_edit_summary_pencil {
         font-size: 16px;
@@ -107,7 +114,6 @@
         color: @odoo-main-text-color;
     }
     .o_account_reports_level0 {
-        .o_account_reports_lines(@border-width: 5px, @color: @odoo-brand-primary, @font-weight: bold, @border-top-style: double, @border-bottom-style: hidden);
         border-collapse: separate;
         &.line td {
             padding-bottom: 45px;
