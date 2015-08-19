@@ -236,7 +236,15 @@
 
     // Button box
     .oe_button_box {
+        .o-flex-display();
+        .o-justify-content(flex-end); // Use flex to align to the right (and keep order) and overflow to the left
+        margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding @odoo-sheet-vpadding -@odoo-horizontal-padding;
+
+        white-space: nowrap; // (the last button will overflow (see below))
+        overflow-x: hidden; // To hide extra buttons (and overflow of the last one)
+
         > .oe_stat_button {
+            .o-flex(0, 0, auto);
             width: percentage(1.0025/3); // Adapt the number of visible buttons for each screen width
             @media (min-width: @screen-sm-min) {
                 width: percentage(1.0025/5); // (calculations are made to have to last button overflow its border and potential calculation gap)
