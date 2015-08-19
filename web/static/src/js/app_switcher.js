@@ -57,7 +57,10 @@ var AppSwitcherNavbar = Widget.extend({
             this.trigger_up('hide_app_switcher');
         }
     },
-    init: function (parent) {
+    on_attach_callback: function(options) {
+        this.toggle_back_button(options && options.display_back_button);
+    },
+    init: function () {
         this._super.apply(this, arguments);
         this.backbutton_displayed = false;
     },

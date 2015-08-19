@@ -15,7 +15,18 @@ var _t = core._t;
 
 var ViewManager = Widget.extend(ControlPanelMixin, {
     className: "o_view_manager_content",
-
+    /**
+     * Called each time the view manager is attached into the DOM
+     */
+    on_attach_callback: function() {
+        this.is_in_DOM = true;
+    },
+    /**
+     * Called each time the view manager is detached from the DOM
+     */
+    on_detach_callback: function() {
+        this.is_in_DOM = false;
+    },
     /**
      * @param {Object} [dataset] null object (... historical reasons)
      * @param {Array} [views] List of [view_id, view_type]
@@ -35,7 +46,6 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
         this.active_view = null;
         this.registry = core.view_registry;
         this.title = this.action && this.action.name;
-        this.is_in_DOM = false; // used to know if the view manager is attached in the DOM
         _.each(views, function (view) {
             var view_type = view[1] || view.view_type;
             var View = core.view_registry.get(view_type, true);
@@ -193,7 +203,8 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     old_view.controller.set_scrollTop(self.action_manager.webclient.get_scrollTop());
                 }
                 // Do not detach ui-autocomplete elements to let jquery-ui garbage-collect them
-                old_view.$fragment = self.$el.contents().not('.ui-autocomplete').detach();
+                var $to_detach = self.$el.contents().not('.ui-autocomplete');
+                old_view.$fragment = framework.detach([{widget: old_view.controller}], {$to_detach: $to_detach});
             }
 
             // If the user switches from a multi-record to a mono-record view,
@@ -203,7 +214,10 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
             }
 
             // Append the view fragment to self.$el
-            framework.append(self.$el, view_fragment, self.is_in_DOM);
+            framework.append(self.$el, view_fragment, {
+                in_DOM: self.is_in_DOM,
+                callbacks: [{widget: view_controller}],
+            });
         });
     },
     create_view: function(view, view_options) {

@@ -32,6 +32,11 @@ var Action = core.Class.extend({
         }
     },
     /**
+     * There is nothing to detach in the case of a client function
+     */
+    detach: function() {
+    },
+    /**
      * Destroyer: there is nothing to destroy in the case of a client function
      */
     destroy: function() {
@@ -54,11 +59,6 @@ var Action = core.Class.extend({
      */
     set_fragment: function($fragment) {
         this.$fragment = $fragment;
-    },
-    /**
-     * Not implemented for client actions
-     */
-    set_is_in_DOM: function() {
     },
     /**
      * Not implemented for client actions
@@ -118,6 +118,13 @@ var WidgetAction = Action.extend({
         });
     },
     /**
+     * Detaches the action's widget from the DOM
+     * @return the widget's $el
+     */
+    detach: function() {
+        return framework.detach([{widget: this.widget}]);
+    },
+    /**
      * Destroys the widget
      */
     destroy: function() {
@@ -157,13 +164,6 @@ var ViewManagerAction = WidgetAction.extend({
         this.widget.active_view.controller.set_scrollTop(scrollTop);
     },
     /**
-     * Sets is_in_DOM on this.widget
-     * @param {Boolean} [is_in_DOM] true iff the widget is attached in the DOM
-     */
-    set_is_in_DOM: function(is_in_DOM) {
-        this.widget.is_in_DOM = is_in_DOM;
-    },
-    /**
      * @return {int} the number of pixels the webclient is scrolled when leaving the action
      */
     get_scrollTop: function() {
@@ -192,6 +192,24 @@ var ViewManagerAction = WidgetAction.extend({
 
 var ActionManager = Widget.extend({
     template: 'ActionManager',
+    /**
+     * Called each time the action manager is attached into the DOM
+     */
+    on_attach_callback: function() {
+        this.is_in_DOM = true;
+        if (this.inner_widget && this.inner_widget.on_attach_callback) {
+            this.inner_widget.on_attach_callback();
+        }
+    },
+    /**
+     * Called each time the action manager is detached from the DOM
+     */
+    on_detach_callback: function() {
+        this.is_in_DOM = false;
+        if (this.inner_widget && this.inner_widget.on_detach_callback) {
+            this.inner_widget.on_detach_callback();
+        }
+    },
     init: function(parent, options) {
         this._super(parent);
         this.action_stack = [];
@@ -201,7 +219,6 @@ var ActionManager = Widget.extend({
         this.dialog = null;
         this.dialog_widget = null;
         this.on('history_back', this, this.proxy('history_back'));
-        this.is_in_DOM = false; // used to know if this.$el is attached in the DOM or not
     },
     start: function() {
         this._super();
@@ -282,30 +299,20 @@ var ActionManager = Widget.extend({
         return $.when(this.inner_widget.appendTo(new_widget_fragment)).done(function() {
             // Detach the fragment of the previous action and store it within the action
             if (old_action) {
-                old_action.set_fragment(self.$el.contents().detach());
-                old_action.set_is_in_DOM(false);
+                old_action.set_fragment(old_action.detach());
             }
             if (!widget.need_control_panel) {
                 // Hide the main ControlPanel for widgets that do not use it
                 self.main_control_panel.do_hide();
             }
-            framework.append(self.$el, new_widget_fragment, self.is_in_DOM);
-            self.inner_action.set_is_in_DOM(self.is_in_DOM);
+            framework.append(self.$el, new_widget_fragment, {
+                in_DOM: self.is_in_DOM,
+                callbacks: [{widget: self.inner_widget}],
+            });
             if (options.clear_breadcrumbs) {
                 self.clear_action_stack(to_destroy);
             }
         });
-    },
-    /**
-     * Sets is_in_DOM to know if the action manager is attached in the DOM
-     * Calls set_is_in_DOM() on this.inner_action
-     * @param {Boolean} [is_in_DOM] true iff the action_manager is attached in the DOM
-     */
-    set_is_in_DOM: function(is_in_DOM) {
-        this.is_in_DOM = is_in_DOM;
-        if (this.inner_action) {
-            this.inner_action.set_is_in_DOM(this.is_in_DOM);
-        }
     },
     set_scrollTop: function(scrollTop) {
         if (this.inner_action) {
@@ -376,8 +383,10 @@ var ActionManager = Widget.extend({
                     self.clear_action_stack(to_destroy);
 
                     // Append the fragment of the action to restore to self.$el
-                    framework.append(self.$el, action.get_fragment(), self.is_in_DOM);
-                    self.inner_action.set_is_in_DOM(self.is_in_DOM);
+                    framework.append(self.$el, action.get_fragment(), {
+                        in_DOM: self.is_in_DOM,
+                        callbacks: [{widget: action.widget}],
+                    });
                 }
             });
         }).fail(function() {

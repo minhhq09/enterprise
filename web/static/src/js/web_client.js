@@ -340,27 +340,34 @@ var WebClient = Widget.extend({
             this.clear_uncommitted_changes().then(function() {
                 // Save the current scroll position of the action_manager
                 self.action_manager.set_scrollTop(self.get_scrollTop());
-                self.menu.$el.detach();
-                self.$web_client_content = self.$el.contents()
-                                                .not('.o_loading')
-                                                .not('.ui-autocomplete')
-                                                .detach();
-                self.action_manager.set_is_in_DOM(false);
-                self.app_switcher.$el.prependTo(self.$el);
-                self.app_switcher.do_show();
-                self.app_switcher_navbar.$el.prependTo(self.$el);
-                self.app_switcher_navbar.toggle_back_button(self.action_manager.get_inner_action() !== null);
+
+                // Detach the web_client contents and its navbar
+                var $to_detach = self.$el.contents().not('.o_loading').not('.ui-autocomplete');
+                self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});
+                framework.detach([{widget: self.menu}]);
+
+                // Attach the app_switcher and its navbar
+                framework.prepend(self.$el, [self.app_switcher_navbar.$el, self.app_switcher.$el], {
+                    in_DOM: true,
+                    callbacks: [{
+                        widget: self.app_switcher_navbar,
+                        callback_args: {
+                            display_back_button: (self.action_manager.get_inner_action() !== null),
+                        }
+                    }],
+                });
+
                 // Save and clear the url
                 self.url = $.bbq.getState();
                 self._ignore_hashchange = true;
                 $.bbq.removeState();
             });
         } else if (display === false) {
-            this.app_switcher.$el.detach();
-            this.app_switcher.do_hide();
-            this.app_switcher_navbar.$el.detach();
-            framework.prepend(this.$el, [this.menu.$el, this.$web_client_content], true);
-            this.action_manager.set_is_in_DOM(true);
+            framework.detach([{widget: this.app_switcher_navbar}, {widget: this.app_switcher}]);
+            framework.prepend(this.$el, [this.menu.$el, this.$web_client_content], {
+                in_DOM: true,
+                callbacks: [{widget: this.action_manager}],
+            });
         }
     },
     // --------------------------------------------------------------
