@@ -59,6 +59,12 @@ var AppSwitcherNavbar = Widget.extend({
     },
     on_attach_callback: function(options) {
         this.toggle_back_button(options && options.display_back_button);
+        // Hide the app switcher when pressing the escape key
+        core.bus.on('keyup', this, this._hide_app_switcher);
+    },
+    on_detach_callback: function() {
+        // Unbind the event handler when the navbar is detached from the DOM
+        core.bus.off('keyup', this, this._hide_app_switcher);
     },
     init: function () {
         this._super.apply(this, arguments);
@@ -66,13 +72,6 @@ var AppSwitcherNavbar = Widget.extend({
     },
     start: function () {
         var self = this;
-        // Hide the app switcher when pressing the escape key
-        core.bus.on('keyup', this, function (ev) {
-            if (ev.keyCode == 27 && this.backbutton_displayed === true) {
-                this.trigger_up('hide_app_switcher');
-            }
-        });
-
         var user_menu = new UserMenu(this);
         return this._super.apply(this, arguments).then(function () {
             user_menu.appendTo(self.$('.o_appswitcher_navbar_systray'));
@@ -81,6 +80,11 @@ var AppSwitcherNavbar = Widget.extend({
     toggle_back_button: function (display) {
         this.$('.o_back_button').toggleClass('hidden', !display);
         this.backbutton_displayed = display;
+    },
+    _hide_app_switcher: function (ev) {
+        if (ev.keyCode === 27 && this.backbutton_displayed === true) {
+            this.trigger_up('hide_app_switcher');
+        }
     },
 });
 
