@@ -11,6 +11,7 @@ Tour.register({
     steps: [
         {
             title:     "begin test",
+            next:      "check",
         },
 
         // click all menu items
