@@ -1088,7 +1088,7 @@
 <t t-name="GroupByMenuSelector">
     <li><select class="o_add_group o_group_selector">
         <t t-foreach="groupable_fields" t-as="field">
-            <option t-att-data-name="field"><t t-esc="groupable_fields[field].string"/></option>
+            <option t-att-data-name="field.name"><t t-esc="field.string"/></option>
         </t>
     </select></li>
     <li>
