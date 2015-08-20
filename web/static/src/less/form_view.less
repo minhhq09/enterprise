@@ -51,9 +51,9 @@
             .o-input();
 
             > .o_form_field {
-                max-width: 100%;
                 .o-flex(1, 0, 100px);
-
+                max-width: 100%;
+                
                 > .o_form_input_dropdown > .o_form_input {
                     border: none;
                 }
@@ -170,22 +170,6 @@
         background-color: @odoo-view-background-color;
     }
 
-    // Title & avatar
-    .oe_title {
-        .o_priority > .o_priority_star {
-            font-size: inherit;
-        }
-    }
-
-    .oe_avatar {
-        float: left;
-
-        > img {
-            vertical-align: top;
-            border: 1px solid @odoo-main-color-muted;
-        }
-    }
-
     // Button box
     .oe_button_box {
         background-color: @odoo-brand-lightsecondary;
@@ -248,6 +232,22 @@
         }
     }
 
+    // Title & avatar
+    .oe_avatar {
+        float: left;
+
+        > img {
+            vertical-align: top;
+            border: 1px solid @odoo-main-color-muted;
+        }
+    }
+
+    .oe_title {
+        .o_priority > .o_priority_star {
+            font-size: inherit;
+        }
+    }  
+
     // Groups
     .o_group {
         @media (min-width: @screen-md-min) {
@@ -277,23 +277,20 @@
     // Separators
     .o_horizontal_separator {
         font-size: @font-size-h3;
-        line-height: 2;
+        margin: @odoo-form-spacing-unit 0;
         &:empty {
-            height: 10px;
+            height: @odoo-form-spacing-unit * 2;
         }
     }
 
     // Notebooks
     .o_notebook {
-        margin-top: 15px;
+        margin-top: @odoo-form-spacing-unit * 3;
         clear: both; // For the notebook not to have alongside floating elements
 
         > ul.nav-tabs {
             border-bottom: 1px solid @odoo-brand-secondary;
-        }
 
-        .nav-tabs {
-            border: none;
             > li {
                 > a {
                     text-transform: uppercase;
@@ -316,7 +313,11 @@
                     }
                 }
             }
-            .tab-pane {
+        }
+
+        .nav-tabs {
+            border: none;
+            > .tab-pane {
                 min-height: 100px;
             }
         }
@@ -332,7 +333,7 @@
         @media (max-width: @screen-xxs-max) {
             font-size: @odoo-label-font-size-factor * @odoo-font-size-base-touch;
         }
-        margin-right: 5px;
+        margin-right: @odoo-form-spacing-unit;
 
         &.o_form_invalid {
             color: @brand-danger;
@@ -364,7 +365,7 @@
 
     // Boolean
     .o_form_field_boolean {
-        margin: 0 5px 0 0;
+        margin: 0 @odoo-form-spacing-unit 0 0;
     }
 
     // Radio buttons
@@ -372,21 +373,17 @@
         outline: none;
     }
     
-    // Icons
-    img.o_input_icon {
+    // Translate icons
+    img.o_field_translate {
+        .o-position-absolute(@bottom: 3px, @right: 0);
+        display: none;
         width: 16px;
         height: 16px;
         cursor: pointer;
-
-        // Translate icon
-        &.o_field_translate {
-            .o-position-absolute(@bottom: 3px, @right: 0);
-            display: none;
-        }
     }
     .o_show_translate {
         position: relative;
-        img.o_input_icon.o_field_translate {
+        img.o_field_translate {
             display: block;
         }
     }
@@ -394,7 +391,6 @@
     // Dropdowns input (many2one, ...)
     .o_form_input_dropdown {
         .o-flex(1, 0, auto);
-
         display: inline-block;
         position: relative;
 
@@ -403,26 +399,18 @@
         }
 
         .o_dropdown_button {
+            .o-position-absolute(0, 0);
+            cursor: pointer;
             &:after {
                 .o-caret-down;
             }
-
-            cursor: pointer;
-            .o-position-absolute(0, 0);
         }
     }
 
     // Many2many tags
-    .badge {
-        margin: 1px 2px 1px 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        line-height: @line-height-base;
-        .o_delete {
-            cursor: pointer;
-        }
+    .badge .o_delete {
+        cursor: pointer;
     }
-
 
     // Image
     .o_form_field_image {
@@ -457,7 +445,7 @@
     .o_tz_warning {
         color: @brand-danger;
         float: right;
-        cursor : pointer;
+        cursor: pointer;
     }
 
     // One2Many Kanban views
@@ -493,6 +481,7 @@
         display: none;  // Hide the handler in non-edit mode
     }
 
+    // Percent pie field
     .o_form_field_percent_pie {
         @pie-dimension: @odoo-statbutton-height - 2 * @odoo-statbutton-vpadding;
         @pie-ring-width: 4px;
@@ -563,8 +552,8 @@
             }
 
             .o_form_field {
-                width: 100%;
                 .o-justify-content(flex-end);
+                width: 100%;
             }
         }
 
@@ -594,10 +583,6 @@
         }
     }
     &.o_form_editable .o_address_format {
-        > span.o_form_field {
-            margin-bottom: 0; 
-        }
-
         input.o_address_city {
             width: 38%;
         }

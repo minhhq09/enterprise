@@ -671,7 +671,7 @@ var AbstractField = FormWidget.extend(FieldInterface, {
 
         this.$translate = (this.field.translate)? $('<img>', {
             src: QWeb.default_dict._s + "/web/static/src/img/icons/terp-translate.png"
-        }).addClass('o_field_translate o_input_icon') : $();
+        }).addClass('o_field_translate') : $();
     },
 
     renderElement: function() {

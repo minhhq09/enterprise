@@ -1,6 +1,6 @@
 .form-break-table() {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: @odoo-form-spacing-unit * 4;
 
     > tbody {
         display: block;
@@ -13,18 +13,16 @@
                 .o-flex(1, 0, auto);
                 display: block;
                 max-width: 100%;
-
                 padding: 0;
                 
                 width: auto!important;  // !important is required to override the width computed in JS
                 &.o_td_label {
-                    width: 94%!important;
+                    width: 94%!important; // The label must be on its own line except if the form field is small enough (checkbox)
                     line-height: @odoo-label-font-size-factor;
                 }
 
                 .o_form_field {
-                    margin-bottom: 10px;
-
+                    margin-bottom: @odoo-form-spacing-unit * 2;
                     &.o_form_field_boolean {
                         margin-right: 0;
                     }
@@ -66,74 +64,45 @@
 
             .o-align-items(baseline);
             min-width: 50px;
+            margin: 0 -@odoo-form-spacing-unit;
 
-            margin-left: -@odoo-form-row-spacing/2;
-            margin-right: -@odoo-form-row-spacing/2;
-
-            .o-row-item {
-                width: auto!important;
+            > * {
                 .o-flex(0, 0, auto);
-                margin-right: @odoo-form-row-spacing/2;
-                margin-left: @odoo-form-row-spacing/2;
+                width: auto!important;
+                margin-right: @odoo-form-spacing-unit;
+                margin-left: @odoo-form-spacing-unit;
             }
-
-            > .o_form_field, > .o_form_label, > div {
-                .o-row-item;
-
-                &.o_kanban_selection {
-                    margin-left: auto;
-                }
-            }
-
-            > .btn, > span, > span.o_form_field, > .o_form_uri {
-                .o-row-item;
-
+            > .btn {
                 padding-top: 0;
                 padding-bottom: 0;
+            }
+            > .o_kanban_selection {
+                margin-left: auto;
             }
         }
 
         .o_row .o_form_field_many2one, .o_form_field_many2one.oe_inline {
             &.o_with_button:not(:last-child) { // If invisible element as last child, this line has no effect but that's not very important
-                margin-right: (35px + (@odoo-form-row-spacing/2));
+                margin-right: (35px + @odoo-form-spacing-unit);
             }
         }
     }
 
-    .o_row {
-        > div > .o_form_field {
-            width: 100%;
-        }
-    }
-
-    // Readonly specific rules
-    &.o_form_readonly {
-        @media (min-width: @screen-xs-min) {
-            .o_group.o_inner_group > tbody > tr > td {
-                line-height: 2;
-            }
-        }
+    .o_row > div > .o_form_field {
+        width: 100%;
     }
 
     // Editable specific rules
     &.o_form_editable {
-        .o_form_field {
-            margin-bottom: 5px;
-        }
-        .o_form_field, .btn, .o_form_statusbar {
-            .o_form_field {
-                margin-bottom: 0px;
-            }
-        }
         @media (min-width: @screen-xs-min) {
             .o_row {
-                > .o_form_field, > .o_form_label, > div {
-                    width: 0!important; // 3rd flex argument does not work with input (must be auto and real width 0)
+                > .o_form_field, > div {
                     .o-flex(1, 1, auto);
+                    width: 0!important; // 3rd flex argument does not work with input (must be auto and real width 0)
 
                     &.o_form_field_boolean, &.o_priority, &.o_kanban_selection {
-                        width: auto!important;
                         .o-flex(0, 0, auto);
+                        width: auto!important;
                     }
                 }
             }
@@ -177,7 +146,7 @@
             > .dropdown-toggle {
                 &:after {
                     .o-caret-down();
-                    margin-left: 5px;
+                    margin-left: @odoo-form-spacing-unit;
                 }
             }
 
@@ -200,6 +169,30 @@
         margin: auto;
         @media (min-width: @screen-sm-min) {
             margin: 8px auto;
+        }
+    }
+
+    // Button box
+    .oe_button_box {
+        .o-flex-display();
+        .o-justify-content(flex-end); // Use flex to align to the right (and keep order) and overflow to the left
+        margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding @odoo-sheet-vpadding -@odoo-horizontal-padding;
+
+        white-space: nowrap; // (the last button will overflow (see below))
+        overflow-x: hidden; // To hide extra buttons (and overflow of the last one)
+
+        > .oe_stat_button {
+            .o-flex(0, 0, auto);
+            width: percentage(1.0025/3); // Adapt the number of visible buttons for each screen width
+            @media (min-width: @screen-sm-min) {
+                width: percentage(1.0025/5); // (calculations are made to have to last button overflow its border and potential calculation gap)
+            }
+            @media (min-width: @screen-md-min) {
+                width: percentage(1.0025/7);
+            }
+            @media (min-width: @screen-lg-min) {
+                width: percentage(1.0025/8);
+            }
         }
     }
 
@@ -230,30 +223,6 @@
             @media (min-width: @screen-xs-min) {
                 clear: none;
                 padding-left: @odoo-avatar-size + 10;
-            }
-        }
-    }
-
-    // Button box
-    .oe_button_box {
-        .o-flex-display();
-        .o-justify-content(flex-end); // Use flex to align to the right (and keep order) and overflow to the left
-        margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding @odoo-sheet-vpadding -@odoo-horizontal-padding;
-
-        white-space: nowrap; // (the last button will overflow (see below))
-        overflow-x: hidden; // To hide extra buttons (and overflow of the last one)
-
-        > .oe_stat_button {
-            .o-flex(0, 0, auto);
-            width: percentage(1.0025/3); // Adapt the number of visible buttons for each screen width
-            @media (min-width: @screen-sm-min) {
-                width: percentage(1.0025/5); // (calculations are made to have to last button overflow its border and potential calculation gap)
-            }
-            @media (min-width: @screen-md-min) {
-                width: percentage(1.0025/7);
-            }
-            @media (min-width: @screen-lg-min) {
-                width: percentage(1.0025/8);
             }
         }
     }
@@ -306,20 +275,19 @@
             width: 100%;
 
             &.o_text_overflow {
-                @media (min-width: @screen-sm-min) {
-                    max-width: 450px;
-                }
-                @media (min-width: @screen-md-min) {
-                    max-width: 220px;
-                }
-                @media (min-width: @screen-lg-min) {
-                    max-width: 320px;
-                }
+                width: 1px!important; // hack to make the table layout believe it is a small element (so that the table does not grow too much) ...
+                min-width: 100%;      // ... but in fact it takes the whole table space
             }
 
             > .btn {
                 .o-flex(0, 0, auto);
                 padding: 0 10px;
+            }
+        }
+
+        @media (min-width: @screen-xs-min) {
+            .o_form_label {
+                margin-bottom: @odoo-form-spacing-unit;
             }
         }
     }
@@ -345,12 +313,20 @@
             display: block;
         }
 
+        margin-bottom: @odoo-form-spacing-unit;
+
         > span {
             .o-flex(0, 0, auto);
         }
     }
     select.o_form_field {
         display: inline-block;
+    }
+
+    .o_form_field, .btn, .o_form_statusbar {
+        .o_form_field {
+            margin-bottom: 0px;
+        }
     }
 
     // Input in field
@@ -383,7 +359,7 @@
             .o-align-items(center);
 
             > input {
-                margin: 0 5px 0 0;
+                margin: 0 @odoo-form-spacing-unit 0 0;
             }
             > label {
                 margin: 0;
@@ -392,14 +368,14 @@
 
         &.o_horizontal {
             .o_radio_item {
-                margin-right: 10px;
+                margin-right: @odoo-form-spacing-unit * 2;
             }
         }
 
         &.o_vertical {
             .o-flex-flow(column, nowrap);
             .o_radio_item {
-                margin-bottom: 5px;
+                margin-bottom: @odoo-form-spacing-unit;
             }
         }
     }
