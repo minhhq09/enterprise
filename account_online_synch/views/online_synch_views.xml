@@ -3,7 +3,7 @@
   <data>
     <template id="assets_backend" name="account online synch assets" inherit_id="web.assets_backend">
       <xpath expr="." position="inside">
-	<link rel="stylesheet" href="/account_online_synch/static/src/less/online_synch.less"/>
+        <link rel="stylesheet" href="/account_online_synch/static/src/less/online_synch.less"/>
       </xpath>
     </template>
 
@@ -13,31 +13,31 @@
       <field name="inherit_id" ref="account.view_account_journal_form"/>
       <field name="arch" type="xml">
         <notebook position="inside">
-	  <page string="Online synchronization" attrs="{'invisible': [('type', '!=', 'bank')]}">
-	    <button name="launch_online_wizard"
-		    string="Select account"
-		    type="object"
-                    class="btn-primary"
-		    attrs="{'invisible': [('online_account', '!=', False)]}"/>
-	    <button name="online_synch"
-		    string="Update bank statement"
-		    type="object"
-                    class="btn-primary"
-		    attrs="{'invisible': [('online_account', '=', False)]}"/>
-	    <button name="remove_online_account"
-		    string="Remove account"
-		    type="object"
-                    class="btn-default"
-		    attrs="{'invisible': [('online_account', '=', False)]}"/>
-	    <button name="update_account"
-		    string="Update the connection"
-		    type="object"
-                    class="btn-default"
-		    attrs="{'invisible': [('online_account', '=', False)]}"/>
-	    <group>
-	      <field name="online_account" readonly="1"/>
-	    </group>
-	  </page>
+          <page string="Online synchronization" attrs="{'invisible': [('type', '!=', 'bank')]}">
+            <button name="launch_online_wizard"
+                string="Select account"
+                type="object"
+                        class="btn-primary"
+                attrs="{'invisible': [('online_account', '!=', False)]}"/>
+            <button name="online_synch"
+                string="Update bank statement"
+                type="object"
+                        class="btn-primary"
+                attrs="{'invisible': [('online_account', '=', False)]}"/>
+            <button name="remove_online_account"
+                string="Remove account"
+                type="object"
+                        class="btn-default"
+                attrs="{'invisible': [('online_account', '=', False)]}"/>
+            <button name="update_account"
+                string="Update the connection"
+                type="object"
+                        class="btn-default"
+                attrs="{'invisible': [('online_account', '=', False)]}"/>
+            <group>
+              <field name="online_account" readonly="1"/>
+            </group>
+          </page>
         </notebook>
       </field>
     </record>
@@ -46,17 +46,17 @@
       <field name="name">online.synch.view.wizard</field>
       <field name="model">online.synch.wizard</field>
       <field name="arch" type="xml">
-	<form string="bank">
-	  <field name="error" readonly="1"
-		 attrs="{'invisible': [('error', '=', False)]}"/>
-	  <group>
-	    <field name="institution_id" required="1" options="{'no_create': True}"/>
-	  </group>
-	  <footer>
-	    <button type="object" name="login" class="btn btn-primary btn-sm" string="Login"/>
-	    <button string="Cancel" class="oe_link" special="cancel"/>
-	  </footer>
-	</form>
+        <form string="bank">
+          <field name="error" readonly="1"
+             attrs="{'invisible': [('error', '=', False)]}"/>
+          <group>
+            <field name="institution_id" required="1" options="{'no_create': True}"/>
+          </group>
+          <footer>
+            <button type="object" name="login" class="btn btn-primary btn-sm" string="Login"/>
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
       </field>
     </record>
 
@@ -69,12 +69,15 @@
           <field name="next_synchronization"/>
           <field name="online_account"/>
         </field>
-    	<xpath expr="//button[@name='import_statement']" position="after">
-    	  <button t-if="journal_type == 'bank'" type="object" name="launch_online_wizard" class="btn btn-primary btn-sm">Online synchronization</button>
-    	</xpath>
-    	<xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
-    	  <span t-if="(record.online_account.value != '')">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
-    	</xpath>
+        <xpath expr='//div[@name="bank_journal_default_cta"]' position='inside'>
+          <button t-if="journal_type == 'bank'" type="object" name="launch_online_wizard" class="btn btn-primary btn-sm">Online synchronization</button>
+        </xpath>
+        <xpath expr='//div[@name="bank_journal_cta"]' position='inside'>
+          <button t-if="journal_type == 'bank'" type="object" name="launch_online_wizard" class="btn btn-primary btn-sm">Online synchronization</button>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
+          <span t-if="(record.online_account.value != '')">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
+        </xpath>
       </field>
     </record>
 

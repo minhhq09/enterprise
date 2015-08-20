@@ -30,9 +30,9 @@ class AccountBankStatementImport(models.TransientModel):
         total_amt = 0.00
         for transaction in ofx.account.statement.transactions:
             # Since ofxparse doesn't provide account numbers, we'll have to find res.partner and res.partner.bank here
-            # (normal behavious is to provide 'account_number', which the generic module uses to find partner/bank)
+            # (normal behaviour is to provide 'account_number', which the generic module uses to find partner/bank)
             bank_account_id = partner_id = False
-            partner_bank = self.env['res.partner.bank'].search([('owner_name', '=', transaction.payee)], limit=1)
+            partner_bank = self.env['res.partner.bank'].search([('partner_id.name', '=', transaction.payee)], limit=1)
             if partner_bank:
                 bank_account_id = partner_bank.id
                 partner_id = partner_bank.partner_id.id

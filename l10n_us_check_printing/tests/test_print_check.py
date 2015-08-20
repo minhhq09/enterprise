@@ -23,8 +23,7 @@ class TestPrintCheck(AccountingTestCase):
         self.account_payable = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_payable').id)], limit=1)
         self.account_expenses = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_expenses').id)], limit=1)
 
-        self.bank = self.env['res.partner.bank'].create({'acc_number': '0123456789', 'bank_name': 'Test Bank', 'company_id': self.env.user.company_id.id})
-        self.bank_journal = self.bank.journal_id
+        self.bank_journal = self.env['account.journal'].create({'name': 'Bank', 'type': 'bank', 'code': 'BNK67'})
         self.bank_journal.check_manual_sequencing = True
 
         self.check_report = print_check.report_print_check(self.env.cr, self.env.uid, 'test', self.env.context)

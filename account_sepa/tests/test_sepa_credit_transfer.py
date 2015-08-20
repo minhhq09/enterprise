@@ -16,15 +16,13 @@ class TestSEPACreditTransfer(AccountingTestCase):
         self.sepa_ct = self.env.ref('account_sepa.account_payment_method_sepa_ct')
 
         # Create an IBAN bank account and its journal
-        self.bank_euro = self.env['res.partner.bank'].create({
-            'state': 'iban',
-            'company_id': self.env.ref('base.main_company').id,
-            'partner_id': self.env.ref('base.main_company').partner_id.id,
-            'acc_number': 'BE61310126985517',
-            'bank_bic': 'BBRUBEBB',
-            'bank_name': 'ING',
+        bank = self.env['res.bank'].create({'name': 'ING', 'bic': 'BBRUBEBB'})
+        self.bank_journal = self.env['account.journal'].create({
+            'name': 'BE48363523682327',
+            'type': 'bank',
+            'bank_acc_number': 'BE48363523682327',
+            'bank_id': bank.id,
         })
-        self.bank_journal = self.bank_euro.journal_id
         if self.bank_journal.company_id.currency_id != self.env.ref("base.EUR"):
             self.bank_journal.default_credit_account_id.write({'currency_id': self.env.ref("base.EUR").id})
             self.bank_journal.default_debit_account_id.write({'currency_id': self.env.ref("base.EUR").id})
@@ -32,22 +30,14 @@ class TestSEPACreditTransfer(AccountingTestCase):
 
         # Make sure all suppliers have exactly one bank account
         self.setSingleBankAccountToPartner(self.suppliers[0], {
-            'state': 'iban',
+            'acc_type': 'iban',
             'partner_id': self.suppliers[0].id,
             'acc_number': 'BE39103123456719',
-            'bank_bic': 'NICABEBB',
-            'bank_name': 'Crelan',
+            'bank_id': self.env.ref('base.bank_crelan').id,
         })
         self.setSingleBankAccountToPartner(self.suppliers[1], {
-            'state': 'iban',
+            'acc_type': 'bank',
             'partner_id': self.suppliers[1].id,
-            'acc_number': 'SI56191000000123438',
-            'bank_bic': 'CREGBEBB',
-            'bank_name': 'CBC',
-        })
-        self.setSingleBankAccountToPartner(self.suppliers[2], {
-            'state': 'bank',
-            'partner_id': self.suppliers[2].id,
             'acc_number': '123456789',
             'bank_name': 'Mock & Co',
         })
@@ -55,9 +45,9 @@ class TestSEPACreditTransfer(AccountingTestCase):
         # Create 1 payment per supplier
         self.payment_1 = self.createPayment(self.suppliers[0], 500)
         self.payment_1.post()
-        self.payment_2 = self.createPayment(self.suppliers[1], 600)
+        self.payment_2 = self.createPayment(self.suppliers[0], 600)
         self.payment_2.post()
-        self.payment_3 = self.createPayment(self.suppliers[2], 700)
+        self.payment_3 = self.createPayment(self.suppliers[1], 700)
         self.payment_3.post()
 
         # Get a pain.001.001.03 schema validator

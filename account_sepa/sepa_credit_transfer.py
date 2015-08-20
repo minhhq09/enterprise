@@ -4,7 +4,6 @@ import re
 import time
 import random
 import base64
-import logging
 
 from lxml import etree
 
@@ -70,13 +69,9 @@ class AccountSepaCreditTransfer(models.TransientModel):
             raise UserError(_("In order to export a SEPA Credit Transfer file, please only select payments belonging to the same bank journal."))
 
         journal = payments[0].journal_id
-        bank_account = journal.company_id.bank_ids.filtered(lambda r: r.journal_id.id == journal.id)
-        if not bank_account:
-            raise UserError(_("Configuration Error:\nThere is no bank account recorded for journal '%s'") % journal.name)
-        if len(bank_account) > 1:
-            raise UserError(_("Configuration Error:\nThere more than one bank accounts linked to journal '%s'") % journal.name)
-        if not bank_account.state or not bank_account.state == 'iban':
-            raise UserError(_("The account %s, linked to journal '%s', is not of type IBAN.\nA valid IBAN account is required to use SEPA features.") % (bank_account.acc_number, journal.name))
+        bank_account = journal.bank_account_id
+        if not bank_account.acc_type == 'iban':
+            raise UserError(_("The account %s, of journal '%s', is not of type IBAN.\nA valid IBAN account is required to use SEPA features.") % (bank_account.acc_number, journal.name))
         for payment in payments:
             if not payment.partner_bank_account_id:
                 raise UserError(_("There is no bank account selected for payment '%s'") % payment.name)
@@ -84,7 +79,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         res = self.create({
             'journal_id': journal.id,
             'bank_account_id': bank_account.id,
-            'filename': "sct_" + bank_account.acc_number.replace(' ', '') + time.strftime("_%Y-%m-%d") + ".xml",
+            'filename': "sct_" + bank_account.sanitized_acc_number + time.strftime("_%Y-%m-%d") + ".xml",
             'is_generic': self._require_generic_message(journal, payments),
         })
 
@@ -116,9 +111,9 @@ class AccountSepaCreditTransfer(models.TransientModel):
             bank_account = payment.partner_bank_account_id
             if payment.currency_id.name != 'EUR':
                 return True # Any transaction in instructed in another currency than EUR
-            if not (bank_account.bank_bic or bank_account.bank and bank_account.bank.bic):
+            if not bank_account.bank_bic:
                 return True # Any creditor agent is not identified by a BIC
-            if not bank_account.state or not bank_account.state == 'iban':
+            if not bank_account.acc_type == 'iban':
                 return True # Any creditor account is not identified by an IBAN
         return False
 
@@ -168,11 +163,10 @@ class AccountSepaCreditTransfer(models.TransientModel):
         PmtInf.append(self._get_DbtrAcct())
         DbtrAgt = etree.SubElement(PmtInf, "DbtrAgt")
         FinInstnId = etree.SubElement(DbtrAgt, "FinInstnId")
-        val_BIC = self.bank_account_id.bank_bic or self.bank_account_id.bank.bic
-        if not val_BIC:
-            raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s'") % self.bank_account_id.acc_number)
+        if not self.bank_account_id.bank_bic:
+            raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s' of journal '%s'") % (self.bank_account_id.acc_number, self.journal_id.name))
         BIC = etree.SubElement(FinInstnId, "BIC")
-        BIC.text = val_BIC
+        BIC.text = self.bank_account_id.bank_bic
 
         # One CdtTrfTxInf per transaction
         for payment in doc_payments:
@@ -244,16 +238,8 @@ class AccountSepaCreditTransfer(models.TransientModel):
     def _get_DbtrAcct(self):
         DbtrAcct = etree.Element("DbtrAcct")
         Id = etree.SubElement(DbtrAcct, "Id")
-        # TODO: The BBAN is required to send a transaction to a bank outside of the SEPA.
-        # Which is not the same as a generic message, since SEPA banks validators require
-        # IBAN to be present and do not tolerate Othr ('optional' is a concept they do not
-        # understand). Some more insight is required to solve this. In the meantime, IBAN should be OK.
-        # if self.is_generic:
-        #     Othr = etree.SubElement(Id, "Othr")
-        #     _Id = etree.SubElement(Othr, "Id")
-        #     _Id.text = self.bank_account_id.get_bban()
         IBAN = etree.SubElement(Id, "IBAN")
-        IBAN.text = self.bank_account_id.acc_number.replace(' ', '')
+        IBAN.text = self.bank_account_id.sanitized_acc_number
         Ccy = etree.SubElement(DbtrAcct, "Ccy")
         Ccy.text = self.journal_id.currency_id and self.journal_id.currency_id.name or self.journal_id.company_id.currency_id.name
 
@@ -292,11 +278,11 @@ class AccountSepaCreditTransfer(models.TransientModel):
         return ChrgBr
 
     def _get_CdtrAgt(self, bank_account):
-        bank = bank_account.bank
+        bank = bank_account.bank_id
 
         CdtrAgt = etree.Element("CdtrAgt")
         FinInstnId = etree.SubElement(CdtrAgt, "FinInstnId")
-        val_BIC = bank_account.bank_bic or bank and bank.bic
+        val_BIC = bank_account.bank_bic
         if val_BIC:
             BIC = etree.SubElement(FinInstnId, "BIC")
             BIC.text = val_BIC
@@ -316,7 +302,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         return CdtrAgt
 
     def _get_CdtrAcct(self, bank_account):
-        if not self.is_generic and (not bank_account.state or not bank_account.state == 'iban'):
+        if not self.is_generic and (not bank_account.acc_type or not bank_account.acc_type == 'iban'):
             raise UserError(_("The account %s, linked to partner '%s', is not of type IBAN.\nA valid IBAN account is required to use SEPA features.") % (bank_account.acc_number, bank_account.partner_id))
 
         CdtrAcct = etree.Element("CdtrAcct")
@@ -327,7 +313,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
             _Id.text = bank_account.acc_number
         else:
             IBAN = etree.SubElement(Id, "IBAN")
-            IBAN.text = bank_account.acc_number.replace(' ', '')
+            IBAN.text = bank_account.sanitized_acc_number
 
         return CdtrAcct
 
