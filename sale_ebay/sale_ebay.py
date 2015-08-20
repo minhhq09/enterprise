@@ -9,6 +9,7 @@ class ebay_category(models.Model):
     _name = 'ebay.category'
 
     name = fields.Char('Name')
+    full_name = fields.Char('Full Name', store=True, compute='_compute_full_name')
     # The IDS are string because of the limitation of the SQL integer range
     category_id = fields.Char('Category ID')
     category_parent_id = fields.Char('Category Parent ID')
@@ -17,6 +18,29 @@ class ebay_category(models.Model):
         [('ebay', 'Official eBay Category'), ('store', 'Custom Store Category')],
         string='Category Type',
     )
+
+    @api.one
+    @api.depends('category_parent_id', 'name')
+    def _compute_full_name(self):
+        name = self.name if self.name else ''
+        parent_id = self.category_parent_id
+        category_type = self.category_type
+        while parent_id != '0':
+            parent = self.search([
+                ('category_id', '=', parent_id),
+                ('category_type', '=', category_type),
+            ])
+            parent_name = parent.name if parent.name else ''
+            name = parent_name + " > " + name
+            parent_id = parent.category_parent_id if parent.category_parent_id else '0'
+        self.full_name = name
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for cat in self:
+            result.append((cat.id, cat.full_name))
+        return result
 
     @api.model
     def sync_categories(self):
@@ -86,18 +110,6 @@ class ebay_category(models.Model):
                                 'code': condition['ID'],
                                 'name': condition['DisplayName'],
                             })
-        categories = self.search([('leaf_category', '=', True),('category_type', '=', 'ebay')])
-        for category in categories:
-            name = category.name
-            parent_id = category.category_parent_id
-            while parent_id != '0':
-                parent = self.search([
-                    ('category_id', '=', parent_id),
-                    ('category_type', '=', 'ebay'),
-                ])
-                name = parent.name + " > " + name
-                parent_id = parent.category_parent_id
-            category.name = name
 
     @api.model
     def sync_store_categories(self):
