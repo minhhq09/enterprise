@@ -147,8 +147,7 @@ class ebay_configuration(models.TransientModel):
 
     @api.model
     def sync_product_status(self, context=None):
-        self.env['product.template']._sync_product_status(1)
-        self.env['product.template']._sync_old_product_status()
+        self.env['product.template'].sync_product_status()
 
     @api.model
     def sync_ebay_details(self, context=None):

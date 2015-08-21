@@ -292,7 +292,7 @@ class product_template(models.Model):
                      "EndingReason": "NotAvailable"}
         self.ebay_execute('EndItem' if self.ebay_listing_type == 'Chinese'
                           else 'EndFixedPriceItem', call_data)
-        self.env['sale.config.settings']._sync_product_status()
+        self.sync_product_status()
 
     @api.one
     def relist_product_ebay(self):
@@ -315,7 +315,12 @@ class product_template(models.Model):
         self._update_ebay_data(response.dict())
 
     @api.model
-    def _sync_product_status(self, page_number=1):
+    def sync_product_status(self):
+        self._sync_recent_product_status(1)
+        self._sync_old_product_status()
+
+    @api.model
+    def _sync_recent_product_status(self, page_number=1):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
