@@ -3,3 +3,4 @@
 
 import xml_export
 import partner_vat_listing
+import partner_vat_intra

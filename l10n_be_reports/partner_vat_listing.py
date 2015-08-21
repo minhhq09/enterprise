@@ -81,7 +81,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
 
 class ReportL10nBePartnerVatListingContext(models.TransientModel):
     _name = "l10n.be.partner.vat.listing.context"
-    _description = "A particular context for the generic tax report"
+    _description = "A particular context for the Partner VAT Listing report"
     _inherit = "account.report.context.common"
 
     def get_report_obj(self):

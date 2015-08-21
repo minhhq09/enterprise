@@ -83,6 +83,7 @@ class AccountReportContextCommon(models.TransientModel):
             'bank_reconciliation': 'account.bank.reconciliation.report',
             'general_ledger': 'account.general.ledger',
             'l10n_be_partner_vat_listing': 'l10n.be.report.partner.vat.listing',
+            'l10n_be_partner_vat_intra': 'l10n.be.report.partner.vat.intra',
         }
 
     def _report_model_to_report_context(self):
@@ -93,6 +94,7 @@ class AccountReportContextCommon(models.TransientModel):
             'account.bank.reconciliation.report': 'account.report.context.bank.reconciliation',
             'account.general.ledger': 'account.context.general.ledger',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
+            'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
         }
 
     def _report_name_to_report_context(self):

@@ -406,7 +406,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
     def check(self, report_name, report_id=None):
         return True
 
-    def do_xml_export(self, report_id, context_id):
+    def do_xml_export(self, context_id):
         return ''
 
 

@@ -372,6 +372,13 @@
             <field name="context" eval="{'url': '/account_reports/output_format/l10n_be_partner_vat_listing/1', 'model': 'l10n.be.report.partner.vat.listing'}" />
         </record>
 
+        <record id="action_account_report_partner_vat_intra" model="ir.actions.client">
+            <field name="name">Partner VAT Intra</field>
+            <field name="tag">account_report_generic</field>
+            <field name="context" eval="{'url': '/account_reports/output_format/l10n_be_partner_vat_intra/1', 'model': 'l10n.be.report.partner.vat.intra'}" />
+        </record>
+
         <menuitem id="menu_action_account_report_partner_vat_listing" name="Partner VAT Listing" action="action_account_report_partner_vat_listing" parent="account_reports_be_statements_menu"/>
+        <menuitem id="menu_action_account_report_partner_vat_intra" name="Partner VAT Intra" action="action_account_report_partner_vat_intra" parent="account_reports_be_statements_menu"/>
     </data>
 </openerp>

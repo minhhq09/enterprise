@@ -3,6 +3,7 @@
 from openerp import models, api, _
 from openerp.exceptions import UserError
 import calendar
+import time
 
 
 class AccountFinancialReportXMLExport(models.AbstractModel):
@@ -10,7 +11,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
     @api.model
     def is_xml_export_available(self, report_obj):
-        if report_obj._name == 'l10n.be.report.partner.vat.listing' or (report_obj._name == 'account.financial.report' and report_obj.id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0')):
+        if report_obj._name == 'l10n.be.report.partner.vat.listing' or report_obj._name == 'l10n.be.report.partner.vat.intra' or (report_obj._name == 'account.financial.html.report' and report_obj.id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0')):
             return True
         else:
             return super(AccountFinancialReportXMLExport, self).is_xml_export_available(report_obj)
@@ -20,6 +21,8 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
             return self._l10n_be_vat_export(context)
         if context.get_report_obj()._name == 'l10n.be.report.partner.vat.listing':
             return self._l10n_be_partner_vat_export(context)
+        if context.get_report_obj()._name == 'l10n.be.report.partner.vat.intra':
+            return self._l10n_be_partner_vat_intra_export(context)
         else:
             return super(AccountFinancialReportXMLExport, self).do_xml_export(context)
 
@@ -49,8 +52,108 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
             if not address.phone:
                 return _('No phone associated with the company.')
             return True
+        if report_name == 'l10n.be.report.partner.vat.intra':
+            company = self.env.user.company_id
+            vat_no = company.partner_id.vat
+            if not vat_no:
+                return _('No VAT number associated with your company.')
+            default_address = company.partner_id.address_get()
+            address = default_address.get('invoice', company.partner_id)
+            if not address.email:
+                return _('No email address associated with the company.')
+            if not address.phone:
+                return _('No phone associated with the company.')
+            return True
         else:
             return super(AccountFinancialReportXMLExport, self).check(report_name, report_id)
+
+    def _l10n_be_partner_vat_intra_export(self, context):
+        post_code = street = city = country = data_clientinfo = ''
+
+        company = self.env.user.company_id
+        company_vat = company.partner_id.vat
+        company_vat = company_vat.replace(' ', '').upper()
+        issued_by = company_vat[:2]
+
+        seq_declarantnum = self.env['ir.sequence'].get('declarantnum')
+        dnum = company_vat[2:] + seq_declarantnum[-4:]
+
+        addr = company.partner_id.address_get(['invoice'])
+        if addr.get('invoice', False):
+            ads = self.env['res.partner'].browse([addr['invoice']])[0]
+            phone = ads.phone and ads.phone.replace(' ', '') or ''
+            email = ads.email or ''
+            city = ads.city or ''
+            post_code = ads.zip or ''
+            if not city:
+                city = ''
+            if ads.street:
+                street = ads.street
+            if ads.street2:
+                street += ' ' + ads.street2
+            if ads.country_id:
+                country = ads.country_id.code
+
+        if not country:
+            country = company_vat[:2]
+
+        date_from = context.date_from[0:7] + '-01'
+        date_to = context.date_from[0:7] + '-31'
+        xml_data = context.get_report_obj().with_context(no_format=True, date_from=date_from, date_to=date_to).get_lines(context, get_xml_data=True)
+        xml_data.update({
+            'company_name': company.name,
+            'company_vat': company_vat,
+            'vatnum':  company_vat[2:],
+            'sender_date': str(time.strftime('%Y-%m-%d')),
+            'street': street,
+            'city': city,
+            'post_code': post_code,
+            'country': country,
+            'email': email,
+            'phone': phone.replace('/', '').replace('.', '').replace('(', '').replace(')', '').replace(' ', ''),
+            'year': context.date_from[0:4],
+            'month': context.date_from[5:7],
+            'comments': context.summary or '',
+            'issued_by': issued_by,
+            'dnum': dnum,
+        })
+
+        data_head = """<?xml version="1.0" encoding="ISO-8859-1"?>
+<ns2:IntraConsignment xmlns="http://www.minfin.fgov.be/InputCommon" xmlns:ns2="http://www.minfin.fgov.be/IntraConsignment" IntraListingsNbr="1">
+    <ns2:Representative>
+        <RepresentativeID identificationType="NVAT" issuedBy="%(issued_by)s">%(vatnum)s</RepresentativeID>
+        <Name>%(company_name)s</Name>
+        <Street>%(street)s</Street>
+        <PostCode>%(post_code)s</PostCode>
+        <City>%(city)s</City>
+        <CountryCode>%(country)s</CountryCode>
+        <EmailAddress>%(email)s</EmailAddress>
+        <Phone>%(phone)s</Phone>
+    </ns2:Representative>""" % (xml_data)
+        data_comp_period = '\n\t\t<ns2:Declarant>\n\t\t\t<VATNumber>%(vatnum)s</VATNumber>\n\t\t\t<Name>%(company_name)s</Name>\n\t\t\t<Street>%(street)s</Street>\n\t\t\t<PostCode>%(post_code)s</PostCode>\n\t\t\t<City>%(city)s</City>\n\t\t\t<CountryCode>%(country)s</CountryCode>\n\t\t\t<EmailAddress>%(email)s</EmailAddress>\n\t\t\t<Phone>%(phone)s</Phone>\n\t\t</ns2:Declarant>' % (xml_data)
+        data_comp_period += '\n\t\t<ns2:Period>\n\t\t\t<ns2:Month>%(month)s</ns2:Month> \n\t\t\t<ns2:Year>%(year)s</ns2:Year>\n\t\t</ns2:Period>' % (xml_data)
+        data_clientinfo = ''
+        seq = 0
+        for line in xml_data['lines']:
+            seq += 1
+            vat = line['columns'][0]
+            if not vat:
+                raise UserError(_('No vat number defined for %s.') % line['name'])
+            client = {
+                'partner_name': line['name'],
+                'vatnum': vat[2:].replace(' ', '').upper(),
+                'vat': vat,
+                'country': vat[:2],
+                'amount': round(line['columns'][3], 2),
+                'intra_code': line['columns'][2],
+                'code': line['columns'][1],
+                'seq': seq,
+            }
+            data_clientinfo += '\n\t\t<ns2:IntraClient SequenceNumber="%(seq)s">\n\t\t\t<ns2:CompanyVATNumber issuedBy="%(country)s">%(vatnum)s</ns2:CompanyVATNumber>\n\t\t\t<ns2:Code>%(code)s</ns2:Code>\n\t\t\t<ns2:Amount>%(amount).2f</ns2:Amount>\n\t\t</ns2:IntraClient>' % (client)
+
+        data_decl = '\n\t<ns2:IntraListing SequenceNumber="1" ClientsNbr="%(clientnbr)s" DeclarantReference="%(dnum)s" AmountSum="%(amountsum).2f">' % (xml_data)
+
+        return data_head + data_decl + data_comp_period + data_clientinfo + '\n\t\t</ns2:IntraListing>\n</ns2:IntraConsignment>' % (xml_data)
 
     def _l10n_be_partner_vat_export(self, context):
         seq_declarantnum = self.env['ir.sequence'].get('declarantnum')
