@@ -107,6 +107,9 @@ var WidgetAction = Action.extend({
         if (!this.widget.get('title')) {
             this.widget.set('title', this.title);
         }
+        this.widget.on('change:title', this, function(widget) {
+            this.title = widget.get('title');
+        });
     },
     /**
      * Restores WidgetAction by calling do_show on its widget
