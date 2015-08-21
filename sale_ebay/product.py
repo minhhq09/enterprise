@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import base64
-
 from openerp import models, fields, api, _
 from datetime import datetime, timedelta
 from openerp.exceptions import UserError, RedirectWarning
@@ -9,7 +8,7 @@ from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
 from StringIO import StringIO
 from xml.sax.saxutils import escape
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class product_template(models.Model):
@@ -93,25 +92,6 @@ class product_template(models.Model):
                         "ShippingProfileID": self.ebay_seller_shipping_policy_id.policy_id,
                     }
                 },
-                #TODO ONLY FOR TEST PURPOSE
-                # "DispatchTimeMax": "3",
-                # "PaymentMethods": "PayPal",
-                # "PayPalEmailAddress": "tkeefdddder@gmail.com",
-                # "ReturnPolicy": {
-                #     "ReturnsAcceptedOption": "ReturnsAccepted",
-                #     "RefundOption": "MoneyBack",
-                #     "ReturnsWithinOption": "Days_30",
-                #     "Description": "If you are not satisfied, return the book for refund.",
-                #     "ShippingCostPaidByOption": "Buyer"
-                # },
-                # "ShippingDetails": {
-                #     "ShippingType": "Flat",
-                #     "ShippingServiceOptions": {
-                #         "ShippingServicePriority": "1",
-                #         "ShippingService": "USPSMedia",
-                #         "ShippingServiceCost": "2.50"
-                #     }
-                # },
             }
         }
         if self.ebay_description and '<html>' in self.ebay_description:

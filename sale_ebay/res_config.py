@@ -1,4 +1,4 @@
-from openerp import models, fields, api, _
+from openerp import models, fields, api
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
 
@@ -178,6 +178,7 @@ class ebay_configuration(models.TransientModel):
             else:
                 record.name = site['Site']
 
+
 class country(models.Model):
     _inherit = "res.country"
 
@@ -195,63 +196,3 @@ class ebay_site(models.Model):
 
     name = fields.Char("Name", readonly=True)
     ebay_id = fields.Char("eBay ID", readonly=True)
-
-# MULTI ACCOUNT DRAFT 
-#class ebay_config_settings(models.Model):
-#     _name = 'ebay.config.settings'
-
-#     name = fields.Char("Account Name")
-#     active = fields.Boolean("Active", default=True)
-#     ebay_domain = fields.Selection([
-#         ('prod', 'Production'),
-#         ('sand', 'Sandbox'),
-#     ], string='eBay Site', default='sand', required=True)
-#     ebay_token = fields.Text("Token")
-#     ebay_app_id = fields.Char("App ID")
-#     ebay_cert_id = fields.Char("Cert ID")
-#     ebay_currency = fields.Selection([
-#         ('USD', 'US Dollar'),
-#         ('CAD', 'Canadian Dollar'),
-#         ('GBP', 'British Pound'),
-#         ('AUD', 'Australian Dollar'),
-#         ('EUR', 'Euro'),
-#         ('CHF', 'Swiss Franc'),
-#         ('CNY', 'Chinese Renminbi'),
-#         ('HKD', 'Hong Kong Dollar'),
-#         ('PHP', 'Philippines Peso'),
-#         ('PLN', 'Polish Zloty'),
-#         ('SEK', 'Sweden Krona'),
-#         ('SGD', 'Singapore Dollar'),
-#         ('TWD', 'Taiwanese Dollar'),
-#         ('INR', 'Indian Rupee'),
-#         ('MYR', 'Malaysian Ringgit'),
-#     ], string='eBay Currency', default='USD', required=True)
-#     ebay_country = fields.Char(string="Country Code Where The Products Are Stored")
-#     ebay_zip_code = fields.Char(string="Zip Code Where The Products Are Stored")
-#     ebay_out_of_stock = fields.Boolean("Out Of Stock Option", default=False)
-
-#     @api.multi
-#     def get_ebay_api(self):
-#         appid = self.ebay_app_id
-#         certid = self.ebay_cert_id
-#         token = self.ebay_token
-#         if self.ebay_domain == 'sand':
-#             domain = 'api.sandbox.ebay.com'
-#         else:
-#             domain = 'api.ebay.com'
-
-#         if not appid or not certid or not token:
-#             action = self.env.ref('sale_ebay.action_ebay_configuration')
-#             raise RedirectWarning(_('One parameter is missing.'), action.id, _('Configure The eBay Integrator Now'))
-
-#         return Trading(domain=domain,
-#                        config_file=None,
-#                        appid=appid,
-#                        devid="ed74122e-6f71-4877-83d8-e0e2585bd78f",
-#                        certid=certid,
-#                        token=token)
-
-#     @api.model
-#     def sync_categories(self, context=None):
-#         import ipdb;ipdb.set_trace()
-#         self.env['ebay.category'].sync_categories(api)

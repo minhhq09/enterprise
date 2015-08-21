@@ -3,29 +3,29 @@
   <data>
     <!-- Wizzard to link existing listing with existing product -->
     <record model="ir.ui.view" id="ebay_link_listing_view">
-        <field name="name">ebay.link.listing.form</field>
-        <field name="model">ebay.link.listing</field>
-        <field name="arch" type="xml">
-            <form string="Link Existing Listing">
-              <group>
-                <field name="ebay_id"/>
-              </group>
-              <footer>
-                <button name="link_listing" type="object" string="Link Listing" class="oe_highlight"/>
-                or
-                <button string="Cancel" class="oe_link" special="cancel" />
-              </footer>
-            </form>
-        </field>
+      <field name="name">ebay.link.listing.form</field>
+      <field name="model">ebay.link.listing</field>
+      <field name="arch" type="xml">
+        <form string="Link Existing Listing">
+          <group>
+            <field name="ebay_id"/>
+          </group>
+          <footer>
+            <button name="link_listing" type="object" string="Link Listing" class="oe_highlight"/>
+            or
+            <button string="Cancel" class="oe_link" special="cancel" />
+          </footer>
+        </form>
+      </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_ebay_link_listing">
-        <field name="name">Link Existing Listing</field>
-        <field name="res_model">ebay.link.listing</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="ebay_link_listing_view"/>
-        <field name="target">new</field>
+      <field name="name">Link Existing Listing</field>
+      <field name="res_model">ebay.link.listing</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="ebay_link_listing_view"/>
+      <field name="target">new</field>
     </record>
 
     <record id="product_template_sale_ebay_form_view" model="ir.ui.view">

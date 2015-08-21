@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
-from datetime import datetime, timedelta
+from datetime import datetime
 from openerp.exceptions import Warning
-from ebaysdk.exception import ConnectionError
 
 
 class ebay_category(models.Model):
