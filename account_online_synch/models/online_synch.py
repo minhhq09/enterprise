@@ -84,7 +84,7 @@ class AccountJournal(models.Model):
     @api.multi
     def launch_online_wizard(self):
         return self.env['online.synch.wizard'].create_wizard()
-        
+
     @api.model
     def launch_online_synch(self):
         for journal in self.search([('online_account', '!=', False)]):
@@ -126,6 +126,9 @@ class AccountBankStatement(models.Model):
          Return : True if there is no new bank statement.
                   An action to the new bank statement if it exists. A message is also post in the online_account of the journal
         """
+        # Since the synchronization succeeded, set it as the bank_statements_source of the journal
+        journal.bank_statements_source = 'online_synch'
+
         all_lines = self.env['account.bank.statement.line'].search([('journal_id', '=', journal.id),
                                                                     ('date', '>=', journal.online_account.last_synch)])
         statement = self.create({

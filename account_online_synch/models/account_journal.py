@@ -5,4 +5,4 @@ from openerp import models, fields, api, _
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
-    bank_statements_source = fields.Selection(selection_add=[("plaid", "Bank Synchronization")])
+    bank_statements_source = fields.Selection(selection_add=[("online_synch", "Bank Synchronization")])
