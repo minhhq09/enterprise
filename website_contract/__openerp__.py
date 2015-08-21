@@ -1,6 +1,7 @@
 {
     'name': 'Website Contract',
     'category': 'Website',
+    'sequence': 32,
     'summary': 'Contract Management Frontend for your Clients',
     'version': '1.0',
     'description': """
