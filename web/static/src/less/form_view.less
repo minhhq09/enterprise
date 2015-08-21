@@ -631,11 +631,6 @@
 }
 
 // Buttons in ControlPanel
-.o_form_buttons_view > button {
-    // Unfortunately needed for the bounce effect
-    float: left;
-    &:last-child {
-        float: right;
-        margin-left: 3px;
-    }
+.o_control_panel .o_form_buttons_view > button:first-child {
+    float: left; // Unfortunately needed for the bounce effect
 }
