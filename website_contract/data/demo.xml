@@ -235,7 +235,6 @@ Access your Odoo Instance using your own domain.</field>
         <field name="message_follower_ids" eval="[
             (0, 0, {'res_model': 'account.analytic.account', 'partner_id': ref('portal.partner_demo_portal')})
         ]"/>
-        <field name="message_follower_ids" eval="[(4, ref('portal.partner_demo_portal'))]"/>
         <field name="type">contract</field>
         <field name="date_start" eval="(DateTime.now() - timedelta(days=9))"/>
         <field name="recurring_next_date" eval="(DateTime.now() + timedelta(days=21))"/>
