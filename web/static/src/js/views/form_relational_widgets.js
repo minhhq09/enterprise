@@ -28,7 +28,7 @@ var M2ODialog = Dialog.extend({
             buttons: [
                 {text: _t('Create'), classes: 'btn-primary', click: function() {
                     if (this.$("input").val() !== ''){
-                        this.getParent()._quick_create(self.$("input").val());
+                        this.getParent()._quick_create(this.$("input").val());
                         this.close();
                     } else {
                         e.preventDefault();
@@ -45,7 +45,7 @@ var M2ODialog = Dialog.extend({
         });
     },
     start: function() {
-        var text = _.str.sprintf(_t("You are creating a new %s, are you sure it does not exist yet?"), self.name);
+        var text = _.str.sprintf(_t("You are creating a new %s, are you sure it does not exist yet?"), this.name);
         this.$("p").text(text);
         this.$("input").val(this.getParent().$input.val());
     },
