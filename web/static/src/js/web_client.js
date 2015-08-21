@@ -116,6 +116,27 @@ var WebClient = Widget.extend({
         core.bus.on('set_full_screen', this, function (full_screen) {
             this.set_content_full_screen(full_screen);
         });
+        /*
+            Small patch to allow having a link with a href towards an anchor. Since odoo use hashtag 
+            to represent the current state of the view, we can't easily distinguish between a link 
+            towards an anchor and a link towards anoter view/state. If we want to navigate towards an 
+            anchor, we must not change the hash of the url otherwise we will be redirected to the app 
+            switcher instead.
+            To check if we have an anchor, first check if we have an href attributes starting with #. 
+            Try to find a element in the DOM using JQuery selector.
+            If we have a match, it means that it is probably a link to an anchor, so we jump to that anchor.
+        */
+        this.$el.on('click', 'a', function(ev) {
+            var href = ev.target.attributes['href'];
+            if (href) {
+                if (href.value[0] === '#' && href.value.length > 1) {
+                    if (self.$("[id='"+href.value.substr(1)+"']").length) {
+                        ev.preventDefault();
+                        self.trigger_up('scrollTo', {'selector': href.value});
+                    }
+                }
+            }
+        });
 
         core.bus.on('connection_lost', this, this.on_connection_lost);
         core.bus.on('connection_restored', this, this.on_connection_restored);
