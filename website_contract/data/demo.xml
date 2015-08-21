@@ -232,6 +232,9 @@ Access your Odoo Instance using your own domain.</field>
         <field name="partner_id" ref="portal.partner_demo_portal"/>
         <field name="template_id" ref="odoo_monthly"/>
         <field name="manager_id" ref="base.user_root"/>
+        <field name="message_follower_ids" eval="[
+            (0, 0, {'res_model': 'account.analytic.account', 'partner_id': ref('portal.partner_demo_portal')})
+        ]"/>
         <field name="message_follower_ids" eval="[(4, ref('portal.partner_demo_portal'))]"/>
         <field name="type">contract</field>
         <field name="date_start" eval="(DateTime.now() - timedelta(days=9))"/>
