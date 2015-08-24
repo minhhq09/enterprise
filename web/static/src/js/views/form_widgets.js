@@ -1117,18 +1117,18 @@ var FieldBinary = common.AbstractField.extend(common.ReinitializeFieldMixin, {
             var filename_fieldname = this.node.attrs.filename;
             var filename_field = this.view.fields && this.view.fields[filename_fieldname];
             this.session.get_file({
-                url: '/web/binary/saveas_ajax',
-                data: {data: JSON.stringify({
-                    model: this.view.dataset.model,
-                    id: (this.view.datarecord.id || ''),
-                    field: this.name,
-                    filename_field: (filename_fieldname || ''),
-                    data: utils.is_bin_size(value) ? null : value,
-                    filename: filename_field ? filename_field.get('value') : null,
-                    context: this.view.dataset.get_context()
-                })},
-                complete: framework.unblockUI,
-                error: c.rpc_error.bind(c)
+                'url': '/web/content',
+                'data': {
+                    'model': this.view.dataset.model,
+                    'id': this.view.datarecord.id,
+                    'field': this.name,
+                    'filename_field': filename_fieldname,
+                    'filename': filename_field ? filename_field.get('value') : null,
+                    'download': true,
+                    'data': utils.is_bin_size(value) ? null : value,
+                },
+                'complete': framework.unblockUI,
+                'error': c.rpc_error.bind(c)
             });
             ev.stopPropagation();
         }
@@ -1200,11 +1200,11 @@ var FieldBinaryImage = FieldBinary.extend({
             if(!utils.is_bin_size(this.get('value'))) {
                 url = 'data:image/png;base64,' + this.get('value');
             } else {
-                url = session.url('/web/binary/image', {
+                url = session.url('/web/image', {
                     model: this.view.dataset.model,
                     id: JSON.stringify(this.view.datarecord.id || null),
                     field: (this.options.preview_image)? this.options.preview_image : this.name,
-                    t: (new Date().getTime()),
+                    unique: (this.view.datarecord.__last_update || '').replace(/[^0-9]/g, ''),
                 });
             }
         }

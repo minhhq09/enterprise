@@ -1447,7 +1447,7 @@ var FieldMany2ManyBinaryMultiFiles = AbstractManyField.extend(common.Reinitializ
         this.$el.on('change', 'input.o-form-input-file', this.on_file_change );
     },
     get_file_url: function (attachment) {
-        return this.session.url('/web/binary/saveas', {model: 'ir.attachment', field: 'datas', filename_field: 'datas_fname', id: attachment.id});
+        return '/web/content/' + attachment.id + '?download=true';
     },
     read_name_values : function () {
         var self = this;
@@ -1459,7 +1459,7 @@ var FieldMany2ManyBinaryMultiFiles = AbstractManyField.extend(common.Reinitializ
             return this.ds_file.call('read', [_value, ['id', 'name', 'datas_fname']]).then(function (datas) {
                 _.each(datas, function (data) {
                     data.no_unlink = true;
-                    data.url = self.session.url('/web/binary/saveas', {model: 'ir.attachment', field: 'datas', filename_field: 'datas_fname', id: data.id});
+                    data.url = '/web/content/' + data.id + '?download=true';
                     self.data[data.id] = data;
                 });
                 return ids;
