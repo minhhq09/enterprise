@@ -13,18 +13,19 @@ var QWeb = core.qweb;
 var _t = core._t;
 
 var Sidebar = Widget.extend({
-    init: function(parent) {
+    init: function(parent, options) {
         var self = this;
         this._super(parent);
-        this.view = this.getParent();
-        this.sections = [
-            { 'name' : 'print', 'label' : _t('Print'), },
-            { 'name' : 'other', 'label' : _t('More'), }
+        options = options || {};
+        this.sections = options.sections || [
+            {name: 'print', label: _t('Print')},
+            {name: 'other', label: _t('More')},
         ];
-        this.items = {
-            'print' : [],
-            'other' : []
+        this.items = options.items || {
+            print: [],
+            other: [],
         };
+        this.editable = options.editable || true;
         this.fileupload_id = _.uniqueId('oe_fileupload');
         $(window).on(this.fileupload_id, function() {
             var args = [].slice.call(arguments).slice(1);
