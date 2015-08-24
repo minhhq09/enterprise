@@ -31,17 +31,11 @@
         overflow: auto;
 
         .o-menu-indentation(@index) when (@index < 6) {
-            > li .o_menu_header_lvl_@{index} {
-                color: @odoo-main-text-color;
-                padding-left: @index*10px;
-                padding-right: @index*10px;
-            }
-            > li .o_menu_entry_lvl_@{index} {
-                padding-left: @index*12px;
-                padding-right: @index*12px;
+            > li.o_menu_header_lvl_@{index}, > li .o_menu_entry_lvl_@{index} {
+                padding-left: @odoo-dropdown-hpadding + (@index - 2)*12px;
             }
             .o-menu-indentation(@index + 1);
         }
-        .o-menu-indentation(2);
+        .o-menu-indentation(3);
     }
 }

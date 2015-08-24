@@ -1,5 +1,5 @@
 .li-a-padding {
-    padding: 3px 25px;
+    padding: 3px @odoo-dropdown-hpadding;
 }
 
 .ui-autocomplete { // Copy style of bootstrap dropdown
@@ -63,6 +63,11 @@
             }
 
             .li-a-padding;
+        }
+
+        &.dropdown-header {
+            .li-a-padding;
+            color: @odoo-main-text-color;
         }
     }
 }
