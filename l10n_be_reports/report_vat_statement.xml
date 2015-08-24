@@ -5,6 +5,7 @@
         <record id="account_financial_report_l10n_be_tva0" model="account.financial.html.report">
             <field name="name">Déclaration périodique à la TVA</field>
             <field name="report_type">date_range</field>
+            <field name='parent_id' ref='account_reports_be_statements_menu'/>
         </record>
 
         <record id="account_financial_report_l10n_be_tva_line0" model="account.financial.html.report.line">
@@ -371,6 +372,6 @@
             <field name="context" eval="{'url': '/account_reports/output_format/l10n_be_partner_vat_listing/1', 'model': 'l10n.be.report.partner.vat.listing'}" />
         </record>
 
-        <menuitem id="menu_action_account_report_partner_vat_listing" name="Partner VAT Listing" action="action_account_report_partner_vat_listing" parent="account.menu_finance_reports"/>
+        <menuitem id="menu_action_account_report_partner_vat_listing" name="Partner VAT Listing" action="action_account_report_partner_vat_listing" parent="account_reports_be_statements_menu"/>
     </data>
 </openerp>

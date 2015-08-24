@@ -2,12 +2,16 @@
 <openerp>
     <data>
 
+        <menuitem id="account_reports_legal_statements_menu" name="Legal Statements" parent="account.menu_finance_reports" sequence="1" groups="account.group_account_user"/>
+        <menuitem id="account_reports_business_statements_menu" name="Business Statements" parent="account.menu_finance_reports" sequence="2" groups="account.group_account_user"/>
+
         <!-- PROFIT AND LOSS -->
 
         <record id="account_financial_report_profitandloss0" model="account.financial.html.report">
             <field name="name">Profit and Loss</field>
             <field name="debit_credit" eval="False"/>
             <field name="report_type">date_range</field>
+            <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_net_profit0" model="account.financial.html.report.line">
             <field name="name">NET PROFIT</field>
@@ -89,6 +93,7 @@
             <field name="name">Balance Sheet</field>
             <field name="debit_credit" eval="False"/>
             <field name="report_type">no_date_range</field>
+            <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_total_assets0" model="account.financial.html.report.line">
             <field name="name">ASSETS</field>
@@ -240,6 +245,7 @@
         <record id="account_financial_report_cashsummary0" model="account.financial.html.report">
             <field name="name">Cash Flow Statement</field>
             <field name="report_type">date_range_cash</field>
+            <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_cashsummary_net_increase0" model="account.financial.html.report.line">
             <field name="name">Net increase in cash and cash equivalents</field>
@@ -389,6 +395,7 @@
         <record id="account_financial_report_executivesummary0" model="account.financial.html.report">
             <field name="name">Executive Summary</field>
             <field name="report_type">date_range</field>
+            <field name='parent_id' ref='account_reports_business_statements_menu'/>
         </record>
         <record id="account_financial_report_executivesummary_cash0" model="account.financial.html.report.line">
             <field name="name">CASH</field>
@@ -586,6 +593,7 @@
         <record id="account_financial_report_agedpayable0" model="account.financial.html.report">
             <field name="name">Aged Payable</field>
             <field name="report_type">date_range_extended</field>
+            <field name='parent_id' ref='account_reports_business_statements_menu'/>
         </record>
         <record id="account_financial_report_agedpayable_line0" model="account.financial.html.report.line">
             <field name="name">Aged Payable</field>
@@ -594,7 +602,7 @@
             <field name="groupby">partner_id</field>
             <field name="formulas">balance = -sum.amount_residual</field>
             <field name="show_domain">always</field>
-            <field name="level" eval="2" />
+            <field name="level" eval="4" />
             <field name="financial_report_id" ref="account_financial_report_agedpayable0"/>
         </record>
 
@@ -605,6 +613,7 @@
         <record id="account_financial_report_agedreceivable0" model="account.financial.html.report">
             <field name="name">Aged Receivable</field>
             <field name="report_type">date_range_extended</field>
+            <field name='parent_id' ref='account_reports_business_statements_menu'/>
         </record>
         <record id="account_financial_report_agedreceivable_line0" model="account.financial.html.report.line">
             <field name="name">Aged Receivable</field>
@@ -613,7 +622,7 @@
             <field name="groupby">partner_id</field>
             <field name="formulas">balance = sum.amount_residual</field>
             <field name="show_domain">always</field>
-            <field name="level" eval="2" />
+            <field name="level" eval="4" />
             <field name="financial_report_id" ref="account_financial_report_agedreceivable0"/>
         </record>
 
@@ -683,8 +692,8 @@
             <field name="context" eval="{'url': '/account_reports/output_format/general_ledger/1', 'force_account': True, 'addActiveId': True, 'model': 'account.general.ledger'}" />
         </record>
         <menuitem id="menu_action_followups" name="Customers Statement" action="action_account_followup_all" parent="account.menu_finance_receivables" sequence="30" groups="account.group_account_user"/>
-        <menuitem id="menu_action_account_report_gt" name="Tax Report" action="action_account_report_gt" parent="account.menu_finance_reports"/>
-        <menuitem id="menu_action_account_report_general_ledger" name="General Ledger" action="action_account_report_general_ledger" parent="account.menu_finance_reports"/>
+        <menuitem id="menu_action_account_report_gt" name="Tax Report" action="action_account_report_gt" parent="account_reports_legal_statements_menu"/>
+        <menuitem id="menu_action_account_report_general_ledger" name="General Ledger" action="action_account_report_general_ledger" parent="account_reports_legal_statements_menu"/>
 
         <record id="account_financial_current_year_earnings0" model="account.financial.html.report.line">
             <field name="action_id" ref='action_account_report_pnl_fy' />

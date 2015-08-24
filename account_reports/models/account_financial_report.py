@@ -7,6 +7,7 @@ from openerp.tools.misc import formatLang
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+
 class ReportAccountFinancialReport(models.Model):
     _name = "account.financial.html.report"
     _description = "Account Report"
@@ -22,8 +23,9 @@ class ReportAccountFinancialReport(models.Model):
                                    help='For report like the balance sheet that do not work with date ranges')
     company_id = fields.Many2one('res.company', string='Company')
     menuitem_created = fields.Boolean(default=False)
+    parent_id = fields.Many2one('ir.ui.menu')
 
-    def create_action_and_menu(self):
+    def create_action_and_menu(self, parent_id):
         client_action = self.env['ir.actions.client'].create({
             'name': self.get_title(),
             'tag': 'account_report_generic',
@@ -35,15 +37,19 @@ class ReportAccountFinancialReport(models.Model):
         })
         self.env['ir.ui.menu'].create({
             'name': self.get_title(),
-            'parent_id': self.env['ir.model.data'].xmlid_to_res_id('account.menu_finance_reports'),
+            'parent_id': parent_id or self.env['ir.model.data'].xmlid_to_res_id('account.menu_finance_reports'),
             'action': 'ir.actions.client,%s' % (client_action.id,),
         })
         self.write({'menuitem_created': True})
 
     @api.model
     def create(self, vals):
+        parent_id = False
+        if vals.get('parent_id'):
+            parent_id = vals['parent_id']
+            del vals['parent_id']
         res = super(ReportAccountFinancialReport, self).create(vals)
-        res.create_action_and_menu()
+        res.create_action_and_menu(parent_id)
         return res
 
     @api.multi

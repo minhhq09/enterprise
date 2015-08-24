@@ -29,13 +29,11 @@
             <span class="show text-center"><t t-esc="context.valuenow + '/' + context.valuemax" /></span>
         </div>
     </div>
-    <div t-name="accountReports.buttons" class="oe_form_buttons">
-        <div class="o_form_buttons_view">
+    <t t-name="accountReports.buttons">
             <button type="button" class='btn btn-primary btn-sm o_account-widget-pdf'>PRINT PREVIEW</button>
             <button type="button" class='btn btn-primary btn-sm o_account-widget-xls'>EXPORT (XLS)</button>
             <button t-if='xml_export' type="button" class='btn btn-primary btn-sm o_account-widget-xml'>EXPORT (XML)</button>
-        </div>
-    </div>
+    </t>
     <div t-name='accountReports.errorModal' class="modal" id="editable_error" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true" style="z-index:9999;">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -75,7 +73,7 @@
                 <li t-att-class="'o_account_reports_use-custom ' + (context.date_filter == 'custom' and 'o_open_menu' or 'o_closed_menu')"><a>Custom</a></li>
                 <li class="o_account_reports_custom-dates" data-value='custom' style='margin-left: 10px; margin-right: 10px;'>
                     <label class="custom-date" t-if="report_type != 'no_date_range' and report_type != 'bank_reconciliation'" for="date_from">Start Date :</label>
-                    <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
+                    <div t-if="report_type != 'no_date_range' and report_type != 'bank_reconciliation'" class="form-group custom-date">
                         <div class='o_datepicker date o_account_reports_datetimepicker' t-att-data-default-value="context.date_from">
                             <input type='text' class="o_datepicker_input" name="date_from" />
                             <span class="o_datepicker_button"/>

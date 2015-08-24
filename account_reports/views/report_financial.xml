@@ -117,7 +117,7 @@
             <span><t t-raw="context.summary" /></span>
         </div>
         <div t-att-class="mode != 'print' and 'table-responsive' or ''">
-            <table width='100%' class='o_account_reports_table'>
+            <table width='100%' t-att-class="' '.join(['o_account_reports_table', report.get_report_type() == 'date_range_extended' and 'table-striped' or ''])">
                 <thead>
                     <tr>
                         <th></th>

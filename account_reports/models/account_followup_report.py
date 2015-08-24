@@ -58,24 +58,24 @@ class report_account_followup_report(models.AbstractModel):
             line_num += 1
             lines.append({
                 'id': line_num,
-                'name': total >= 0 and _('Total Due') or '',
-                'type': 'line',
+                'name': '',
+                'type': 'total',
                 'footnotes': {},
                 'unfoldable': False,
                 'level': 0,
-                'columns': ['', '', ''] + (not public and ['', ''] or []) + [total],
+                'columns': (not public and ['', ''] or []) + ['', '', total >= 0 and _('Total Due') or ''] + [total],
             })
             if total_issued > 0:
                 total_issued = formatLang(self.env, total_issued, currency_obj=currency)
                 line_num += 1
                 lines.append({
                     'id': line_num,
-                    'name': _('Total Overdue'),
-                    'type': 'line',
+                    'name': '',
+                    'type': 'total',
                     'footnotes': {},
                     'unfoldable': False,
                     'level': 0,
-                    'columns': ['', '', ''] + (not public and ['', ''] or []) + [total_issued],
+                    'columns': (not public and ['', ''] or []) + ['', '', _('Total Overdue')] + [total_issued],
                 })
         return lines
 

@@ -16,7 +16,7 @@
     <t t-name="footNoteTextarea">
         <div class="mt32 mb32">
             <label t-att-for="'footnote' + footNoteSeqNum"><t t-esc="footNoteSeqNum"/></label>
-            <textarea t-att-name="'footnote' + footNoteSeqNum" rows='4' class="form-control" placeholder="Insert foot note here"></textarea>
+            <textarea t-att-name="'footnote' + footNoteSeqNum" rows='4' placeholder="Insert foot note here"></textarea>
             <button class="btn btn-primary">Save</button>
         </div>
     </t>
@@ -50,7 +50,7 @@
         </div>
     </t>
     <t t-name="editSummary">
-        <textarea name="summary" rows='4' class="form-control"><t t-esc="summary" /></textarea>
+        <textarea name="summary" rows='4'><t t-esc="summary" /></textarea>
         <button class="btn btn-primary saveSummary">Save</button>
     </t>
     <t t-name="savedSummary">
@@ -65,7 +65,7 @@
             <strong>Warning!</strong> No fiscal year was found. Using the current civil year.
         </div>
     </t>
-    <t t-name="editContent"><t t-if="num > 0"><t t-esc="num" />. </t><textarea t-att-name="edit" rows='4' class="form-control"><t t-esc="text" /></textarea><button class="btn btn-primary saveContent">Save</button></t>
+    <t t-name="editContent"><t t-if="num > 0"><t t-esc="num" />. </t><textarea t-att-name="edit" rows='4'><t t-esc="text" /></textarea><button class="btn btn-primary saveContent">Save</button></t>
     <t t-name="report_financial_line">
         <t t-set="column" t-value="0" />
         <t t-set="domainClass" t-value="'o_account_reports_domain_line_2'"/>
@@ -133,7 +133,7 @@
             <label for="expectedDate">Expected Payment Date</label>
             <div class='o_account_reports_payment_date_picker' />
             <label for='internalNote'>Note</label>
-            <textarea name="internalNote" id="internalNote" rows='4' class="form-control" placeholder="Insert note here"></textarea>
+            <textarea name="internalNote" id="internalNote" rows='4' placeholder="Insert note here"></textarea>
             <input type='hidden' id='target_id' t-att-value='target_id' />
         </form>
     </div>
@@ -148,13 +148,13 @@
             <label for="nextActionDate">Don't follow-up before :</label>
             <div class='o_account_reports_next_action_date_picker' />
             <label for='o_account_reports_next_action_note'>Note</label>
-            <textarea name="o_account_reports_next_action_note" rows='4' class="form-control o_account_reports_next_action_note" placeholder="Insert note here"></textarea>
+            <textarea name="o_account_reports_next_action_note" rows='4' class="o_account_reports_next_action_note" placeholder="Insert note here"></textarea>
             <input type='hidden' id='target_id' t-att-value='target_id' />
         </form>
     </div>
     <div t-name='footnoteForm'>
         <form role="form">
-            <textarea name="note" rows='4' class="form-control o_account_reports_footnote_note" placeholder="Insert foot note here"></textarea>
+            <textarea name="note" rows='4' class="o_account_reports_footnote_note" placeholder="Insert foot note here"></textarea>
             <input type='hidden' class='o_account_reports_footnote_type' t-att-value='type' />
             <input type='hidden' class='o_account_reports_footnote_target_id' t-att-value='target_id' />
             <input type='hidden' class='o_account_reports_footnote_column' t-att-value='column' />

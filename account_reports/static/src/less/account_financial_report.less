@@ -109,8 +109,11 @@
     .o_account_reports_level0 {
         .o_account_reports_lines(@border-width: 5px, @color: @odoo-brand-primary, @font-weight: bold, @border-top-style: double, @border-bottom-style: hidden);
         border-collapse: separate;
-        td {
+        &.line td {
             padding-bottom: 45px;
+        }
+        &.total td {
+            padding-bottom: 10px;
         }
     }
     .o_account_reports_level1 {

@@ -115,7 +115,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         this.$buttons = $(QWeb.render("accountReports.buttons", {xml_export: this.xml_export}));
 
         // pdf output
-        this.$buttons.find('.o_account-widget-pdf').bind('click', function () {
+        this.$buttons.siblings('.o_account-widget-pdf').bind('click', function () {
             framework.blockUI();
             session.get_file({
                 url: self.controller_url.replace('output_format', 'pdf'),
@@ -125,7 +125,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         });
 
         // xls output
-        this.$buttons.find('.o_account-widget-xls').bind('click', function () {
+        this.$buttons.siblings('.o_account-widget-xls').bind('click', function () {
             framework.blockUI();
             session.get_file({
                 url: self.controller_url.replace('output_format', 'xls'),
@@ -135,7 +135,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         });
 
         // xml output
-        this.$buttons.find('.o_account-widget-xml').bind('click', function () {
+        this.$buttons.siblings('.o_account-widget-xml').bind('click', function () {
             // For xml exports, first check if the export can be done
             return new Model('account.financial.html.report.xml.export').call('check', [self.report_model, self.report_id]).then(function (check) {
                 if (check === true) {
@@ -277,7 +277,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     onChangeCmpDateFilter: function(event, fromDateFilter) {
         var filter_cmp = (_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter_cmp;
         var filter = !(_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter;
-        var no_date_range = this.report_type === 'no_date_range';
+        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'bank_reconciliation';
         if (filter_cmp === 'previous_period' || filter_cmp === 'same_last_year') {
             var dtTo = !(_.isUndefined(fromDateFilter)) ? this.$searchview_buttons.find("input[name='date_to']").val() : this.report_context.date_to;
             var dtFrom;
@@ -339,7 +339,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     onChangeDateFilter: function(event) {
         var self = this;
-        var no_date_range = self.report_type === 'no_date_range';
+        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'bank_reconciliation';
         var today = new Date();
         var dt;
         switch($(event.target).parents('li').data('value')) {
