@@ -374,16 +374,15 @@
     }
     
     // Translate icons
-    img.o_field_translate {
-        .o-position-absolute(@bottom: 3px, @right: 0);
+    .o_field_translate {
+        .o-position-absolute();
+        padding: 0;
         display: none;
-        width: 16px;
-        height: 16px;
         cursor: pointer;
     }
     .o_show_translate {
         position: relative;
-        img.o_field_translate {
+        .o_field_translate {
             display: block;
         }
     }

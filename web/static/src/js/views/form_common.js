@@ -669,9 +669,9 @@ var AbstractField = FormWidget.extend(FieldInterface, {
             this._check_css_flags();
         });
 
-        this.$translate = (this.field.translate)? $('<img>', {
-            src: QWeb.default_dict._s + "/web/static/src/img/icons/terp-translate.png"
-        }).addClass('o_field_translate') : $();
+        this.$translate = (this.field.translate)? $('<button/>', {
+            type: 'button',
+        }).addClass('o_field_translate fa fa-language btn btn-link') : $();
     },
 
     renderElement: function() {
@@ -762,8 +762,15 @@ var AbstractField = FormWidget.extend(FieldInterface, {
         return this.get('value') === false;
     },
     _check_css_flags: function() {
-        // FIXME : $translate should be handle in a different way
-        this.$el.parent().toggleClass('o_show_translate', this.$translate.parent().length > 0 && !this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
+        var show_translate = (this.$translate.parent().length > 0 && !this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
+        this.$el.parent().toggleClass('o_show_translate', !!show_translate);
+        if(show_translate) {
+            this.$translate.css({
+                top: this.$el.position().top,
+                left: this.$el.position().left + this.$el.width() - this.$translate.width(),
+            });
+        }
+
         this.$el.add(this.$label)
             .toggleClass('o_form_invalid', !this.disable_utility_classes && !!this.field_manager.get('display_invalid_fields') && !this.is_valid());
     },
