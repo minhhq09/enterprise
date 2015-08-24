@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import base64
+from datetime import datetime, timedelta
 
 from openerp import models, fields, api, _
 from openerp.exceptions import UserError, RedirectWarning
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
-from pprint import pprint
 from StringIO import StringIO
 from xml.sax.saxutils import escape
 
@@ -346,6 +346,54 @@ class product_template(models.Model):
             error_message = 'eBay is unreachable. Please try again later.'
         raise UserError(_("The listing can not be finish!\n'%s'") % (error_message,))
 
+    @api.model
+    def _cron_sync_ebay_products(self):
+        try:
+            self.sync_ebay_products()
+        except RedirectWarning:
+            # not configured, ignore
+            pass
+
+    @api.model
+    def sync_ebay_products(self, page_number=1):
+        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
+        ebay_api = self.get_ebay_api(domain)
+
+        call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=59)),
+                     'StartTimeTo': str(datetime.today()+timedelta(days=59)),
+                     'DetailLevel': 'ReturnAll',
+                     'Pagination': {'EntriesPerPage': 200,
+                                    'PageNumber': page_number,
+                                    }
+                     }
+        try:
+            response = ebay_api.execute('GetSellerList', call_data)
+        except ConnectionError as e:
+            self._manage_ebay_error(e)
+        if response.dict()['ItemArray'] is None:
+            return
+        for item in response.dict()['ItemArray']['Item']:
+            product = self.search([('ebay_id', '=', item['ItemID'])])
+            if product and product.ebay_listing_status != 'Ended'\
+               and product.ebay_listing_status != 'Out Of Stock':
+                if product.ebay_listing_status != item['SellingStatus']['ListingStatus']:
+                    product.ebay_listing_status = item['SellingStatus']['ListingStatus']
+                if int(item['SellingStatus']['QuantitySold']) > 0:
+                    try:
+                        resp = ebay_api.execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
+                    except ConnectionError as e:
+                        self._manage_ebay_error(e)
+                    if isinstance(resp['TransactionArray']['Transaction'], list):
+                        for transaction in resp['TransactionArray']['Transaction']:
+                            if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                                self.create_sale_order(product, transaction)
+                    elif resp['TransactionArray']['Transaction']['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                        self.create_sale_order(product, resp['TransactionArray']['Transaction'])
+        self.check_available_qty()
+
+        if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
+            page_number += 1
+            self.sync_ebay_products(page_number)
 
 class product_product(models.Model):
     _inherit = "product.product"

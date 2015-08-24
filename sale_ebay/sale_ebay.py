@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError, RedirectWarning
 from ebaysdk.exception import ConnectionError
 
 
@@ -13,6 +13,14 @@ class ebay_category(models.Model):
     category_parent_id = fields.Integer('Category Parent ID')
     leaf_category = fields.Boolean(default=False)
     category_type = fields.Char('Category Type')
+
+    @api.model
+    def _cron_sync(self):
+        try:
+            self.sync_categories()
+        except RedirectWarning:
+            # not configured, ignore
+            pass
 
     @api.model
     def sync_categories(self):
@@ -134,6 +142,14 @@ class ebay_policy(models.Model):
     short_summary = fields.Text('Summary')
 
     @api.model
+    def _cron_sync(self):
+        try:
+            self.sync_policies()
+        except RedirectWarning:
+            # not configured, ignore
+            pass
+
+    @api.model
     def sync_policies(self):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
         ebay_api = self.env['product.template'].get_ebay_api(domain)
@@ -143,7 +159,7 @@ class ebay_policy(models.Model):
             self.env['product.template']._manage_ebay_error(e)
         if 'SellerProfilePreferences' not in response.dict() or \
            response.dict()['SellerProfilePreferences']['SupportedSellerProfiles'] is None:
-                raise Warning(_('No Business Policies'))
+                raise UserError(_('No Business Policies'))
         policies = response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']['SupportedSellerProfile']
         if isinstance(policies, list):
             for policy in policies:

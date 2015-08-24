@@ -8,10 +8,10 @@
             <field name="interval_number">5</field>
             <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
-            <field name="model" eval="'sale.config.settings'"/>
-            <field name="function" eval="'sync_product_status'"/>
+            <field name="model">product.template</field>
+            <field name="function">_cron_sync_ebay_products</field>
             <field name="doall" eval="False"/>
-            <field name="args" eval="'()'" />
+            <field name="args">()</field>
         </record>
     </data>
 
@@ -23,10 +23,10 @@
             <field name="interval_number">1</field>
             <field name="interval_type">weeks</field>
             <field name="numbercall">-1</field>
-            <field name="model" eval="'sale.config.settings'"/>
-            <field name="function" eval="'sync_categories'"/>
+            <field name="model">ebay.category</field>
+            <field name="function">_cron_sync</field>
             <field name="doall" eval="False"/>
-            <field name="args" eval="'()'" />
+            <field name="args">()</field>
         </record>
     </data>
 
@@ -38,10 +38,10 @@
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field name="model" eval="'sale.config.settings'"/>
-            <field name="function" eval="'sync_policies'"/>
+            <field name="model">ebay.policy</field>
+            <field name="function">_cron_sync</field>
             <field name="doall" eval="False"/>
-            <field name="args" eval="'()'" />
+            <field name="args">()</field>
         </record>
     </data>
 </openerp>
