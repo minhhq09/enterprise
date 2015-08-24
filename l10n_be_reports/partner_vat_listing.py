@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _
+from openerp import models, api, _, fields
 from openerp.tools.misc import formatLang
 
 
@@ -78,16 +78,16 @@ class ReportL10nBePartnerVatListingContext(models.TransientModel):
     _description = "A particular context for the generic tax report"
     _inherit = "account.report.context.common"
 
+    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
+    company_ids = fields.Many2many('res.company', relation='account_gl_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
+    available_company_ids = fields.Many2many('res.company', relation='account_gl_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
+
     def get_report_obj(self):
         return self.env['l10n.be.report.partner.vat.listing']
 
     @api.multi
-    def remove_line(self, line_id):
-        return
-
-    @api.multi
-    def add_line(self, line_id):
-        return
+    def get_available_company_ids_and_names(self):
+        return [[c.id, c.name] for c in self.available_company_ids]
 
     def get_columns_names(self):
         return [_('VAT Number'), _('Turn Over'), _('VAT Amount')]
