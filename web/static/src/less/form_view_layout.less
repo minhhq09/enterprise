@@ -64,13 +64,16 @@
 
             .o-align-items(baseline);
             min-width: 50px;
-            margin: 0 -@odoo-form-spacing-unit;
+            margin: 0 -@odoo-form-spacing-unit/2;
 
-            > * {
+            > div, > span, > button, > label, > a, > input { // > * did not add a level of priority to the rule
                 .o-flex(0, 0, auto);
                 width: auto!important;
-                margin-right: @odoo-form-spacing-unit;
-                margin-left: @odoo-form-spacing-unit;
+                margin-right: @odoo-form-spacing-unit/2;
+                margin-left: @odoo-form-spacing-unit/2;
+            }
+            > .o_row {
+                margin: 0;
             }
             > .btn {
                 padding-top: 0;
@@ -79,11 +82,14 @@
             > .o_kanban_selection {
                 margin-left: auto;
             }
+            > .o_form_field_boolean {
+                .o-align-self(center);
+            }
         }
 
         .o_row .o_form_field_many2one, .o_form_field_many2one.oe_inline {
             &.o_with_button:not(:last-child) { // If invisible element as last child, this line has no effect but that's not very important
-                margin-right: (35px + @odoo-form-spacing-unit);
+                margin-right: (35px + (@odoo-form-spacing-unit/2));
             }
         }
     }
