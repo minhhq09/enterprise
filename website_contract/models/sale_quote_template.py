@@ -7,7 +7,7 @@ class sale_quote_template(models.Model):
     _name = "sale.quote.template"
     _inherit = "sale.quote.template"
 
-    contract_template = fields.Many2one('account.analytic.account', 'Contract Template', domain="[('type', '=', 'template')]")
+    contract_template = fields.Many2one('sale.subscription', 'Contract Template', domain="[('type', '=', 'template')]")
 
     @api.onchange('contract_template')
     def onchange_contract_template(self):

@@ -2,30 +2,34 @@
 from openerp import models, fields, api
 
 
-class account_analytic_account_wizard(models.TransientModel):
-    _name = 'account.analytic.account.option.wizard'
+class SaleSubscriptionWizard(models.TransientModel):
+    _name = 'sale.subscription.wizard'
 
     def _default_account(self):
-        return self.env['account.analytic.account'].browse(self._context.get('active_id'))
+        return self.env['sale.subscription'].browse(self._context.get('active_id')).analytic_account_id.id
 
-    account_id = fields.Many2one('account.analytic.account', string="Contract", required=True, default=_default_account)
-    option_lines = fields.One2many('account.analytic.transient.option', 'wizard_id', string="Options")
+    def _default_contract(self):
+        return self.env['sale.subscription'].browse(self._context.get('active_id'))
+
+    account_id = fields.Many2one('account.analytic.account', string="Analytic Account", required=True, default=_default_account)
+    subscription_id = fields.Many2one('sale.subscription', string="Contract", required=True, default=_default_contract)
+    option_lines = fields.One2many('sale.subscription.wizard.option', 'wizard_id', string="Options")
 
     @api.multi
     def create_sale_order(self):
-        template_id = self.env['account.analytic.account'].browse(self.env.context.get('active_id')).template_id
+        template_id = self.env['sale.subscription'].browse(self.env.context.get('active_id')).template_id
         sale_order_obj = self.env['sale.order']
         order = sale_order_obj.create({
-            'partner_id': self.account_id.partner_id.id,
+            'partner_id': self.subscription_id.partner_id.id,
             'project_id': self.account_id.id,
             'team_id': self.env['ir.model.data'].get_object_reference('website', 'salesteam_website_sales')[1],
-            'pricelist_id': self.account_id.pricelist_id.id,
-            })
+            'pricelist_id': self.subscription_id.pricelist_id.id,
+        })
         for line in self.option_lines:
             for option in template_id.option_invoice_line_ids:
                 if line.product_id == option.product_id:
                     line.name = option.name
-            self.account_id.partial_invoice_line(order, line)
+            self.subscription_id.partial_invoice_line(order, line)
         return {
             "type": "ir.actions.act_window",
             "res_model": "sale.order",
@@ -56,15 +60,15 @@ class account_analytic_account_wizard(models.TransientModel):
         self.account_id.write({'recurring_invoice_line_ids': rec_lines})
 
 
-class account_analytic_transient_option(models.TransientModel):
-    _name = "account.analytic.transient.option"
-    _inherit = "account.analytic.invoice.line.option"
+class SaleSubscriptionWizardOption(models.TransientModel):
+    _name = "sale.subscription.wizard.option"
+    _inherit = "sale.subscription.line.option"
 
     def _product_domain(self):
-        template_id = self.env['account.analytic.account'].browse(self.env.context.get('active_id')).template_id
+        template_id = self.env['sale.subscription'].browse(self.env.context.get('active_id')).template_id
         return [('id', 'in', [option.product_id.id for option in template_id.option_invoice_line_ids] + [line.product_id.id for line in template_id.recurring_invoice_line_ids])]
 
-    wizard_id = fields.Many2one('account.analytic.account.option.wizard')
+    wizard_id = fields.Many2one('sale.subscription.wizard')
     product_id = fields.Many2one('product.product', domain=_product_domain)
     quantity = fields.Float(inverse='_inverse_quantity')
 

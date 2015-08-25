@@ -17,11 +17,10 @@ class website_account(website_account):
         """ Add contract details to main account page """
         response = super(website_account, self).account()
         partner = request.env.user.partner_id
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         accounts = account_res.search([
             ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
             ('state', '!=', 'cancelled'),
-            ('contract_type', 'in', ['subscription', 'prepaid'])
         ])
         response.qcontext.update({'accounts': accounts})
 
@@ -33,7 +32,7 @@ class website_contract(http.Controller):
                  '/my/contract/<int:account_id>/<string:uuid>'], type='http', auth="public", website=True)
     def contract(self, account_id, uuid='', message='', message_class='', **kw):
         request.env['res.users'].browse(request.uid).has_group('base.group_sale_salesman')
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         if uuid:
             account = account_res.sudo().browse(account_id)
             if uuid != account.uuid or account.state == 'cancelled':
@@ -43,66 +42,52 @@ class website_contract(http.Controller):
         else:
             account = account_res.browse(account_id)
 
-        if account.contract_type == 'subscription':
-            acquirers = list(request.env['payment.acquirer'].search([('website_published', '=', True), ('registration_view_template_id', '!=', False)]))
-            acc_pm = account.payment_method_id
-            part_pms = account.partner_id.payment_method_ids
-            inactive_options = account.sudo().recurring_inactive_lines
-            display_close = account.template_id.sudo().user_closable and account.state != 'close'
-            active_plan = account.template_id.sudo()
-            periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-            invoicing_period = relativedelta(**{periods[account.recurring_rule_type]: account.recurring_interval})
-            limit_date = datetime.datetime.strptime(account.recurring_next_date, '%Y-%m-%d') + invoicing_period
-            allow_reopen = datetime.datetime.today() < limit_date
-            dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'action_account_analytic_overdue_all')
-            account_templates = account_res.sudo().search([
-                ('type', '=', 'template'),
-                ('parent_id', '=', account.template_id.sudo().parent_id.id),
-                ('user_selectable', '=', True),
-                ('id', '!=', active_plan.id),
-                ('state', '=', 'open')
-            ])
-            values = {
-                'account': account,
-                'display_close': display_close,
-                'close_reasons': request.env['account.analytic.close.reason'].search([]),
-                'allow_reopen': allow_reopen,
-                'inactive_options': inactive_options,
-                'active_plan': active_plan,
-                'user': request.env.user,
-                'acquirers': acquirers,
-                'acc_pm': acc_pm,
-                'part_pms': part_pms,
-                'is_salesman': request.env['res.users'].sudo(request.uid).has_group('base.group_sale_salesman'),
-                'action': action,
-                'message': message,
-                'message_class': message_class,
-                'display_change_plan': len(account_templates) > 0,
-                'pricelist': account.pricelist_id.sudo(),
-            }
-            render_context = {
-                'json': True,
-                'submit_class': 'btn btn-primary btn-sm mb8 mt8 pull-right',
-                'submit_txt': 'Pay Subscription',
-                'bootstrap_formatting': True
-            }
-            render_context = dict(values.items() + render_context.items())
-            for acquirer in acquirers:
-                acquirer.form = acquirer.sudo()._registration_render(account.partner_id.id, render_context)[0]
-            return request.website.render("website_contract.contract", values)
-        elif account.contract_type == 'prepaid':
-            if uuid:
-                analytic_lines = request.env['account.analytic.line'].sudo().search([('account_id', '=', account.id)])
-            else:
-                analytic_lines = request.env['account.analytic.line'].search([('account_id', '=', account.id)])
-            values = {
-                'account': account,
-                'user': request.env.user,
-                'analytic_lines': analytic_lines.filtered(lambda aa: aa.journal_id.type == 'general'),  # timesheet journals only
-            }
-            return request.website.render("website_contract.prepaid", values)
-        else:
-            raise NotFound()
+        acquirers = list(request.env['payment.acquirer'].search([('website_published', '=', True), ('registration_view_template_id', '!=', False)]))
+        acc_pm = account.payment_method_id
+        part_pms = account.partner_id.payment_method_ids
+        inactive_options = account.sudo().recurring_inactive_lines
+        display_close = account.template_id.sudo().user_closable and account.state != 'close'
+        active_plan = account.template_id.sudo()
+        periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
+        invoicing_period = relativedelta(**{periods[account.recurring_rule_type]: account.recurring_interval})
+        limit_date = datetime.datetime.strptime(account.recurring_next_date, '%Y-%m-%d') + invoicing_period
+        allow_reopen = datetime.datetime.today() < limit_date
+        dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_action')
+        account_templates = account_res.sudo().search([
+            ('type', '=', 'template'),
+            ('user_selectable', '=', True),
+            ('id', '!=', active_plan.id),
+            ('state', '=', 'open'),
+            ('tag_ids', 'in', account.sudo().template_id.tag_ids.ids)
+        ])
+        values = {
+            'account': account,
+            'display_close': display_close,
+            'close_reasons': request.env['sale.subscription.close.reason'].search([]),
+            'allow_reopen': allow_reopen,
+            'inactive_options': inactive_options,
+            'payment_mandatory': active_plan.payment_mandatory,
+            'user': request.env.user,
+            'acquirers': acquirers,
+            'acc_pm': acc_pm,
+            'part_pms': part_pms,
+            'is_salesman': request.env['res.users'].sudo(request.uid).has_group('base.group_sale_salesman'),
+            'action': action,
+            'message': message,
+            'message_class': message_class,
+            'display_change_plan': len(account_templates) > 0,
+            'pricelist': account.pricelist_id.sudo(),
+        }
+        render_context = {
+            'json': True,
+            'submit_class': 'btn btn-primary btn-sm mb8 mt8 pull-right',
+            'submit_txt': 'Pay Subscription',
+            'bootstrap_formatting': True
+        }
+        render_context = dict(values.items() + render_context.items())
+        for acquirer in acquirers:
+            acquirer.form = acquirer.sudo()._registration_render(account.partner_id.id, render_context)[0]
+        return request.website.render("website_contract.contract", values)
 
     payment_succes_msg = 'message=Thank you, your payment has been validated.&message_class=alert-success'
     payment_fail_msg = 'message=There was an error with your payment, please try with another payment method or contact us.&message_class=alert-danger'
@@ -110,7 +95,7 @@ class website_contract(http.Controller):
     @http.route(['/my/contract/payment/<int:account_id>/',
                  '/my/contract/payment/<int:account_id>/<string:uuid>'], type='http', auth="public", methods=['POST'], website=True)
     def payment(self, account_id, uuid=None, **kw):
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         invoice_res = request.env['account.invoice']
         get_param = ''
         if uuid:
@@ -149,7 +134,7 @@ class website_contract(http.Controller):
                  '/my/contract/<int:account_id>/payment/<int:tx_id>/decline/',
                  '/my/contract/<int:account_id>/payment/<int:tx_id>/exception/'], type='http', auth="public", website=True)
     def payment_accept(self, account_id, tx_id, **kw):
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         tx_res = request.env['payment.transaction']
 
         account = account_res.sudo().browse(account_id)
@@ -161,7 +146,7 @@ class website_contract(http.Controller):
 
     @http.route(['/my/contract/<int:account_id>/change'], type='http', auth="public", website=True)
     def change_contract(self, account_id, uuid=None, **kw):
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         account = account_res.sudo().browse(account_id)
         if uuid != account.uuid:
             raise NotFound()
@@ -188,9 +173,9 @@ class website_contract(http.Controller):
             return request.redirect('/my/contract/%s/%s' % (account.id, account.uuid))
         account_templates = account_res.sudo().search([
             ('type', '=', 'template'),
-            ('parent_id', '=', account.template_id.sudo().parent_id.id),
             ('state', '=', 'open'),
             ('user_selectable', '=', True),
+            ('tag_ids', 'in', account.template_id.tag_ids.ids)
         ])
         values = {
             'account': account,
@@ -203,7 +188,7 @@ class website_contract(http.Controller):
 
     @http.route(['/my/contract/<int:account_id>/close'], type='http', methods=["POST"], auth="public", website=True)
     def close_account(self, account_id, uuid=None, **kw):
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
 
         if uuid:
             account = account_res.sudo().browse(account_id)
@@ -213,7 +198,7 @@ class website_contract(http.Controller):
             account = account_res.browse(account_id)
 
         if account.sudo().template_id.user_closable:
-            close_reason = request.env['account.analytic.close.reason'].browse(int(kw.get('close_reason_id')))
+            close_reason = request.env['sale.subscription.close.reason'].browse(int(kw.get('close_reason_id')))
             account.close_reason_id = close_reason
             if kw.get('closing_text'):
                 account.message_post(_('Closing text : ') + kw.get('closing_text'))
@@ -223,8 +208,8 @@ class website_contract(http.Controller):
 
     @http.route(['/my/contract/<int:account_id>/add_option'], type='http', methods=["POST"], auth="public", website=True)
     def add_option(self, account_id, uuid=None, **kw):
-        option_res = request.env['account.analytic.invoice.line.option']
-        account_res = request.env['account.analytic.account']
+        option_res = request.env['sale.subscription.line.option']
+        account_res = request.env['sale.subscription']
         if uuid:
             account = account_res.sudo().browse(account_id)
             if uuid != account.uuid:
@@ -244,8 +229,8 @@ class website_contract(http.Controller):
     @http.route(['/my/contract/<int:account_id>/remove_option'], type='http', methods=["POST"], auth="public", website=True)
     def remove_option(self, account_id, uuid=None, **kw):
         remove_option_id = int(kw.get('remove_option_id'))
-        option_res = request.env['account.analytic.invoice.line.option']
-        account_res = request.env['account.analytic.account']
+        option_res = request.env['sale.subscription.line.option']
+        account_res = request.env['sale.subscription']
         if uuid:
             remove_option = option_res.sudo().browse(remove_option_id)
             account = account_res.sudo().browse(account_id)
@@ -268,15 +253,15 @@ class website_contract(http.Controller):
         order = request.website.sale_get_order(force_create=True)
         order.set_project_id(account_id)
         new_option_id = int(kw.get('new_option_id'))
-        new_option = request.env['account.analytic.invoice.line.option'].sudo().browse(new_option_id)
-        account = request.env['account.analytic.account'].browse(account_id)
+        new_option = request.env['sale.subscription.line.option'].sudo().browse(new_option_id)
+        account = request.env['sale.subscription'].browse(account_id)
         account.sudo().partial_invoice_line(order, new_option)
 
         return request.redirect("/shop/cart")
 
     @http.route(['/my/template/<int:template_id>'], type='http', auth="user", website=True)
     def view_template(self, template_id, **kw):
-        account_res = request.env['account.analytic.account']
+        account_res = request.env['sale.subscription']
         dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'template_of_subscription_contract_action')
         template = account_res.browse(template_id)
         values = {

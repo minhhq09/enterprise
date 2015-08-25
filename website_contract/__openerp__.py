@@ -31,5 +31,4 @@ Allows your customers to manage their contract from a beautiful web interface. A
         'data/demo.xml',
     ],
     'installable': True,
-    'application': True,
 }

@@ -20,7 +20,6 @@ class TestContract(TestContractCommon):
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_subscription(self):
         """ Test behaviour of subscription change """
-
         # switch plan: check that mandatory lines have been modified accordingly
         self.contract.change_subscription(self.contract_tmpl_2.id)
         self.assertEqual(self.contract.template_id.id, self.contract_tmpl_2.id, 'website_contract: template not changed when changing subscription from the frontend')
@@ -40,7 +39,8 @@ class TestContract(TestContractCommon):
     def test_upsell(self):
         self.sale_order = self.env['sale.order'].create({
             'name': 'TestSO',
-            'project_id': self.contract.id,
+            'project_id': self.contract.analytic_account_id.id,
+            'subscription_id': self.contract.id,
             'partner_id': self.user_portal.partner_id.id,
         })
         current_year = int(datetime.datetime.strftime(datetime.date.today(), '%Y'))
@@ -52,7 +52,7 @@ class TestContract(TestContractCommon):
         invoicing_ratio = self.sale_order.order_line.discount / 100.0
         # discount should be equal to prorata as computed here
         self.assertEqual(float_utils.float_compare(fraction, invoicing_ratio, precision_digits=2), 0, 'website_contract: partial invoicing ratio calculation mismatch')
-        self.sale_order.signal_workflow('order_confirm')
+        self.sale_order.action_confirm()
         self.assertEqual(len(self.contract.recurring_invoice_line_ids), 2, 'website_contract: number of lines after adding pro-rated discounted option does not add up')
         # there should be no discount on the contract line in this case
         self.assertEqual(self.contract.recurring_total, 70, 'website_contract: price after adding pro-rated discounted option does not add up')

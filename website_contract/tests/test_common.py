@@ -6,16 +6,14 @@ class TestContractCommon(common.TransactionCase):
 
     def setUp(self):
         super(TestContractCommon, self).setUp()
-        Contract = self.env['account.analytic.account']
+        Contract = self.env['sale.subscription']
         Product = self.env['product.product']
         ProductTmpl = self.env['product.template']
         UomCat = self.env['product.uom.categ']
         Uom = self.env['product.uom']
-
         # Analytic Account
-        self.parent_aa = Contract.create({
-            'name': 'Parent AA',
-            'type': 'normal',
+        self.master_tag = self.env['account.analytic.tag'].create({
+            'name': 'Test Tag',
         })
 
         # Units of measure
@@ -85,36 +83,32 @@ class TestContractCommon(common.TransactionCase):
         self.contract_tmpl_1 = Contract.create({
             'name': 'TestContractTemplate1',
             'type': 'template',
-            'contract_type': 'subscription',
             'recurring_rule_type': 'yearly',
-            'parent_id': self.parent_aa.id,
             'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.list_price, 'uom_id': self.uom_base.id})],
-            'option_invoice_line_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price, 'uom_id': self.uom_base.id})]
+            'option_invoice_line_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price, 'uom_id': self.uom_base.id})],
+            'tag_ids': [(4, self.master_tag.id, False)],
         })
         self.contract_tmpl_2 = Contract.create({
             'name': 'TestContractTemplate2',
             'type': 'template',
-            'contract_type': 'subscription',
             'recurring_rule_type': 'monthly',
-            'parent_id': self.parent_aa.id,
             'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.list_price * 2, 'uom_id': self.uom_big.id}),
                                            (0, 0, {'product_id': self.product2.id, 'name': 'TestRecurringLine', 'price_unit': self.product2.list_price * 2, 'uom_id': self.uom_big.id})],
-            'option_invoice_line_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price * 2, 'uom_id': self.uom_big.id})]
+            'option_invoice_line_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price * 2, 'uom_id': self.uom_big.id})],
+            'tag_ids': [(4, self.master_tag.id, False)],
         })
         self.contract_tmpl_3 = Contract.create({
             'name': 'TestContractTemplate3',
             'type': 'template',
-            'contract_type': 'prepaid',
             'user_selectable': False,
-            'parent_id': self.parent_aa.id,
-            'quantity_max': 10,
+            'tag_ids': [(4, self.master_tag.id, False)],
         })
         self.contract = Contract.create({
             'name': 'TestContract',
             'type': 'contract',
             'recurring_rule_type': 'yearly',
+            'pricelist_id': self.env.ref('product.list0').id,
             'state': 'open',
-            'contract_type': 'subscription',
             'partner_id': self.user_portal.partner_id.id,
             'template_id': self.contract_tmpl_1.id,
             'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.list_price, 'uom_id': self.uom_base.id})],

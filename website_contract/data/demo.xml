@@ -20,6 +20,8 @@
      <!-- Recurring products -->
      <record id="odoo_saas" model="product.product">
         <field name="name">Odoo SAAS</field>
+        <field name="description_sale">Odoo SAAS
+Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups.</field>
         <field name="recurring_invoice">True</field>
         <field name="categ_id" ref="product.product_category_3"/>
         <field name="type">service</field>
@@ -29,6 +31,8 @@
      </record>
      <record id="odoo_custom_view" model="product.product">
         <field name="name">Customized Views</field>
+        <field name="description_sale">Customized View
+Customize one or more views (in a single module) to better suit your needs.</field>
         <field name="recurring_invoice">True</field>
         <field name="categ_id" ref="product.product_category_3"/>
         <field name="type">service</field>
@@ -38,6 +42,8 @@
      </record>
      <record id="odoo_custom_module" model="product.product">
         <field name="name">Customized Module</field>
+        <field name="description_sale">Customized Module
+Customize a module to better match your business process.</field>
         <field name="recurring_invoice">True</field>
         <field name="categ_id" ref="product.product_category_3"/>
         <field name="type">service</field>
@@ -47,6 +53,8 @@
      </record>
      <record id="odoo_custom_domain" model="product.product">
         <field name="name">Custom Domain</field>
+        <field name="description_sale">Custom Domain
+Access your Odoo Instance using your own domain.</field>
         <field name="recurring_invoice">True</field>
         <field name="categ_id" ref="product.product_category_3"/>
         <field name="type">service</field>
@@ -56,16 +64,11 @@
      </record>
    
 
-    <!-- Analytical Account -->
-    <record id="odoo_analytic" model="account.analytic.account">
-        <field name="type">normal</field>
-        <field name="name">Odoo SAAS</field>
-    </record>
     <!-- Contract templates -->
-    <record id="odoo_monthly" model="account.analytic.account">
+    <record id="odoo_monthly" model="sale.subscription">
         <field name="type">template</field>
         <field name="name">Odoo Monthly</field>
-        <field name="parent_id" ref="odoo_analytic"/>
+        <field name="state">open</field>
         <field name="plan_description">
             <![CDATA[
             <ul>
@@ -75,7 +78,6 @@
             </ul>
             ]]>
         </field>
-        <field name="contract_type">subscription</field>
         <field name="recurring_interval">1</field>
         <field name="recurring_rule_type">monthly</field>
         <field name="description">
@@ -96,7 +98,7 @@ Any complaints about items or sellers may be sent to our support team: support@w
         </field>
     </record>
 
-    <record id="rec_inv_line_11" model="account.analytic.invoice.line">
+    <record id="rec_inv_line_11" model="sale.subscription.line">
         <field name="name">Odoo SAAS
 Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups.</field>
         <field name="analytic_account_id" ref="odoo_monthly"/>
@@ -107,7 +109,7 @@ Access to your Odoo Instance. Stored on our servers: high speed, high reliabilit
         <field name="uom_id" ref="contract_uom_month"/>
     </record>
 
-    <record id="opt_inv_line_11" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_11" model="sale.subscription.line.option">
         <field name="name">Customized Module
 Customize a module to better match your business process.</field>
         <field name="analytic_account_id" ref="odoo_monthly"/>
@@ -119,7 +121,7 @@ Customize a module to better match your business process.</field>
         <field name="portal_access">upgrade</field>
     </record>
 
-    <record id="opt_inv_line_12" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_12" model="sale.subscription.line.option">
         <field name="name">Customized View
 Customize one or more views (in a single module) to better suit your needs.</field>
         <field name="analytic_account_id" ref="odoo_monthly"/>
@@ -131,7 +133,7 @@ Customize one or more views (in a single module) to better suit your needs.</fie
         <field name="portal_access">upgrade</field>
     </record>
 
-    <record id="opt_inv_line_13" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_13" model="sale.subscription.line.option">
         <field name="name">Custom Domain
 Access your Odoo Instance using your own domain.</field>
         <field name="analytic_account_id" ref="odoo_monthly"/>
@@ -144,10 +146,10 @@ Access your Odoo Instance using your own domain.</field>
     </record>
 
 
-    <record id="odoo_yearly" model="account.analytic.account">
+    <record id="odoo_yearly" model="sale.subscription">
         <field name="type">template</field>
         <field name="name">Odoo Yearly</field>
-        <field name="parent_id" ref="odoo_analytic"/>
+        <field name="state">open</field>
         <field name="plan_description">
             <![CDATA[
             <ul>
@@ -157,7 +159,6 @@ Access your Odoo Instance using your own domain.</field>
             </ul>
             ]]>
         </field>
-        <field name="contract_type">subscription</field>
         <field name="recurring_interval">1</field>
         <field name="recurring_rule_type">yearly</field>
         <field name="description">
@@ -178,7 +179,7 @@ Any complaints about items or sellers may be sent to our support team: support@w
         </field>
     </record>
 
-    <record id="rec_inv_line_1" model="account.analytic.invoice.line">
+    <record id="rec_inv_line_1" model="sale.subscription.line">
         <field name="name">Odoo SAAS
 Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups.</field>
         <field name="analytic_account_id" ref="odoo_yearly"/>
@@ -189,7 +190,7 @@ Access to your Odoo Instance. Stored on our servers: high speed, high reliabilit
         <field name="uom_id" ref="contract_uom_year"/>
     </record>
 
-    <record id="opt_inv_line_21" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_21" model="sale.subscription.line.option">
         <field name="name">Customized Module
 Customize a module to better match your business process.</field>
         <field name="analytic_account_id" ref="odoo_yearly"/>
@@ -201,7 +202,7 @@ Customize a module to better match your business process.</field>
         <field name="portal_access">upgrade</field>
     </record>
 
-    <record id="opt_inv_line_22" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_22" model="sale.subscription.line.option">
         <field name="name">Customized View
 Customize one or more views (in a single module) to better suit your needs.</field>
         <field name="analytic_account_id" ref="odoo_yearly"/>
@@ -213,7 +214,7 @@ Customize one or more views (in a single module) to better suit your needs.</fie
         <field name="portal_access">upgrade</field>
     </record>
 
-    <record id="opt_inv_line_23" model="account.analytic.invoice.line.option">
+    <record id="opt_inv_line_23" model="sale.subscription.line.option">
         <field name="name">Custom Domain
 Access your Odoo Instance using your own domain.</field>
         <field name="analytic_account_id" ref="odoo_yearly"/>
@@ -226,11 +227,12 @@ Access your Odoo Instance using your own domain.</field>
     </record>
 
     <!-- Demo Contract -->
-    <record id="contract_portal_21" model="account.analytic.account">
+    <record id="contract_portal_21" model="sale.subscription">
         <field name="name">DPU/Odoo SAAS</field>
-        <field name="parent_id" ref="odoo_analytic"/>
+        <field name="state">open</field>
         <field name="partner_id" ref="portal.partner_demo_portal"/>
         <field name="template_id" ref="odoo_monthly"/>
+        <field name="pricelist_id" ref="product.list0"/>
         <field name="manager_id" ref="base.user_root"/>
         <field name="message_follower_ids" eval="[
             (0, 0, {'res_model': 'account.analytic.account', 'partner_id': ref('portal.partner_demo_portal')})
@@ -254,10 +256,9 @@ An item may be cancelled up until payment has been processed. Once payment has b
 Complaints
 Any complaints about items or sellers may be sent to our support team: support@wesellyourstuff.com or (888) 555-0198. There is no guarantee of a resolution. Each case will be looked at individually, and the seller will be in contact as well.
         </field>
-        <field name="contract_type">subscription</field>
     </record>
 
-    <record id="rec_inv_line_31" model="account.analytic.invoice.line">
+    <record id="rec_inv_line_31" model="sale.subscription.line">
         <field name="name">Odoo SAAS
 Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups.</field>
         <field name="analytic_account_id" ref="contract_portal_21"/>
@@ -268,7 +269,7 @@ Access to your Odoo Instance. Stored on our servers: high speed, high reliabilit
         <field name="uom_id" ref="contract_uom_month"/>
     </record>
 
-    <record id="rec_inv_line_32" model="account.analytic.invoice.line">
+    <record id="rec_inv_line_32" model="sale.subscription.line">
         <field name="name">Customized Module
 Customize a module to better match your business process.</field>
         <field name="analytic_account_id" ref="contract_portal_21"/>
