@@ -82,11 +82,9 @@ var FormView = View.extend(common.FieldManagerMixin, {
         this.__clicked_inside = false;
         this.__blur_timeout = null;
         this.rendering_engine = (config.device.xs)? new FormRenderingEngineMobile(this) : new FormRenderingEngine(this);
-        self.set({actual_mode: self.options.initial_mode});
+        this._actualize_mode(this.options.initial_mode);
         this.has_been_loaded.done(function() {
             self._build_onchange_specs();
-            self.check_actual_mode();
-            self.on("change:actual_mode", self, self.check_actual_mode);
             self.on("change:actual_mode", self, self.toggle_buttons);
             self.on("change:actual_mode", self, self.toggle_sidebar);
         });
@@ -636,15 +634,14 @@ var FormView = View.extend(common.FieldManagerMixin, {
         } else if (mode === "create") {
             mode = "edit";
         }
+
+        var viewMode = (mode === "view")
+        this.$el.toggleClass('o_form_readonly', viewMode).toggleClass('o_form_editable', !viewMode);
+
         this.render_value_defs = [];
         this.set({actual_mode: mode});
-    },
-    check_actual_mode: function(source, options) {
-        var self = this;
-        if(this.get("actual_mode") === "view") {
-            self.$el.removeClass('o_form_editable').addClass('o_form_readonly');
-        } else {
-            self.$el.removeClass('o_form_readonly').addClass('o_form_editable');
+
+        if(!viewMode) {
             this.autofocus();
         }
     },
