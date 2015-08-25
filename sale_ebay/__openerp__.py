@@ -31,6 +31,7 @@ Key Features
 
   # any module necessary for this one to work correctly
   'depends': ['base', 'sale', 'stock', 'document'],
+  'external_dependencies': {'python': ['ebaysdk']},
 
   # always loaded
   'data': [
