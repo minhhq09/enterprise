@@ -1652,10 +1652,10 @@ odoo.define('project_timeshee.ui', function (require ) {
                 self.getParent().show_db_selector_screen();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
-                    alert.log("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
+                    alert("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
                 }
                 else {
-                    alert.log("Could not login. Please check that the information you entered is correct.");
+                    alert("Could not login. Please check that the information you entered is correct.");
                 }
             });
         },
@@ -1677,7 +1677,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     }
                 });
             }).fail(function(res) {
-                alert.log('Something went wrong.');
+                alert('Something went wrong.');
             });
         },
 
@@ -1713,7 +1713,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                             localStorage.setItem('pt_current_user', session.username);
                         }
                         else {
-                            alert.log('Odoo login failed');
+                            alert('Odoo login failed');
                         }
                     });
                 });
