@@ -8,25 +8,11 @@ var UserMenu = require('web.UserMenu');
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
     events: {
-        'click .o_app': 'on_app_click',
+        'click .o_action_app': 'on_app_click',
     },
     init: function (parent, menu_data) {
         this._super.apply(this, arguments);
         this.menu_data = menu_data;
-
-        // Compute action_id if not defined on a top menu item
-        for (var i = 0; i < this.menu_data.children.length; i++) {
-            var child = this.menu_data.children[i];
-            if (child.action === false) {
-                while (child.children && child.children.length) {
-                    child = child.children[0];
-                    if (child.action) {
-                        this.menu_data.children[i].action = child.action;
-                        break;
-                    }
-                }
-            }
-        }
     },
     willStart: function() {
         // Force the background image to be in the browser cache before the
