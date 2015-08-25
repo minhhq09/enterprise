@@ -494,8 +494,9 @@ class AccountReportContextCommon(models.TransientModel):
                     sheet.write(y + y_offset, x, lines[y]['columns'][x - 1], style)
                 else:
                     sheet.write(y + y_offset, x, lines[y]['columns'][x - 1], style_right)
-        for x in xrange(0, len(lines[0]['columns']) + 1):
-            sheet.write(len(lines) + y_offset, x, None, upper_line_style)
+        if lines:
+            for x in xrange(0, len(lines[0]['columns']) + 1):
+                sheet.write(len(lines) + y_offset, x, None, upper_line_style)
 
         book.save(response.stream)
 
