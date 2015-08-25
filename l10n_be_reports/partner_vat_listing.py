@@ -79,8 +79,8 @@ class ReportL10nBePartnerVatListingContext(models.TransientModel):
     _inherit = "account.report.context.common"
 
     multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='account_gl_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_gl_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
+    company_ids = fields.Many2many('res.company', relation='l10n_be_partner_listing_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
+    available_company_ids = fields.Many2many('res.company', relation='l10n_be_partner_listing_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
 
     def get_report_obj(self):
         return self.env['l10n.be.report.partner.vat.listing']
