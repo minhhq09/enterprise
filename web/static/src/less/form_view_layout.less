@@ -317,20 +317,21 @@
 
     // Form fields
     .o_form_field {
-        .o-inline-flex-display();
-        .o-flex-flow(row, nowrap);
-        &.o_view_manager_content {
-            display: block;
-        }
-
+        display: inline-block;
         margin-bottom: @odoo-form-spacing-unit;
+    }
 
+    // Block fields
+    .note-editor, .oe_form_field_html, .oe_form_field_html_text, .oe_form_field_text, .o_view_manager_content {
+        display: block;
+    }
+
+    // Flex fields
+    .o_form_field_many2one, .o_form_field_radio, .o_form_field_many2manytags, .o_form_field_percent_pie {
+        .o-inline-flex-display();
         > span {
             .o-flex(0, 0, auto);
         }
-    }
-    select.o_form_field {
-        display: inline-block;
     }
 
     .o_form_field, .btn, .o_form_statusbar {
@@ -415,15 +416,6 @@
         > .o_pie {
             margin-right: 10px;
         }
-    }
-
-    // HTML field
-    .oe_form_field_html, .oe_form_many2many_checkboxes {
-        display: inline-block;
-    }
-
-    .note-editor, .oe_form_field_html, .oe_form_field_html_text, .oe_form_field_text {
-        display: block;
     }
 
     // Specific style classes
