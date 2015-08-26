@@ -192,7 +192,6 @@ class HrAppraisal(models.Model):
                     raise UserError(_("The appraisal deadline must be in the future to allow employees to answer the survey."))
                 self.send_appraisal()
         result = super(HrAppraisal, self).write(vals)
-        self.subscribe_employees()
         date_final_interview = vals.get('date_final_interview')
         if date_final_interview:
             # creating employee meeting and interview date
