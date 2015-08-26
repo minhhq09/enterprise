@@ -129,13 +129,6 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
         if (!this.options.$pager || !this.options.$pager.length) {
             this.options.$pager = false;
         }
-        // the view's number of records per page (|| section)
-        this._limit = (this.options.limit ||
-                       this.defaults.limit ||
-                       (this.getParent().action || {}).limit ||
-                       80);
-        // the index of the first displayed record (starting from 1)
-        this.current_min = 1;
     },
     /**
      * Called after loading the list view's description
@@ -150,6 +143,14 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
     view_loading: function(fvg) {
         this.fields_view = fvg;
         this.name = "" + this.fields_view.arch.attrs.string;
+        // the view's number of records per page (|| section)
+        this._limit = (this.options.limit ||
+                       this.defaults.limit ||
+                       (this.getParent().action || {}).limit ||
+                       parseInt(this.fields_view.arch.attrs.limit, 10) ||
+                       80);
+        // the index of the first displayed record (starting from 1)
+        this.current_min = 1;
 
         // Retrieve the decoration defined on the model's list view
         this.decoration = _.pick(this.fields_view.arch.attrs, function(value, key) {
