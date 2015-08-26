@@ -38,6 +38,18 @@ var FormView = View.extend(common.FieldManagerMixin, {
     multi_record: false,
     icon: 'fa-edit',
     /**
+     * Called each time the form view is attached into the DOM
+     */
+    on_attach_callback: function() {
+        this.trigger('attached');
+    },
+    /**
+     * Called each time the form view is detached from the DOM
+     */
+    on_detach_callback: function() {
+        this.trigger('detached');
+    },
+    /**
      * @constructs instance.web.FormView
      * @extends instance.web.View
      *

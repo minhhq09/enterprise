@@ -20,12 +20,18 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
      */
     on_attach_callback: function() {
         this.is_in_DOM = true;
+        if (this.active_view && this.active_view.controller.on_attach_callback) {
+            this.active_view.controller.on_attach_callback();
+        }
     },
     /**
      * Called each time the view manager is detached from the DOM
      */
     on_detach_callback: function() {
         this.is_in_DOM = false;
+        if (this.active_view && this.active_view.controller.on_detach_callback) {
+            this.active_view.controller.on_detach_callback();
+        }
     },
     /**
      * @param {Object} [dataset] null object (... historical reasons)
