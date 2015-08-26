@@ -1,4 +1,6 @@
 .o_form_view {
+    background-color: @odoo-view-background-color;
+
     .o-stat-value() {
         font-weight: 700;
         color: @odoo-brand-primary;
@@ -160,8 +162,11 @@
     }
 
     // Sheet
-    .o_form_sheet {
-        background-color: @odoo-view-background-color;
+    .o_form_sheet_bg {
+        background-color: @odoo-webclient-background-color;
+        .o_form_sheet {
+            background-color: @odoo-view-background-color;
+        }
     }
 
     // Button box

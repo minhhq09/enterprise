@@ -1356,7 +1356,7 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
     process_sheet: function($sheet) {
         var $new_sheet = this.render_element('FormRenderingSheet', $sheet.getAttributes());
         this.handle_common_properties($new_sheet, $sheet);
-        var $dst = $new_sheet.filter('.o_form_sheet');
+        var $dst = $new_sheet.find('.o_form_sheet');
         $sheet.contents().appendTo($dst);
         $sheet.before($new_sheet).remove();
         this.process($new_sheet);

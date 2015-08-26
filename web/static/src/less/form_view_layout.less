@@ -38,6 +38,9 @@
 }
 
 .o_form_view {
+    height: 100%;
+    overflow: auto;
+
     .oe_inline {
         width: auto!important;
         @media (min-width: @screen-xs-min) {
@@ -173,12 +176,13 @@
     }
 
     // Sheet
-    .o_form_sheet {
-        .container;
-        .o-webclient-padding(@top: 24px, @bottom: 24px);
-        margin: auto;
+    .o_form_sheet_bg {
         @media (min-width: @screen-sm-min) {
-            margin: 8px auto;
+            padding: 8px 0;
+        }
+        .o_form_sheet {
+            .container;
+            .o-webclient-padding(@top: 24px, @bottom: 24px);
         }
     }
 
@@ -428,6 +432,14 @@
 
 // Overriden style when form view in modal
 .modal .modal-dialog {
+    .o_form_view {
+        .o_form_sheet_bg {
+            padding: 0;
+        }
+        .oe_chatter {
+            display: none;
+        }
+    }
     &:not(.modal-lg) .o_form_view {
         .o_group {
             width: 100%;

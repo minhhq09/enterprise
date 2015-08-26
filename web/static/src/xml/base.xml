@@ -514,7 +514,9 @@
     </div>
 </t>
 <t t-name="FormRenderingSheet">
-    <div t-attf-class="o_form_sheet #{classnames}"/>
+    <div class="o_form_sheet_bg">
+        <div t-attf-class="o_form_sheet #{classnames}"/>
+    </div>
 </t>
 <div t-name="FormRenderingOuterGroup" class="o_group">
     <t t-if="string" t-call="FormRenderingSeparator"/>
