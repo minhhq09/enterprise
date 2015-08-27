@@ -15,8 +15,10 @@ def _build_sql_query(fields, tables, conditions, query_args):
 
     if query_args.get('contract_ids'):
         tables.append("account_analytic_account")
+        tables.append("sale_subscription")
         conditions.append("account_invoice_line.account_analytic_id = account_analytic_account.id")
-        conditions.append("account_analytic_account.template_id IN %(contract_ids)s")
+        conditions.append("sale_subscription.template_id IN %(contract_ids)s")
+        conditions.append("sale_subscription.analytic_account_id = account_analytic_account.id")
 
     fields_str = ', '.join(fields)
     tables_str = ', '.join(tables)
@@ -264,24 +266,26 @@ def compute_mrr_growth_values(start_date, end_date, contract_ids=None):
             SELECT old_line.account_analytic_id, old_line.sum AS old_sum, new_line.sum AS new_sum, (new_line.sum - old_line.sum) AS diff
             FROM (
                 SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account
+                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account, sale_subscription as contract
                 WHERE asset_start_date BETWEEN date %(date)s - interval '1 months' + interval '1 days' and date %(date)s AND
                     invoice.id = line.invoice_id AND
                     invoice.type IN ('out_invoice', 'out_refund') AND
                     invoice.state NOT IN ('draft', 'cancel') AND
                     line.account_analytic_id = analytic_account.id AND
-                    analytic_account.template_id IN %(contracts)s
+                    contract.template_id IN %(contracts)s AND
+                    contract.analytic_account_id = analytic_account.id
                 GROUP BY account_analytic_id
                 ) AS new_line,
                 (
                 SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account
+                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account, sale_subscription as contract
                 WHERE asset_end_date BETWEEN date %(date)s - interval '2 months' + interval '1 days' and date %(date)s AND
                     invoice.id = line.invoice_id AND
                     invoice.type IN ('out_invoice', 'out_refund') AND
                     invoice.state NOT IN ('draft', 'cancel') AND
                     line.account_analytic_id = analytic_account.id AND
-                    analytic_account.template_id IN %(contracts)s
+                    contract.template_id IN %(contracts)s AND
+                    contract.analytic_account_id = analytic_account.id
                 GROUP BY account_analytic_id
                 ) AS old_line
             WHERE

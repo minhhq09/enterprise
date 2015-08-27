@@ -74,13 +74,15 @@ class RevenueKPIsDashboard(http.Controller):
         if contract_ids:
             domain += [('id', 'in', contract_ids)]
 
-        contract_ids = request.env['account.analytic.account'].search(domain)
+        contract_ids = request.env['sale.subscription'].search(domain)
 
         for contract in contract_ids:
+            sale_subscriptions = request.env['sale.subscription'].search([('template_id', '=', contract.id)])
+            analytic_account_ids = [sub.analytic_account_id.id for sub in sale_subscriptions]
             recurring_invoice_line_ids = request.env['account.invoice.line'].search([
                 ('asset_start_date', '<=', end_date),
                 ('asset_end_date', '>=', end_date),
-                ('account_analytic_id.template_id', '=', contract.id),
+                ('account_analytic_id', 'in', analytic_account_ids),
             ])
             value = self.compute_stat(stat_type, start_date, end_date, contract_ids=[contract.id])
             results.append({

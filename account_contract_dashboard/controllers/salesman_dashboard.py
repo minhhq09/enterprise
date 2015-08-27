@@ -80,7 +80,7 @@ class SalemanDashboard(http.Controller):
                     'type': 'churn',
                     'partner': previous_il_id.partner_id.name,
                     'account_analytic': previous_il_id.account_analytic_id.name,
-                    'account_analytic_template': previous_il_id.account_analytic_id.template_id.name,
+                    'account_analytic_template': self._get_template_name(previous_il_id),
                     'previous_mrr': str(previous_mrr),
                     'current_mrr': str(0),
                     'diff': -previous_mrr,
@@ -96,7 +96,7 @@ class SalemanDashboard(http.Controller):
             new_contract_modification = {
                 'partner': next_il_id.partner_id.name,
                 'account_analytic': next_il_id.account_analytic_id.name,
-                'account_analytic_template': next_il_id.account_analytic_id.template_id.name,
+                'account_analytic_template': self._get_template_name(next_il_id),
             }
 
             # Was there any invoice_line in the last 30 days for this contract ?
@@ -165,7 +165,7 @@ class SalemanDashboard(http.Controller):
                 nrr_invoice_ids.append({
                     'partner': invoice_line.partner_id.name,
                     'account_analytic': invoice_line.account_analytic_id.name,
-                    'account_analytic_template': invoice_line.account_analytic_id.template_id.name,
+                    'account_analytic_template': self._get_template_name(invoice_line),
                     'nrr': str(invoice_nrr),
                 })
 
@@ -179,3 +179,8 @@ class SalemanDashboard(http.Controller):
             'nrr': total_nrr,
             'nrr_invoices': nrr_invoice_ids,
         }
+
+    def _get_template_name(self, line):
+        """ Get the subscription template name for an invoice line """
+        sub = request.env['sale.subscription'].search([('analytic_account_id', '=', line.account_analytic_id.id)])
+        return sub.template_id.name
