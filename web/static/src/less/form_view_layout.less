@@ -177,6 +177,7 @@
 
     // Sheet
     .o_form_sheet_bg {
+        padding-bottom: 8px; // keep the padding-bottom in mobile to separate chatter from sheet
         @media (min-width: @screen-sm-min) {
             padding: 8px 0;
         }
@@ -427,6 +428,12 @@
     // Specific style classes
     .o_group.o_inner_group.oe_subtotal_footer {
         .oe_right;
+    }
+
+    // Chatter
+    .oe_chatter {
+        .container;
+        .o-webclient-padding(@top: 16px, @bottom: 16px);
     }
 }
 
