@@ -63,13 +63,11 @@ class account_analytic_line(models.Model):
 
         # Projects
         projects_ids = self.env["project.project"].search([
-            '&',
+            '|',
                 '|',
-                    '|',
-                    ("id", "in", project_ids_list),
-                    ("user_id", '=', self.env.uid),  # User is the manager of the project
-                ("analytic_account_id", "in", account_ids_list),
-            ('invoice_on_timesheets', '=', True),
+                ("id", "in", project_ids_list),
+                ("user_id", '=', self.env.uid),  # User is the manager of the project
+            ("analytic_account_id", "in", account_ids_list),
         ])
 
         projects_fields = [
@@ -243,14 +241,3 @@ class account_analytic_line(models.Model):
             "failed_records": failed_records,
             "failed_records_messages": failed_records_messages,
         }
-
-    @api.model
-    def create(self, vals):
-        """
-        Override to make sure the analytic lines created during import_ui_data() call on_change_account_id() and the appropriate to_invoice value is set.
-        """
-        if vals.get('is_timesheet'):
-            if vals.get('account_id'):
-                res = self.on_change_account_id(vals['account_id'], is_timesheet=vals['is_timesheet'], user_id=vals['user_id'])
-                vals['to_invoice'] = res['value']['to_invoice']
-        return super(account_analytic_line, self).create(vals)

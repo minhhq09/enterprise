@@ -102,7 +102,6 @@ class TestImportExport(common.TransactionCase):
 
         project = self.env["ir.model.data"].xmlid_to_object(test_projects[0]['id'])
         contract = project.analytic_account_id
-        contract.to_invoice = self.browse_ref('hr_timesheet_invoice.timesheet_invoice_factor1')
 
         AAL.with_context(context).import_ui_data(test_analytic_lines, [], [])
 
@@ -115,8 +114,6 @@ class TestImportExport(common.TransactionCase):
 
             project = self.env["ir.model.data"].xmlid_to_object(line['project_id'])
             contract = project.analytic_account_id
-
-            self.assertEqual(contract.to_invoice, aal.to_invoice)
 
     # Creates a timesheet_sheet and sets it in a confirmed state.
     # Then exports data and makes sure that the analytic lines of the sheet are exported with sheet_state closed
