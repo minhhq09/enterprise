@@ -284,9 +284,11 @@
         .o_form_field {
             width: 100%;
 
-            &.o_text_overflow {
-                width: 1px!important; // hack to make the table layout believe it is a small element (so that the table does not grow too much) ...
-                min-width: 100%;      // ... but in fact it takes the whole table space
+            @media (min-width: @screen-xs-min) {
+                &.o_text_overflow {
+                    width: 1px!important; // hack to make the table layout believe it is a small element (so that the table does not grow too much) ...
+                    min-width: 100%;      // ... but in fact it takes the whole table space
+                }
             }
 
             > .btn {
