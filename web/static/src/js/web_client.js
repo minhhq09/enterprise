@@ -213,7 +213,7 @@ var WebClient = Widget.extend({
         this.set_title();
 
         var Menus = new Model('ir.ui.menu');
-        return Menus.call('load_menus', {context: session.user_context}).then(function(menu_data) {
+        return Menus.call('load_menus', [core.debug], {context: session.user_context}).then(function(menu_data) {
             // Compute action_id if not defined on a top menu item
             for (var i = 0; i < menu_data.children.length; i++) {
                 var child = menu_data.children[i];
