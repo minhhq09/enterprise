@@ -223,6 +223,13 @@
                         display: inline;
                     }
                 }
+
+                &.is_true .o_stat_text.oe_false {
+                    display: none;
+                }
+                &:not(.is_true) .o_stat_text.oe_true {
+                    display: none;
+                }
             }
 
             // Some buttons only display text and directly use the WidgetButton template instead of StatInfo
