@@ -180,16 +180,9 @@ class account_context_general_ledger(models.TransientModel):
 
     fold_field = 'unfolded_accounts'
     unfolded_accounts = fields.Many2many('account.account', 'context_to_account', string='Unfolded lines')
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='account_gl_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_gl_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
 
     def get_report_obj(self):
         return self.env['account.general.ledger']
-
-    @api.multi
-    def get_available_company_ids_and_names(self):
-        return [[c.id, c.name] for c in self.available_company_ids]
 
     def get_columns_names(self):
         return [_("Date"), _("Communication"), _("Partner"), _("Currency"), _("Debit"), _("Credit"), _("Balance")]

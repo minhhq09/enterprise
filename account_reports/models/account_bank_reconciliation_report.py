@@ -185,13 +185,6 @@ class account_report_context_bank_reconciliation(models.TransientModel):
 
     journal_id = fields.Many2one('account.journal', string=_("Bank account"))
     journals = fields.One2many('account.journal', string=_("Bank Accounts"), compute=_get_bank_journals)
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='account_br_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_br_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])    
-
-    @api.multi
-    def get_available_company_ids_and_names(self):
-        return [[c.id, c.name] for c in self.available_company_ids]
 
     def get_report_obj(self):
         return self.env['account.bank.reconciliation.report']

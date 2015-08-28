@@ -32,10 +32,36 @@ class AccountReportFootnotesManager(models.TransientModel):
         self.write({'footnotes': [(3, footnotes.id)]})
 
 
+class AccountReportMulticompanyManager(models.TransientModel):
+    _name = 'account.report.multicompany.manager'
+    _description = 'manages multicompany for reports'
+
+    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
+    company_ids = fields.Many2many('res.company', relation='account_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
+    available_company_ids = fields.Many2many('res.company', relation='account_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
+
+    @api.depends('create_uid')
+    @api.one
+    def _get_multi_company(self):
+        group_multi_company = self.env['ir.model.data'].xmlid_to_object('base.group_multi_company')
+        if self.create_uid.id in group_multi_company.users.ids:
+            self.multi_company = True
+        else:
+            self.multi_company = False
+
+    @api.multi
+    def get_available_company_ids_and_names(self):
+        return [[c.id, c.name] for c in self.available_company_ids]
+
+    @api.model
+    def get_available_companies(self):
+        return self.env.user.company_ids
+
+
 class AccountReportContextCommon(models.TransientModel):
     _name = "account.report.context.common"
     _description = "A particular context for a financial report"
-    _inherits = {'account.report.footnotes.manager': 'footnotes_manager_id'}
+    _inherits = {'account.report.footnotes.manager': 'footnotes_manager_id', 'account.report.multicompany.manager': 'multicompany_manager_id'}
 
     @api.model
     def get_context_by_report_name(self, name):
@@ -79,15 +105,6 @@ class AccountReportContextCommon(models.TransientModel):
     def get_report_obj(self):
         raise Warning(_('get_report_obj not implemented'))
 
-    @api.depends('create_uid')
-    @api.one
-    def _get_multi_company(self):
-        group_multi_company = self.env['ir.model.data'].xmlid_to_object('base.group_multi_company')
-        if self.create_uid.id in group_multi_company.users.ids:
-            self.multi_company = True
-        else:
-            self.multi_company = False
-
     @api.depends('date_filter_cmp')
     @api.multi
     def _get_comparison(self):
@@ -121,11 +138,7 @@ class AccountReportContextCommon(models.TransientModel):
     date_filter_cmp = fields.Char('Comparison date filter used', default='no_comparison')
     periods_number = fields.Integer('Number of periods', default=1)
     footnotes_manager_id = fields.Many2one('account.report.footnotes.manager', string='Footnotes Manager', required=True, ondelete='cascade')
-    multi_company = fields.Boolean('Allow multi-company', default=False, store=True)
-
-    @api.multi
-    def get_available_company_ids_and_names(self):
-        return []
+    multicompany_manager_id = fields.Many2one('account.report.multicompany.manager', string='Multi-company Manager', required=True, ondelete='cascade')
 
     @api.multi
     def remove_line(self, line_id):
@@ -149,10 +162,6 @@ class AccountReportContextCommon(models.TransientModel):
     def set_next_number(self, num):
         self.write({'next_footnote_number': num})
         return
-
-    @api.model
-    def get_available_companies(self):
-        return self.env.user.company_ids
 
     def get_columns_names(self):
         raise Warning(_('get_columns_names not implemented'))
@@ -416,7 +425,7 @@ class AccountReportContextCommon(models.TransientModel):
             'fiscalyear_last_day': self.env.user.company_id.fiscalyear_last_day,
             'fiscalyear_last_month': self.env.user.company_id.fiscalyear_last_month,
         }
-        result['available_companies'] = self.get_available_company_ids_and_names()
+        result['available_companies'] = self.multicompany_manager_id.get_available_company_ids_and_names()
         return result
 
     def get_xls(self, response):

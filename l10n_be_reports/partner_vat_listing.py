@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _, fields
+from openerp import models, api, _
 from openerp.tools.misc import formatLang
 
 
@@ -16,6 +16,10 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
         partner_ids = self.env['res.partner'].search([('vat', 'ilike', 'BE%')]).ids
         if not partner_ids:
             return lines
+        company_clauses = ['AND FALSE', 'AND FALSE']
+        if context_id.company_ids.ids:
+            company_ids = '(' + ','.join(map(str, context_id.company_ids.ids)) + ')'
+            company_clauses = ['AND l.company_id IN ' + company_ids, 'AND l2.company_id IN ' + company_ids]
         tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_00', 'l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03', 'l10n_be.tax_tag_base_45']]
         tag_ids_2 = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03']]
         self.env.cr.execute("""SELECT sub1.partner_id, sub1.name, sub1.vat, sub1.turnover, sub2.vat_amount
@@ -26,18 +30,20 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   LEFT JOIN account_tax_account_tag tt on amlt.account_tax_id = tt.account_tax_id
                   WHERE tt.account_account_tag_id IN %s
                   AND l.partner_id IN %s
-                  AND l.date >= %s
-                  AND l.date <= %s
+                  AND l.date >= '%s'
+                  AND l.date <= '%s'
+                  %s
                   GROUP BY l.partner_id, p.name, p.vat) AS sub1
             LEFT JOIN (SELECT l2.partner_id, SUM(l2.balance) as vat_amount
                   FROM account_move_line l2
                   LEFT JOIN account_tax_account_tag tt2 on l2.tax_line_id = tt2.account_tax_id
                   WHERE tt2.account_account_tag_id IN %s
                   AND l2.partner_id IN %s
-                  AND l2.date > %s
-                  AND l2.date < %s
+                  AND l2.date > '%s'
+                  AND l2.date < '%s'
+                  %s
                   GROUP BY l2.partner_id) AS sub2 ON sub1.partner_id = sub2.partner_id
-                """, (tuple(tag_ids), tuple(partner_ids), context_id.date_from, context_id.date_to, tuple(tag_ids_2), tuple(partner_ids), context_id.date_from, context_id.date_to))
+                """ % (tuple(tag_ids), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[0], tuple(tag_ids_2), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[1]))
         for record in self.env.cr.dictfetchall():
             columns = [record['vat'].replace(' ', '').upper(), record['turnover'], record['vat_amount']]
             if not self.env.context.get('no_format', False):
@@ -78,16 +84,8 @@ class ReportL10nBePartnerVatListingContext(models.TransientModel):
     _description = "A particular context for the generic tax report"
     _inherit = "account.report.context.common"
 
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='l10n_be_partner_listing_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='l10n_be_partner_listing_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
-
     def get_report_obj(self):
         return self.env['l10n.be.report.partner.vat.listing']
-
-    @api.multi
-    def get_available_company_ids_and_names(self):
-        return [[c.id, c.name] for c in self.available_company_ids]
 
     def get_columns_names(self):
         return [_('VAT Number'), _('Turn Over'), _('VAT Amount')]

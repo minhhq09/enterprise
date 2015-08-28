@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, fields
+from openerp import models, api
 from openerp.tools.translate import _
 from openerp.tools.misc import formatLang
 
@@ -32,6 +32,7 @@ class report_account_generic_tax_report(models.AbstractModel):
             periods_number=context_id.periods_number,
             periods=context_id.get_cmp_periods(),
             context_id=context_id,
+            company_ids=context_id.company_ids.ids,
         )._lines()
 
     def _compute_from_amls(self, taxes, period_number):
@@ -147,16 +148,8 @@ class AccountReportContextTax(models.TransientModel):
     _description = "A particular context for the generic tax report"
     _inherit = "account.report.context.common"
 
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
-    company_ids = fields.Many2many('res.company', relation='account_gt_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_gt_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
-
     def get_report_obj(self):
         return self.env['account.generic.tax.report']
-
-    @api.multi
-    def get_available_company_ids_and_names(self):
-        return [[c.id, c.name] for c in self.available_company_ids]
 
     def get_columns_names(self):
         columns = [_('Net') + '<br/>' + self.get_full_date_names(self.date_to, self.date_from), _('Tax')]
