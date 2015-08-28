@@ -43,7 +43,7 @@
     <record id="sale_contract_report_personal_rule" model="ir.rule">
         <field name="name">Personal Subscription Analysis</field>
         <field ref="model_sale_subscription_report" name="model_id"/>
-        <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field name="domain_force">['|',('manager_id','=',user.id),('manager_id','=',False)]</field>
         <field name="groups" eval="[(4, ref('base.group_sale_salesman'))]"/>
     </record>
 
