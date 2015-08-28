@@ -122,7 +122,8 @@ var Editor = Widget.extend({
         if(force) {
             return do_cancel();
         }
-        return this.form.can_be_discarded().then(do_cancel);
+        var message = _t("The line has been modified, your changes will be discarded. Are you sure you want to discard the changes ?");
+        return this.form.can_be_discarded(message).then(do_cancel);
 
         function do_cancel() {
             var record = self.record;
