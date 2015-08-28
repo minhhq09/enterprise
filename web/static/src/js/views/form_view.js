@@ -750,7 +750,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
     can_be_discarded: function() {
         if (!this.$el.is('.oe_form_dirty')) {
             return $.Deferred().resolve();
-         }
+        }
 
         var self = this;
         var def = $.Deferred();
