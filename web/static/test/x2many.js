@@ -15,7 +15,9 @@ Tour.register({
             title:      "wait web client",
             waitFor:    '.breadcrumb:contains(Discussions)'
         },
+
         // create test discussion
+
         {
             title:      "create new discussion",
             element:    '.o_web_client:has(.breadcrumb:contains(Discussions)) button.o_list_button_add'
@@ -30,16 +32,16 @@ Tour.register({
 
         {
             title:      "click on moderator one2many drop down",
-            waitFor:    '.oe_form_required input:propValue(test)',
-            element:    'tr:contains(Moderator) .oe_m2o_drop_down_button'
+            waitFor:    'input.o_form_required:propValue(test)',
+            element:    'tr:contains(Moderator) .o_dropdown_button'
         },
         {
             title:      "click on 'Create and Edit...'",
-            element:    '.oe_m2o_dropdown_option'
+            element:    '.o_m2o_dropdown_option'
         },
         {
             title:      "insert a name into the modal form",
-            element:    '.modal .oe_form_field.oe_form_required:first input',
+            element:    '.modal input.o_form_field.o_form_required:first',
             sampleText: 'user_test',
             onload: function () {
                 inc = new Date().getTime();
@@ -48,8 +50,8 @@ Tour.register({
         },
         {
             title:      "insert an email into the modal form",
-            waitFor:    '.modal .oe_form_field.oe_form_required input:propValueContains(user_test)',
-            element:    '.modal .oe_form_field.oe_form_required:eq(1) input',
+            waitFor:    '.modal input.o_form_field.o_form_required:propValueContains(user_test)',
+            element:    '.modal input.o_form_field.o_form_required:eq(1)',
             sampleText: 'user_test@test',
             onload: function () {
                 this.sampleText = 'user_test_' + inc + '@test';
@@ -57,16 +59,16 @@ Tour.register({
         },
         {
             title:      "save the modal content and create the new moderator",
-            waitFor:    '.modal .oe_form_field.oe_form_required input:propValueContains(@test)',
-            element:    '.modal .o_formdialog_save',
+            waitFor:    '.modal input.o_form_field.o_form_required:propValueContains(@test)',
+            element:    '.modal .modal-footer button:contains(Save)',
         },
         {
             title:      "check if the modal is saved",
-            waitFor:    'tr:contains(Moderator) .oe_form_field_many2one input:propValueContains(user_test)',
+            waitFor:    'tr:contains(Moderator) .o_form_field_many2one input:propValueContains(user_test)',
         },
         {
             title:      "check the onchange from the o2m to the m2m",
-            waitFor:    '.tab-pane:last tr:has(.oe_list_field_cell):not(:has(.oe_list_record_selector)):contains(user_test)',
+            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr td:contains(user_test)',
         },
 
         // add message a
