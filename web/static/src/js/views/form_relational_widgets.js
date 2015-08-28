@@ -411,12 +411,6 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         this.no_ed = false;
         return res;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        if (!this.get("effective_readonly") && this.$input) {
-            this.$input.css('height', height);
-        }
-    }
 });
 
 /**
@@ -1415,13 +1409,18 @@ var FieldMany2ManyTags = AbstractManyField.extend(common.CompletionFieldMixin, c
         }
         return false;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        var $input = this.$('input');
-        if (!this.get("effective_readonly") && $input) {
-            $input.css('height', height);
+    set_dimensions: function(height, width) {
+        if(this.many2one) {
+            this.many2one.$el.css('height', 'auto');
         }
-    }
+        this.$el.css({
+            width: width,
+            minHeight: height,
+        });
+        if(this.many2one) {
+            this.many2one.$el.css('height', this.$el.height());
+        }
+    },
 });
 
 /**

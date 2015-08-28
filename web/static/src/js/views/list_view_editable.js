@@ -53,12 +53,11 @@ var Editor = Widget.extend({
     },
     start: function () {
         var self = this;
-        var _super = this._super();            
-        this.form.embedded_view = this._validate_view(
-                this.delegate.edition_view(this));
-        var form_ready = this.form.appendTo(this.$el).done(
-            self.form.proxy('do_hide'));
-        return $.when(_super, form_ready);
+        this.form.embedded_view = this._validate_view(this.delegate.edition_view(this));
+        return $.when(this._super(), this.form.appendTo($('<div/>')).then(function() {
+            self.form.$el.addClass(self.$el.attr('class'));
+            self.replaceElement(self.form.$el);
+        }).done(this.form.proxy('do_hide')));
     },
     _validate_view: function (edition_view) {
         if (!edition_view) {
@@ -460,7 +459,7 @@ ListView.include(/** @lends instance.web.ListView# */{
      */
     resize_field: function (field, cell) {
         var $cell = $(cell);
-        field.set_dimensions($cell.outerHeight(), $cell.outerWidth());
+        field.set_dimensions($cell.outerHeight(), $cell.outerWidth()-3); // -3 to have a gap between fields
         field.$el.position({
             my: 'left top',
             at: 'left top',

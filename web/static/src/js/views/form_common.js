@@ -787,11 +787,10 @@ var AbstractField = FormWidget.extend(FieldInterface, {
             self.do_action(r);
         });
     },
-
-    set_dimensions: function (height, width) {
+    set_dimensions: function(height, width) {
         this.$el.css({
             width: width,
-            minHeight: height
+            height: height,
         });
     },
     commit_value: function() {

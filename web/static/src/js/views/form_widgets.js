@@ -158,13 +158,6 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
         return false;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        this.$el.css({
-            height: height,
-            width: width
-        });
-    }
 });
 
 var KanbanSelection = common.AbstractField.extend({
@@ -501,12 +494,6 @@ var FieldDate = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
         return false;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        if (!this.get("effective_readonly")) {
-            this.datewidget.$input.css('height', height);
-        }
-    }
 });
 
 var FieldDatetime = FieldDate.extend({
@@ -584,14 +571,11 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
         return false;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        if (!this.get("effective_readonly")) {
-            this.$el.css({
-                width: width,
-                minHeight: height
-            });
-        }
+    set_dimensions: function(height, width) {
+        this.$el.css({
+            width: width,
+            minHeight: height,
+        });
     },
 });
 
@@ -643,9 +627,7 @@ var FieldBooleanButton = common.AbstractField.extend({
     },
 });
 
-/**
-    The progressbar field expect a float from 0 to 100.
-*/
+// The progressbar field expect a float from 0 to 100.
 var FieldProgressBar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
     initialize_content: function() {
         if(this.progressbar) {
@@ -676,9 +658,7 @@ var FieldProgressBar = common.AbstractField.extend(common.ReinitializeFieldMixin
     },
 });
 
-/**
-    The PercentPie field expect a float from 0 to 100.
-*/
+// The PercentPie field expect a float from 0 to 100.
 var FieldPercentPie = common.AbstractField.extend({
     template: 'FieldPercentPie',
     start: function() {
@@ -808,13 +788,6 @@ var FieldSelection = common.AbstractField.extend(common.ReinitializeFieldMixin, 
         }
         return false;
     },
-    set_dimensions: function (height, width) {
-        this._super(height, width);
-        this.$el.css({
-            height: height,
-            width: width
-        });
-    }
 });
 
 /**
@@ -1248,7 +1221,7 @@ var FieldBinaryImage = FieldBinary.extend({
             self.do_warn(_t("Image"), _t("Could not display the selected image."));
         });
     },
-    set_value: function(value_){
+    set_value: function(value_) {
         var changed = value_ !== this.get_value();
         this._super.apply(this, arguments);
         // By default, on binary images read, the server returns the binary size
@@ -1264,6 +1237,12 @@ var FieldBinaryImage = FieldBinary.extend({
     },
     is_false: function() {
         return false;
+    },
+    set_dimensions: function(height, width) {
+        this.$el.css({
+            maxWidth: width,
+            minHeight: height,
+        });
     },
 });
 
@@ -1468,7 +1447,7 @@ var FieldMonetary = FieldFloat.extend({
     },
     get_digits_precision: function() {
         return this.node.attrs.digits || this.field.digits || (this.get('currency_info') && this.get('currency_info').digits);
-     },
+    },
     parse_value: function(val, def) {
         return formats.parse_value(val, {type: "float", digits: this.get_digits_precision()}, def);
     },

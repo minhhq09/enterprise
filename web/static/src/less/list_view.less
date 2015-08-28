@@ -125,36 +125,29 @@
             position: absolute;
             white-space: nowrap;
             &.oe_read_only {
-                visibility: hidden;  // Read-only fields can't be edited
+                visibility: hidden; // Read-only fields can't be edited
             }
-            .o_form_field, .badge {  // Many2Many tags
+            .o_form_field, .badge { // Many2Many tags
                 display: block;
                 float: left;
+                white-space: normal;
             }
+            background-color: @odoo-view-background-color;
+        }
+        .o_form_input_dropdown {
+            height: 100%;
         }
         .o_form_input {
-            width: 100%;
+            height: 100%;
             padding-left: 5px;
             padding-right: 5px;
-            border: 1px solid lighten(@odoo-brand-secondary, 25%);
-            &.o_form_required {
-                border: 2px solid @odoo-main-text-color;
-                &.o_form_invalid {
-                    border-color: @brand-danger;
-                }
-            }
         }
-        .o_form_field_many2manytags {
-            border: 1px solid lighten(@odoo-brand-secondary, 25%);
-            &.o_form_required {
-                border: 2px solid @odoo-main-text-color;
-            }
+        .o_form_input, .o_form_textarea, .o_form_field_many2manytags, .o_form_field_monetary {
+            border-style: solid;
         }
+
         .o_form_textarea {
             min-width: 0;
-            &.o_form_required {
-                border: 2px solid @odoo-main-text-color;
-            }
         }
         .o_with_button .o_form_input_dropdown {
             width: 1%; // Hack so that the sibling button is not overlapped
@@ -163,10 +156,8 @@
             > .o_form_input {
                 padding-right: 15px; // To prevent caret overlapping
             }
-             > .o_dropdown_button, .o_datepicker_button {
-                position: absolute;
-                right: 5px;
-                top: 20%;
+            > .o_dropdown_button, .o_datepicker_button {
+                .o-position-absolute(20%, 5px);
             }
         }
         .o_form_field > .o_external_button {
@@ -174,13 +165,11 @@
             background-color: inherit;
         }
         .o_row_handle {
-            visibility: hidden;  // Hide sequence when editing
+            visibility: hidden; // Hide sequence when editing
         }
         .o_form_field_boolean {
-            width: auto !important; // Override the width computed in JS (needed for Chrome)
+            width: auto!important; // Override the width computed in JS (needed for Chrome)
         }
-
-        // Numbers
         .o_form_field_number {
             text-align: right;
         }

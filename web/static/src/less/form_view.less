@@ -58,28 +58,20 @@
                 max-width: 100%;
                 
                 > .o_form_input_dropdown > .o_form_input {
-                    border: none;
+                    border-style: none!important;
                 }
             }
         }
 
         .o_form_field_monetary {
-            position: relative;
-            > .o_form_input {
-                padding-right: 1em;
-            }
-            > span {
-                .o-position-absolute(0, 0);
-            }
+            .o-input();
+            .o-align-items(baseline);
 
             &.o_currency_before {
-                > .o_form_input {
-                    padding-right: 0;
-                    padding-left: 1em;
-                }
-                > span {
-                    .o-position-absolute(@top: 0, @left: 0);
-                }
+                .o-flex-flow(row-reverse, nowrap);
+            }
+            > .o_form_input {
+                border-style: none!important;
             }
         }
     }
@@ -361,7 +353,7 @@
     // All form fields
     .o_form_required {
         &.o_form_input, .o_form_input, &.o_form_textarea, .o_form_textarea {
-            border-bottom-width: 2px;
+            border-width: 2px;
             border-color: @odoo-main-text-color;
         }
     }
