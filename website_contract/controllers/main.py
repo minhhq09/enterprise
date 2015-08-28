@@ -262,7 +262,7 @@ class website_contract(http.Controller):
     @http.route(['/my/template/<int:template_id>'], type='http', auth="user", website=True)
     def view_template(self, template_id, **kw):
         account_res = request.env['sale.subscription']
-        dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'template_of_subscription_contract_action')
+        dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_action_template')
         template = account_res.browse(template_id)
         values = {
             'template': template,

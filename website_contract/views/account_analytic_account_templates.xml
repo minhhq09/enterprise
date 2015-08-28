@@ -586,7 +586,7 @@
                                         </tr>
                                         <tr t-foreach="template.recurring_invoice_line_ids" t-as="invoice_line" class="line-description">
                                             <td class="line-description"><span t-field="invoice_line.name"/></td>
-                                            <td><span t-esc="invoice_line.price_unit" t-esc-options='{"widget": "monetary", "display_currency": "template.pricelist_id.currency_id"}'/></td>
+                                            <td><span t-esc="invoice_line.price_unit" t-esc-options='{"widget": "monetary", "display_currency": "template.company_id.currency_id"}'/></td>
                                         </tr>
                                         <tr>
                                             <td><h4>Options</h4></td>
@@ -595,7 +595,7 @@
                                         <tr t-foreach="template.option_invoice_line_ids" t-as="invoice_line" class="line-description">
                                             <t t-if="invoice_line.portal_access != 'invisible'">
                                                 <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                                <td><span t-esc="invoice_line.price_unit" t-esc-options='{"widget": "monetary", "display_currency": "template.pricelist_id.currency_id"}'/></td>
+                                                <td><span t-esc="invoice_line.price_unit" t-esc-options='{"widget": "monetary", "display_currency": "template.company_id.currency_id"}'/></td>
                                             </t>
                                         </tr>
                                     </tbody>
