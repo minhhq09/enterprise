@@ -2,6 +2,7 @@ odoo.define('web.test.x2many', function (require) {
 'use strict';
 
 var Tour = require('web.Tour');
+var inc;
 
 Tour.register({
     id:   'widget_x2many',
@@ -25,11 +26,53 @@ Tour.register({
             sampleText: 'test'
         },
 
+        // try to add a user with one2many form
+
+        {
+            title:      "click on moderator one2many drop down",
+            waitFor:    '.oe_form_required input:propValue(test)',
+            element:    'tr:contains(Moderator) .oe_m2o_drop_down_button'
+        },
+        {
+            title:      "click on 'Create and Edit...'",
+            element:    '.oe_m2o_dropdown_option'
+        },
+        {
+            title:      "insert a name into the modal form",
+            element:    '.modal .oe_form_field.oe_form_required:first input',
+            sampleText: 'user_test',
+            onload: function () {
+                inc = new Date().getTime();
+                this.sampleText = 'user_test_' + inc;
+            }
+        },
+        {
+            title:      "insert an email into the modal form",
+            waitFor:    '.modal .oe_form_field.oe_form_required input:propValueContains(user_test)',
+            element:    '.modal .oe_form_field.oe_form_required:eq(1) input',
+            sampleText: 'user_test@test',
+            onload: function () {
+                this.sampleText = 'user_test_' + inc + '@test';
+            }
+        },
+        {
+            title:      "save the modal content and create the new moderator",
+            waitFor:    '.modal .oe_form_field.oe_form_required input:propValueContains(@test)',
+            element:    '.modal .o_formdialog_save',
+        },
+        {
+            title:      "check if the modal is saved",
+            waitFor:    'tr:contains(Moderator) .oe_form_field_many2one input:propValueContains(user_test)',
+        },
+        {
+            title:      "check the onchange from the o2m to the m2m",
+            waitFor:    '.tab-pane:last tr:has(.oe_list_field_cell):not(:has(.oe_list_record_selector)):contains(user_test)',
+        },
+
         // add message a
 
         {
             title:      "create new message a",
-            waitFor:    'input.o_form_required:propValue(test)',
             element:    '.tab-pane:eq(0) .o_form_field_x2many_list_row_add a'
         },
         {
@@ -150,8 +193,8 @@ Tour.register({
         
         {
             title:      "save discussion",
-            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(1)',
-            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
+            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
+            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(3)',
             element:    'button.o_form_button_save'
         },
 
@@ -168,8 +211,8 @@ Tour.register({
         },
         {
             title:      "check data 3",
-            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(1)',
-            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
+            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
+            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(3)',
         },
 
         // edit
@@ -316,8 +359,8 @@ Tour.register({
         },
         {
             title:      "check data 7",
-            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(1)',
-            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[date-id]:eq(2)',
+            waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
+            waitNot:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[date-id]:eq(3)',
         },
 
         // edit
