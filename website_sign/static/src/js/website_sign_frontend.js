@@ -377,7 +377,7 @@ odoo.define('website_sign.frontend', function(require) {
             this._super(parent, options);
 
             this.on('closed', this, function() {
-                window.location.href = "https://www.odoo.com/page/electronic-signature";
+                window.location.href = "https://www.odoo.com/page/e-sign";
             });
         },
     });
