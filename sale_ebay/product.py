@@ -153,7 +153,7 @@ class product_template(models.Model):
         possible_name_values = []
         # example of a valid name value list array
         # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
-        for variant in self.product_variant_ids.filtered('ebay_use'):
+        for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
                 variant.ebay_quantity = int(variant.virtual_available)
             if not variant.ebay_quantity and\
@@ -178,6 +178,7 @@ class product_template(models.Model):
                 'Quantity': variant.ebay_quantity,
                 'StartPrice': variant.ebay_fixed_price,
                 'VariationSpecifics': {'NameValueList': variant_name_values},
+                'Delete': False if variant.ebay_use else True,
                 })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
@@ -311,6 +312,7 @@ class product_template(models.Model):
         item_dict['Item']['ItemID'] = self.ebay_id
         if not self.ebay_subtitle:
             item_dict['DeletedField'] = 'Item.SubTitle'
+
         response = self.ebay_execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
                                      else 'ReviseFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
