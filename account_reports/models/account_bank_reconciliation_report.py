@@ -176,7 +176,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
 
 
 class account_report_context_bank_reconciliation(models.TransientModel):
-    _name = 'account.report.context.bank.reconciliation'
+    _name = 'account.report.context.bank.rec'
     _description = 'A particular context for the bank reconciliation report'
     _inherit = 'account.report.context.common'
 

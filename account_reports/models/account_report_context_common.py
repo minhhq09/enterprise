@@ -91,7 +91,7 @@ class AccountReportContextCommon(models.TransientModel):
             'account.financial.html.report': 'account.financial.html.report.context',
             'account.generic.tax.report': 'account.report.context.tax',
             'account.followup.report': 'account.report.context.followup',
-            'account.bank.reconciliation.report': 'account.report.context.bank.reconciliation',
+            'account.bank.reconciliation.report': 'account.report.context.bank.rec',
             'account.general.ledger': 'account.context.general.ledger',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
             'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
