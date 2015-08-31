@@ -447,7 +447,7 @@ class product_template(models.Model):
                 sale_order.picking_ids.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
             invoice_id = sale_order.action_invoice_create()
             invoice = self.env['account.invoice'].browse(invoice_id)
-            invoice.invoice_validate()
+            invoice.signal_workflow('invoice_open')
 
     @api.one
     def sync_available_qty(self):
