@@ -94,7 +94,7 @@ class PlaidAccount(models.Model):
             for transaction in resp_json['transactions']:
                 trans = {
                     'id': transaction['_id'],
-                    'date': datetime.datetime.strptime(transaction['date'], "%Y-%m-%d"),
+                    'date': transaction['date'],
                     'description': transaction['name'],
                     'amount': -1 * transaction['amount'],
                     'end_amount': end_amount,
