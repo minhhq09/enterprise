@@ -23,8 +23,11 @@
         text-decoration: none;
     }
 
-    .o_stat_box, .o_forecast_box {
+    div.o_stat_box, div.o_forecast_box {
         height: 140px;
+
+        margin-bottom: 15px;
+        margin-top: 15px;
 
         .o_trend {
             position: absolute;
@@ -40,6 +43,12 @@
             .o_legend {
                 font-size: 10px;
             }
+        }
+
+        .o_demo_label {
+            position: absolute;
+            bottom: 0;
+            right: 0;
         }
 
         .o_graph {
@@ -156,5 +165,20 @@
 
     .o_small_caps {
         font-variant: small-caps;
+    }
+
+    .o_welcome_message {
+        .o-flex-display();
+        justify-content: center;
+
+        .o_welcome_image {
+            padding: 20px;
+        }
+        .o_welcome_content {
+            > a {
+                color: white;
+                display: inline-block;
+            }
+        }
     }
 }

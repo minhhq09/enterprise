@@ -30,6 +30,11 @@ because of the calculation and is then rendered separately.
 // Abstract widget with common methods
 var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
 
+    init: function(parent, context){
+        this._super(parent);
+        this.action_manager = parent;
+    },
+
     start: function() {
         var self = this;
         return this._super().then(function() {
@@ -40,6 +45,15 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     do_show: function(){
         this._super();
         this.update_cp();
+    },
+
+    load_action: function(view_xmlid, options) {
+        var self = this;
+        new Model("ir.model.data")
+            .call("xmlid_to_res_id", [view_xmlid])
+            .then(function(data) {
+                self.action_manager.do_action(data, options);
+            });
     },
 
     on_update_options: function(ev){
@@ -113,12 +127,11 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     events: {
         'click .on_stat_box': 'on_stat_box',
         'click .on_forecast_box': 'on_forecast_box',
+        'click .on_demo_contracts': 'on_demo_contracts',
     },
 
     init: function(parent, context){
         this._super(parent);
-
-        this.action_manager = parent;
 
         this.start_date = moment().subtract(1, 'M').format('YYYY-MM-DD');
         this.end_date = moment().format('YYYY-MM-DD');
@@ -157,7 +170,8 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                         self.stat_types,
                         stat_boxes[v].getAttribute("name"),
                         stat_boxes[v].getAttribute("code"),
-                        self.currency
+                        self.currency,
+                        self.show_demo
                     ).replace($(stat_boxes[v])));
                 });
             }
@@ -184,12 +198,14 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             self.forecast_stat_types = result['forecast_stat_types'];
             self.currency = result['currency_symbol'];
             self.currency_id = result['currency_id'];
+            self.show_demo = result['show_demo'];
         });
     },
 
     render_dashboard: function(){
 
         this.$main_dashboard = $(QWeb.render("account_contract_dashboard.dashboard", {
+            show_demo: this.show_demo,
             stat_types: _.sortBy(_.values(this.stat_types), 'prior'),
             forecast_stat_types:  _.sortBy(_.values(this.forecast_stat_types), 'prior'),
             start_date: this.start_date,
@@ -209,7 +225,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 this.stat_types,
                 stat_boxes[i].getAttribute("name"),
                 stat_boxes[i].getAttribute("code"),
-                this.currency
+                this.show_demo
             ).replace($(stat_boxes[i])));
         }
 
@@ -220,7 +236,8 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 this.forecast_stat_types,
                 forecast_boxes[i].getAttribute("name"),
                 forecast_boxes[i].getAttribute("code"),
-                this.currency
+                this.currency,
+                this.show_demo
             ).replace($(forecast_boxes[i]));
         }
 
@@ -254,18 +271,12 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'currency': this.currency,
             'currency_id': this.currency_id,
         }
-
-        new Model("ir.model.data")
-            .call("xmlid_to_res_id", ["account_contract_dashboard.action_contract_dashboard_report_detailed"])
-            .then(function(data) {
-                self.action_manager.do_action(data, options);
-            });
+        this.load_action("account_contract_dashboard.action_contract_dashboard_report_detailed", options);
     },
 
     on_forecast_box: function(ev){
         ev.preventDefault();
 
-        var self = this;
         var options = {
             'forecast_types': this.forecast_types,
             'start_date': this.start_date,
@@ -274,12 +285,13 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'contract_ids': this.contract_ids,
             'currency': this.currency,
         }
+        this.load_action("account_contract_dashboard.action_contract_dashboard_report_forecast", options);
+    },
 
-        new Model("ir.model.data")
-            .call("xmlid_to_res_id", ["account_contract_dashboard.action_contract_dashboard_report_forecast"])
-            .then(function(data) {
-                self.action_manager.do_action(data, options);
-            });
+    on_demo_contracts: function(ev) {
+        ev.preventDefault();
+
+        this.load_action("sale_contract.sale_subscription_action");
     },
 });
 
@@ -289,13 +301,11 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 var account_contract_dashboard_detailed = account_contract_dashboard_abstract.extend({
 
     events: {
-        'click .o_mrr_detailed_analysis': 'on_mrr_detailed_analysis',
+        'click .o_detailed_analysis': 'on_detailed_analysis',
     },
 
     init: function(parent, context, options){
         this._super(parent);
-
-        this.action_manager = parent;
 
         this.start_date = options['start_date'];
         this.end_date = options['end_date'];
@@ -420,23 +430,28 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    on_mrr_detailed_analysis: function(ev){
+    on_detailed_analysis: function(ev){
 
-        // This is a way to the backend ; we load another action (tree view of account.invoice.line)
+        var additional_context = {};
+        var view_xmlid = '';
+
         // To get the same numbers as in the dashboard, we need to give the filters to the backend
-        var additional_context = {
-            'search_default_asset_end_date': moment(this.end_date).toDate(),
-            'search_default_asset_start_date': moment(this.end_date).toDate(),
-            'search_default_currency_id': this.currency_id,
-            // TODO: add contract_ids as another filter
-        };
+        if (this.selected_stat === 'mrr') {
+            additional_context = {
+                'search_default_asset_end_date': moment(this.end_date).toDate(),
+                'search_default_asset_start_date': moment(this.end_date).toDate(),
+                'search_default_currency_id': this.currency_id,
+                // TODO: add contract_ids as another filter
+            };
+            view_xmlid = "account_contract_dashboard.action_invoice_line_entries_report";
+        }
+        else if (this.selected_stat === 'nrr' || this.selected_stat  === 'net_revenue') {
+            // TODO: add filters
+            additional_context = {};
+            view_xmlid = "account.action_account_invoice_report_all";
+        }
 
-        var self = this;
-        new Model("ir.model.data")
-            .call("xmlid_to_res_id", ["account_contract_dashboard.action_invoice_line_entries_report"])
-            .then(function(data) {
-                self.action_manager.do_action(data, {additional_context: additional_context});
-            });
+        this.load_action(view_xmlid, {additional_context: additional_context})
     },
 
     load_chart_mrr_growth_stat: function(div_to_display, result){
@@ -541,7 +556,6 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     init: function(parent, context, options){
         this._super(parent);
 
-        this.action_manager = parent;
         this.start_date = options['start_date'];
         this.end_date = options['end_date'];
         this.contract_templates = options['contract_templates'];
@@ -690,7 +704,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
 var account_contract_dashboard_stat_box = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
-    init: function(parent, start_date, end_date, contract_ids, currency, stat_types, box_name, stat_type) {
+    init: function(parent, start_date, end_date, contract_ids, currency, stat_types, box_name, stat_type, show_demo) {
         this._super(parent);
 
         this.start_date = start_date;
@@ -701,10 +715,23 @@ var account_contract_dashboard_stat_box = Widget.extend({
         this.stat_types = stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
+        this.show_demo = show_demo;
 
         this.chart_div_id = 'chart_div_' + this.stat_type;
         this.added_symbol = this.stat_types[this.stat_type]['add_symbol'] === 'currency' ? this.currency : this.stat_types[this.stat_type]['add_symbol'];
         this.formatNumber = utils.human_number;
+
+        this.demo_values = {
+            'mrr': 1000,
+            'net_revenue': 55000,
+            'nrr': 27000,
+            'arpu': 20,
+            'arr': 12000,
+            'ltv': 120,
+            'logo_churn': 7,
+            'revenue_churn': 5,
+            'nb_contracts': 50,
+        }
     },
 
     willStart: function() {
@@ -720,7 +747,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
     start: function() {
         var self = this;
         return this._super().then(function() {
-            load_chart('#'+self.chart_div_id, false, self.computed_graph, false);
+            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
         })
     },
 
@@ -757,7 +784,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
 var account_contract_dashboard_forecast_box = Widget.extend({
     template: 'account_contract_dashboard.forecast_stat_box_content',
 
-    init: function(parent, end_date, forecast_stat_types, box_name, stat_type, currency) {
+    init: function(parent, end_date, forecast_stat_types, box_name, stat_type, currency, show_demo) {
         this._super(parent);
         this.end_date = end_date;
 
@@ -765,10 +792,16 @@ var account_contract_dashboard_forecast_box = Widget.extend({
         this.forecast_stat_types = forecast_stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
+        this.show_demo = show_demo;
 
         this.added_symbol = this.forecast_stat_types[this.stat_type]['add_symbol'] === 'currency' ? this.currency : this.forecast_stat_types[this.stat_type]['add_symbol'];
         this.chart_div_id = 'chart_div_' + this.stat_type;
         this.formatNumber = utils.human_number;
+
+        this.demo_values = {
+            'mrr_forecast': 12000,
+            'contracts_forecast': 240,
+        };
     },
 
     willStart: function() {
@@ -783,7 +816,7 @@ var account_contract_dashboard_forecast_box = Widget.extend({
     start: function() {
         var self = this;
         return this._super().then(function() {
-            load_chart('#'+self.chart_div_id, false, self.computed_graph, false);
+            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
         })
     },
 
@@ -1042,8 +1075,73 @@ function compute_forecast_values(starting_value, projection_time, growth_type, c
     return values;
 }
 
-function load_chart(div_to_display, key_name, result, show_legend){
+function load_chart(div_to_display, key_name, result, show_legend, show_demo){
 
+    if (show_demo) {
+        // As we do not show legend for demo graphs, we do not care about the dates.
+        result = [
+          {
+            "0": "2015-08-01",
+            "1": 10
+          },
+          {
+            "0": "2015-08-02",
+            "1": 20
+          },
+          {
+            "0": "2015-08-03",
+            "1": 29
+          },
+          {
+            "0": "2015-08-04",
+            "1": 37
+          },
+          {
+            "0": "2015-08-05",
+            "1": 44
+          },
+          {
+            "0": "2015-08-06",
+            "1": 50
+          },
+          {
+            "0": "2015-08-07",
+            "1": 55
+          },
+          {
+            "0": "2015-08-08",
+            "1": 59
+          },
+          {
+            "0": "2015-08-09",
+            "1": 62
+          },
+          {
+            "0": "2015-08-10",
+            "1": 64
+          },
+          {
+            "0": "2015-08-11",
+            "1": 65
+          },
+          {
+            "0": "2015-08-12",
+            "1": 66
+          },
+          {
+            "0": "2015-08-13",
+            "1": 67
+          },
+          {
+            "0": "2015-08-14",
+            "1": 68
+          },
+          {
+            "0": "2015-08-15",
+            "1": 69
+          },
+        ]
+    }
     var data_chart = [
     {
         values: result,

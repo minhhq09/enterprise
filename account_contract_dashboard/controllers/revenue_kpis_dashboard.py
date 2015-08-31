@@ -19,6 +19,7 @@ class RevenueKPIsDashboard(http.Controller):
             'forecast_stat_types': FORECAST_STAT_TYPES,
             'currency_symbol': request.env.user.company_id.currency_id.symbol,
             'currency_id': request.env.user.company_id.currency_id.id,
+            'show_demo': request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)]) == 0,
         }
 
     @http.route('/account_contract_dashboard/get_default_values_forecast', type='json', auth='user')

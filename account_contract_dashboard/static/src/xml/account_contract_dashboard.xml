@@ -8,6 +8,18 @@
   <t t-name="account_contract_dashboard.dashboard">
     <div class="container o_account_contract_dashboard">
 
+      <div t-if="show_demo" class="o_welcome_message row box">
+          <div class="o_welcome_image">
+              <i class="fa fa-smile-o fa-5x"></i>
+          </div>
+          <div class="o_welcome_content">
+              <h2>Hi there!</h2>
+              <p class="mt0 mb0">This is a sample dashboard. Your actual dashboard</p>
+              <p class="mt0">will be activated after having invoiced your first contract.</p>
+              <a class="btn btn-primary on_demo_contracts">Your Contracts</a>
+          </div>
+      </div>
+
       <div class="row">
         <t t-foreach="stat_types" t-as="stat">
           <div class="col-sm-4">
@@ -41,7 +53,7 @@
   <t t-name="account_contract_dashboard.detailed_dashboard">
     <div class="container o_account_contract_dashboard">
 
-        <button t-if="stat_type === 'mrr'" class="btn btn-primary o_mrr_detailed_analysis">Detailed Analysis</button>
+        <button t-if="_.contains(['mrr', 'nrr', 'net_revenue'], stat_type)" class="btn btn-primary o_detailed_analysis">Detailed Analysis</button>
 
 
         <div class="row box o_graph_detailed">
@@ -219,36 +231,30 @@
 
   <!-- 4. Salesman dashboard -->
   <t t-name="account_contract_dashboard.salesman">
-    <div class="container o_account_contract_dashboard">
-      <div t-if="salesman &amp;&amp; salesman['id']">
-        <input name="salesman_id" type="hidden" t-att-value="salesman['id']"/>
-      </div>
-      <div t-if="!(salesman &amp;&amp; salesman['name'])">
+    <div class="container o_account_contract_dashboard o_salesman_dashboard">
+      <div class="row">
         <div class="box">
-          <h1>Pick a salesman and a period</h1>
+          <h1 t-if="!(salesman &amp;&amp; salesman['name'])">Pick a salesman and a period</h1>
+          <h1 t-if="salesman &amp;&amp; salesman['name']">Recurring Revenue Dashboard for <t t-esc="salesman['name']"/></h1>
         </div>
       </div>
-      <div t-if="salesman &amp;&amp; salesman['name']">
-        <h1>
-          Recurring Revenue Dashboard for <t t-esc="salesman['name']"/>
-        </h1>
-      </div>
-      <div t-if="salesman &amp;&amp; salesman['id']" class="box">
-        <div id="mrr_growth_salesman"/>
-        <div class="clearfix"/>
-      </div>
-      <div t-if="salesman &amp;&amp; salesman['id']" class="box">
-        <h2>
-          List of contract modifications
-        </h2>
-        <div id="contract_modifications"/>
-      </div>
-
-      <div t-if="salesman &amp;&amp; salesman['id']" class="box">
-        <h2>
-          List of NRR invoices
-        </h2>
-        <div id="NRR_invoices"/>
+      <div t-if="salesman &amp;&amp; salesman['id']" class="row">
+        <div class="box">
+          <div id="mrr_growth_salesman"/>
+          <div class="clearfix"/>
+        </div>
+        <div class="box">
+          <h2>
+            List of contract modifications
+          </h2>
+          <div id="contract_modifications"/>
+        </div>
+        <div class="box">
+          <h2>
+            List of NRR invoices
+          </h2>
+          <div id="NRR_invoices"/>
+        </div>
       </div>
     </div>
   </t>
@@ -366,25 +372,35 @@
 
   <div t-name="account_contract_dashboard.stat_box_content" class="box o_stat_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
     <div style="position: relative;">
-      <h2 style="color: #2693d5;"><t t-esc="widget.formatNumber(widget.value)"/><t t-esc="widget.added_symbol"/></h2>
-        <div class="o_trend">
-          <h4 t-attf-class="o_percentage #{widget.color}"><t t-esc="widget.perc"/>%</h4>
-          <span class="o_legend">30 Days Ago</span>
-        </div>
+      <h2 style="color: #2693d5;">
+        <t t-if="!widget.show_demo" t-esc="widget.formatNumber(widget.value)"/><t t-if="widget.show_demo" t-esc="widget.formatNumber(widget.demo_values[widget.stat_type])"/><t t-esc="widget.added_symbol"/>
+      </h2>
+      <div class="o_trend">
+        <h4 t-attf-class="o_percentage #{widget.color}"><t t-esc="widget.perc"/>%</h4>
+        <span class="o_legend">30 Days Ago</span>
+      </div>
     </div>
     <div class="o_graph" t-att-id="widget.chart_div_id"></div>
     <div>
         <h4 class="text-center"><t t-esc="widget.box_name"/></h4>
+    </div>
+    <div t-if="widget.show_demo">
+      <span class="label label-warning o_demo_label">Sample data</span>
     </div>
   </div>
 
   <div t-name="account_contract_dashboard.forecast_stat_box_content" class="box o_forecast_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
     <div style="position: relative;">
-      <h2 style="color: #2693d5;"><t t-esc="widget.formatNumber(widget.value)"/><t t-esc="widget.added_symbol"/></h2>
+      <h2 style="color: #2693d5;">
+        <t t-if="!widget.show_demo" t-esc="widget.formatNumber(widget.value)"/><t t-if="widget.show_demo" t-esc="widget.formatNumber(widget.demo_values[widget.stat_type])"/><t t-esc="widget.added_symbol"/>
+      </h2>
     </div>
     <div class="o_graph" t-att-id="widget.chart_div_id"></div>
     <div>
         <h4 class="text-center"><t t-esc="widget.box_name"/></h4>
+    </div>
+    <div t-if="widget.show_demo">
+      <span class="label label-warning o_demo_label">Sample data</span>
     </div>
   </div>
 
