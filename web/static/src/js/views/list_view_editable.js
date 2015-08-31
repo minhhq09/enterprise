@@ -785,7 +785,7 @@ ListView.include(/** @lends instance.web.ListView# */{
         field.focus();
         return $.when();
     },
-    keyup_TAB: function (e) {
+    keydown_TAB: function (e) { // Keydown and not keyup because this handler must be called before the browser has focused the next field
         var form = this.editor.form;
         var last_field = _(form.fields_order).chain()
             .map(function (name) { return form.fields[name]; })
@@ -799,7 +799,7 @@ ListView.include(/** @lends instance.web.ListView# */{
         }
         this.editor.form.__clicked_inside = true;
         return $.when();
-    }
+    },
 });
 
 
