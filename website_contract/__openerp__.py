@@ -1,11 +1,15 @@
 {
-    'name': 'Website Contract',
+    'name': 'Subscription Management',
     'category': 'Website',
     'sequence': 32,
-    'summary': 'Contract Management Frontend for your Clients',
+    'summary': 'Subscriptions Management Frontend for your customers',
     'version': '1.0',
     'description': """
-Allows your customers to manage their contract from a beautiful web interface. Automatic payments included!
+Use this app to manage Subscriptions:
+Features:
+    - Create & edit susbcriptions with sales orders (automatic creation on confirmation)
+    - Generate invoice and credit card payments automatically at fixed intervals
+    - Let your customer edit their subscriptions themselves (options, close their contract) with granular control
         """,
     'author': 'Odoo SA',
     'website': 'https://www.odoo.com/',
@@ -14,7 +18,8 @@ Allows your customers to manage their contract from a beautiful web interface. A
         'website_sale',
         'website_portal',
         'website_quote',
-        'website_payment'
+        'website_payment',
+        'account_contract_dashboard',
     ],
     'data': [
         'views/account_analytic_account_templates.xml',
@@ -31,4 +36,5 @@ Allows your customers to manage their contract from a beautiful web interface. A
         'data/demo.xml',
     ],
     'installable': True,
+    'application': True,
 }

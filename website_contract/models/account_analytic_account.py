@@ -263,7 +263,8 @@ class SaleSubscription(models.Model):
             contracts = self
         else:
             domain = [('recurring_next_date', '<=', current_date),
-                      ('state', 'in', ['open', 'pending'])]
+                      ('state', 'in', ['open', 'pending']),
+                      ('type', '=', 'contract')]
             contracts = self.search(domain)
         if contracts:
             cr.execute('SELECT a.company_id, array_agg(sub.id) as ids FROM sale_subscription as sub JOIN account_analytic_account as a ON sub.analytic_account_id = a.id WHERE sub.id IN %s GROUP BY a.company_id', (tuple(contracts.ids),))

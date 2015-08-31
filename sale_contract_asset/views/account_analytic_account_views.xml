@@ -5,7 +5,7 @@
       <field name="model">sale.subscription</field>
       <field name="inherit_id" ref="sale_contract.sale_subscription_view_form"/>
       <field name="arch" type="xml">
-        <xpath expr='//field[@name="pricelist_id"]' position='after'>
+        <xpath expr='//notebook/page[@id="settings"]/group' position='inside'>
             <field name="asset_category_id" context="{'default_type':'sale'}"/>
         </xpath>
       </field>

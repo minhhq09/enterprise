@@ -3,7 +3,7 @@
 {
     'name': 'Account Contract Dashboard',
     'version': '1.0',
-    'depends': ['sale_contract', 'account_asset'],  # TODO: add account_deferred_revenue when splitted
+    'depends': ['sale_contract_asset', 'account_asset'],  # TODO: add account_deferred_revenue when splitted
     'author': 'Odoo S.A.',
     'description': """
 Accounting Contract Dashboard

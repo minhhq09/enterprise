@@ -111,6 +111,9 @@ class SaleSubscription(osv.osv):
         'user_selectable': True,
         'state': 'draft',
         'date_start': time.strftime('%Y-%m-%d'),
+        'name': 'New',
+        'code': lambda s, c, u, ctx: s.pool['ir.sequence'].next_by_code(c, u, 'sale.subscription', context=ctx) or 'New',
+        'type': 'contract',
     }
 
     def set_open(self, cr, uid, ids, context=None):
@@ -151,6 +154,14 @@ class SaleSubscription(osv.osv):
             res['value']['recurring_rule_type'] = template.recurring_rule_type
             res['value']['recurring_invoice_line_ids'] = invoice_line_ids
         return res
+
+    def on_change_partner(self, cr, uid, ids, partner_id, context=None):
+        if not partner_id:
+            return {'value': {'pricelist_id': False}}
+
+        partner = self.pool['res.partner'].browse(cr, uid, partner_id, context=context)
+        pricelist_id = partner.property_product_pricelist and partner.property_product_pricelist.id or False
+        return {'value': {'pricelist_id': pricelist_id}}
 
     def _prepare_invoice_data(self, cr, uid, contract, context=None):
         context = context or {}
@@ -340,6 +351,24 @@ class SaleSubscription(osv.osv):
             "views": [[list_view_id, "tree"], [form_view_id, "form"]],
             "domain": [["id", "in", invoice_ids]],
         }
+
+    def create(self, cr, uid, vals, context=None):
+        if not vals.get('code', False):
+            vals['code'] = self.pool['ir.sequence'].next_by_code(cr, uid, 'sale.subscription', context=context) or 'New'
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = vals['code']
+        return super(SaleSubscription, self).create(cr, uid, vals, context=context)
+
+    def name_get(self, cr, uid, ids, context=None):
+        res = []
+        if not len(ids):
+            return res
+        for sub in self.browse(cr, uid, ids, context=context):
+            if sub.type == 'template':
+                res.append((sub.id, '%s - %s' % (sub.code, sub.name)))
+            else:
+                res.append((sub.id, '%s/%s - %s' % (sub.template_id.code, sub.code, sub.partner_id.name)))
+        return res
 
 
 class SaleSubscriptionLine(osv.osv):

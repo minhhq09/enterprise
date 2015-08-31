@@ -22,7 +22,7 @@
             <form string="Add Options">
                 <p>You can either create a quotation that will be discounted for the current invoicing period (the options will be added when the quotation is confirmed) or directly insert them in the subscription to invoice it on the next invoice date.</p>
                 <field name="option_lines">
-                    <tree string="Account Analytic Lines" editable="bottom">
+                    <tree string="Options" editable="bottom">
                         <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity)"/>
                         <field name="name" invisible="1"/>
                         <field name="price_unit" invisible="1"/>
@@ -57,31 +57,35 @@
             <xpath expr="//field[@name='pricelist_id']" position="after">
                 <field name="user_selectable" attrs="{'invisible': [('type','!=','template')]}"/>
                 <field name="user_closable"  attrs="{'invisible': [('type','!=','template')]}"/>
-                <field name="payment_method_id" attrs="{'invisible': [('type','!=','contract')]}"/>
                 <field name="payment_mandatory" attrs="{'invisible': [('type','!=','template')]}"/>
                 <field name="partial_invoice" attrs="{'invisible': [('type','!=','template')]}"/>
             </xpath>
+            <xpath expr="//notebook/page[@id='settings']/group" position="inside">
+                <field name="payment_method_id" attrs="{'invisible': [('type','!=','contract')]}"/>
+            </xpath>
             <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
-                <button class="oe_inline oe_stat_button" name="open_website_url"
+                <button class="oe_stat_button o_open_subscription" name="open_website_url"
                     type="object" icon="fa-globe" string="View Contract" attrs="{'invisible': [('type','!=','contract')]}"/>
-                <button class="oe_inline oe_stat_button" name="open_website_url"
+                <button class="oe_stat_button" name="open_website_url"
                 type="object" icon="fa-globe" string="View Template" attrs="{'invisible': [('type','!=','template')]}"/>
-                <button class="oe_inline oe_stat_button" name="%(action_contract_sales_all)d" type="action" icon="fa-credit-card"
+                <button class="oe_stat_button" name="%(action_contract_sales_all)d" type="action" icon="fa-credit-card"
                     string="Sales" attrs="{'invisible': [('type','!=','contract')]}"/>
             </xpath>
-            <xpath expr="//sheet" position="inside">
-                <div>
-                    <field name="option_invoice_line_ids" on_write="on_add_set_optional">
-                        <tree string="Account Analytic Lines" editable="bottom">
-                            <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"/>
-                            <field name="name"/>
-                            <field name="portal_access"/>
-                            <field name="quantity" invisible="1"/>
-                            <field name="uom_id" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)"/>
-                            <field name="price_unit"/>
-                        </tree>
-                    </field>
-                </div>
+            <xpath expr="//notebook/page[@id='lines']" position="after">
+                <page string="Option Lines" attrs="{'invisible': [('type','!=','template')]}">
+                    <div>
+                        <field name="option_invoice_line_ids" on_write="on_add_set_optional">
+                            <tree string="Account Analytic Lines" editable="bottom">
+                                <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"/>
+                                <field name="name"/>
+                                <field name="portal_access"/>
+                                <field name="quantity" invisible="1"/>
+                                <field name="uom_id" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)"/>
+                                <field name="price_unit"/>
+                            </tree>
+                        </field>
+                    </div>
+                </page>
             </xpath>
             <xpath expr="//field[@name='recurring_invoice_line_ids']" position="before">
                 <button string="=> Upsell" class="oe_link oe_right" 
@@ -101,4 +105,8 @@
             </xpath>
         </field>
     </record>
+
+    <menuitem id="menu_sale_subscription_dashboard" name="Dashboard" sequence="1" parent="sale_contract.menu_sale_subscription_root"/>
+    <menuitem action="account_contract_dashboard.action_contract_dashboard_report_main" id="menu_action_contract_dashboard_report_main" parent="menu_sale_subscription_dashboard" name="Revenue KPIs" groups="sale_contract.group_sale_contract_manager"/>
+    <menuitem action="account_contract_dashboard.action_contract_dashboard_report_salesman" id="menu_action_contract_dashboard_report_salesman" parent="menu_sale_subscription_dashboard" name="Salesman Dashboard"/>
 </odoo>

@@ -3,12 +3,15 @@
 
 
 {
-    'name': 'Subscription Management',
+    'name': 'Subscription Management (without frontend)',
     'version': '1.1',
     'category': 'Sales Management',
     'description': """
-This module allows you to manage recurring invoicing of susbcriptions.
-===================================================================================================================
+This module allows you to manage susbcriptions.
+Features:
+    - Create & edit susbcriptions
+    - Modify subscriptions with sales orders
+    - Generate invoice automatically at fixed intervals
 """,
     'author': 'Camptocamp / Odoo',
     'depends': ['sale'],
@@ -24,5 +27,4 @@ This module allows you to manage recurring invoicing of susbcriptions.
     'demo': [],
     'installable': True,
     'auto_install': False,
-    'application': True,
 }

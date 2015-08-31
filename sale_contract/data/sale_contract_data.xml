@@ -226,4 +226,26 @@
     <record id="close_reason_4" model="sale.subscription.close.reason">
         <field name="name">Other</field>
     </record>
+
+
+    <data noupdate="1">
+        <record id="seq_sale_subscription" model="ir.sequence">
+            <field name="name">Subscriptions</field>
+            <field name="code">sale.subscription</field>
+            <field name="prefix">SUB</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="action_client_sale_subscription_menu" model="ir.actions.client">
+            <field name="name">Open Subscriptions Menu</field>
+            <field name="tag">reload</field>
+            <field name="params" eval="{'menu_id': ref('sale_contract.menu_sale_subscription_root')}"/>
+        </record>
+        <record id="base.open_menu" model="ir.actions.todo">
+            <field name="action_id" ref="action_client_sale_subscription_menu"/>
+            <field name="state">open</field>
+        </record>
+
+    </data>
 </odoo>
