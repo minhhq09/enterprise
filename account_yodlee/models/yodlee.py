@@ -27,6 +27,13 @@ class YodleeAccountJournal(models.Model):
 
     @api.model
     def fetch_all_institution(self):
+        # If nothing is configured, do not try to synchronize (cron job)
+        if not self.env['ir.config_parameter'].get_param('yodlee_service_url') \
+            or not self.env['ir.config_parameter'].get_param('yodlee_id') \
+            or not self.env['ir.config_parameter'].get_param('yodlee_secret') \
+            or not self.company_id.yodlee_user_login \
+            or not self.company_id.yodlee_user_password:
+            return super(YodleeAccountJournal, self).fetch_all_institution()
         resp_json = simplejson.loads(self.fetch('/jsonsdk/SiteTraversal/getAllSites', 'yodlee', {}))
         self.env['online.institution'].search([('type', '=', 'yodlee')]).unlink()
         for institution in resp_json:
