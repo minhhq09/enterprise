@@ -434,7 +434,7 @@ class product_template(models.Model):
                 shipping_name = transaction['ShippingServiceSelected']['ShippingService']
                 self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
-                    'name': transaction['ShippingServiceSelected']['ShippingService'],
+                    'name': shipping_name,
                     'product_uom_qty': 1,
                     'price_unit': currency.compute(
                             float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
@@ -443,8 +443,11 @@ class product_template(models.Model):
                 })
             sale_order.action_button_confirm()
             if 'BuyerCheckoutMessage' in transaction:
-                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
-                sale_order.picking_ids.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
+                sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
+                sale_order.picking_ids.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
+            if 'ShippingServiceSelected' in transaction:
+                sale_order.picking_ids.message_post(
+                    _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
             invoice_id = sale_order.action_invoice_create()
             invoice = self.env['account.invoice'].browse(invoice_id)
             invoice.signal_workflow('invoice_open')
