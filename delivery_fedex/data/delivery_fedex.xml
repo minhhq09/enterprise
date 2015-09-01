@@ -18,18 +18,20 @@
 
     <record id="delivery_carrier_fedex_inter" model="delivery.carrier">
         <field name="name">Fedex International</field>
-        <field name="normal_price">0</field>
+        <field name="fixed_price">0</field>
         <field name="partner_id" ref="fedex_partner"/>
-        <field name="product_id" ref="delivery.product_product_delivery"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
         <field name="delivery_type">fedex</field>
         <field name="fedex_weight_unit">KG</field>
     </record>
 
     <record id="delivery_carrier_fedex_us" model="delivery.carrier">
         <field name="name">Fedex US</field>
-        <field name="normal_price">0</field>
+        <field name="fixed_price">0</field>
         <field name="partner_id" ref="fedex_partner"/>
-        <field name="product_id" ref="delivery.product_product_delivery"/>
+        <field name="product_sale_ok" eval="False"/>
+        <field name="product_type">service</field>
         <field name="delivery_type">fedex</field>
         <field name="fedex_weight_unit">LB</field>
         <field name="fedex_service_type">PRIORITY_OVERNIGHT</field>
