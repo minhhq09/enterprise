@@ -35,6 +35,10 @@ If you use the external timesheet application, this module alows you to synchron
     'depends': ['project_timesheet', 'hr_timesheet_sheet'],
     'data': [
         'views/templates.xml',
+        'views/timesheet_views.xml',
+    ],
+    'qweb': [
+        'static/src/xml/timesheet_app_backend_template.xml',
     ],
     'installable': True,
 }
