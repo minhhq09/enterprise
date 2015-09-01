@@ -215,13 +215,6 @@
                         display: inline;
                     }
                 }
-
-                &.is_true .o_false {
-                    display: none !important;
-                }
-                &:not(.is_true) .o_true {
-                    display: none !important;
-                }
             }
 
             // Some buttons only display text and directly use the WidgetButton template instead of StatInfo
@@ -229,6 +222,13 @@
                 .o-text-overflow(block);
                 .o_stat_info; // layout
                 white-space: normal; // text on several lines if needed
+            }
+
+            &:not(:hover) .o_stat_info > .o_hover {
+                display: none !important;
+            }
+            &:hover .o_stat_info > :not(.o_hover) {
+                display: none !important;
             }
         }
     }
