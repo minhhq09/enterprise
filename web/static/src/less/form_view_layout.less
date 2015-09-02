@@ -38,6 +38,8 @@
 }
 
 .o_form_view {
+    .o-flex-display();
+    .o-flex-flow(column, nowrap);
     height: 100%;
     overflow: auto;
 
@@ -177,6 +179,7 @@
 
     // Sheet
     .o_form_sheet_bg {
+        .o-flex(1, 0, auto);
         padding-bottom: 8px; // keep the padding-bottom in mobile to separate chatter from sheet
         @media (min-width: @screen-sm-min) {
             padding: 8px 0;
@@ -184,6 +187,16 @@
         .o_form_sheet {
             .container;
             .o-webclient-padding(@top: 24px, @bottom: 24px);
+        }
+    }
+
+    // Chatter
+    .oe_chatter {
+        .o-flex(0, 1, 100%);
+        .o-webclient-padding(@top: 16px, @bottom: 16px);
+        .container;
+        @media (max-width: @screen-xs-max) {
+            width: 100%;
         }
     }
 
@@ -428,12 +441,6 @@
     // Specific style classes
     .o_group.o_inner_group.oe_subtotal_footer {
         .oe_right;
-    }
-
-    // Chatter
-    .oe_chatter {
-        .container;
-        .o-webclient-padding(@top: 16px, @bottom: 16px);
     }
 }
 
