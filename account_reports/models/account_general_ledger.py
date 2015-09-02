@@ -35,8 +35,7 @@ class report_account_general_ledger(models.AbstractModel):
         })
         return self.with_context(new_context)._lines(line_id)
 
-    def group_by_account_id(self, line_id):
-        accounts = {}
+    def do_query(self, line_id):
         select = ',COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_currency),SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
         if self.env.context.get('cash_basis'):
             select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
@@ -47,8 +46,14 @@ class report_account_general_ledger(models.AbstractModel):
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()
         results = dict([(k[0], {'balance': k[1], 'amount_currency': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
+        return results
+
+    def group_by_account_id(self, line_id):
+        accounts = {}
+        results = self.do_query(line_id)
+        initial_bal_results = self.with_context(date_to=self.env.context['date_from_aml']).do_query(line_id)
         context = self.env.context
-        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', self.env.context['company_ids'])]
+        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         if context['date_from_aml']:
             base_domain.append(('date', '>=', context['date_from_aml']))
         if context['state'] == 'posted':
@@ -58,6 +63,7 @@ class report_account_general_ledger(models.AbstractModel):
             domain.append(('account_id', '=', account_id))
             account = self.env['account.account'].browse(account_id)
             accounts[account] = result
+            accounts[account]['initial_bal'] = initial_bal_results.get(account.id, {'balance': 0, 'amount_currency': 0, 'debit': 0, 'credit': 0})
             if not context.get('print_mode'):
                 #  fetch the 81 first amls. The report only displays the first 80 amls. We will use the 81st to know if there are more than 80 in which case a link to the list view must be displayed.
                 accounts[account]['lines'] = self.env['account.move.line'].search(domain, order='date', limit=81)
@@ -88,10 +94,6 @@ class report_account_general_ledger(models.AbstractModel):
                 'unfolded': account in context['context_id']['unfolded_accounts'],
                 'colspan': 4,
             })
-            initial_currency = amount_currency
-            initial_debit = debit
-            initial_credit = credit
-            initial_balance = balance
             if account in context['context_id']['unfolded_accounts']:
                 progress = 0
                 domain_lines = []
@@ -123,11 +125,10 @@ class report_account_general_ledger(models.AbstractModel):
                         'columns': [line.date, name, line.partner_id.name, currency, self._format(line_debit), self._format(line_credit), self._format(progress)],
                         'level': 1,
                     })
-                    if currency and initial_currency:
-                        initial_currency -= currency
-                    initial_debit -= line_debit
-                    initial_credit -= line_credit
-                initial_balance -= progress
+                initial_debit = grouped_accounts[account]['initial_bal']['debit']
+                initial_credit = grouped_accounts[account]['initial_bal']['credit']
+                initial_balance = grouped_accounts[account]['initial_bal']['balance']
+                initial_currency = '' if not account.currency_id else grouped_accounts[account]['initial_bal']['amount_currency']
                 domain_lines[:0] = [{
                     'id': account.id,
                     'type': 'initial_balance',
