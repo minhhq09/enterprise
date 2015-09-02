@@ -11,9 +11,9 @@ class purchase_order(models.Model):
     auto_sale_order_id = fields.Many2one('sale.order', string='Source Sale Order', readonly=True, copy=False)
 
     @api.multi
-    def wkf_confirm_order(self):
+    def button_confirm(self):
         """ Generate inter company sale order base on conditions."""
-        res = super(purchase_order, self).wkf_confirm_order()
+        res = super(purchase_order, self).button_confirm()
         for order in self:
             # get the company from partner then trigger action of intercompany relation
             company_rec = self.env['res.company']._find_company_from_partner(order.partner_id.id)
@@ -42,7 +42,7 @@ class purchase_order(models.Model):
             raise Warning(_("Inter company user of company %s doesn't have enough access rights") % company.name)
 
         # check pricelist currency should be same with SO/PO document
-        if self.pricelist_id.currency_id.id != company_partner.property_product_pricelist.currency_id.id:
+        if self.currency_id.id != company_partner.property_product_pricelist.currency_id.id:
             raise Warning(_('You cannot create SO from PO because sale price list currency is different than purchase price list currency.'))
 
         # create the SO and generate its lines from the PO lines
@@ -60,7 +60,7 @@ class purchase_order(models.Model):
 
         #Validation of sale order
         if company.auto_validation:
-            sale_order.sudo(intercompany_uid).signal_workflow('order_confirm')
+            sale_order.sudo(intercompany_uid).action_confirm()
 
     @api.one
     def _prepare_sale_order_data(self, name, partner, company, direct_delivery_address):
