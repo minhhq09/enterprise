@@ -20,7 +20,8 @@ class voip_configurator(models.Model):
                 'password': self.env.user[0].sip_password,
                 'external_phone': self.env.user[0].sip_external_phone,
                 'always_transfer': self.env.user[0].sip_always_transfer,
-                'ring_number': self.env.user[0].sip_ring_number}
+                'ring_number': self.env.user[0].sip_ring_number,
+                'mode': self.env['ir.config_parameter'].get_param('crm.voip.mode'),}
 
     #not deleted yet waiting to be sure about the error management.
     # @api.model
@@ -32,14 +33,6 @@ class voip_configurator(models.Model):
 
 class res_users(models.Model):
     _inherit = 'res.users'
-
-    def __init__(self, pool, cr):
-        init_res = super(res_users, self).__init__(pool, cr)
-
-        # duplicate list to avoid modifying the original reference
-        self.SELF_WRITEABLE_FIELDS = list(self.SELF_WRITEABLE_FIELDS)
-        self.SELF_WRITEABLE_FIELDS.extend(['sip_login', 'sip_password', 'sip_external_phone','sip_always_transfer','sip_ring_number'])
-        return init_res
 
     sip_login = fields.Char("SIP Login / Browser's Extension")
     sip_password = fields.Char('SIP Password')

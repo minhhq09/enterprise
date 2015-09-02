@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, tools
-from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools.translate import _
-import openerp
+from openerp.exceptions import UserError
 import time
 from datetime import datetime
 from datetime import timedelta
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 # ----------------------------------------------------------
 # Models
@@ -15,12 +14,30 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FO
 
 
 class crm_phonecall(models.Model):
-    _inherit = "crm.phonecall"
+    _name = "crm.phonecall"
 
     _order = "sequence, id"
 
+    name = fields.Char('Call Summary', required=True)
+    date = fields.Datetime('Date')
+    user_id = fields.Many2one('res.users', 'Responsible')
+    partner_id = fields.Many2one('res.partner', 'Contact')
+    company_id = fields.Many2one('res.company', 'Company')
+    description = fields.Text('Description')
+    duration = fields.Float('Duration', help="Duration in minutes and seconds.")
+    partner_phone = fields.Char('Phone')
+    partner_mobile = fields.Char('Mobile')
+    priority = fields.Selection([
+        ('0', 'Low'),
+        ('1', 'Normal'),
+        ('2', 'High')
+        ], string='priority')
+    team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+        help="Sales team to which Case belongs to.")
+    categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     in_queue = fields.Boolean('In Call Queue', default=True)
-    sequence = fields.Integer('Sequence', select=True, help="Gives the sequence order when displaying a list of Phonecalls.")
+    sequence = fields.Integer('Sequence', select=True,
+        help="Gives the sequence order when displaying a list of Phonecalls.")
     start_time = fields.Integer("Start time")
     state = fields.Selection([
         ('pending', 'Not Held'),
@@ -38,8 +55,17 @@ class crm_phonecall(models.Model):
         'priority': '1',
         'state':  'open',
         'user_id': lambda self, cr, uid, ctx: uid,
+        'team_id': lambda self, cr, uid, ctx: self.pool['crm.team']._get_default_team_id(cr, uid, context=ctx),
         'active': 1
     }
+
+    @api.onchange('partner_id')
+    def on_change_partner_id(self):
+        self.ensure_one()
+        if self.partner_id:
+            partner = self.env['res.partner'].browse(self.partner_id.id)
+            self.partner_phone = partner.phone
+            self.partner_mobile = partner.mobile
 
     def write(self, cr, uid, ids, values, context=None):
         return super(crm_phonecall, self).write(cr, uid, ids, values, context=context)
@@ -81,38 +107,59 @@ class crm_phonecall(models.Model):
             phonecall_dict[call.id] = new_id
         return phonecall_dict
 
-    def convert_opportunity(self, cr, uid, ids, opportunity_summary=False, partner_id=False, planned_revenue=0.0, probability=0.0, context=None):
-        partner = self.pool.get('res.partner')
-        opportunity = self.pool.get('crm.lead')
+    def on_change_opportunity(self, cr, uid, ids, opportunity_id, context=None):
+            values = {}
+            if opportunity_id:
+                opportunity = self.pool.get('crm.lead').browse(cr, uid, opportunity_id, context=context)
+                values = {
+                    'team_id': opportunity.team_id and opportunity.team_id.id or False,
+                    'partner_phone': opportunity.phone,
+                    'partner_mobile': opportunity.mobile,
+                    'partner_id': opportunity.partner_id and opportunity.partner_id.id or False,
+                }
+            return {'value': values}
+
+    def redirect_phonecall_view(self, cr, uid, phonecall_id, context=None):
+        model_data = self.pool.get('ir.model.data')
+        # Select the view
+        tree_view = model_data.get_object_reference(cr, uid, 'crm', 'crm_case_phone_tree_view')
+        form_view = model_data.get_object_reference(cr, uid, 'crm', 'crm_case_phone_form_view')
+        search_view = model_data.get_object_reference(cr, uid, 'crm', 'view_crm_case_phonecalls_filter')
+        value = {
+                'name': _('Phone Call'),
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'crm.phonecall',
+                'res_id' : int(phonecall_id),
+                'views': [(form_view and form_view[1] or False, 'form'), (tree_view and tree_view[1] or False, 'tree'), (False, 'calendar')],
+                'type': 'ir.actions.act_window',
+                'search_view_id': search_view and search_view[1] or False,
+        }
+        return value
+
+    def action_button_to_opportunity(self, cr, uid, ids, context=None):
+        if len(ids) != 1:
+            raise UserError(_('It\'s only possible to convert one phone call at a time.'))
+
         opportunity_dict = {}
-        default_contact = False
+        opportunity = self.pool.get('crm.lead')
         for call in self.browse(cr, uid, ids, context=context):
-            if not partner_id:
-                partner_id = call.partner_id and call.partner_id.id or False
-            if partner_id:
-                address_id = partner.address_get(cr, uid, [partner_id])['default']
-                if address_id:
-                    default_contact = partner.browse(cr, uid, address_id, context=context)
-            opportunity_id = opportunity.create(cr, uid, {
-                'name': opportunity_summary or call.name,
-                'planned_revenue': planned_revenue,
-                'probability': probability,
-                'partner_id': partner_id or False,
-                'mobile': default_contact and default_contact.mobile,
-                'team_id': call.team_id and call.team_id.id or False,
-                'description': call.description or False,
-                'priority': call.priority,
-                'type': 'opportunity',
-                'phone': call.partner_phone or False,
-                'email_from': default_contact and default_contact.email,
-            })
-            vals = {
-                'partner_id': partner_id,
-                'opportunity_id': opportunity_id,
-            }
-            self.write(cr, uid, [call.id], vals, context=context)
+            opportunity_id = opportunity.browse(cr, uid, call.opportunity_id.id)
+            if not opportunity_id:
+                opportunity_id = opportunity.create(cr, uid, {
+                    'name': call.name,
+                    'partner_id': call.partner_id.id,
+                    'mobile': call.partner_mobile or call.partner_id.mobile,
+                    'team_id': call.team_id and call.team_id.id or False,
+                    'description': call.description or False,
+                    'priority': call.priority,
+                    'type': 'opportunity',
+                    'phone': call.partner_phone or call.partner_id.phone,
+                    'email_from': call.partner_id.email,
+                })
+            call.opportunity_id = opportunity_id
             opportunity_dict[call.id] = opportunity_id
-        return opportunity_dict
+        return self.pool.get('crm.lead').redirect_opportunity_view(cr, uid, opportunity_dict[ids[0]], context)
 
     @api.multi
     def init_call(self):
@@ -319,9 +366,16 @@ class crm_phonecall_log_wizard(models.TransientModel):
     partner_phone = fields.Char(readonly=True)
     partner_image_small = fields.Char(readonly=True)
     duration = fields.Char('Duration', readonly=True)
-    reschedule_option = fields.Selection([('no_reschedule', "Don't Reschedule"), ('1d', 'Tomorrow'), ('7d', 'In 1 Week'), ('15d', 'In 15 Day'), ('2m', 'In 2 Months'), ('custom', 'Specific Date')],
-                                         'Schedule A New Call', required=True, default="no_reschedule")
-    reschedule_date = fields.Datetime('Specific Date', default=lambda *a: datetime.now() + timedelta(hours=2))
+    reschedule_option = fields.Selection([
+        ('no_reschedule', "Don't Reschedule"),
+        ('1d', 'Tomorrow'),
+        ('7d', 'In 1 Week'),
+        ('15d', 'In 15 Day'),
+        ('2m', 'In 2 Months'),
+        ('custom', 'Specific Date')
+    ], 'Schedule A New Call', required=True, default="no_reschedule")
+    reschedule_date = fields.Datetime('Specific Date',
+        default=lambda *a: datetime.now() + timedelta(hours=2))
     new_title_action = fields.Char('Next Action')
     new_date_action = fields.Date()
     show_duration = fields.Boolean()
@@ -389,7 +443,6 @@ class crm_phonecall_log_wizard(models.TransientModel):
     @api.multi
     def save_go_opportunity(self):
         phonecall = self.env['crm.phonecall'].browse(self._context.get('phonecall_id'))
-        phonecall.description = self.description
         self.modify_phonecall(phonecall)
         return {
             'type': 'ir.actions.client',
@@ -452,16 +505,25 @@ class crm_phonecall_transfer_wizard(models.TransientModel):
 
 
 class crm_phonecall_report(models.Model):
-    _inherit = "crm.phonecall.report"
+    _name = "crm.phonecall.report"
+    _description = "Phone Calls by user and team"
+    _auto = False
 
+    user_id = fields.Many2one('res.users', 'Responsible', readonly=True)
+    partner_id = fields.Many2one('res.partner', 'Contact', readonly=True)
+    company_id = fields.Many2one('res.company', 'Company', readonly=True)
+    duration = fields.Float('Duration', digits=(16, 2), group_operator="avg", readonly=True)
+    team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+        help="Sales team to which Case belongs to.")
+    categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     state = fields.Selection([
         ('pending', 'Not Held'),
         ('cancel', 'Cancelled'),
         ('open', 'To Do'),
         ('done', 'Held')
     ], 'Status', readonly=True)
-
     date = fields.Datetime('Date', readonly=True, select=True)
+    nbr = fields.Integer('# of Cases', readonly=True)
 
     def init(self, cr):
 
@@ -482,18 +544,33 @@ class crm_phonecall_report(models.Model):
                     c.company_id,
                     c.priority,
                     1 as nbr,
-                    c.date,
-                    extract('epoch' from (c.date_closed-c.date))/(3600*24) as  delay_close,
-                    extract('epoch' from (c.date_open-c.date))/(3600*24) as  delay_open
+                    c.date
                 from
                     crm_phonecall c
+                where
+                    c.state = 'done'
             )""")
 
 
 class crm_phonecall2phonecall(models.TransientModel):
-    _inherit = "crm.phonecall2phonecall"
+    _name = "crm.phonecall2phonecall"
 
+    name = fields.Char('Call Summary', required=True)
     date = fields.Datetime('Date', required=True)
+    name = fields.Char('Call summary', required=True, select=1)
+    user_id = fields.Many2one('res.users', "Assign To")
+    contact_name = fields.Char('Contact')
+    phone = fields.Char('Phone')
+    categ_id = fields.Many2one('crm.phonecall.category', 'Category')
+    team_id = fields.Many2one('crm.team', 'Sales Team')
+    partner_id = fields.Many2one('res.partner', "Partner")
+    note = fields.Text('Note')
+
+    def action_cancel(self, cr, uid, ids, context=None):
+            """
+            Closes Phonecall to Phonecall form
+            """
+            return {'type': 'ir.actions.act_window_close'}
 
     def action_schedule(self, cr, uid, ids, context=None):
         if context is None:
@@ -507,13 +584,10 @@ class crm_phonecall2phonecall(models.TransientModel):
                 this.team_id and this.team_id.id or False,
                 this.categ_id and this.categ_id.id or False,
                 context=context)
-        if self.pool.get('ir.model.data').search(cr,uid,[('module','=','crm_voip')],context=context):
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'reload_panel',
-            }
-        else:
-            return phonecall.redirect_phonecall_view(cr, uid, phocall_ids[phonecall_ids[0]], context=context)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload_panel',
+        }
 
     def default_get(self, cr, uid, fields, context=None):
         """
@@ -546,3 +620,11 @@ class crm_phonecall2phonecall(models.TransientModel):
             if 'partner_id' in fields:
                 res.update({'partner_id': phonecall.partner_id and phonecall.partner_id.id or False})
         return res
+
+
+class crm_phonecall_category(models.Model):
+    _name = "crm.phonecall.category"
+    _description = "Category of phone call"
+
+    name = fields.Char('Name', required=True, translate=True)
+    team_id = fields.Many2one('crm.team', 'Sales Team')
