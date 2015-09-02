@@ -16,7 +16,9 @@ var Sidebar = Widget.extend({
     init: function(parent, options) {
         var self = this;
         this._super(parent);
-        options = options || {};
+        this.options = _.defaults(options || {}, {
+            'editable': true
+        });
         this.sections = options.sections || [
             {name: 'print', label: _t('Print')},
             {name: 'other', label: _t('More')},
@@ -25,7 +27,6 @@ var Sidebar = Widget.extend({
             print: [],
             other: [],
         };
-        this.editable = options.editable || true;
         this.fileupload_id = _.uniqueId('oe_fileupload');
         $(window).on(this.fileupload_id, function() {
             var args = [].slice.call(arguments).slice(1);
