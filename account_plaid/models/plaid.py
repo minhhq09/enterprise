@@ -49,16 +49,18 @@ class PlaidAccountJournal(models.Model):
         resp_json['status_code'] = resp.status_code
         return simplejson.dumps(resp_json)
 
-    @api.model
+    @api.multi
     def fetch_all_institution(self):
         resp = requests.get('https://api.plaid.com/institutions')
-        self.env['online.institution'].search([('type', '=', 'plaid')]).unlink()
+        institutions = self.env['online.institution'].search([('type', '=', 'plaid')])
+        institution_name = [i.name for i in institutions]
         for institution in simplejson.loads(resp.text):
-            self.env['online.institution'].create({
-                'name': institution['name'],
-                'online_id': institution['id'],
-                'type': 'plaid',
-            })
+            if institution['name'] not in institution_name:
+                self.env['online.institution'].create({
+                    'name': institution['name'],
+                    'online_id': institution['id'],
+                    'type': 'plaid',
+                })
         return super(PlaidAccountJournal, self).fetch_all_institution()
 
 class PlaidAccount(models.Model):
@@ -68,10 +70,14 @@ class PlaidAccount(models.Model):
     token = fields.Char("Access Token")
 
     def online_sync(self):
+        action_rec = self.env['ir.model.data'].xmlid_to_object('account.open_account_journal_dashboard_kanban')
+        if action_rec:
+            action = action_rec.read([])[0]
+
         if not self.last_sync:
             self.last_sync = str(datetime.datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT))
         if self.last_sync > str(datetime.datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT)):
-            return
+            return action
         # Fetch plaid.com
         # For all transactions since the last synchronization, for this journal
         params = {
@@ -102,18 +108,19 @@ class PlaidAccount(models.Model):
                 if 'meta' in transaction and 'location' in transaction['meta']:
                     trans['location'] = transaction['meta']['location']
                 transactions.append(trans)
-            # Create the bank statement with the transactions
-            return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
+                # Create the bank statement with the transactions
+                return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
+            return action
         # Error from the user (auth, ...)
         elif resp_json['status_code'] >= 400 and resp_json['status_code'] < 500:
             subject = _("Error in synchronization")
             body = _("The synchronization of the journal %s with the plaid account %s has failed.<br>"
                      "The error message is :<br>%s") % (self.name, self.plaid_id.name, resp_json['resolve'])
             self.message_post(body=body, subject=subject)
-            return False
+            return action
         # Error with Plaid.com
         else:
             subject = _("Error with Plaid.com")
             body = _("The synchronization with Plaid.com failed. Please check the error : <br> %s") % resp_json
             self.message_post(body=body, subject=subject)
-            return False
+            return action

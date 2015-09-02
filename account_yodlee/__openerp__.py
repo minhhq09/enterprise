@@ -17,6 +17,8 @@
     'depends': ['account_online_sync'],
     'data': [
         'views/yodlee_views.xml',
+    ],
+    'init_xml': [
         'data/online.institution.csv',
     ],
     'qweb': [

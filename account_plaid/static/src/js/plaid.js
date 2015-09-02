@@ -133,12 +133,15 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
     show_account_selector: function(resp_json) {
         var self = this;
         var data = [];
+        var selected = true;
         $.each(resp_json.accounts, function(k,v){
             data = data.concat({
                 name: v.meta.name,
                 accountId: v._id,
                 containerType: v.type,
+                checked: selected,
             });
+            selected = false;
         });
         this.token = resp_json.access_token
         this.configurator_wizard.$footer.find('.js_process_next_step').hide();
@@ -159,7 +162,7 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
             var rpc = new Model('account.journal').call('save_online_account', [[this.id], {'last_sync': sync_date, 'token': this.token, 'plaid_id': account_id, 'name': account_name, 'journal_id': this.id}, this.online_institution_id])
                 .then(function(result) {
                     self.configurator_wizard.close();
-                    self.view.reload();
+                    self.do_action(result);
                 });
         }
     },

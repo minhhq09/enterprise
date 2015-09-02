@@ -118,7 +118,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
             var rpc = new Model('account.journal').call('save_online_account', [[this.id], {'last_sync': sync_date, 'site_account_id': this.siteAccountId, 'account_id': account_id, 'name': account_name, 'journal_id': this.id}, this.online_institution_id])
                 .then(function(result) {
                     self.configurator_wizard.close();
-                    self.view.reload();
+                    self.do_action(result);
                 });
         }
     },
@@ -127,14 +127,17 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         framework.unblockUI();
         var self = this;
         var data = [];
+        var selected = true;
         $.each(resp_json, function(k,v){
             // if (v.contentServiceInfo.containerInfo.containerName === 'credits' || v.contentServiceInfo.containerInfo.containerName === 'bank') {
                 $.each(v.itemData.accounts, function(index, value){
                     data = data.concat({
                         name: value.accountName,
                         accountId: value.itemAccountId,
-                        containerType: v.contentServiceInfo.containerInfo.containerName
+                        containerType: v.contentServiceInfo.containerInfo.containerName,
+                        checked: selected,
                     });
+                    selected = false;
                 });
             // }
         });

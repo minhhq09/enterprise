@@ -25,7 +25,7 @@ class YodleeAccountJournal(models.Model):
     This yodlee.account record fetchs the bank statements
     '''
 
-    @api.model
+    @api.multi
     def fetch_all_institution(self):
         # If nothing is configured, do not try to synchronize (cron job)
         if not self.env['ir.config_parameter'].get_param('yodlee_service_url') \
@@ -35,13 +35,15 @@ class YodleeAccountJournal(models.Model):
             or not self.company_id.yodlee_user_password:
             return super(YodleeAccountJournal, self).fetch_all_institution()
         resp_json = simplejson.loads(self.fetch('/jsonsdk/SiteTraversal/getAllSites', 'yodlee', {}))
-        self.env['online.institution'].search([('type', '=', 'yodlee')]).unlink()
+        institutions = self.env['online.institution'].search([('type', '=', 'yodlee')])
+        institution_name = [i.name for i in institutions]
         for institution in resp_json:
-            self.env['online.institution'].create({
-                'name': institution['defaultDisplayName'],
-                'online_id': institution['siteId'],
-                'type': 'yodlee',
-            })
+            if institution['defaultDisplayName'] not in institution_name:
+                self.env['online.institution'].create({
+                    'name': institution['defaultDisplayName'],
+                    'online_id': institution['siteId'],
+                    'type': 'yodlee',
+                })
         return super(YodleeAccountJournal, self).fetch_all_institution()
 
     @api.multi
@@ -142,6 +144,10 @@ class YodleeAccount(models.Model):
     def online_sync(self):
         if (self.institution_id.type != 'yodlee'):
             return super(YodleeAccount, self).online_sync()
+
+        action_rec = self.env['ir.model.data'].xmlid_to_object('account.open_account_journal_dashboard_kanban')
+        if action_rec:
+            action = action_rec.read([])[0]
         # Get the new transactions and returns a list of transactions (they are managed in account_online_sync)
         # 1) Refresh
         if not self.yodlee_refresh():
@@ -183,4 +189,4 @@ class YodleeAccount(models.Model):
                 })
 
             return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
-        return True
+        return action

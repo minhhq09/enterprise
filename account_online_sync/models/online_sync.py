@@ -78,6 +78,10 @@ class OnlineSyncConfig(models.TransientModel):
         })
         return rec
 
+    @api.multi
+    def fetch_all_institution(self):
+        self.journal_id.fetch_all_institution()
+
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
@@ -108,7 +112,7 @@ class AccountJournal(models.Model):
         # This method must be implemented by plaid and yodlee services
         raise "Unimplemented"
 
-    @api.model
+    @api.multi
     def fetch_all_institution(self):
         # This method must be implemented by plaid and yodlee services
         return True

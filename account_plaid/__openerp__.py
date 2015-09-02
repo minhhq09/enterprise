@@ -19,6 +19,8 @@
 
     'data': [
         'views/plaid_views.xml',
+    ],
+    'init_xml': [
         'data/online.institution.csv',
     ],
     'qweb': [

@@ -37,15 +37,20 @@
   <t t-name="OnlineSynchAccountSelector">
       <div class="form-group">
         <label class="col-sm-2">Synchronization date</label>
-        <div class="col-sm-10 js_online_sync_date">
+        <div class="col-sm-4 js_online_sync_date">
         </div>
       </div>
       <div class="form-group">
-        <label class="col-sm-2">Accounts</label>
+        <label class="col-sm-6">Choose the account to synchronize with</label>
         <t t-foreach="accounts" t-as="account">
           <div class="radio col-sm-12">
             <label>
-              <input type="radio" name="account-selection" t-att-account="account.accountId" t-att-value="account.name"><t t-esc="account.name"/></input>
+              <t t-if="account.checked">
+                <input type="radio" name="account-selection" t-att-account="account.accountId" t-att-value="account.name" checked="checked"><t t-esc="account.name"/></input>
+              </t>
+              <t t-if="!account.checked">
+                <input type="radio" name="account-selection" t-att-account="account.accountId" t-att-value="account.name"><t t-esc="account.name"/></input>
+              </t>
             </label>
           </div>
         </t>

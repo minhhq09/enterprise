@@ -33,6 +33,7 @@
                       type="object"
                                   class="btn-default"
                       attrs="{'invisible': [('online_account_id', '=', False)]}"/>
+                    <button class="btn-default oe_inline" type="object" name="fetch_all_institution" string="Update online institutions (may be slow)" groups="base.group_no_one"/>
                     <button string="Close" class="btn-default" special="cancel"/>
                 </footer>
                </form>
@@ -83,18 +84,5 @@
       <field name="args">()</field>
     </record>
 
-    <!-- Cron to get list of all institutions (take a while so don't run often) -->
-    <record id="fetch_institutions_cron" model="ir.cron">
-      <field name="name">online.sync.fetch.institution.cron</field>
-      <field name="active" eval="True"/>
-      <field name="user_id" ref="base.user_root"/>
-      <field name="interval_number">1</field>
-      <field name="interval_type">weeks</field>
-      <field name="numbercall">-1</field>
-      <field name="doall" eval="False"/>
-      <field name="model">account.journal</field>
-      <field name="function">fetch_all_institution</field>
-      <field name="args">()</field>
-    </record>
   </data>
 </openerp>

@@ -23,11 +23,11 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
         this.config_template = 'OnlineSynchLoginTemplate';
         this.config_template_buttons = [
                 { text: _t("Continue"), click: function() { self.hide_error(); self.process_next_step(); },
-                 classes: 'js_process_next_step'},
+                 classes: 'js_process_next_step btn-primary'},
                 { text: _t("Continue"), click: function() { self.hide_error(); self.process_mfa_step(); },
-                 classes: 'js_process_mfa_step hide'},
+                 classes: 'js_process_mfa_step hide btn-primary'},
                 { text: _t("Finish"), click: function() { self.hide_error(); self.complete_process(); },
-                 classes: 'js_conclude_configuration hide'},
+                 classes: 'js_conclude_configuration hide btn-primary'},
                 { text: _t("Cancel"), click: function() { self.configurator_wizard.close(); }}
             ];
         //Must be implemented by children widget
@@ -118,6 +118,7 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
               title: _t("Configure Online Account"),
               $content: QWeb.render(self.config_template, self.config_template_data),
               buttons: self.config_template_buttons,
+              size: 'medium',
             });
         this.configurator_wizard.open();
     },
@@ -158,8 +159,10 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
     },
 
     attach_datepicker: function() {
+        var current_date = new moment();
         var input = new datepicker.DateWidget(this);
         input.appendTo(this.configurator_wizard.$el.find('.js_online_sync_date'));
+        input.set_value(current_date.subtract(15, 'days'));
     },
 });
 
