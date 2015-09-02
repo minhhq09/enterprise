@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:
+-->
+
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="overide_view_report_crm_phonecall_graph">
+            <field name="name">crm.phonecall.report.graph</field>
+            <field name="model">crm.phonecall.report</field>
+            <field name="inherit_id" ref="crm.view_report_crm_phonecall_graph"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='create_date']" position="replace">
+                    <field name="date" interval="month"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="overide_view_report_crm_phonecall_filter">
+            <field name="name">crm.phonecall.report.select</field>
+            <field name="model">crm.phonecall.report</field>
+            <field name="inherit_id" ref="crm.view_report_crm_phonecall_filter"/>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='held']" position="after">
+                    <filter string="Todo" name="todo" domain="[('state','in',('pending','to_do'))]"
+                        help="Phone calls which are in to do state and Phone calls which receive no answer"/>
+                </xpath>
+                <xpath expr="//filter[@string='Not Held']" position="replace">
+                    <filter string="Not Held" domain="[('state','=','pending')]" 
+                        help="Phone calls which receive no answer"/>
+                </xpath>
+                <xpath expr="//filter[@string='Creation Month']" position="replace">
+                    <filter string="Creation Month" context="{'group_by':'date:month'}" help="Month of call"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

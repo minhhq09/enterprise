@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
+    <!-- Wizzard to link existing listing with existing product -->
+    <record model="ir.ui.view" id="ebay_link_listing_view">
+      <field name="name">ebay.link.listing.form</field>
+      <field name="model">ebay.link.listing</field>
+      <field name="arch" type="xml">
+        <form string="Link Existing Listing">
+          <group>
+            <field name="ebay_id"/>
+          </group>
+          <footer>
+            <button name="link_listing" type="object" string="Link Listing" class="oe_highlight"/>
+            or
+            <button string="Cancel" class="oe_link" special="cancel" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_ebay_link_listing">
+      <field name="name">Link Existing Listing</field>
+      <field name="res_model">ebay.link.listing</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="ebay_link_listing_view"/>
+      <field name="target">new</field>
+    </record>
+
     <record id="product_template_sale_ebay_form_view" model="ir.ui.view">
       <field name="name">product.sale.ebay.form</field>
       <field name="model">product.template</field>
@@ -8,30 +35,32 @@
       <field name="arch" type="xml">
         <data>
         <xpath expr="//header" position="inside">
-            <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': ['|', ('ebay_published', '=', False), '&amp;', ('ebay_listing_status','!=', 'Unlisted'), ('ebay_listing_status','!=', False)]}"/>
-            <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': ['|', ('ebay_published', '=', False), '&amp;', ('ebay_listing_status','!=', 'Ended'),('ebay_listing_status','!=','Completed')]}"/>
-            <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|', ('ebay_published', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
-            <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|', ('ebay_published', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+            <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), '&amp;', ('ebay_listing_status','=', 'Active')]}"/>
+            <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), '&amp;', ('ebay_listing_status','!=', 'Ended'),('ebay_listing_status','!=','Completed')]}"/>
+            <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+            <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','!=','Active')]}"/>
+              <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing Listing' attrs="{'invisible': [('ebay_listing_status','!=', 'Unlisted')]}"/>
         </xpath>
         <div name="options" position="inside">
           <div>          
-            <field name="ebay_published"/>
-            <label for="ebay_published"/>
+            <field name="ebay_use"/>
+            <label for="ebay_use"/>
           </div>
         </div>
         <notebook position="inside">
-          <page string="eBay Sale" name="ebay_sale" attrs="{'invisible':[('ebay_published','=',False)]}">
+          <page string="eBay Sale" name="ebay_sale" attrs="{'invisible':[('ebay_use','=',False)]}">
             <group>
               <field name="ebay_url" readonly="True" attrs="{'invisible': [('ebay_url','=', False)]}" widget="url"/>
               <field name="ebay_listing_status"/>
               <field name="ebay_quantity_sold" attrs="{'invisible': ['|',('product_variant_count', '>', 1),('ebay_listing_status','=', 'Unlisted')]}"/>
+              <field name="ebay_start_date" attrs="{'invisible': [('ebay_listing_status','=', 'Unlisted')]}"/>
             </group>
             
             <group colspan="2">
               <group>
                 <field name="ebay_title"/>
                 <field name="ebay_subtitle"/>
-                <field name="ebay_category_id" domain="[('leaf_category','=',True)]" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_category_id" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_store_category_id" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_store_category_2_id" attrs="{'invisible': [('ebay_store_category_id', '=', False)]}" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_item_condition_id" options="{'no_create': True, 'no_open': True}"/>
@@ -40,9 +69,9 @@
                 <field name="ebay_listing_type"/>
                 <field name="ebay_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
                 <field name="ebay_buy_it_now_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
-                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_use_variant','=',True),('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '>', 1)]}"/>
                 <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
-                <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('ebay_use_variant','=',True),('ebay_listing_type','=', 'Chinese')]}"/>
+                <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('product_variant_count','>',1),('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_listing_duration"/>
                 <field name="ebay_best_offer"/>
                 <field name="ebay_private_listing"/>
@@ -55,16 +84,13 @@
               </group>
             </group>
 
-            <group colspan="2">
-              <field name="ebay_use_variant" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
-            </group>
             <label for="product_variant_ids" 
-              attrs="{'invisible': ['|',('ebay_use_variant','=',False),'|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
+              attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
             <field name="product_variant_ids" widget="one2many_list" 
-              attrs="{'invisible': ['|',('ebay_use_variant','=',False),'|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}">
+              attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}">
               <tree string="Variants" editable="bottom" create="false" delete="false">
                 <field name="attribute_value_ids" widget="many2many_tags"/>
-                <field name="ebay_published"/>
+                <field name="ebay_use"/>
                 <field name="ebay_fixed_price"/>
                 <field name="ebay_quantity"/>
                 <field name="virtual_available"/>
@@ -72,7 +98,7 @@
               </tree>
             </field>
             <label for="ebay_description"/>
-            <field name="ebay_description" placeholder="describe the product characteristics..."/>
+            <field name="ebay_description" placeholder="Describe the product characteristics..."/>
           </page>
         </notebook>
         </data>
@@ -96,10 +122,10 @@
     </record>
 
     <record id="value_list_items" model="ir.values">
-      <field eval="'client_action_multi'" name="key2"/>
-      <field eval="'product.template'" name="model"/>
+      <field name="key2" eval="'client_action_multi'"/>
+      <field name="model" eval="'product.template'"/>
       <field name="name">List Items</field>
-      <field eval="'ir.actions.server,%d'%action_list_items" name="value"/>
+      <field name="value" eval="'ir.actions.server,%d'%action_list_items"/>
     </record>
 
     <record id="action_revise_items" model="ir.actions.server">
@@ -118,10 +144,10 @@
     </record>
 
     <record id="value_revise_items" model="ir.values">
-      <field eval="'client_action_multi'" name="key2"/>
-      <field eval="'product.template'" name="model"/>
+      <field name="key2" eval="'client_action_multi'"/>
+      <field name="model" eval="'product.template'"/>
       <field name="name">Revise Items</field>
-      <field eval="'ir.actions.server,%d'%action_revise_items" name="value"/>
+      <field name="value" eval="'ir.actions.server,%d'%action_revise_items"/>
     </record>
 
     <record id="action_relist_items" model="ir.actions.server">
@@ -140,10 +166,10 @@
     </record>
 
     <record id="value_relist_items" model="ir.values">
-      <field eval="'client_action_multi'" name="key2"/>
-      <field eval="'product.template'" name="model"/>
+      <field name="key2" eval="'client_action_multi'"/>
+      <field name="model" eval="'product.template'"/>
       <field name="name">Relist Items</field>
-      <field eval="'ir.actions.server,%d'%action_relist_items" name="value"/>
+      <field name="value" eval="'ir.actions.server,%d'%action_relist_items"/>
     </record>
 
     <record id="action_end_items_listings" model="ir.actions.server">
@@ -162,10 +188,10 @@
     </record>
 
     <record id="value_end_items_listings" model="ir.values">
-      <field eval="'client_action_multi'" name="key2"/>
-      <field eval="'product.template'" name="model"/>
+      <field name="key2" eval="'client_action_multi'"/>
+      <field name="model" eval="'product.template'"/>
       <field name="name">End Items' Listings</field>
-      <field eval="'ir.actions.server,%d'%action_end_items_listings" name="value"/>
+      <field name="value" eval="'ir.actions.server,%d'%action_end_items_listings"/>
     </record>
 
   </data>

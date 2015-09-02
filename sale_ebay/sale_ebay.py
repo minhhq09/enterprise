@@ -1,18 +1,46 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
+from datetime import datetime
 from openerp.exceptions import UserError, RedirectWarning
-from ebaysdk.exception import ConnectionError
 
 
 class ebay_category(models.Model):
     _name = 'ebay.category'
 
     name = fields.Char('Name')
-    category_id = fields.Integer('Category ID')
-    category_parent_id = fields.Integer('Category Parent ID')
+    full_name = fields.Char('Full Name', store=True, compute='_compute_full_name')
+    # The IDS are string because of the limitation of the SQL integer range
+    category_id = fields.Char('Category ID')
+    category_parent_id = fields.Char('Category Parent ID')
     leaf_category = fields.Boolean(default=False)
-    category_type = fields.Char('Category Type')
+    category_type = fields.Selection(
+        [('ebay', 'Official eBay Category'), ('store', 'Custom Store Category')],
+        string='Category Type',
+    )
+
+    @api.one
+    @api.depends('category_parent_id', 'name')
+    def _compute_full_name(self):
+        name = self.name if self.name else ''
+        parent_id = self.category_parent_id
+        category_type = self.category_type
+        while parent_id != '0':
+            parent = self.search([
+                ('category_id', '=', parent_id),
+                ('category_type', '=', category_type),
+            ])
+            parent_name = parent.name if parent.name else ''
+            name = parent_name + " > " + name
+            parent_id = parent.category_parent_id if parent.category_parent_id else '0'
+        self.full_name = name
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for cat in self:
+            result.append((cat.id, cat.full_name))
+        return result
 
     @api.model
     def _cron_sync(self):
@@ -24,18 +52,19 @@ class ebay_category(models.Model):
 
     @api.model
     def sync_categories(self):
+        self.sync_store_categories()
+
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
-        try:
-            categories = ebay_api.execute('GetCategories')
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        prod = self.env['product.template']
+        # First call to 'GetCategories' to only get the categories' version
+        categories = prod.ebay_execute('GetCategories')
         ebay_version = categories.dict()['Version']
         version = self.env['ir.config_parameter'].get_param('ebay_sandbox_category_version'
                                                             if domain == 'sand'
                                                             else 'ebay_prod_category_version')
-        version = 10
         if version != ebay_version:
+            # If the version returned by eBay is different than the one in Odoo
+            # Another call to 'GetCategories' with all the information (ReturnAll) is done
             self.env['ir.config_parameter'].set_param('ebay_sandbox_category_version'
                                                       if domain == 'sand'
                                                       else 'ebay_prod_category_version',
@@ -44,93 +73,86 @@ class ebay_category(models.Model):
                 'DetailLevel': 'ReturnAll',
                 'LevelLimit': 4,
             }
-            try:
-                categories = ebay_api.execute('GetCategories', call_data)
-            except ConnectionError as e:
-                self.env['product.template']._manage_ebay_error(e)
-            self.create_categories(ebay_api, categories.dict()['CategoryArray']['Category'])
-        self.sync_store_categories(ebay_api)
+            response = prod.ebay_execute('GetCategories', call_data)
+            categories = response.dict()['CategoryArray']['Category']
+            # Delete the eBay categories not existing anymore on eBay
+            category_ids = map(lambda c: c['CategoryID'], categories)
+            self.search([
+                ('category_id', 'not in', category_ids),
+                ('category_type', '=', 'ebay'),
+            ]).unlink()
+            self.create_categories(categories)
 
     @api.model
-    def create_categories(self, ebay_api, categories):
+    def create_categories(self, categories):
         for category in categories:
             cat = self.search([
-                ('category_id', '=', int(category['CategoryID'])),
-                ('category_type', '=', 'ebay')])
+                ('category_id', '=', category['CategoryID']),
+                ('category_type', '=', 'ebay'),
+            ])
             if not cat:
                 cat = self.create({
                     'category_id': category['CategoryID'],
-                    'category_type': 'ebay'})
-            cat.write({'name': category['CategoryName'],
-                       'category_parent_id': category['CategoryParentID']
-                       if category['CategoryID'] != category['CategoryParentID']
-                       else 0,
-                       'leaf_category': category['LeafCategory']
-                       if 'LeafCategory' in category else False})
+                    'category_type': 'ebay',
+                })
+            cat.write({
+                'name': category['CategoryName'],
+                'category_parent_id': category['CategoryParentID'] if category['CategoryID'] != category['CategoryParentID'] else '0',
+                'leaf_category': category.get('LeafCategory'),
+            })
             if category['CategoryLevel'] == '1':
                 call_data = {
                     'CategoryID': category['CategoryID'],
                     'ViewAllNodes': True,
                     'DetailLevel': 'ReturnAll',
-                    'AllFeaturesForCategory': True
+                    'AllFeaturesForCategory': True,
                 }
-                try:
-                    response = ebay_api.execute('GetCategoryFeatures', call_data)
-                except ConnectionError as e:
-                    self.env['product.template']._manage_ebay_error(e)
+                response = self.env['product.template'].ebay_execute('GetCategoryFeatures', call_data)
                 if 'ConditionValues' in response.dict()['Category']:
                     conditions = response.dict()['Category']['ConditionValues']['Condition']
-                    if isinstance(conditions, list):
-                        for condition in response.dict()['Category']['ConditionValues']['Condition']:
-                            if not self.env['ebay.item.condition'].search([('code', '=', condition['ID'])]):
-                                self.env['ebay.item.condition'].create({
-                                    'code': condition['ID'],
-                                    'name': condition['DisplayName']
-                                })
-                    else:
-                        if not self.env['ebay.item.condition'].search([('code', '=', conditions['ID'])]):
+                    if not isinstance(conditions, list):
+                        conditions = [conditions]
+                    for condition in conditions:
+                        if not self.env['ebay.item.condition'].search([('code', '=', condition['ID'])]):
                             self.env['ebay.item.condition'].create({
-                                'code': conditions['ID'],
-                                'name': conditions['DisplayName']
+                                'code': condition['ID'],
+                                'name': condition['DisplayName'],
                             })
-        categories = self.search([('leaf_category', '=', True)])
-        for category in categories:
-            name = category.name
-            parent_id = category.category_parent_id
-            while parent_id != 0:
-                parent = self.search([
-                    ('category_id', '=', parent_id),
-                    ('category_type', '=', 'ebay')])
-                name = parent.name + " > " + name
-                parent_id = parent.category_parent_id
-            category.name = name
 
     @api.model
-    def sync_store_categories(self, ebay_api):
-        try:
-            response = ebay_api.execute('GetStore')
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+    def sync_store_categories(self):
+        response = self.env['product.template'].ebay_execute('GetStore')
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
-        if isinstance(categories, list):
-            for category in categories:
-                cat = self.search([
-                    ('category_id', '=', int(category['CategoryID'])),
-                    ('category_type', '=', 'store')])
-                if not cat:
-                    cat = self.create({
-                        'category_id': category['CategoryID'],
-                        'category_type': 'store'})
-                cat.name = category['Name']
-        else:
+        if not isinstance(categories, list):
+            categories = [categories]
+        # Delete the store categories not existing anymore on eBay
+        category_ids = map(lambda c: c['CategoryID'], categories)
+        self.search([
+            ('category_id', 'not in', category_ids),
+            ('category_type', '=', 'store'),
+        ]).unlink()
+        self._create_store_categories(categories, '0')
+
+    @api.model
+    def _create_store_categories(self, categories, parent_id):
+        for category in categories:
             cat = self.search([
-                ('category_id', '=', int(categories['CategoryID'])),
-                ('category_type', '=', 'store')])
+                ('category_id', '=', category['CategoryID']),
+                ('category_type', '=', 'store'),
+            ])
             if not cat:
                 cat = self.create({
-                    'category_id': categories['CategoryID'],
-                    'category_type': 'store'})
-            cat.name = categories['Name']
+                    'category_id': category['CategoryID'],
+                    'category_type': 'store',
+                })
+            cat.write({
+                'name': category['Name'],
+                'category_parent_id': parent_id,
+            })
+            if 'ChildCategory' in category:
+                cat._create_store_categories(category['ChildCategory'], cat.category_id)
+            else:
+                cat.leaf_category = True
 
 
 class ebay_policy(models.Model):
@@ -151,38 +173,27 @@ class ebay_policy(models.Model):
 
     @api.model
     def sync_policies(self):
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        ebay_api = self.env['product.template'].get_ebay_api(domain)
-        try:
-            response = ebay_api.execute('GetUserPreferences', {'ShowSellerProfilePreferences': True})
-        except ConnectionError as e:
-            self.env['product.template']._manage_ebay_error(e)
+        response = self.env['product.template'].ebay_execute('GetUserPreferences',
+            {'ShowSellerProfilePreferences': True})
         if 'SellerProfilePreferences' not in response.dict() or \
-           response.dict()['SellerProfilePreferences']['SupportedSellerProfiles'] is None:
+           not response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']:
                 raise UserError(_('No Business Policies'))
         policies = response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']['SupportedSellerProfile']
-        if isinstance(policies, list):
-            for policy in policies:
-                record = self.search([('policy_id', '=', policy['ProfileID'])])
-                if not record:
-                    record = self.create({
-                        'policy_id': policy['ProfileID'],
-                    })
-                record.write({
-                    'name': policy['ProfileName'],
-                    'policy_type': policy['ProfileType'],
-                    'short_summary': policy['ShortSummary'] if 'ShortSummary' in policy else ' ',
-                })
-        else:
-            record = self.search([('policy_id', '=', policies['ProfileID'])])
+        if not isinstance(policies, list):
+            policies = [policies]
+        # Delete the policies not existing anymore on eBay
+        policy_ids = map(lambda p: p['ProfileID'], policies)
+        self.search([('policy_id', 'not in', policy_ids)]).unlink()
+        for policy in policies:
+            record = self.search([('policy_id', '=', policy['ProfileID'])])
             if not record:
-                self.create({
-                    'policy_id': policies['ProfileID'],
+                record = self.create({
+                    'policy_id': policy['ProfileID'],
                 })
             record.write({
-                'name': policies['ProfileName'],
-                'policy_type': policies['ProfileType'],
-                'short_summary': policies['ShortSummary'] if 'ShortSummary' in policies else ' ',
+                'name': policy['ProfileName'],
+                'policy_type': policy['ProfileType'],
+                'short_summary': policy['ShortSummary'] if 'ShortSummary' in policy else ' ',
             })
 
 
@@ -191,3 +202,104 @@ class ebay_item_condition(models.Model):
 
     name = fields.Char('Name')
     code = fields.Integer('Code')
+
+
+class ebay_link_listing(models.TransientModel):
+    _name = 'ebay.link.listing'
+
+    ebay_id = fields.Char('eBay Listing ID')
+
+    @api.one
+    def link_listing(self):
+        response = self.env['product.template'].ebay_execute('GetItem', {
+            'ItemID': self.ebay_id,
+            'DetailLevel': 'ReturnAll'
+        })
+        item = response.dict()['Item']
+        currency = self.env['res.currency'].search([
+            ('name', '=', item['StartPrice']['_currencyID'])])
+        product = self.env['product.template'].browse(self._context.get('active_id'))
+        product.write({
+            'ebay_id': item['ItemID'],
+            'ebay_url': item['ListingDetails']['ViewItemURL'],
+            'ebay_listing_status': item['SellingStatus']['ListingStatus'],
+            'ebay_title': item['Title'],
+            'ebay_subtitle': item['SubTitle'] if 'SubTitle' in item else False,
+            'ebay_description': item['Description'],
+            'ebay_item_condition_id': self.env['ebay.item.condition'].search([
+                ('code', '=', item['ConditionID'])
+            ]).id if 'ConditionID' in item else False,
+            'ebay_category_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['PrimaryCategory']['CategoryID']),
+                ('category_type', '=', 'ebay')
+            ]).id,
+            'ebay_store_category_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['Storefront']['StoreCategoryID']),
+                ('category_type', '=', 'store')
+            ]).id,
+            'ebay_store_category_2_id': self.env['ebay.category'].search([
+                ('category_id', '=', item['Storefront']['StoreCategory2ID']),
+                ('category_type', '=', 'store')
+            ]).id,
+            'ebay_price': currency.compute(
+                float(item['StartPrice']['value']),
+                self.env.user.company_id.currency_id
+            ),
+            'ebay_buy_it_now_price': currency.compute(
+                float(item['BuyItNowPrice']['value']),
+                self.env.user.company_id.currency_id
+            ),
+            'ebay_listing_type': item['ListingType'],
+            'ebay_listing_duration': item['ListingDuration'],
+            'ebay_seller_payment_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'PAYMENT'),
+                ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
+            ]).id,
+            'ebay_seller_return_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'RETURN_POLICY'),
+                ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
+            ]).id,
+            'ebay_seller_shipping_policy_id': self.env['ebay.policy'].search([
+                ('policy_type', '=', 'SHIPPING'),
+                ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
+            ]).id,
+            'ebay_best_offer': True if 'BestOfferDetails' in item
+                and item['BestOfferDetails']['BestOfferEnabled'] == 'true' else False,
+            'ebay_private_listing': True if item['PrivateListing'] == 'true' else False,
+            'ebay_start_date': datetime.strptime(
+                item['ListingDetails']['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S'),
+        })
+
+        if 'Variations' in item:
+            variations = item['Variations']['Variation']
+            if not isinstance(variations, list):
+                variations = [variations]
+            for variation in variations:
+                specs = variation['VariationSpecifics']['NameValueList']
+                attrs = []
+                if not isinstance(specs, list):
+                    specs = [specs]
+                for spec in specs:
+                    attr = self.env['product.attribute.value'].search([('name', '=', spec['Value'])])
+                    attrs.append(('attribute_value_ids', '=', attr.id))
+                variant = self.env['product.product'].search(attrs).filtered(
+                    lambda l: l.product_tmpl_id.id == product.id)
+                variant.write({
+                    'ebay_use': True,
+                    'ebay_quantity_sold': variation['SellingStatus']['QuantitySold'],
+                    'ebay_fixed_price': currency.compute(
+                        float(variation['StartPrice']['value']),
+                        self.env.user.company_id.currency_id
+                    ),
+                    'ebay_quantity': int(variation['Quantity']) - int(variation['SellingStatus']['QuantitySold']),
+                })
+            product._set_variant_url(self.ebay_id)
+        elif product.product_variant_count == 1:
+            product.product_variant_ids.write({
+                'ebay_quantity_sold': item['SellingStatus']['QuantitySold'],
+                'ebay_fixed_price': currency.compute(
+                    float(item['StartPrice']['value']),
+                    self.env.user.company_id.currency_id
+                ),
+                'ebay_quantity': int(item['Quantity']) - int(item['SellingStatus']['QuantitySold']),
+            })

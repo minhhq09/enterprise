@@ -30,7 +30,7 @@ Key Features
   'version': '1.0',
 
   # any module necessary for this one to work correctly
-  'depends': ['base', 'sale', 'stock', 'document'],
+  'depends': ['base', 'sale', 'stock', 'delivery', 'document'],
   'external_dependencies': {'python': ['ebaysdk']},
 
   # always loaded
@@ -40,6 +40,7 @@ Key Features
       'views/product.xml',
       'views/res_config.xml',
       'views/res_partner.xml',
+      'views/ebay_category.xml',
       'sale_ebay_cron.xml',
       'ebay_data.xml',
   ],
