@@ -23,6 +23,7 @@
 
     # always loaded
     'data': [
+        'security/ir.model.access.csv',
         'views/crm_phonecall_to_phonecall_view.xml',
         'views/crm_voip.xml',
         'views/phonecall.xml',
