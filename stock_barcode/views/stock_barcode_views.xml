@@ -21,6 +21,7 @@
         <field name="name">Picking</field>
         <field name="res_model">stock.picking</field>
         <field name="view_mode">form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('stock_picking_view_form_inherit_stock_barcode')})]"/>
     </record>
 
     <record id="stock_picking_action_kanban" model="ir.actions.act_window">
@@ -28,12 +29,17 @@
         <field name="res_model">stock.picking</field>
         <field name="domain">[('state', 'in', ('partially_available', 'assigned'))]</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('stock.stock_picking_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('stock.vpicktree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('stock_picking_view_form_inherit_stock_barcode')})]"/>
     </record>
 
     <record id="stock_inventory_action_new_inventory" model="ir.actions.act_window">
         <field name="name">New Inventory</field>
         <field name="res_model">stock.inventory</field>
         <field name="view_mode">form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('stock_inventory_view_form_inherit_stock_barcode')})]"/>
         <!-- TOCHECK: wouldn't default_name be better in the model ?
         And if not, is this the correct way to get localized date ? -->
         <field name="context" eval="{

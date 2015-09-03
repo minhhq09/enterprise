@@ -17,15 +17,7 @@ class StockInventory(models.Model):
 
     @api.model
     def open_new_inventory(self):
-        action = {
-            'type': 'ir.actions.act_window',
-            'res_model': 'stock.inventory',
-            'views': [[False, 'form']],
-            'context': {
-                'default_filter': 'partial',
-                'default_name': fields.Date.context_today(self),
-            }
-        }
+        action = self.env.ref('stock_barcode.stock_inventory_action_new_inventory').read()[0]
         if self.env['stock.inventory']._default_stock_location():
             new_inv = self.env['stock.inventory'].create({
                 'filter': 'partial',

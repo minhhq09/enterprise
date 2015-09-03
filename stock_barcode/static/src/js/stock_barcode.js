@@ -23,16 +23,6 @@ var MainMenu = Widget.extend(BarcodeHandlerMixin, {
         this.stop_listening();
     },
 
-    do_action: function(action) {
-        if (typeof action === 'object') {
-            action.flags = {form: {
-                initial_mode: 'edit',
-                disable_autofocus: true,
-            }};
-        }
-        this._super(action);
-    },
-
     on_barcode_scanned: function(barcode) {
         var self = this;
         Session.rpc('/stock_barcode/scan_from_main_menu', {
