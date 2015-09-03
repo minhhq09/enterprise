@@ -136,7 +136,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
     is_syntax_valid: function() {
         if (!this.get("effective_readonly")) {
             try {
-                this.parse_value(this.$el.val(), '');
+                this.parse_value(this.$input.val(), '');
             } catch(e) {
                 return false;
             }
