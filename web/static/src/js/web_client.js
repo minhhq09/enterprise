@@ -295,7 +295,7 @@ var WebClient = Widget.extend({
                 if (!state.action && state.menu_id) {
                     var action_id = self.menu.menu_id_to_action_id(state.menu_id);
                     self.do_action(action_id, {clear_breadcrumbs: true}).then(update_menu);
-                } else if (state.action) {
+                } else if (state.action || (state.model && (state.view_type || state.id))) {
                     state._push_me = false;  // no need to push state back...
                     self.action_manager.do_load_state(state, !!this._current_state).then(update_menu);
                 } else {
