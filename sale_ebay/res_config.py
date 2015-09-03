@@ -28,6 +28,9 @@ class ebay_configuration(models.TransientModel):
     ebay_location = fields.Char(string="Location Where The Products Are Stored")
     ebay_out_of_stock = fields.Boolean("Use Out Of Stock Option", default=False)
     ebay_sales_team = fields.Many2one("crm.team", string="Sales Team")
+    ebay_shipping_account = fields.Many2one("account.account",
+                                            string='Default Account For Shipping Service',
+                                            domain=[('type', 'not in', ['view', 'closed'])])
 
     @api.multi
     def set_ebay(self):
@@ -35,6 +38,8 @@ class ebay_configuration(models.TransientModel):
         self.env['ir.config_parameter'].set_param('ebay_dev_id', ebay_dev_id)
         ebay_sales_team = self[0].ebay_sales_team or self.env['crm.team'].search([])[0]
         self.env['ir.config_parameter'].set_param('ebay_sales_team', ebay_sales_team.id)
+        ebay_shipping_account = self[0].ebay_shipping_account or self.env['account.account'].search([])[0]
+        self.env['ir.config_parameter'].set_param('ebay_shipping_account', ebay_shipping_account.id)
         sandbox_token = self[0].ebay_sandbox_token or ''
         self.env['ir.config_parameter'].set_param('ebay_sandbox_token', sandbox_token)
         sandbox_app_id = self[0].ebay_sandbox_app_id or ''
@@ -120,6 +125,8 @@ class ebay_configuration(models.TransientModel):
         ebay_out_of_stock = params.get_param('ebay_out_of_stock', default=False)
         ebay_sales_team = int(params.get_param('ebay_sales_team',
                               default=self.env['crm.team'].search([])[0]))
+        ebay_shipping_account = int(params.get_param('ebay_shipping_account',
+            default=self.env['ir.property'].get('property_account_income_categ', 'product.category')))
         return {'ebay_dev_id': ebay_dev_id,
                 'ebay_sandbox_token': ebay_sandbox_token,
                 'ebay_sandbox_app_id': ebay_sandbox_app_id,
@@ -135,6 +142,7 @@ class ebay_configuration(models.TransientModel):
                 'ebay_location': ebay_location,
                 'ebay_out_of_stock': ebay_out_of_stock,
                 'ebay_sales_team': ebay_sales_team,
+                'ebay_shipping_account': ebay_shipping_account,
                 }
 
     @api.model

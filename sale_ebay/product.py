@@ -431,6 +431,7 @@ class product_template(models.Model):
                     float(transaction['TransactionPrice']['value']),
                     self.env.user.company_id.currency_id),
             })
+            # create a sale order line if a shipping service is selected
             if 'ShippingServiceSelected' in transaction:
                 company_id = self.env.user.company_id
                 ir_values = self.env['ir.values']
@@ -454,6 +455,14 @@ class product_template(models.Model):
                     _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
             invoice_id = sale_order.action_invoice_create()
             invoice = self.env['account.invoice'].browse(invoice_id)
+            # set the default account for the shipping
+            if 'ShippingServiceSelected' in transaction:
+                account = self.env['account.account'].browse(
+                    int(self.env['ir.config_parameter'].get_param('ebay_shipping_account')))
+                lines_ids = map(lambda i: i.id, invoice.invoice_line)
+                line = self.env['account.invoice.line'].search([
+                    ('id', 'in', lines_ids), ('name', '=', shipping_name)])
+                line.account_id = account
             invoice.signal_workflow('invoice_open')
 
     @api.one
