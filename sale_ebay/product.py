@@ -401,12 +401,29 @@ class product_template(models.Model):
                     ('country_id', '=', partner_data['country_id'])
                 ]).id
             partner.write(partner_data)
-
-            if self.product_variant_count > 1 and 'Variation' in transaction:
-                variant = self.product_variant_ids.filtered(lambda l:
-                    l.ebay_use and
-                    l.ebay_variant_url.split("vti", 1)[1] ==
-                    transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+            if self.product_variant_count > 1:
+                if 'Variation' in transaction:
+                    variant = self.product_variant_ids.filtered(
+                        lambda l:
+                        l.ebay_use and
+                        l.ebay_variant_url.split("vti", 1)[1] ==
+                        transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+                # If multiple variants but only one listed on eBay as Item Specific
+                else:
+                    call_data = {'ItemID': self.ebay_id, 'IncludeItemSpecifics': True}
+                    resp = self.ebay_execute('GetItem', call_data)
+                    name_value_list = resp.dict()['Item']['ItemSpecifics']['NameValueList']
+                    if not isinstance(name_value_list, list):
+                        name_value_list = [name_value_list]
+                    # get only the item specific in the value list
+                    specs = filter(lambda n: n['Source'] == 'ItemSpecific', name_value_list)
+                    attrs = []
+                    # get the attribute.value ids in order to get the variant listed on ebay
+                    for spec in specs:
+                        attr = self.env['product.attribute.value'].search([('name', '=', spec['Value'])])
+                        attrs.append(('attribute_value_ids', '=', attr.id))
+                    variant = self.env['product.product'].search(attrs).filtered(
+                        lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
             if not self.ebay_sync_stock:
