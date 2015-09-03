@@ -165,7 +165,9 @@ class product_template(models.Model):
                 raise UserError(_('All the quantities must be greater than 0 or you need to enable the Out Of Stock option.'))
             variant_name_values = []
             for spec in variant.attribute_value_ids:
-                if len(spec.attribute_id.value_ids) > 1:
+                attr_line = self.attribute_line_ids.filtered(
+                    lambda l: l.attribute_id.id == spec.attribute_id.id)
+                if len(attr_line.value_ids) > 1:
                     if not filter(
                         lambda x:
                         x['Name'] == self._ebay_encode(spec.attribute_id.name),
