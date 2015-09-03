@@ -756,11 +756,11 @@ var ActionManager = Widget.extend({
     },
     ir_actions_server: function (action, options) {
         var self = this;
-        this.rpc('/web/action/run', {
+        return this.rpc('/web/action/run', {
             action_id: action.id,
             context: action.context || {}
-        }).done(function (action) {
-            self.do_action(action, options);
+        }).then(function (action) {
+            return self.do_action(action, options);
         });
     },
     ir_actions_report_xml: function(action, options) {
