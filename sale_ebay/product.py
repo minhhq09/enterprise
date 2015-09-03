@@ -443,7 +443,7 @@ class product_template(models.Model):
                     'price_unit': currency.compute(
                             float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
                             company_id.currency_id),
-                    'tax_id': [(6, 0, taxes_id)],
+                    'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
                 })
             sale_order.action_button_confirm()
             if 'BuyerCheckoutMessage' in transaction:
