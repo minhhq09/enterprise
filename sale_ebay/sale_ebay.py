@@ -117,16 +117,16 @@ class ebay_category(models.Model):
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if not isinstance(categories, list):
             categories = [categories]
+        new_categories = []
+        self._create_store_categories(categories, '0', new_categories)
         # Delete the store categories not existing anymore on eBay
-        category_ids = map(lambda c: c['CategoryID'], categories)
         self.search([
-            ('category_id', 'not in', category_ids),
+            ('category_id', 'not in', new_categories),
             ('category_type', '=', 'store'),
         ]).unlink()
-        self._create_store_categories(categories, '0')
 
     @api.model
-    def _create_store_categories(self, categories, parent_id):
+    def _create_store_categories(self, categories, parent_id, new_categories):
         for category in categories:
             cat = self.search([
                 ('category_id', '=', category['CategoryID']),
@@ -141,8 +141,9 @@ class ebay_category(models.Model):
                 'name': category['Name'],
                 'category_parent_id': parent_id,
             })
+            new_categories.append(category['CategoryID'])
             if 'ChildCategory' in category:
-                cat._create_store_categories(category['ChildCategory'], cat.category_id)
+                cat._create_store_categories(category['ChildCategory'], cat.category_id, new_categories)
             else:
                 cat.leaf_category = True
 
