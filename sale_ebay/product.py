@@ -116,6 +116,8 @@ class product_template(models.Model):
                     'Name': self._ebay_encode(spec.attribute_id.name),
                     'Value': self._ebay_encode(spec.name),
                 })
+            if self.ebay_sync_stock:
+                variant.ebay_quantity = max(int(variant.virtual_available), 0)
             item['Item']['Quantity'] = variant.ebay_quantity
             item['Item']['StartPrice'] = variant.ebay_fixed_price
         # If one attribute has only one value, we don't create variant
@@ -155,7 +157,7 @@ class product_template(models.Model):
         # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
         for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
-                variant.ebay_quantity = int(variant.virtual_available)
+                variant.ebay_quantity = max(int(variant.virtual_available), 0)
             if not variant.ebay_quantity and\
                not self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                 raise UserError(_('All the quantities must be greater than 0 or you need to enable the Out Of Stock option.'))
