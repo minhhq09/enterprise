@@ -439,7 +439,8 @@ class product_template(models.Model):
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
-                'client_order_ref': transaction['OrderLineItemID']
+                'client_order_ref': transaction['OrderLineItemID'],
+                'origin': 'eBay' + transaction['TransactionID'],
             })
             if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
                 sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
