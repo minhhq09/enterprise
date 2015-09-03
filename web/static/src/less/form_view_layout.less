@@ -38,10 +38,11 @@
 }
 
 .o_form_view {
-    .o-flex-display();
-    .o-flex-flow(column, nowrap);
-    height: 100%;
-    overflow: auto;
+    @media (min-width: @screen-sm-min) {
+        .o-flex-display();
+        .o-flex-flow(column, nowrap);
+        min-height: 100%;
+    }
 
     .oe_inline {
         width: auto!important;
@@ -126,6 +127,7 @@
 
     // Header containing status/workflow buttons
     .o_form_statusbar {
+        .o-flex(0, 0, auto);
         .o-flex-display();
         .o-justify-content(space-between);
 
@@ -195,9 +197,6 @@
         .o-flex(0, 1, 100%);
         .o-webclient-padding(@top: 16px, @bottom: 16px);
         .container;
-        @media (max-width: @screen-xs-max) {
-            width: 100%;
-        }
     }
 
     // Button box
