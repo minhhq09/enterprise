@@ -275,11 +275,12 @@ class product_template(models.Model):
     @api.one
     def _update_ebay_data(self, response):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        response_url = self.ebay_execute('GetItem', {'ItemID': response['ItemID']})
+        item = self.ebay_execute('GetItem', {'ItemID': response['ItemID']}).dict()
+        qty = int(item['Item']['Quantity']) - int(item['Item']['SellingStatus']['QuantitySold'])
         self.write({
-            'ebay_listing_status': 'Active',
+            'ebay_listing_status': 'Active' if qty > 0 else 'Out Of Stock',
             'ebay_id': response['ItemID'],
-            'ebay_url': response_url.dict()['Item']['ListingDetails']['ViewItemURL'],
+            'ebay_url': item['Item']['ListingDetails']['ViewItemURL'],
             'ebay_start_date': datetime.strptime(response['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         })
 
