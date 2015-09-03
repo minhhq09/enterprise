@@ -376,28 +376,30 @@ class product_template(models.Model):
             partner = self.env['res.partner'].search([
                 ('email', '=', transaction['Buyer']['Email'])])
             if not partner:
-                partner_data = {
-                    'name': transaction['Buyer']['UserID'],
-                    'ebay_id': transaction['Buyer']['UserID'],
-                    'email': transaction['Buyer']['Email'],
-                    'ref': 'eBay',
-                }
-                if 'BuyerInfo' in transaction['Buyer'] and\
-                   'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
-                    infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
-                    partner_data['name'] = infos.get('Name')
-                    partner_data['street'] = infos.get('Street1')
-                    partner_data['city'] = infos.get('CityName')
-                    partner_data['zip'] = infos.get('PostalCode')
-                    partner_data['phone'] = infos.get('Phone')
-                    partner_data['country_id'] = self.env['res.country'].search([
-                        ('code', '=', infos['Country'])
-                    ]).id
-                    partner_data['state_id'] = self.env['res.country.state'].search([
-                        ('name', '=', infos.get('StateOrProvince')),
-                        ('country_id', '=', partner_data['country_id'])
-                    ]).id
-                partner = self.env['res.partner'].create(partner_data)
+                partner = self.env['res.partner'].create({'name': transaction['Buyer']['UserID']})
+            partner_data = {
+                'name': transaction['Buyer']['UserID'],
+                'ebay_id': transaction['Buyer']['UserID'],
+                'email': transaction['Buyer']['Email'],
+                'ref': 'eBay',
+            }
+            if 'BuyerInfo' in transaction['Buyer'] and\
+               'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
+                infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
+                partner_data['name'] = infos.get('Name')
+                partner_data['street'] = infos.get('Street1')
+                partner_data['city'] = infos.get('CityName')
+                partner_data['zip'] = infos.get('PostalCode')
+                partner_data['phone'] = infos.get('Phone')
+                partner_data['country_id'] = self.env['res.country'].search([
+                    ('code', '=', infos['Country'])
+                ]).id
+                partner_data['state_id'] = self.env['res.country.state'].search([
+                    ('name', '=', infos.get('StateOrProvince')),
+                    ('country_id', '=', partner_data['country_id'])
+                ]).id
+            partner.write(partner_data)
+
             if self.product_variant_count > 1 and 'Variation' in transaction:
                 variant = self.product_variant_ids.filtered(lambda l:
                     l.ebay_use and
