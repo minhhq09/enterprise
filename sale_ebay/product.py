@@ -103,6 +103,8 @@ class product_template(models.Model):
         picture_urls = self._create_picture_url()
         if picture_urls:
             item['Item']['PictureDetails'] = {'PictureURL': picture_urls}
+            if self.env['ir.config_parameter'].get_param('ebay_gallery_plus'):
+                item['Item']['PictureDetails']['GalleryType'] = 'Plus'
         if self.ebay_listing_type == 'Chinese' and self.ebay_buy_it_now_price:
             item['Item']['BuyItNowPrice'] = self.ebay_buy_it_now_price
         NameValueList = []

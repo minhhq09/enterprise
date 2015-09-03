@@ -31,6 +31,7 @@ class ebay_configuration(models.TransientModel):
     ebay_shipping_account = fields.Many2one("account.account",
                                             string='Default Account For Shipping Service',
                                             domain=[('type', 'not in', ['view', 'closed'])])
+    ebay_gallery_plus = fields.Boolean("Use Gallery Plus Option", default=False)
 
     @api.multi
     def set_ebay(self):
@@ -66,6 +67,8 @@ class ebay_configuration(models.TransientModel):
         self.env['ir.config_parameter'].set_param('ebay_zip_code', zip_code)
         location = self[0].ebay_location or ''
         self.env['ir.config_parameter'].set_param('ebay_location', location)
+        gallery_plus = self[0].ebay_gallery_plus or ''
+        self.env['ir.config_parameter'].set_param('ebay_gallery_plus', gallery_plus)
         out_of_stock = self[0].ebay_out_of_stock or ''
         if out_of_stock != self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
             self.env['ir.config_parameter'].set_param('ebay_out_of_stock', out_of_stock)
@@ -127,6 +130,7 @@ class ebay_configuration(models.TransientModel):
                               default=self.env['crm.team'].search([])[0]))
         ebay_shipping_account = int(params.get_param('ebay_shipping_account',
             default=self.env['ir.property'].get('property_account_income_categ', 'product.category')))
+        ebay_gallery_plus = params.get_param('ebay_gallery_plus')
         return {'ebay_dev_id': ebay_dev_id,
                 'ebay_sandbox_token': ebay_sandbox_token,
                 'ebay_sandbox_app_id': ebay_sandbox_app_id,
@@ -143,6 +147,7 @@ class ebay_configuration(models.TransientModel):
                 'ebay_out_of_stock': ebay_out_of_stock,
                 'ebay_sales_team': ebay_sales_team,
                 'ebay_shipping_account': ebay_shipping_account,
+                'ebay_gallery_plus': ebay_gallery_plus,
                 }
 
     @api.model
