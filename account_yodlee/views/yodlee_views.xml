@@ -24,14 +24,14 @@
       <field name="inherit_id" ref="account.view_account_config_settings"/>
       <field name="arch" type="xml">
       <div name="bank_statement_import_options" position="after">
-          <label for="id" string="Yodlee Configuration"/>
+          <label for="id" string="Yodlee Configuration" id="yodlee_label_config"/>
           <div name="yodlee_config">
         	  <div>
               <label for="yodlee_id"/>
               <field name="yodlee_id" class="oe_inline"/>
               <br/>
               <label for="yodlee_secret"/>
-              <field name="yodlee_secret" class="oe_inline"/>
+              <field name="yodlee_secret" class="oe_inline" password="1"/>
               <br/>
               <label for="yodlee_service_url"/>
               <field name="yodlee_service_url" class="oe_inline"/>
@@ -42,7 +42,7 @@
             	    <field name="yodlee_user_login" class="oe_inline"/>
             	    <br/>
             	    <label for="yodlee_user_password"/>
-                  <field name="yodlee_user_password" class="oe_inline"/>
+                  <field name="yodlee_user_password" class="oe_inline" password="1"/>
 
                 </page>
                 <page string="Create New User">
@@ -50,7 +50,7 @@
                   <field name="yodlee_new_user_login" class="oe_inline"/>
                   <br/>
                   <label for="yodlee_new_user_password"/>
-                  <field name="yodlee_new_user_password" class="oe_inline"/>
+                  <field name="yodlee_new_user_password" class="oe_inline" password="1"/>
                   <br/>
                   <label for="yodlee_new_user_email"/>
                   <field name="yodlee_new_user_email" class="oe_inline"/>

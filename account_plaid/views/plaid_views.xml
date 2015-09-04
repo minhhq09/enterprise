@@ -24,14 +24,14 @@
       <field name="inherit_id" ref="account.view_account_config_settings"/>
       <field name="arch" type="xml">
         <div name="bank_statement_import_options" position="after">
-          <label for="id" string="Plaid Configuration"/>
+          <label for="id" string="Plaid Configuration" id="plaid_label_config"/>
           <div name="plaid_config">
             <div>
               <label for="plaid_id"/>
               <field name="plaid_id" class="oe_inline"/>
               <br/>
               <label for="plaid_secret"/>
-              <field name="plaid_secret" class="oe_inline"/>
+              <field name="plaid_secret" class="oe_inline" password="1"/>
             </div>
           </div>
         </div>
