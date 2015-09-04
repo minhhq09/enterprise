@@ -15,6 +15,7 @@
         'views/inherited_stock_picking_views.xml',
         'views/stock_barcode_templates.xml',
         'views/stock_barcode_views.xml',
+        'data/web_planner_data.xml',
     ],
     'qweb': [
         "static/src/xml/stock_barcode.xml",
