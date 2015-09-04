@@ -193,7 +193,10 @@ class StockPicking(models.Model):
 
     def on_barcode_scanned(self, barcode):
         if self.state in ('cancel', 'done'):
-            return
+            return {'warning': {
+                'title': _('Picking %(state)s') % {'state': self.state},
+                'message': _('The picking is %(state)s and cannot be edited.') % {'state': self.state}
+            }}
 
         if not self.picking_type_id.barcode_nomenclature_id:
             # Logic for products
@@ -250,3 +253,8 @@ class StockPicking(models.Model):
                 if location and location.parent_left < self.location_dest_id.parent_right and location.parent_left >= self.location_dest_id.parent_left:
                     if self._check_destination_location(location):
                         return
+
+        return {'warning': {
+            'title': _('Wrong barcode'),
+            'message': _('The barcode "%(barcode)s" doesn\'t correspond to a proper product, package or location.') % {'barcode': barcode}
+        }}
