@@ -604,9 +604,10 @@ var FieldBoolean = common.AbstractField.extend({
     focus: function() {
         return this.$checkbox.focus();
     },
+    set_dimensions: function(height, width) {}, // Checkboxes have a fixed height and width (even in list editable)
     is_false: function() {
         return false;
-    }
+    },
 });
 
 /**
