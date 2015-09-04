@@ -14,34 +14,30 @@ class StockPackOperation(models.Model):
     location_processed = fields.Boolean()
 
     def on_barcode_scanned(self, barcode):
-        context=dict(self._context)
+        context=dict(self.env.context)
         # As there is no quantity, just add the quantity
         if context.get('only_create') and context.get('serial'):
-            self.pack_lot_ids += self.pack_lot_ids.new({
-                        'qty': 1.0,
-                        'lot_name': barcode,
-                        })
+            self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
         elif context.get('only_create') and not context.get('serial'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_name == barcode)
             if corresponding_pl:
                 corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
             else:
-                self.pack_lot_ids += self.pack_lot_ids.new({
-                        'qty': 1.0,
-                        'lot_name': barcode,
-                        })
+                self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
         elif not context.get('only_create'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_id.name == barcode)
             if corresponding_pl:
                 corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
             else:
-                #Search lot with correct name
+                # Search lot with correct name
                 lots = self.env['stock.production.lot'].search([('product_id', '=', self.product_id.id), ('name', '=', barcode)])
                 if lots:
-                    self.pack_lot_ids += self.pack_lot_ids.new({
-                        'qty': 1.0,
-                        'lot_id': lots[0].id,
-                        })
+                    self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_id': lots[0].id })
+                else:
+                    return { 'warning': {
+                        'title': _('No lot found'),
+                        'message': _('There is no production lot for "%(product)s" corresponding to "%(barcode)s"') % {'product': self.product_id.name, 'barcode': barcode},
+                    }}
 
 
 class StockPicking(models.Model):
