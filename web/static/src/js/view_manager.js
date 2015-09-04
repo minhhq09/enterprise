@@ -55,7 +55,11 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
         _.each(views, function (view) {
             var view_type = view[1] || view.view_type;
             var View = core.view_registry.get(view_type, true);
-            var view_label = View ? View.prototype.display_name: (void 'nope');
+            if (!View) {
+                console.error("View type", "'"+view_type+"'", "is not present in the view registry.");
+                return;
+            }
+            var view_label = View.prototype.display_name;
             var view_descr = {
                     controller: null,
                     options: view.options || {},
@@ -64,11 +68,11 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     label: view_label,
                     embedded_view: view.embedded_view,
                     title: self.title,
-                    button_label: View ? _.str.sprintf(_t('%(view_type)s view'), {'view_type': (view_label || view_type)}) : (void 'nope'),
-                    multi_record: View ? View.prototype.multi_record : undefined,
-                    mobile_friendly: View ? View.prototype.mobile_friendly : undefined,
-                    accesskey: View ? View.prototype.accesskey : undefined,
-                    icon: View ? View.prototype.icon: undefined,
+                    button_label: _.str.sprintf(_t('%(view_type)s view'), {'view_type': (view_label || view_type)}),
+                    multi_record: View.prototype.multi_record,
+                    mobile_friendly: View.prototype.mobile_friendly,
+                    accesskey: View.prototype.accesskey,
+                    icon: View.prototype.icon,
                 };
             self.view_order.push(view_descr);
             self.views[view_type] = view_descr;
