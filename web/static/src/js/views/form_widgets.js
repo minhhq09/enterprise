@@ -124,7 +124,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
     },
     render_value: function() {
         var show_value = this.format_value(this.get('value'), '');
-        if (!this.get("effective_readonly")) {
+        if (this.$input) {
             this.$input.val(show_value);
         } else {
             if (this.password) {
@@ -134,7 +134,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
     },
     is_syntax_valid: function() {
-        if (!this.get("effective_readonly")) {
+        if (this.$input) {
             try {
                 this.parse_value(this.$input.val(), '');
             } catch(e) {
@@ -153,7 +153,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         return this.get('value') === '' || this._super();
     },
     focus: function() {
-        if (!this.get("effective_readonly")) {
+        if (this.$input) {
             return this.$input.focus();
         }
         return false;
