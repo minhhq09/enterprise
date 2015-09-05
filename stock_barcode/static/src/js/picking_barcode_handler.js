@@ -5,6 +5,8 @@ var core = require('web.core');
 var Model = require('web.Model');
 var FormViewBarcodeHandler = require('barcodes.FormViewBarcodeHandler');
 
+var _t = core._t;
+
 var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
     start: function() {
         this._super();
@@ -17,6 +19,12 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
     },
 
     pre_onchange_hook: function(barcode) {
+        var state = this.form_view.datarecord.state;
+        if (state === 'cancel' || state === 'done') {
+            this.do_warn(_.str.sprintf(_t('Picking %s'), state), _.str.sprintf(_t('The picking is %s and cannot be edited.'), state));
+            return true;
+        }
+
         var po_field = this.form_view.fields.pack_operation_product_ids;
         var po_view = po_field.viewmanager.active_view;
 

@@ -192,12 +192,6 @@ class StockPicking(models.Model):
         return True
 
     def on_barcode_scanned(self, barcode):
-        if self.state in ('cancel', 'done'):
-            return {'warning': {
-                'title': _('Picking %(state)s') % {'state': self.state},
-                'message': _('The picking is %(state)s and cannot be edited.') % {'state': self.state}
-            }}
-
         if not self.picking_type_id.barcode_nomenclature_id:
             # Logic for products
             product = self.env['product.product'].search(['|', ('barcode', '=', barcode), ('default_code', '=', barcode)], limit=1)
