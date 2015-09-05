@@ -52,6 +52,7 @@
                 domain="[('user_id', '=', uid)]"/>
         <filter name="my_projects" string="My projects"
                 domain="[('project_id.user_id', '=', uid)]" />
+        <separator/>
         <filter name="future" string="Future"
                 domain="[('end_date', '>=', time.strftime('%%Y-%%m-%%d 00:00:00'))]" />
         <filter name="past" string="Past"
