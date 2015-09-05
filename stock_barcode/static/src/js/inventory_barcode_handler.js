@@ -33,11 +33,12 @@ var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
             });
         }
         if (record) {
-            return field.data_update(record.get('id'), {'product_qty': record.get('product_qty') + 1}).then(function () {
-                return view.controller.reload_record(record);
+            field.data_update(record.get('id'), {'product_qty': record.get('product_qty') + 1}).then(function () {
+                view.controller.reload_record(record);
             });
+            return $.Deferred().resolve(false);
         } else {
-            return false;
+            return $.Deferred().resolve(true);
         }
     },
 });
