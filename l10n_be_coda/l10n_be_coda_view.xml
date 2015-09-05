@@ -85,5 +85,16 @@
 			<field name="view_id" ref="view_account_bank_statement_line_coda_tree"/>
 		</record>
 
-	</data> 
+    <record id="account_bank_statement_import_coda" model="ir.ui.view">
+        <field name="name">Import Bank Statements CODA</field>
+        <field name="model">account.bank.statement.import</field>
+        <field name="inherit_id" ref="account_bank_statement_import.account_bank_statement_import_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//ul[@id='statement_format'" position="inside">
+                <li>Belgium Coded Statement of Account (.CODA)</li>
+            </xpath>
+        </field>
+    </record>
+
+	</data>
 </openerp>

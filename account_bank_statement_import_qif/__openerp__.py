@@ -18,6 +18,9 @@ Because of the QIF format limitation, we cannot ensure the same transactions are
 Whenever possible, you should use a more appropriate file format like OFX.
 ''',
     'depends': ['account_bank_statement_import'],
-    'data': ['account_bank_statement_import_qif_view.xml'],
+    'data': [
+        'account_bank_statement_import_qif_view.xml',
+        'account_qif.xml'
+    ],
     'installable': True,
 }
