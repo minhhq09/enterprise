@@ -13,11 +13,10 @@ odoo.define('project_timeshee.ui', function (require ) {
     var DEFAULT_TIME_UNIT = 0.25;
     var MOTIVATION_MESSAGES = [
             "Have a great day!",
-            "Wishing you an awesome morning.",
-            "Good morning, would you like a cup of coffee?",
-            "This message is to remind you that you are beautiful, talented and one of a kind.",
+            "Wishing you an awesome day.",
+            "Don't forget that you are beautiful, talented and one of a kind.",
             "Think about all you will be able to achieve today!",
-            "Our advice for the day: think big!",
+            "Our daily advice: just do it!",
             "Opportunities don't happen, you create them.",
             "You can do anything, but not everything.",
     ];

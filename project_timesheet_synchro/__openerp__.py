@@ -41,4 +41,5 @@ If you use the external timesheet application, this module alows you to synchron
         'static/src/xml/timesheet_app_backend_template.xml',
     ],
     'installable': True,
+    'auto_install': True,
 }
