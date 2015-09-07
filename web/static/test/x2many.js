@@ -17,10 +17,9 @@ Tour.register({
         },
 
         // create test discussion
-
         {
             title:      "create new discussion",
-            element:    '.o_web_client:has(.breadcrumb:contains(Discussions)) button.o_list_button_add'
+            element:    'button.o_list_button_add',
         },
         {
             title:      "insert title",
@@ -29,7 +28,6 @@ Tour.register({
         },
 
         // try to add a user with one2many form
-
         {
             title:      "click on moderator one2many drop down",
             waitFor:    'input.o_form_required:propValue(test)',
@@ -37,7 +35,7 @@ Tour.register({
         },
         {
             title:      "click on 'Create and Edit...'",
-            element:    '.o_m2o_dropdown_option'
+            element:    '.o_m2o_dropdown_option:last'
         },
         {
             title:      "insert a name into the modal form",
@@ -72,7 +70,6 @@ Tour.register({
         },
 
         // add message a
-
         {
             title:      "create new message a",
             element:    '.tab-pane:eq(0) .o_form_field_x2many_list_row_add a'
@@ -89,7 +86,6 @@ Tour.register({
         },
 
         // add message b
-        
         {
             title:      "create new message b",
             waitNot:    '.modal',
@@ -108,7 +104,6 @@ Tour.register({
         },
 
         // change title to trigger on change
-
         {
             title:      "insert title",
             waitNot:    '.modal',
@@ -146,7 +141,6 @@ Tour.register({
         },
 
         // add message c
-        
         {
             title:      "create new message c",
             waitNot:    '.modal',
@@ -165,7 +159,6 @@ Tour.register({
         },
 
         // add participants
-
         {
             title:      "change tab to Participants",
             waitNot:    '.modal',
@@ -192,7 +185,6 @@ Tour.register({
         },
 
         // save
-        
         {
             title:      "save discussion",
             waitFor:    '.tab-pane:eq(1) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
@@ -201,7 +193,6 @@ Tour.register({
         },
 
         // check saved data
-
         {
             title:      "check data 1",
             waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
@@ -218,7 +209,6 @@ Tour.register({
         },
 
         // edit
-
         {
             title:      "edit discussion",
             element:    'button.o_form_button_edit'
@@ -230,7 +220,6 @@ Tour.register({
         },
 
         // add message d
-
         {
             title:      "create new message d",
             waitFor:    'li.active a[data-toggle="tab"]:contains(Messages)',
@@ -248,7 +237,6 @@ Tour.register({
         },
 
         // add message e
-        
         {
             title:      "create new message e",
             waitNot:    '.modal',
@@ -267,7 +255,6 @@ Tour.register({
         },
 
         // change message a
-
         {
             title:      "edit message a",
             waitNot:    '.modal',
@@ -286,7 +273,6 @@ Tour.register({
         },
 
         // change message e
-
         {
             title:      "edit message e",
             waitNot:    '.modal',
@@ -324,7 +310,6 @@ Tour.register({
         },
 
         // remove
-        
         {
             title:      "remove b",
             waitNot:    '.modal',
@@ -338,7 +323,6 @@ Tour.register({
         },
 
         // save
-        
         {
             title:      "save discussion",
             waitNot:    'tr:has(td:containsExact(e))',
@@ -346,7 +330,6 @@ Tour.register({
         },
 
         // check saved data
-
         {
             title:      "check data 4",
             waitNot:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr:has(.o_list_record_delete):eq(4)',
@@ -366,14 +349,12 @@ Tour.register({
         },
 
         // edit
-
         {
             title:      "edit discussion",
             element:    'button.o_form_button_edit'
         },
 
         // add message ddd
-        
         {
             title:      "create new message ddd",
             waitNot:    '.modal',
@@ -404,7 +385,6 @@ Tour.register({
         },
 
         // trigger onchange
-        
         {
             title:      "blur the one2many",
             waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody:has(tr td:containsExact(ddd))',
@@ -412,7 +392,6 @@ Tour.register({
         },
 
         // check onchange data
-
         {
             title:      "check data 8",
             waitFor:    'textarea[name="message_concat"]:propValueContains([test_trigger] Administrator:aaa\n[test_trigger] Administrator:c\n[test_trigger] Administrator:d\n[test_trigger] Demo User:ddd)',
@@ -424,7 +403,6 @@ Tour.register({
         },
 
         // cancel
-        
         {
             title:      "cancel change",
             waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody:has(tr td:containsExact(ddd))',
@@ -443,11 +421,11 @@ Tour.register({
             waitFor:    '.tab-pane:eq(0) .o_form_field.o_view_manager_content tbody tr[data-id]:eq(2)',
             element:    'nav .o_menu_sections li a:containsExact(Discussions)'
         },
-
         {
             title:      "switch to the second form view to test one2many with editable list (open submenu)",
             element:    'nav .o_menu_sections ul li a:contains(Discussions 2)'
         },
+
         {
             title:      "select previous created record",
             waitFor:    '.breadcrumb li:containsExact(Discussions 2)',
@@ -455,7 +433,6 @@ Tour.register({
         },
         {
             title:      "click on edit",
-            waitFor:    ".o_form_button_edit",
             element:    '.o_form_button_edit',
         },
 
@@ -466,23 +443,26 @@ Tour.register({
             sampleText: 'test_trigger2'
         },
         {
+            title:      "click outside to trigger onchange",
+            element:    '.o_form_sheet',
+        },
+        {
             title:      "click on a field of the editable list to edit content",
-            waitFor:    '.o_form_editable .o_list_editable tr[data-id]:eq(1) td[data-field="body"]',
-            element:    '.o_list_editable tr[data-id]:eq(1) td[data-field="body"]',
+            waitFor:    '.o_list_editable:contains(test_trigger2)',
+            element:    '.o_list_editable tr[data-id]:eq(1) td',
         },
         {
             title:      "change text value",
-            waitFor:    '.o_list_editable_form textarea.o_form_field[data-fieldname="body"]',
-            element:    'textarea.o_form_field[data-fieldname="body"]',
+            element:    '.o_list_editable_form textarea.o_form_field[data-fieldname="body"]',
             sampleText: 'ccc'
         },
         {
-            title:      "click on a many2one (trigger the line onchange)",
-            element:    '.o_list_editable tr[data-id]:eq(1) td:eq(1)',
+            title:      "click on first field (trigger the line onchange)",
+            element:    '.o_list_editable_form .o_form_field[data-fieldname="name"]',
         },
         {
             title:      "test one2many's line onchange",
-            waitFor:    '.o_list_editable tr[data-id]:eq(1) td:eq(3):contains(3)',
+            waitFor:    '.o_list_editable_form .o_form_field[data-fieldname="size"]:contains(3)',
         },
         {
             title:      "test one2many field not triggered onchange",
@@ -495,7 +475,7 @@ Tour.register({
         },
         {
             title:      "select an other user",
-            element:    '.o_web_client li a:contains(Demo User)',
+            element:    '.ui-autocomplete li a:contains(Demo User)',
         },
         {
             title:      "test one2many's line onchange after many2one",
@@ -512,7 +492,6 @@ Tour.register({
         },
 
         // check onchange
-
         {
             title:      "click outside to trigger one2many onchange",
             waitNot:    'textarea[name="message_concat"]:propValueContains(Demo User)',
@@ -533,7 +512,6 @@ Tour.register({
         },
 
         // remove record
-
         {
             title:      "delete the last item in the editable list",
             element:    '.o_list_view tr[data-id] td.o_list_record_delete span:visible:last',
@@ -544,7 +522,6 @@ Tour.register({
         },
         
         // save
-        
         {
             title:      "save discussion",
             waitNot:    'tr:has(td:containsExact(d))',
@@ -552,7 +529,6 @@ Tour.register({
         },
 
         // check saved data
-
         {
             title:      "check data 10",
             waitFor:    '.o_form_textarea:containsExact([test_trigger2] Administrator:aaa\n[test_trigger2] Demo User:ccccc)',
@@ -564,14 +540,12 @@ Tour.register({
         },
 
         // edit
-
         {
             title:      "edit discussion",
             element:    'button.o_form_button_edit'
         },
 
         // add message eee
-
         {
             title:      "create new message eee",
             waitFor:    'li.active a[data-toggle="tab"]:contains(Messages)',
@@ -584,7 +558,6 @@ Tour.register({
         },
 
         // save
-        
         {
             title:      "save discussion",
             waitFor:    'textarea.o_form_field[data-fieldname="body"]:propValueContains(eee)',
@@ -592,7 +565,6 @@ Tour.register({
         },
 
         // check saved data
-
         {
             title:      "check data 12",
             waitFor:    '.o_form_textarea:containsExact([test_trigger2] Administrator:aaa\n[test_trigger2] Demo User:ccccc\n[test_trigger2] Administrator:eee)',
