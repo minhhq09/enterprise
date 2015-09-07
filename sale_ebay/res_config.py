@@ -195,4 +195,3 @@ class ebay_site(models.Model):
 
     name = fields.Char("Name", readonly=True)
     ebay_id = fields.Char("eBay ID", readonly=True)
-

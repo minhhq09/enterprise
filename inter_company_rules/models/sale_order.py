@@ -11,9 +11,9 @@ class sale_order(models.Model):
     auto_purchase_order_id = fields.Many2one('purchase.order', string='Source Purchase Order', readonly=True, copy=False)
 
     @api.multi
-    def action_button_confirm(self):
+    def action_confirm(self):
         """ Generate inter company purchase order based on conditions """
-        res = super(sale_order, self).action_button_confirm()
+        res = super(sale_order, self).action_confirm()
         for order in self:
             if not order.company_id: # if company_id not found, return to normal behavior
                 continue

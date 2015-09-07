@@ -73,8 +73,8 @@ class SaleOrder(models.Model):
         return values
 
     @api.one
-    def action_button_confirm(self):
-        res = super(SaleOrder, self).action_button_confirm()
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
         self.create_contract()
         return res
 
