@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-27 14:03+0000\n"
-"PO-Revision-Date: 2015-08-27 14:03+0000\n"
+"POT-Creation-Date: 2015-09-07 14:51+0000\n"
+"PO-Revision-Date: 2015-09-07 14:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -407,7 +407,7 @@ msgid "<strong>Total:</strong>"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.account_analytic_account_form_form
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "=> Upsell"
 msgstr ""
 
@@ -417,13 +417,12 @@ msgid "A contract is linked to this quotation:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.account_analytic_account_form_form
-#: model:ir.ui.view,arch_db:website_contract.wizard_form_view
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Account Analytic Lines"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_uuid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
 msgid "Account UUID"
 msgstr ""
 
@@ -448,8 +447,8 @@ msgid "Activities"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_actual_quantity
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_actual_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_actual_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Actual Quantity"
 msgstr ""
 
@@ -465,7 +464,7 @@ msgid "Add Options"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.account_analytic_account_form_form
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Add an option directly or create a sale order with prorated discount for the current invoicing period"
 msgstr ""
 
@@ -475,14 +474,12 @@ msgid "Add in Subscription"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model,name:website_contract.model_account_analytic_account
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_analytic_account_id
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_analytic_account_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
 msgid "Analytic Account"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_payment_mandatory
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
 msgid "Automatic Payment"
 msgstr ""
 
@@ -529,7 +526,7 @@ msgid "Change plan"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_user_closable
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
 msgid "Closable by customer"
 msgstr ""
 
@@ -550,7 +547,7 @@ msgid "Close your contract"
 msgstr ""
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:219
+#: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
 msgstr ""
@@ -575,7 +572,7 @@ msgid "Confirm Option Removal"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_account_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_subscription_id
 #: model:ir.ui.view,arch_db:website_contract.change_template
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -598,16 +595,16 @@ msgid "Create & View Quotation"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_create_uid
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_create_uid
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_create_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_create_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_create_date
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_create_date
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_create_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_create_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_date
 msgid "Created on"
 msgstr ""
 
@@ -634,6 +631,8 @@ msgid "Custom Domain"
 msgstr ""
 
 #. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_domain
+#: model:product.template,description_sale:website_contract.odoo_custom_domain_product_template
 #: model:sale.quote.option,name:website_contract.sugg_line_13
 #: model:sale.quote.option,name:website_contract.sugg_line_23
 msgid "Custom Domain\n"
@@ -654,10 +653,19 @@ msgid "Customized Module"
 msgstr ""
 
 #. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_module
+#: model:product.template,description_sale:website_contract.odoo_custom_module_product_template
 #: model:sale.quote.option,name:website_contract.sugg_line_11
 #: model:sale.quote.option,name:website_contract.sugg_line_21
 msgid "Customized Module\n"
 "Customize a module to better match your business process."
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_view
+#: model:product.template,description_sale:website_contract.odoo_custom_view_product_template
+msgid "Customized View\n"
+"Customize one or more views (in a single module) to better suit your needs."
 msgstr ""
 
 #. module: website_contract
@@ -667,27 +675,32 @@ msgid "Customized Views"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.menu,name:website_contract.menu_sale_subscription_dashboard
+msgid "Dashboard"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Date"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_name
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_name
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Description"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_discount
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_discount
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_discount
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_discount
 msgid "Discount (%)"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_display_name
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_display_name
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_display_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_display_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_display_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
 msgid "Display Name"
 msgstr ""
 
@@ -707,34 +720,34 @@ msgid "Force price"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_id
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_id
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_id
 msgid "ID"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_account_user_closable
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_user_closable
 msgid "If checked, the user will be able to close his account from the frontend"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_account_payment_method_id
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_account_partial_invoice
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
 msgid "If set, option upgrades are invoiced for the remainder of the current invoicing period."
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_account_payment_mandatory
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_mandatory
 msgid "If set, payments will be made automatically and invoices will not be generated if payment attempts are unsuccessful."
 msgstr ""
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:315
+#: code:addons/website_contract/controllers/main.py:300
 #, python-format
 msgid "If we store your payment information on our server, subscription payments will be made automatically."
 msgstr ""
@@ -756,8 +769,8 @@ msgid "Insert the options directly, they will be invoiced on the next invoice da
 msgstr ""
 
 #. module: website_contract
-#: selection:account.analytic.invoice.line.option,portal_access:0
-#: selection:account.analytic.transient.option,portal_access:0
+#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Invisible"
 msgstr ""
 
@@ -777,35 +790,35 @@ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_is_authorized
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_is_authorized
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_is_authorized
 msgid "Is authorized"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard___last_update
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option___last_update
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option___last_update
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option___last_update
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
 msgid "Last Modified on"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_write_uid
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_write_uid
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_write_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_write_date
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_write_date
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_write_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_invoice_line_option_quantity
-#: model:ir.model.fields,help:website_contract.field_account_analytic_transient_option_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
 msgstr ""
 
@@ -849,6 +862,8 @@ msgid "Odoo SAAS"
 msgstr ""
 
 #. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_saas
+#: model:product.template,description_sale:website_contract.odoo_saas_product_template
 #: model:sale.quote.line,name:website_contract.sale_line_11
 #: model:sale.quote.line,name:website_contract.sale_line_21
 msgid "Odoo SAAS\n"
@@ -858,6 +873,11 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid "One-time Fees <small>- These products will not be part of your subscription</small>"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
+msgid "Option Lines"
 msgstr ""
 
 #. module: website_contract
@@ -871,25 +891,25 @@ msgid "Option removed by customer"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_invoice_line_ids
-#: model:ir.ui.view,arch_db:website_contract.account_analytic_account_form_form
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_option_invoice_line_ids
 msgid "Optional Lines"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_option_wizard_option_lines
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_lines
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
+#: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid "Options"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_partial_invoice
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
 msgid "Partial Invoice"
 msgstr ""
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:305
+#: code:addons/website_contract/controllers/main.py:290
 #, python-format
 msgid "Pay & Confirm"
 msgstr ""
@@ -905,7 +925,7 @@ msgid "Payment Acquirer"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_payment_method_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_method_id
 msgid "Payment Method"
 msgstr ""
 
@@ -930,8 +950,8 @@ msgid "Please ensure that you have selected the correct plan:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_portal_access
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_portal_access
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_portal_access
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid "Portal Access"
 msgstr ""
 
@@ -941,28 +961,28 @@ msgid "Price"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_product_id
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_product_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_product_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_product_id
 msgid "Product"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_quantity
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Quantity"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_invoice_line_option_actual_quantity
-#: model:ir.model.fields,help:website_contract.field_account_analytic_transient_option_actual_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Quantity actually used by the customer"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_invoice_line_option_sold_quantity
-#: model:ir.model.fields,help:website_contract.field_account_analytic_transient_option_sold_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Quantity sold to the customer"
 msgstr ""
 
@@ -972,22 +992,22 @@ msgid "Recurring Product"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_custom_lines
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_custom_lines
 msgid "Recurring custom lines"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_inactive_lines
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_inactive_lines
 msgid "Recurring inactive lines"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_mandatory_lines
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_mandatory_lines
 msgid "Recurring mandatory lines"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_option_lines
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_option_lines
 msgid "Recurring option lines"
 msgstr ""
 
@@ -1002,18 +1022,23 @@ msgid "Responsible"
 msgstr ""
 
 #. module: website_contract
-#: selection:account.analytic.invoice.line.option,portal_access:0
-#: selection:account.analytic.transient.option,portal_access:0
+#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Restricted"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_invoice_line_option_portal_access
-#: model:ir.model.fields,help:website_contract.field_account_analytic_transient_option_portal_access
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_portal_access
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid "Restricted: The customer must ask a Sales Rep to add or remove this option\n"
 "Upgrade Only: The customer can add the option himself but must ask to remove it\n"
 "Upgrade and Downgrade: The customer can add or remove this option himself\n"
-"Invisible: The customer doesn't see the option; however it gets carried away when switching contract template"
+"Invisible: The customer doesn't see the option; however it gets carried away when switching subscription template"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_main
+msgid "Revenue KPIs"
 msgstr ""
 
 #. module: website_contract
@@ -1022,7 +1047,12 @@ msgid "Sale Quotation Template"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.view_account_analytic_account_form
+#: model:ir.model,name:website_contract.model_sale_subscription
+msgid "Sale Subscription"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Sales"
 msgstr ""
 
@@ -1048,8 +1078,13 @@ msgid "Sales Representative"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_sold_quantity
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_sold_quantity
+#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_salesman
+msgid "Salesman Dashboard"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Sold Quantity"
 msgstr ""
 
@@ -1060,12 +1095,14 @@ msgid "Start date:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_price_subtotal
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_price_subtotal
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_subtotal
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_analytic_account_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_analytic_account_id
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid "Subscription"
 msgstr ""
@@ -1081,7 +1118,7 @@ msgid "Subtotal:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_amount_tax
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_tax
 msgid "Taxes"
 msgstr ""
 
@@ -1112,7 +1149,7 @@ msgid "The following option will be removed from your next invoice:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_account_analytic_account_website_url
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
 msgstr ""
 
@@ -1127,25 +1164,25 @@ msgid "Time"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_recurring_amount_total
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
 msgid "Total"
 msgstr ""
 
 #. module: website_contract
-#: sql_constraint:account.analytic.account:0
-msgid "UUIDs (Universally Unique IDentifier) for account_analytic_account should be unique!"
+#: sql_constraint:sale.subscription:0
+msgid "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be unique!"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_price_unit
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_price_unit
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_unit
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_unit
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Unit Price"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_invoice_line_option_uom_id
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_uom_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_uom_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_uom_id
 msgid "Unit of Measure"
 msgstr ""
 
@@ -1165,14 +1202,14 @@ msgid "Units Used"
 msgstr ""
 
 #. module: website_contract
-#: selection:account.analytic.invoice.line.option,portal_access:0
-#: selection:account.analytic.transient.option,portal_access:0
+#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Upgrade and Downgrade"
 msgstr ""
 
 #. module: website_contract
-#: selection:account.analytic.invoice.line.option,portal_access:0
-#: selection:account.analytic.transient.option,portal_access:0
+#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Upgrade only"
 msgstr ""
 
@@ -1185,13 +1222,13 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
-#: model:ir.ui.view,arch_db:website_contract.view_account_analytic_account_form
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
-#: model:ir.ui.view,arch_db:website_contract.view_account_analytic_account_form
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr ""
 
@@ -1202,12 +1239,12 @@ msgid "We always listen to our customer. Could you specify the reason for cancel
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_account_website_url
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_website_url
 msgid "Website URL"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_account_analytic_transient_option_wizard_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_wizard_id
 msgid "Wizard id"
 msgstr ""
 
@@ -1267,26 +1304,6 @@ msgid "Your subscription ${object.code}is active!"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model,name:website_contract.model_account_analytic_account_option_wizard
-msgid "account.analytic.account.option.wizard"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.model,name:website_contract.model_account_analytic_invoice_line
-msgid "account.analytic.invoice.line"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.model,name:website_contract.model_account_analytic_invoice_line_option
-msgid "account.analytic.invoice.line.option"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.model,name:website_contract.model_account_analytic_transient_option
-msgid "account.analytic.transient.option"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "by paying your invoice."
 msgstr ""
@@ -1303,6 +1320,26 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "month(s)"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_line
+msgid "sale.subscription.line"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_line_option
+msgid "sale.subscription.line.option"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_wizard
+msgid "sale.subscription.wizard"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_wizard_option
+msgid "sale.subscription.wizard.option"
 msgstr ""
 
 #. module: website_contract

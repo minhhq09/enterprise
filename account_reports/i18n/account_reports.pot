@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-27 14:04+0000\n"
-"PO-Revision-Date: 2015-08-27 14:04+0000\n"
+"POT-Creation-Date: 2015-09-07 14:52+0000\n"
+"PO-Revision-Date: 2015-09-07 14:52+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,11 @@ msgid "<span aria-hidden=\"true\">&amp;times;</span>"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.partner_view_buttons
+msgid "<span class=\"o_stat_text\">Overdue</span>"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "<strong>Good job!</strong> All followup letters and emails have been sent."
 msgstr ""
@@ -114,7 +119,7 @@ msgid "A particular context for a financial report"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.model,name:account_reports.model_account_report_context_bank_reconciliation
+#: model:ir.model,name:account_reports.model_account_report_context_bank_rec
 msgid "A particular context for the bank reconciliation report"
 msgstr ""
 
@@ -202,10 +207,11 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_multi_company
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_multi_company
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_multi_company
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_multi_company
 msgid "Allow multi-company"
 msgstr ""
 
@@ -215,7 +221,7 @@ msgid "Always"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:200
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
 #, python-format
 msgid "Amount"
 msgstr ""
@@ -256,13 +262,16 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_available_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_available_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_available_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_available_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_available_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_available_company_ids
 msgid "Available company ids"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Balance"
 msgstr ""
@@ -274,7 +283,7 @@ msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_journals
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journals
 #, python-format
 msgid "Bank Accounts"
 msgstr ""
@@ -289,7 +298,7 @@ msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:186
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_journal_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journal_id
 #, python-format
 msgid "Bank account"
 msgstr ""
@@ -379,7 +388,7 @@ msgstr ""
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:261
 #: code:addons/account_reports/models/account_followup_report.py:262
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Communication"
 msgstr ""
@@ -404,15 +413,18 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_company_ids
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_company_ids
 msgid "Company ids"
 msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_filter_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_filter_cmp
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_filter_cmp
@@ -441,13 +453,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_create_uid
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_create_uid
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_create_uid
 msgid "Created by"
 msgstr ""
 
@@ -456,25 +469,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_create_date
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_create_date
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_create_date
 msgid "Created on"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:515
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_financial_report.py:508
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Credit"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Currency"
 msgstr ""
@@ -494,6 +508,12 @@ msgid "Custom"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.actions.client,name:account_reports.action_account_followup
+#: model:ir.actions.client,name:account_reports.action_account_followup_all
+msgid "Customer Follow-ups"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Customer Statement"
 msgstr ""
@@ -504,8 +524,8 @@ msgid "Customers Statement"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:200
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Date"
 msgstr ""
@@ -521,7 +541,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_filter
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_filter
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_filter
@@ -534,8 +554,8 @@ msgid "Date where the next action should be taken for a receivable item. Usually
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:515
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_financial_report.py:508
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #, python-format
 msgid "Debit"
 msgstr ""
@@ -550,13 +570,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_display_name
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_display_name
 msgid "Display Name"
 msgstr ""
 
@@ -612,7 +633,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_cash_basis
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_cash_basis
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_cash_basis
@@ -622,7 +643,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_comparison
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_comparison
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_comparison
@@ -640,7 +661,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_to
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_to
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_to
@@ -650,7 +671,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_to_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_to_cmp
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_to_cmp
@@ -745,7 +766,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_footnotes
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_footnotes
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_footnotes
@@ -756,7 +777,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_footnotes_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_footnotes_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_footnotes_manager_id
@@ -780,7 +801,7 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_general_ledger.py:162
+#: code:addons/account_reports/models/account_general_ledger.py:163
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:101
 #: model:ir.actions.client,name:account_reports.action_account_general_ledger_force_account
 #: model:ir.actions.client,name:account_reports.action_account_report_general_ledger
@@ -843,13 +864,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger_id
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_id
 msgid "ID"
 msgstr ""
 
@@ -922,13 +944,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation___last_update
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager___last_update
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager___last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -957,13 +980,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_write_uid
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_uid
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -972,13 +996,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_write_date
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_date
+#: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -1046,12 +1071,6 @@ msgid "Main Info"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.actions.client,name:account_reports.action_account_followup
-#: model:ir.actions.client,name:account_reports.action_account_followup_all
-msgid "Manage Follow-ups"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_manager_id
 msgid "Manager id"
 msgstr ""
@@ -1072,14 +1091,24 @@ msgid "Messages created after a followup action has been executed"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_multicompany_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_multicompany_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_multicompany_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_multicompany_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_multicompany_manager_id
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_multicompany_manager_id
+msgid "Multi-company Manager"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_name
 msgid "Name"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:162
-#: code:addons/account_reports/models/account_generic_tax_report.py:164
-#: code:addons/account_reports/models/account_generic_tax_report.py:167
+#: code:addons/account_reports/models/account_generic_tax_report.py:155
+#: code:addons/account_reports/models/account_generic_tax_report.py:157
+#: code:addons/account_reports/models/account_generic_tax_report.py:160
 #, python-format
 msgid "Net"
 msgstr ""
@@ -1114,7 +1143,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_next_footnote_number
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_next_footnote_number
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_next_footnote_number
@@ -1146,7 +1175,7 @@ msgid "No followup to send !"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:513
+#: code:addons/account_reports/models/account_financial_report.py:506
 #, python-format
 msgid "Non-issued"
 msgstr ""
@@ -1182,7 +1211,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_periods_number
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_periods_number
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_periods_number
@@ -1198,7 +1227,7 @@ msgid "Number of periods :"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:523
+#: code:addons/account_reports/models/account_financial_report.py:516
 #, python-format
 msgid "Older"
 msgstr ""
@@ -1230,11 +1259,6 @@ msgid "Options:"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.partner_view_buttons
-msgid "Overdue"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_company_inherit_form
 msgid "Overdue Payments"
 msgstr ""
@@ -1263,7 +1287,7 @@ msgid "Parent id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:189
 #: model:ir.model,name:account_reports.model_res_partner
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_partner_id
 #, python-format
@@ -1329,7 +1353,7 @@ msgid "Profit And Loss"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:97
+#: code:addons/account_reports/models/account_generic_tax_report.py:98
 #, python-format
 msgid "Purchase"
 msgstr ""
@@ -1345,7 +1369,7 @@ msgid "Reconciliation Report"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:200
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
 #, python-format
 msgid "Reference"
 msgstr ""
@@ -1371,7 +1395,7 @@ msgid "Report Type"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:97
+#: code:addons/account_reports/models/account_generic_tax_report.py:98
 #, python-format
 msgid "Sale"
 msgstr ""
@@ -1453,7 +1477,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_from
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_from
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_from
@@ -1463,7 +1487,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_from_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_date_from_cmp
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_from_cmp
@@ -1478,7 +1502,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_summary
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_summary
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_summary
@@ -1491,15 +1515,15 @@ msgid "Target id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:162
-#: code:addons/account_reports/models/account_generic_tax_report.py:164
-#: code:addons/account_reports/models/account_generic_tax_report.py:167
+#: code:addons/account_reports/models/account_generic_tax_report.py:155
+#: code:addons/account_reports/models/account_generic_tax_report.py:157
+#: code:addons/account_reports/models/account_generic_tax_report.py:160
 #, python-format
 msgid "Tax"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:130
+#: code:addons/account_reports/models/account_generic_tax_report.py:131
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
@@ -1529,7 +1553,7 @@ msgid "The followup report was successfully emailed !"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:151
+#: code:addons/account_reports/models/account_general_ledger.py:152
 #, python-format
 msgid "There are more than 80 items in this list, click here to see all of them"
 msgstr ""
@@ -1558,7 +1582,7 @@ msgstr ""
 #. module: account_reports
 #: code:addons/account_reports/models/account_financial_report.py:291
 #: code:addons/account_reports/models/account_financial_report.py:360
-#: code:addons/account_reports/models/account_financial_report.py:523
+#: code:addons/account_reports/models/account_financial_report.py:516
 #, python-format
 msgid "Total"
 msgstr ""
@@ -1609,7 +1633,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_all_entries
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_reconciliation_all_entries
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_all_entries
@@ -1679,13 +1703,13 @@ msgid "current amount of invoices done"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:158
+#: code:addons/account_reports/models/account_report_context_common.py:169
 #, python-format
 msgid "get_columns_names not implemented"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:80
+#: code:addons/account_reports/models/account_report_context_common.py:108
 #, python-format
 msgid "get_report_obj not implemented"
 msgstr ""
@@ -1693,6 +1717,11 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnotes_manager
 msgid "manages footnotes"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_account_report_multicompany_manager
+msgid "manages multicompany for reports"
 msgstr ""
 
 #. module: account_reports
