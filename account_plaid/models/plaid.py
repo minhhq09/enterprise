@@ -21,19 +21,22 @@ class OnlineSyncConfig(models.TransientModel):
 class PlaidAccountJournal(models.Model):
     _inherit = 'account.journal'
 
+    def get_plaid_credentials(self):
+        login = self.env['ir.config_parameter'].get_param('plaid_id')
+        secret = self.env['ir.config_parameter'].get_param('plaid_secret')
+        url = 'https://tartan.plaid.com/' if (login == 'test_id' and secret == 'test_secret') else 'https://api.plaid.com/'
+        return {'login': login, 'secret': secret, 'url': url,}
+
     @api.multi
     def fetch(self, service, online_type, params, type_request="post"):
         if online_type != 'plaid':
             return super(PlaidAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
-        params['client_id'] = self.env['ir.config_parameter'].get_param('plaid_id')
-        params['secret'] = self.env['ir.config_parameter'].get_param('plaid_secret')
+        credentials = self.get_plaid_credentials()
+        params['client_id'] = credentials['login']
+        params['secret'] = credentials['secret']
         if not params['client_id'] or not params['secret']:
             raise UserError(_("You haven't configure your plaid account, please go to accounting/settings to configure it"))
-        if params['client_id'] == 'test_id' and params['secret'] == 'test_secret':
-            # It's the credentials of the sandbox
-            api = 'https://tartan.plaid.com/'
-        else:
-            api = 'https://api.plaid.com/'
+        api = credentials['url']
         if type_request == "post":
             if self.online_account_id and self._context.get('patch', True):
                 if not params.get('access_token', False):
