@@ -8,14 +8,21 @@ var FormViewBarcodeHandler = require('barcodes.FormViewBarcodeHandler');
 var _t = core._t;
 
 var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
+    init: function(parent, context) {
+        this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode
+        return this._super.apply(this, arguments);
+    },
+
     start: function() {
         this._super();
         this.po_model = new Model("stock.pack.operation");
         this.picking_model = new Model("stock.picking");
         this.map_barcode_method['O-CMD.MAIN-MENU'] = _.bind(this.do_action, this, 'stock_barcode.stock_barcode_action_main_menu', {clear_breadcrumbs: true});
         // FIXME: start is not a reliable place to do this.
-        this.form_view.options.initial_mode = 'edit';
         this.form_view.options.disable_autofocus = 'true';
+        if (this.form_view_initial_mode) {
+            this.form_view.options.initial_mode = this.form_view_initial_mode;
+        }
     },
 
     pre_onchange_hook: function(barcode) {
