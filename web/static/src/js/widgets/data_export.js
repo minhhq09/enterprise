@@ -29,7 +29,7 @@ var DataExport = Dialog.extend({
         'click #remove_all_field': function () {
             this.$('#fields_list').empty();
         },
-        'click #export_new_list': 'on_show_save_list',
+        'click .o_toggle_save_list': 'on_show_save_list',
         'click #move_up':'on_click_move_up',
         'click #move_down':'on_click_move_down',
     },
@@ -115,8 +115,8 @@ var DataExport = Dialog.extend({
     },
     show_exports_list: function() {
         var self = this;
-        if (self.$('#saved_export_list').is(':hidden')) {
-            self.$('#ExistsExportList').show();
+        if (self.$('.o_exported_lists_select').is(':hidden')) {
+            self.$('.o_exported_lists').show();
             return $.when();
         }
         return this.exports.read_slice(['name'], {
@@ -125,22 +125,22 @@ var DataExport = Dialog.extend({
             if (!export_list.length) {
                 return;
             }
-            self.$('#ExistsExportList').append(QWeb.render('Exists.ExportList', {'existing_exports': export_list}));
-            self.$('#saved_export_list').change(function() {
+            self.$('.o_exported_lists').append(QWeb.render('Exists.ExportList', {'existing_exports': export_list}));
+            self.$('.o_exported_lists_select').change(function() {
                 self.$('#fields_list option').remove();
-                var export_id = self.$('#saved_export_list option:selected').val();
+                var export_id = self.$('.o_exported_lists_select option:selected').val();
                 if (export_id) {
                     self.rpc('/web/export/namelist', {'model': self.dataset.model, export_id: parseInt(export_id, 10)}).done(self.do_load_export_field);
                 }
             });
-            self.$('#delete_export_list').click(function() {
-                var select_exp = self.$('#saved_export_list option:selected');
+            self.$('.o_delete_exported_list').click(function() {
+                var select_exp = self.$('.o_exported_lists_select option:selected');
                 if (select_exp.val()) {
                     self.exports.unlink([parseInt(select_exp.val(), 10)]);
                     select_exp.remove();
                     self.$("#fields_list option").remove();
-                    if (self.$('#saved_export_list option').length <= 1) {
-                        self.$('#ExistsExportList').hide();
+                    if (self.$('.o_exported_lists_select option').length <= 1) {
+                        self.$('.o_exported_lists').hide();
                     }
                 }
             });
@@ -155,11 +155,11 @@ var DataExport = Dialog.extend({
     on_show_save_list: function(ev) {
         ev.preventDefault();
         var self = this;
-        var current_node = self.$("#savenewlist");
+        var current_node = self.$(".o_save_list");
         if (!(current_node.find("label")).length) {
             current_node.append(QWeb.render('ExportNewList'));
-            current_node.find("#add_export_list").click(function() {
-                var value = current_node.find("#savelist_name").val();
+            current_node.find(".o_export_list_button").click(function() {
+                var value = current_node.find(".o_export_list_input").val();
                 if (value) {
                     self.do_save_export_list(value);
                 } else {
@@ -169,7 +169,7 @@ var DataExport = Dialog.extend({
         } else {
             if (current_node.is(':hidden')) {
                 current_node.show();
-                current_node.find("#savelist_name").val("");
+                current_node.find(".o_export_list_input").val("");
             } else {
                current_node.hide();
             }
@@ -191,12 +191,13 @@ var DataExport = Dialog.extend({
             if (!export_list_id) {
                 return;
             }
-            if (!self.$("#saved_export_list").length || self.$("#saved_export_list").is(":hidden")) {
+            var $select = self.$(".o_exported_lists_select");
+            if (!$select.length || $select.is(":hidden")) {
                 self.show_exports_list();
             }
-            self.$("#saved_export_list").append( new Option(value, export_list_id) );
+            $select.append( new Option(value, export_list_id) );
         });
-        this.on_show_save_list();
+        self.$(".o_save_list").hide();
     },
     on_click: function(id, record) {
         var self = this;

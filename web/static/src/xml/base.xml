@@ -1091,9 +1091,9 @@
             <th/>
             <th>
                 Fields to export
-                <a class="text-info" style="text-decoration: none;" href="#" id="export_new_list">Save fields list</a>
-                <div id="savenewlist"></div>
-                <div id="ExistsExportList"></div>
+                <a href="#" class="o_toggle_save_list">Save fields list</a>
+                <div class="o_save_list"></div>
+                <div class="o_exported_lists"></div>
             </th>
         </tr>
         <tr style="height: 400px;">
@@ -1158,22 +1158,20 @@
     </td>
 </tr>
 <t t-name="ExportNewList">
-    <tr>
-        <th><label>Save as:</label></th>
-        <td><input size="10" type="text" id="savelist_name"/></td>
-        <td><button class="oe_button oe_export_button_export" id="add_export_list">Ok</button></td>
-    </tr>
+    <label>Save as: </label>
+    <input type="text" class="o_export_list_input"/>
+    <button type="button" class="btn btn-sm btn-default o_export_list_button">Ok</button>
 </t>
 <t t-name="Exists.ExportList">
-    <label for="saved_export_list">Saved exports:</label>
+    <label>Saved exports: </label>
 
-    <select id="saved_export_list">
+    <select class="o_exported_lists_select">
         <option></option>
         <t t-foreach="existing_exports" t-as="export">
             <option t-att-value="export.id"><t t-esc="export.name"/></option>
         </t>
     </select>
-    <button class="oe_button oe_export_button_export" id="delete_export_list" type="button">Delete</button>
+    <button type="button" class="btn btn-sm btn-default o_delete_exported_list">Delete</button>
 </t>
 
 <t t-name="Throbber">
