@@ -355,6 +355,40 @@
         }
     }
 
+    // Tags
+    .o_form_field_many2manytags {
+        .badge {
+            cursor: pointer;
+            color: white;
+            font-size: 12px;
+            border: 0;
+
+            > ul {
+                @colored-tag-width: 45px;
+                width: 5*@colored-tag-width + 5px;
+                > li {
+                    float: left;
+                    color: black;
+                    > a {
+                        border-radius: 6px;
+                        width: @colored-tag-width;
+                        height: 30px;
+                        display: inline-block;
+                        border: 2px solid white;
+                        padding: 0;
+
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+                > li:last-child {
+                    margin-top: 7px;
+                }
+            }
+        }
+    }
+
     // All form fields
     .o_form_required {
         &.o_form_input, .o_form_input, &.o_form_textarea, .o_form_textarea {
