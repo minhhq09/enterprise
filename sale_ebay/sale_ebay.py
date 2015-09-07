@@ -253,6 +253,7 @@ class ebay_link_listing(models.TransientModel):
             'ebay_private_listing': True if item['PrivateListing'] == 'true' else False,
             'ebay_start_date': datetime.strptime(
                 item['ListingDetails']['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S'),
+            'ebay_last_sync': datetime.now(),
         })
 
         if 'Variations' in item:

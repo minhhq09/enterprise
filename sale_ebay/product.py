@@ -56,6 +56,11 @@ class product_template(models.Model):
     ebay_quantity_sold = fields.Integer(related='product_variant_ids.ebay_quantity_sold', store=True)
     ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
     ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
+    ebay_last_sync = fields.Datetime(string="Last update")
+
+    _defaults = {
+        'date': fields.Datetime.now()
+    }
 
     @api.multi
     def _prepare_item_dict(self):
@@ -364,7 +369,13 @@ class product_template(models.Model):
            and self.ebay_listing_status != 'Out Of Stock':
             self.ebay_listing_status = item['SellingStatus']['ListingStatus']
             if int(item['SellingStatus']['QuantitySold']) > 0:
-                resp = self.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
+                call_data = {
+                    'ItemID': item['ItemID'],
+                }
+                if self.ebay_last_sync:
+                    call_data['ModTimeFrom'] = str(self.ebay_last_sync)
+                    self.ebay_last_sync = datetime.now()
+                resp = self.ebay_execute('GetItemTransactions', call_data).dict()
                 if 'TransactionArray' in resp:
                     transactions = resp['TransactionArray']['Transaction']
                     if not isinstance(transactions, list):
