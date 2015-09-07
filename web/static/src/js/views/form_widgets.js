@@ -114,7 +114,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         this.$input = undefined;
     },
     store_dom_value: function () {
-        if (!this.get('effective_readonly') && this.is_syntax_valid()) {
+        if (this.$input && this.is_syntax_valid()) {
             this.internal_set_value(this.parse_value(this.$input.val()));
         }
     },
