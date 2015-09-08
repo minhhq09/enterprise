@@ -8009,12 +8009,18 @@ body .pt_drawer_menu_wrapper .pt_drawer_menu_shade {
   height: 100%;
   left: 250px;
   top: 0px;
-  width: -webkit-calc(100% - 250px);
+  width: calc(100% - 250px);
   background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
 }
 body .pt_screen {
   height: 100%;
+}
+body .pt_screen .form-control {
+  border-width: 0px;
+}
+body .pt_screen .pt_description {
+  resize: none;
 }
 body .pt_screen .pt_nav {
   position: absolute;
@@ -8028,7 +8034,8 @@ body .pt_screen .pt_nav > .pt_toggle {
   display: inline-block;
   height: 100%;
   width: 15%;
-  text-align: center;
+  text-align: left;
+  padding-left: 14px;
 }
 body .pt_screen .pt_nav > .pt_toggle a {
   line-height: inherit;
@@ -8036,12 +8043,14 @@ body .pt_screen .pt_nav > .pt_toggle a {
 body .pt_screen .pt_nav > .pt_title {
   display: inline-block;
   height: 100%;
-  width: 50%;
+  width: 55%;
   text-align: left;
 }
 body .pt_screen .pt_nav > .pt_title a {
   cursor: default;
   line-height: inherit;
+  font-weight: 500;
+  font-size: 1.45em;
 }
 body .pt_screen .pt_nav > .pt_nav_sync {
   display: inline-block;
@@ -8100,7 +8109,7 @@ body .pt_drawer_menu .pt_username {
   font-size: 1.25em;
   margin-bottom: 2em;
   position: absolute;
-  top: 60px;
+  top: 25px;
   left: 20px;
   color: white;
   font-weight: bold;
@@ -8128,10 +8137,12 @@ body .pt_drawer_menu .pt_drawer_links .pt_menu_item .menu_icon {
   height: 24px;
   width: 24px;
   margin: auto;
+  color: #666666;
 }
 body .pt_drawer_menu .pt_drawer_links .pt_menu_item .menu_text {
   position: relative;
-  left: 8px;
+  left: 30px;
+  font-size: 14px;
 }
 body .pt_screen {
   background-color: white;
@@ -8151,7 +8162,7 @@ body .pt_screen .pt_nav a {
   color: white;
 }
 body .pt_screen .pt_content.pt_activities_screen {
-  bottom: 80px;
+  bottom: 60px;
 }
 body .pt_screen .pt_content .pt_empty_activities_screen {
   margin-top: 20%;
@@ -8174,6 +8185,9 @@ body .pt_screen .pt_content table td {
 }
 body .pt_screen .pt_content table td .pt_no_task {
   color: lightgray;
+}
+body .pt_screen .pt_content table td:first-child {
+  padding-left: 14px;
 }
 body .pt_screen .pt_content .pt_activities_list {
   cursor: pointer;
@@ -8202,9 +8216,13 @@ body .pt_screen .pt_content .pt_activities_list .pt_duration {
   color: #21b799;
   font-weight: bold;
 }
-body .pt_screen .pt_content .pt_activities_list .pt_duration:hover {
+body .pt_screen .pt_content .pt_activities_list .pt_duration:hover:not(.pt_btn_interrupt_activity) {
   color: white;
   background-color: #21b799;
+}
+body .pt_screen .pt_content .pt_activities_list .pt_duration.pt_btn_interrupt_activity:hover {
+  color: white;
+  background-color: #f44336;
 }
 body .pt_screen .pt_content .pt_stats_row {
   text-align: center;
@@ -8252,23 +8270,6 @@ body .pt_screen .pt_content .pt_sync_screen .pt_premise_url {
   display: inline;
   width: inherit;
 }
-body .pt_screen .pt_total_time_bar {
-  background-color: grey;
-  position: absolute;
-  bottom: 60px;
-  left: 0px;
-  width: 100%;
-  height: 20px;
-  border-bottom-style: inset;
-  border-bottom-width: 1px;
-  border-bottom-color: ;
-}
-body .pt_screen .pt_total_time_bar .pt_total_time {
-  color: white;
-  padding-left: 70%;
-  padding-right: 15%;
-  text-align: center;
-}
 body .pt_screen .pt_footer {
   vertical-align: middle;
   background-color: grey;
@@ -8281,6 +8282,7 @@ body .pt_screen .pt_footer.pt_sync_footer a {
 }
 body .pt_screen .pt_footer .btn {
   color: white;
+  margin: 13px 1px;
 }
 body .pt_screen .pt_footer .btn.pt_btn_stop_timer,
 body .pt_screen .pt_footer .btn.pt_btn_interrupt_activity {
@@ -8288,6 +8290,9 @@ body .pt_screen .pt_footer .btn.pt_btn_interrupt_activity {
 }
 body .pt_screen .pt_footer .btn.pt_validate_edit_btn {
   margin-left: 15px;
+}
+body .pt_screen .pt_footer .btn:hover {
+  box-shadow: none !important;
 }
 body .pt_screen .pt_footer .pt_timer_clock {
   color: white;

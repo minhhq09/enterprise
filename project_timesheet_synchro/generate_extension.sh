@@ -4,7 +4,7 @@
 
 [ -d extension/static/src/css ] || mkdir -p extension/static/src/css
 
-lessc static/src/less/import.less > extension/static/src/css/project_timesheet.css
+lessc static/src/less/import.less > static/src/css/project_timesheet.css
 
 cp -r static extension
 cp views/timesheet.html extension
