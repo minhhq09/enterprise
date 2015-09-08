@@ -26,4 +26,5 @@ Keeps track of the revenue recognition installments, and creates corresponding j
     ],
     'installable': True,
     'application': False,
+    'license': 'OEEL-1',
 }

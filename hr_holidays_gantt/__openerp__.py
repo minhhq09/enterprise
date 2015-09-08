@@ -12,4 +12,5 @@
     'data': [
         'views/hr_holidays_gantt_view.xml',
     ],
+    'license': 'OEEL-1',
 }

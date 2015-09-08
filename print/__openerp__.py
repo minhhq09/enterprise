@@ -17,4 +17,5 @@
         'security/ir.model.access.csv',
     ],
     'installable': True,
+    'license': 'OEEL-1',
 }

@@ -70,4 +70,5 @@ Accounting reports for Deutschland SKR04
     ],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }

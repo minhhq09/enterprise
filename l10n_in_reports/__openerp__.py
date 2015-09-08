@@ -17,4 +17,5 @@ Accounting reports for India
     'demo': [],
     'auto_install': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

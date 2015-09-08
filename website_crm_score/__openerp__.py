@@ -26,4 +26,5 @@ This module allows you to...
     ],
     'installable': True,
     'application': False,
+    'license': 'OEEL-1',
 }

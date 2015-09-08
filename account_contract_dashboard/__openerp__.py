@@ -26,4 +26,5 @@ It adds dashboards to :
     ],
     'installable': True,
     'application': False,
+    'license': 'OEEL-1',
 }

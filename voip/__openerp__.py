@@ -35,4 +35,5 @@
     'css': ['static/src/css/*.css'],
     'qweb': ['static/src/xml/*.xml'],
     'application' : False,
+    'license': 'OEEL-1',
 }

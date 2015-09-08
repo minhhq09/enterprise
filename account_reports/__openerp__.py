@@ -25,4 +25,5 @@ Accounting Reports
     ],
     'auto_install': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

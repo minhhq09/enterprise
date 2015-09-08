@@ -14,5 +14,6 @@ OpenERP Web Gantt chart view.
     'qweb': [
         'static/src/xml/*.xml',
     ],
-    'auto_install': True
+    'auto_install': True,
+    'license': 'OEEL-1',
 }

@@ -21,4 +21,5 @@ Accounting reports for Ethiopia
     'demo': [],
     'auto_install': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

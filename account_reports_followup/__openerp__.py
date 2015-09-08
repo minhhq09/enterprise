@@ -40,4 +40,5 @@ Note that if you want to check the follow-up level for a given partner/account e
     'demo': ['account_followup_demo.xml'],
     'installable': True,
     'auto_install': False,
+    'license': 'OEEL-1',
 }

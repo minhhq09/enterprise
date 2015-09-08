@@ -15,4 +15,5 @@
         'views/res_config_view.xml',
     ],
     'auto_install': True,
+    'license': 'OEEL-1',
 }

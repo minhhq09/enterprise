@@ -29,4 +29,5 @@ Let your customers follow the signature process easily.
     ],
     'application': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

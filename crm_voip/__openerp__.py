@@ -42,4 +42,5 @@
     'qweb': ['static/src/xml/*.xml'],
     'images': ['static/description/voip.png'],
     'application' : True,
+    'license': 'OEEL-1',
 }

@@ -23,4 +23,5 @@ OpenERP Website CMS
     ],
     'qweb': ['static/src/xml/*.xml'],
     'application': False,
+    'license': 'OEEL-1',
 }

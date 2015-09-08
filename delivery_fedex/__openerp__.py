@@ -14,5 +14,6 @@
     ],
     'demo': [
         'data/delivery_fedex_demo.xml'
-    ]
+    ],
+    'license': 'OEEL-1',
 }

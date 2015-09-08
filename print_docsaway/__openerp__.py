@@ -16,4 +16,5 @@ This module allows you to send your documents through postal mail, thanks to Doc
     ],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }

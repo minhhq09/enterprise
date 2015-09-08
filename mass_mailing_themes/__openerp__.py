@@ -31,4 +31,5 @@ Design gorgeous mails with 7 high quality themes
     'installable': True,
     'auto_install': True,
     'application': True,
+    'license': 'OEEL-1',
 }

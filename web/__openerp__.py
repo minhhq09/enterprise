@@ -18,4 +18,5 @@ This module provides the core of the OpenERP Web Client.
         "static/src/xml/*.xml",
     ],
     'bootstrap': True, # load translations for login screen
+    'license': 'OEEL-1',
 }

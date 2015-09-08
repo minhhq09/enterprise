@@ -18,4 +18,5 @@ This module adds a followup menu and features to your portal if followup and por
         'demo/demo_invoices.yml',
     ],
     'installable': True,
+    'license': 'OEEL-1',
 }

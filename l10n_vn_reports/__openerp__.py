@@ -23,4 +23,5 @@ This module applies to companies based in Vietnamese Accounting Standard (VAS).
     ],
     "installable": True,
     "auto_install": True,
+    'license': 'OEEL-1',
 }

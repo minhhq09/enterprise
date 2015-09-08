@@ -15,4 +15,5 @@ This module allows you to set a deferred revenue on your subscription contracts.
     ],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }

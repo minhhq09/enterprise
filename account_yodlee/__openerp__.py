@@ -24,4 +24,5 @@
     'qweb': [
         'views/yodlee_templates.xml',
     ],
+    'license': 'OEEL-1',
 }

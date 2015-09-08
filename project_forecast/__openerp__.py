@@ -31,4 +31,5 @@
         'data/project_forecast_data.xml',
     ],
     'application': True,
+    'license': 'OEEL-1',
 }

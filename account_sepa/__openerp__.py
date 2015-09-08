@@ -19,4 +19,5 @@
         'views/account_payment.xml',
         'views/res_company_view.xml',
     ],
+    'license': 'OEEL-1',
 }

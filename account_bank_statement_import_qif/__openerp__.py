@@ -23,4 +23,5 @@ Whenever possible, you should use a more appropriate file format like OFX.
         'account_qif.xml'
     ],
     'installable': True,
+    'license': 'OEEL-1',
 }

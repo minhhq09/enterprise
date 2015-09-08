@@ -28,4 +28,5 @@ When you proceed with the reconciliation, simply select the corresponding batch 
     ],
     'test': [],
     'installable': True,
+    'license': 'OEEL-1',
 }

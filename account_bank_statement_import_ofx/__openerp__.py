@@ -20,4 +20,5 @@ creation of the Financial Accounting records).
     ],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }
