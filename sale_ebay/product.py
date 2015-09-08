@@ -265,8 +265,10 @@ class product_template(models.Model):
 
     @api.multi
     def _create_picture_url(self):
-        attachments = self.env['ir.attachment'].search([('res_model', '=', 'product.template'),
-                                                        ('res_id', '=', self.id)])
+        attachments = self.env['ir.attachment'].search([
+            ('res_model', '=', 'product.template'),
+            ('res_id', '=', self.id)
+        ], order="create_date desc")
         urls = []
         for att in attachments:
             image = StringIO(base64.standard_b64decode(att["datas"]))
