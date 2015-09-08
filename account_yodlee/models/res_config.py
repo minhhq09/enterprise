@@ -40,7 +40,10 @@ class YodleeConfigSettings(models.TransientModel):
             'cobrandPassword': self.yodlee_secret,
         }
         url = self.sanetize_yodlee_url(self.yodlee_service_url)
-        resp = requests.post(url + '/authenticate/coblogin', params=login)
+        try:
+            resp = requests.post(url + '/authenticate/coblogin', params=login, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
         resp_json = simplejson.loads(resp.text)
         if 'cobrandConversationCredentials' not in resp_json:
             raise UserError(_('Incorrect Yodlee login/password, please check your credentials'))
@@ -52,7 +55,10 @@ class YodleeConfigSettings(models.TransientModel):
             'userCredentials.objectInstanceType': 'com.yodlee.ext.login.PasswordCredentials',
             'userProfile.emailAddress': self.yodlee_new_user_email
         }
-        resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params)
+        try:
+            resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
         resp_json = simplejson.loads(resp.text)
         if resp_json.get('errorOccurred', False) == 'true':
             raise UserError(('An error occured: '+resp_json.get('exceptionType', 'Unknown Error') + '\nMessage: ' +resp_json.get('message', '')))

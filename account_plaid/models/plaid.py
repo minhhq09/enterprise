@@ -21,7 +21,7 @@ class OnlineSyncConfig(models.TransientModel):
 class PlaidAccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    def get_plaid_credentials(self):
+    def _get_plaid_credentials(self):
         login = self.env['ir.config_parameter'].get_param('plaid_id')
         secret = self.env['ir.config_parameter'].get_param('plaid_secret')
         url = 'https://tartan.plaid.com/' if (login == 'test_id' and secret == 'test_secret') else 'https://api.plaid.com/'
@@ -31,22 +31,25 @@ class PlaidAccountJournal(models.Model):
     def fetch(self, service, online_type, params, type_request="post"):
         if online_type != 'plaid':
             return super(PlaidAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
-        credentials = self.get_plaid_credentials()
+        credentials = self._get_plaid_credentials()
         params['client_id'] = credentials['login']
         params['secret'] = credentials['secret']
         if not params['client_id'] or not params['secret']:
             raise UserError(_("You haven't configure your plaid account, please go to accounting/settings to configure it"))
         api = credentials['url']
-        if type_request == "post":
-            if self.online_account_id and self._context.get('patch', True):
-                if not params.get('access_token', False):
-                    params['access_token'] = self.online_account_id.token
-                resp = requests.patch(api + service, params=params)
-            else:
-                resp = requests.post(api + service, params=params)
-        elif type_request == "get":
-            #Trying to get information on institution, so we don't need to pass credential information in GET request
-            resp = requests.get(api + service)
+        try:
+            if type_request == "post":
+                if self.online_account_id and self._context.get('patch', True):
+                    if not params.get('access_token', False):
+                        params['access_token'] = self.online_account_id.token
+                    resp = requests.patch(api + service, params=params, timeout=3)
+                else:
+                    resp = requests.post(api + service, params=params, timeout=3)
+            elif type_request == "get":
+                #Trying to get information on institution, so we don't need to pass credential information in GET request
+                resp = requests.get(api + service, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to plaid service'))
         #Add request status code in response
         resp_json = simplejson.loads(resp.text)
         resp_json['status_code'] = resp.status_code
@@ -54,7 +57,10 @@ class PlaidAccountJournal(models.Model):
 
     @api.multi
     def fetch_all_institution(self):
-        resp = requests.get('https://api.plaid.com/institutions')
+        try:
+            resp = requests.get('https://api.plaid.com/institutions', timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to plaid service'))
         institutions = self.env['online.institution'].search([('type', '=', 'plaid')])
         institution_name = [i.name for i in institutions]
         for institution in simplejson.loads(resp.text):
@@ -73,6 +79,9 @@ class PlaidAccount(models.Model):
     token = fields.Char("Access Token")
 
     def online_sync(self):
+        if (self.institution_id.type != 'plaid'):
+            return super(PlaidAccount, self).online_sync()
+            
         action_rec = self.env['ir.model.data'].xmlid_to_object('account.open_account_journal_dashboard_kanban')
         if action_rec:
             action = action_rec.read([])[0]

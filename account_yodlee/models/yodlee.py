@@ -25,7 +25,7 @@ class YodleeAccountJournal(models.Model):
     This yodlee.account record fetchs the bank statements
     '''
 
-    def get_yodlee_credentials(self):
+    def _get_yodlee_credentials(self):
         ICP_obj = self.env['ir.config_parameter']
         login = ICP_obj.get_param('yodlee_id')
         secret = ICP_obj.get_param('yodlee_secret')
@@ -35,7 +35,7 @@ class YodleeAccountJournal(models.Model):
     @api.multi
     def fetch_all_institution(self):
         # If nothing is configured, do not try to synchronize (cron job)
-        credentials = self.get_yodlee_credentials()
+        credentials = self._get_yodlee_credentials()
         if not credentials['url'] \
             or not credentials['login'] \
             or not credentials['secret'] \
@@ -58,14 +58,17 @@ class YodleeAccountJournal(models.Model):
     def _get_access_token(self):
         # Need a new access_token
         # This method is used by fetch()
-        credentials = self.get_yodlee_credentials()
+        credentials = self._get_yodlee_credentials()
         if not credentials['login'] or not credentials['secret'] or not credentials['url']:
             raise UserError(_('Please configure your yodlee account first in accounting>settings'))
         login = {
             'cobrandLogin': credentials['login'],
             'cobrandPassword': credentials['secret'],
         }
-        resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login)
+        try:
+            resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
         resp_json = simplejson.loads(resp.text)
         if 'cobrandConversationCredentials' not in resp_json:
             raise UserError(_('Incorrect Yodlee login/password, please check your credentials in accounting/settings'))
@@ -76,13 +79,16 @@ class YodleeAccountJournal(models.Model):
     def _get_user_access(self):
         # This method log in yodlee user
         # This method is used by fetch()
-        credentials = self.get_yodlee_credentials()
+        credentials = self._get_yodlee_credentials()
         params = {
             'cobSessionToken': self.company_id.yodlee_access_token,
             'login': self.company_id.yodlee_user_login,
             'password': self.company_id.yodlee_user_password,
         }
-        resp = requests.post(credentials['url']+'/authenticate/login', params=params)
+        try:
+            resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
         resp_json = simplejson.loads(resp.text)
         if not resp_json.get('userContext', False):
             raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or 'An Error has occurred')
@@ -94,7 +100,7 @@ class YodleeAccountJournal(models.Model):
         if online_type != 'yodlee':
             return super(YodleeAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
 
-        credentials = self.get_yodlee_credentials()
+        credentials = self._get_yodlee_credentials()
         last_login = self.company_id.yodlee_last_login and datetime.datetime.strptime(self.company_id.yodlee_last_login, "%Y-%m-%d %H:%M:%S")
         delta = last_login and (datetime.datetime.now() - last_login).seconds or 101 * 60
         if not self.company_id.yodlee_access_token or delta / 60 >= 95:
@@ -105,7 +111,10 @@ class YodleeAccountJournal(models.Model):
             self._get_user_access()
         params['cobSessionToken'] = self.company_id.yodlee_access_token
         params['userSessionToken'] = self.company_id.yodlee_user_access_token
-        resp = requests.post(credentials['url'] + service, params=params)
+        try:
+            resp = requests.post(credentials['url'] + service, params=params, timeout=3)
+        except Exception:
+            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
         return resp.text
 
 
