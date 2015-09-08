@@ -220,11 +220,11 @@ class SaleSubscription(models.Model):
             'type': 'server2server',
             'currency_id': invoice.currency_id.id,
             'reference': reference,
-            'partner_reference': payment_method.acquirer_ref,
+            'payment_method_id': payment_method.id,
             'partner_id': self.partner_id.id,
             'partner_country_id': self.partner_id.country_id.id,
             'invoice_id': invoice.id,
-            's2s_cb_eval': "self.env['sale.subscription'].reconcile_pending_transaction(%s,self,self.invoice_id)" % self.id
+            'callback_eval': "self.env['sale.subscription'].reconcile_pending_transaction(%s,self,self.invoice_id)" % self.id
         }
 
         tx = tx_obj.create(values)
