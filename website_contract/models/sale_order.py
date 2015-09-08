@@ -54,8 +54,6 @@ class SaleOrder(models.Model):
             'partner_id': self.partner_id.id,
             'manager_id': self.user_id.id,
             'date_start': fields.Date.today(),
-            'quantity_max': contract_tmp.quantity_max,
-            'parent_id': contract_tmp.parent_id and contract_tmp.parent_id.id or False,
             'description': self.note,
             'payment_method_id': payment_method_id,
             'pricelist_id': self.pricelist_id.id,
