@@ -19,13 +19,15 @@ BARCODES
 
 barcode -t 2x5+20+40 -m 30x30 -p A4 -e code128b -o barcodes_actions.ps <<BARCODES
 O-CMD.MAIN-MENU
-O-CMD.SAVE
 O-CMD.CANCEL
-O-CMD.PAGER-PREV
-O-CMD.PAGER-NEXT
+O-CMD.EDIT
 O-BTN.validate
 O-BTN.print
 O-BTN.put-in-pack
+O-CMD.PAGER-PREV
+O-CMD.PAGER-NEXT
+O-CMD.PAGER-FIRST
+O-CMD.PAGER-LAST
 BARCODES
 
 # add title in postscript :
