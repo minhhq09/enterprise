@@ -27,6 +27,7 @@ class sale_subscription_report(models.Model):
     country_id = fields.Many2one('res.country', 'Country', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Comercial Partner', readonly=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
+    close_reason_id = fields.Many2one('sale.subscription.close.reason', 'Close Reason', readonly=True)
 
     def _select(self):
         select_str = """
@@ -46,7 +47,8 @@ class sale_subscription_report(models.Model):
                     sub.pricelist_id as pricelist_id,
                     p.product_tmpl_id,
                     partner.country_id as country_id,
-                    partner.commercial_partner_id as commercial_partner_id
+                    partner.commercial_partner_id as commercial_partner_id,
+                    sub.close_reason_id as close_reason_id
         """
         return select_str
 
@@ -79,7 +81,8 @@ class sale_subscription_report(models.Model):
                     sub.pricelist_id,
                     p.product_tmpl_id,
                     partner.country_id,
-                    partner.commercial_partner_id
+                    partner.commercial_partner_id,
+                    sub.close_reason_id
         """
         return group_by_str
 

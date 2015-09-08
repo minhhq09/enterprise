@@ -14,8 +14,16 @@ class SaleOrder(models.Model):
         for order in self:
             order.subscription_id = self.env['sale.subscription'].search([('analytic_account_id', '=', order.project_id.id)], limit=1)
 
+    def _search_subscription(self, operator, value):
+        if operator not in ['=', '!=', 'in', 'not in']:
+            return []
+        an_accounts = self.env['sale.subscription'].read_group([('id', operator, value)], ['analytic_account_id'], ['analytic_account_id'])
+        aa_ids = [aa['analytic_account_id'][0] for aa in an_accounts]
+
+        return [('project_id', operator, aa_ids)]
+
     update_contract = fields.Boolean("Update Contract", help="If set, the associated contract will be overwritten by this sale order (every recurring line of the contract not in this sale order will be deleted).")
-    subscription_id = fields.Many2one('sale.subscription', 'Subscription', compute=_get_subscription)
+    subscription_id = fields.Many2one('sale.subscription', 'Subscription', compute=_get_subscription, search=_search_subscription)
 
     @api.multi
     def action_confirm(self):

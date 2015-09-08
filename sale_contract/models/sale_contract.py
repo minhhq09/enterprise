@@ -361,7 +361,7 @@ class SaleSubscription(osv.osv):
 
     def name_get(self, cr, uid, ids, context=None):
         res = []
-        if not len(ids):
+        if not ids:
             return res
         for sub in self.browse(cr, uid, ids, context=context):
             if sub.type == 'template':
