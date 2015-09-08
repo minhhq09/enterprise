@@ -65,10 +65,10 @@
             <t t-set="_toggle_action" t-value="'pt_burger_menu_open'"/>
             <t t-set="_toggle_icon" t-value="'bars'"/>
             <t t-if="widget.show_today">
-                <t t-set="_title" t-value="'Today'"/>
+                <t t-set="_title" t-value="'Today (' + widget.unit_amount_to_hours_minutes(widget.get_total_time()) + ')'"/>
             </t>
             <t t-if="widget.show_week">
-                <t t-set="_title" t-value="'This Week'"/>
+                <t t-set="_title" t-value="'This Week (' + widget.unit_amount_to_hours_minutes(widget.get_total_time()) + ')'"/>
             </t>
             <t t-set="_action" t-value="'pt_button_plus_activity'"/>
             <t t-set="_action_icon" t-value="'plus'"/>
@@ -102,11 +102,16 @@
                                         </td>
                                         <td class="pt_duration" t-att-data-activity_id="aal.id">
                                             <div class="pt_duration_time">
-                                                <t t-if="aal.unit_amount">
-                                                    <t t-esc="widget.unit_amount_to_hours_minutes(aal.unit_amount)"/>
+                                                <t t-if="widget.current_activity &amp;&amp; widget.current_activity.id == aal.id">
+                                                    <i class="fa fa-play"/>
                                                 </t>
-                                                <t t-if="!aal.unit_amount">
-                                                    00:00
+                                                <t t-if="!(widget.current_activity &amp;&amp; widget.current_activity.id == aal.id)">
+                                                    <t t-if="aal.unit_amount">
+                                                        <t t-esc="widget.unit_amount_to_hours_minutes(aal.unit_amount)"/>
+                                                    </t>
+                                                    <t t-if="!aal.unit_amount">
+                                                        00:00
+                                                    </t>
                                                 </t>
                                             </div>
                                             <div class="pt_continue_activity_btn hidden">
@@ -157,9 +162,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="pt_total_time_bar">
-                <div class="pt_total_time"><strong><t t-esc="widget.unit_amount_to_hours_minutes(widget.get_total_time())"/></strong></div>
             </div>
             <div class="pt_footer container-fluid">
                 <div class="row">

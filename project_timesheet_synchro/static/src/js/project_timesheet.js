@@ -44,6 +44,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
             // Desktop detection
             self.isDesktop = (!this.isMobile && window.location.origin.indexOf("chrome-extension://") === -1);
+            if (self.isDesktop) $('body').css({'width': '100%', 'height': '100%'}); // Necessary for app embedding
 
             // Listeners
             core.bus.on('change_screen', this, this.go_to_screen);
@@ -708,9 +709,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var self = this;
             self.activities_list = [];
             _.each(self.getParent().data.account_analytic_lines, function(aal) {
-                if(self.current_activity && self.current_activity.id === aal.id || aal.to_remove){
-                    return;
-                }
+                if(aal.to_remove) return;
                 if(self.show_today && aal.date === self.today){
                     self.activities_list.push(aal);
                 }
