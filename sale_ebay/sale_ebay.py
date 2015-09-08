@@ -204,7 +204,7 @@ class ebay_link_listing(models.TransientModel):
         currency = self.env['res.currency'].search([
             ('name', '=', item['StartPrice']['_currencyID'])])
         product = self.env['product.template'].browse(self._context.get('active_id'))
-        product.write({
+        product_values = {
             'ebay_id': item['ItemID'],
             'ebay_url': item['ListingDetails']['ViewItemURL'],
             'ebay_listing_status': item['SellingStatus']['ListingStatus'],
@@ -236,25 +236,39 @@ class ebay_link_listing(models.TransientModel):
             ),
             'ebay_listing_type': item['ListingType'],
             'ebay_listing_duration': item['ListingDuration'],
-            'ebay_seller_payment_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'PAYMENT'),
-                ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
-            ]).id,
-            'ebay_seller_return_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'RETURN_POLICY'),
-                ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
-            ]).id,
-            'ebay_seller_shipping_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'SHIPPING'),
-                ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
-            ]).id,
             'ebay_best_offer': True if 'BestOfferDetails' in item
                 and item['BestOfferDetails']['BestOfferEnabled'] == 'true' else False,
             'ebay_private_listing': True if item['PrivateListing'] == 'true' else False,
             'ebay_start_date': datetime.strptime(
                 item['ListingDetails']['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S'),
             'ebay_last_sync': datetime.now(),
-        })
+        }
+        if 'SellerProfiles' in item:
+            if 'SellerPaymentProfile' in item['SellerProfiles']\
+                and 'PaymentProfileID' in item['SellerProfiles']['SellerPaymentProfile']:
+                ebay_seller_payment_policy_id = self.env['ebay.policy'].search_read([
+                    ('policy_type', '=', 'PAYMENT'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
+                ], ['id'])
+                if ebay_seller_payment_policy_id:
+                    product_values['ebay_seller_payment_policy_id'] = ebay_seller_payment_policy_id[0]['id']
+            if 'SellerReturnProfile' in item['SellerProfiles']\
+                and 'ReturnProfileID' in item['SellerProfiles']['SellerReturnProfile']:
+                ebay_seller_return_policy_id = self.env['ebay.policy'].search_read([
+                    ('policy_type', '=', 'RETURN_POLICY'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
+                ], ['id'])
+                if ebay_seller_return_policy_id:
+                    product_values['ebay_seller_return_policy_id'] = ebay_seller_return_policy_id[0]['id']
+            if 'SellerShippingProfile' in item['SellerProfiles']\
+                and 'ShippingProfileID' in item['SellerProfiles']['SellerShippingProfile']:
+                ebay_seller_shipping_policy_id = self.env['ebay.policy'].search([
+                    ('policy_type', '=', 'SHIPPING'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
+                ])
+                if ebay_seller_shipping_policy_id:
+                    product_values['ebay_seller_shipping_policy_id'] = ebay_seller_shipping_policy_id[0]['id']
+        product.write(product_values)
 
         if 'Variations' in item:
             variations = item['Variations']['Variation']
