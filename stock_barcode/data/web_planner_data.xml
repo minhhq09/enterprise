@@ -58,11 +58,11 @@
                     <h4>Keyboard layout</h4>
                     <p>Your barcode scanner needs to be configured to use the same keyboard layout as your operating system. Otherwise, your scanner won't translate characters correctly (replacing a 'A' with a 'Q' for example). Most scanners are configured by scanning the appropriate barcode in the user's manual.</p>
                     <h4>Automatic carriage return</h4>
-                    <p>By default, Odoo has a 50 milliseconds delay between each successive scan (it helps avoid accidental double scanning). If you want to suppress this delay, you can configure your scanner to insert a carriage return symbol at the end of each barcode. This is usually done by scanning a specific barcode in your scanner user manual ('CR suffix ON')</p>
+                    <p>By default, Odoo has a 50 milliseconds delay between each successive scan (it helps avoid accidental double scanning). If you want to suppress this delay, you can configure your scanner to insert a carriage return symbol at the end of each barcode. This is usually the default configuration and can be explicitly configured by scanning a specific barcode in your scanner user manual ('CR suffix ON', 'Apply Enter for suffix', etc.)</p>
                     <div class="alert alert-info" role="alert">
                         <p><strong>Test your configuration:</strong> <a href="/stock_barcode/static/description/barcode.pdf" target="_blank">Print this barcode</a> then scan it, the result should be <i>YES IT WORKS.</i></p>
                         <input type="text" placeholder="Scan the bracode here" class="form-control barcode-scanner"/>
-                        <span class="hide carriage-return mt8">Automatic carriage return: <span class="label label-danger">OFF</span></span>
+                        <div class="carriage-return mt8">Automatic carriage return: <span class="label">OFF</span></div>
                     </div>
                 </t>
 
@@ -73,7 +73,7 @@
                     <ul>
                         <li>Set barcodes at the initial importation of your products or</li>
                         <li>Scan or enter each barcode by manually editing the products or</li>
-                        <li>Use our fast scanning interface, accessible from the <a t-att-href="prepare_backend_url('stock.action_stock_config_settings')">Inventory Settings</a></li>
+                        <li>Use our <a t-att-href="prepare_backend_url('stock_barcode.product_action_barcodes')">fast scanning interface</a> (make sure your scanner uses carriage return suffix)</li>
                     </ul>
                     <div class="alert alert-info" role="alert">
                         <p><strong>Product variants:</strong> be careful to add barcodes directly on the variant, and not the template product (otherwise you won't be able to differentiate them).</p>
@@ -128,7 +128,7 @@
                     </ul>
                     <div class="alert alert-info" role="alert">
                         <p>
-                            <strong>Actions barcodes:</strong> use the barcodes from <a href="/stock_barcode/static/description/barcodes_actions.pdf" target="_blank">this document</a> to launch actions in Odoo like Save, Edit and Validate instead of using your mouse or keyboard.
+                            <strong>Actions barcodes:</strong> use the barcodes from <a href="/stock_barcode/static/description/barcodes_actions.pdf" target="_blank">this document</a> to launch actions in Odoo like Save, Next Item or Validate instead of using your mouse or keyboard.
                         </p>
                     </div>
                 </t>
