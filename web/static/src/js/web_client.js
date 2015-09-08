@@ -127,6 +127,11 @@ var WebClient = Widget.extend({
             If we have a match, it means that it is probably a link to an anchor, so we jump to that anchor.
         */
         this.$el.on('click', 'a', function(ev) {
+            var disable_anchor = ev.target.attributes.disable_anchor;
+            if (disable_anchor && disable_anchor.value === "true") {
+                return;
+            }
+
             var href = ev.target.attributes['href'];
             if (href) {
                 if (href.value[0] === '#' && href.value.length > 1) {
