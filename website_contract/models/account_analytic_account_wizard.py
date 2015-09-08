@@ -41,7 +41,7 @@ class SaleSubscriptionWizard(models.TransientModel):
         rec_lines = []
         for line in self.option_lines:
             rec_line = False
-            for account_line in self.account_id.recurring_invoice_line_ids:
+            for account_line in self.subscription_id.recurring_invoice_line_ids:
                 if (line.product_id, line.uom_id) == (account_line.product_id, account_line.uom_id):
                     rec_line = (1, account_line.id, {'sold_quantity': account_line.sold_quantity + line.quantity})
             if not rec_line:
@@ -49,7 +49,7 @@ class SaleSubscriptionWizard(models.TransientModel):
                                    'name': line.name,
                                    'sold_quantity': line.quantity,
                                    'uom_id': line.uom_id.id,
-                                   'price_unit': self.account_id.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.account_id.pricelist_id.id]
+                                   'price_unit': self.subscription_id.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.subscription_id.pricelist_id.id]
                                    })
             rec_lines.append(rec_line)
         return rec_lines
@@ -57,7 +57,7 @@ class SaleSubscriptionWizard(models.TransientModel):
     @api.multi
     def add_lines(self):
         rec_lines = self._prepare_contract_lines()
-        self.account_id.write({'recurring_invoice_line_ids': rec_lines})
+        self.subscription_id.write({'recurring_invoice_line_ids': rec_lines})
 
 
 class SaleSubscriptionWizardOption(models.TransientModel):

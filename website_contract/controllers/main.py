@@ -293,11 +293,11 @@ class sale_quote_contract(sale_quote):
                         order.name,
                         order.amount_total,
                         order.pricelist_id.currency_id.id,
-                        partner_id=order.partner_id.id,
-                        tx_values={
+                        values={
                             'return_url': '/quote/%s/%s' % (order_id, token) if token else '/quote/%s' % order_id,
                             'type': tx_type,
-                            'alias_usage': _('If we store your payment information on our server, subscription payments will be made automatically.')
+                            'alias_usage': _('If we store your payment information on our server, subscription payments will be made automatically.'),
+                            'partner_id': order.partner_id.id,
                         })[0]
                     response.qcontext['recurring_products'] = recurring_products
         return response
