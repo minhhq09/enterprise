@@ -24,7 +24,7 @@ odoo.define('projcet_timesheet_synchro.app', function (require) {
         },
         start: function(parent) {
         var res= this._super(parent);
-        this.$el.css({height: '597px', width: '336px', border: 0});
+        this.$el.css({height: '582px', width: '330px', border: 0});
         return res;
     },
     });
