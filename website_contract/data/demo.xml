@@ -62,6 +62,11 @@ Access your Odoo Instance using your own domain.</field>
         <field name="uom_id" ref="contract_uom_month"/>
         <field name="uom_po_id" ref="contract_uom_month"/>
      </record>
+
+     <!-- Tag -->
+     <record id="odoo_online_tag" model="account.analytic.tag">
+        <field name="name">Odoo Online</field>
+     </record>
    
 
     <!-- Contract templates -->
@@ -69,6 +74,9 @@ Access your Odoo Instance using your own domain.</field>
         <field name="type">template</field>
         <field name="name">Odoo Monthly</field>
         <field name="state">open</field>
+        <field name="user_closable">True</field>
+        <field name="payment_mandatory">True</field>
+        <field name="tag_ids" eval="[(6,0, (ref('odoo_online_tag'),))]"/>
         <field name="plan_description">
             <![CDATA[
             <ul>
@@ -150,6 +158,9 @@ Access your Odoo Instance using your own domain.</field>
         <field name="type">template</field>
         <field name="name">Odoo Yearly</field>
         <field name="state">open</field>
+        <field name="user_closable">True</field>
+        <field name="partial_invoice">True</field>
+        <field name="tag_ids" eval="[(6,0, (ref('odoo_online_tag'),))]"/>
         <field name="plan_description">
             <![CDATA[
             <ul>
