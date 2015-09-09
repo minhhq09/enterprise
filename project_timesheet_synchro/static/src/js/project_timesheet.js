@@ -898,8 +898,10 @@ odoo.define('project_timeshee.ui', function (require ) {
         // Each entry of the list is a [project, task] pair, where task might be false.
         make_day_plan_list: function() {
             var self = this;
+            var today = time_module.date_to_str(new Date());
+            var aals = self.getParent().data.account_analytic_lines;
             self.day_plan_list = [];
-            _.each(self.getParent().data.account_analytic_lines, function(aal) {
+            _.each(aals, function(aal) {
                 if(!aal.to_remove) {
                     var to_add = true;
                     _.each(self.day_plan_list, function(list_entry) {
@@ -910,7 +912,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                             to_add =false;
                         }
                     });
-                    if (to_add) {
+                    if (to_add && !_.findWhere(aals, {project_id : aal.project_id, task_id : aal.task_id, date : today})) {
                         self.day_plan_list.push([aal.project_id, aal.task_id]);
                     }
                 }
