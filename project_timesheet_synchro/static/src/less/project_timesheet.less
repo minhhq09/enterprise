@@ -202,6 +202,10 @@ body {
 
                 &:hover {
                     background-color: rgba(200,200,200,0.2);
+
+                    .menu_icon{
+                        color: black;
+                    }
                 }
 
                 > a {
@@ -322,6 +326,11 @@ body {
                         &:hover {
                             color: white;
                             background-color: @danger;
+
+                            .fa-play:before {
+                                content: ~'"\f04d"';
+                                font-family: FontAwesome;
+                            }
                         }
                     }
                 }
@@ -384,6 +393,40 @@ body {
                 .pt_premise_url{
                     display: inline;
                     width: inherit;
+                }
+            }
+
+            // ------------------------------------------------------------------
+            // Select2 overrides part 1
+            // ------------------------------------------------------------------
+            div.select2-container {
+                a.select2-choice {
+                    border: none;
+                    background-image: linear-gradient(@primary, @primary), linear-gradient(#D2D2D2, #D2D2D2);
+                    background-size: 0px 2px, 100% 1px;
+                    background-repeat: no-repeat;
+                    background-position: center bottom, center calc(100% - 1px);
+                    background-color: transparent;
+                    transition: background 0s ease-out 0s;
+
+                    span.select2-arrow {
+                        border-left: none;
+                        background: none;
+                    }
+                }
+
+                &.select2-container-active {
+                    a.select2-choice {
+                        box-shadow: none;
+                        -webkit-box-shadow: none;
+                    }
+
+                }
+
+                &.select2-dropdown-open {
+                    a.select2-choice {
+                        background-color: white;
+                    }
                 }
             }
 
@@ -459,9 +502,23 @@ body {
     }
 
 // ------------------------------------------------------------------
+// Select2 overrides part 2
+// ------------------------------------------------------------------
+    .select2-drop.select2-drop-active {
+        border: none;
+
+        .select2-search {
+            input {
+                background: none;
+                border: none;
+            }
+        }
+    }
+
+// ------------------------------------------------------------------
 // Global styling rules
 // ------------------------------------------------------------------
-    a, a:hover, a:visited, a:link, a:active{
+    a, a:hover, a:visited, a:link, a:active {
         text-decoration: none;
     }
 

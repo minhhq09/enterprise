@@ -8130,6 +8130,9 @@ body .pt_drawer_menu .pt_drawer_links .pt_menu_item {
 body .pt_drawer_menu .pt_drawer_links .pt_menu_item:hover {
   background-color: rgba(200, 200, 200, 0.2);
 }
+body .pt_drawer_menu .pt_drawer_links .pt_menu_item:hover .menu_icon {
+  color: black;
+}
 body .pt_drawer_menu .pt_drawer_links .pt_menu_item > a {
   color: black;
 }
@@ -8224,6 +8227,10 @@ body .pt_screen .pt_content .pt_activities_list .pt_duration.pt_btn_interrupt_ac
   color: white;
   background-color: #f44336;
 }
+body .pt_screen .pt_content .pt_activities_list .pt_duration.pt_btn_interrupt_activity:hover .fa-play:before {
+  content: "\f04d";
+  font-family: FontAwesome;
+}
 body .pt_screen .pt_content .pt_stats_row {
   text-align: center;
   margin-top: 1.5em;
@@ -8269,6 +8276,26 @@ body .pt_screen .pt_content .pt_sync_screen .pt_premise_protocol,
 body .pt_screen .pt_content .pt_sync_screen .pt_premise_url {
   display: inline;
   width: inherit;
+}
+body .pt_screen .pt_content div.select2-container a.select2-choice {
+  border: none;
+  background-image: linear-gradient(#21b799, #21b799), linear-gradient(#d2d2d2, #d2d2d2);
+  background-size: 0px 2px, 100% 1px;
+  background-repeat: no-repeat;
+  background-position: center bottom, center calc(99%);
+  background-color: transparent;
+  transition: background 0s ease-out 0s;
+}
+body .pt_screen .pt_content div.select2-container a.select2-choice span.select2-arrow {
+  border-left: none;
+  background: none;
+}
+body .pt_screen .pt_content div.select2-container.select2-container-active a.select2-choice {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+body .pt_screen .pt_content div.select2-container.select2-dropdown-open a.select2-choice {
+  background-color: white;
 }
 body .pt_screen .pt_footer {
   vertical-align: middle;
@@ -8325,6 +8352,13 @@ body .pt_screen .pt_footer .pt_day_plan_message {
 }
 body .pt_screen .modal-dialog.modal-sm {
   margin-top: 20%;
+}
+body .select2-drop.select2-drop-active {
+  border: none;
+}
+body .select2-drop.select2-drop-active .select2-search input {
+  background: none;
+  border: none;
 }
 body a,
 body a:hover,
