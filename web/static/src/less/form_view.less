@@ -327,6 +327,12 @@
             border: none;
             > .tab-pane {
                 min-height: 100px;
+
+                > :first-child {
+                    .oe_pad_content, .note-editor { // Remove the border-top of note editor when first-child of
+                        border-top: none;           // a tab (as it will be right under the tabs border-bottom)
+                    }
+                }
             }
         }
     }
