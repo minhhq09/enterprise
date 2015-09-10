@@ -177,8 +177,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
         };
         this.$input.keydown(input_changed);
         this.$input.change(input_changed);
-        this.$dropdown.click(function() {
-            self.$input.focus();
+        this.$input.on('click', function() {
             if (self.$input.autocomplete("widget").is(":visible")) {
                 self.$input.autocomplete("close");                
             } else {

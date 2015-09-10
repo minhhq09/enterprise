@@ -31,7 +31,7 @@ Tour.register({
         {
             title:      "click on moderator one2many drop down",
             waitFor:    'input.o_form_required:propValue(test)',
-            element:    'tr:contains(Moderator) .o_dropdown_button'
+            element:    'tr:contains(Moderator) .o_form_input_dropdown > input'
         },
         {
             title:      "click on 'Create and Edit...'",
@@ -282,7 +282,7 @@ Tour.register({
 
         {
             title:      "open the many2one to select another user",
-            element:    '.modal .o_dropdown_button',
+            element:    '.modal .o_form_input_dropdown > input',
         },
         {
             title:      "select another user",
@@ -363,7 +363,7 @@ Tour.register({
         },
         {
             title:      "select another user",
-            element:    '.modal .o_form_field_many2one .o_dropdown_button',
+            element:    '.modal .o_form_field_many2one .o_form_input_dropdown > input',
         },
         {
             title:      "select demo user",
@@ -471,7 +471,7 @@ Tour.register({
 
         {
             title:      "open the many2one to select an other user",
-            element:    '.o_list_editable_form .o_form_field_many2one .o_dropdown_button',
+            element:    '.o_list_editable_form .o_form_field_many2one .o_form_input_dropdown > input',
         },
         {
             title:      "select an other user",
@@ -504,7 +504,7 @@ Tour.register({
 
         {
             title:      "click outside to trigger one2many onchange",
-            element:    '.o_form_field_many2manytags .o_dropdown_button',
+            element:    '.o_form_field_many2manytags .o_form_input_dropdown > input',
         },
         {
             title:      "add a tag",
