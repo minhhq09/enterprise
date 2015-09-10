@@ -78,6 +78,7 @@
                 margin-right: @odoo-form-spacing-unit/2;
                 margin-left: @odoo-form-spacing-unit/2;
             }
+
             > .o_row {
                 margin: 0;
             }
@@ -102,6 +103,16 @@
 
     .o_row > div > .o_form_field {
         width: 100%;
+    }
+
+    // Readonly specific rules
+    &.o_form_readonly {
+        .o_row {
+            display: inline-block;
+            > div {
+                display: inline-block;
+            }
+        }
     }
 
     // Editable specific rules
@@ -231,6 +242,7 @@
         margin-bottom: 15px;
 
         > h1, > h2, > h3 {
+            width: 100%; // Needed because inline-block when is a hx.o_row 
             margin-top: 0;
             margin-bottom: 0;
             line-height: inherit;
