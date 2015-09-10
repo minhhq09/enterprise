@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="financial_report_l10n_ch" model="account.financial.html.report">
         <field name="name">VAT</field>
         <field name="report_type">date_range</field>
+        <field name='parent_id' ref='l10n_ch.account_reports_ch_statements_menu'/>
     </record>
     <record id="financial_report_line_ch_01" model="account.financial.html.report.line">
         <field name="name">500 Solde de TVA a payer a l'AFC</field>

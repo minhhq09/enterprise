@@ -3,6 +3,7 @@
     <record id="account_financial_report_l10n_br_tva0" model="account.financial.html.report">
         <field name="name">Códigos de Impostos Brasileiros</field>
         <field name="report_type">date_range</field>
+        <field name='parent_id' ref='l10n_br.account_reports_br_statements_menu'/>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line0" model="account.financial.html.report.line">
@@ -11,7 +12,6 @@
         <field name="sequence" eval="1"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX00_1.balance+BRTAX00_2.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line0_01" model="account.financial.html.report.line">
@@ -42,7 +42,6 @@
         <field name="sequence" eval="2"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX01_1.balance+BRTAX01_2.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line1_1" model="account.financial.html.report.line">
@@ -73,7 +72,6 @@
         <field name="sequence" eval="3"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX02_1.balance+BRTAX02_2.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line2_1" model="account.financial.html.report.line">
@@ -104,7 +102,6 @@
         <field name="sequence" eval="4"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX03_1.balance+BRTAX03_2.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line3_1" model="account.financial.html.report.line">
@@ -136,7 +133,6 @@
         <field name="sequence" eval="5"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX04_1.balance+BRTAX04_2.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line4_1" model="account.financial.html.report.line">
@@ -167,7 +163,6 @@
         <field name="sequence" eval="6"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX05_1.balance+BRTAX05_2.balance+BRTAX09.balance+BRTAX10.balance+BRTAX11.balance+BRTAX12.balance+BRTAX13.balance+BRTAX14.balance+BRTAX15.balance+BRTAX16.balance+BRTAX17.balance+BRTAX18.balance+BRTAX19.balance+BRTAX20.balance+BRTAX21.balance+BRTAX22.balance+BRTAX23.balance+BRTAX24.balance+BRTAX25.balance+BRTAX26.balance+BRTAX27.balance+BRTAX28.balance+BRTAX29.balance+BRTAX30.balance+BRTAX31.balance+BRTAX32.balance+BRTAX33.balance+BRTAX34.balance+BRTAX35.balance+BRTAX36.balance+BRTAX37.balance+BRTAX38.balance+BRTAX39.balance+BRTAX40.balance+BRTAX41.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line5_1" model="account.financial.html.report.line">
@@ -198,7 +193,6 @@
         <field name="sequence" eval="7"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX06_1.balance+BRTAX06_2.balance+BRTAX42.balance+BRTAX43.balance+BRTAX44.balance+BRTAX45.balance+BRTAX46.balance+BRTAX47.balance+BRTAX48.balance+BRTAX49.balance+BRTAX50.balance+BRTAX51.balance+BRTAX52.balance+BRTAX53.balance+BRTAX54.balance+BRTAX55.balance+BRTAX56.balance+BRTAX57.balance+BRTAX58.balance+BRTAX59.balance+BRTAX60.balance+BRTAX61.balance+BRTAX62.balance+BRTAX63.balance+BRTAX64.balance+BRTAX65.balance+BRTAX66.balance+BRTAX67.balance+BRTAX68.balance+BRTAX69.balance+BRTAX70.balance+BRTAX71.balance+BRTAX72.balance+BRTAX73.balance+BRTAX74.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line6_1" model="account.financial.html.report.line">
@@ -229,7 +223,6 @@
         <field name="sequence" eval="8"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX07_1.balance+BRTAX07_2.balance+BRTAX75.balance+BRTAX76.balance+BRTAX77.balance+BRTAX78.balance+BRTAX79.balance+BRTAX80.balance+BRTAX81.balance+BRTAX82.balance+BRTAX83.balance+BRTAX84.balance+BRTAX85.balance+BRTAX86.balance+BRTAX87.balance+BRTAX88.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line7_1" model="account.financial.html.report.line">
@@ -260,7 +253,6 @@
         <field name="sequence" eval="9"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
-        <field name="formulas">balance = BRTAX08_1.balance+BRTAX08_2.balance+BRTAX89.balance+BRTAX90.balance+BRTAX91.balance+BRTAX92.balance+BRTAX93.balance+BRTAX94.balance+BRTAX95.balance+BRTAX96.balance+BRTAX97.balance+BRTAX98.balance+BRTAX99.balance+BRTAX100.balance+BRTAX101.balance+BRTAX102.balance+BRTAX103.balance+BRTAX104.balance+BRTAX105.balance+BRTAX106.balance+BRTAX107.balance+BRTAX108.balance+BRTAX109.balance</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line8_1" model="account.financial.html.report.line">
