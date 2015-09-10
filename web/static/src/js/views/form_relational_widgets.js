@@ -342,7 +342,7 @@ var FieldMany2One = common.AbstractField.extend(common.CompletionFieldMixin, com
             this.$input.val(str.split("\n")[0]);
             this.current_display = this.$input.val();
             this.$follow_button.toggle(!this.is_false());
-            this.$el.toggleClass('o_with_button', this.$follow_button && !this.is_false());
+            this.$el.toggleClass('o_with_button', !!this.$follow_button && this.$follow_button.length > 0 && !this.is_false());
         } else {
             this.$el.html(_.escape(str).split("\n").join("<br/>"));
             // Define callback to perform when clicking on the field
