@@ -1211,18 +1211,18 @@ odoo.define('website_sign.backend', function(require) {
 
             var self = this;
 
-            var $downloadButton = $('<a/>', {html: _t("Download Document")}).addClass('btn btn-sm btn-primary').hide();
+            var $downloadButton = $('<a/>', {html: _t("Download Document")}).addClass('btn btn-sm btn-primary o_hidden');
             var $historyButton = $('<button/>', {html: _t("View History"), type: "button"}).addClass('btn btn-sm btn-default')
                 .on('click', function() {
                     if(self.documentPage) {
                         self.documentPage.openChatter();
                     }
                 });
-            var $addFollowersButton = $('<button/>', {html: _t("Send a copy"), type: "button"}).addClass('btn btn-sm btn-default')
+            var $addFollowersButton = $('<button/>', {html: _t("Send a copy"), type: "button"}).addClass('btn btn-sm btn-default o_hidden')
                 .on('click', function() {
                     (new AddFollowersDialog(self, self.documentID)).open();
                 });
-            var $cancelButton = $('<button/>', {html: _t("Cancel Request"), type: "button"}).addClass('btn btn-sm btn-default').hide()
+            var $cancelButton = $('<button/>', {html: _t("Cancel Request"), type: "button"}).addClass('btn btn-sm btn-default o_hidden')
                 .on('click', function() {
                     (new Model('signature.request')).call('cancel', [self.documentID]).then(function() {
                         self.go_back_to_dashboard();
@@ -1248,9 +1248,9 @@ odoo.define('website_sign.backend', function(require) {
                 var $buttonsContainer = $cols.first().remove();
 
                 var url = $buttonsContainer.find('.o_sign_download_document_button').attr('href');
-                self.cp_content.$buttons.eq(0).attr('href', url).toggle(!!url);
-                self.cp_content.$buttons.eq(2).toggle(self.is_author);
-                self.cp_content.$buttons.eq(3).toggle(self.is_author && self.is_sent);
+                self.cp_content.$buttons.eq(0).attr('href', url).toggleClass('o_hidden', !url);
+                self.cp_content.$buttons.eq(2).toggleClass('o_hidden', !self.is_author);
+                self.cp_content.$buttons.eq(3).toggleClass('o_hidden', !self.is_author || !self.is_sent);
 
                 if(self.is_author && self.is_sent) {
                     self.$('.o_sign_signer_status').each(function(i, el) {
