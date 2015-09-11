@@ -9,7 +9,7 @@ var _t = core._t;
 
 var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
     init: function(parent, context) {
-        this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode
+        this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode;
         return this._super.apply(this, arguments);
     },
 
@@ -31,48 +31,60 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
             this.do_warn(_.str.sprintf(_t('Picking %s'), state), _.str.sprintf(_t('The picking is %s and cannot be edited.'), state));
             return true;
         }
+        var deferred = $.Deferred();
+        var self = this;
+        self.try_increasing_po_qty(barcode).fail(function() {
+            self.try_lot_splitting_wizard(barcode).fail(function() {
+                deferred.resolve(true);
+            }).done(function() { deferred.resolve(false); });
+        }).done(function() { deferred.resolve(false); });
+        return deferred;
+    },
 
+    try_increasing_po_qty: function(barcode) {
+        function is_suitable(pack_operation) {
+            return pack_operation.get('product_barcode') === barcode
+                && ! pack_operation.get('lots_visible')
+                && ! pack_operation.get('location_processed')
+                && ! pack_operation.get('result_package_id');
+        }
         var po_field = this.form_view.fields.pack_operation_product_ids;
-        var po_view = po_field.viewmanager.active_view;
-
-        if (! po_view) { // Weird, sometimes is undefined. Due to an asynchronous field re-rendering ?
-            return false;
-        }
-        var split_lot_candidate = po_view.controller.records.find(function(record) {
-            return record.get('product_barcode') === barcode && record.get('lots_visible') && ! record.get('location_processed') && ! record.get('result_package_id') && record.get('qty_done') < record.get('product_qty');
-        });
-        if (! split_lot_candidate)  {
-            split_lot_candidate = po_view.controller.records.find(function(record) {
-                return record.get('product_barcode') === barcode && record.get('lots_visible') && ! record.get('location_processed') && ! record.get('result_package_id');
-            });
-        }
-        var inc_qty_candidate = po_view.controller.records.find(function(record) {
-            return record.get('product_barcode') === barcode && ! record.get('lots_visible') && ! record.get('location_processed') && ! record.get('result_package_id') && record.get('qty_done') < record.get('product_qty');
-        });
-        if (! inc_qty_candidate)  {
-            inc_qty_candidate = po_view.controller.records.find(function(record) {
-                return record.get('product_barcode') === barcode && ! record.get('lots_visible') && ! record.get('location_processed') && ! record.get('result_package_id');
-            });
-        }
-
-        if (split_lot_candidate) {
-            var self = this;
-            var deferred = $.Deferred();
-            self.form_view.save().done(function() { self.form_view.reload().done(function() {
-                self.picking_model.call('get_po_to_split_from_barcode', [[self.form_view.datarecord.id], barcode]).then(function(id) {
-                    self.po_model.call("split_lot", [[id]]).then(function(result) {
-                        self.open_wizard(result);
-                        deferred.resolve();
-                    });
-                });});
-            });
-            return deferred;
-        } else if (inc_qty_candidate) {
-            return po_field.data_update(inc_qty_candidate.get('id'), {'qty_done': inc_qty_candidate.get('qty_done') + 1}).then(function() {
-                return po_view.controller.reload_record(inc_qty_candidate);
+        var po_records = po_field.viewmanager.active_view.controller.records;
+        var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
+            || po_records.find(function(po) { return is_suitable(po) });
+        if (candidate) {
+            return po_field.data_update(candidate.get('id'), {'qty_done': candidate.get('qty_done') + 1}).then(function() {
+                return po_field.viewmanager.active_view.controller.reload_record(candidate);
             });
         } else {
-            return false;
+            return $.Deferred().reject();
+        }
+    },
+
+    try_lot_splitting_wizard: function(barcode) {
+        function is_suitable(pack_operation) {
+            return pack_operation.get('product_barcode') === barcode
+                && pack_operation.get('lots_visible')
+                && ! pack_operation.get('location_processed')
+                && ! pack_operation.get('result_package_id');
+        }
+        var po_field = this.form_view.fields.pack_operation_product_ids;
+        var po_records = po_field.viewmanager.active_view.controller.records;
+        var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
+            || po_records.find(function(po) { return is_suitable(po) });
+        if (candidate) {
+            var self = this;
+            return self.form_view.save().done(function() {
+                return self.form_view.reload().done(function() {
+                    return self.picking_model.call('get_po_to_split_from_barcode', [[self.form_view.datarecord.id], barcode]).done(function(id) {
+                        return self.po_model.call("split_lot", [[id]]).done(function(result) {
+                            self.open_wizard(result);
+                        });
+                    });
+                });
+            });
+        } else {
+            return $.Deferred().reject();
         }
     },
 
@@ -85,7 +97,7 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
                 self.form_view.reload();
             }
         });
-    }
+    },
 });
 
 core.form_widget_registry.add('picking_barcode_handler', PickingBarcodeHandler);
