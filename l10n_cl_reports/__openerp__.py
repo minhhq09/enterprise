@@ -18,4 +18,5 @@
     'installable': True,
     'auto_install': True,
     'website': 'http://cubicERP.com',
+    'license': 'OEEL-1',
 }

@@ -27,4 +27,5 @@ This is the base module to manage the accounting chart for Dominican Republic.
     'demo': [],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }

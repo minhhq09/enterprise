@@ -20,4 +20,5 @@ Accounting reports for Croatia
     'demo': [],
     'auto_install': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

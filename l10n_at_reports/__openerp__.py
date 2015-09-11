@@ -18,5 +18,6 @@ Please keep in mind that you should review and adapt it with your Accountant, be
     'demo': [],
     'data': ['report_vat_statement.xml'],
     'auto_install': True,
-    'installable': True
+    'installable': True,
+    'license': 'OEEL-1',
 }

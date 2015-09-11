@@ -24,4 +24,5 @@ Accounting reports for Colombia
     'demo': [],
     'auto_install': True,
     'installable': True,
+    'license': 'OEEL-1',
 }

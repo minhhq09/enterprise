@@ -18,4 +18,5 @@
     'installable': True,
     'auto_install': True,
     'website': 'http://openerpbrasil.org',
+    'license': 'OEEL-1',
 }
