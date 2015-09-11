@@ -359,7 +359,7 @@ class product_template(models.Model):
     @api.model
     def _sync_old_product_status(self):
         date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
-        products = self.search([('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
+        products = self.search([('ebay_use', '=', True), ('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
         for product in products:
             response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
             product._sync_transaction(response.dict()['Item'])
