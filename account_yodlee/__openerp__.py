@@ -7,6 +7,12 @@
     'category': 'Accounting &amp; Finance',
     'version': '1.0',
     'depends': ['account_online_sync'],
+    'description': '''
+Sync your bank feeds with Yodlee
+================================
+
+Yodlee interface.
+''',
     'data': [
         'views/yodlee_views.xml',
     ],
