@@ -106,22 +106,27 @@
             <group>
               <div attrs="{'invisible': [('partner_name', '=', False)]}">
                 <field name="partner_image_small" widget="image" class="oe_avatar oe_left"/>
-                <div style="display: inline-block;">
+                <div style="display: block;">
                   <h2><field name="partner_name"/></h2>
                   <field attrs="{'invisible': [('partner_email','=',False)]}" name="partner_email"/>
                   <div attrs="{'invisible': [('opportunity_name', '=', 'No opportunity linked')]}">
                     <field name="opportunity_name"/>
-                    <span> <field name="opportunity_planned_revenue" class="oe_inline"/> at <field name="opportunity_probability" class="oe_inline"/>%</span>
+                    <span>&#160;:&#160;<field name="opportunity_planned_revenue" class="oe_inline"/>&#160;at&#160;<field name="opportunity_probability" class="oe_inline"/>%</span>
                   </div>
                 </div>
               </div>
             </group>
 
             <group attrs="{'invisible': [('opportunity_name', '=', 'No opportunity linked')]}">
-              <label for="new_title_action"/>
-              <div>
-                <field name="new_date_action" nolabel="1"/>
-                <field name="new_title_action" placeholder="e.g. Send email" nolabel="1"/>
+              <label for="next_activity_id"/>
+              <div class="o_row">
+                <field name="next_activity_id"
+                  options="{'no_create': True, 'no_open': True}"/>
+                <field name="new_date_action" attrs="{'invisible': [('next_activity_id', '=', False)]}" placeholder="Choose a date..."/>
+              </div>
+              <div class="o_row">
+                <field name="new_title_action" placeholder="e.g. Discuss proposal"
+                  attrs="{'invisible': [('next_activity_id', '=', False)]}"/>
               </div>
             </group>
             <group>
