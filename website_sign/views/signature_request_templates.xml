@@ -172,8 +172,8 @@
             <div t-if="not hasItems and not isPDF" class="row">
                 <div class="col-md-12">
                     <a class="o_sign_image_document" t-attf-href="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/origin" target="_blank">
-                        <img t-if="signature_request.template_id.attachment_id.file_type_icon == 'webimage'" t-attf-src="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/origin"/>
-                        <img t-if="signature_request.template_id.attachment_id.file_type_icon != 'webimage'" t-attf-src="/mail/static/src/img/mimetypes/{{signature_request.template_id.attachment_id.file_type_icon}}.png"/>
+                        <img t-if="webimage" t-attf-src="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/origin"/>
+                        <div t-if="not webimage" class="o_image" t-att-data-mimetype="signature_request.template_id.attachment_id.mimetype"/>
                     </a>
                 </div>
             </div>

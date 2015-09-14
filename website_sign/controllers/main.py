@@ -2,6 +2,7 @@
 import base64
 import mimetypes
 import os
+import re
 
 from openerp import http, _
 from openerp.addons.web.controllers.main import content_disposition
@@ -49,6 +50,7 @@ class WebsiteSign(http.Controller):
             'token': token,
             'nbComments': len(signature_request.message_ids.filtered(lambda m: m.message_type == 'comment')),
             'isPDF': (signature_request.template_id.attachment_id.mimetype.find('pdf') > -1),
+            'webimage': re.match('image.*(gif|jpe|jpg|png)', signature_request.template_id.attachment_id.mimetype),
             'hasItems': len(signature_request.template_id.signature_item_ids) > 0,
             'signature_items': signature_request.template_id.signature_item_ids,
             'item_values': item_values,
@@ -194,7 +196,7 @@ class WebsiteSign(http.Controller):
         for m in messages:
             author = ResPartner.browse(m['author_id'][0])
             m['author_id'] = author.read(['name'])[0]
-            m['author_id']['avatar'] = http.request.env['ir.attachment'].image_url(author, 'image_small')
+            m['author_id']['avatar'] = http.request.website.image_url(author, 'image_small')
             m['date'] = DateTimeConverter.value_to_html(m['date'], '')
         return messages
 

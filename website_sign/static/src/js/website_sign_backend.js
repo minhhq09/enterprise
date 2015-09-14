@@ -1040,7 +1040,7 @@ odoo.define('website_sign.backend', function(require) {
                                                       .all()
                                                       .then(function(signature_items) { self.signature_items = signature_items; });
 
-                var defIrAttachments = IrAttachments.query(['mimetype', 'name', 'datas_fname', 'file_type_icon'])
+                var defIrAttachments = IrAttachments.query(['mimetype', 'name', 'datas_fname'])
                                                     .filter([['id', '=', template.attachment_id[0]]])
                                                     .first()
                                                     .then(function(attachment) {
