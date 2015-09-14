@@ -111,7 +111,7 @@
                   <field attrs="{'invisible': [('partner_email','=',False)]}" name="partner_email"/>
                   <div attrs="{'invisible': [('opportunity_name', '=', 'No opportunity linked')]}">
                     <field name="opportunity_name"/>
-                    <span><field name="opportunity_planned_revenue" class="oe_inline"/> at <field name="opportunity_probability" class="oe_inline"/>%</span>
+                    <span> <field name="opportunity_planned_revenue" class="oe_inline"/> at <field name="opportunity_probability" class="oe_inline"/>%</span>
                   </div>
                 </div>
               </div>
@@ -144,7 +144,6 @@
                 string="Save" class="oe_highlight"/>
             <button name="save_go_opportunity" type="object" attrs="{'invisible': [('opportunity_name', '=', 'No opportunity linked')]}"
                 string="Save and Open the Opportunity" class="oe_highlight"/>
-            or
             <button class="oe_button oe_form_button oe_link" special="cancel" string="Discard"/>
           </footer>
         </form>

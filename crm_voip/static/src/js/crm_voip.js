@@ -626,8 +626,10 @@ var DialingPanel = Widget.extend({
         if(this.selected_phonecall){
             this.make_call(this.selected_phonecall.id);
         }else{
-                var next_call = _.filter(this.widgets, function(widget){return widget.state != "done";}).shift();
+            var next_call = _.filter(this.widgets, function(widget){return widget.state != "done";}).shift();
+            if(next_call){
                 this.make_call(next_call.id);
+            }
         }
     },
 

@@ -10,8 +10,8 @@ class crm_configuration(models.TransientModel):
     wsServer = fields.Char("WebSocket", help="The URL of your WebSocket")
     pbx_ip = fields.Char("PBX Server IP", help="The IP adress of your PBX Server")
     mode = fields.Selection([
-        ('demo_mode', 'Demo'),
-        ('prod_mode', 'Production'),
+        ('demo', 'Demo'),
+        ('prod', 'Production'),
         ], string="Mode")
 
     @api.multi
@@ -42,5 +42,5 @@ class crm_configuration(models.TransientModel):
     @api.multi
     def get_default_mode(self):
         params = self.env['ir.config_parameter']
-        mode = params.get_param('crm.voip.mode', default="prod_mode")
+        mode = params.get_param('crm.voip.mode', default="demo")
         return {'mode': mode}
