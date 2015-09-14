@@ -27,6 +27,7 @@ class ProviderFedex(models.Model):
                                             ('REGULAR_PICKUP', 'REGULAR_PICKUP'),
                                             ('REQUEST_COURIER', 'REQUEST_COURIER'),
                                             ('STATION', 'STATION')],
+                                           string="Fedex drop-off type",
                                            default='REGULAR_PICKUP')
     fedex_packaging_type = fields.Selection([('FEDEX_BOX', 'FEDEX_BOX'),
                                              ('FEDEX_10KG_BOX', 'FEDEX_10KG_BOX'),

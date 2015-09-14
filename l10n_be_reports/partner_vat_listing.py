@@ -88,7 +88,7 @@ class ReportL10nBePartnerVatListingContext(models.TransientModel):
         return self.env['l10n.be.report.partner.vat.listing']
 
     def get_columns_names(self):
-        return [_('VAT Number'), _('Turn Over'), _('VAT Amount')]
+        return [_('VAT Number'), _('Turnover'), _('VAT Amount')]
 
     @api.multi
     def get_columns_types(self):
