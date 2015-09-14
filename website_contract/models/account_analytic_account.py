@@ -32,7 +32,7 @@ class SaleSubscription(models.Model):
     plan_description = fields.Html(string='Plan Description', help="Describe this contract in a few lines",)
     user_selectable = fields.Boolean(string='Allow Online Order', default="True", help="""Leave this unchecked if you don't want this contract template to be available to the customer in the frontend (for a free trial, for example)""")
     option_invoice_line_ids = fields.One2many('sale.subscription.line.option', inverse_name='analytic_account_id', string='Optional Lines', copy=True)
-    partial_invoice = fields.Boolean(string="Partial Invoice", help="If set, option upgrades are invoiced for the remainder of the current invoicing period.")
+    partial_invoice = fields.Boolean(string="Prorata Temporis", help="If set, option upgrades are invoiced for the remainder of the current invoicing period.")
 
     _sql_constraints = [
         ('uuid_uniq', 'unique (uuid)', """UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be unique!"""),
