@@ -43,6 +43,7 @@ Key Features
       'views/ebay_category.xml',
       'sale_ebay_cron.xml',
       'ebay_data.xml',
+      'data/product_data.xml'
   ],
   # only loaded in demonstration mode
   'demo': [

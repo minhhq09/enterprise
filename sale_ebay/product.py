@@ -461,6 +461,7 @@ class product_template(models.Model):
                 'order_id': sale_order.id,
                 'name': self.name,
                 'product_uom_qty': float(transaction['QuantityPurchased']),
+                'product_uom': variant.uom_id.id,
                 'price_unit': currency.compute(
                     float(transaction['TransactionPrice']['value']),
                     self.env.user.company_id.currency_id),
@@ -471,16 +472,27 @@ class product_template(models.Model):
                 ir_values = self.env['ir.values']
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
                 shipping_name = transaction['ShippingServiceSelected']['ShippingService']
+                shipping_product = self.env['product.template'].search([('name', '=', shipping_name)])
+                if not shipping_product:
+                    shipping_product = self.env['product.template'].create({
+                        'name': shipping_name,
+                        'uom_id': self.env.ref('product.product_uom_unit').id,
+                        'type': 'service',
+                        'categ_id': self.env.ref('sale_ebay.product_category_ebay').id,
+                    })
                 self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
                     'name': shipping_name,
+                    'product_id': shipping_product.product_variant_ids[0].id,
                     'product_uom_qty': 1,
+                    'product_uom': self.env.ref('product.product_uom_unit').id,
                     'price_unit': currency.compute(
                             float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
                 })
-            sale_order.action_button_confirm()
+
+            sale_order.action_confirm()
             if 'BuyerCheckoutMessage' in transaction:
                 sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
                 sale_order.picking_ids.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
@@ -491,12 +503,9 @@ class product_template(models.Model):
             invoice = self.env['account.invoice'].browse(invoice_id)
             # set the default account for the shipping
             if 'ShippingServiceSelected' in transaction:
-                account = self.env['account.account'].browse(
-                    int(self.env['ir.config_parameter'].get_param('ebay_shipping_account')))
-                lines_ids = map(lambda i: i.id, invoice.invoice_line)
+                lines_ids = map(lambda i: i.id, invoice.invoice_line_ids)
                 line = self.env['account.invoice.line'].search([
                     ('id', 'in', lines_ids), ('name', '=', shipping_name)])
-                line.account_id = account
             invoice.signal_workflow('invoice_open')
 
     @api.one
