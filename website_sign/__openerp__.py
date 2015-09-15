@@ -3,7 +3,7 @@
     'name': 'Digital Signatures',
     'version': '1.0',
     'category': 'Website',
-    'summary': "Send documents to sign online, receive and archive filled copies",
+    'summary': "Send documents to sign online, receive and archive filled copies (esign)",
     'description': """
 Sign and complete your documents easily. Customize your documents with text and signature fields and send them to your recipients.\n
 Let your customers follow the signature process easily.
