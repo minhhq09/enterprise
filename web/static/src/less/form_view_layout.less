@@ -86,9 +86,6 @@
                 padding-top: 0;
                 padding-bottom: 0;
             }
-            > .o_kanban_selection {
-                margin-left: auto;
-            }
             > .o_form_field_boolean {
                 .o-align-self(center);
             }
@@ -123,7 +120,7 @@
                     .o-flex(1, 1, auto);
                     width: 0!important; // 3rd flex argument does not work with input (must be auto and real width 0)
 
-                    &.o_form_field_boolean, &.o_priority, &.o_kanban_selection {
+                    &.o_form_field_boolean, &.o_priority {
                         .o-flex(0, 0, auto);
                         width: auto!important;
                     }
@@ -445,6 +442,11 @@
         > .o_pie {
             margin-right: 10px;
         }
+    }
+
+    // Kanban selection
+    .o_form_sheet > .o_kanban_selection {
+        float: right;
     }
 
     // Specific style classes
