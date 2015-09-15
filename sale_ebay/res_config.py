@@ -58,6 +58,8 @@ class ebay_configuration(models.TransientModel):
         currency = self[0].ebay_currency or self.env['res.country'].search(
             [('ebay_available', '=', True)])[0]
         self.env['ir.config_parameter'].set_param('ebay_currency', currency.id)
+        # by default all currencies active field is set to False except EUR and USD
+        self[0].ebay_currency.active = True
         country = self[0].ebay_country or self.env['res.country'].search(
             [('ebay_available', '=', True)])[0]
         self.env['ir.config_parameter'].set_param('ebay_country', country.id)
@@ -177,7 +179,7 @@ class ebay_configuration(models.TransientModel):
         for currency in self.env['res.currency'].search([('ebay_available', '=', True)]):
             currency.ebay_available = False
         for currency in response.dict()['CurrencyDetails']:
-            record = self.env['res.currency'].search([('name', '=', currency['Currency'])])
+            record = self.env['res.currency'].with_context(active_test=False).search([('name', '=', currency['Currency'])])
             if record:
                 record.ebay_available = True
         for site in response.dict()['SiteDetails']:
