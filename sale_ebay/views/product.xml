@@ -68,9 +68,9 @@
               </group>
               <group>
                 <field name="ebay_listing_type"/>
-                <field name="ebay_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
-                <field name="ebay_buy_it_now_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}"/>
-                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '>', 1)]}"/>
+                <field name="ebay_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}" widget="monetary"/>
+                <field name="ebay_buy_it_now_price" attrs="{'invisible': [('ebay_listing_type','=', 'FixedPriceItem')]}" widget="monetary"/>
+                <field name="ebay_fixed_price" attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '>', 1)]}" widget="monetary"/>
                 <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('product_variant_count','>',1),('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_listing_duration"/>
@@ -145,8 +145,6 @@
 
     <record id="value_revise_items" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
-      <!-- <field name="multi" eval="True"/> -->
-      
       <field name="model" eval="'product.template'"/>
       <field name="name">Revise Items</field>
       <field name="value" eval="'ir.actions.server,%d'%action_revise_items"/>
