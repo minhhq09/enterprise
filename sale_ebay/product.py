@@ -71,11 +71,14 @@ class product_template(models.Model):
         country = self.env['res.country'].browse(int(country_id))
         currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
         currency = self.env['res.currency'].browse(int(currency_id))
+        comp_currency = self.env.user.company_id.currency_id
         item = {
             "Item": {
                 "Title": self._ebay_encode(self.ebay_title),
                 "PrimaryCategory": {"CategoryID": self.ebay_category_id.category_id},
-                "StartPrice": self.ebay_price if self.ebay_listing_type == 'Chinese' else self.ebay_fixed_price,
+                "StartPrice": comp_currency.compute(self.ebay_price, currency)
+                if self.ebay_listing_type == 'Chinese'
+                else comp_currency.compute(self.ebay_fixed_price, currency),
                 "CategoryMappingAllowed": "true",
                 "Country": country.code,
                 "Currency": currency.name,
@@ -112,7 +115,7 @@ class product_template(models.Model):
             if self.env['ir.config_parameter'].get_param('ebay_gallery_plus'):
                 item['Item']['PictureDetails']['GalleryType'] = 'Plus'
         if self.ebay_listing_type == 'Chinese' and self.ebay_buy_it_now_price:
-            item['Item']['BuyItNowPrice'] = self.ebay_buy_it_now_price
+            item['Item']['BuyItNowPrice'] = comp_currency.compute(self.ebay_buy_it_now_price, currency)
         NameValueList = []
         variant = self.product_variant_ids.filtered('ebay_use')
         # If only one variant selected to be published, we don't create variant
@@ -157,6 +160,9 @@ class product_template(models.Model):
     def _prepare_variant_dict(self):
         if not self.product_variant_ids.filtered('ebay_use'):
             raise UserError(_('No Variant Set To Be Published On eBay'))
+        currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
+        currency = self.env['res.currency'].browse(int(currency_id))
+        comp_currency = self.env.user.company_id.currency_id
         items = self._prepare_item_dict()
         items['Item']['Variations'] = {'Variation': []}
         variations = items['Item']['Variations']['Variation']
@@ -188,7 +194,7 @@ class product_template(models.Model):
                         })
             variations.append({
                 'Quantity': variant.ebay_quantity,
-                'StartPrice': variant.ebay_fixed_price,
+                'StartPrice': comp_currency.compute(variant.ebay_fixed_price, currency),
                 'VariationSpecifics': {'NameValueList': variant_name_values},
                 'Delete': False if variant.ebay_use else True,
                 })
