@@ -125,16 +125,16 @@ class ebay_category(models.Model):
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if not isinstance(categories, list):
             categories = [categories]
+        new_categories = []
+        self._create_store_categories(categories, '0', new_categories)
         # Delete the store categories not existing anymore on eBay
-        category_ids = map(lambda c: c['CategoryID'], categories)
         self.search([
-            ('category_id', 'not in', category_ids),
+            ('category_id', 'not in', new_categories),
             ('category_type', '=', 'store'),
         ]).unlink()
-        self._create_store_categories(categories, '0')
 
     @api.model
-    def _create_store_categories(self, categories, parent_id):
+    def _create_store_categories(self, categories, parent_id, new_categories):
         for category in categories:
             cat = self.search([
                 ('category_id', '=', category['CategoryID']),
@@ -149,8 +149,9 @@ class ebay_category(models.Model):
                 'name': category['Name'],
                 'category_parent_id': parent_id,
             })
+            new_categories.append(category['CategoryID'])
             if 'ChildCategory' in category:
-                cat._create_store_categories(category['ChildCategory'], cat.category_id)
+                cat._create_store_categories(category['ChildCategory'], cat.category_id, new_categories)
             else:
                 cat.leaf_category = True
 
@@ -219,7 +220,7 @@ class ebay_link_listing(models.TransientModel):
         currency = self.env['res.currency'].search([
             ('name', '=', item['StartPrice']['_currencyID'])])
         product = self.env['product.template'].browse(self._context.get('active_id'))
-        product.write({
+        product_values = {
             'ebay_id': item['ItemID'],
             'ebay_url': item['ListingDetails']['ViewItemURL'],
             'ebay_listing_status': item['SellingStatus']['ListingStatus'],
@@ -251,24 +252,39 @@ class ebay_link_listing(models.TransientModel):
             ),
             'ebay_listing_type': item['ListingType'],
             'ebay_listing_duration': item['ListingDuration'],
-            'ebay_seller_payment_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'PAYMENT'),
-                ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
-            ]).id,
-            'ebay_seller_return_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'RETURN_POLICY'),
-                ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
-            ]).id,
-            'ebay_seller_shipping_policy_id': self.env['ebay.policy'].search([
-                ('policy_type', '=', 'SHIPPING'),
-                ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
-            ]).id,
             'ebay_best_offer': True if 'BestOfferDetails' in item
                 and item['BestOfferDetails']['BestOfferEnabled'] == 'true' else False,
             'ebay_private_listing': True if item['PrivateListing'] == 'true' else False,
             'ebay_start_date': datetime.strptime(
                 item['ListingDetails']['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S'),
-        })
+            'ebay_last_sync': datetime.now(),
+        }
+        if 'SellerProfiles' in item:
+            if 'SellerPaymentProfile' in item['SellerProfiles']\
+                and 'PaymentProfileID' in item['SellerProfiles']['SellerPaymentProfile']:
+                ebay_seller_payment_policy_id = self.env['ebay.policy'].search_read([
+                    ('policy_type', '=', 'PAYMENT'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerPaymentProfile']['PaymentProfileID'])
+                ], ['id'])
+                if ebay_seller_payment_policy_id:
+                    product_values['ebay_seller_payment_policy_id'] = ebay_seller_payment_policy_id[0]['id']
+            if 'SellerReturnProfile' in item['SellerProfiles']\
+                and 'ReturnProfileID' in item['SellerProfiles']['SellerReturnProfile']:
+                ebay_seller_return_policy_id = self.env['ebay.policy'].search_read([
+                    ('policy_type', '=', 'RETURN_POLICY'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerReturnProfile']['ReturnProfileID'])
+                ], ['id'])
+                if ebay_seller_return_policy_id:
+                    product_values['ebay_seller_return_policy_id'] = ebay_seller_return_policy_id[0]['id']
+            if 'SellerShippingProfile' in item['SellerProfiles']\
+                and 'ShippingProfileID' in item['SellerProfiles']['SellerShippingProfile']:
+                ebay_seller_shipping_policy_id = self.env['ebay.policy'].search([
+                    ('policy_type', '=', 'SHIPPING'),
+                    ('policy_id', '=', item['SellerProfiles']['SellerShippingProfile']['ShippingProfileID'])
+                ])
+                if ebay_seller_shipping_policy_id:
+                    product_values['ebay_seller_shipping_policy_id'] = ebay_seller_shipping_policy_id[0]['id']
+        product.write(product_values)
 
         if 'Variations' in item:
             variations = item['Variations']['Variation']

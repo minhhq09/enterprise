@@ -9,7 +9,7 @@ class StockPicking(models.Model):
     @api.multi
     def do_transfer(self):
         result = super(StockPicking, self).do_transfer()
-        so = self.env['sale.order'].search([('name', '=', self.origin)])
+        so = self.env['sale.order'].search([('name', '=', self.origin), ('origin', 'like', 'eBay')])
         if so.product_id.product_tmpl_id.ebay_use:
             call_data = {
                 'OrderLineItemID': so.client_order_ref,
