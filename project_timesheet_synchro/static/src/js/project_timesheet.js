@@ -133,6 +133,19 @@ odoo.define('project_timeshee.ui', function (require ) {
                 core.bus.trigger('sync');
             } , 36000000);
 
+            // backbutton handler for mobile
+            $(document).on("backbutton", function(e) {
+                e.preventDefault();
+                if (self.current_screen != self.activities_screen) {
+                    core.bus.trigger('change_screen', {
+                        id : 'activities',
+                    });
+                }
+                else {
+                    navigator.app.exitApp();
+                }
+            });
+
             return $.when.apply($, sync_defs);
         },
         load_template: function() {
