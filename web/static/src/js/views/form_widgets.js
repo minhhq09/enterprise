@@ -462,9 +462,9 @@ var FieldDate = common.AbstractField.extend(common.ReinitializeFieldMixin, {
 
         if (!this.get("effective_readonly")) {
             this.datewidget = this.build_widget();
-            this.datewidget.on('datetime_changed', this, _.bind(function() {
+            this.datewidget.on('datetime_changed', this, function() {
                 this.internal_set_value(this.datewidget.get_value());
-            }, this));
+            });
 
             var self = this;
             this.datewidget.appendTo('<div>').done(function() {

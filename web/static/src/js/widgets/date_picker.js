@@ -14,7 +14,7 @@ var DateWidget = Widget.extend({
     events: {
         'dp.change': 'change_datetime',
         'dp.show': 'set_datetime_default',
-        'keypress .o_datepicker_input': 'change_datetime',
+        'change .o_datepicker_input': 'change_datetime',
     },
     init: function(parent) {
         this._super(parent);
@@ -95,7 +95,7 @@ var DateWidget = Widget.extend({
         }
     },
     change_datetime: function(e) {
-        if ((e.type !== "keypress" || e.which === 13) && this.is_valid_()) {
+        if (this.is_valid_()) {
             this.set_value_from_ui_();
             this.trigger("datetime_changed");
         }
