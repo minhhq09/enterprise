@@ -301,11 +301,12 @@ class product_template(models.Model):
 
     @api.one
     def push_product_ebay(self):
-        item_dict = self._get_item_dict()
-        response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
-                                     else 'AddFixedPriceItem', item_dict)
-        self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict())
+        if self.ebay_listing_status != 'Active':
+            item_dict = self._get_item_dict()
+            response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
+                                         else 'AddFixedPriceItem', item_dict)
+            self._set_variant_url(response.dict()['ItemID'])
+            self._update_ebay_data(response.dict())
 
     @api.one
     def end_listing_product_ebay(self):
