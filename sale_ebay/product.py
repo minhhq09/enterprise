@@ -50,7 +50,7 @@ class product_template(models.Model):
         string="Return Policy", domain=[('policy_type', '=', 'RETURN_POLICY')])
     ebay_seller_shipping_policy_id = fields.Many2one('ebay.policy',
         string="Shipping Policy", domain=[('policy_type', '=', 'SHIPPING')])
-    ebay_sync_stock = fields.Boolean(string="Use The Stock's Quantity", default=False)
+    ebay_sync_stock = fields.Boolean(string="Use Stock Quantity", default=False)
     ebay_best_offer = fields.Boolean(string="Allow Best Offer", default=False)
     ebay_private_listing = fields.Boolean(string="Private Listing", default=False)
     ebay_start_date = fields.Datetime('Start Date', readonly=1)

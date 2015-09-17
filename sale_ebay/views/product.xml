@@ -83,21 +83,23 @@
                 <field name="ebay_seller_shipping_policy_id" options="{'no_create': True, 'no_open': True}"/>
               </group>
             </group>
-
-            <label for="product_variant_ids" 
-              attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"/>
-            <field name="product_variant_ids" widget="one2many_list" 
-              attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}">
-              <tree string="Variants" editable="bottom" create="false" delete="false">
-                <field name="currency_id" invisible="1"/>
-                <field name="attribute_value_ids" widget="many2many_tags"/>
-                <field name="ebay_use"/>
-                <field name="ebay_fixed_price" widget="monetary"/>
-                <field name="ebay_quantity"/>
-                <field name="virtual_available"/>
-                <field name="ebay_quantity_sold"/>
-              </tree>
-            </field>
+            <div groups="product.group_product_variant">
+              <label for="product_variant_ids"
+                attrs="{'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}"
+                />
+              <field name="product_variant_ids" widget="one2many_list"
+                attrs="{'required': False,'invisible': ['|',('ebay_listing_type','=', 'Chinese'),('product_variant_count', '=', 1)]}">
+                <tree string="Variants" editable="bottom" create="false" delete="false">
+                  <field name="currency_id" invisible="1"/>
+                  <field name="attribute_value_ids" widget="many2many_tags"/>
+                  <field name="ebay_use"/>
+                  <field name="ebay_fixed_price" widget="monetary"/>
+                  <field name="ebay_quantity"/>
+                  <field name="virtual_available"/>
+                  <field name="ebay_quantity_sold"/>
+                </tree>
+              </field>
+            </div>
             <label for="ebay_description"/>
             <field name="ebay_description" placeholder="Describe the product characteristics..."/>
           </page>
