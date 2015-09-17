@@ -35,11 +35,11 @@
       <field name="arch" type="xml">
         <xpath expr="//form//sheet" position="before">
             <header attrs="{'invisible': [('ebay_use', '=', False)]}">
-              <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': ['|',('ebay_listing_status','=','Active'),('ebay_listing_status','=','Out Of Stock')]}"/>
-              <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': [('ebay_listing_status','!=', 'Ended'),('ebay_listing_status','!=','Completed'),('ebay_listing_status','!=','Out Of Stock')]}"/>
-              <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|',('ebay_url','=', False),('ebay_listing_status','!=','Active'),('ebay_listing_status','!=','Out Of Stock')]}"/>
-              <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|',('ebay_url','=', False),'|',('ebay_listing_status','!=','Active'),('ebay_listing_status','=','Out Of Stock')]}"/>
-              <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing Listing' attrs="{'invisible': [('ebay_listing_status','!=', 'Unlisted')]}"/>
+              <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status', 'in', ['Active', 'Out Of Stock'])]}"/>
+              <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status','not in', ['Ended', 'Completed', 'Out Of Stock'])]}"/>
+              <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','not in', ['Active', 'Out Of Stock'])]}"/>
+              <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),'|',('ebay_listing_status','!=','Active'),('ebay_listing_status','=','Out Of Stock')]}"/>
+              <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing Listing' attrs="{'invisible': ['|',('ebay_use', '=', False),('ebay_listing_status','!=', 'Unlisted')]}"/>
             </header>
         </xpath>
         <div name="options" position="inside">
@@ -145,6 +145,8 @@
 
     <record id="value_revise_items" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
+      <!-- <field name="multi" eval="True"/> -->
+      
       <field name="model" eval="'product.template'"/>
       <field name="name">Revise Items</field>
       <field name="value" eval="'ir.actions.server,%d'%action_revise_items"/>
