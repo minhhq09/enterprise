@@ -74,7 +74,7 @@
                 <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('product_variant_count','>',1),('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_listing_duration"/>
-                <field name="ebay_best_offer"/>
+                <field name="ebay_best_offer" attrs="{'invisible': [('product_variant_count','>',1),('ebay_listing_type','=', 'FixedPriceItem')]}"/>
                 <field name="ebay_private_listing"/>
 
               </group>
