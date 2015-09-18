@@ -43,6 +43,16 @@
         .o-flex-flow(column, nowrap);
         min-height: 100%;
     }
+    &.o_form_nosheet {
+        display: block;
+        height: 100%;
+        .o-webclient-padding(@top: @odoo-sheet-vpadding, @bottom: @odoo-sheet-vpadding);
+        overflow: auto;
+
+        .o_form_statusbar {
+            margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding 0 -@odoo-horizontal-padding;
+        }
+    }
 
     .oe_inline {
         width: auto!important;
