@@ -40,8 +40,8 @@ class AccountSepaCreditTransfer(models.TransientModel):
     _name = "account.sepa.credit.transfer"
     _description = "Create SEPA credit transfer files"
 
-    journal_id = fields.Many2one('account.journal', readonly=True)
-    bank_account_id = fields.Many2one('res.partner.bank', readonly=True)
+    journal_id = fields.Many2one('account.journal', string="Journal", readonly=True)
+    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", readonly=True)
     is_generic = fields.Boolean(readonly=True,
         help="Technical feature used during the file creation. A SEPA message is said to be 'generic' if it cannot be considered as "
              "a standard european credit transfer. That is if the bank journal is not in €, a transaction is not in € or a payee is "
