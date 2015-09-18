@@ -176,11 +176,12 @@ class account_report_context_followup_all(models.TransientModel):
             'mode': 'display',
             'emails_not_sent': emails_not_sent,
             'context_all': self,
-            'all_partners_done': given_context.get('partner_done') == 'all',
+            'all_partners_done': given_context.get('partner_done') and self.valuenow == self.valuemax,
             'just_arrived': 'partner_done' not in given_context and 'partner_skipped' not in given_context,
             'time': time,
             'today': datetime.today().strftime('%Y-%m-%d'),
             'res_company': self.env.user.company_id,
+            'page': given_context.get('page')
         }
 
     @api.multi
