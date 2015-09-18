@@ -136,8 +136,8 @@ class YodleeAccount(models.Model):
     It knows how to fetch Yodlee to get the new bank statements
     '''
 
-    site_account_id = fields.Char("Site id")
-    account_id = fields.Char("Account id")
+    site_account_id = fields.Char("Site")
+    account_id = fields.Char("Account")
 
     @api.multi
     def yodlee_refresh(self, depth=30):

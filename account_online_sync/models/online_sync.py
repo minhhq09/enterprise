@@ -54,11 +54,11 @@ class OnlineInstitution(models.Model):
 class OnlineSyncConfig(models.TransientModel):
     _name = 'account.journal.onlinesync.config'
 
-    journal_id = fields.Many2one('account.journal', readonly=True)
+    journal_id = fields.Many2one('account.journal', string='Journal', readonly=True)
     online_institution_id = fields.Many2one(related='journal_id.online_institution_id', string="Online Institution")
     online_account_id = fields.Many2one(related='journal_id.online_account_id', string="Online Account")
-    online_id = fields.Char(related='online_institution_id.online_id')
-    online_type = fields.Selection(related='online_institution_id.type', readonly=True)
+    online_id = fields.Char(related='online_institution_id.online_id', string="ID of the Online Institution")
+    online_type = fields.Selection(related='online_institution_id.type', string="Type of the Online Institution", readonly=True)
 
     @api.multi
     def online_sync(self):
@@ -88,8 +88,8 @@ class AccountJournal(models.Model):
     next_synchronization = fields.Datetime("Next synchronization", compute='_compute_next_synchronization')
     online_institution_id = fields.Many2one('online.institution', string="Online Institution")
     online_account_id = fields.Many2one('online.account', string='Online Account')
-    online_id = fields.Char(related='online_institution_id.online_id', store=True)
-    online_type = fields.Selection(related='online_institution_id.type', readonly=True)
+    online_id = fields.Char(related='online_institution_id.online_id', string="ID of the Online Institution", store=True)
+    online_type = fields.Selection(related='online_institution_id.type', string="Type of the Online Institution", readonly=True)
 
     @api.multi
     def remove_online_account(self):
@@ -225,4 +225,4 @@ class AccountBankStatement(models.Model):
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
-    online_id = fields.Char("Online Id")
+    online_id = fields.Char("Online Identifier")
