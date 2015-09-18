@@ -1772,7 +1772,8 @@ var Column = Class.extend({
                     ? ''
                     : options.value_if_empty;
         }
-        return this._format(row_data, options);
+        var f = this._format(row_data, options);
+        return (f !== '')? f : '&nbsp;';
     },
     /**
      * Method to override in order to provide alternative HTML content for the
