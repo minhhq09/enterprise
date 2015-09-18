@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-14 10:32+0000\n"
-"PO-Revision-Date: 2015-09-14 10:32+0000\n"
+"POT-Creation-Date: 2015-09-18 08:15+0000\n"
+"PO-Revision-Date: 2015-09-18 08:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -132,6 +132,11 @@ msgstr ""
 #: code:addons/website_sign/static/src/js/website_sign_backend.js:639
 #, python-format
 msgid "A copy has been sent to the new followers."
+msgstr ""
+
+#. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_message_needaction
+msgid "Action Needed"
 msgstr ""
 
 #. module: website_sign
@@ -429,7 +434,7 @@ msgstr ""
 
 #. module: website_sign
 #. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_backend.xml:147
+#: code:addons/website_sign/static/src/xml/website_sign_backend.xml:148
 #, python-format
 msgid "Drag & Drop a field in the PDF"
 msgstr ""
@@ -482,7 +487,7 @@ msgid "Error"
 msgstr ""
 
 #. module: website_sign
-#: code:addons/website_sign/controllers/main.py:182
+#: code:addons/website_sign/controllers/main.py:184
 #, python-format
 msgid "Everybody Signed."
 msgstr ""
@@ -580,18 +585,22 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_11451
+#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_11452
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_value_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_11420
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_11421
 msgid "ID"
 msgstr ""
 
 #. module: website_sign
-#: model:ir.model.fields,help:website_sign.field_signature_request_message_needaction
 #: model:ir.model.fields,help:website_sign.field_signature_request_message_unread
 msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: website_sign
+#: model:ir.model.fields,help:website_sign.field_signature_request_message_needaction
+msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: website_sign
@@ -749,16 +758,6 @@ msgid "Name"
 msgstr ""
 
 #. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_message_needaction
-msgid "Need Action"
-msgstr ""
-
-#. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_message_needaction_counter
-msgid "Need Action Counter"
-msgstr ""
-
-#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/js/website_sign_common.js:56
 #, python-format
@@ -799,8 +798,13 @@ msgid "No archives"
 msgstr ""
 
 #. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: website_sign
 #: model:ir.model.fields,help:website_sign.field_signature_request_message_needaction_counter
-msgid "Number of needaction messages"
+msgid "Number of messages which requires an action"
 msgstr ""
 
 #. module: website_sign
@@ -1103,7 +1107,7 @@ msgid "Signed on"
 msgstr ""
 
 #. module: website_sign
-#: code:addons/website_sign/controllers/main.py:180
+#: code:addons/website_sign/controllers/main.py:182
 #, python-format
 msgid "Signed."
 msgstr ""
