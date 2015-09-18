@@ -252,3 +252,12 @@ class StockPicking(models.Model):
             'title': _('Wrong barcode'),
             'message': _('The barcode "%(barcode)s" doesn\'t correspond to a proper product, package or location.') % {'barcode': barcode}
         }}
+
+
+class StockPickingType(models.Model):
+
+    _inherit = 'stock.picking.type'
+
+    @api.multi
+    def get_action_picking_tree_ready_kanban(self):
+        return self._get_action('stock_barcode.stock_picking_action_kanban')
