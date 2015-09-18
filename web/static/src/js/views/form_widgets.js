@@ -538,9 +538,7 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
             this.$el.text(txt);
         } else {
             var show_value = formats.format_value(this.get('value'), this, '');
-            if (show_value === '') {
-                this.$el.css('height', "90px");
-            }
+
             this.$el.val(show_value);
             if (!this.auto_sized) {
                 this.auto_sized = true;
@@ -550,6 +548,14 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
                     autosize($(this));
                 });
             }
+
+            var nbLines = 1;
+            for(var i = 0 ; i < show_value.length && nbLines < 4 ; i++) {
+                if(show_value[i] === '\n') {
+                    nbLines++;
+                }
+            }
+            this.$el.css('height', 20*nbLines);
         }
     },
     is_syntax_valid: function() {
