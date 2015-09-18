@@ -19,28 +19,6 @@ class PrintOrderWizard(models.TransientModel):
     def _default_print_provider(self):
         return self.env['ir.values'].get_default('print.order', 'provider_id')
 
-    @api.model
-    def default_get(self, fields):
-        """ create the lines on the wizard """
-        res = super(PrintOrderWizard, self).default_get(fields)
-
-        active_ids = self.env.context.get('active_ids', [])
-        active_model = self.env.context.get('active_model', False)
-
-        if active_ids and active_model:
-            # create order lines
-            lines = []
-            for rec in self.env[active_model].browse(active_ids):
-                lines.append((0, 0, {
-                    'res_id': rec.id,
-                    'res_model': active_model,
-                    'partner_id' : rec.partner_id.id,
-                    'last_send_date' : rec.print_sent_date,
-                }))
-            res['print_order_line_wizard_ids'] = lines
-        return res
-
-
     ink = fields.Selection([('BW', 'Black & White'), ('CL', 'Colour')], "Ink", default='BW')
     paper_weight = fields.Integer("Paper Weight", default=80, readonly=True)
     provider_id = fields.Many2one('print.provider', 'Print Provider', required=True, default=_default_print_provider)
@@ -51,6 +29,25 @@ class PrintOrderWizard(models.TransientModel):
 
     error_message = fields.Text("Error", compute='_compute_error_message')
 
+    @api.multi
+    @api.onchange('provider_id')
+    def onchange_print_order_lines(self):
+        active_ids = self.env.context.get('active_ids', [])
+        active_model = self.env.context.get('active_model', False)
+
+        if active_ids and active_model:
+            lines = []
+            WizardLine = self.env['print.order.line.wizard']
+            for rec in self.env[active_model].browse(active_ids):
+                new_line = WizardLine.create({
+                    'print_order_wizard_id': self.id,
+                    'res_id': rec.id,
+                    'res_model': active_model,
+                    'partner_id': rec.partner_id.id,
+                    'last_send_date': rec.print_sent_date,
+                })
+                lines.append(new_line.id)
+            self.print_order_line_wizard_ids = WizardLine.browse(lines)
 
     @api.one
     @api.depends('print_order_line_wizard_ids')
@@ -114,7 +111,7 @@ class PrintOrderLineWizard(models.TransientModel):
     partner_id = fields.Many2one('res.partner', 'Recipient partner')
     last_send_date = fields.Datetime("Last Send Date", default=False)
 
-    state = fields.Selection('_default_selection_state', string='State', default=None, compute='_compute_state')
+    state = fields.Selection('_default_selection_state', string='State', compute='_compute_state', store=True)
 
     @api.one
     @api.depends('partner_id', 'res_model')
@@ -126,4 +123,3 @@ class PrintOrderLineWizard(models.TransientModel):
             if self.env['account.invoice'].browse(self.res_id).state != 'open':
                 state = 'account_invoice_wrong_state'
         self.state = state
-
