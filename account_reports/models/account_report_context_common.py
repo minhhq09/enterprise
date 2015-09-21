@@ -36,11 +36,10 @@ class AccountReportMulticompanyManager(models.TransientModel):
     _name = 'account.report.multicompany.manager'
     _description = 'manages multicompany for reports'
 
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
+    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=False)
     company_ids = fields.Many2many('res.company', relation='account_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
     available_company_ids = fields.Many2many('res.company', relation='account_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
 
-    @api.depends('create_uid')
     @api.one
     def _get_multi_company(self):
         group_multi_company = self.env['ir.model.data'].xmlid_to_object('base.group_multi_company')
