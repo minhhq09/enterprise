@@ -652,18 +652,20 @@
         t-att-placeholder="widget.node.attrs.placeholder"
         t-att-maxlength="widget.field.size"/>
 </t>
-<t t-name="KanbanSelection">
+<t t-name="FormSelection">
     <div class="btn-group o_kanban_selection">
-        <a href="#" data-toggle="dropdown"><span/></a>
+        <a href="#" data-toggle="dropdown"><span class="oe_kanban_status"/></a>
         <ul class="dropdown-menu state" role="menu">
-            <li t-foreach="widget.states" t-as="rec" t-att-data-value="rec.name">
-                <a href="#">
-                    <span t-att-class="rec.state_class"/>
-                    <t t-raw="rec.state_name"/>
-                </a>
-            </li>
         </ul>
     </div>
+</t>
+<t t-name="FormSelection.items">
+    <li t-foreach="states" t-as="rec" t-att-data-value="rec.name">
+        <a href="#">
+            <span t-att-class="'oe_kanban_status ' + (rec.state_class &amp;&amp; rec.state_class || '')"/>
+            <t t-raw="rec.state_name"/>
+        </a>
+    </li>
 </t>
 <div t-name="Priority" class="o_priority">
     <a t-if="!widget.readonly" t-foreach="widget.values.slice(1)" t-as="v" href="#" t-att-data-value="v[0]" t-att-title="v[1]" class="o_priority_star fa"/>
