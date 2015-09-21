@@ -13,6 +13,105 @@ var _t = core._t;
 var DataExport = Dialog.extend({
     template: 'ExportDialog',
     events: {
+        'click .o_expand_parent': function(e) {
+            this.on_expand_action(this.records[$(e.target).closest('.o_export_tree_item').data('id')]);
+        },
+        'click .o_export_tree_item': function(e) {
+            e.stopPropagation();
+            var $elem = $(e.currentTarget);
+
+            var row_index = $elem.prevAll('.o_export_tree_item').length;
+            var row_index_level = $elem.parents('.o_export_tree_item').length;
+
+            if(e.shiftKey && row_index_level === this.row_index_level) {
+                var minIndex = Math.min(row_index, this.row_index);
+                var maxIndex = Math.max(row_index, this.row_index);
+
+                this.$records.filter(function() { return ($elem.parent()[0] === $(this).parent()[0]); })
+                             .slice(minIndex, maxIndex+1)
+                             .addClass('o_selected')
+                             .filter(':not(:last)')
+                             .each(process_children);
+            }
+
+            this.row_index = row_index;
+            this.row_index_level = row_index_level;
+
+            if(e.ctrlKey) {
+                $elem.toggleClass('o_selected').focus();
+            } else if(e.shiftKey) {
+                $elem.addClass('o_selected').focus();
+            } else {
+                this.$(".o_selected").removeClass("o_selected")
+                $elem.addClass("o_selected").focus();
+            }
+
+            function process_children() {
+                var $this = $(this);
+                if($this.hasClass('open')) {
+                    $this.children('.o_export_tree_item')
+                         .addClass('o_selected')
+                         .each(process_children);
+                }
+            }
+        },
+        'dblclick .o_export_tree_item': function(e) {
+            var $elem = $(e.currentTarget);
+            $elem.removeClass('o_selected');
+            this.add_field($elem.data('id'), $elem.find('.o_tree_column').first().text());
+        },
+        'keydown .o_export_tree_item': function(e) {
+            e.stopPropagation();
+            var $elem = $(e.currentTarget);
+            var record = this.records[$elem.data('id')];
+
+            switch(e.keyCode || e.which) {
+                case $.ui.keyCode.LEFT:
+                    if ($elem.hasClass('open')) {
+                        this.on_expand_action(record);
+                    }
+                    break;
+                case $.ui.keyCode.RIGHT:
+                    if (!$elem.hasClass('open')) {
+                        this.on_expand_action(record);
+                    }
+                    break;
+                case $.ui.keyCode.UP:
+                    var $prev = $elem.prev('.o_export_tree_item');
+                    if($prev.length === 1) {
+                        while($prev.hasClass('open')) {
+                            $prev = $prev.children('.o_export_tree_item').last();
+                        }
+                    } else {
+                        $prev = $elem.parent('.o_export_tree_item');
+                        if($prev.length === 0) {
+                            break;
+                        }
+                    }
+
+                    $elem.removeClass("o_selected").blur();
+                    $prev.addClass("o_selected").focus();
+                    break;
+                case $.ui.keyCode.DOWN:
+                    var $next;
+                    if($elem.hasClass('open')) {
+                        $next = $elem.children('.o_export_tree_item').first();
+                    } else {
+                        $next = $elem.next('.o_export_tree_item');
+                        if($next.length === 0) {
+                            $next = $elem.parent('.o_export_tree_item').next('.o_export_tree_item');
+                            if($next.length === 0) {
+                                break;
+                            }
+                        }
+                    }
+
+                    $elem.removeClass("o_selected").blur();
+                    $next.addClass("o_selected").focus();
+                    break;
+            }
+        },
+
         'click .o_add_field': function() {
             var self = this;
             this.$('.o_field_tree_structure .o_selected')
@@ -250,12 +349,12 @@ var DataExport = Dialog.extend({
         var self = this;
     
         if(expansion) {
-            self.$(".o_export_tree_item").filter(function() { return ($(this).data('id') === expansion); })
-                                         .addClass('open')
-                                         .find('.o_expand_parent')
-                                         .toggleClass('fa-plus fa-minus')
-                                         .next()
-                                         .after(QWeb.render('Export.TreeItems', {'fields': records}));
+            this.$(".o_export_tree_item[data-id=" + expansion + "]")
+                .addClass('open')
+                .find('.o_expand_parent')
+                .toggleClass('fa-plus fa-minus')
+                .next()
+                .after(QWeb.render('Export.TreeItems', {'fields': records}));
         } else {
             this.$('.o_left_field_panel').empty().append(
                 $("<div/>").addClass('o_field_tree_structure')
@@ -263,117 +362,11 @@ var DataExport = Dialog.extend({
             );
         }
 
-        var $records = self.$(".o_export_tree_item");
-
-        _.each(records, function(record) {
-            var $record = $records.filter(function() { return ($(this).data('id') === record.id); });
-            var $expand_button = $record.find(".o_expand_parent").first();
-            var $o2m_selection = $record.find('.o_tree_column').first();
-
-            self.records[record.id] = record.value;
-            if(record.required) {
-                $o2m_selection.addClass("o_required");
-            }
-
-            $expand_button.on('click', function() {
-                self.on_expand_action(record);
-            });
-
-            $record.on('click', function(e) {
-                e.stopPropagation();
-                var $elem = $(e.currentTarget);
-
-                var row_index = $elem.prevAll('.o_export_tree_item').length;
-                var row_index_level = $elem.parents('.o_export_tree_item').length;
-
-                if(e.shiftKey && row_index_level === self.row_index_level) {
-                    var minIndex = Math.min(row_index, self.row_index);
-                    var maxIndex = Math.max(row_index, self.row_index);
-
-                    $records.filter(function() { return ($elem.parent()[0] === $(this).parent()[0]); })
-                            .slice(minIndex, maxIndex+1)
-                            .addClass('o_selected')
-                            .filter(':not(:last)')
-                            .each(process_children);
-                }
-
-                self.row_index = row_index;
-                self.row_index_level = row_index_level;
-
-                if(e.ctrlKey) {
-                    $elem.toggleClass('o_selected').focus();
-                } else if(e.shiftKey) {
-                    $elem.addClass('o_selected').focus();
-                } else {
-                    self.$(".o_selected").removeClass("o_selected")
-                    $elem.addClass("o_selected").focus();
-                }
-
-                function process_children() {
-                    var $this = $(this);
-                    if($this.hasClass('open')) {
-                        $this.children('.o_export_tree_item')
-                             .addClass('o_selected')
-                             .each(process_children);
-                    }
-                }
-            });
-
-            $record.dblclick(function() {
-                $record.removeClass('o_selected');
-                self.add_field(record.id, $o2m_selection.text());
-            });
-
-            $record.keydown(function(e) {
-                e.stopPropagation();
-                var keyCode = e.keyCode || e.which;
-                var $elem = $(this);
-                switch (keyCode) {
-                    case $.ui.keyCode.LEFT:
-                        if ($elem.hasClass('open')) {
-                            self.on_expand_action(record);
-                        }
-                        break;
-                    case $.ui.keyCode.RIGHT:
-                        if (!$elem.hasClass('open')) {
-                            self.on_expand_action(record);
-                        }
-                        break;
-                    case $.ui.keyCode.UP:
-                        var $prev = $elem.prev('.o_export_tree_item');
-                        if($prev.length === 1) {
-                            while($prev.hasClass('open')) {
-                                $prev = $prev.children('.o_export_tree_item').last();
-                            }
-                        } else {
-                            $prev = $elem.parent('.o_export_tree_item');
-                            if($prev.length === 0) {
-                                break;
-                            }
-                        }
-
-                        $elem.removeClass("o_selected").blur();
-                        $prev.addClass("o_selected").focus();
-                        break;
-                    case $.ui.keyCode.DOWN:
-                        var $next;
-                        if($elem.hasClass('open')) {
-                            $next = $elem.children('.o_export_tree_item').first();
-                        } else {
-                            $next = $elem.next('.o_export_tree_item');
-                            if($next.length === 0) {
-                                $next = $elem.parent('.o_export_tree_item').next('.o_export_tree_item');
-                                if($next.length === 0) {
-                                    break;
-                                }
-                            }
-                        }
-
-                        $elem.removeClass("o_selected").blur();
-                        $next.addClass("o_selected").focus();
-                        break;
-                }
-            });
+        _.extend(this.records, _.object(_.pluck(records, 'id'), records));
+        this.$records = this.$(".o_export_tree_item");
+        this.$records.each(function(i, el) {
+            var $elem = $(el);
+            $elem.find('.o_tree_column').first().toggleClass('o_required', !!self.records[$elem.data('id')].required);
         });
     },
     show_content: function(id) {
@@ -417,7 +410,7 @@ var DataExport = Dialog.extend({
         var self = this;
         var exported_fields = this.$('.o_fields_list option').map(function () {
             return {
-                name: self.records[this.value] || this.value,
+                name: (self.records[this.value] || this).value,
                 label: this.textContent || this.innerText // DOM property is textContent, but IE8 only knows innerText
             };
         }).get();
