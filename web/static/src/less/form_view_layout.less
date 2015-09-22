@@ -474,6 +474,12 @@
         .oe_chatter {
             display: none;
         }
+
+        @media (max-width: @screen-sm-max) {
+            .o_group.o_inner_group > tbody > tr > td.o_td_label {
+                min-width: 100px;
+            }
+        }
     }
     &:not(.modal-lg) .o_form_view {
         .o_group {
