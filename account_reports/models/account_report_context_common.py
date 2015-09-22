@@ -520,20 +520,20 @@ class AccountReportContextCommon(models.TransientModel):
         if report_id:
             domain.append(('report_id', '=', int(report_id)))
         context = self.env[context_model].search(domain, limit=1)
-        if context and (given_context.get('force_fy') or given_context.get('force_account') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
+        if context and (given_context.get('force_fy') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
             context.unlink()
             context = self.env[context_model].browse([]) # set it to an empty set to indicate the contexts have been removed
         if not context:
             create_vals = {}
             if report_id:
                 create_vals['report_id'] = report_id
-            if 'force_account' in given_context:
-                create_vals['unfolded_accounts'] = [(4, given_context['active_id'])]
             if 'force_fy' in given_context:
                 create_vals['force_fy'] = True
             if report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'):
                 create_vals['journal_id'] = given_context['active_id']
             context = self.env[context_model].create(create_vals)
+        if 'force_account' in given_context:
+            context.unfolded_accounts = [(6, 0, [given_context['active_id']])]
         return [context_model, context.id]
 
 
