@@ -91,10 +91,10 @@ class report_account_general_ledger(models.AbstractModel):
                 'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                 'level': 2,
                 'unfoldable': True,
-                'unfolded': account in context['context_id']['unfolded_accounts'],
+                'unfolded': account in context['context_id']['unfolded_accounts'] or context.get('print_mode'),
                 'colspan': 4,
             })
-            if account in context['context_id']['unfolded_accounts']:
+            if account in context['context_id']['unfolded_accounts'] or context.get('print_mode'):
                 progress = 0
                 domain_lines = []
                 amls = grouped_accounts[account]['lines']
