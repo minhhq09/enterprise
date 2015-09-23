@@ -165,9 +165,8 @@ class product_template(models.Model):
         items = self._prepare_item_dict()
         items['Item']['Variations'] = {'Variation': []}
         variations = items['Item']['Variations']['Variation']
-        possible_name_values = []
-        # example of a valid name value list array
-        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
+
+        name_values = {}
         for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
                 variant.ebay_quantity = max(int(variant.virtual_available), 0)
@@ -179,14 +178,10 @@ class product_template(models.Model):
                 attr_line = self.attribute_line_ids.filtered(
                     lambda l: l.attribute_id.id == spec.attribute_id.id)
                 if len(attr_line.value_ids) > 1:
-                    if not filter(
-                        lambda x:
-                        x['Name'] == self._ebay_encode(spec.attribute_id.name),
-                            possible_name_values):
-                        possible_name_values.append({
-                            'Name': self._ebay_encode(spec.attribute_id.name),
-                            'Value': [self._ebay_encode(n) for n in spec.attribute_id.value_ids.mapped('name')],
-                        })
+                    if spec.attribute_id.name not in name_values:
+                        name_values[spec.attribute_id.name] = []
+                    if spec.name not in name_values[spec.attribute_id.name]:
+                        name_values[spec.attribute_id.name].append(spec.name)
                     variant_name_values.append({
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
@@ -197,6 +192,14 @@ class product_template(models.Model):
                 'VariationSpecifics': {'NameValueList': variant_name_values},
                 'Delete': False if variant.ebay_use else True,
                 })
+        # example of a valid name value list array
+        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
+        possible_name_values = []
+        for key in name_values:
+            possible_name_values.append({
+                'Name': self._ebay_encode(key),
+                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+            })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
         }
