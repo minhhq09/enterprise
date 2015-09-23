@@ -1095,7 +1095,7 @@ var DomainEditorDialog = SelectCreateDialog.extend({
 
     get_domain: function (selected_ids) {
         var group_domain = [], domain;
-        if (this.$('.o_list_record_selector > input').prop('checked')) {
+        if (this.$('.o_list_record_selector input').prop('checked')) {
             if (this.view_list.grouped) {
                 var group_domain = _.chain(_.values(this.view_list.groups.children))
                                         .filter(function (child) { return child.records.length; })
