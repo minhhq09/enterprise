@@ -114,7 +114,7 @@ class account_analytic_line(models.Model):
                 if ls_project.get('to_sync'):
                     ls_projects_to_import.append([
                         str(ls_project['id']),
-                        str(ls_project['name']),
+                        ls_project['name'],
                     ])
                 else:
                     ls_projects_to_remove.append(str(ls_project['id']))
@@ -134,7 +134,7 @@ class account_analytic_line(models.Model):
                 if ls_task.get('to_sync'):
                     ls_tasks_to_import.append([
                         str(ls_task['id']),
-                        str(ls_task['name']),
+                        ls_task['name'],
                         str(ls_task['project_id']),
                         str(self.env.uid),
                     ])
