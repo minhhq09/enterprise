@@ -109,6 +109,8 @@ class PlaidAccount(models.Model):
                     end_amount = account['balance']['current']
             # Prepare the transaction
             transactions = []
+            if len(resp_json['transactions']) == 0:
+                return action
             for transaction in resp_json['transactions']:
                 trans = {
                     'id': transaction['_id'],
@@ -120,9 +122,8 @@ class PlaidAccount(models.Model):
                 if 'meta' in transaction and 'location' in transaction['meta']:
                     trans['location'] = transaction['meta']['location']
                 transactions.append(trans)
-                # Create the bank statement with the transactions
-                return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
-            return action
+            # Create the bank statement with the transactions
+            return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
         # Error from the user (auth, ...)
         elif resp_json['status_code'] >= 400 and resp_json['status_code'] < 500:
             subject = _("Error in synchronization")
