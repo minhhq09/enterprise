@@ -377,6 +377,9 @@ class product_template(models.Model):
         if self.ebay_listing_status != 'Ended'\
            and self.ebay_listing_status != 'Out Of Stock':
             self.ebay_listing_status = item['SellingStatus']['ListingStatus']
+            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock') and\
+               self.ebay_listing_status == 'Ended':
+                self.ebay_listing_status = 'Out Of Stock'
             if int(item['SellingStatus']['QuantitySold']) > 0:
                 call_data = {
                     'ItemID': item['ItemID'],
