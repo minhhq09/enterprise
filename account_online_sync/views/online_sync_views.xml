@@ -93,7 +93,7 @@
           <a t-if="dashboard.bank_statements_source == 'online_sync' &amp;&amp; dashboard.number_to_reconcile > 0" type="action" name="%(action_config_online_sync_journal_form)d" class="oe_inline">Online synchronization</a>
         </xpath>
         <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
-          <span t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
+          <span class="text-muted" t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next sync: <t t-esc="record.next_synchronization.value"/></span>
         </xpath>
       </field>
     </record>
