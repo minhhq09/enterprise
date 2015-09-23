@@ -490,7 +490,7 @@ var FieldDate = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
     },
     is_syntax_valid: function() {
-        return this.get("effective_readonly") || !this.datewidget || this.datewidget.is_valid_();
+        return this.get("effective_readonly") || !this.datewidget || this.datewidget.is_valid();
     },
     is_false: function() {
         return this.get('value') === '' || this._super();
