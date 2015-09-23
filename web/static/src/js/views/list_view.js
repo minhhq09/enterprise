@@ -815,7 +815,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
      */
     get_active_domain: function () {
         var self = this;
-        if (this.$('thead .o_list_record_selector').prop('checked')) {
+        if (this.$('thead .o_list_record_selector input').prop('checked')) {
             var search_view = this.getParent().searchview;
             var search_data = search_view.build_search_data();
             return pyeval.eval_domains_and_contexts({
