@@ -516,12 +516,15 @@ class product_template(models.Model):
             if self.ebay_listing_status == 'Active':
                 # The product is Active on eBay but there is no more stock
                 if self.virtual_available <= 0:
-                    # If the Out Of Stock option is enabled only need to revise the quantity
-                    if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                        self.revise_product_ebay()
-                    else:
-                        self.end_listing_product_ebay()
-                    self.ebay_listing_status = 'Out Of Stock'
+                    # Only revise product if there is a change of quantity
+                    if self.ebay_quantity != self.virtual_available:
+                        # If the Out Of Stock option is enabled only need to revise the quantity
+                        if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
+                            self.revise_product_ebay()
+                            self.ebay_listing_status = 'Out Of Stock'
+                        else:
+                            self.end_listing_product_ebay()
+                            self.ebay_listing_status = 'Ended'
                 # The product is Active on eBay and there is some stock
                 # Check if the quantity in Odoo is different than the one on eBay
                 # If it is the case revise the quantity
@@ -533,11 +536,11 @@ class product_template(models.Model):
                                 break
                     else:
                         if self.ebay_quantity != self.virtual_available:
-                            self.revise_product_ebay
+                            self.revise_product_ebay()
             elif self.ebay_listing_status == 'Out Of Stock':
                 # The product is Out Of Stock on eBay but there is stock in Odoo
                 # If the Out Of Stock option is enabled then only revise the product
-                if self.virtual_available > 0:
+                if self.virtual_available > 0 and self.ebay_quantity != self.virtual_available:
                     if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                         self.revise_product_ebay()
                     else:
