@@ -76,10 +76,10 @@
                     </ul>
                 </div>
             </div>
-            <t t-if='context.partner_id.phone'><p class='fa fa-phone' t-esc="' ' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).phone" /><br /></t>
-            <t t-if='context.partner_id.mobile'><p class='fa fa-mobile' t-esc="' ' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).mobile" /><br /></t>
-            <t t-if='context.partner_id.fax'><p class='fa fa-fax' t-esc="' ' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).fax" /><br /></t>
-            <t t-if='context.partner_id.email'><a t-att-href="'mailto:' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).email"><p class='fa fa-envelope' t-esc="' ' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).email" /></a><br /></t>
+            <t t-if='context.partner_id.phone'><p class='fa fa-phone fa-fw' t-esc="context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).phone" /><br /></t>
+            <t t-if='context.partner_id.mobile'><p class='fa fa-mobile fa-fw' t-esc="context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).mobile" /><br /></t>
+            <t t-if='context.partner_id.fax'><p class='fa fa-fax fa-fw' t-esc="context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).fax" /><br /></t>
+            <t t-if='context.partner_id.email'><a t-att-href="'mailto:' + (context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).email"><p class='fa fa-envelope' t-esc="' ' + context.env['res.partner'].browse(context.partner_id.address_get(['invoice'])['invoice']).email or '')" /></a><br /></t>
         </div>
     </xpath>
     <xpath expr='//th' position='replace'>
