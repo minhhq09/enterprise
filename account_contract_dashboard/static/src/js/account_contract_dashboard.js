@@ -5,13 +5,13 @@ var ActionManager = require('web.ActionManager');
 var ajax = require('web.ajax');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var core = require('web.core');
+var datepicker = require('web.datepicker');
 var Model = require('web.Model');
 var utils = require('web.utils');
 var Widget = require('web.Widget');
 
 var _t = core._t;
 var QWeb = core.qweb;
-
 
 /*
 
@@ -26,14 +26,8 @@ because of the calculation and is then rendered separately.
 
 */
 
-
 // Abstract widget with common methods
 var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
-
-    init: function(parent, context){
-        this._super(parent);
-        this.action_manager = parent;
-    },
 
     start: function() {
         var self = this;
@@ -42,8 +36,8 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         });
     },
 
-    do_show: function(){
-        this._super();
+    do_show: function() {
+        this._super.apply(this, arguments);
         this.update_cp();
     },
 
@@ -52,85 +46,96 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         new Model("ir.model.data")
             .call("xmlid_to_res_id", [view_xmlid])
             .then(function(data) {
-                self.action_manager.do_action(data, options);
+                self.getParent().do_action(data, options);
             });
     },
 
-    on_update_options: function(ev){
-        this.start_date = this.$searchview.find('input[name="start_date"]').val();
-        this.end_date = this.$searchview.find('input[name="end_date"]').val();
+    on_update_options: function(ev) {
+        this.start_date = this.start_picker.get_value();
+        this.end_date = this.end_picker.get_value();
         this.contract_ids = this.get_filtered_contract_ids();
 
         this.$el.empty();
         this.render_dashboard();
     },
 
-    get_filtered_contract_ids: function(){
-        var contract_inputs = this.$searchview.find("input:checkbox[name=contract_template_filter]:checked");
-        return _.map(contract_inputs, function(el){return $(el).val()});
+    get_filtered_contract_ids: function() {
+        var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
+        return _.map($contract_inputs, function(el) { return $(el).data('id') });
     },
 
-    update_cp: function(){
-
+    update_cp: function() {
         var self = this;
 
-        if (!this.$searchview){
-            this.$searchview = $(QWeb.render("account_contract_dashboard.dashboard_options", {
-                start_date: this.start_date,
-                end_date: this.end_date,
-                contract_templates: this.contract_templates,
-                contract_ids: this.contract_ids,
-            }));
+        var def = undefined;
+        if(!this.$searchview) {
+            this.$searchview = $(QWeb.render("account_contract_dashboard.dashboard_option_pickers"));
+            this.$searchview.find('.o_update_options').on('click', this.on_update_options);
+            def = this.set_up_datetimepickers();
 
-            this.$searchview.find('.o_update_options').on('click', self.on_update_options);
-
+            this.$searchview_buttons = $();
+            if(this.contract_templates.length) {
+                this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {
+                    contract_templates: this.contract_templates,
+                    contract_ids: this.contract_ids,
+                }));
+            }
             // Check the box if it was already checked before the update
-            this.$searchview.find("input[type='checkbox'][name='contract_template_filter']").each(function(){
-                if (_.contains(self.contract_ids, $(this).attr('value'))) {
-                    this.checked = true;
-                }
+            this.$searchview_buttons.on('click', '.o_contract_template_filter', function(e) {
+                                        e.preventDefault();
+                                        $(e.target).parent().toggleClass('selected');
+                                        self.on_update_options();
+                                    });
+            _.each(this.contract_ids, function(id) {
+                self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
             });
-
-            this.set_up_datetimepickers();
         }
 
-        this.update_control_panel({
-            cp_content: {
-                $searchview: this.$searchview,
-            },
-            breadcrumbs: this.action_manager.get_breadcrumbs(),
+        $.when(def).then(function() {
+            self.update_control_panel({
+                cp_content: {
+                    $searchview: self.$searchview,
+                    $searchview_buttons: self.$searchview_buttons,
+                },
+                breadcrumbs: self.getParent().get_breadcrumbs(),
+            });
         });
     },
 
-    set_up_datetimepickers: function(){
-        this.$searchview.find('.datetime_picker').datetimepicker({
-            format: 'YYYY-MM-DD',
-            viewMode: 'years',
-            pickTime: false,
-        });
+    set_up_datetimepickers: function() {
+        var $sep = this.$searchview.find('.o_datepicker_separator');
+
+        this.start_picker = new datepicker.DateWidget(this, {viewMode: 'years'});
+        this.end_picker = new datepicker.DateWidget(this, {viewMode: 'years'});
+        var def1 = this.start_picker.insertBefore($sep);
+        var def2 = this.end_picker.insertAfter($sep);
 
         var self = this;
-        this.$searchview.find('.datetime_picker[name="start_date"]').on("dp.change", function (e) {
-            self.$searchview.find('.datetime_picker[name="end_date"]').data("DateTimePicker").setMinDate(e.date);
-        });
-        this.$searchview.find('.datetime_picker[name="end_date"]').on("dp.change", function (e) {
-            self.$searchview.find('.datetime_picker[name="start_date"]').data("DateTimePicker").setMaxDate(e.date);
+        return $.when(def1, def2).then(function() {
+            self.start_picker.on('datetime_changed', self, function() {
+                this.end_picker.picker.setMinDate(moment(this.start_picker.get_value()));
+            });
+            self.end_picker.on('datetime_changed', self, function() {
+                this.start_picker.picker.setMaxDate(moment(this.end_picker.get_value()));
+            });
+
+            self.start_picker.set_value(self.start_date);
+            self.end_picker.set_value(self.end_date);
         });
     },
 
+    render_dashboard: function() {}, // Abstract
 });
-
 
 // 1. Main dashboard
 var account_contract_dashboard_main = account_contract_dashboard_abstract.extend({
-
     events: {
         'click .on_stat_box': 'on_stat_box',
         'click .on_forecast_box': 'on_forecast_box',
         'click .on_demo_contracts': 'on_demo_contracts',
     },
 
-    init: function(parent, context){
+    init: function(parent, context) {
         this._super(parent);
 
         this.start_date = moment().subtract(1, 'M').format('YYYY-MM-DD');
@@ -152,11 +157,11 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         });
     },
 
-    do_show: function(){
+    do_show: function() {
         this._super();
 
         var self = this;
-        if (this.$main_dashboard){
+        if(this.$main_dashboard) {
             this.defs = [];
 
             // If there is unresolved defs, we need to replace the uncompleted boxes
@@ -175,14 +180,12 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                     ).replace($(stat_boxes[v])));
                 });
             }
-
-        }
-        else {
+        } else {
             this.render_dashboard();
         }
     },
 
-    fetch_contract_templates: function(){
+    fetch_contract_templates: function() {
         var self = this;
         return new Model('sale.subscription').query(['name']).filter([['type', '=', 'template']]).all()
             .done(function(result){
@@ -190,7 +193,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             });
     },
 
-    fetch_data: function(){
+    fetch_data: function() {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/fetch_data', 'call', {
         }).done(function (result) {
@@ -202,8 +205,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         });
     },
 
-    render_dashboard: function(){
-
+    render_dashboard: function() {
         this.$main_dashboard = $(QWeb.render("account_contract_dashboard.dashboard", {
             show_demo: this.show_demo,
             stat_types: _.sortBy(_.values(this.stat_types), 'prior'),
@@ -244,7 +246,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.update_cp();
     },
 
-    store_unresolved_defs: function(){
+    store_unresolved_defs: function() {
         this.unresolved_defs_vals = [];
         var self = this;
         _.each(this.defs, function(v, k){
@@ -254,7 +256,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         })
     },
 
-    on_stat_box: function(ev){
+    on_stat_box: function(ev) {
         ev.preventDefault();
         this.selected_stat = $(ev.currentTarget).attr('data-stat');
 
@@ -274,7 +276,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_detailed", options);
     },
 
-    on_forecast_box: function(ev){
+    on_forecast_box: function(ev) {
         ev.preventDefault();
 
         var options = {
@@ -295,16 +297,14 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     },
 });
 
-
 // 2. Detailed dashboard
-
 var account_contract_dashboard_detailed = account_contract_dashboard_abstract.extend({
 
     events: {
         'click .o_detailed_analysis': 'on_detailed_analysis',
     },
 
-    init: function(parent, context, options){
+    init: function(parent, context, options) {
         this._super(parent);
 
         this.start_date = options['start_date'];
@@ -320,7 +320,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         this.report_name = this.stat_types[this.selected_stat]['name'];
     },
 
-    fetch_computed_stat: function(){
+    fetch_computed_stat: function() {
 
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/compute_stat', 'call', {
@@ -333,7 +333,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    render_dashboard: function(){
+    render_dashboard: function() {
 
         var self = this;
         $.when(
@@ -368,7 +368,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    render_detailed_dashboard_stats_history: function(){
+    render_detailed_dashboard_stats_history: function() {
 
         var self = this;
         ajax.jsonRpc('/account_contract_dashboard/get_stats_history', 'call', {
@@ -393,11 +393,11 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         addLoader(this.$('.o_stats_by_plan'));
     },
 
-    compute_rate: function(old_value, new_value){
+    compute_rate: function(old_value, new_value) {
         return old_value == 0 ? 0 : parseInt(100.0 * (new_value-old_value) / old_value);
     },
 
-    render_detailed_dashboard_graph: function(){
+    render_detailed_dashboard_graph: function() {
 
         addLoader(this.$('#stat_chart_div'));
 
@@ -414,7 +414,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    render_detailed_dashboard_mrr_growth: function(){
+    render_detailed_dashboard_mrr_growth: function() {
 
         addLoader(this.$('#mrr_growth_chart_div'));
         var self = this;
@@ -430,7 +430,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    on_detailed_analysis: function(ev){
+    on_detailed_analysis: function(ev) {
 
         var additional_context = {};
         var view_xmlid = '';
@@ -454,8 +454,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         this.load_action(view_xmlid, {additional_context: additional_context})
     },
 
-    load_chart_mrr_growth_stat: function(div_to_display, result){
-
+    load_chart_mrr_growth_stat: function(div_to_display, result) {
         var data_chart = [
             {
                 values: result['new_mrr'],
@@ -521,8 +520,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    render_detailed_dashboard_stats_by_plan: function(){
-
+    render_detailed_dashboard_stats_by_plan: function() {
         var self = this;
         ajax.jsonRpc('/account_contract_dashboard/get_stats_by_plan', 'call', {
             'stat_type': this.selected_stat,
@@ -543,17 +541,14 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
     },
 });
 
-
 // 3. Forecast dashboard
-
 var account_contract_dashboard_forecast = account_contract_dashboard_abstract.extend({
-
     events: {
         'change .o_forecast_input': 'on_forecast_input',
         'change input.growth_type': 'on_growth_type_change',
     },
 
-    init: function(parent, context, options){
+    init: function(parent, context, options) {
         this._super(parent);
 
         this.start_date = options['start_date'];
@@ -566,7 +561,6 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     },
 
     willStart: function() {
-
         var self = this;
         return this._super().then(function() {
             return $.when(
@@ -576,8 +570,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         });
     },
 
-    render_dashboard: function(){
-
+    render_dashboard: function() {
         this.$el.append(QWeb.render("account_contract_dashboard.forecast", {
             start_date: this.start_date,
             end_date: this.end_date,
@@ -592,21 +585,16 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.reload_chart('contracts');
 
         this.update_cp();
-
-        // The forecast widget does not need any searchview
-        this.$searchview.empty();
     },
 
-    on_forecast_input: function(ev){
-
+    on_forecast_input: function(ev) {
         var forecast_type = $(ev.target).data()['forecast'];
         var data_type = $(ev.target).data()['type'];
         this.values[forecast_type][data_type] = parseInt($(ev.target).val());
         this.reload_chart(forecast_type);
     },
 
-    on_growth_type_change: function(ev){
-
+    on_growth_type_change: function(ev) {
         var forecast_type = $(ev.target).data()['type'];
 
         this.values[forecast_type]['growth_type'] = this.$("input:radio[name=growth_type_"+forecast_type+"]:checked").val();
@@ -621,7 +609,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.reload_chart(forecast_type);
     },
 
-    fetch_default_values_forecast: function(forecast_type){
+    fetch_default_values_forecast: function(forecast_type) {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/get_default_values_forecast', 'call', {
             'forecast_type': forecast_type
@@ -631,7 +619,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         addLoader(this.$('#forecast_chart_div_mrr, #forecast_chart_div_contracts'));
     },
 
-    reload_chart: function(chart_type){
+    reload_chart: function(chart_type) {
         var computed_values = compute_forecast_values(
             this.values[chart_type]['starting_value'],
             this.values[chart_type]['projection_time'],
@@ -651,8 +639,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.$('#forecast_summary_' + chart_type).replaceWith(content);
     },
 
-    load_chart_forecast: function(div_to_display, values){
-
+    load_chart_forecast: function(div_to_display, values) {
         this.$(div_to_display).empty();
 
         var data_chart = [
@@ -697,10 +684,15 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             return chart;
         });
     },
+
+    update_cp: function() { // Redefinition to not show anything in controlpanel for forecast dashboard
+        this.update_control_panel({
+            breadcrumbs: this.getParent().get_breadcrumbs(),
+        });
+    },
 });
 
 // These are two smalls widgets to display all the stat boxes in the main dashboard
-
 var account_contract_dashboard_stat_box = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
@@ -751,8 +743,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
         })
     },
 
-    compute_graph: function(){
-
+    compute_graph: function() {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/compute_graph_stat', 'call', {
             'stat_type': this.stat_type,
@@ -765,8 +756,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
         });
     },
 
-    compute_numbers: function(){
-
+    compute_numbers: function() {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/compute_stat_trend', 'call', {
             'stat_type': this.stat_type,
@@ -820,7 +810,7 @@ var account_contract_dashboard_forecast_box = Widget.extend({
         })
     },
 
-    compute_numbers: function(){
+    compute_numbers: function() {
 
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/get_default_values_forecast', 'call', {
@@ -842,35 +832,28 @@ var account_contract_dashboard_forecast_box = Widget.extend({
 
 var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
-    init: function(parent, context){
+    init: function(parent, context) {
         this._super(parent);
-
-        this.action_manager = parent;
-
-        this.period= moment().format('YYYY-MM');
+        this.period = moment().format('YYYY-MM');
 
         var self = this;
-        $.when(
-            this.fetch_salesmen()
-        ).done(function(){
+        this.fetch_salesmen().done(function() {
             self.render_dashboard();
         });
     },
 
-    fetch_salesmen: function(){
+    fetch_salesmen: function() {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/fetch_salesmen', 'call', {
-        }).done(function (result) {
+        }).then(function (result) {
             self.salesman_ids = result['salesman_ids'];
             self.salesman = result['default_salesman'] || {};
             self.currency = result['currency'];
         });
     },
 
-    render_dashboard: function(){
-
-        this.$el.empty();
-        this.$el.append(QWeb.render("account_contract_dashboard.salesman", {
+    render_dashboard: function() {
+        this.$el.empty().append(QWeb.render("account_contract_dashboard.salesman", {
             salesman_ids: this.salesman_ids,
             salesman: this.salesman,
             period: this.period,
@@ -883,10 +866,8 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
         }
     },
 
-    render_dashboard_additionnal: function(){
-
+    render_dashboard_additionnal: function() {
         var self = this;
-
         addLoader(this.$('#mrr_growth_salesman'));
 
         ajax.jsonRpc('/account_contract_dashboard/get_values_salesman', 'call', {
@@ -897,7 +878,6 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
             self.$('#mrr_growth_salesman div.o_loader').hide();
 
             // 1. Contracts modifcations
-
             var ICON_BY_TYPE = {
                 'churn': 'o_red fa fa-remove',
                 'new': 'o_green fa fa-plus',
@@ -933,8 +913,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
             self.$('#mrr_growth_salesman').before(html_summary);
         });
 
-        function load_chart_mrr_salesman(div_to_display, result){
-
+        function load_chart_mrr_salesman(div_to_display, result) {
             var data_chart = [{
                 key: "MRR Growth",
                 values: [
@@ -988,44 +967,41 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
         }
     },
 
-    get_str_diff: function(diff){
+    get_str_diff: function(diff) {
         return diff < 0 ? diff.toString() : '+' + diff.toString();
     },
 
-    on_update_options: function(ev){
+    on_update_options: function(ev) {
         this.period = this.$searchview.find('input[name="period"]').val();
         var selected_salesman_id = Number(this.$searchview.find('option[name="salesman"]:selected').val());
         this.salesman = _.findWhere(this.salesman_ids, {id: selected_salesman_id});
         this.render_dashboard();
     },
 
-    set_up_datetimepickers: function(){
+    set_up_datetimepickers: function() {
         this.$searchview.find('.datetime_picker').datetimepicker({
             format: 'YYYY-MM',
             viewMode: 'years',
             pickTime: false,
-        });
+            minViewMode: 'months',
+        }).on('dp.change', this.on_update_options);
     },
 
-    update_cp: function(){
-
+    update_cp: function() {
         this.$searchview = $(QWeb.render("account_contract_dashboard.salesman_searchview", {
             period: this.period,
             salesman_ids: this.salesman_ids,
             salesman: this.salesman,
         }));
 
-
-        var self = this;
-        this.$searchview.find('.o_update_options').on('click', self.on_update_options);
-
         this.set_up_datetimepickers();
+        this.$searchview.find('select').on('change', this.on_update_options);
 
         this.update_control_panel({
             cp_content: {
                 $searchview: this.$searchview,
             },
-            breadcrumbs: this.action_manager.get_breadcrumbs(),
+            breadcrumbs: this.getParent().get_breadcrumbs(),
         });
     },
 });
@@ -1033,8 +1009,8 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
 // Utility functions
 
-function addLoader(selector){
-    var loader = '<i class="fa fa-spin fa-spinner fa-pulse"></i>';
+function addLoader(selector) {
+    var loader = '<span class="fa fa-3x fa-spin fa-spinner fa-pulse"/>';
     selector.html("<div class='o_loader'>" + loader + "</div>");
 }
 
@@ -1075,7 +1051,7 @@ function compute_forecast_values(starting_value, projection_time, growth_type, c
     return values;
 }
 
-function load_chart(div_to_display, key_name, result, show_legend, show_demo){
+function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
 
     if (show_demo) {
         // As we do not show legend for demo graphs, we do not care about the dates.
@@ -1200,13 +1176,13 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo){
     });
 }
 
-function get_color_class(value, direction){
+function get_color_class(value, direction) {
     var color = 'o_black';
 
-    if (value != 0 && direction === 'up'){
+    if (value != 0 && direction === 'up') {
         color = (value > 0) && 'o_green' || 'o_red';
     }
-    if (value != 0 && direction != 'up'){
+    if (value != 0 && direction != 'up') {
         color = (value < 0) && 'o_green' || 'o_red';
     }
 

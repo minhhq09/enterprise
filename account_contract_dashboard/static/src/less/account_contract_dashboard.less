@@ -1,19 +1,39 @@
-.o_account_contract_dashboard {
+.o_datepickers_searchview {
+    .o-flex-display();
+    .o-align-items(center);
 
+    > .o_datepicker {
+        .o-flex(1, 0, 90px);
+        margin: 0 10px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
+
+.o_account_contract_dashboard {
     svg {
         padding-top: 2px;
         float: left;
     }
 
     div.box {
+        .clearfix();
         padding: 10px;
-        color: #676a6c;
-        background-color: #FFFFFF;
+        color: @odoo-main-text-color;
+        background-color: @odoo-view-background-color;
         -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
         box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
         background-size: cover;
-        margin: 0.5em;
+        margin-top: @odoo-horizontal-padding;
+        margin-bottom: @odoo-horizontal-padding;
         position: relative;
+
+        h1, h2, h3, h4 {
+            margin-top: 5px;
+            font-weight: 800;
+        }
     }
 
     .on_stat_box, .on_forecast_box {
@@ -25,19 +45,17 @@
 
     div.o_stat_box, div.o_forecast_box {
         height: 140px;
-
-        margin-bottom: 15px;
-        margin-top: 15px;
+        margin-top: @odoo-horizontal-padding;
+        margin-bottom: @odoo-horizontal-padding;
 
         .o_trend {
+            .o-position-absolute(0, 0);
             position: absolute;
             z-index: 1;
-            right: 0px;
-            top: 0px;
             text-align: center;
 
             h4 {
-                margin-bottom: 0
+                margin-bottom: 0;
             }
 
             .o_legend {
@@ -46,18 +64,14 @@
         }
 
         .o_demo_label {
-            position: absolute;
-            bottom: 0;
-            right: 0;
+            .o-position-absolute(@bottom: 0, @right: 0);
         }
 
         .o_graph {
-            position: absolute;
+            .o-position-absolute(@top: 0, @left: 0);
             opacity: 0.3;
             padding: 20px 0px 0;
             width: 100%;
-            top: 0;
-            left: 0;
             height: 100%;
             overflow: hidden;
         }
@@ -72,7 +86,7 @@
         }
 
         &:hover {
-            background-color: silver;
+            background-color: @odoo-brand-lightsecondary;
         }
     }
 
@@ -89,34 +103,10 @@
         }
     }
 
-    div.box h1, h2, h3, h4 {
-        margin-top: 5px;
-        font-weight: 800;
-    }
-
     .o_metric_current {
         font-size: 4.5rem;
         font-weight: 700;
         line-height: 1;
-    }
-
-    .mrr_growth_chart {
-
-        i {
-            position: relative;
-            top: 35px;
-            padding: 0 3%;
-        }
-
-        h4 {
-            color: #999;
-        }
-
-        strong {
-            font-size: 3.125rem;
-            font-weight: 700;
-            line-height: 1;
-        }
     }
 
     .o_forecast_options {
@@ -133,14 +123,8 @@
     }
 
     .o_loader {
-        position: relative;
-        text-align:center;
+        text-align: center;
         width: 100%;
-        height: 300px;
-
-        > i {
-            font-size: 3em;
-        }
     }
 
     .o_green {
@@ -174,11 +158,9 @@
         .o_welcome_image {
             padding: 20px;
         }
-        .o_welcome_content {
-            > a {
-                color: white;
-                display: inline-block;
-            }
+        .o_welcome_content > a {
+            color: white;
+            display: inline-block;
         }
     }
 }
