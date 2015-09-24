@@ -29,10 +29,13 @@ class product_template(models.Model):
     ebay_item_condition_id = fields.Many2one('ebay.item.condition', string="Item Condition")
     ebay_category_id = fields.Many2one('ebay.category',
         string="Category", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)])
+    ebay_category_2_id = fields.Many2one('ebay.category',
+        string="Category 2 (Optional)", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)],
+        help="The use of a secondary category is not allowed on every eBay sites. Fees can be claimed by eBay for this feature")
     ebay_store_category_id = fields.Many2one('ebay.category',
-        string="Store Category", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_store_category_2_id = fields.Many2one('ebay.category',
-        string="Store Category 2", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category 2 (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_price = fields.Float(string='Starting Price for Auction')
     ebay_buy_it_now_price = fields.Float(string='Buy It Now Price')
     ebay_listing_type = fields.Selection([
@@ -145,13 +148,15 @@ class product_template(models.Model):
 
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
+        if self.ebay_category_2_id:
+            item['Item']['SecondaryCategory'] = {'CategoryID': self.ebay_category_2_id.category_id}
         if self.ebay_store_category_id:
             item['Item']['Storefront'] = {
-                'StoreCategoryID': self.ebay_store_category_id.id,
+                'StoreCategoryID': self.ebay_store_category_id.category_id,
                 'StoreCategoryName': self._ebay_encode(self.ebay_store_category_id.name),
             }
             if self.ebay_store_category_2_id:
-                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.id
+                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
         return item
 
