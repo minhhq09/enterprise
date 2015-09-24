@@ -28,7 +28,7 @@ odoo.define('website.app_switcher', function(require) {
                     var icon_switcher = $(e.currentTarget).find('span.fa');
                     icon_switcher
                         .removeClass('fa-th')
-                        .addClass('fa-spin fa-cog');
+                        .addClass('fa-spin fa-spinner');
 
                     loading = true;
                     if(!self.app_switcher) {
@@ -56,7 +56,7 @@ odoo.define('website.app_switcher', function(require) {
                     function toggle_content() {
                         icon_switcher
                             .addClass('fa-th')
-                            .removeClass('fa-spin fa-cog');
+                            .removeClass('fa-spin fa-spinner');
 
                         self.app_switcher_navbar.toggle_back_button(true);
                         self.app_switcher.$el.prependTo($body);
