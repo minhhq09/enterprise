@@ -10,6 +10,9 @@ from StringIO import StringIO
 from xml.sax.saxutils import escape
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
+# eBay api limits ItemRevise calls to 150 per day 
+MAX_REVISE_CALLS = 150
+
 
 class product_template(models.Model):
     _inherit = "product.template"
@@ -139,6 +142,7 @@ class product_template(models.Model):
                         'Name': self._ebay_encode(attribute.attribute_id.name),
                         'Value': self._ebay_encode(attribute.value_ids.name),
                     })
+
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
         if self.ebay_store_category_id:
@@ -343,12 +347,12 @@ class product_template(models.Model):
         self._update_ebay_data(response.dict())
 
     @api.model
-    def sync_product_status(self):
-        self._sync_recent_product_status(1)
-        self._sync_old_product_status()
+    def sync_product_status(self, sync_big_stocks=False):
+        self._sync_recent_product_status(1, sync_big_stocks=sync_big_stocks)
+        self._sync_old_product_status(sync_big_stocks=sync_big_stocks)
 
     @api.model
-    def _sync_recent_product_status(self, page_number=1):
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -360,16 +364,26 @@ class product_template(models.Model):
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
-            product = self.search([('ebay_id', '=', item['ItemID'])])
+            domain = [
+                ('ebay_id', '=', item['ItemID']),
+                ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+            ]
+            product = self.search(domain)
             if product:
                 product._sync_transaction(item)
         if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
             self._sync_product_status(page_number + 1)
 
     @api.model
-    def _sync_old_product_status(self):
+    def _sync_old_product_status(self, sync_big_stocks=False):
         date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
-        products = self.search([('ebay_use', '=', True), ('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
+        domain = [
+            ('ebay_use', '=', True),
+            ('ebay_start_date', '<', date),
+            ('ebay_listing_status', '=', 'Active'),
+            ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+        ]
+        products = self.search(domain)
         for product in products:
             response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
             product._sync_transaction(response.dict()['Item'])

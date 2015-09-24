@@ -159,8 +159,12 @@ class ebay_configuration(models.TransientModel):
         self.env['ebay.policy'].sync_policies()
 
     @api.model
-    def sync_product_status(self, context=None):
-        self.env['product.template'].sync_product_status()
+    def button_sync_product_status(self, context=None):
+        self.env['product.template'].sync_product_status(sync_big_stocks=False)
+
+    @api.model
+    def sync_product_status(self, sync_big_stocks=False):
+        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks)
 
     @api.model
     def sync_ebay_details(self, context=None):
