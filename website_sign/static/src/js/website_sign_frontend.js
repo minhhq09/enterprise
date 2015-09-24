@@ -365,7 +365,7 @@ odoo.define('website_sign.frontend', function(require) {
 
         init: function(parent, options) {
             options = (options || {});
-            options.title = options.title || _t("Thank You !");
+            options.title = options.title || _t("Thank You !") + "<br/>";
             options.subtitle = options.subtitle || _t("Your signature has been saved.");
             options.size = options.size || "medium";
 
