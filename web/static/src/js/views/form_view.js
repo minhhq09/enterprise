@@ -1314,6 +1314,8 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
             var args = [].slice.call(arguments);
             args[0] = $tag;
             return fn.apply(self, args);
+        } else if ($tag.attr("name") == 'button_box') {
+            return this.process_button_box($tag);
         } else {
             // generic tag handling, just process children
             $tag.children().each(function() {
@@ -1323,6 +1325,38 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
             $tag.removeAttr("modifiers");
             return $tag;
         }
+    },
+    get_folded_unfolded_buttons: function($button_box) {
+        return {'unfolded': $button_box.children().slice(0, 7), 'folded': $button_box.children().slice(7)};
+    },
+    process_button_box: function($button_box) {
+        //TODO: Handle invisible buttons
+        var self = this;
+        $button_box.wrap("<div class='oe_stat_button_row'>");
+        $button_box.children().each(function() {
+            self.process($(this));
+        });
+        var fold_unfold_buttons = this.get_folded_unfolded_buttons($button_box);
+        $button_box.empty();
+        if (fold_unfold_buttons.folded.length === 1) {
+            fold_unfold_buttons.unfolded.push(fold_unfold_buttons.folded.pop());
+        }
+        fold_unfold_buttons.unfolded.each(function(index, elem) {
+            $(elem).appendTo($button_box);
+        });
+        if (fold_unfold_buttons.folded.length) {
+            var $more_button = $('<button class="btn btn-sm oe_stat_button dropdown-toggle" type="button" data-toggle="dropdown"><div class="text-center"><span>More</span><span class="caret"/></div></button>');
+
+            $more_button.appendTo($button_box);
+            var $ul = $('<ul class="dropdown-menu o_stat_button_more" role="menu">').appendTo($button_box);
+            fold_unfold_buttons.folded.each(function(i, elem) {
+                var $li = $('<li>').appendTo($ul);
+                $(elem).appendTo($li);
+            });
+        }
+        self.handle_common_properties($button_box, $button_box);
+        $button_box.removeAttr("modifiers");
+        return $button_box;
     },
     process_header: function($statusbar) {
         var $new_statusbar = this.render_element('FormRenderingStatusBar', $statusbar.getAttributes());
@@ -1624,6 +1658,9 @@ var FormRenderingEngineMobile = FormRenderingEngine.extend({
             $statusbar_buttons_dropdown.find('.dropdown-menu').append($('<li/>').append(el));
         });
         $statusbar_buttons.append($statusbar_buttons_dropdown);
+    },
+    get_folded_unfolded_buttons: function($button_box) {
+        return {'unfolded': $button_box.children().slice(0, 2), 'folded': $button_box.children().slice(2)};
     },
 });
 
