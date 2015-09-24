@@ -466,7 +466,7 @@ var DialingPanel = Widget.extend({
         this.current_phonecall = phonecall_id;
         var number;
         if(!this.widgets[this.current_phonecall].partner_phone){
-            this.do_notify(_t('The phonecall has no number'),_t('Please check if a phonenumber is given for the current phonecall'));
+            this.do_notify(_t('The phonecall has no number'),_t('Please check if a phone number is given for the current phonecall'));
             return;
         }
         number = this.widgets[this.current_phonecall].partner_phone;
