@@ -268,6 +268,7 @@ class SaleSubscription(osv.osv):
                     try:
                         invoice_values = self._prepare_invoice(cr, uid, contract, context=context)
                         invoice_ids.append(self.pool['account.invoice'].create(cr, uid, invoice_values, context=context))
+                        self.pool['account.invoice'].compute_taxes(cr, uid, [invoice_ids[-1]], context=context)
                         next_date = datetime.datetime.strptime(contract.recurring_next_date or current_date, "%Y-%m-%d")
                         interval = contract.recurring_interval
                         if contract.recurring_rule_type == 'daily':
@@ -350,6 +351,8 @@ class SaleSubscription(osv.osv):
             "res_model": "account.invoice",
             "views": [[list_view_id, "tree"], [form_view_id, "form"]],
             "domain": [["id", "in", invoice_ids]],
+            "context": {"create": False},
+            "name": "Invoices",
         }
 
     def create(self, cr, uid, vals, context=None):

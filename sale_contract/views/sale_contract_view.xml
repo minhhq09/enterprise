@@ -41,27 +41,6 @@
         </field>
     </record>
 
-    <!-- Action Show all invoices related to a contract -->
-    <record id="action_contract_invoices_all" model="ir.actions.act_window">
-        <field name="name">Invoices</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-       <field name="view_ids" 
-               eval="[(5, 0, 0),
-                      (0, 0, {'view_mode': 'tree', 'view_id': ref('account.invoice_tree')}),
-                      (0, 0, {'view_mode': 'form', 'view_id': ref('account.invoice_form')})]"/>
-        <field name="domain">[('invoice_line_ids.account_analytic_id', '=', active_id)]</field>
-        <field name="context">{'create':False}</field>
-        <field name="help" type="html">
-          <p>
-            You will find here all the invoices related to this contract.
-            If you want to create a new invoice for this contract, you should use
-            the invoicing menu on the contract form view instead.
-          </p>
-        </field>
-    </record>
-
     <!-- Action Sales/Sales/Contracts -->
     <record id="sale_subscription_action" model="ir.actions.act_window">
         <field name="name">Subscriptions</field>
@@ -124,7 +103,7 @@
                             <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
                             <div attrs="{'invisible': ['|',('type','=','template')]}">
                                 <field name="recurring_next_date"/>
-                                <button string="=> Generate Invoice" class="oe_link" name="recurring_invoice"
+                                <button string="&#8658; Generate Invoice" class="oe_link" name="recurring_invoice"
                                         type="object" attrs="{'invisible': [('type','!=','contract')]}" />
                             </div>
                         </group>
@@ -145,12 +124,12 @@
                     <notebook>
                         <page string="Subscription Lines" id="lines">
                             <div>
-                                <button string="=> Renewal Quotation" class="oe_link oe_right" 
+                                <button string="&#8658; Renewal Quotation" class="oe_link oe_right" 
                                         help="Create a sale order that will overwrite this contract when confirmed (renewal quotation)" 
                                         name="prepare_renewal_order" type="object" attrs="{'invisible': [('type','!=','contract')]}" />
                                 <field name="recurring_invoice_line_ids">
-                                    <tree string="Account Analytic Lines" editable="bottom">
-                                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"/>
+                                    <tree editable="bottom">
+                                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)" context="{'default_recurring_invoice': True}"/>
                                         <field name="name"/>
                                         <field name="quantity" readonly="1" groups="base.group_no_one"/>
                                         <field name="actual_quantity"/>
