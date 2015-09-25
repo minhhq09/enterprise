@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import models, fields, api, _
-from openerp.tools.misc import formatLang
 from datetime import datetime
 
 
@@ -52,7 +51,8 @@ class report_account_coa(models.AbstractModel):
                 'type': 'account_id',
                 'name': account.code + " " + account.name,
                 'footnotes': self.env.context['context_id']._get_footnotes('account_id', account.id),
-                'columns': [self._format(grouped_accounts[account]['balance']), self._format(grouped_accounts[account]['initial_bal']['balance'])],
+                'columns': [grouped_accounts[account]['balance'] > 0 and self._format(grouped_accounts[account]['debit'] - grouped_accounts[account]['credit']) or '',
+                            grouped_accounts[account]['balance'] < 0 and self._format(grouped_accounts[account]['credit'] - grouped_accounts[account]['debit']) or ''],
                 'level': 1,
                 'unfoldable': False,
             })
@@ -65,6 +65,10 @@ class report_account_coa(models.AbstractModel):
     @api.model
     def get_name(self):
         return 'coa'
+
+    @api.model
+    def get_report_type(self):
+        return 'no_date_range'
 
 
 class account_context_coa(models.TransientModel):
@@ -79,7 +83,7 @@ class account_context_coa(models.TransientModel):
         return self.env['account.coa.report']
 
     def get_columns_names(self):
-        return [_("Balance"), _("Initial Balance")]
+        return [_("Debit"), _("Credit")]
 
     @api.multi
     def get_columns_types(self):
