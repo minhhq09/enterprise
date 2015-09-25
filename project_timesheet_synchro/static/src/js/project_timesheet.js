@@ -114,9 +114,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                 session.setup(self.server, {use_cors : true});
                 session.session_reload().then(function(){
                     // Check if the sync module is installed in the backend and set the syncable flag accordingly
-                    var modules = new Model('ir.module.module');
-                    sync_defs.push(modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
-                        if (response.length > 0) {
+                    sync_defs.push(session.rpc('/web/session/modules').then(function(response){
+                        if (response.length > 0 && _.contains(response, 'project_timesheet_synchro')) {
                             self.syncable = true;
                             self.sync({
                                 callback : function(){
@@ -1587,9 +1586,8 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         on_successful_login: function() {
             var self = this;
-            var modules = new Model('ir.module.module');
-            modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
-                if (response.length > 0) {
+            session.rpc('/web/session/modules').then(function(response){
+                if (response.length > 0 && _.contains(response, 'project_timesheet_synchro')) {
                     self.getParent().syncable = true;
                     self.$('.pt_keep_guest_data').modal();
                 } else {
