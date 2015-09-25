@@ -36,8 +36,8 @@ class ResCompany(models.Model):
                 res = company._update_currency_yahoo()
             elif company.currency_provider == 'ecb':
                 res = company._update_currency_ecb()
-        if not res:
-            raise UserError(_('Unable to connect to the online exchange rate platform. The web service may be temporary down. Please try again in a moment.'))
+            if not res:
+                raise UserError(_('Unable to connect to the online exchange rate platform. The web service may be temporary down. Please try again in a moment.'))
 
     def _update_currency_ecb(self):
         ''' This method is used to update the currencies by using ECB service provider.
