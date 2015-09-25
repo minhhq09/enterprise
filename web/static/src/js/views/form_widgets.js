@@ -562,7 +562,7 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
                     nbLines++;
                 }
             }
-            this.$el.css('height', 20*nbLines);
+            this.$el.css('height', 5 + 18 * nbLines);
         }
     },
     is_syntax_valid: function() {
