@@ -336,6 +336,7 @@ class SaleSubscription(models.Model):
                         try:
                             invoice_values = self._prepare_invoice(contract)
                             new_invoice = self.env['account.invoice'].create(invoice_values)
+                            new_invoice.compute_taxes()
                             invoice_ids.append(new_invoice.id)
                             next_date = datetime.datetime.strptime(contract.recurring_next_date or current_date, "%Y-%m-%d")
                             periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}

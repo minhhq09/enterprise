@@ -22,7 +22,7 @@ class SaleSubscriptionWizard(models.TransientModel):
         order = sale_order_obj.create({
             'partner_id': self.subscription_id.partner_id.id,
             'project_id': self.account_id.id,
-            'team_id': self.env['ir.model.data'].get_object_reference('website', 'salesteam_website_sales')[1],
+            'team_id': self.env['crm.team']._get_default_team_id(user_id=self.subscription_id.manager_id and self.subscription_id.manager_id.id),
             'pricelist_id': self.subscription_id.pricelist_id.id,
         })
         for line in self.option_lines:
