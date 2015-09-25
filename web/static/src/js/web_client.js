@@ -252,7 +252,16 @@ var WebClient = Widget.extend({
             // a dummy haschange event so that `self.on_hashchange` will take care of toggling the
             // app switcher and load the action.
             if (_.isEmpty($.bbq.getState(true))) {
-                self.toggle_app_switcher(true);
+                // Check if the user has a defined home action and do it if any (otherwise, show appswitcher)
+                return new Model("res.users").call("read", [session.uid, ["action_id"]]).then(function(data) {
+                    if(data.action_id) {
+                        return self.do_action(data.action_id[0]).then(function() {
+                            self.toggle_app_switcher(false);
+                        });
+                    } else {
+                        self.toggle_app_switcher(true);
+                    }
+                });
             } else {
                 $(window).trigger('hashchange');
             }
