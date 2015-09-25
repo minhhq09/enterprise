@@ -36,17 +36,27 @@
         }
     }
 
+    div.o_inline {
+        display: inline-block;
+
+        @media (max-width: @screen-xs-max) {
+            width: 100%;
+        }
+    }
+
     .on_stat_box, .on_forecast_box {
-        display: block;
-        height: 100%;
-        width: 100%;
+        display: inline-block;
         text-decoration: none;
+        width: 350px;
+
+        @media (max-width: @screen-xs-max) {
+            width: 100%;
+        }
     }
 
     div.o_stat_box, div.o_forecast_box {
         height: 140px;
-        margin-top: @odoo-horizontal-padding;
-        margin-bottom: @odoo-horizontal-padding;
+        margin: 5px;
 
         .o_trend {
             .o-position-absolute(0, 0);
