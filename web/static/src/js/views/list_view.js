@@ -1751,6 +1751,10 @@ var Column = Class.extend({
         C.prototype = this;
         return new C(aggregation_func, this[aggregation_func]);
     },
+    heading: function () {
+        return _.escape(this.string);
+    },
+    width: function () {},
     /**
      *
      * @param row_data record whose values should be displayed in the cell
@@ -1908,6 +1912,10 @@ var ColumnHandle = Column.extend({
         this.modifiers.readonly = true;
         this.string = ""; // Don't display the column header
     },
+    heading: function () {
+        return '<span class="o_row_handle fa fa-arrows invisible"></span>';
+    },
+    width: function () { return 1; },
     /**
      * Return styling hooks for a drag handle
      *
