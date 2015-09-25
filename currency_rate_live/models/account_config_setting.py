@@ -31,6 +31,7 @@ class ResCompany(models.Model):
     @api.multi
     def update_currency_rates(self):
         ''' This method is used to update all currencies given by the provider. Depending on the selection call _update_currency_ecb _update_currency_yahoo. '''
+        res = True
         for company in self:
             if company.currency_provider == 'yahoo':
                 res = company._update_currency_yahoo()
@@ -114,7 +115,8 @@ class ResCompany(models.Model):
     def run_update_currency(self):
         ''' This method is called from a cron job. Depending on the selection call _update_currency_ecb _update_currency_yahoo. '''
         records = self.search([('currency_next_execution_date', '<=', fields.Date.today())])
-        records.update_currency_rates()
+        if records:
+            records.update_currency_rates()
 
 
 class AccountConfigSettings(models.TransientModel):
