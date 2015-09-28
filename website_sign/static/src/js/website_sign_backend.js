@@ -314,6 +314,7 @@ odoo.define('website_sign.backend', function(require) {
     var ControlPanelMixin = require('web.ControlPanelMixin');
     var core = require('web.core');
     var Dialog = require('web.Dialog');
+    var framework = require('web.framework');
     var Model = require('web.Model');
     var session = require('web.session');
     var Widget = require('web.Widget');
@@ -1065,6 +1066,7 @@ odoo.define('website_sign.backend', function(require) {
             function init_iframe() {
                 if(this.$el.parents('html').length) {
                     var self = this;
+                    framework.blockUI({overlayCSS: {opacity: 0}, blockMsgClass: 'o_hidden'});
                     this.iframeWidget = new PDFIframe(this,
                                                       '/web/binary/image?model=ir.attachment&field=datas&id=' + this.signature_request_template.attachment_id.id,
                                                       true,
@@ -1074,7 +1076,7 @@ odoo.define('website_sign.backend', function(require) {
                                                           signatureItems: this.signature_items,
                                                       });
                     return this.iframeWidget.attachTo(this.$('iframe')).then(function() {
-                        self.cp_content.$buttons.prop('disabled', false);
+                        framework.unblockUI();
                         self.iframeWidget.currentRole = self.signature_item_parties[0].id;
                     });
                 }
@@ -1082,7 +1084,6 @@ odoo.define('website_sign.backend', function(require) {
         },
 
         initialize_content: function() {
-            this.cp_content.$buttons.prop('disabled', true);
             this.$el.append(core.qweb.render('website_sign.template', {widget: this}));
 
             this.$('iframe,.o_sign_template_name_input').prop('disabled', this.has_signature_requests);
@@ -1092,10 +1093,6 @@ odoo.define('website_sign.backend', function(require) {
             this.initialTemplateName = this.$templateNameInput.val();
 
             this.refresh_cp();
-            if(this.$('iframe').length === 0) {
-                this.cp_content.$buttons.prop('disabled', false);
-            }
-            return true;
         },
 
         do_show: function() {
@@ -1103,10 +1100,12 @@ odoo.define('website_sign.backend', function(require) {
 
             var self = this; // The iFrame cannot be detached, so we 'restart' the widget
             return this.perform_rpc().then(function() {
-                self.iframeWidget.destroy();
+                if(self.iframeWidget) {
+                    self.iframeWidget.destroy();
+                    self.iframeWidget = undefined;
+                }
                 self.$el.empty();
-                self.refresh_cp();
-                return self.initialize_content();
+                self.initialize_content();
             });
         },
 
@@ -1260,26 +1259,25 @@ odoo.define('website_sign.backend', function(require) {
                         }).addClass('o_sign_resend_access_button btn btn-link fa fa-envelope pull-right'));
                     });
                 }
-
-                self.refresh_cp();
                 
                 var init_page = function() {
                     if(self.$el.parents('html').length) {
+                        self.refresh_cp();
+                        framework.blockUI({overlayCSS: {opacity: 0}, blockMsgClass: 'o_hidden'});
+                        var def;
                         if(!self.documentPage) {
                             self.documentPage = new Document(self);
-                            self.documentPage.attachTo(self.$el);
+                            def = self.documentPage.attachTo(self.$el);
                         } else {
-                            self.documentPage.initialize_iframe();
+                            def = self.documentPage.initialize_iframe();
                         }
+                        def.then(function() {
+                            framework.unblockUI();
+                        });
                     }
                 };
                 core.bus.on('DOM_updated', null, init_page);
             }));
-        },
-
-        do_show: function() {
-            this._super();
-            this.refresh_cp();
         },
 
         refresh_cp: function() {
