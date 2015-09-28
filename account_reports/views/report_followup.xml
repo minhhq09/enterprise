@@ -76,9 +76,9 @@
                     </ul>
                 </div>
             </div>
-            <t t-if='context.invoice_address_id.phone'><p class='fa fa-phone fa-fw' t-esc="context.invoice_address_id.phone" /><br /></t>
-            <t t-if='context.invoice_address_id.mobile'><p class='fa fa-mobile fa-fw' t-esc="context.invoice_address_id.mobile" /><br /></t>
-            <t t-if='context.invoice_address_id.fax'><p class='fa fa-fax fa-fw' t-esc="context.invoice_address_id.fax" /><br /></t>
+            <t t-if='context.invoice_address_id.phone'><p><i class='fa fa-phone fa-fw' /><t t-esc="context.invoice_address_id.phone" /></p><br /></t>
+            <t t-if='context.invoice_address_id.mobile'><p><i class='fa fa-mobile fa-fw' /><t t-esc="context.invoice_address_id.mobile" /></p><br /></t>
+            <t t-if='context.invoice_address_id.fax'><p><i class='fa fa-fax fa-fw' /><t t-esc="context.invoice_address_id.fax" /></p><br /></t>
             <t t-if='context.invoice_address_id.email'>
                 <a t-att-href="'mailto:' + context.invoice_address_id.email">
                     <p class='fa fa-envelope' t-esc="' ' + context.invoice_address_id.email" />
