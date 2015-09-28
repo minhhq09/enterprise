@@ -3,7 +3,7 @@
 
 from openerp import models, fields, api, _
 from openerp.tools.misc import formatLang
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class report_account_general_ledger(models.AbstractModel):
@@ -51,7 +51,8 @@ class report_account_general_ledger(models.AbstractModel):
     def group_by_account_id(self, line_id):
         accounts = {}
         results = self.do_query(line_id)
-        initial_bal_results = self.with_context(date_to=self.env.context['date_from_aml']).do_query(line_id)
+        initial_bal_date_to = datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d") + timedelta(days=-1)
+        initial_bal_results = self.with_context(date_to=initial_bal_date_to.strftime('%Y-%m-%d')).do_query(line_id)
         context = self.env.context
         base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         if context['date_from_aml']:
