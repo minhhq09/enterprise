@@ -1,8 +1,10 @@
+import unittest
 from openerp.tests.common import TransactionCase
 
 
 class CurrencyTestCase(TransactionCase):
 
+    @unittest.skip("Currency rate live test disabled as it requires to contact external servers")
     def test_live_currency_update(self):
         company_ecb = self.env['res.company'].create({'name': 'TEST ECB', 'currency_provider': 'ecb'})
         company_yah = self.env['res.company'].create({'name': 'TEST YAH', 'currency_provider': 'yahoo'})
