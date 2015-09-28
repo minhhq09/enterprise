@@ -27,6 +27,9 @@ class RevenueKPIsDashboard(http.Controller):
 
         if not end_date:
             end_date = date.today()
+        else:
+            end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
+
         net_new_mrr = compute_mrr_growth_values(end_date, end_date)['net_new_mrr']
         revenue_churn = self.compute_stat('revenue_churn', end_date, end_date)
 

@@ -37,12 +37,14 @@
         <button t-if="_.contains(['mrr', 'nrr', 'net_revenue'], stat_type)" class="btn btn-primary o_detailed_analysis">Detailed Analysis</button>
 
         <div class="box o_graph_detailed">
-            <h1 class="o_metric_current o_blue"><t t-esc="formatNumber(value)"/><t t-esc="selected_stat_values['add_symbol'] != 'currency' ? selected_stat_values['add_symbol'] : currency"/></h1>
+            <h1 class="o_metric_current o_blue">
+                <t t-esc="format_number(value, selected_stat_values['add_symbol'])"/>
+            </h1>
             <input type="hidden" name="stat_type" t-att-value="stat_type"/>
             <div id="stat_chart_div"/>
         </div>
 
-        <div id="stat-history-box" class="box"/>
+        <div id="o-stat-history-box" class="box"/>
 
         <div t-if="stat_type === 'mrr'" class="box mrr_growth_chart">
             <h3>Monthly Recurring Revenue Growth</h3>
@@ -59,14 +61,6 @@
             <div class="col-sm-4 o_forecast_options">
                 <table class="table">
                     <tr>
-                        <td>Starting MRR:</td>
-                        <td>
-                            <div class="input-group">
-                                <span class="input-group-addon"><t t-esc="currency"/></span>
-                                <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="starting_value" t-att-value="values['mrr']['starting_value']"/>
-                            </div>
-                        </td>
-                    </tr>
                     <tr>
                         <td>Growth Type:</td>
                         <td>
@@ -74,16 +68,24 @@
                             <input class="growth_type" name="growth_type_mrr" type="radio" value="exponential" data-type="mrr"> Exponential</input>
                         </td>
                     </tr>
+                        <td>Starting MRR:</td>
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="starting_value" t-att-value="values['mrr']['starting_value']"/>
+                                <span class="input-group-addon"><t t-esc="get_currency()"/></span>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Revenue Growth:</td>
                         <td>
                             <div id="linear_growth_mrr" class="input-group">
-                                <span class="input-group-addon"><t t-esc="currency"/></span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="linear_growth" t-att-value="values['mrr']['linear_growth']"/>
+                                <span class="input-group-addon"><t t-esc="get_currency()"/></span>
                             </div>
                             <div id="expon_growth_mrr" style="display: none;" class="input-group">
-                                <span class="input-group-addon">%</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="expon_growth" t-att-value="values['mrr']['expon_growth']"/>
+                                <span class="input-group-addon">%</span>
                             </div>
                         </td>
                     </tr>
@@ -91,8 +93,8 @@
                         <td>Revenue Churn:</td>
                         <td>
                             <div class="input-group">
-                                <span class="input-group-addon">%</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="churn" t-att-value="values['mrr']['churn']"/>
+                                <span class="input-group-addon">%</span>
                             </div>
                         </td>
                     </tr>
@@ -100,8 +102,8 @@
                         <td>Projection Time:</td>
                         <td>
                             <div class="input-group">
-                                <span class="input-group-addon">Months</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="mrr" data-type="projection_time" t-att-value="values['mrr']['projection_time']"/>
+                                <span class="input-group-addon">Months</span>
                             </div>
                         </td>
                     </tr>
@@ -115,14 +117,6 @@
             <div class="col-sm-4 o_forecast_options">
                 <table class="table">
                     <tr>
-                        <td>Starting Contract:</td>
-                        <td>
-                            <div class="input-group">
-                                <span class="input-group-addon"></span>
-                                <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="starting_value" t-att-value="values['contracts']['starting_value']"/>
-                            </div>
-                        </td>
-                    </tr>
                     <tr>
                         <td>Growth Type:</td>
                         <td>
@@ -131,16 +125,24 @@
                             <input class="growth_type" name="growth_type_contracts" type="radio" value="exponential" data-type="contracts"> Exponential</input>
                         </td>
                     </tr>
+                        <td>Starting Contract:</td>
+                        <td>
+                            <div class="input-group">
+                                <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="starting_value" t-att-value="values['contracts']['starting_value']"/>
+                                <span class="input-group-addon">Contracts</span>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Contracts Growth:</td>
                         <td>
                             <div id="linear_growth_contracts" class="input-group">
-                                <span class="input-group-addon"></span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="linear_growth" t-att-value="values['contracts']['linear_growth']"/>
+                                <span class="input-group-addon">Contracts</span>
                             </div>
                             <div id="expon_growth_contracts" style="display: none;" class="input-group">
-                                <span class="input-group-addon">%</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="expon_growth" t-att-value="values['contracts']['expon_growth']"/>
+                                <span class="input-group-addon">%</span>
                             </div>
                         </td>
                     </tr>
@@ -148,8 +150,8 @@
                         <td>Contracts Churn:</td>
                         <td>
                             <div class="input-group">
-                                <span class="input-group-addon">%</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="churn" t-att-value="values['contracts']['churn']"/>
+                                <span class="input-group-addon">%</span>
                             </div>
                         </td>
                     </tr>
@@ -157,8 +159,8 @@
                         <td>Projection Time:</td>
                         <td>
                             <div class="input-group">
-                                <span class="input-group-addon">Months</span>
                                 <input class="form-control o_forecast_input" type="number" data-forecast="contracts" data-type="projection_time" t-att-value="values['contracts']['projection_time']"/>
+                                <span class="input-group-addon">Months</span>
                             </div>
                         </td>
                     </tr>
@@ -172,11 +174,11 @@
         In
         <span class="o_blue"><t t-esc="values['projection_time']"/></span>
         months with
-        <span class="o_blue"><t t-esc="values['growth_type'] === 'linear' ? values['linear_growth'] + currency : values['expon_growth'] + '%'"/> <t t-esc="values['growth_type']"/></span>
+        <span class="o_blue"><t t-esc="values['growth_type'] === 'linear' ? format_number(values['linear_growth']) : values['expon_growth'] + '%'"/> <t t-esc="values['growth_type']"/></span>
         growth and
         <span class="o_red"><t t-esc="values['churn'] + '%'"/></span>
         churn, your MRR will be
-        <span class="o_green"><t t-esc="computed_value"/> <t t-esc="currency"/></span>
+        <span class="o_green"><t t-esc="format_number(computed_value)"/></span>
     </h3>
 
     <h3 t-name="account_contract_dashboard.forecast_summary_contracts" class="text-center mt32 mb32" id="forecast_summary_contracts">
@@ -251,7 +253,7 @@
             <tr t-foreach="stats_by_plan" t-as="plan">
                 <td><t t-esc="plan['name']"/></td>
                 <td><t t-esc="plan['nb_customers']"/></td>
-                <td t-if="stat_type != 'nb_contracts'"><t t-esc="plan['value']"/><t t-esc="stat_types[stat_type]['add_symbol'] != 'currency' ? stat_types[stat_type]['add_symbol']: currency"/></td>
+                <td t-if="stat_type != 'nb_contracts'"><t t-esc="format_number(plan['value'], stat_types[stat_type]['add_symbol'])"/></td>
                 <td>
                     <div t-if="value != 0" class="progress" style="width:80%; height:10px;">
                         <div class="progress-bar" role="progressbar" t-att-aria-valuenow="100*plan['value']/value" aria-valuemin="0" aria-valuemax="100" t-att-style="'width: '+100*plan['value']/value+'%'">
@@ -266,13 +268,13 @@
     <t t-name="account_contract_dashboard.stats_history">
         <div class="col-md-3 text-center">
             <h4 class="text-muted o_small_caps">Current</h4>
-            <h2><t t-esc="value"/><t t-esc="stat_types[stat_type]['add_symbol'] != 'currency' ? stat_types[stat_type]['add_symbol']: currency"/></h2>
+            <h2><t t-esc="format_number(value, stat_types[stat_type]['add_symbol'])"/></h2>
         </div>
 
         <div class="col-md-3 text-center">
             <h4 class="text-muted o_small_caps">1 month ago</h4>
             <h2>
-                <t t-esc="stats_history['value_1_months_ago']"/><t t-esc="stat_types[stat_type]['add_symbol'] != 'currency' ? stat_types[stat_type]['add_symbol']: currency"/>
+                <t t-esc="format_number(stats_history['value_1_months_ago'], stat_types[stat_type]['add_symbol'])"/>
                 <small t-if="stats_history['value_1_months_ago'] != 0" t-attf-class="#{get_color_class(value - stats_history['value_1_months_ago'], stat_types[stat_type]['dir'])}"><t t-esc="rate(stats_history['value_1_months_ago'], value)"/>%</small>
             </h2>
         </div>
@@ -280,7 +282,7 @@
         <div class="col-md-3 text-center">
             <h4 class="text-muted o_small_caps">3 months ago</h4>
             <h2>
-                <t t-esc="stats_history['value_3_months_ago']"/><t t-esc="stat_types[stat_type]['add_symbol'] != 'currency' ? stat_types[stat_type]['add_symbol']: currency"/>
+                <t t-esc="format_number(stats_history['value_3_months_ago'], stat_types[stat_type]['add_symbol'])"/>
                 <small t-if="stats_history['value_3_months_ago'] != 0" t-attf-class="#{get_color_class(value - stats_history['value_3_months_ago'], stat_types[stat_type]['dir'])}"><t t-esc="rate(stats_history['value_3_months_ago'], value)"/>%</small>
             </h2>
         </div>
@@ -288,7 +290,7 @@
         <div class="col-md-3 text-center">
             <h4 class="text-muted o_small_caps">12 months ago</h4>
             <h2>
-                <t t-esc="stats_history['value_12_months_ago']"/><t t-esc="stat_types[stat_type]['add_symbol'] != 'currency' ? stat_types[stat_type]['add_symbol']: currency"/>
+                <t t-esc="format_number(stats_history['value_12_months_ago'], stat_types[stat_type]['add_symbol'])"/>
                 <small t-if="stats_history['value_12_months_ago'] != 0" t-attf-class="#{get_color_class(value - stats_history['value_12_months_ago'], stat_types[stat_type]['dir'])}"><t t-esc="rate(stats_history['value_12_months_ago'], value)"/>%</small>
             </h2>
         </div>
@@ -297,7 +299,8 @@
     <div t-name="account_contract_dashboard.stat_box_content" class="box o_stat_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
             <h2 style="color: #2693d5;">
-                <t t-if="!widget.show_demo" t-esc="widget.formatNumber(widget.value)"/><t t-if="widget.show_demo" t-esc="widget.formatNumber(widget.demo_values[widget.stat_type])"/><t t-esc="widget.added_symbol"/>
+                <t t-if="!widget.show_demo" t-esc="widget.format_number(widget.value)"/>
+                <t t-if="widget.show_demo" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>
             <div class="o_trend">
                 <h4 t-attf-class="o_percentage #{widget.color}"><t t-esc="widget.perc"/>%</h4>
@@ -316,7 +319,8 @@
     <div t-name="account_contract_dashboard.forecast_stat_box_content" class="box o_forecast_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
             <h2 style="color: #2693d5;">
-            <t t-if="!widget.show_demo" t-esc="widget.formatNumber(widget.value)"/><t t-if="widget.show_demo" t-esc="widget.formatNumber(widget.demo_values[widget.stat_type])"/><t t-esc="widget.added_symbol"/>
+                <t t-if="!widget.show_demo" t-esc="widget.format_number(widget.value)"/>
+                <t t-if="widget.show_demo" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>
         </div>
         <div class="o_graph" t-att-id="widget.chart_div_id"/>
@@ -330,11 +334,11 @@
 
     <t t-name="account_contract_dashboard.salesman_summary">
         <div class="col-md-6" style="font-weight: 800;">
-            <h3>MRR : <t t-esc="Math.round(mrr*100)/100"/><t t-esc="currency"/></h3>
+            <h3>MRR : <t t-esc="format_number(Math.round(mrr*100)/100)"/></h3>
         </div>
 
         <div class="col-md-6" style="font-weight: 800;">
-            <h3 class="pull-right">NRR : <t t-esc="Math.round(nrr*100)/100"/><t t-esc="currency"/></h3>
+            <h3 class="pull-right">NRR : <t t-esc="format_number(Math.round(nrr*100)/100)"/></h3>
         </div>
     </t>
 
@@ -358,8 +362,8 @@
                     <td><t t-esc="modification['partner'] or ''"/></td>
                     <td><t t-esc="modification['account_analytic'] or ''"/></td>
                     <td><t t-esc="modification['account_analytic_template'] or ''"/></td>
-                    <td><t t-esc="modification['previous_mrr'] + currency"/></td>
-                    <td><t t-esc="modification['current_mrr'] + currency"/> (<span t-att-class="get_color_class(modification['diff'], 'up')"><t t-esc="get_str_diff(modification['diff']) + currency"/></span>)</td>
+                    <td><t t-esc="format_number(modification['previous_mrr'])"/></td>
+                    <td><t t-esc="format_number(modification['current_mrr'])"/> (<span t-att-class="get_color_class(modification['diff'], 'up')"><t t-esc="get_str_diff(modification['diff']) + currency"/></span>)</td>
                 </tr>
             </table>
         </div>
@@ -382,7 +386,7 @@
                     <td><t t-esc="invoice['partner'] or ''"/></td>
                     <td><t t-esc="invoice['account_analytic'] or ''"/></td>
                     <td><t t-esc="invoice['account_analytic_template'] or ''"/></td>
-                    <td><t t-esc="invoice['nrr'] + currency"/></td>
+                    <td><t t-esc="format_number(invoice['nrr'])"/></td>
                 </tr>
             </table>
         </div>

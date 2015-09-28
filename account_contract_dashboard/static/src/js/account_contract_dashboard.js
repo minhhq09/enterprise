@@ -6,7 +6,9 @@ var ajax = require('web.ajax');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var core = require('web.core');
 var datepicker = require('web.datepicker');
+var formats = require('web.formats');
 var Model = require('web.Model');
+var session = require('web.session');
 var utils = require('web.utils');
 var Widget = require('web.Widget');
 
@@ -125,6 +127,15 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     },
 
     render_dashboard: function() {}, // Abstract
+
+    format_number: function(value, symbol) {
+        value = utils.human_number(value);
+        if (symbol === 'currency') {
+            return render_monetary_field(value, this.currency_id);
+        } else {
+            return value + symbol;
+        }
+    },
 });
 
 // 1. Main dashboard
@@ -170,12 +181,13 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 _.each(this.unresolved_defs_vals, function(v, k){
                     self.defs.push(new account_contract_dashboard_stat_box(
                         self,
-                        self.start_date, self.end_date,
-                        self.contract_ids, self.currency,
+                        self.start_date,
+                        self.end_date,
+                        self.contract_ids,
+                        self.currency_id,
                         self.stat_types,
                         stat_boxes[v].getAttribute("name"),
                         stat_boxes[v].getAttribute("code"),
-                        self.currency,
                         self.show_demo
                     ).replace($(stat_boxes[v])));
                 });
@@ -199,7 +211,6 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         }).done(function (result) {
             self.stat_types = result['stat_types'];
             self.forecast_stat_types = result['forecast_stat_types'];
-            self.currency = result['currency_symbol'];
             self.currency_id = result['currency_id'];
             self.show_demo = result['show_demo'];
         });
@@ -222,8 +233,10 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         for (var i=0; i < stat_boxes.length; i++) {
             this.defs.push(new account_contract_dashboard_stat_box(
                 this,
-                this.start_date, this.end_date,
-                this.contract_ids, this.currency,
+                this.start_date,
+                this.end_date,
+                this.contract_ids,
+                this.currency_id,
                 this.stat_types,
                 stat_boxes[i].getAttribute("name"),
                 stat_boxes[i].getAttribute("code"),
@@ -238,7 +251,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 this.forecast_stat_types,
                 forecast_boxes[i].getAttribute("name"),
                 forecast_boxes[i].getAttribute("code"),
-                this.currency,
+                this.currency_id,
                 this.show_demo
             ).replace($(forecast_boxes[i]));
         }
@@ -270,7 +283,6 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
-            'currency': this.currency,
             'currency_id': this.currency_id,
         }
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_detailed", options);
@@ -285,7 +297,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
-            'currency': this.currency,
+            'currency_id': this.currency_id,
         }
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_forecast", options);
     },
@@ -313,7 +325,6 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         this.stat_types = options['stat_types'];
         this.contract_templates = options['contract_templates'];
         this.contract_ids = options['contract_ids'];
-        this.currency = options['currency'];
         this.currency_id = options['currency_id'];
 
         this.display_stats_by_plan = !_.contains(['nrr', 'arpu', 'logo_churn'], this.selected_stat);
@@ -346,11 +357,11 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 end_date: self.end_date,
                 contract_templates: self.contract_templates,
                 stat_type: self.selected_stat,
-                currency: self.currency,
+                currency_id: self.currency_id,
                 report_name: self.report_name,
                 value: self.value,
                 display_stats_by_plan: self.display_stats_by_plan,
-                formatNumber: utils.human_number,
+                format_number: self.format_number,
             }));
 
             self.render_detailed_dashboard_stats_history();
@@ -383,12 +394,35 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 stats_history: result,
                 stat_type: self.selected_stat,
                 stat_types: self.stat_types,
-                currency: self.currency,
+                currency_id: self.currency_id,
                 rate: self.compute_rate,
                 get_color_class: get_color_class,
                 value: Math.round(self.value * 100) / 100,
+                format_number: self.format_number,
             });
-            self.$('#stat-history-box').append(html);
+            self.$('#o-stat-history-box').empty();
+            self.$('#o-stat-history-box').append(html);
+        });
+        addLoader(this.$('#o-stat-history-box'));
+    },
+
+    render_detailed_dashboard_stats_by_plan: function() {
+        var self = this;
+        ajax.jsonRpc('/account_contract_dashboard/get_stats_by_plan', 'call', {
+            'stat_type': this.selected_stat,
+            'start_date': this.start_date,
+            'end_date': this.end_date,
+            'contract_ids': this.contract_ids,
+        }).done(function (result) {
+            var html = QWeb.render('account_contract_dashboard.stats_by_plan', {
+                stats_by_plan: result,
+                stat_type: self.selected_stat,
+                stat_types: self.stat_types,
+                currency_id: self.currency_id,
+                value: self.value,
+                format_number: self.format_number,
+            });
+            self.$('.o_stats_by_plan').replaceWith(html);
         });
         addLoader(this.$('.o_stats_by_plan'));
     },
@@ -487,57 +521,37 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
 
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
-            .interpolate("monotone")
-            .x(function(d) { return getDate(d); })
-            .y(function(d) { return getValue(d); })
-            .margin({left: 100})
-            .useInteractiveGuideline(true)
-            .transitionDuration(350)
-            .showLegend(true)
-            .showYAxis(true)
-            .showXAxis(true);
+                .interpolate("monotone")
+                .x(function(d) { return getDate(d); })
+                .y(function(d) { return getValue(d); })
+                .margin({left: 100})
+                .useInteractiveGuideline(true)
+                .transitionDuration(350)
+                .showLegend(true)
+                .showYAxis(true)
+                .showXAxis(true);
 
             var tick_values = getPrunedTickValues(data_chart[0]['values'], 10);
 
             chart.xAxis
-            .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
-            .tickValues(_.map(tick_values, function(d) {return getDate(d); }))
-            .rotateLabels(55);
+                .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
+                .tickValues(_.map(tick_values, function(d) {return getDate(d); }))
+                .rotateLabels(55);
 
             chart.yAxis
-            .axisLabel('MRR ('+self.currency+')')
-            .tickFormat(d3.format('.02f'));
+                .axisLabel('MRR')
+                .tickFormat(d3.format('.02f'));
 
             var svg = d3.select(div_to_display)
-            .append("svg")
-            .attr("height", '20em')
+                .append("svg")
+                .attr("height", '20em')
             svg
-            .datum(data_chart)
-            .call(chart);
+                .datum(data_chart)
+                .call(chart);
             nv.utils.windowResize(chart.update);
             return chart;
 
         });
-    },
-
-    render_detailed_dashboard_stats_by_plan: function() {
-        var self = this;
-        ajax.jsonRpc('/account_contract_dashboard/get_stats_by_plan', 'call', {
-            'stat_type': this.selected_stat,
-            'start_date': this.start_date,
-            'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-        }).done(function (result) {
-            var html = QWeb.render('account_contract_dashboard.stats_by_plan', {
-                'stats_by_plan': result,
-                'stat_type': self.selected_stat,
-                'stat_types': self.stat_types,
-                'currency': self.currency,
-                'value': self.value,
-            });
-            self.$('.o_stats_by_plan').replaceWith(html);
-        });
-        addLoader(this.$('.o_stats_by_plan'));
     },
 });
 
@@ -555,7 +569,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.end_date = options['end_date'];
         this.contract_templates = options['contract_templates'];
         this.contract_ids = options['contract_ids'];
-        this.currency = options['currency'];
+        this.currency_id = options['currency_id'];
 
         this.values = {};
     },
@@ -576,7 +590,8 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             end_date: this.end_date,
             contract_templates: this.contract_templates,
             values: this.values,
-            currency: this.currency,
+            currency_id: this.currency_id,
+            get_currency: this.get_currency,
         }));
 
         this.values['mrr']['growth_type'] = 'linear';
@@ -633,10 +648,21 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         var content = QWeb.render('account_contract_dashboard.forecast_summary_' + chart_type, {
             values: this.values[chart_type],
             computed_value: parseInt(computed_values[computed_values.length - 1][1]),
-            currency: this.currency,
+            currency_id: this.currency_id,
+            format_number: this.format_number,
         });
 
         this.$('#forecast_summary_' + chart_type).replaceWith(content);
+    },
+
+    get_currency: function() {
+        var currency = session.get_currency(this.currency_id);
+        return currency.symbol;
+    },
+
+    format_number: function(value) {
+        value = utils.human_number(value);
+        return render_monetary_field(value, this.currency_id);
     },
 
     load_chart_forecast: function(div_to_display, values) {
@@ -651,35 +677,36 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         ];
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
-            .interpolate("monotone")
-            .x(function(d) { return getDate(d); })
-            .y(function(d) { return getValue(d); });
+                .interpolate("monotone")
+                .x(function(d) { return getDate(d); })
+                .y(function(d) { return getValue(d); })
+                .forceY([0]);
             chart
-            .margin({left: 100})
-            .useInteractiveGuideline(true)
-            .transitionDuration(350)
-            .showLegend(false)
-            .showYAxis(true)
-            .showXAxis(true);
+                .margin({left: 100})
+                .useInteractiveGuideline(true)
+                .transitionDuration(350)
+                .showLegend(false)
+                .showYAxis(true)
+                .showXAxis(true);
 
             var tick_values = getPrunedTickValues(data_chart[0]['values'], 10);
 
             chart.xAxis
-            .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
-            .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
-            .rotateLabels(55);
+                .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
+                .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
+                .rotateLabels(55);
 
             chart.yAxis
-            .tickFormat(d3.format('.02f'));
+                .tickFormat(d3.format('.02f'));
 
             var svg = d3.select(div_to_display)
-            .append("svg");
+                .append("svg");
 
             svg.attr("height", '20em');
 
             svg
-            .datum(data_chart)
-            .call(chart);
+                .datum(data_chart)
+                .call(chart);
             nv.utils.windowResize(chart.update);
             return chart;
         });
@@ -696,22 +723,23 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
 var account_contract_dashboard_stat_box = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
-    init: function(parent, start_date, end_date, contract_ids, currency, stat_types, box_name, stat_type, show_demo) {
+    init: function(parent, start_date, end_date, contract_ids, currency_id, stat_types, box_name, stat_type, show_demo) {
         this._super(parent);
 
         this.start_date = start_date;
         this.end_date = end_date;
 
         this.contract_ids = contract_ids;
-        this.currency = currency;
+        this.currency_id = currency_id;
         this.stat_types = stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
         this.show_demo = show_demo;
 
         this.chart_div_id = 'chart_div_' + this.stat_type;
-        this.added_symbol = this.stat_types[this.stat_type]['add_symbol'] === 'currency' ? this.currency : this.stat_types[this.stat_type]['add_symbol'];
-        this.formatNumber = utils.human_number;
+        this.added_symbol = this.stat_types[this.stat_type]['add_symbol'];
+        this.is_monetary = this.added_symbol === 'currency';
+        this.render_monetary_field = render_monetary_field;
 
         this.demo_values = {
             'mrr': 1000,
@@ -769,24 +797,34 @@ var account_contract_dashboard_stat_box = Widget.extend({
             self.color = get_color_class(result['perc'], self.stat_types[self.stat_type]['dir']);
         });
     },
+
+    format_number: function(value) {
+        value = utils.human_number(value);
+        if (this.is_monetary) {
+            return render_monetary_field(value, this.currency_id);
+        } else {
+            return value + this.added_symbol;
+        }
+    },
 });
 
 var account_contract_dashboard_forecast_box = Widget.extend({
     template: 'account_contract_dashboard.forecast_stat_box_content',
 
-    init: function(parent, end_date, forecast_stat_types, box_name, stat_type, currency, show_demo) {
+    init: function(parent, end_date, forecast_stat_types, box_name, stat_type, currency_id, show_demo) {
         this._super(parent);
         this.end_date = end_date;
 
-        this.currency = currency;
+        this.currency_id = currency_id;
         this.forecast_stat_types = forecast_stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
         this.show_demo = show_demo;
 
-        this.added_symbol = this.forecast_stat_types[this.stat_type]['add_symbol'] === 'currency' ? this.currency : this.forecast_stat_types[this.stat_type]['add_symbol'];
+        this.added_symbol = this.forecast_stat_types[this.stat_type]['add_symbol'];
+        this.is_monetary = this.added_symbol === 'currency';
         this.chart_div_id = 'chart_div_' + this.stat_type;
-        this.formatNumber = utils.human_number;
+        this.render_monetary_field = render_monetary_field;
 
         this.demo_values = {
             'mrr_forecast': 12000,
@@ -828,6 +866,15 @@ var account_contract_dashboard_forecast_box = Widget.extend({
             self.value = self.computed_graph[self.computed_graph.length - 1][1];
         });
     },
+
+    format_number: function(value) {
+        value = utils.human_number(value);
+        if (this.is_monetary) {
+            return render_monetary_field(value, this.currency_id);
+        } else {
+            return value + this.added_symbol;
+        }
+    },
 });
 
 var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
@@ -848,7 +895,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
         }).then(function (result) {
             self.salesman_ids = result['salesman_ids'];
             self.salesman = result['default_salesman'] || {};
-            self.currency = result['currency'];
+            self.currency_id = result['currency_id'];
         });
     },
 
@@ -893,14 +940,16 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                 modifications: result['contract_modifications'],
                 get_str_diff: self.get_str_diff,
                 get_color_class: get_color_class,
-                currency: self.currency,
+                currency_id: self.currency_id,
+                format_number: self.format_number,
             });
             self.$('#contract_modifications').append(html_modifications);
 
             // 2. NRR invoices
             var html_nrr_invoices = QWeb.render('account_contract_dashboard.nrr_invoices', {
                 invoices: result['nrr_invoices'],
-                currency: self.currency,
+                currency_id: self.currency_id,
+                format_number: self.format_number,
             });
             self.$('#NRR_invoices').append(html_nrr_invoices);
 
@@ -908,7 +957,8 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
             var html_summary = QWeb.render('account_contract_dashboard.salesman_summary', {
                 mrr: result['net_new'],
                 nrr: result['nrr'],
-                currency: self.currency
+                currency_id: self.currency_id,
+                format_number: self.format_number,
             });
             self.$('#mrr_growth_salesman').before(html_summary);
         });
@@ -965,6 +1015,11 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                 return chart;
             });
         }
+    },
+
+    format_number: function(value) {
+        value = utils.human_number(value);
+        return render_monetary_field(value, this.currency_id);
     },
 
     get_str_diff: function(diff) {
@@ -1174,6 +1229,19 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
         nv.utils.windowResize(chart.update);
         return chart;
     });
+}
+
+function render_monetary_field(value, currency_id) {
+    var currency = session.get_currency(currency_id);
+    var digits_precision = currency && currency.digits;
+    if (currency) {
+        if (currency.position === "after") {
+            value += currency.symbol;
+        } else {
+            value = currency.symbol + value;
+        }
+    }
+    return value;
 }
 
 function get_color_class(value, direction) {
