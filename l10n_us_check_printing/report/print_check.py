@@ -93,7 +93,7 @@ class report_print_check(report_sxw.rml_parse):
             amount_paid = abs(invoice_payment_aml.debit - invoice_payment_aml.credit)
         return {
             'due_date': invoice.date_due,
-            'number': invoice.number,
+            'number': invoice.reference and invoice.number + ' - ' + invoice.reference or invoice.number,
             'amount_total': invoice_sign * invoice.amount_total,
             'amount_residual': invoice_sign * invoice.residual,
             'amount_paid': invoice_sign * amount_paid,
