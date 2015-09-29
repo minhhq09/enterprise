@@ -61,7 +61,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """
         # Since this method is called via a client_action_multi, we need to make sure the received records are what we expect
-        payments = payments.filtered(lambda r: r.payment_method_id.code == 'sepa_ct' and r.state in ('posted', 'sent'))
+        payments = payments.filtered(lambda r: r.payment_method_id.code == 'sepa_ct' and r.state in ('posted', 'sent')).sorted(key=lambda r: r.id)
 
         if len(payments) == 0:
             raise UserError(_("Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' selected as payment method and be posted"))
@@ -79,7 +79,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         res = self.create({
             'journal_id': journal.id,
             'bank_account_id': bank_account.id,
-            'filename': "sct_" + bank_account.sanitized_acc_number + time.strftime("_%Y-%m-%d") + ".xml",
+            'filename': "SCT" + bank_account.sanitized_acc_number + time.strftime("%Y%m%d") + ".xml",
             'is_generic': self._require_generic_message(journal, payments),
         })
 
