@@ -951,7 +951,7 @@ var SelectCreateListView = ListView.extend({
         this.popup.close();
     },
     do_select: function(ids, records) {
-        this._super(ids, records);
+        this._super.apply(this, arguments);
         this.popup.on_click_element(ids);
     }
 });
