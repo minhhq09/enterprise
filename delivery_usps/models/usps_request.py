@@ -141,7 +141,7 @@ class USPSRequest():
             postages_prices = []
             for service in services:
                 if carrier.usps_service in service.findall("SvcDescription")[0].text:
-                    postages_prices += [service.findall("Postage")[0].text]
+                    postages_prices += [float(service.findall("Postage")[0].text)]
             dict_response['price'] = min(postages_prices)
         return dict_response
 
