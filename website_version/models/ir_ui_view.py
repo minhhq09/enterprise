@@ -67,10 +67,6 @@ class view(models.Model):
     def _read_template(self, cr, uid, view_id, context=None):
         arch = self.read_combined(cr, uid, view_id, fields=['arch'], context=context)['arch']
         arch_tree = etree.fromstring(arch)
-
-        if 'lang' in context:
-            arch_tree = self.translate_qweb(cr, uid, view_id, arch_tree, context['lang'], context)
-
         self.distribute_branding(arch_tree)
         root = etree.Element('templates')
         root.append(arch_tree)
