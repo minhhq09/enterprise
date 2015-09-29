@@ -5,7 +5,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.exceptions import Warning
 from openerp import models, exceptions, api
 from openerp.tools.translate import _
-import simplejson
+import json
 
 _logger = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ class google_management(models.AbstractModel):
             raise exceptions.RedirectWarning('Click on the website you want to make A/B testing and configure the Google Analytics Key and View ID', action_id, 'go to the websites menu')
         url = '/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments?access_token=%s' % (accountId, webPropertyId, profileId, self.get_token())
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        data_json = simplejson.dumps(data)
+        data_json = json.dumps(data)
         try:
             x = gs_pool._do_request(url, data_json, headers, type='POST')
             result = x[1]['id']
@@ -58,7 +58,7 @@ class google_management(models.AbstractModel):
 
         url = '/analytics/v3/management/accounts/%s/webproperties/%s/profiles/%s/experiments/%s?access_token=%s' % (accountId, webPropertyId, profileId, google_id, self.get_token())
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        data_json = simplejson.dumps(data)
+        data_json = json.dumps(data)
 
         return gs_pool._do_request(url, data_json, headers, type='PUT')
 

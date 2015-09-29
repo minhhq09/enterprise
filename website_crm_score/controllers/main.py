@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import simplejson
+import json
 from openerp import http, SUPERUSER_ID, fields
 from openerp.http import request
 from openerp.tools import html_escape
@@ -43,7 +43,7 @@ class ContactController(WebsiteForm):
             return response
 
         # the cookie is written here because the response is not available in the create_lead function
-        response_data = simplejson.loads(response.data)  # controller is json now
+        response_data = json.loads(response.data)  # controller is json now
         if 'id' in response_data:  # a new lead has been created
             lead_model = request.registry['crm.lead']
             # sign the lead_id

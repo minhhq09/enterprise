@@ -2,10 +2,7 @@
 
 import datetime
 from lxml import etree
-try:
-    import simplejson as json
-except ImportError:
-    import json
+import json
 from dateutil.relativedelta import relativedelta
 import requests
 import urllib
