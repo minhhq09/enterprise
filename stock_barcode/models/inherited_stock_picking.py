@@ -17,22 +17,33 @@ class StockPackOperation(models.Model):
         context=dict(self.env.context)
         # As there is no quantity, just add the quantity
         if context.get('only_create') and context.get('serial'):
-            self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
+            if barcode in [x.lot_name for x in self.pack_lot_ids]:
+                return { 'warning': {
+                            'title': _('You have entered this serial number already'),
+                            'message': _('You have already scanned the serial number "%(barcode)s"') % {'barcode': barcode},
+                        }}
+            else:
+                self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_name': barcode})
         elif context.get('only_create') and not context.get('serial'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_name == barcode)
             if corresponding_pl:
                 corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
             else:
-                self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
+                self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_name': barcode})
         elif not context.get('only_create'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_id.name == barcode)
             if corresponding_pl:
-                corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
+                if context.get('serial') and corresponding_pl[0].qty == 1.0:
+                    return {'warning': {'title': _('You have entered this serial number already'),
+                            'message': _('You have already scanned the serial number "%(barcode)s"') % {'barcode': barcode},}}
+                else:
+                    corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
+                    corresponding_pl[0].plus_visible = (corresponding_pl[0].qty_todo == 0.0) or (corresponding_pl[0].qty < corresponding_pl[0].qty_todo)
             else:
                 # Search lot with correct name
                 lots = self.env['stock.production.lot'].search([('product_id', '=', self.product_id.id), ('name', '=', barcode)])
                 if lots:
-                    self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_id': lots[0].id })
+                    self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_id': lots[0].id, 'plus_visible': False})
                 else:
                     return { 'warning': {
                         'title': _('No lot found'),
