@@ -208,6 +208,7 @@ class USPSRequest():
             'AltReturnAddress3': carrier.usps_redirect_partner_id.zip + " " + carrier.usps_redirect_partner_id.city if carrier.usps_redirect_partner_id else '',
             'AltReturnCountry': carrier.usps_redirect_partner_id.country_id.name,
             'Machinable': str(carrier.usps_machinable),
+            'Container': carrier.usps_container,
         }
         return shipping_detail
 
@@ -221,7 +222,6 @@ class USPSRequest():
         url = 'https://secure.shippingapis.com/ShippingAPI.dll?API='
         xml = '&XML=%s' % (quote(request_text))
         full_url = '%s%s%s' % (url, api, xml)
-
         try:
             response_text = urlopen(Request(full_url)).read()
         except URLError:
