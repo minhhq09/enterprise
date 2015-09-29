@@ -133,7 +133,7 @@ class USPSRequest():
             postage_roots = package_root[0].findall('Postage')
             for postage_root in postage_roots:
                 rate = postage_root.findtext('Rate')
-                dict_response['price'] = rate
+                dict_response['price'] = float(rate)
         # International Rate
         else:
             package_root = root.findall('Package')
@@ -238,17 +238,17 @@ class USPSRequest():
         elif root.tag == 'DelivConfirmCertifyV4.0Response' or root.tag == 'DeliveryConfirmationV4.0Response':
             # domestic Priority and First Class
             dict_response['tracking_number'] = root.findtext('DeliveryConfirmationNumber')
-            dict_response['price'] = root.findtext('Postage')
+            dict_response['price'] = float(root.findtext('Postage'))
             dict_response['label'] = binascii.a2b_base64(root.findtext('DeliveryConfirmationLabel'))
         elif root.tag == 'ExpressMailLabelCertifyResponse' or root.tag == 'ExpressMailLabelResponse':
             # for Domestic Express
             dict_response['tracking_number'] = root.findtext('EMConfirmationNumber')
-            dict_response['price'] = root.findtext('Postage')
+            dict_response['price'] = float(root.findtext('Postage'))
             dict_response['label'] = binascii.a2b_base64(root.findtext('EMLabel'))
         else:
             # for International
             dict_response['tracking_number'] = root.findtext('BarcodeNumber')
-            dict_response['price'] = root.findtext('Postage')
+            dict_response['price'] = float(root.findtext('Postage'))
             dict_response['label'] = binascii.a2b_base64(root.findtext('LabelImage'))
 
         return dict_response
