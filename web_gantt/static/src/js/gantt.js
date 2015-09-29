@@ -20,7 +20,7 @@ var GanttView = View.extend({
 
     events: {
         'click .gantt_task_row .gantt_task_cell': 'create_on_click',
-    },     
+    },
 
     init: function () {
         this._super.apply(this, arguments);
@@ -161,6 +161,11 @@ var GanttView = View.extend({
                        self.fields = fields;
                        self.has_been_loaded.resolve();
                    });
+    },
+
+    do_show: function () {
+        this.do_push_state({});
+        return this._super.apply(this, arguments);
     },
 
     do_search: function (domains, contexts, group_bys) {
