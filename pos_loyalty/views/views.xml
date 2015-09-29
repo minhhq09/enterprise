@@ -174,5 +174,16 @@
             sequence="30"
             groups="point_of_sale.group_pos_manager" />
 
+        <record id="view_sale_config_settings_form_pos_inherit_pos_loyalty" model="ir.ui.view">
+            <field name="name">pos.config.settings.form.inherit</field>
+            <field name="model">pos.config.settings</field>
+            <field name="inherit_id" ref="point_of_sale.view_sale_config_settings_form_pos"/>
+            <field name="arch" type="xml">
+                <field name="module_pos_restaurant" position="after">
+                    <field name="module_pos_loyalty" widget="radio"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>
