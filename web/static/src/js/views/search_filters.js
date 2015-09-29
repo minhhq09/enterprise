@@ -179,8 +179,8 @@ ExtendedSearchProposition.DateTime = ExtendedSearchProposition.Field.extend({
         {value: "!=", text: _lt("is not equal to")},
         {value: ">", text: _lt("greater than")},
         {value: "<", text: _lt("less than")},
-        {value: ">=", text: _lt("greater or equal than")},
-        {value: "<=", text: _lt("less or equal than")},
+        {value: ">=", text: _lt("greater than or equal to")},
+        {value: "<=", text: _lt("less than or equal to")},
         {value: "∃", text: _lt("is set")},
         {value: "∄", text: _lt("is not set")}
     ],
@@ -217,8 +217,8 @@ ExtendedSearchProposition.Integer = ExtendedSearchProposition.Field.extend({
         {value: "!=", text: _lt("is not equal to")},
         {value: ">", text: _lt("greater than")},
         {value: "<", text: _lt("less than")},
-        {value: ">=", text: _lt("greater or equal than")},
-        {value: "<=", text: _lt("less or equal than")},
+        {value: ">=", text: _lt("greater than or equal to")},
+        {value: "<=", text: _lt("less than or equal to")},
         {value: "∃", text: _lt("is set")},
         {value: "∄", text: _lt("is not set")}
     ],
@@ -246,8 +246,8 @@ ExtendedSearchProposition.Float = ExtendedSearchProposition.Field.extend({
         {value: "!=", text: _lt("is not equal to")},
         {value: ">", text: _lt("greater than")},
         {value: "<", text: _lt("less than")},
-        {value: ">=", text: _lt("greater or equal than")},
-        {value: "<=", text: _lt("less or equal than")},
+        {value: ">=", text: _lt("greater than or equal to")},
+        {value: "<=", text: _lt("less than or equal to")},
         {value: "∃", text: _lt("is set")},
         {value: "∄", text: _lt("is not set")}
     ],
