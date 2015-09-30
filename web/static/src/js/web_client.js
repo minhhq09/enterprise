@@ -61,6 +61,15 @@ var WebClient = Widget.extend({
         this._title_changed();
         this.$el.toggleClass('o_touch_device', config.device.touch);
 
+        core.bus.on('display_notification', this, function (title, message, sticky) {
+            this.notification_manager.notify(title, message, sticky);
+        });
+
+        core.bus.on('display_warning', this, function (title, message, sticky) {
+            this.notification_manager.warn(title, message, sticky);
+        });
+
+
         return session.session_bind(this.origin).then(function () {
             self.bind_events();
             return self.show_common();
