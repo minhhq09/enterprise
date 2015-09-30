@@ -55,6 +55,11 @@ class DocsawayProvider(models.Model):
         if not self.docsaway_email and not self.docsaway_key:
             raise UserError(_('You must configure your Docsaway Account : the Docsaway Email and Docsaway Key are required. You will find them on www.docsaway.com'))
 
+    def docsaway_check_credit(self):
+        """ Check if the credit of the current provider are filled. If not, raise a UserError. """
+        if self.balance <= 0.0 and self.environment == 'production':
+            raise UserError(_('Your credit provider is too small. Please, configure your account (> Settings > Print Provider), and put some credit on your account, since you are in Production Mode.'))
+
 
     # --------------------------------------------------
     # DocsAway API methods

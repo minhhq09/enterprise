@@ -37,6 +37,11 @@ class PrintProvider(models.Model):
         self.ensure_one()
         getattr(self, '%s_check_configuration' % self.provider, lambda: None)()
 
+    def check_credit(self):
+        """ Check if the credit of provider is not too low. If not, raise a warning. """
+        self.ensure_one()
+        getattr(self, '%s_check_credit' % self.provider, lambda: None)()
+
 
 class PrintOrder(models.Model):
     """ Print Order Model. Each specific provider can extend the model by adding

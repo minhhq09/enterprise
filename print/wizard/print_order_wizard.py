@@ -70,8 +70,7 @@ class PrintOrderWizard(models.TransientModel):
             # raise UserError if the provider is not configured
             wizard.provider_id.check_configuration()
             # don't do anything if the balance is too small in the production mode (in test mode, allow all)
-            if wizard.provider_balance <= 0.0 and wizard.provider_environment == 'production':
-                raise UserError(_('Your credit provider is too small. Please, configure your account (> Settings > Print Provider), and put some credit on your account, since you are in Production Mode.'))
+            wizard.provider_id.check_credit()
             for line in wizard.print_order_line_wizard_ids:
                 PrintOrder.create({
                     'ink' : wizard.ink,
