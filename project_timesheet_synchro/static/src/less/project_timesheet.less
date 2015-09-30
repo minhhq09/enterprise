@@ -24,11 +24,16 @@
 // ------------------------------------------------------------------
 body {
     .pt_drawer_menu_wrapper{
+        @media screen and (max-device-width: 768px) {
+            width: 100%; // Override for mobile
+            left: -100%;
+        }
+
         position: fixed;
         top: 0;
-        left: -100%;
+        left: -320px;
         bottom: 0;
-        width: 100%;
+        width: 320px;
         height: 100%;
         z-index: 10;
 
@@ -37,14 +42,16 @@ body {
             webkit-transition: transform 0.3s ease-out;
             .pt_transform(translateX(100%));
 
-            .pt_drawer_menu_shade {
-                transition : opacity 0.2s 0.3s;
-                opacity: 1;
+            @media screen and (max-device-width: 768px) {
+                .pt_drawer_menu_shade {
+                    transition : opacity 0.2s 0.3s;
+                    opacity: 1;
+                }
             }
         }
 
         .pt_drawer_menu {
-            width: 250px;
+            width: ~"calc(100% - 50px)";
             height: 100%;
             opacity: 1;
 
@@ -63,9 +70,9 @@ body {
         .pt_drawer_menu_shade {
             position: absolute;
             height: 100%;
-            left: 250px;
+            left: ~"calc(100% - 50px)";
             top:0px;
-            width: ~"calc(100% - 250px)";
+            width: 51px;
             background-color: rgba(0, 0, 0, 0.5);
             opacity: 0;
         }
@@ -222,6 +229,7 @@ body {
                     position: relative;
                     left: 30px;
                     font-size: 14px;
+                    font-weight: bold;
                 }
             }
         }

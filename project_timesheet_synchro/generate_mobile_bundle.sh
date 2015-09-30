@@ -10,5 +10,4 @@ cp -r www /home/odoo/phonegap/OdooTimesheets/
 cp www/static/src/img/icon.png /home/odoo/phonegap/OdooTimesheets/
 
 cd /home/odoo/phonegap/OdooTimesheets/
-cordova build android
-cordova run android
+cordova prepare android
