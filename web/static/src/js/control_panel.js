@@ -218,7 +218,7 @@ var ControlPanel = Widget.extend({
         }
 
         this.nodes.$searchview.toggle(!is_hidden);
-        this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.device.xs);
+        this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.device.size_class === 'xs');
 
         if(this.$enable_searchview === undefined) {
             var self = this;
@@ -228,7 +228,7 @@ var ControlPanel = Widget.extend({
                     self.$el.toggleClass('o_breadcrumb_full');
                 });
         }
-        if(!is_hidden && config.device.xs) {
+        if(!is_hidden && config.device.size_class === 'xs') {
             this.$enable_searchview.insertAfter(this.nodes.$searchview);
         } else {
             this.$enable_searchview.detach();

@@ -343,7 +343,7 @@ var FieldPhone = FieldEmail.extend({
     prefix: 'tel',
     init: function() {
         this._super.apply(this, arguments);
-        this.clickable = config.device.xs;
+        this.clickable = config.device.size_class === 'xs';
     },
     render_value: function() {
         this._super();
@@ -1314,7 +1314,7 @@ var FieldStatus = common.AbstractField.extend({
     },
     render_value: function() {
         var self = this;
-        var $content = $(QWeb.render("FieldStatus.content." + ((config.device.xs)? 'mobile' : 'desktop'), {
+        var $content = $(QWeb.render("FieldStatus.content." + ((config.device.size_class === 'xs')? 'mobile' : 'desktop'), {
             'widget': self, 
             'value_folded': _.find(self.selection.folded, function(i){return i[0] === self.get('value');})
         }));

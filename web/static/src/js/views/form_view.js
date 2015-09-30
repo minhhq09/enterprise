@@ -93,7 +93,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
         this.reload_mutex = new utils.Mutex();
         this.__clicked_inside = false;
         this.__blur_timeout = null;
-        this.rendering_engine = (config.device.xs)? new FormRenderingEngineMobile(this) : new FormRenderingEngine(this);
+        this.rendering_engine = (config.device.size_class === 'xs')? new FormRenderingEngineMobile(this) : new FormRenderingEngine(this);
         this.set({actual_mode: this.options.initial_mode});
         this.has_been_loaded.done(function() {
             self._build_onchange_specs();
