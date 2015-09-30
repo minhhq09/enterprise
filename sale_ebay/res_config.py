@@ -152,9 +152,13 @@ class ebay_configuration(models.TransientModel):
     def sync_policies(self, context=None):
         self.env['ebay.policy'].sync_policies()
 
-    @api.multi
-    def sync_product_status(self, context=None):
-        self.env['product.template'].sync_ebay_products()
+    @api.model
+    def button_sync_product_status(self, context=None):
+        self.env['product.template'].sync_product_status(sync_big_stocks=False)
+
+    @api.model
+    def sync_product_status(self, sync_big_stocks=False):
+        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks)
 
     @api.model
     def sync_ebay_details(self, context=None):

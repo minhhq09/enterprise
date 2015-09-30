@@ -60,10 +60,11 @@
               <group>
                 <field name="ebay_title"/>
                 <field name="ebay_subtitle"/>
+                <field name="ebay_item_condition_id" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_category_id" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_category_2_id" attrs="{'invisible': [('ebay_category_id', '=', False)]}" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_store_category_id" options="{'no_create': True, 'no_open': True}"/>
                 <field name="ebay_store_category_2_id" attrs="{'invisible': [('ebay_store_category_id', '=', False)]}" options="{'no_create': True, 'no_open': True}"/>
-                <field name="ebay_item_condition_id" options="{'no_create': True, 'no_open': True}"/>
               </group>
               <group>
                 <field name="ebay_listing_type"/>
@@ -73,7 +74,7 @@
                 <field name="ebay_sync_stock" attrs="{'invisible': [('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_quantity" attrs="{'invisible': ['|',('ebay_sync_stock','=',True),'|',('product_variant_count','>',1),('ebay_listing_type','=', 'Chinese')]}"/>
                 <field name="ebay_listing_duration"/>
-                <field name="ebay_best_offer"/>
+                <field name="ebay_best_offer" attrs="{'invisible': [('product_variant_count','>',1),('ebay_listing_type','=', 'FixedPriceItem')]}"/>
                 <field name="ebay_private_listing"/>
 
               </group>
@@ -100,6 +101,16 @@
                 </tree>
               </field>
             </div>
+            <label for="ebay_template_id"/>
+            <field name="ebay_template_id"
+              domain="[('model','=','product.template')]"
+              context="{
+                  'form_view_ref':'product_email_template.email_template_form_simplified',
+                  'default_model': 'product.template',
+                  'default_subject': name,
+                  'default_name': name,
+              }"
+            />
             <label for="ebay_description"/>
             <field name="ebay_description" placeholder="Describe the product characteristics..."/>
           </page>

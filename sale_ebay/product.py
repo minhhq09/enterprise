@@ -11,6 +11,9 @@ from StringIO import StringIO
 from xml.sax.saxutils import escape
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
+# eBay api limits ItemRevise calls to 150 per day 
+MAX_REVISE_CALLS = 150
+
 
 class product_template(models.Model):
     _inherit = "product.template"
@@ -23,14 +26,17 @@ class product_template(models.Model):
         help='The title is restricted to 80 characters')
     ebay_subtitle = fields.Char('Subtitle', size=55,
         help='The subtitle is restricted to 55 characters. Fees can be claimed by eBay for this feature')
-    ebay_description = fields.Text('Description')
+    ebay_description = fields.Html('Description')
     ebay_item_condition_id = fields.Many2one('ebay.item.condition', string="Item Condition")
     ebay_category_id = fields.Many2one('ebay.category',
         string="Category", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)])
+    ebay_category_2_id = fields.Many2one('ebay.category',
+        string="Category 2 (Optional)", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)],
+        help="The use of a secondary category is not allowed on every eBay sites. Fees can be claimed by eBay for this feature")
     ebay_store_category_id = fields.Many2one('ebay.category',
-        string="Store Category", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_store_category_2_id = fields.Many2one('ebay.category',
-        string="Store Category 2", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category 2 (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_price = fields.Float(string='Starting Price for Auction')
     ebay_buy_it_now_price = fields.Float(string='Buy It Now Price')
     ebay_listing_type = fields.Selection([
@@ -58,6 +64,9 @@ class product_template(models.Model):
     ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
     ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
     ebay_last_sync = fields.Datetime(string="Last update")
+    ebay_template_id = fields.Many2one('mail.template', string='Description Template',
+        ondelete='set null',
+        help='This field contains the template that will be used.')
 
     _defaults = {
         'date': fields.Datetime.now()
@@ -103,10 +112,9 @@ class product_template(models.Model):
                 },
             }
         }
-        if self.ebay_description and '<html>' in self.ebay_description:
-            item['Item']['Description'] = '<![CDATA['+self.ebay_description+']]>'
-        else:
-            item['Item']['Description'] = self._ebay_encode(self.ebay_description)
+        if self.ebay_description and self.ebay_template_id:
+            description = self.ebay_template_id.render_template(self.ebay_template_id.body_html, 'product.template', self.id)
+            item['Item']['Description'] = '<![CDATA['+description+']]>'
         if self.ebay_subtitle:
             item['Item']['SubTitle'] = self._ebay_encode(self.ebay_subtitle)
         picture_urls = self._create_picture_url()
@@ -140,16 +148,24 @@ class product_template(models.Model):
                         'Name': self._ebay_encode(attribute.attribute_id.name),
                         'Value': self._ebay_encode(attribute.value_ids.name),
                     })
+
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
+        if self.ebay_category_2_id:
+            item['Item']['SecondaryCategory'] = {'CategoryID': self.ebay_category_2_id.category_id}
         if self.ebay_store_category_id:
             item['Item']['Storefront'] = {
-                'StoreCategoryID': self.ebay_store_category_id.id,
+                'StoreCategoryID': self.ebay_store_category_id.category_id,
                 'StoreCategoryName': self._ebay_encode(self.ebay_store_category_id.name),
             }
             if self.ebay_store_category_2_id:
-                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.id
+                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        if self.barcode:
+            if len(self.barcode) == 12:
+                item['Item']['ProductListingDetails'] = {'UPC': self.barcode}
+            elif len(self.barcode) == 13:
+                item['Item']['ProductListingDetails'] = {'EAN': self.barcode}
         return item
 
     @api.model
@@ -166,9 +182,8 @@ class product_template(models.Model):
         items = self._prepare_item_dict()
         items['Item']['Variations'] = {'Variation': []}
         variations = items['Item']['Variations']['Variation']
-        possible_name_values = []
-        # example of a valid name value list array
-        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
+
+        name_values = {}
         for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
                 variant.ebay_quantity = max(int(variant.virtual_available), 0)
@@ -180,14 +195,10 @@ class product_template(models.Model):
                 attr_line = self.attribute_line_ids.filtered(
                     lambda l: l.attribute_id.id == spec.attribute_id.id)
                 if len(attr_line.value_ids) > 1:
-                    if not filter(
-                        lambda x:
-                        x['Name'] == self._ebay_encode(spec.attribute_id.name),
-                            possible_name_values):
-                        possible_name_values.append({
-                            'Name': self._ebay_encode(spec.attribute_id.name),
-                            'Value': [self._ebay_encode(n) for n in spec.attribute_id.value_ids.mapped('name')],
-                        })
+                    if spec.attribute_id.name not in name_values:
+                        name_values[spec.attribute_id.name] = []
+                    if spec.name not in name_values[spec.attribute_id.name]:
+                        name_values[spec.attribute_id.name].append(spec.name)
                     variant_name_values.append({
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
@@ -198,6 +209,14 @@ class product_template(models.Model):
                 'VariationSpecifics': {'NameValueList': variant_name_values},
                 'Delete': False if variant.ebay_use else True,
                 })
+        # example of a valid name value list array
+        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
+        possible_name_values = []
+        for key in name_values:
+            possible_name_values.append({
+                'Name': self._ebay_encode(key),
+                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+            })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
         }
@@ -275,7 +294,8 @@ class product_template(models.Model):
         attachments = self.env['ir.attachment'].search([
             ('res_model', '=', 'product.template'),
             ('res_id', '=', self.id)
-        ], order="create_date desc")
+        ], order="create_date")
+
         urls = []
         for att in attachments:
             image = StringIO(base64.standard_b64decode(att["datas"]))
@@ -302,11 +322,12 @@ class product_template(models.Model):
 
     @api.one
     def push_product_ebay(self):
-        item_dict = self._get_item_dict()
-        response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
-                                     else 'AddFixedPriceItem', item_dict)
-        self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict())
+        if self.ebay_listing_status != 'Active':
+            item_dict = self._get_item_dict()
+            response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
+                                         else 'AddFixedPriceItem', item_dict)
+            self._set_variant_url(response.dict()['ItemID'])
+            self._update_ebay_data(response.dict())
 
     @api.one
     def end_listing_product_ebay(self):
@@ -340,7 +361,12 @@ class product_template(models.Model):
         self._update_ebay_data(response.dict())
 
     @api.model
-    def _sync_recent_product_status(self, page_number=1):
+    def sync_product_status(self, sync_big_stocks=False):
+        self._sync_recent_product_status(1, sync_big_stocks=sync_big_stocks)
+        self._sync_old_product_status(sync_big_stocks=sync_big_stocks)
+
+    @api.model
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -352,16 +378,26 @@ class product_template(models.Model):
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
-            product = self.search([('ebay_id', '=', item['ItemID'])])
+            domain = [
+                ('ebay_id', '=', item['ItemID']),
+                ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+            ]
+            product = self.search(domain)
             if product:
                 product._sync_transaction(item)
         if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
             self._sync_product_status(page_number + 1)
 
     @api.model
-    def _sync_old_product_status(self):
+    def _sync_old_product_status(self, sync_big_stocks=False):
         date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
-        products = self.search([('ebay_use', '=', True), ('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
+        domain = [
+            ('ebay_use', '=', True),
+            ('ebay_start_date', '<', date),
+            ('ebay_listing_status', '=', 'Active'),
+            ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+        ]
+        products = self.search(domain)
         for product in products:
             response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
             product._sync_transaction(response.dict()['Item'])
@@ -372,6 +408,9 @@ class product_template(models.Model):
         if self.ebay_listing_status != 'Ended'\
            and self.ebay_listing_status != 'Out Of Stock':
             self.ebay_listing_status = item['SellingStatus']['ListingStatus']
+            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock') and\
+               self.ebay_listing_status == 'Ended':
+                self.ebay_listing_status = 'Out Of Stock'
             if int(item['SellingStatus']['QuantitySold']) > 0:
                 call_data = {
                     'ItemID': item['ItemID'],
@@ -520,12 +559,15 @@ class product_template(models.Model):
             if self.ebay_listing_status == 'Active':
                 # The product is Active on eBay but there is no more stock
                 if self.virtual_available <= 0:
-                    # If the Out Of Stock option is enabled only need to revise the quantity
-                    if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                        self.revise_product_ebay()
-                    else:
-                        self.end_listing_product_ebay()
-                    self.ebay_listing_status = 'Out Of Stock'
+                    # Only revise product if there is a change of quantity
+                    if self.ebay_quantity != self.virtual_available:
+                        # If the Out Of Stock option is enabled only need to revise the quantity
+                        if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
+                            self.revise_product_ebay()
+                            self.ebay_listing_status = 'Out Of Stock'
+                        else:
+                            self.end_listing_product_ebay()
+                            self.ebay_listing_status = 'Ended'
                 # The product is Active on eBay and there is some stock
                 # Check if the quantity in Odoo is different than the one on eBay
                 # If it is the case revise the quantity
@@ -537,11 +579,11 @@ class product_template(models.Model):
                                 break
                     else:
                         if self.ebay_quantity != self.virtual_available:
-                            self.revise_product_ebay
+                            self.revise_product_ebay()
             elif self.ebay_listing_status == 'Out Of Stock':
                 # The product is Out Of Stock on eBay but there is stock in Odoo
                 # If the Out Of Stock option is enabled then only revise the product
-                if self.virtual_available > 0:
+                if self.virtual_available > 0 and self.ebay_quantity != self.virtual_available:
                     if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                         self.revise_product_ebay()
                     else:
