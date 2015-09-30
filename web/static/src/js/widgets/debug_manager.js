@@ -678,35 +678,22 @@ if (core.debug) {
         },
     });
 
-    ViewManager.include({
-        init: function() {
-            this._super.apply(this, arguments);
-            this.started = $.Deferred();
-        },
-
-        start: function() {
-            var self = this;
-            return this._super().then(function() {
-                self.started.resolve();
-            });
-        },
-    });
-
     Dialog.include({
-        start: function() {
+        open: function() {
             var self = this;
-            return this._super().then(function () {
-                var parent = self.getParent();
-                if(parent instanceof ActionManager && parent.dialog_widget) {
-                    // Instantiate the DebugManager and insert it into the DOM
+
+            var parent = self.getParent();
+            if(parent instanceof ActionManager && parent.dialog_widget) {
+                // Instantiate the DebugManager and insert it into the DOM once dialog is opened
+                this.opened(function(e) {
                     self.debug_manager = new DebugManager(self);
                     return self.debug_manager.insertAfter(self.$el).then(function() {
-                        return parent.dialog_widget.started.then(function() {
-                            self.debug_manager.update('action', parent.dialog_widget.action, parent.dialog_widget);
-                        });
+                        self.debug_manager.update('action', parent.dialog_widget.action, parent.dialog_widget);
                     });
-                }
-            });
+                });
+            }
+
+            return this._super.apply(this, arguments);
         },
     });
 }
