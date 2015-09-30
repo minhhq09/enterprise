@@ -25,7 +25,7 @@ class product_template(models.Model):
         help='The title is restricted to 80 characters')
     ebay_subtitle = fields.Char('Subtitle', size=55,
         help='The subtitle is restricted to 55 characters. Fees can be claimed by eBay for this feature')
-    ebay_description = fields.Text('Description')
+    ebay_description = fields.Html('Description')
     ebay_item_condition_id = fields.Many2one('ebay.item.condition', string="Item Condition")
     ebay_category_id = fields.Many2one('ebay.category',
         string="Category", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)])
@@ -63,6 +63,9 @@ class product_template(models.Model):
     ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
     ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
     ebay_last_sync = fields.Datetime(string="Last update")
+    ebay_template_id = fields.Many2one('mail.template', string='Description Template',
+        ondelete='set null',
+        help='This field contains the template that will be used.')
 
     _defaults = {
         'date': fields.Datetime.now()
@@ -77,6 +80,7 @@ class product_template(models.Model):
         currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
         currency = self.env['res.currency'].browse(int(currency_id))
         comp_currency = self.env.user.company_id.currency_id
+
         item = {
             "Item": {
                 "Title": self._ebay_encode(self.ebay_title),
@@ -108,10 +112,9 @@ class product_template(models.Model):
                 },
             }
         }
-        if self.ebay_description and '<html>' in self.ebay_description:
-            item['Item']['Description'] = '<![CDATA['+self.ebay_description+']]>'
-        else:
-            item['Item']['Description'] = self._ebay_encode(self.ebay_description)
+        if self.ebay_description and self.ebay_template_id:
+            description = self.ebay_template_id.render_template(self.ebay_template_id.body_html, 'product.template', self.id)
+            item['Item']['Description'] = '<![CDATA['+description+']]>'
         if self.ebay_subtitle:
             item['Item']['SubTitle'] = self._ebay_encode(self.ebay_subtitle)
         picture_urls = self._create_picture_url()
