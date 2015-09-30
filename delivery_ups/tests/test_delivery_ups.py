@@ -38,7 +38,12 @@ class TestDeliveryUPS(TransactionCase):
 
         # Set service type = 'UPS Worldwide Expedited', which is available between US to BE
         carrier = self.env.ref('delivery_ups.delivery_carrier_ups_us')
-        carrier.write({'ups_default_packaging_type': '02', 'ups_default_service_type': "08"})
+        carrier.write({'ups_default_packaging_type': '02',
+                       'ups_default_service_type': '08',
+                       'ups_package_dimension_unit': 'IN',
+                       'ups_package_height': '3',
+                       'ups_package_width': '3',
+                       'ups_package_length': '3'})
 
         so_vals = {'partner_id': self.agrolait.id,
                    'carrier_id': carrier.id,
