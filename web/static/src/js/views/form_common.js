@@ -1028,6 +1028,9 @@ var SelectCreateDialog = ViewDialog.extend({
                 e.cancel = true;
             });
             self.view_list.popup = self;
+            self.view_list.on('list_view_loaded', self, function() {
+                this.on_view_list_loaded();
+            });
             self.view_list.appendTo(self.$el).then(function() {
                 self.view_list.do_show();
             }).then(function() {
@@ -1071,14 +1074,11 @@ var SelectCreateDialog = ViewDialog.extend({
         this.close();
         return new FormViewDialog(this.__parentedParent, this.options).open();
     },
+    on_view_list_loaded: function() {},
 });
 
 var DomainEditorDialog = SelectCreateDialog.extend({
     init: function(parent, options) {
-        if (options.readonly) {
-            this._super(parent, options);
-            return;
-        }
         options = _.defaults(options, {initial_facet: {
             category: _t("Custom Filter"),
             icon: 'fa-star',
@@ -1115,6 +1115,11 @@ var DomainEditorDialog = SelectCreateDialog.extend({
             domain = [["id", "in", selected_ids]];
         }
         return this.dataset.domain.concat(group_domain).concat(domain || []);
+    },
+
+    on_view_list_loaded: function() {
+        this.$('.o_list_record_selector input').prop('checked', true);
+        this.$footer.find(".o_selectcreatepopup_search_select").prop('disabled', false);
     },
 });
 
