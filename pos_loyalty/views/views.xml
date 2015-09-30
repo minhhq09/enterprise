@@ -7,11 +7,13 @@
             <field name="model">pos.config</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_config_form" />
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='receipt']" position="after">
-                    <group string="Loyalty Program" col="4" >
-                        <field name="loyalty_id" />
+                <group name="receipt" position="after">
+                    <group string="Loyalty Program">
+                        <group>
+                            <field name="loyalty_id" />
+                        </group>
                     </group>
-                </xpath>
+                </group>
             </field>
         </record>
 
@@ -97,11 +99,11 @@
                         <label class="oe_edit_only" for="name" string="Rule Name"/>
                         <h1><field name="name"/></h1>
                     </div>
-                    <group col="4">
-                        <group col='2'>
+                    <group>
+                        <group >
                             <field name="type" />
                         </group>
-                        <group col='2'>
+                        <group>
                             <field name="product_id"  attrs="{ 'invisible':[('type','!=','product')],  'required':[('type','==','product')]}" />
                             <field name="category_id" attrs="{ 'invisible':[('type','!=','category')], 'required':[('type','==','category')]}"/>
                         </group>
