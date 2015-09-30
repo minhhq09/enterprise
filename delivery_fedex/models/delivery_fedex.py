@@ -90,7 +90,7 @@ class ProviderFedex(models.Model):
 
             warnings = request.get('warnings_message')
             if warnings:
-                _logger.warn(warnings)
+                _logger.info(warnings)
 
             if not request.get('errors_message'):
                 if order_currency.name in request['price']:
@@ -127,8 +127,7 @@ class ProviderFedex(models.Model):
 
             srm.shipment_label('COMMON2D', 'PDF', self.fedex_label_stock_type, 'TOP_EDGE_OF_TEXT_FIRST', 'SHIPPING_LABEL_FIRST')
 
-            # dirty hack to get the currency of the originating SO
-            order_currency = picking.move_lines[0].procurement_id.sale_line_id.order_id.currency_id or picking.company_id.currency_id
+            order_currency = picking.sale_id.currency_id or picking.company_id.currency_id
 
             net_weight = _convert_weight(picking.weight, self.fedex_weight_unit)
 
@@ -181,7 +180,7 @@ class ProviderFedex(models.Model):
 
                     warnings = request.get('warnings_message')
                     if warnings:
-                        _logger.warn(warnings)
+                        _logger.info(warnings)
 
                     # First package
                     if sequence == 1:
@@ -242,7 +241,7 @@ class ProviderFedex(models.Model):
 
                 warnings = request.get('warnings_message')
                 if warnings:
-                    _logger.warn(warnings)
+                    _logger.info(warnings)
 
                 if not request.get('errors_message'):
 
@@ -291,7 +290,7 @@ class ProviderFedex(models.Model):
 
         warnings = result.get('warnings_message')
         if warnings:
-            _logger.warn(warnings)
+            _logger.info(warnings)
 
         if result.get('delete_success') and not result.get('errors_message'):
             picking.message_post(body=_(u'Shipment N° %s has been cancelled' % picking.carrier_tracking_ref))
