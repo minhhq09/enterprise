@@ -174,9 +174,9 @@ class RevenueKPIsDashboard(http.Controller):
     @http.route('/account_contract_dashboard/compute_stat', type='json', auth='user')
     def compute_stat(self, stat_type, start_date, end_date, contract_ids=None):
 
-        if type(start_date) == str:
+        if isinstance(start_date, (str, unicode)):
             start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
-        if type(end_date) == str:
+        if isinstance(end_date, (str, unicode)):
             end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
 
         return STAT_TYPES[stat_type]['compute'](start_date, end_date, contract_ids=contract_ids)
