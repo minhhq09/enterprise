@@ -294,7 +294,8 @@ class product_template(models.Model):
         attachments = self.env['ir.attachment'].search([
             ('res_model', '=', 'product.template'),
             ('res_id', '=', self.id)
-        ], order="create_date desc")
+        ], order="create_date")
+
         urls = []
         for att in attachments:
             image = StringIO(base64.standard_b64decode(att["datas"]))
