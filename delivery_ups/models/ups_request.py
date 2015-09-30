@@ -16,6 +16,8 @@ from suds.client import Client
 from suds.plugin import MessagePlugin
 from suds.sax.element import Element
 
+SUDS_VERSION = suds.__version__
+
 from openerp import _
 from openerp.exceptions import ValidationError
 
@@ -311,8 +313,12 @@ class UPSRequest():
             return result
 
         except suds.WebFault as e:
-            return self.get_error_message(e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
-                                          e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
+            # childAtPath behaviour is changing at version 0.6
+            prefix = ''
+            if SUDS_VERSION >= "0.6":
+                prefix = '/Envelope/Body/Fault'
+            return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
+                                          e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
         except URLError:
             return self.get_error_message('250053', 'UPS Server Not Found')
 
@@ -399,8 +405,11 @@ class UPSRequest():
             return result
 
         except suds.WebFault as e:
-            return self.get_error_message(e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
-                                          e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
+            # childAtPath behaviour is changing at version 0.6
+            if SUDS_VERSION >= "0.6":
+                prefix = '/Envelope/Body/Fault'
+            return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
+                                          e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
         except URLError:
             return self.get_error_message('250053', 'UPS Server Not Found')
 
@@ -422,7 +431,10 @@ class UPSRequest():
             return self.get_error_message(response.Response.ResponseStatus.Code, response.Response.ResponseStatus.Description)
 
         except suds.WebFault as e:
-            return self.get_error_message(e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
-                                          e.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
+            # childAtPath behaviour is changing at version 0.6
+            if SUDS_VERSION >= "0.6":
+                prefix = '/Envelope/Body/Fault'
+            return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
+                                          e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
         except URLError:
             return self.get_error_message('250053', 'UPS Server Not Found')
