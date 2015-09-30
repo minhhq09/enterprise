@@ -1,9 +1,7 @@
 
 /* Signature Dialog */
 .o_sign_font_dialog {
-    position: absolute;
-    top: 0;
-    right: 0;
+    .o-position-absolute(0, 0);
     display: none;
     height: 100%;
     
@@ -42,14 +40,24 @@
     display: none;
     opacity: 0;
 
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    .o-position-absolute(@bottom: 0, @left: 0);
     width: 100%;
     padding: 10px;
 
-    background-color: #A24689; // @odoo-brand-primary;
+    background-color: @odoo-brand-primary;
     color: white;
     font-size: 1.25em;
     text-align: center;
+}
+
+.o_sign_body {
+    .o-flex-display();
+    .o-flex-flow(column, nowrap);
+    > header {
+        .o-flex(0, 0, auto);
+    }
+    > main {
+        height: 100%;
+        .o-flex(1, 1, 100%);
+    }
 }
