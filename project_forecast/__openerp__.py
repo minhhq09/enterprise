@@ -5,7 +5,7 @@
     'summary': """Resource management for Project""",
 
     'description': """
-    Ressource management for Project
+    Resource management for Project
     """,
     'category': 'Project Management',
 

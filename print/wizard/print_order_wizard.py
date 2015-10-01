@@ -109,8 +109,8 @@ class PrintOrderLineWizard(models.TransientModel):
 
 
     print_order_wizard_id = fields.Many2one('print.order.wizard', 'Print Order Wizard')
-    res_id = fields.Integer('Ressource ID')
-    res_model = fields.Char('Ressource Model')
+    res_id = fields.Integer('Resource ID')
+    res_model = fields.Char('Resource Model')
     partner_id = fields.Many2one('res.partner', 'Recipient partner')
     last_send_date = fields.Datetime("Last Send Date", default=False)
 
