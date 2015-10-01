@@ -161,11 +161,12 @@ class product_template(models.Model):
             if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
         if self.barcode:
             if len(self.barcode) == 12:
-                item['Item']['ProductListingDetails'] = {'UPC': self.barcode}
+                item['Item']['ProductListingDetails']['UPC'] = self.barcode
             elif len(self.barcode) == 13:
-                item['Item']['ProductListingDetails'] = {'EAN': self.barcode}
+                item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
 
     @api.model
