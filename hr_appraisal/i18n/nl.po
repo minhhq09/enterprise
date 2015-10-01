@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:51+0000\n"
-"PO-Revision-Date: 2015-09-13 14:29+0000\n"
+"POT-Creation-Date: 2015-09-18 08:15+0000\n"
+"PO-Revision-Date: 2015-09-22 11:36+0000\n"
 "Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -36,22 +36,22 @@ msgid ""
 "                </div>\n"
 "                \n"
 "            "
-msgstr ""
+msgstr "\n                \n                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n                    <p>Beste ${ctx.get('employee').name},</p>\n                    % if ctx.get('employee').id == object.employee_id.id:\n                        <p>Gelieve de volgende enquête in te vullen gerelateerd aan uw beoordeling.</p>\n                    % else:\n                        <p>Gelieve de volgende enquête in te vullen gerelateerd aan de beoordeling van ${object.employee_id.name}'s.</p>\n                    % endif\n                    <p><a href=\"__URL__\">Klik hier om toegang te krijgen tot de enquête.</a></p>\n                    <p>U kan uw reactie op de beoordeling inzenden tot: ${object.date_close}</p>\n                    <p>Bedankt voor u deelname.</p>\n                </div>\n                \n            "
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid ") Answers"
-msgstr ""
+msgstr ") Antwoorden"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid ") Sent Appraisal"
-msgstr ""
+msgstr ") Verzend beoordeling"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "<strong><span>Final Interview: </span></strong>"
-msgstr ""
+msgstr "<strong><span>Laatste interview: </span></strong>"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_1
@@ -67,6 +67,11 @@ msgstr "Vermogen om werk op te volgen en voltooien zoals opgedragen"
 #: model:survey.label,value:hr_appraisal.arow_3_2_5
 msgid "Ability to manage planning resources, risks, budgets and deadlines"
 msgstr "Mogelijkheid om middelen, risico's, budgetten en deadlines in te plannen"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction
+msgid "Action Needed"
+msgstr "Vereist actie"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_action_plan
@@ -132,7 +137,7 @@ msgstr "Beoordelingsanalyse"
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_new
 #: model:mail.message.subtype,name:hr_appraisal.mt_appraisal_new
 msgid "Appraisal Created"
-msgstr ""
+msgstr "Beoordeling aangemaakt"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_date_close
@@ -143,13 +148,13 @@ msgstr "Beoordelingsdeadline"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Appraisal Form..."
-msgstr ""
+msgstr "Beoordelingsformulier..."
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:117
 #, python-format
 msgid "Appraisal Meeting For %s"
-msgstr ""
+msgstr "Beoordeling meeting voor %s"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.opinion_1
@@ -159,29 +164,29 @@ msgstr "Evaluatieproces"
 #. module: hr_appraisal
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
-msgstr ""
+msgstr "Beoordeling over"
 
 #. module: hr_appraisal
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
 msgid "Appraisal Sent"
-msgstr ""
+msgstr "Beoordeling verzonden"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_appraisal_report
 msgid "Appraisal Statistics"
-msgstr ""
+msgstr "Beoordeling statistieken"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_collaborators_ids
 msgid "Appraisal collaborators ids"
-msgstr ""
+msgstr "Beoordeling samenwerking ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_ids
 msgid "Appraisal colleagues ids"
-msgstr ""
+msgstr "Beoordeling collega ids"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_1_3
@@ -191,28 +196,28 @@ msgstr "Evaluatie voor periode"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_manager_ids
 msgid "Appraisal manager ids"
-msgstr ""
+msgstr "Beoordeling manager ids"
 
 #. module: hr_appraisal
 #: model:mail.message.subtype,name:hr_appraisal.mt_appraisal_sent
 msgid "Appraisal sent"
-msgstr ""
+msgstr "Beoordeling verzonden"
 
 #. module: hr_appraisal
 #: model:ir.actions.act_window,name:hr_appraisal.hr_appraisal_action_from_department
 msgid "Appraisal to start"
-msgstr ""
+msgstr "Te starten beoordeling"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_department_view_kanban
 msgid "Appraisal(s)"
-msgstr ""
+msgstr "Beoordeling(en)"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:160
 #, python-format
 msgid "Appraisal(s) form have been sent"
-msgstr ""
+msgstr "Beoordeling(s) formulier(en) verzonden"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_count
@@ -223,7 +228,7 @@ msgstr "Beoordelingen"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_department_appraisals_to_process_count
 msgid "Appraisals to Process"
-msgstr ""
+msgstr "Te verwerken beoordelingen"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
@@ -233,17 +238,17 @@ msgstr "Beoordelaar"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "At the conclusion of the appraisal time period"
-msgstr ""
+msgstr "Aan de conclusie van de beoordelingstijd periode"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "At the outset of the appraisal time period"
-msgstr ""
+msgstr "Aan het begin van de beoordelingstijd periode"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid "At the supervisor's appraisal date"
-msgstr ""
+msgstr "Aan de toezichthouderstijd datum"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -258,43 +263,43 @@ msgstr "Geannuleerd"
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid "Click to create a new appraisal."
-msgstr ""
+msgstr "Klik om een nieuwe beoordeling aan te maken."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_appraisal
 msgid "Collaborator"
-msgstr ""
+msgstr "Samenwerker"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_survey_id
 msgid "Collaborator's Appraisal"
-msgstr ""
+msgstr "Beoordeling medewerker"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_by_collaborators
 msgid "Collaborators"
-msgstr ""
+msgstr "Medewerkers"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_ids
 msgid "Collaborators ids"
-msgstr ""
+msgstr "Medewerkers ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_colleagues_survey_id
 msgid "Colleague's Appraisal"
-msgstr ""
+msgstr "Beoordeling collega's"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_colleagues_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_by_colleagues
 msgid "Colleagues"
-msgstr ""
+msgstr "Collega's"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_colleagues_ids
 msgid "Colleagues ids"
-msgstr ""
+msgstr "Collega's ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_color
@@ -360,7 +365,7 @@ msgstr "Creatieve en vooruitkijkende houding"
 msgid ""
 "Critical or key elements of performance and professional development needs "
 "(if any), should also be noted at this time"
-msgstr ""
+msgstr "Kritische of belangrijke elementen voor performantie en professionele ontwikkelingsnoden (indien aanwezig), moeten ook worden opgemerkt op dit punt"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_8
@@ -390,7 +395,7 @@ msgstr "Deadline"
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "Deadline:"
-msgstr ""
+msgstr "Deadline:"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_7
@@ -422,7 +427,7 @@ msgstr "Afdeling"
 #: model:survey.page,description:hr_appraisal.appraisal_3
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid "Did not meet standards and expectations"
-msgstr ""
+msgstr "Voldeed niet aan standaarden en verwachtingen"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_display_name
@@ -450,7 +455,7 @@ msgstr "Doeltreffendheid"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_mail_template_id
 msgid "Email Template for Appraisal"
-msgstr ""
+msgstr "E-mailsjabloon voor beoordeling"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
@@ -497,7 +502,7 @@ msgstr "Prestaties werknemer op belangrijkste gebieden"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
 msgid "Employee's Appraisal"
-msgstr ""
+msgstr "Beoordeling personeel"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -528,7 +533,7 @@ msgstr "Evenement"
 #: model:survey.page,description:hr_appraisal.appraisal_3
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid "Exceeds standards and expectations"
-msgstr ""
+msgstr "Overschrijdt standaarden en verwachtingen "
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
@@ -538,7 +543,7 @@ msgstr "Uitgebreide filters..."
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Final Evaluation"
-msgstr ""
+msgstr "Finale evaluatie"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_date_final_interview
@@ -548,7 +553,7 @@ msgstr "Eindgesprek"
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Final Interview Date"
-msgstr ""
+msgstr "Finale interview datum"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_follower_ids
@@ -587,7 +592,7 @@ msgid ""
 "their supervisor's leadership and to give their opinion about their own "
 "engagement and effectiveness, the continuous improvement and openness in "
 "action in thecompany..."
-msgstr ""
+msgstr "Zijn directe rapporten worden uitgenodigd via Odoo om feedback te geven op zijn meerdere zijn leiderschap en om zijn mening te geven over het eigen engagement en effectiviteit, de continue verbetering en openheid in actie in het bedrijf..."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
@@ -665,13 +670,17 @@ msgstr "ID"
 msgid ""
 "Identify professional, performance, or project objectives you recommend for employee’s continued career development\n"
 "over the coming year."
-msgstr ""
+msgstr "Identificeer professionele, prestatie of projectdoelstellingen die u aanbeveelt voor werknemers hun carriere ontwikkeling\nhet komende jaar. "
 
 #. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread
 msgid "If checked new messages require your attention."
 msgstr "Indien aangevinkt zullen nieuwe berichten uw aandacht vragen."
+
+#. module: hr_appraisal
+#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Indien aangevinkt vragen nieuwe berichten uw aandacht."
 
 #. module: hr_appraisal
 #: model:survey.question,comments_message:hr_appraisal.appraisal_1_1
@@ -733,7 +742,7 @@ msgid ""
 "It is the joint responsibility of the employee and the supervisor (appraiser) to establish a feasible work plan for the\n"
 "coming year, including major employee responsibilities and corresponding benchmarks against which results will be\n"
 "evaluated."
-msgstr ""
+msgstr "Het is de gezamenlijke verantwoordelijkheid van werknemer en de leidinggevende (beoordelaar) om een haalbaar werkplan op te stellen\nvoor het komende jaar, inclusief de belangrijke verantwoordelijkheid en corresponderende maatstaven waar de resultaten\ntegen beoordeeld worden."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -741,7 +750,7 @@ msgid ""
 "It is the primary responsibility of the supervisor to gather the necessary input from the appropriate sources of feedback\n"
 "(internal and/or external customers, peers). In case of collaboration with Odoo SA Belgium, the supervisor must\n"
 "receive completed evaluation form from the employee's Belgian project manager."
-msgstr ""
+msgstr "Het is de primaire verantwoordelijkheid van de leidinggevende om de vereiste input te verzamelen voor de toepasselijke feedback reacties\n(intern en/of externe klanten, peers). In het geval van samenwerking met Odoo SA België moet de leidinggevende\nhet voltooide evaluatieformulier ontvangen van de werknemer zijn Belgische projectbeheerder."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_last_post
@@ -796,24 +805,24 @@ msgstr "Manager"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_ids
 msgid "Manager ids"
-msgstr ""
+msgstr "Manager ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_survey_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_manager_survey_id
 msgid "Manager's Appraisal"
-msgstr ""
+msgstr "Beoordeling manager"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_by_manager
 msgid "Managers"
-msgstr ""
+msgstr "Managers"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid "Meet standards and expectations"
-msgstr ""
+msgstr "Voldoet aan standaarden en verwachtigen"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_meeting_id
@@ -824,7 +833,7 @@ msgstr "Afspraak"
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_meeting
 #: model:mail.message.subtype,name:hr_appraisal.mt_appraisal_meeting
 msgid "Meeting Scheduled"
-msgstr ""
+msgstr "Meeting ingepland"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_ids
@@ -878,34 +887,29 @@ msgid "Name of your direct supervisor"
 msgstr "Naam van je leidinggevende"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "Need Action"
-msgstr "Vereist actie"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Need Action Counter"
-msgstr "Teller vereiste acties"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_date
 msgid "Next Appraisal Date"
 msgstr "Volgende beoordelingsdatum"
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
+msgid "Number of Actions"
+msgstr "Aantal acties"
+
+#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_completed_survey
 msgid "Number of Answers"
-msgstr ""
+msgstr "Aantal antwoorden"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_sent_survey
 msgid "Number of Sent Forms"
-msgstr ""
+msgstr "Aantal verzonden formulieren"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of needaction messages"
-msgstr "Aantel vereiste actie berichten"
+msgid "Number of messages which requires an action"
+msgstr "Aantal berichten die actie vereisen"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread_counter
@@ -932,7 +936,7 @@ msgstr "Onze werkgroep identificeert en verminderd tijdverspilling in onze activ
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "Overall Purpose Of Employee Appraisal"
-msgstr ""
+msgstr "Algemeen doel van personeelsbeoordeling"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_4_3
@@ -950,7 +954,7 @@ msgstr "Periodieke beoordeling"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal_created
 msgid "Periodic Appraisal has been created"
-msgstr ""
+msgstr "Periodieke beoordeling is aangemaakt"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
@@ -995,7 +999,7 @@ msgstr "Stiptheid en aanwezigheid"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_related_partner_id
 msgid "Related partner id"
-msgstr ""
+msgstr "Gerelateerde relatie id"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
@@ -1023,7 +1027,7 @@ msgstr "Resultaten van het bottom-up onderzoek en verzachtende maatregelen van t
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "Schedule The Final Interview"
-msgstr ""
+msgstr "Finale interview ingepland"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
@@ -1034,41 +1038,41 @@ msgstr "Zoek beoordeling"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Select Appraisal Reviewer..."
-msgstr ""
+msgstr "Selecteer beoordelingscontroleur..."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_survey_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self_survey_id
 msgid "Self Appraisal"
-msgstr ""
+msgstr "Zelfbeoordeling"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Send Appraisal Form To"
-msgstr ""
+msgstr "Verzend beoordelingsformulier naar"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_survey_sent_ids
 msgid "Sent Forms"
-msgstr ""
+msgstr "Verzend formulieren"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid "Significantly below standards and expectations"
-msgstr ""
+msgstr "Aanzienlijk onder standaarden en verwachtigen"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "Significantly exceeds standards and expectations required of the position"
-msgstr ""
+msgstr "Aanzienlijk boven de standaarden en verwachtingen die vereist zijn voor deze positie"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Start Appraisal and Send Forms"
-msgstr ""
+msgstr "Start beoordeling en verzend formulieren"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_state
@@ -1143,27 +1147,27 @@ msgstr "Het antwoord dat u heeft ingevuld heeft een ongeldig formaat."
 msgid ""
 "The appraisal deadline must be in the future to allow employees to answer "
 "the survey."
-msgstr ""
+msgstr "De beoordelingsdeadline moet in de toekomst liggen om de werknemer toe te staan zijn enquete te beantwoorden."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
 "performance according to the metric provided below"
-msgstr ""
+msgstr "De beoordelaar moet de werknemer zijn grootste verwezenlijkingen en prestaties beoordelen zoals hieronder staat gegeven"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 msgid ""
 "The appraiser should rate the employee’s major work accomplishments and performance according to the metric provided\n"
 "below:"
-msgstr ""
+msgstr "De beoordelaar moet de werknemer zijn grootste verwezenlijkingen en prestaties beoordelen zoals hieronder staat \ngegeven:"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_employee.py:76
 #, python-format
 msgid "The date of the next appraisal cannot be in the past"
-msgstr ""
+msgstr "De datum van de volgende beoordeling kan niet in het verleden zijn"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_employee_appraisal_date
@@ -1177,7 +1181,7 @@ msgstr "De datum van de volgende beoordeling wordt berekend door de beoordelings
 msgid ""
 "The employee may choose to offer comments or explanation regarding the "
 "completed review."
-msgstr ""
+msgstr "Deze werknemer mag er voor kiezen reacties of verklaringen toe te voegen over de voltooide beoordeling."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1185,7 +1189,7 @@ msgid ""
 "The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
 "point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
-msgstr ""
+msgstr "Deze werknemer zal verantwoordelijk zijn voor het voltooien van een concept beoordelingsformulier als een tool voor zelfbeoordeling en het starten\nvan een leidinggevende evaluatie. De werknemer kan voorbeelden van verwezenlijkingen toevoegen voor elk criteria.\nWanneer het formulier is ingevuld verzend de werknemer dit naar zijn leidinggevende."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -1193,45 +1197,45 @@ msgid ""
 "The employees will send back their anonymous answers to Odoo. The data will "
 "be handled by the HR manager and a brief summary of the data will be sent to"
 " the concerned supervisor, to his team and to the supervisor's supervisor."
-msgstr ""
+msgstr "De werknemer stuurt anoniem de antwoorden terug naar Odoo. De data wordt behandeld door een HR manager en een samenvatting van de data wordt verzonden naar de verantwoordelijke leidinggevende, naar zijn team en naar de leidinggevende zijn leidinggevende."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
 "The supervisor send the form to the HR department in India and in Belgium"
-msgstr ""
+msgstr "De leidinggevende verzend het formulier naar de HR afdeling in India en in België"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
 "The supervisor synthesizes and integrates all input into the completed appraisal. He motivates his evaluation in the ad\n"
 "hoc fields."
-msgstr ""
+msgstr "De leidinggevende synthetiseert en integreert alle inhoud in de voltooide beoordeling. Hij motiveert zijn evaluatie en de ad\nhoc velden."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_color
 msgid "This color will be used in the kanban view."
-msgstr ""
+msgstr "Deze kleur wordt gebruikt in de kanban weergave."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_collaborators_appraisal
 msgid "This employee will be appraised by his collaborators"
-msgstr ""
+msgstr "Deze werknemer wordt beoordeling door zijn medewerkers"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_colleagues_appraisal
 msgid "This employee will be appraised by his colleagues"
-msgstr ""
+msgstr "Deze werknemer wordt beoordeling door zijn collega's"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_manager_appraisal
 msgid "This employee will be appraised by his managers"
-msgstr ""
+msgstr "Deze werknemer wordt beoordeling door zijn managers"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_employee_appraisal
 msgid "This employee will do a self-appraisal"
-msgstr ""
+msgstr "Deze werknemer doet een zelfbeoordeling"
 
 #. module: hr_appraisal
 #: model:survey.question,constr_error_msg:hr_appraisal.appraisal_1_1
@@ -1269,19 +1273,19 @@ msgstr "Tijdsbeheer: projecten/taken zijn op tijd voltooid"
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "To Start"
-msgstr ""
+msgstr "Te starten"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
 "To assist employees in their professional growth, through the identification of strengths and opportunities for\n"
 "development"
-msgstr ""
+msgstr "Om werknemers bij te staan in hun professionele groei, door de identificatie van sterktes en opportuniteiten voor\nontwikkeling"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "To initiate a clear and open communication of performance expectations"
-msgstr ""
+msgstr "Om een duidelijke en open communicatie aan te gaan over de verwachte prestaties"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread
@@ -1331,7 +1335,7 @@ msgstr "Jaar"
 #: code:addons/hr_appraisal/models/hr_appraisal.py:206
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
-msgstr ""
+msgstr "U kan een beoordeling niet verwijderen die zich in de '%s' status bevind."
 
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
@@ -1339,12 +1343,12 @@ msgid ""
 "You will be able to choose which forms will be sent (Employee,Managers,Collaborators or Colleagues),\n"
 "            to whom and the evaluation deadline. Once you have defined it,\n"
 "            change the stage to send it and view the results."
-msgstr ""
+msgstr "U kan kiezen welke formulieren worden verzonden (werknemer, manager, medewerker of collega),\nnaar wie worden verzonden en wat de deadline is. Wanneer u deze heeft gedefinieerd\nveranderd u de fase voor de verzending en weergave van het resultaat."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_collaborators_survey_id
 msgid "collaborate's Appraisal"
-msgstr ""
+msgstr "Beoordeling medewerker"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban

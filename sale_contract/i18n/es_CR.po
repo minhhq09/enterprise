@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-14 10:32+0000\n"
-"PO-Revision-Date: 2015-09-08 07:56+0000\n"
+"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"PO-Revision-Date: 2015-10-01 07:27+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/odoo/odoo-9/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -53,18 +53,7 @@ msgid ""
 "        </div>\n"
 "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
 "            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"            % if object.company_id.street:\n"
-"                ${object.company_id.street}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.street2:\n"
-"                ${object.company_id.street2}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.city or object.company_id.zip:\n"
-"                ${object.company_id.zip} ${object.company_id.city}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.country_id:\n"
-"                ${object.company_id.state_id and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>\n"
-"            % endif\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
 "            </span>\n"
 "            % if object.company_id.phone:\n"
 "                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
@@ -120,18 +109,7 @@ msgid ""
 "        </div>\n"
 "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
 "            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"            % if object.company_id.street:\n"
-"                ${object.company_id.street}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.street2:\n"
-"                ${object.company_id.street2}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.city or object.company_id.zip:\n"
-"                ${object.company_id.zip} ${object.company_id.city}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.country_id:\n"
-"                ${object.company_id.state_id and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>\n"
-"            % endif\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
 "            </span>\n"
 "            % if object.company_id.phone:\n"
 "                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
@@ -189,18 +167,7 @@ msgid ""
 "        </div>\n"
 "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
 "            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"            % if object.company_id.street:\n"
-"                ${object.company_id.street}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.street2:\n"
-"                ${object.company_id.street2}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.city or object.company_id.zip:\n"
-"                ${object.company_id.zip} ${object.company_id.city}<br/>\n"
-"            % endif\n"
-"            % if object.company_id.country_id:\n"
-"                ${object.company_id.state_id and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>\n"
-"            % endif\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
 "            </span>\n"
 "            % if object.company_id.phone:\n"
 "                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
@@ -286,24 +253,14 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "=> Generate Invoice"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "=> Renewal Quotation"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "Account Analytic Lines"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
 msgstr "Gestor contable"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
+msgid "Action Needed"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
@@ -460,6 +417,11 @@ msgstr "Contrato"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
 msgid "Contract expiration reminder ${user.company_id.name}"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.module.category,name:sale_contract.module_category_contract_management
+msgid "Contracts"
 msgstr ""
 
 #. module: sale_contract
@@ -626,7 +588,12 @@ msgid "Group By"
 msgstr "Agrupar por"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12046
+#: model:ir.module.category,description:sale_contract.module_category_contract_management
+msgid "Helps you handle subscriptions and recurring invoicing."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12136
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
@@ -634,9 +601,13 @@ msgid "ID"
 msgstr "ID"
 
 #. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_unread
 msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction
+msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: sale_contract
@@ -691,7 +662,6 @@ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.actions.act_window,name:sale_contract.action_contract_invoices_all
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Invoices"
 msgstr "Facturas"
@@ -771,16 +741,6 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
-msgid "Need Action"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
-msgid "Need Action Counter"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
@@ -793,8 +753,13 @@ msgid "New Contracts"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction_counter
-msgid "Number of needaction messages"
+msgid "Number of messages which requires an action"
 msgstr ""
 
 #. module: sale_contract
@@ -1122,8 +1087,8 @@ msgid "The user will have write access to contracts."
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:207
 #: code:addons/sale_contract/models/sale_order.py:77
+#: code:addons/sale_contract/models/sale_subscription.py:207
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr ""
@@ -1225,14 +1190,6 @@ msgid "You must first select a Customer for Subscription %s!"
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.actions.act_window,help:sale_contract.action_contract_invoices_all
-msgid ""
-"You will find here all the invoices related to this contract.\n"
-"            If you want to create a new invoice for this contract, you should use\n"
-"            the invoicing menu on the contract form view instead."
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "You will find here the contracts to be renewed because the\n"
@@ -1253,4 +1210,14 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "subscription Templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "⇒ Generate Invoice"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "⇒ Renewal Quotation"
 msgstr ""

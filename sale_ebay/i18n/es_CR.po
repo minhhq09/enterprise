@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-08 07:59+0000\n"
+"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"PO-Revision-Date: 2015-10-01 07:27+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/odoo/odoo-9/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: es_CR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: sale_ebay
+#: model:mail.template,body_html:sale_ebay.ebay_desciption_default
+msgid ""
+"\n"
+"                  \n"
+"          ${object.ebay_description | safe}\n"
+"        \n"
+"      "
+msgstr ""
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
@@ -43,7 +53,7 @@ msgid "7 Days"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:162
+#: code:addons/sale_ebay/product.py:192
 #, python-format
 msgid ""
 "All the quantities must be greater than 0 or you need to enable the Out Of "
@@ -85,6 +95,12 @@ msgid "Category"
 msgstr "Categoría"
 
 #. module: sale_ebay
+#: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_category_2_id
+#: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_category_2_id
+msgid "Category 2 (Optional)"
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_category_id
 msgid "Category ID"
 msgstr ""
@@ -110,7 +126,7 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:236
+#: code:addons/sale_ebay/product.py:273
 #, python-format
 msgid "Configure The eBay Integrator Now"
 msgstr ""
@@ -165,6 +181,12 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: sale_ebay
+#: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_template_id
+#: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_template_id
+msgid "Description Template"
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_dev_id
 msgid "Developer Key"
 msgstr ""
@@ -195,7 +217,7 @@ msgid "End Items' Listings"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:191
+#: code:addons/sale_ebay/product.py:228
 #, python-format
 msgid ""
 "Error Encountered.\n"
@@ -203,7 +225,7 @@ msgid ""
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:491
+#: code:addons/sale_ebay/product.py:607
 #, python-format
 msgid ""
 "Error Encountered.\n"
@@ -280,6 +302,12 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: sale_ebay
+#: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_last_sync
+#: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_last_sync
+msgid "Last update"
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_leaf_category
 msgid "Leaf category"
 msgstr ""
@@ -330,13 +358,13 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/sale_ebay.py:180
+#: code:addons/sale_ebay/sale_ebay.py:181
 #, python-format
 msgid "No Business Policies"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:150
+#: code:addons/sale_ebay/product.py:178
 #, python-format
 msgid "No Variant Set To Be Published On eBay"
 msgstr ""
@@ -347,7 +375,7 @@ msgid "Official eBay Category"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:235
+#: code:addons/sale_ebay/product.py:272
 #, python-format
 msgid "One parameter is missing."
 msgstr ""
@@ -503,13 +531,13 @@ msgstr ""
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_store_category_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_store_category_id
-msgid "Store Category"
+msgid "Store Category (Optional)"
 msgstr ""
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_store_category_2_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_store_category_2_id
-msgid "Store Category 2"
+msgid "Store Category 2 (Optional)"
 msgstr ""
 
 #. module: sale_ebay
@@ -549,9 +577,15 @@ msgid "Sync product status"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:437 code:addons/sale_ebay/product.py:438
+#: code:addons/sale_ebay/product.py:546
 #, python-format
-msgid "The Buyer posted :\n"
+msgid "The Buyer Chose The Following Delivery Method :\n"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:542 code:addons/sale_ebay/product.py:543
+#, python-format
+msgid "The Buyer Posted :\n"
 msgstr ""
 
 #. module: sale_ebay
@@ -566,6 +600,20 @@ msgstr ""
 #: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_title
 #: model:ir.model.fields,help:sale_ebay.field_product_template_ebay_title
 msgid "The title is restricted to 80 characters"
+msgstr ""
+
+#. module: sale_ebay
+#: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_category_2_id
+#: model:ir.model.fields,help:sale_ebay.field_product_template_ebay_category_2_id
+msgid ""
+"The use of a secondary category is not allowed on every eBay sites. Fees can"
+" be claimed by eBay for this feature"
+msgstr ""
+
+#. module: sale_ebay
+#: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_template_id
+#: model:ir.model.fields,help:sale_ebay.field_product_template_ebay_template_id
+msgid "This field contains the template that will be used."
 msgstr ""
 
 #. module: sale_ebay
@@ -585,6 +633,16 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: sale_ebay
+#: model:ir.actions.server,name:sale_ebay.action_ebay_update_carrier
+msgid "Update eBay Carrier Information"
+msgstr ""
+
+#. module: sale_ebay
+#: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_gallery_plus
+msgid "Use Gallery Plus Option"
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_out_of_stock
 msgid "Use Out Of Stock Option"
 msgstr ""
@@ -592,7 +650,7 @@ msgstr ""
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_sync_stock
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_sync_stock
-msgid "Use The Stock's Quantity"
+msgid "Use Stock Quantity"
 msgstr ""
 
 #. module: sale_ebay
@@ -618,6 +676,11 @@ msgstr ""
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_currency
 msgid "eBay Currency"
+msgstr ""
+
+#. module: sale_ebay
+#: model:product.category,name:sale_ebay.product_category_ebay
+msgid "eBay Delivery Services"
 msgstr ""
 
 #. module: sale_ebay

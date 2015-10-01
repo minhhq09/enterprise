@@ -3,13 +3,14 @@
 # * print_sale
 # 
 # Translators:
+# Eric Geens <ericgeens@yahoo.com>, 2015
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-10 14:51+0000\n"
+"PO-Revision-Date: 2015-09-22 09:50+0000\n"
 "Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +24,7 @@ msgstr ""
 msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
-msgstr ""
+msgstr "<b> Fout :</b> Het saldo op uw rekening is negatief. U dient uw rekening bij uw verstrekker aan te zuiveren vooraleer u terug documenten kan versturen."
 
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.print_document_partner_wizard_view_form
@@ -31,7 +32,7 @@ msgid ""
 "<span class=\"oe_form_field oe_inline\"><b>Bad Postal Address :</b> At least"
 " one of the document you want to send has not a correct postal "
 "address.</span>"
-msgstr ""
+msgstr "<span class=\"oe_form_field oe_inline\"><b>Foutief verzendadres :</b> Minstens één van de documenten die u wilt verzenden bevatten een foutief verzendadres.</span>"
 
 #. module: print_sale
 #: selection:print.document.partner.wizard,ink:0
@@ -108,7 +109,7 @@ msgstr "Laatst gewijzigd op"
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_sale_order_print_sent_date
 msgid "Last Postal Sent Date"
-msgstr ""
+msgstr "Laatste verzenddatum per post"
 
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_print_document_partner_line_wizard_write_uid
@@ -136,17 +137,17 @@ msgstr "Papiergewicht"
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_print_document_partner_line_wizard_print_document_partner_wizard_id
 msgid "Print Order Wizard"
-msgstr ""
+msgstr "Print order wizard"
 
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_print_document_partner_wizard_provider_id
 msgid "Print Provider"
-msgstr ""
+msgstr "Afdrukprovider"
 
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.print_document_partner_wizard_view_form
 msgid "Printing details"
-msgstr ""
+msgstr "Printdetails"
 
 #. module: print_sale
 #: selection:print.document.partner.wizard,provider_environment:0
@@ -156,12 +157,12 @@ msgstr "Productie"
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_print_document_partner_wizard_provider_balance
 msgid "Provider Credit"
-msgstr ""
+msgstr "Krediet bij dienstenverstrekker"
 
 #. module: print_sale
 #: model:ir.model.fields,field_description:print_sale.field_print_document_partner_line_wizard_partner_id
 msgid "Recipient partner"
-msgstr ""
+msgstr "Ontvanger relatie"
 
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.print_document_partner_wizard_view_form
@@ -181,12 +182,12 @@ msgstr "Verzend"
 #. module: print_sale
 #: model:ir.actions.act_window,name:print_sale.print_document_partner_action_multi
 msgid "Send Documents by post"
-msgstr ""
+msgstr "Verzend documenten via post"
 
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.sale_order_view_form_inherit_print_sale
 msgid "Send Letter"
-msgstr ""
+msgstr "Verzend brief"
 
 #. module: print_sale
 #: model:ir.actions.act_window,name:print_sale.print_order_wizard_action_print_sale
@@ -201,7 +202,7 @@ msgstr "Verzenden via post"
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.print_document_partner_wizard_view_form
 msgid "Send documents to partner Wizard"
-msgstr ""
+msgstr "Verzend documenten naar relatie wizard"
 
 #. module: print_sale
 #: selection:print.document.partner.wizard,provider_environment:0
@@ -216,7 +217,7 @@ msgid ""
 "following address.                     <br/><br/> %(partner_name)s <br/> "
 "%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
 "                     <br/>%(partner_country)sprovider_name<i>%s</i>"
-msgstr ""
+msgstr "Deze verkooporders was verzonden via post met de aanbieder %(provider_name)s op het volgende adres. <br/><br/> %(partner_name)s <br/> %(partner_street)s <br/> %(partner_city)s %(partner_zip)s <br/>%(partner_country)sprovider_name<i>%s</i>"
 
 #. module: print_sale
 #: code:addons/print_sale/wizard/print_document_partner_wizard.py:73
@@ -224,7 +225,7 @@ msgstr ""
 msgid ""
 "Your credit provider is too small. Please, configure your account (> "
 "Settings > Print Provider), and put some credit on your account."
-msgstr ""
+msgstr "Uw kredietverstrekker is te klein. Configureer aub uw account (Instellingen > Print provider) en plaats krediet op uw account."
 
 #. module: print_sale
 #: model:ir.ui.view,arch_db:print_sale.print_document_partner_wizard_view_form

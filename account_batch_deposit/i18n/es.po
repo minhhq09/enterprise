@@ -3,13 +3,14 @@
 # * account_batch_deposit
 # 
 # Translators:
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:51+0000\n"
-"PO-Revision-Date: 2015-09-11 04:17+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2015-09-29 07:11+0000\n"
+"Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
-msgstr ""
+msgstr "Todos los pagos a imprimir como comprobante bancario deben pertenecer al mismo diario."
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_amount
@@ -33,7 +34,7 @@ msgstr "Importe"
 #. module: account_batch_deposit
 #: model:ir.model.fields,help:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
 msgid "Automatically generates references for batch deposits."
-msgstr ""
+msgstr "Generar automáticamente referencias para los grupos de cheques."
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_journal_id
@@ -43,7 +44,7 @@ msgstr "Banco"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Bank Journal"
-msgstr ""
+msgstr "Diario del banco"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_bank_statement
@@ -63,28 +64,28 @@ msgstr "Línea de extracto bancario"
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Batch Deposit"
-msgstr ""
+msgstr "Grupo de cheques"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
 msgid "Batch Deposit Sequence"
-msgstr ""
+msgstr "Secuencia de grupo de cheques"
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal.py:37
 #, python-format
 msgid "Batch Deposits Sequence"
-msgstr ""
+msgstr "Secuencia de grupos de cheques"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_payment_batch_deposit_id
 msgid "Batch deposit id"
-msgstr ""
+msgstr "ID del grupo de cheques"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_payment_method_selected
 msgid "Batch deposit payment method selected"
-msgstr ""
+msgstr "Método de pago del grupo de cheques seleccionado"
 
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
@@ -92,14 +93,14 @@ msgid ""
 "Batch deposits allows you to group received checks before you deposit them to the bank.\n"
 "                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
 "                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
-msgstr ""
+msgstr "Los grupos de cheques le permiten agrupar cheques recibidos antes de depositarlos en el banco.\nEl importe depositado en el banco aparecerá entonces como una sola transacción en el extracto bancario.\nCuando realice la conciliación, simplemente seleccione el correspondiente grupo de cheques para conciliar los pagos."
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal_dashboard.py:13
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
-msgstr ""
+msgstr "Crear grupo de cheques"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_create_uid
@@ -114,7 +115,7 @@ msgstr "Creado en"
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_currency_id
 msgid "Currency id"
-msgstr ""
+msgstr "Moneda"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.print_batch_deposit
@@ -132,7 +133,7 @@ msgstr "Fecha"
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_display_name
 #: model:ir.model.fields,field_description:account_batch_deposit.field_report_account_batch_deposit_print_batch_deposit_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre mostrado"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
@@ -150,7 +151,7 @@ msgstr "ID (identificación)"
 #: code:addons/account_batch_deposit/static/src/js/account_reconciliation_widgets.js:94
 #, python-format
 msgid "Incorrect Operation"
-msgstr ""
+msgstr "Operación incorrecta"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_journal
@@ -197,7 +198,7 @@ msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
 "payment method, not be part of an existing batch deposit and not have "
 "already been reconciled"
-msgstr ""
+msgstr "Los pagos a imprimir como un comprobante bancario debe tener \"Grupo de cheques\" seleccionado como método de pago, y no ser parte de un grupo de cheques existente y no haber sido conciliados previamente"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -207,12 +208,12 @@ msgstr "Imprimir"
 #. module: account_batch_deposit
 #: model:ir.actions.report.xml,name:account_batch_deposit.action_print_batch_deposit
 msgid "Print Batch Deposit"
-msgstr ""
+msgstr "Imprimir grupo de cheques"
 
 #. module: account_batch_deposit
 #: model:ir.actions.server,name:account_batch_deposit.action_account_print_batch_deposit
 msgid "Print Batch Deposits"
-msgstr ""
+msgstr "Imprimir grupos de cheques"
 
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
@@ -239,7 +240,7 @@ msgstr "Registrar pago"
 #: code:addons/account_batch_deposit/static/src/xml/account_reconciliation.xml:8
 #, python-format
 msgid "Select a Batch Deposit"
-msgstr ""
+msgstr "Seleccionar un grupo de cheques"
 
 #. module: account_batch_deposit
 #. openerp-web
@@ -248,7 +249,7 @@ msgstr ""
 msgid ""
 "Some journal items from the selected batch deposit are already selected in "
 "another reconciliation : "
-msgstr ""
+msgstr "Algunos apuntes del grupo de cheques seleccionado está ya seleccionado en otra conciliación:"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_state
@@ -261,7 +262,7 @@ msgstr "Provincia"
 msgid ""
 "Technical feature used to know whether batch deposit was enabled as payment "
 "method."
-msgstr ""
+msgstr "Característica técnica usada para conocer si un grupo de cheques fue habilitado como método de pago."
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -276,9 +277,9 @@ msgstr "No conciliado"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "auto ..."
-msgstr ""
+msgstr "auto ..."
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_report_account_batch_deposit_print_batch_deposit
 msgid "report.account_batch_deposit.print_batch_deposit"
-msgstr ""
+msgstr "report.account_batch_deposit.print_batch_deposit"

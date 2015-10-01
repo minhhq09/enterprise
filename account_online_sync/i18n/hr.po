@@ -3,12 +3,13 @@
 # * account_online_sync
 # 
 # Translators:
+# Davor Bojkić <bole@dajmi5.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-07 15:57+0000\n"
+"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"PO-Revision-Date: 2015-10-01 07:27+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#. module: account_online_sync
+#: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_needaction
+msgid "Action Needed"
+msgstr "Potrebna dodatna radnja"
 
 #. module: account_online_sync
 #: model:ir.model,name:account_online_sync.model_account_bank_statement
@@ -38,6 +44,11 @@ msgstr "Odustani"
 #: model:ir.ui.view,arch_db:account_online_sync.view_config_online_sync_journal_form
 msgid "Close"
 msgstr "Zatvori"
+
+#. module: account_online_sync
+#: model:ir.ui.view,arch_db:account_online_sync.account_journal_form_inherit_online_sync
+msgid "Configure"
+msgstr ""
 
 #. module: account_online_sync
 #. openerp-web
@@ -78,7 +89,7 @@ msgstr "Datum zadnjeg zapisa"
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_display_name
 #: model:ir.model.fields,field_description:account_online_sync.field_online_institution_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Prikaži Naziv"
 
 #. module: account_online_sync
 #: model:ir.model,name:account_online_sync.model_online_account
@@ -100,12 +111,12 @@ msgstr "Pratitelji"
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Pratitelji (Kanali)"
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Pratitelji (Partneri)"
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_id
@@ -117,15 +128,23 @@ msgstr "ID"
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_online_id
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_online_id
-#: model:ir.model.fields,field_description:account_online_sync.field_online_institution_online_id
-msgid "Id"
+msgid "ID of the Online Institution"
 msgstr ""
 
 #. module: account_online_sync
-#: model:ir.model.fields,help:account_online_sync.field_online_account_message_needaction
+#: model:ir.model.fields,field_description:account_online_sync.field_online_institution_online_id
+msgid "Id"
+msgstr "Id"
+
+#. module: account_online_sync
 #: model:ir.model.fields,help:account_online_sync.field_online_account_message_unread
 msgid "If checked new messages require your attention."
 msgstr "Ako je odabrano, nove poruke zahtijevaju Vašu pažnju."
+
+#. module: account_online_sync
+#: model:ir.model.fields,help:account_online_sync.field_online_account_message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ako je provjerena, nova poruka zahtijeva vašu pažnju."
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_institution_id
@@ -135,18 +154,14 @@ msgstr ""
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Je pratitelj"
 
 #. module: account_online_sync
 #: model:ir.model,name:account_online_sync.model_account_journal
+#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_journal_id
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_journal_id
 msgid "Journal"
 msgstr "Dnevnik"
-
-#. module: account_online_sync
-#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_journal_id
-msgid "Journal id"
-msgstr ""
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_last_post
@@ -158,7 +173,7 @@ msgstr "Datum zadnje poruke"
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account___last_update
 #: model:ir.model.fields,field_description:account_online_sync.field_online_institution___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Zadnja promjena"
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_write_uid
@@ -196,13 +211,8 @@ msgid "Name"
 msgstr "Naziv"
 
 #. module: account_online_sync
-#: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_needaction
-msgid "Need Action"
-msgstr ""
-
-#. module: account_online_sync
-#: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_needaction_counter
-msgid "Need Action Counter"
+#: model:ir.ui.view,arch_db:account_online_sync.account_journal_dashboard_inherit_online_sync
+msgid "Next sync:"
 msgstr ""
 
 #. module: account_online_sync
@@ -211,29 +221,30 @@ msgid "Next synchronization"
 msgstr ""
 
 #. module: account_online_sync
-#: model:ir.ui.view,arch_db:account_online_sync.account_journal_dashboard_inherit_online_sync
-msgid "Next synchronization:"
-msgstr ""
+#: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_needaction_counter
+msgid "Number of Actions"
+msgstr "Broj Akcija"
 
 #. module: account_online_sync
 #: model:ir.model.fields,help:account_online_sync.field_online_account_message_needaction_counter
-msgid "Number of needaction messages"
-msgstr ""
+msgid "Number of messages which requires an action"
+msgstr "Broj poruka koje zahtijevaju aktivnost"
 
 #. module: account_online_sync
 #: model:ir.model.fields,help:account_online_sync.field_online_account_message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Broj nepročitanih poruka"
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_online_account_id
 #: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_online_account_id
+#: model:ir.ui.view,arch_db:account_online_sync.online_account_form
 msgid "Online Account"
 msgstr ""
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_account_bank_statement_line_online_id
-msgid "Online Id"
+msgid "Online Identifier"
 msgstr ""
 
 #. module: account_online_sync
@@ -250,6 +261,11 @@ msgstr ""
 #. module: account_online_sync
 #: model:ir.actions.act_window,name:account_online_sync.action_config_online_sync_journal_form
 msgid "Online Synchronisation"
+msgstr ""
+
+#. module: account_online_sync
+#: model:ir.ui.view,arch_db:account_online_sync.account_journal_form_inherit_online_sync
+msgid "Online Synchronization"
 msgstr ""
 
 #. module: account_online_sync
@@ -284,11 +300,15 @@ msgid "There can be only one record by bank"
 msgstr ""
 
 #. module: account_online_sync
-#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_online_type
-#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_online_type
 #: model:ir.model.fields,field_description:account_online_sync.field_online_institution_type
 msgid "Type"
 msgstr "Tip"
+
+#. module: account_online_sync
+#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_online_type
+#: model:ir.model.fields,field_description:account_online_sync.field_account_journal_onlinesync_config_online_type
+msgid "Type of the Online Institution"
+msgstr ""
 
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_unread
@@ -298,7 +318,7 @@ msgstr "Nepročitane poruke"
 #. module: account_online_sync
 #: model:ir.model.fields,field_description:account_online_sync.field_online_account_message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Brojač nepročitanih poruka"
 
 #. module: account_online_sync
 #: model:ir.ui.view,arch_db:account_online_sync.view_config_online_sync_journal_form
@@ -323,9 +343,9 @@ msgstr ""
 #. module: account_online_sync
 #: model:ir.model,name:account_online_sync.model_account_journal_onlinesync_config
 msgid "account.journal.onlinesync.config"
-msgstr ""
+msgstr "account.journal.onlinesync.config"
 
 #. module: account_online_sync
 #: model:ir.model,name:account_online_sync.model_online_institution
 msgid "online.institution"
-msgstr ""
+msgstr "online.institution"
