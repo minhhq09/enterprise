@@ -2,7 +2,7 @@
 
 from openerp import models, fields, api, _
 from datetime import datetime
-from openerp.exceptions import Warning
+from openerp.exceptions import UserError
 
 
 class ebay_category(models.Model):
@@ -162,7 +162,7 @@ class ebay_policy(models.Model):
             {'ShowSellerProfilePreferences': True})
         if 'SellerProfilePreferences' not in response.dict() or \
            not response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']:
-                raise Warning(_('No Business Policies'))
+                raise UserError(_('No Business Policies'))
         policies = response.dict()['SellerProfilePreferences']['SupportedSellerProfiles']['SupportedSellerProfile']
         if not isinstance(policies, list):
             policies = [policies]

@@ -1,6 +1,7 @@
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
+from openerp.exceptions import UserError, RedirectWarning
 
 
 class ebay_configuration(models.TransientModel):
@@ -151,20 +152,33 @@ class ebay_configuration(models.TransientModel):
                 }
 
     @api.model
-    def sync_categories(self, context=None):
-        self.env['ebay.category'].sync_categories()
+    def button_sync_categories(self, context=None):
+        self.sync_categories()
+
+    @api.model
+    def sync_categories(self, auto_commit=False):
+        try:
+            self.env['ebay.category'].sync_categories()
+        except (UserError, RedirectWarning), e:
+            if auto_commit:
+                self.env.cr.rollback()
+                self.env.user.message_post(
+                    body=_("eBay error: Impossible to synchronize the categories. \n'%s'") % e[0])
+                self.env.cr.commit()
+            else:
+                raise e
+
+    @api.model
+    def button_sync_product_status(self, context=None):
+        self.sync_product_status()
+
+    @api.model
+    def sync_product_status(self, sync_big_stocks=False, auto_commit=False):
+        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
     def sync_policies(self, context=None):
         self.env['ebay.policy'].sync_policies()
-
-    @api.model
-    def button_sync_product_status(self, context=None):
-        self.env['product.template'].sync_product_status(sync_big_stocks=False)
-
-    @api.model
-    def sync_product_status(self, sync_big_stocks=False):
-        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks)
 
     @api.model
     def sync_ebay_details(self, context=None):

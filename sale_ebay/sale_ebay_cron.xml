@@ -11,7 +11,7 @@
       <field name="model" eval="'sale.config.settings'"/>
       <field name="function" eval="'sync_product_status'"/>
       <field name="doall" eval="False"/>
-      <field name="args" eval="'()'" />
+      <field name="args" eval="'(False,True)'" />
     </record>
 
     <record id="ir_cron_sale_ebay_status_10" model="ir.cron">
@@ -24,7 +24,7 @@
       <field name="model" eval="'sale.config.settings'"/>
       <field name="function" eval="'sync_product_status'"/>
       <field name="doall" eval="False"/>
-      <field name="args" eval="'(True,)'" />
+      <field name="args" eval="'(True,True)'" />
     </record>
 
     <record id="ir_cron_sale_ebay_categories" model="ir.cron">
@@ -37,20 +37,8 @@
       <field name="model" eval="'sale.config.settings'"/>
       <field name="function" eval="'sync_categories'"/>
       <field name="doall" eval="False"/>
-      <field name="args" eval="'()'" />
+      <field name="args" eval="'(True,)'" />
     </record>
 
-    <record id="ir_cron_sale_ebay_policies" model="ir.cron">
-      <field name="name">Update eBay Policies</field>
-      <field name="active" eval="True"/>
-      <field name="user_id" ref="base.user_root" />
-      <field name="interval_number">1</field>
-      <field name="interval_type">days</field>
-      <field name="numbercall">-1</field>
-      <field name="model" eval="'sale.config.settings'"/>
-      <field name="function" eval="'sync_policies'"/>
-      <field name="doall" eval="False"/>
-      <field name="args" eval="'()'" />
-    </record>
   </data>
 </openerp>
