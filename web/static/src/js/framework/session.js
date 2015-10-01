@@ -428,11 +428,32 @@ var bus = require('web.core').bus;
 // To do: refactor session, and this module in a sane way.  Session accomplish
 // several concerns (rpc, configuration, currencies (wtf?), user permissions, ...)
 // they should be clarified and separated.
+
+var medias = [
+    window.matchMedia('(max-width: 767px)'),
+    window.matchMedia('(min-width: 768px) and (max-width: 991px)'),
+    window.matchMedia('(min-width: 992px) and (max-width: 1199px)'),
+    window.matchMedia('(min-width: 1200px)')
+];
+_.each(medias, function(m) {
+    m.addListener(set_size_class);
+});
+
+var config = {
+    debug: ($.deparam($.param.querystring()).debug !== undefined),
+    device: {
+        touch: 'ontouchstart' in window || 'onmsgesturechange' in window,
+        size_class: size_class(),
+        SIZES: { XS: 0, SM: 1, MD: 2, LG: 3 },
+    },
+};
+
 function size_class() {
-    return xs.matches ? 'xs'
-         : sm.matches ? 'sm'
-         : md.matches ? 'md'
-         : 'lg';
+    for(var i = 0 ; i < medias.length ; i++) {
+        if(medias[i].matches) {
+            return i;
+        }
+    }
 }
 function set_size_class() {
     var sc = size_class();
@@ -441,21 +462,6 @@ function set_size_class() {
         bus.trigger('size_class', sc);
     }
 }
-var xs = window.matchMedia('(max-width: 767px)');
-xs.addListener(set_size_class);
-var sm = window.matchMedia('(min-width: 768px) and (max-width: 991px)');
-sm.addListener(set_size_class);
-var md = window.matchMedia('(min-width: 992px) and (max-width: 1199px)');
-md.addListener(set_size_class);
-var lg = window.matchMedia('(min-width: 1200px)');
-lg.addListener(set_size_class);
 
-var config = {
-    debug: ($.deparam($.param.querystring()).debug !== undefined),
-    device: {
-        touch: 'ontouchstart' in window || 'onmsgesturechange' in window,
-        size_class: size_class(),
-    },
-};
 return config;
 });

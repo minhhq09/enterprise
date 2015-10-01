@@ -453,7 +453,7 @@ var WebClient = Widget.extend({
     // Scrolltop handling
     // --------------------------------------------------------------
     get_scrollTop: function () {
-        if (config.device.size_class === 'xs') {
+        if (config.device.size_class <= config.device.SIZES.XS) {
             return this.el.scrollTop;
         } else {
             return this.action_manager.el.scrollTop;
@@ -468,7 +468,7 @@ var WebClient = Widget.extend({
      */
     scrollTo: function (ev) {
         var offset = {top: ev.data.offset, left: ev.data.offset_left || 0};
-        var xs_device = config.device.size_class === 'xs';
+        var xs_device = config.device.size_class <= config.device.SIZES.XS;
         if (!offset.top) {
             offset = framework.getPosition(document.querySelector(ev.data.selector));
             if (!xs_device) {
