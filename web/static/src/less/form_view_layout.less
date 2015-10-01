@@ -219,24 +219,28 @@
 
     // Button box
     .oe_button_box {
-        .o-flex-display();
-        .o-justify-content(flex-end); // Use flex to align to the right (and keep order) and overflow to the left
         margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding @odoo-sheet-vpadding -@odoo-horizontal-padding;
+        text-align: right;
 
-        white-space: nowrap; // (the last button will overflow (see below))
-        overflow-x: hidden; // To hide extra buttons (and overflow of the last one)
-
-        > .oe_stat_button, > .o_stat_button_more {
+        > .oe_stat_button, > .o_dropdown_more {
             .o-flex(0, 0, auto);
-            width: percentage(1.0025/3); // Adapt the number of visible buttons for each screen width
+            width: percentage(1/3); // Adapt the number of visible buttons for each screen width
             @media (min-width: @screen-sm-min) {
-                width: percentage(1.0025/5); // (calculations are made to have to last button overflow its border and potential calculation gap)
+                width: percentage(1/5);
             }
             @media (min-width: @screen-md-min) {
-                width: percentage(1.0025/7);
+                width: percentage(1/7);
             }
             @media (min-width: @screen-lg-min) {
-                width: percentage(1.0025/8);
+                width: percentage(1/8);
+            }
+        }
+
+        > .o_dropdown_more {
+            .o-position-absolute(100%, 0);
+            min-width: 0;
+            > li > .oe_stat_button {
+                width: 100%;
             }
         }
     }
