@@ -122,8 +122,8 @@ class USPSRequest():
             dict_response['error_message'] = 'USPS Server Not Found - Check your connectivity'
             return dict_response
         root = etree.fromstring(response_text)
-        errors_return = root.findall('Package/Error/Description')
-        errors_number = root.findall('Package/Error/Number')
+        errors_return = root.findall('.//Description')
+        errors_number = root.findall('.//Number')
         if errors_return:
             dict_response['error_message'] = self._error_message(errors_number[0].text, errors_return[0].text)
             return dict_response
@@ -228,8 +228,8 @@ class USPSRequest():
             dict_response['error_message'] = 'USPS Server Not Found - Check your connectivity'
 
         root = etree.fromstring(response_text)
-        errors_return = root.findall('Description')
-        errors_number = root.findall('Number')
+        errors_return = root.findall('.//Description')
+        errors_number = root.findall('.//Number')
 
         if errors_return:
             dict_response['error_message'] = self._error_message(errors_number[0].text, errors_return[0].text)
@@ -287,7 +287,7 @@ class USPSRequest():
             except URLError:
                 dict_response['error_message'] = 'USPS Server Not Found - Check your connectivity'
             root = etree.fromstring(response_text)
-            errors_return = root.findall('Description')
+            errors_return = root.findall('.//Description')
             if errors_return:
                 dict_response['error_message'] = errors_return[0].text
                 dict_response['error_found'] = True
@@ -345,5 +345,5 @@ class USPSRequest():
         if error_number == '-2147219401':
             api_error_message += _("The recepient address can't be found. Please check that your recepient has an existing address.")
         elif error_number == '-2147219385':
-            api_error_message = _("Your company zip code is incorrect.")
+            api_error_message += _("Your company or recipient zip code is incorrect.")
         return api_error_message
