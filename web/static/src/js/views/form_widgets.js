@@ -1598,7 +1598,9 @@ core.form_widget_registry
     .add('kanban_state_selection', KanbanSelection)
     .add('statinfo', StatInfo)
     .add('timezone_mismatch', TimezoneMismatch)
-    .add('label_selection', LabelSelection);
+    .add('label_selection', LabelSelection)
+    .add('upgrade_boolean', FieldBoolean) // Community
+    .add('upgrade_radio', FieldRadio); // Community
 
 
 /**
