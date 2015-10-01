@@ -757,7 +757,7 @@
     </template>
 
     <!-- Modify website_sale templates -->
-    <template id="cart" name="Shopping Cart" inherit_id="website_sale.cart">
+    <template id="cart" name="Shopping Cart" inherit_id="website_sale.cart_lines">
         <xpath expr="//td[@name='price']" position="replace">
             <!-- Normal price display (discount comes from using different pricelists-->
             <td class="text-center" name="price" t-if="not line.discount">
