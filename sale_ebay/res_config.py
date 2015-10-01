@@ -55,7 +55,7 @@ class ebay_configuration(models.TransientModel):
         self.env['ir.config_parameter'].set_param('ebay_prod_cert_id', prod_cert_id)
         domain = self[0].ebay_domain or ''
         self.env['ir.config_parameter'].set_param('ebay_domain', domain)
-        currency = self[0].ebay_currency or self.env['res.country'].search(
+        currency = self[0].ebay_currency or self.env['res.currency'].search(
             [('ebay_available', '=', True)])[0]
         self.env['ir.config_parameter'].set_param('ebay_currency', currency.id)
         country = self[0].ebay_country or self.env['res.country'].search(
