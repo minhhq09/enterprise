@@ -30,7 +30,7 @@ class AccountRegisterPayments(models.TransientModel):
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    partner_bank_account_id = fields.Many2one('res.partner.bank', string="Recipient Bank Account", ondelete='restrict')
+    partner_bank_account_id = fields.Many2one('res.partner.bank', string="Recipient Bank Account")
 
     @api.one
     @api.constrains('payment_method_id', 'communication')
