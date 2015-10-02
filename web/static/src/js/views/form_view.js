@@ -1355,6 +1355,7 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
         }
 
         // Empty button box and toggle class to tell if the button box is full (LESS requirement)
+        $buttons.detach();
         $button_box.empty();
         var full = ($visible_buttons.length > nb_buttons);
         $button_box.toggleClass('o_full', full).toggleClass('o_not_full', !full);
