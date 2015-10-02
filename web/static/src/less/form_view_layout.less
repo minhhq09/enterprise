@@ -247,6 +247,9 @@
 
     // Title & avatar
     .oe_title {
+        @media (max-width: @screen-xxs-max) {
+            word-break: break-all;
+        }
         @media (min-width: @screen-xs-min) {
             padding-right: @odoo-innergroup-rpadding;
         }
@@ -267,11 +270,7 @@
         }
 
         + .oe_title {
-            clear: right;
-            @media (min-width: @screen-xs-min) {
-                clear: none;
-                padding-right: @odoo-avatar-size + 10;
-            }
+            padding-right: @odoo-avatar-size + 10;
         }
     }
 
