@@ -225,7 +225,7 @@ class product_template(models.Model):
 
     @api.multi
     def _get_item_dict(self):
-        if len(self.product_variant_ids.filtered('ebay_use')) > 1 \
+        if len(self.product_variant_ids) > 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict()
         else:
@@ -294,13 +294,20 @@ class product_template(models.Model):
                 if error['SeverityCode'] == 'Error':
                     error_message += error['LongMessage']
             if 'Condition is required for this category.' in error_message:
-                error_message += 'Or the condition is not compatible with the category.'
-            if 'Internal error to the application' or 'Internal application error' in error_message:
+                error_message += _('Or the condition is not compatible with the category.')
+            if any(s in error for s in ['Internal error to the application', 'Internal application error']):
                 error_message = _('eBay is unreachable. Please try again later.')
             if 'Invalid Multi-SKU item id supplied with variations' in error_message:
                 error_message = _('Impossible to revise a listing into a multi-variations listing.\n Create a new listing.')
             if 'UPC is missing a value.' in error_message:
                 error_message = _('The UPC value (the barcode value of your product) is not valid by using the checksum.')
+            if 'must have a quantity greater than 0' in error_message:
+                error_message += _(" If you want to set quantity to 0, the Out Of Stock option should be enabled"
+                                  " and the listing duration should set to Good 'Til Canceled")
+            if 'Item Specifics entered for a Multi-SKU item should be different' in error_message:
+                error_message = _(" You need to have at least 2 variations selected for a multi-variations listing.\n"
+                                   " Or if you try to delete a variation, you cannot do it by unselecting it."
+                                   " Setting the quantity to 0 is the safest method to make a variation unavailable.")
             raise UserError(_("Error Encountered.\n'%s'") % (error_message,))
 
     @api.multi
