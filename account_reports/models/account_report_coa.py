@@ -32,10 +32,10 @@ class report_account_coa(models.AbstractModel):
         company_id = context.get('company_id') or self.env.user.company_id
         grouped_accounts = self.with_context(date_from_aml=context['date_from'], date_from=context['date_from'] and company_id.compute_fiscalyear_dates(datetime.strptime(context['date_from'], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
         sorted_accounts = sorted(grouped_accounts, key=lambda a: a.code)
-        title_index = 0
+        title_index = '0'
         for account in sorted_accounts:
-            if int(account.code[0]) > title_index:
-                title_index = int(account.code[0])
+            if account.code[0] > title_index:
+                title_index = account.code[0]
                 lines.append({
                     'id': title_index,
                     'type': 'line',
