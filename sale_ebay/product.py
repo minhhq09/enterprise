@@ -575,8 +575,9 @@ class product_template(models.Model):
             if 'ShippingServiceSelected' in transaction:
                 sale_order.picking_ids.message_post(
                     _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
-            invoice_id = sale_order.action_invoice_create()
-            invoice = self.env['account.invoice'].browse(invoice_id)
+            # create invoices through the sales orders' workflow
+            sale_order.signal_workflow('manual_invoice')
+            invoice = sale_order.invoice_ids
             # set the default account for the shipping
             if 'ShippingServiceSelected' in transaction:
                 account = self.env['account.account'].browse(
@@ -585,6 +586,7 @@ class product_template(models.Model):
                 line = self.env['account.invoice.line'].search([
                     ('id', 'in', lines_ids), ('name', '=', shipping_name)])
                 line.account_id = account
+
             invoice.signal_workflow('invoice_open')
 
     @api.one
