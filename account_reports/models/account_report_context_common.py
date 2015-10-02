@@ -81,7 +81,7 @@ class AccountReportContextCommon(models.TransientModel):
             'followup_report': 'account.followup.report',
             'bank_reconciliation': 'account.bank.reconciliation.report',
             'general_ledger': 'account.general.ledger',
-            'coa': 'account.report.coa',
+            'coa': 'account.coa.report',
             'l10n_be_partner_vat_listing': 'l10n.be.report.partner.vat.listing',
             'l10n_be_partner_vat_intra': 'l10n.be.report.partner.vat.intra',
         }
@@ -93,7 +93,7 @@ class AccountReportContextCommon(models.TransientModel):
             'account.followup.report': 'account.report.context.followup',
             'account.bank.reconciliation.report': 'account.report.context.bank.rec',
             'account.general.ledger': 'account.context.general.ledger',
-            'account.report.coa': 'account.context.coa',
+            'account.coa.report': 'account.context.coa',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
             'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
         }
