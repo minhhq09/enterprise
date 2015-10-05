@@ -1510,17 +1510,14 @@ odoo.define('project_timeshee.ui', function (require ) {
                     "click .pt_send_logout" : "send_logout",
                     "click .pt_odoo_login_link" : "select_odoo_login",
                     "click .pt_premise_login_link" : "show_premise_login_url_screen",
-                    //"click .pt_create_account_link" : "show_account_creation_screen", // account creation screen comment
+                    "click .pt_create_account_link" : "show_account_creation_screen",
                     "click .pt_reset_app" : "reset_app",
                     "click .pt_keep_data" : "on_keep_data",
                     "click .pt_discard_data" : "on_discard_data",
-                    "click .pt_link_to_odoo" : "go_to_odoo",
                 }
             );
             this.session = session;
-        },
-        go_to_odoo : function() {
-            window.open("https://www.odoo.com");
+            core.bus.on('go_to_sign_in', this, this.show_login_screen);
         },
         select_odoo_login: function() {
             var self = this;
@@ -1546,12 +1543,11 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.$('div.pt_sync_screen').empty();
             this.db_selector_screen.appendTo(this.$('div.pt_sync_screen'));
         },
-        // Account creation screen comment
-        // show_account_creation_screen: function() {
-        //     this.account_creation_screen = new Account_creation_screen(this);
-        //     this.$('div.pt_sync_screen').empty();
-        //     this.account_creation_screen.appendTo(this.$('div.pt_sync_screen'));
-        // },
+        show_account_creation_screen: function() {
+            this.account_creation_screen = new Account_creation_screen(this);
+            this.$('div.pt_sync_screen').empty();
+            this.account_creation_screen.appendTo(this.$('div.pt_sync_screen'));
+        },
         show_premise_login_url_screen: function() {
             this.premise_login_url_screen = new Premise_login_url_screen(this);
             this.$('div.pt_sync_screen').empty();
@@ -1780,8 +1776,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }).fail(function(error) {
                 if (error && error.code == -32098) {
                     alert("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
-                }
-                else {
+                } else {
                     alert("Could not login. Please check that the information you entered is correct.");
                 }
             });
@@ -1789,20 +1784,55 @@ odoo.define('project_timeshee.ui', function (require ) {
     });
 
     // Account creation system commented
-    // var Account_creation_screen = Widget.extend({
-    //     template : "account_creation",
-    //     events:{
-    //         "click .pt_create_instance": "create_instance",
-    //     },
-    //     create_instance: function() {
-    //         var self = this;
-    //         self.instance_name = this.$(".pt_creation_instance").val();
-    //         self.email = this.$(".pt_creation_email").val();
-    //         self.password = this.$(".pt_creation_password").val();
-    //         self.name = this.$(".pt_creation_name").val();
-    //         // TODO : send user to odoo account and instance creation
-    //     },
-    // });
+    var Account_creation_screen = Widget.extend({
+        template : "account_creation",
+        events:{
+            "click .pt_sign_in_link": "go_to_sign_in",
+        },
+        init: function(parent) {
+            this._super(parent);
+            this.show_iframe = true;
+            self.odoo_is_online = false;
+            window.addEventListener("message", this.received_message, false);
+            core.bus.on('db_created', this, this.on_db_creation_success);
+        },
+        /**
+         * We perform a quick check (before rendering the widget) to see if Odoo is reachable. If not, we don't display an iframe with an ugly 404 message.
+         * ALL the parameters of the ajax requests ARE required for it to work properly in as many situations as possible.
+        */
+        willStart: function() {
+            var self = this;
+            var defer = new $.Deferred();
+            $.ajax({
+                url: 'https://www.odoo.com/fr_FR/trial',
+                type: 'HEAD',
+                cache: false,
+                timeout: 5000,
+                error: function() {
+                    self.odoo_is_online = false;
+                    defer.resolve();
+                },
+                success: function() {
+                    self.odoo_is_online = true;
+                    defer.resolve();
+                },
+            });
+            return defer
+        },
+        received_message: function(event) {
+            if (event.origin === 'https://www.odoo.com' && event.data === 'success') {
+                core.bus.trigger('db_created'); // We use the bus as we want to have access to the widget to re-render it, and here 'this' refers to 'window'.
+            }
+        },
+        on_db_creation_success: function(event) {
+            this.show_iframe = false;
+            this.show_success_message = true;
+            this.renderElement();
+        },
+        go_to_sign_in: function() {
+            core.bus.trigger('go_to_sign_in');
+        },
+    });
 
     var Successful_login_screen = Widget.extend({
         template : "successful_login_screen",
