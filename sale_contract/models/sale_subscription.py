@@ -5,9 +5,8 @@ import datetime
 import logging
 import time
 
-from openerp import SUPERUSER_ID
 from openerp.osv import osv, fields
-import openerp.tools
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
 
@@ -117,10 +116,7 @@ class SaleSubscription(osv.osv):
     }
 
     def set_open(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'open'}, context=context)
-
-    def set_done(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'done'}, context=context)
+        return self.write(cr, uid, ids, {'state': 'open', 'date': False}, context=context)
 
     def set_pending(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'pending'}, context=context)
@@ -129,7 +125,7 @@ class SaleSubscription(osv.osv):
         return self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
 
     def set_close(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'close'}, context=context)
+        return self.write(cr, uid, ids, {'state': 'close', 'date': datetime.date.today().strftime(DEFAULT_SERVER_DATE_FORMAT)}, context=context)
 
     def on_change_template(self, cr, uid, ids, template_id, context=None):
         res = {'value': {}}
