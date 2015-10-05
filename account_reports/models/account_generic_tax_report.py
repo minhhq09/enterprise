@@ -33,6 +33,7 @@ class report_account_generic_tax_report(models.AbstractModel):
             periods=context_id.get_cmp_periods(),
             context_id=context_id,
             company_ids=context_id.company_ids.ids,
+            strict_range=True,
         )._lines()
 
     def _compute_from_amls(self, taxes, period_number):
@@ -157,7 +158,7 @@ class AccountReportContextTax(models.TransientModel):
             columns += [_('Net') + '<br/>' + self.get_cmp_date(), _('Tax')]
         else:
             for period in self.get_cmp_periods(display=True):
-                columns += [_('Net') + '<br/>' + period, _('Tax')]
+                columns += [_('Net') + '<br/>' + str(period), _('Tax')]
         return columns
 
     @api.multi
