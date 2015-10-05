@@ -12,6 +12,7 @@
     'depends': ['account'],
     'data': [
         'views/account_report_menu_invisible.xml',
+        'views/res_config_view.xml',
     ],
     'auto_install': True,
     'license': 'OEEL-1',
