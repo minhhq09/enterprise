@@ -1318,7 +1318,7 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
             // Add button box post rendering when window resize and record loaded events
             if($tag.attr("name") == 'button_box') {
                 this.view.is_initialized.then(function() {
-                    var $buttons = $tag.find('.oe_stat_button');
+                    var $buttons = $tag.children();
                     self.organize_button_box($tag, $buttons);
 
                     self.view.on('view_content_has_changed', self, function() {
