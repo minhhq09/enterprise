@@ -1514,9 +1514,13 @@ odoo.define('project_timeshee.ui', function (require ) {
                     "click .pt_reset_app" : "reset_app",
                     "click .pt_keep_data" : "on_keep_data",
                     "click .pt_discard_data" : "on_discard_data",
+                    "click .pt_link_to_odoo" : "go_to_odoo",
                 }
             );
             this.session = session;
+        },
+        go_to_odoo : function() {
+            window.open("https://www.odoo.com");
         },
         select_odoo_login: function() {
             var self = this;
