@@ -6,7 +6,7 @@
     'website': "https://www.odoo.com",
     'category': 'Accounting &amp; Finance',
     'version': '1.0',
-    'depends': ['account_online_sync', 'account_plaid'],
+    'depends': ['account_online_sync'],
     'description': '''
 Sync your bank feeds with Yodlee
 ================================
