@@ -401,7 +401,8 @@ var WebClient = Widget.extend({
                 var $to_detach = self.$el.contents()
                         .not('.o_loading')
                         .not('.o_chat_window')
-                        .not('.ui-autocomplete');
+                        .not('.ui-autocomplete')
+                        .not('.blockUI');
                 self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});
                 framework.detach([{widget: self.menu}]);
 
