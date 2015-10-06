@@ -410,7 +410,10 @@ class product_template(models.Model):
         response = self.get_seller_list(page_number=page_number, auto_commit=auto_commit)
         if response.dict()['ItemArray'] is None:
             return
-        for item in response.dict()['ItemArray']['Item']:
+        items = response.dict()['ItemArray']['Item']
+        if not isinstance(items, list):
+            items = [items]
+        for item in items:
             domain = [
                 ('ebay_id', '=', item['ItemID']),
                 ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
