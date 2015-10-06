@@ -105,7 +105,7 @@ class AccountFinancialReportLine(models.Model):
 
     domain = fields.Char(default=None)
     formulas = fields.Char()
-    groupby = fields.Char(default=False)
+    groupby = fields.Char("Group by", default=False)
     figure_type = fields.Selection([('float', 'Float'), ('percents', 'Percents'), ('no_unit', 'No Unit')],
                                    'Type', default='float', required=True)
     green_on_positive = fields.Boolean('Is growth good when positive', default=True)
