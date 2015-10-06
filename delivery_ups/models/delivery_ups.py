@@ -43,7 +43,7 @@ class ProviderUPS(models.Model):
                                                  ('96', 'UPS Worldwide Express Freight')],
                                                string="UPS Service Type", default='03')
     ups_package_weight_unit = fields.Selection([('LBS', 'Pounds'), ('KGS', 'Kilograms')], default='LBS')
-    ups_package_dimension_unit = fields.Selection([('IN', 'Inches'), ('CM', 'Centimeters')], default='IN')
+    ups_package_dimension_unit = fields.Selection([('IN', 'Inches'), ('CM', 'Centimeters')], string="Units for UPS Package Size", default='IN')
     ups_package_height = fields.Integer(string='Package Height', help="Fixed height if not provided on the product packaging.")
     ups_package_width = fields.Integer(string='Package Width', help="Fixed width if not provided on the product packaging.")
     ups_package_length = fields.Integer(string='Package Length', help="Fixed length if not provided on the product packaging.")
