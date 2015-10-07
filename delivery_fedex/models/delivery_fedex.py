@@ -11,6 +11,10 @@ from fedex_request import FedexRequest
 _logger = logging.getLogger(__name__)
 
 
+# List of currencies that seems to be unaccepted by Fedex when declaring customs values
+FEDEX_CURRENCY_BLACKLIST = ['AED']
+
+
 class ProviderFedex(models.Model):
     _inherit = 'delivery.carrier'
 
@@ -133,20 +137,26 @@ class ProviderFedex(models.Model):
 
             # Commodities for customs declaration (international shipping)
             if self.fedex_service_type in ['INTERNATIONAL_ECONOMY', 'INTERNATIONAL_PRIORITY']:
+
+                # Fedex does not accept some currencies, so we have to force conversion
+                commodity_currency = order_currency
+                if order_currency.name in FEDEX_CURRENCY_BLACKLIST:
+                    commodity_currency = self.env.ref('base.USD')
+
                 total_commodities_amount = 0.0
+                commodity_country_of_manufacture = picking.picking_type_id.warehouse_id.partner_id.country_id.code
+
                 for operation in picking.pack_operation_ids:
-                    total_commodities_amount += (operation.product_id.list_price * operation.product_qty)
-                    commodity_currency = order_currency.name
+                    commodity_amount = order_currency.compute(operation.product_id.list_price, commodity_currency)
+                    total_commodities_amount += (commodity_amount * operation.product_qty)
                     commodity_description = operation.product_id.name
-                    commodity_amount = operation.product_id.list_price
                     commodity_number_of_piece = '1'
                     commodity_weight_units = self.fedex_weight_unit
                     commodity_weight_value = _convert_weight(operation.product_id.weight * operation.product_qty, self.fedex_weight_unit)
-                    commodity_country_of_manufacture = picking.picking_type_id.warehouse_id.partner_id.country_id.code
                     commodity_quantity = operation.product_qty
                     commodity_quantity_units = 'EA'
-                    srm.commodities(commodity_currency, commodity_amount, commodity_number_of_piece, commodity_weight_units, commodity_weight_value, commodity_description, commodity_country_of_manufacture, commodity_quantity, commodity_quantity_units)
-                srm.customs_value(order_currency.name, total_commodities_amount, "NON_DOCUMENTS")
+                    srm.commodities(commodity_currency.name, commodity_amount, commodity_number_of_piece, commodity_weight_units, commodity_weight_value, commodity_description, commodity_country_of_manufacture, commodity_quantity, commodity_quantity_units)
+                srm.customs_value(commodity_currency.name, total_commodities_amount, "NON_DOCUMENTS")
                 srm.duties_payment(picking.picking_type_id.warehouse_id.partner_id.country_id.code, self.fedex_account_number)
 
             package_count = len(picking.pack_operation_ids) or 1
