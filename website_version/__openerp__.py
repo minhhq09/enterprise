@@ -8,7 +8,7 @@ OpenERP Website CMS
 ===================
 
         """,
-    'depends': ['website','marketing','google_account'],
+    'depends': ['website', 'google_account'],
     'installable': True,
     'data': [
         'security/ir.model.access.csv',

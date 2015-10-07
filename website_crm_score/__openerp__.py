@@ -2,7 +2,7 @@
     'name': "Lead Scoring",
     'category': "CRM",
     'version': "1.0",
-    'depends': ['base', 'sales_team', 'marketing', 'website_crm'],
+    'depends': ['base', 'sales_team', 'marketing_campaign', 'website_crm'],
     'author': "Odoo S.A.",
     'description': """\
     Lead Scoring
