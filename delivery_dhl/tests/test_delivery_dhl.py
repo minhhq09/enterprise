@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-import unittest
 from openerp.tests.common import TransactionCase
 
 
@@ -28,7 +27,6 @@ class TestDeliveryDHL(TransactionCase):
                              'state_id': self.env.ref('base.state_us_5').id,
                              'country_id': self.env.ref('base.us').id})
 
-    @unittest.skip("DHL test disabled: We do not want to overload DHL with runbot's requests")
     def test_01_dhl_basic_us_domestic_flow(self):
         SaleOrder = self.env['sale.order']
 
@@ -67,7 +65,6 @@ class TestDeliveryDHL(TransactionCase):
         self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
         self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
-    @unittest.skip("DHL test disabled: We do not want to overload DHL with runbot's requests")
     def test_02_dhl_basic_international_flow(self):
         SaleOrder = self.env['sale.order']
 
@@ -104,7 +101,6 @@ class TestDeliveryDHL(TransactionCase):
         self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
         self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
-    @unittest.skip("DHL test disabled: We do not want to overload DHL with runbot's requests")
     def test_03_dhl_multipackage_international_flow(self):
         SaleOrder = self.env['sale.order']
 
