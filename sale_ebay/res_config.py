@@ -147,28 +147,11 @@ class ebay_configuration(models.TransientModel):
 
     @api.model
     def button_sync_categories(self, context=None):
-        self.sync_categories()
-
-    @api.model
-    def sync_categories(self, auto_commit=False):
-        try:
-            self.env['ebay.category'].sync_categories()
-        except (UserError, RedirectWarning), e:
-            if auto_commit:
-                self.env.cr.rollback()
-                self.env.user.message_post(
-                    body=_("eBay error: Impossible to synchronize the categories. \n'%s'") % e[0])
-                self.env.cr.commit()
-            else:
-                raise e
+        self.env['ebay.category']._cron_sync()
 
     @api.model
     def button_sync_product_status(self, context=None):
-        self.sync_product_status()
-
-    @api.model
-    def sync_product_status(self, sync_big_stocks=False, auto_commit=False):
-        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
+        self.env['product.template'].sync_product_status()
 
     @api.model
     def sync_policies(self, context=None):

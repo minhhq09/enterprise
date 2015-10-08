@@ -387,7 +387,7 @@ class product_template(models.Model):
         self._sync_old_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
-    def get_seller_list(self, page_number=1, auto_commit=False):
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False, auto_commit=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -396,18 +396,19 @@ class product_template(models.Model):
                                     }
                      }
         try:
-            return self.ebay_execute('GetSellerList', call_data)
-        except (UserError, RedirectWarning), e:
+            response = self.ebay_execute('GetSellerList', call_data)
+        except UserError, e:
             if auto_commit:
                 self.env.cr.rollback()
                 self.env.user.message_post(body=_("eBay error: Impossible to synchronize the products. \n'%s'") % e[0])
                 self.env.cr.commit()
             else:
-                raise
-
-    @api.model
-    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False, auto_commit=False):
-        response = self.get_seller_list(page_number=page_number, auto_commit=auto_commit)
+                raise e
+        except RedirectWarning, e:
+            if not auto_commit:
+                raise e
+            # not configured, ignore
+            return
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
@@ -461,7 +462,7 @@ class product_template(models.Model):
                             if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
                                 self.create_sale_order(transaction)
             self.sync_available_qty()
-        except (UserError, RedirectWarning), e:
+        except UserError, e:
             if auto_commit:
                 self.env.cr.rollback()
                 self.ebay_listing_status = 'Error'
@@ -470,6 +471,11 @@ class product_template(models.Model):
                 self.env.cr.commit()
             else:
                 raise e
+        except RedirectWarning, e:
+            if not auto_commit:
+                raise e
+            # not configured, ignore
+            return
 
     @api.one
     def create_sale_order(self, transaction):
@@ -635,12 +641,8 @@ class product_template(models.Model):
                         self.relist_product_ebay()
 
     @api.model
-    def _cron_sync_ebay_products(self):
-        try:
-            self.sync_ebay_products()
-        except RedirectWarning:
-            # not configured, ignore
-            pass
+    def _cron_sync_ebay_products(self, sync_big_stocks=False, auto_commit=False):
+        self.sync_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
     def sync_ebay_products(self, page_number=1):

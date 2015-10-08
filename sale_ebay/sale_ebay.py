@@ -43,12 +43,22 @@ class ebay_category(models.Model):
         return result
 
     @api.model
-    def _cron_sync(self):
+    def _cron_sync(self, auto_commit=False):
         try:
             self.sync_categories()
-        except RedirectWarning:
+        except UserError, e:
+            if auto_commit:
+                self.env.cr.rollback()
+                self.env.user.message_post(
+                    body=_("eBay error: Impossible to synchronize the categories. \n'%s'") % e[0])
+                self.env.cr.commit()
+            else:
+                raise e
+        except RedirectWarning, e:
+            if not auto_commit:
+                raise e
             # not configured, ignore
-            pass
+            return
 
     @api.model
     def sync_categories(self):
@@ -163,14 +173,6 @@ class ebay_policy(models.Model):
     policy_id = fields.Char('Policy ID')
     policy_type = fields.Char('Type')
     short_summary = fields.Text('Summary')
-
-    @api.model
-    def _cron_sync(self):
-        try:
-            self.sync_policies()
-        except RedirectWarning:
-            # not configured, ignore
-            pass
 
     @api.model
     def sync_policies(self):
