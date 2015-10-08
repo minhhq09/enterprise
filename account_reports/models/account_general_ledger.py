@@ -3,7 +3,7 @@
 
 from openerp import models, fields, api, _
 from openerp.tools.misc import formatLang
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class report_account_general_ledger(models.AbstractModel):
@@ -51,7 +51,8 @@ class report_account_general_ledger(models.AbstractModel):
     def group_by_account_id(self, line_id):
         accounts = {}
         results = self.do_query(line_id)
-        initial_bal_results = self.with_context(date_to=self.env.context['date_from_aml']).do_query(line_id)
+        initial_bal_date_to = datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d") + timedelta(days=-1)
+        initial_bal_results = self.with_context(date_to=initial_bal_date_to.strftime('%Y-%m-%d')).do_query(line_id)
         context = self.env.context
         base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         if context['date_from_aml']:
@@ -91,10 +92,10 @@ class report_account_general_ledger(models.AbstractModel):
                 'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                 'level': 2,
                 'unfoldable': True,
-                'unfolded': account in context['context_id']['unfolded_accounts'],
+                'unfolded': account in context['context_id']['unfolded_accounts'] or context.get('print_mode'),
                 'colspan': 4,
             })
-            if account in context['context_id']['unfolded_accounts']:
+            if account in context['context_id']['unfolded_accounts'] or context.get('print_mode'):
                 progress = 0
                 domain_lines = []
                 amls = grouped_accounts[account]['lines']
@@ -122,7 +123,10 @@ class report_account_general_ledger(models.AbstractModel):
                         'action': line.get_model_id_and_name(),
                         'name': line.move_id.name if line.move_id.name else '/',
                         'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', line.id),
-                        'columns': [line.date, name, line.partner_id.name, currency, self._format(line_debit), self._format(line_credit), self._format(progress)],
+                        'columns': [line.date, name, line.partner_id.name, currency,
+                                    line_debit != 0 and self._format(line_debit) or '',
+                                    line_credit != 0 and self._format(line_credit) or '',
+                                    self._format(progress)],
                         'level': 1,
                     })
                 initial_debit = grouped_accounts[account]['initial_bal']['debit']

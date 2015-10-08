@@ -56,6 +56,9 @@ var WidgetButton = common.FormWidget.extend({
         this.execute_action().always(function() {
             self.force_disabled = false;
             self.check_disable();
+            if (self.$el.hasClass('o_wow')) {
+                self.show_wow();
+            }
         });
     },
     execute_action: function() {
@@ -92,6 +95,19 @@ var WidgetButton = common.FormWidget.extend({
         var disabled = (this.force_disabled || !this.view.is_interactible_record());
         this.$el.prop('disabled', disabled);
         this.$el.css('color', disabled ? 'grey' : '');
+    },
+    show_wow: function() {
+        var class_to_add = 'o_wow_thumbs';
+        if (Math.random() > 0.9) {
+            var other_classes = ['o_wow_peace', 'o_wow_heart'];
+            class_to_add = other_classes[Math.floor(Math.random()*other_classes.length)];
+        }
+
+        var $body = $('body');
+        $body.addClass(class_to_add);
+        setTimeout(function() {
+            $body.removeClass(class_to_add);
+        }, 1000);
     }
 });
 
@@ -114,7 +130,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         this.$input = undefined;
     },
     store_dom_value: function () {
-        if (!this.get('effective_readonly') && this.is_syntax_valid()) {
+        if (this.$input && this.is_syntax_valid()) {
             this.internal_set_value(this.parse_value(this.$input.val()));
         }
     },
@@ -161,7 +177,7 @@ var FieldChar = common.AbstractField.extend(common.ReinitializeFieldMixin, {
 });
 
 var KanbanSelection = common.AbstractField.extend({
-    template: "KanbanSelection",
+    template: "FormSelection",
     events: {
         'click a': function(e) {
             e.preventDefault();
@@ -170,12 +186,6 @@ var KanbanSelection = common.AbstractField.extend({
             e.stopPropagation();
         },
         'click li': 'set_kanban_selection'
-    },
-    willStart: function() {
-        var self = this;
-        return $.when(this._super(), this.prepare_dropdown_selection().then(function (states) {
-            self.states = states;
-        }));
     },
     start: function () {
         // hook on form view content changed: recompute the states, because it may be related to the current stage
@@ -187,48 +197,51 @@ var KanbanSelection = common.AbstractField.extend({
     prepare_dropdown_selection: function() {
         var self = this;
         var _data = [];
-        var fetch_stage;
-        var selection = this.field.selection || [];
-        var stage_id = _.isArray(this.view.datarecord.stage_id) ? this.view.datarecord.stage_id[0] : this.view.datarecord.stage_id;
-        var legend_field = this.options && this.options.states_legend_field || false;
-        var fields_to_read = _.map(
-            this.options && this.options.states_legend || {},
-            function (value, key, list) { return value; });
-        if (legend_field && fields_to_read && stage_id) {
-            fetch_stage = new data.DataSet(
-                this,
-                self.view.fields[legend_field].field.relation).read_ids([stage_id],
-                fields_to_read);
-        }
-        else { fetch_stage = $.Deferred().resolve(false); }
-        return $.when(fetch_stage).then(function (stage_data) {
-            _.map(selection, function(res) {
-                var value = {
-                    'name': res[0],
-                    'state_name': res[1],
-                };
-                if (stage_data && stage_data[0][self.options.states_legend[res[0]]]) {
-                    value['state_name'] = stage_data[0][self.options.states_legend[res[0]]];
-                }
-                if (res[0] == 'normal') { value['state_class'] = 'oe_kanban_status'; }
-                else if (res[0] == 'done') { value['state_class'] = 'oe_kanban_status oe_kanban_status_green'; }
-                else { value['state_class'] = 'oe_kanban_status oe_kanban_status_red'; }
-                _data.push(value);
-            });
-            return _data;
+        var current_stage_id = self.view.datarecord.stage_id[0];
+        var stage_data = {
+            id: current_stage_id,
+            legend_normal: self.view.datarecord.legend_normal || undefined,
+            legend_blocked : self.view.datarecord.legend_blocked || undefined,
+            legend_done: self.view.datarecord.legend_done || undefined,
+        };
+        _.map(self.field.selection || [], function(selection_item) {
+            var value = {
+                'name': selection_item[0],
+                'tooltip': selection_item[1],
+            };
+            if (selection_item[0] === 'normal') {
+                value.state_name = stage_data.legend_normal ? stage_data.legend_normal : selection_item[1];
+            } else if (selection_item[0] === 'done') {
+                value.state_class = 'oe_kanban_status_green';
+                value.state_name = stage_data.legend_done ? stage_data.legend_done : selection_item[1];
+            } else {
+                value.state_class = 'oe_kanban_status_red';
+                value.state_name = stage_data.legend_blocked ? stage_data.legend_blocked : selection_item[1];
+            }
+            _data.push(value);
         });
+        return _data;
     },
     render_value: function() {
-        var state;
-        for(var i = 0 ; i < this.states.length ; i++) {
-            if(this.states[i].name === this.get('value')) {
-                state = this.states[i];
-            }
-        }
-        this.$('a').first().find('span').removeClass().addClass(state.state_class);
-        this.$('ul li').show().filter(function() {
-            return ($(this).data('value') === state.name);
-        }).hide();
+        this._super();
+        this.states = this.prepare_dropdown_selection();
+        var self = this;
+
+        // Adapt "FormSelection"
+        var current_state = _.find(this.states, function(state) {
+            return state.name === self.get('value');
+        });
+        this.$('.oe_kanban_status')
+            .removeClass('oe_kanban_status_red oe_kanban_status_green')
+            .addClass(current_state.state_class);
+
+        // Render "FormSelection.Items" and move it into "FormSelection"
+        var $items = $(QWeb.render('FormSelection.items', {
+            states: _.without(this.states, current_state)
+        }));
+        var $dropdown = this.$el.find('.dropdown-menu');
+        $dropdown.children().remove(); // remove old items
+        $items.appendTo($dropdown);
     },
     /* setting the value: in view mode, perform an asynchronous call and reload
     the form view; in edit mode, use set_value to save the new value that will
@@ -336,7 +349,7 @@ var FieldPhone = FieldEmail.extend({
     prefix: 'tel',
     init: function() {
         this._super.apply(this, arguments);
-        this.clickable = config.device.xs;
+        this.clickable = config.device.size_class <= config.device.SIZES.XS;
     },
     render_value: function() {
         this._super();
@@ -462,9 +475,9 @@ var FieldDate = common.AbstractField.extend(common.ReinitializeFieldMixin, {
 
         if (!this.get("effective_readonly")) {
             this.datewidget = this.build_widget();
-            this.datewidget.on('datetime_changed', this, _.bind(function() {
+            this.datewidget.on('datetime_changed', this, function() {
                 this.internal_set_value(this.datewidget.get_value());
-            }, this));
+            });
 
             var self = this;
             this.datewidget.appendTo('<div>').done(function() {
@@ -483,7 +496,7 @@ var FieldDate = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
     },
     is_syntax_valid: function() {
-        return this.get("effective_readonly") || !this.datewidget || this.datewidget.is_valid_();
+        return this.get("effective_readonly") || !this.datewidget || this.datewidget.is_valid();
     },
     is_false: function() {
         return this.get('value') === '' || this._super();
@@ -538,9 +551,7 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
             this.$el.text(txt);
         } else {
             var show_value = formats.format_value(this.get('value'), this, '');
-            if (show_value === '') {
-                this.$el.css('height', "90px");
-            }
+
             this.$el.val(show_value);
             if (!this.auto_sized) {
                 this.auto_sized = true;
@@ -550,6 +561,14 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
                     autosize($(this));
                 });
             }
+
+            var nbLines = 1;
+            for(var i = 0 ; i < show_value.length && nbLines < 4 ; i++) {
+                if(show_value[i] === '\n') {
+                    nbLines++;
+                }
+            }
+            this.$el.css('height', 5 + 18 * nbLines);
         }
     },
     is_syntax_valid: function() {
@@ -604,9 +623,10 @@ var FieldBoolean = common.AbstractField.extend({
     focus: function() {
         return this.$checkbox.focus();
     },
+    set_dimensions: function(height, width) {}, // Checkboxes have a fixed height and width (even in list editable)
     is_false: function() {
         return false;
-    }
+    },
 });
 
 /**
@@ -945,7 +965,7 @@ var FieldRadio = common.AbstractField.extend(common.ReinitializeFieldMixin, {
     },
     get_value: function () {
         var value = this.get('value');
-        return value instanceof Array ? value[0] : value;
+        return ((value instanceof Array)? value[0] : value) || false;
     },
     render_value: function () {
         var self = this;
@@ -1300,7 +1320,7 @@ var FieldStatus = common.AbstractField.extend({
     },
     render_value: function() {
         var self = this;
-        var $content = $(QWeb.render("FieldStatus.content." + ((config.device.xs)? 'mobile' : 'desktop'), {
+        var $content = $(QWeb.render("FieldStatus.content." + ((config.device.size_class <= config.device.SIZES.XS)? 'mobile' : 'desktop'), {
             'widget': self, 
             'value_folded': _.find(self.selection.folded, function(i){return i[0] === self.get('value');})
         }));
@@ -1584,7 +1604,9 @@ core.form_widget_registry
     .add('kanban_state_selection', KanbanSelection)
     .add('statinfo', StatInfo)
     .add('timezone_mismatch', TimezoneMismatch)
-    .add('label_selection', LabelSelection);
+    .add('label_selection', LabelSelection)
+    .add('upgrade_boolean', FieldBoolean) // Community
+    .add('upgrade_radio', FieldRadio); // Community
 
 
 /**

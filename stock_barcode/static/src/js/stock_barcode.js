@@ -11,7 +11,7 @@ var MainMenu = Widget.extend(BarcodeHandlerMixin, {
     template: 'main_menu',
 
     events: {
-        "click .button_operations": function(){ this.do_action('stock_barcode.stock_picking_action_kanban') },
+        "click .button_operations": function(){ this.do_action('stock_barcode.stock_picking_type_action_kanban') },
         "click .button_inventory": function(){ this.open_inventory() },
     },
 

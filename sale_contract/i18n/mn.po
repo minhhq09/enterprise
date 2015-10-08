@@ -1,24 +1,193 @@
-# Mongolian translation for openobject-addons
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the openobject-addons package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * sale_contract
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: openobject-addons\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-23 16:27+0000\n"
-"PO-Revision-Date: 2014-08-14 16:10+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Mongolian <mn@li.org>\n"
+"Project-Id-Version: Odoo 9.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"PO-Revision-Date: 2015-10-01 07:27+0000\n"
+"Last-Translator: Martin Trigaux\n"
+"Language-Team: Mongolian (http://www.transifex.com/odoo/odoo-9/language/mn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-24 08:55+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"Content-Transfer-Encoding: \n"
+"Language: mn\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. module: account_analytic_analysis
-#: model:email.template,body_html:account_analytic_analysis.account_analytic_cron_email_template
+#. module: sale_contract
+#: model:mail.template,body_html:sale_contract.email_payment_success
+msgid ""
+"\n"
+"            \n"
+"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
+"\n"
+"        <p>Hello ${object.partner_id.name},</p>\n"
+"        \n"
+"        <p>\n"
+"            Your subscription (${ctx.get('code')}) has just been renewed\n"
+"            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
+"                via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_method']}\n"
+"                .\n"
+"            %endif\n"
+"        </p>\n"
+"\n"
+"        <p>You will find your invoice attached.</p>\n"
+"\n"
+"        %if ctx.get('next_date'):\n"
+"        <p>\n"
+"          Your next invoice will be on ${ctx.get('next_date')}.\n"
+"        </p>\n"
+"        %endif\n"
+"\n"
+"        <br/>\n"
+"        <p>If you have any question, do not hesitate to contact us.</p>\n"
+"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"        <br/>\n"
+"        <br/>\n"
+"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
+"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
+"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
+"        </div>\n"
+"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
+"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
+"            </span>\n"
+"            % if object.company_id.phone:\n"
+"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
+"                    Phone:&nbsp; ${object.company_id.phone}\n"
+"                </div>\n"
+"            % endif\n"
+"            % if object.company_id.website:\n"
+"                <div>\n"
+"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                </div>\n"
+"            % endif\n"
+"            <p></p>\n"
+"        </div>\n"
+"    </div>\n"
+"                \n"
+"        "
+msgstr ""
+
+#. module: sale_contract
+#: model:mail.template,body_html:sale_contract.email_payment_close
+msgid ""
+"\n"
+"            \n"
+"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
+"\n"
+"        <p>Hello ${object.partner_id.name},</p>\n"
+"        \n"
+"        <p>\n"
+"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"          Our final attempt to process a payment for your subscription using your payment method\n"
+"          ${ctx['payment_method']}\n"
+"          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+"          % if ctx.get('error'):\n"
+"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
+"          %endif\n"
+"        % else:\n"
+"          Our final attempt to process a payment for your subscription failed because we have no payment method recorded for you.\n"
+"        % endif \n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"          As your payment should have been made <strong>15 days ago</strong>, your subscription has been terminated.\n"
+"        </p>\n"
+"\n"
+"        <br/>\n"
+"        <p>Should you wish to resolve this issue, do not hesitate to contact us.</p>\n"
+"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"        <br/>\n"
+"        <br/>\n"
+"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
+"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
+"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
+"        </div>\n"
+"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
+"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
+"            </span>\n"
+"            % if object.company_id.phone:\n"
+"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
+"                    Phone:&nbsp; ${object.company_id.phone}\n"
+"                </div>\n"
+"            % endif\n"
+"            % if object.company_id.website:\n"
+"                <div>\n"
+"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                </div>\n"
+"            % endif\n"
+"            <p></p>\n"
+"        </div>\n"
+"    </div>\n"
+"                \n"
+"        "
+msgstr ""
+
+#. module: sale_contract
+#: model:mail.template,body_html:sale_contract.email_payment_reminder
+msgid ""
+"\n"
+"            \n"
+"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
+"\n"
+"        <p>Hello ${object.partner_id.name},</p>\n"
+"        \n"
+"        <p>\n"
+"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"          We were unable to process a payment for your subscription using your payment method\n"
+"          ${ctx['payment_method']}\n"
+"          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+"          % if ctx.get('error'):\n"
+"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
+"          %endif\n"
+"        % else:\n"
+"          We were unable to process a payment for your subscription because we have no payment method recorded for you.\n"
+"        % endif \n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"          Your subscription ${ctx.get('code')} is still valid but will be <b>suspended</b>\n"
+"          on ${ctx.get('date_close')} unless the payment succeeds in the mean time (we will retry once every day).\n"
+"          Please double-check that you have sufficient funds.\n"
+"        </p>\n"
+"\n"
+"        <br/>\n"
+"        <p>If you have any question, do not hesitate to contact us.</p>\n"
+"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"        <br/>\n"
+"        <br/>\n"
+"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
+"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
+"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
+"        </div>\n"
+"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
+"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
+"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
+"            </span>\n"
+"            % if object.company_id.phone:\n"
+"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
+"                    Phone:&nbsp; ${object.company_id.phone}\n"
+"                </div>\n"
+"            % endif\n"
+"            % if object.company_id.website:\n"
+"                <div>\n"
+"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                </div>\n"
+"            % endif\n"
+"            <p></p>\n"
+"        </div>\n"
+"    </div>\n"
+"                \n"
+"        "
+msgstr ""
+
+#. module: sale_contract
+#: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
 msgid ""
 "\n"
 "Hello ${object.name},\n"
@@ -36,18 +205,14 @@ msgid ""
 "        % for account in accounts:\n"
 "        <tr>\n"
 "            <td>${partner.name}</td>\n"
-"            <td><a "
-"href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}&id=${account.id}&vi"
-"ew_type=form\">${account.name}</a></td>\n"
-"            <td>${account.date_start} to ${account.date and account.date or "
-"'???'}</td>\n"
+"            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"            <td>${account.date_start} to ${account.date and account.date or '???'}</td>\n"
 "            <td>\n"
 "            % if account.quantity_max != 0.0:\n"
 "                ${account.remaining_hours}/${account.quantity_max} units\n"
 "            % endif\n"
 "            </td>\n"
-"            <td>${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"            <td>${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "        </tr>\n"
 "        % endfor\n"
 "    % endfor\n"
@@ -85,851 +250,974 @@ msgid ""
 "</pre>\n"
 "\n"
 "            "
-msgstr ""
+msgstr "\nСайн байна уу ${object.name},\n\n% macro account_table(values):\n<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n    <tr>\n        <th>Захиалагч</th>\n        <th>Гэрээ</th>\n        <th>Огноонууд</th>\n        <th>Урьдчилсан төлбөрт нэгж</th>\n        <th>Холбогч</th>\n    </tr>\n    % for partner, accounts in values:\n        % for account in accounts:\n        <tr>\n            <td>${partner.name}</td>\n            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n            <td>${account.date_start} to ${account.date and account.date or '???'}</td>\n            <td>\n            % if account.quantity_max != 0.0:\n                ${account.remaining_hours}/${account.quantity_max} units\n            % endif\n            </td>\n            <td>${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n        </tr>\n        % endfor\n    % endfor\n</table>\n% endmacro \n\n% if \"new\" in ctx[\"data\"]:\n    <h2>Дараах гэрээнүүдийн хугацаа сая дууссан: </h2>\n    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n% endif\n\n% if \"old\" in ctx[\"data\"]:\n    <h2>Дараах хугацаа дууссан гэрээнүүд арга хэмжээ авагдаагүй байна: </h2>\n    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n% endif\n\n% if \"future\" in ctx[\"data\"]:\n    <h2>Дараах гэрээнүүд сараас бага хугацаанд хугацаа дуусна: </h2>\n    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n% endif\n\n<p>\n    Бүх шинэчлэх шаардлагатай гэрээг дэрээх менюгээр шалгаж болно:\n</p>\n<ul>\n    <li>Борлуулалт / Нэхэмжлэл / Шинэчлэх гэрээнүүд</li>\n</ul>\n<p>\n    Баярлалаа,\n</p>\n\n<pre>\n-- \nOdoo автомат эмэйл\n</pre>\n\n            "
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,toinvoice_total:0
-msgid " Sum of everything that could be invoiced for this contract."
-msgstr " Энэ гэрээнд нэхэмжилж болох бүх зүйлсийн нийлбэр."
-
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,help:account_analytic_analysis.template_of_contract_action
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                    Click here to create a template of contract.\n"
-"                </p><p>\n"
-"                    Templates are used to prefigure contract/project that \n"
-"                    can be selected by the salespeople to quickly configure "
-"the\n"
-"                    terms and conditions of the contract.\n"
-"                </p>\n"
-"            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                    Гэрээний үлгэрийг үүсгэхдээ энд дарна.\n"
-"                </p><p>\n"
-"                    Үлгэр нь гэрээ/төслийг урьдчилан тохируулдаг бөгөөд "
-"ингэснээр борлуулалтына ажилтан шууд сонгон хурдан хугацаанд гэрээний нөхцөл "
-"зэрэгийг тохируулах боломжтой болдог.\n"
-"                </p>\n"
-"            "
-
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,help:account_analytic_analysis.action_account_analytic_overdue_all
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                    Click to create a new contract.\n"
-"                </p><p>\n"
-"                    Use contracts to follow tasks, issues, timesheets or "
-"invoicing based on\n"
-"                    work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                    the alerts for the renewal of the contracts to the right "
-"salesperson.\n"
-"                </p>\n"
-"            "
-msgstr ""
-
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,help:account_analytic_analysis.action_sales_order
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                Click to create a quotation that can be converted into a "
-"sales\n"
-"                order.\n"
-"              </p><p>\n"
-"                Use sale orders to track everything that should be invoiced\n"
-"                at a fix price on a contract.\n"
-"              </p>\n"
-"            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                Борлуулалтын захиалга руу хөрвүүлж болох үнийн саналыг "
-"үүсгэхээр бол дарна уу.\n"
-"              </p><p>\n"
-"                Гэрээн дээр тогтмол үнээр нэхэмжилж болох бүх зүйлийг "
-"хөтлөхдөө \n"
-"                борлуулалтын захиалгыг ашиглана уу.\n"
-"              </p>\n"
-"            "
-
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,help:account_analytic_analysis.action_account_analytic_overdue
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
-"                Click to define a new contract.\n"
-"              </p><p>\n"
-"                You will find here the contracts to be renewed because the\n"
-"                end date is passed or the working effort is higher than the\n"
-"                maximum authorized one.\n"
-"              </p><p>\n"
-"                Odoo automatically sets contracts to be renewed in a "
-"pending\n"
-"                state. After the negociation, the salesman should close or "
-"renew\n"
-"                pending contracts.\n"
-"              </p>\n"
-"            "
-msgstr ""
-
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,help:account_analytic_analysis.action_hr_tree_invoiced_all
-msgid ""
-"<p>\n"
-"                You will find here timesheets and purchases you did for\n"
-"                contracts that can be reinvoiced to the customer.  If you "
-"want\n"
-"                to record new activities to invoice, you should use the "
-"timesheet\n"
-"                menu instead.\n"
-"              </p>\n"
-"            "
-msgstr ""
-"<p>\n"
-"                Энд таны хийсэн бөгөөд захиалагчаас нэхэмжилж болох худалдан "
-"авалт болон цагийн хуудасуудын жагсаалт байна. Хэрэв нэхэмжлэх шаардлагатай "
-"ажлуудыг хөтлөх шаардлагатай бол цагийн хуудас менюг ашиглах хэрэгтэй.\n"
-"              </p>\n"
-"            "
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Account Analytic Lines"
-msgstr ""
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
 msgstr "Дансны менежер"
 
-#. module: account_analytic_analysis
-#: help:sale.config.settings,group_template_required:0
-msgid ""
-"Allows you to set the template field as required when creating an analytic "
-"account or a contract."
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
+msgid "Action Needed"
 msgstr ""
-"Шинжилгээний данс болон гэрээг үүсгэхэд үлгэр талбарыг заавал шаардагдах "
-"болгох боломжийг олгодог."
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,analytic_account_id:0
-#: field:account_analytic_analysis.summary.month,account_id:0
-#: field:account_analytic_analysis.summary.user,account_id:0
-#: model:ir.model,name:account_analytic_analysis.model_account_analytic_account
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Active"
+msgstr "Идэвхитэй"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Active templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
+msgid "Actual Quantity"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
+msgid "Allow Online Order"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_analytic_account_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
 msgid "Analytic Account"
 msgstr "Шинжилгээний Данс"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,ca_theorical:0
-msgid ""
-"Based on the costs you had on the project, what would have been the revenue "
-"if all these costs have been invoiced at the normal sale price provided by "
-"the pricelist."
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
+msgid "Analytic Lines"
+msgstr "Шинжилгээний мөрүүд"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_balance
+msgid "Balance"
+msgstr "Тэнцэл"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_crossovered_budget_line
+msgid "Budget Lines"
+msgstr "Төсвийн мөр"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Cancel Subscription"
 msgstr ""
-"Based on the costs you had on the project, what would have been the revenue "
-"if all these costs have been invoiced at the normal sale price provided by "
-"the pricelist."
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,state:0
+#: selection:sale.subscription.report,state:0
 msgid "Cancelled"
-msgstr "Цуцалсан"
+msgstr "Цуцлагдсан"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
 msgstr "Цуцалсан гэрээнүүд"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Closed"
-msgstr "Хаасан"
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
+msgid "Check this box to manage customer activities through this project"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
+msgid "Check this box to manage internal activities through this project"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_timesheets
+msgid "Check this field if this project manages timesheets"
+msgstr "Хэрвээ энэ төслийн цагийн хуудасыг удирдвал энэ талбарыг шалга"
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
+msgid "Click here to create a template of subscription."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
+msgid "Click to create a new contract."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
+msgid "Click to define a new contract."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.product_action_subscription
+msgid "Click to define a new product."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
+msgid "Close Reason"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
+msgid "Close Reasons"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Close Subscription"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,state:0
+#: selection:sale.subscription.report,state:0
+msgid "Closed"
+msgstr "Хаалттай"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Closed contracts"
 msgstr "Хаагдсан Гэрээнүүд"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,remaining_hours_to_invoice:0
-msgid ""
-"Computed using the formula: Expected on timesheets - Total invoiced on "
-"timesheets"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
+msgid "Comercial Partner"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,real_margin:0
-msgid "Computed using the formula: Invoiced Amount - Total Costs."
-msgstr "Томъёг ашиглан тооцоолох:  Нэхэмжилсэн хэмжээ - Нийт өртөг."
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_company_id
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Company"
+msgstr "Компани"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,revenue_per_hour:0
-msgid "Computed using the formula: Invoiced Amount / Total Time"
-msgstr "Тооцоололт хийсэн томъёо: Нэхэмжилсэн дүн / Нийт Дүн"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,remaining_ca:0
-msgid "Computed using the formula: Max Invoice Price - Invoiced Amount."
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_uom_id
+msgid "Company UOM"
 msgstr ""
-"Томъёг ашиглан тооцоолох:  Нэхэмжлэх үнийн дээд хэмжээ - Нэхэмжилсэн хэмжээ"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,remaining_hours:0
-msgid "Computed using the formula: Maximum Time - Total Worked Time"
-msgstr ""
-"Тооцоололд ашиглагдсан томъёо: Хамгийн их хугацаа - Нийт ажилласан хугацаа"
+#. module: sale_contract
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_config
+msgid "Configuration"
+msgstr "Тохиргоо"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,theorical_margin:0
-msgid "Computed using the formula: Theoretical Revenue - Total Costs"
-msgstr "Дараах томъёогоор тооцоологддог: Онолын Орлого - Нийт Өртөг"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,real_margin_rate:0
-msgid "Computes using the formula: (Real Margin / Total Costs) * 100."
-msgstr "Томъёог ашиглан тооцоолох: (Бодит бохир ашиг/ Нийт өртөг)*100"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,type:0
 msgid "Contract"
 msgstr "Гэрээ"
 
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,name:account_analytic_analysis.template_of_contract_action
-#: model:ir.ui.menu,name:account_analytic_analysis.menu_template_of_contract_action
-msgid "Contract Template"
-msgstr "Гэрээний загвар"
-
-#. module: account_analytic_analysis
-#: model:email.template,subject:account_analytic_analysis.account_analytic_cron_email_template
+#. module: sale_contract
+#: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
 msgid "Contract expiration reminder ${user.company_id.name}"
 msgstr "Гэрээний хугацаа дуусах сануулга ${user.company_id.name}"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-#: model:ir.actions.act_window,name:account_analytic_analysis.action_account_analytic_overdue_all
-#: model:ir.ui.menu,name:account_analytic_analysis.menu_action_account_analytic_overdue_all
+#. module: sale_contract
+#: model:ir.module.category,name:sale_contract.module_category_contract_management
 msgid "Contracts"
-msgstr "Гэрээнүүд"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Contracts assigned to a customer."
-msgstr "Захиалагчид оноогдсон гэрээнүүд"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+msgid "Contracts in progress"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Contracts in progress (open, draft)"
-msgstr "Боловсруулагдаж буй гэрээнүүд (нээлттэй, ноорог)"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts not assigned"
 msgstr "Гэрээнүүд оноогдоогүй байна"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts that are not assigned to an account manager."
 msgstr "Дансны менежертэй холбогдоогүй гэрээнүүд."
 
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,name:account_analytic_analysis.action_account_analytic_overdue
-#: model:ir.ui.menu,name:account_analytic_analysis.menu_action_account_analytic_overdue
-msgid "Contracts to Renew"
-msgstr "Шинэчлэх Гэрээнүүд"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_country_id
+msgid "Country"
+msgstr "Улс"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,create_uid:0
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid ""
+"Create a sale order that will overwrite this contract when confirmed "
+"(renewal quotation)"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Үүсгэгч"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,create_date:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Үүсгэсэн"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Customer Contracts"
-msgstr "Захиалагчийн гэрээнүүд"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
+msgid "Credit"
+msgstr "Кредит"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,last_worked_date:0
-msgid "Date of Last Cost/Work"
-msgstr "Эцсийн өртөг/Ажлын огноо"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
+msgid "Currency"
+msgstr "Валют"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,last_worked_invoiced_date:0
-msgid "Date of Last Invoiced Cost"
-msgstr "Эцсийн өртөгийг нэхэмжилсэн огноо"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_partner_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_partner_id
+msgid "Customer"
+msgstr "Захиалагч"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,recurring_next_date:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_end
+msgid "Date End"
+msgstr "Дуусах огноо"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_start
+msgid "Date Start"
+msgstr "Эхлэх огноо"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_next_date
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Date of Next Invoice"
-msgstr ""
+msgstr "Дараагийн нэхэмжлэлийн огноо"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,last_worked_date:0
-msgid "Date of the latest work done on this account."
-msgstr "Энэ данс дээр хйигдсэн сүүлийн ажлын огноо."
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_last_post
+msgid "Date of the last message posted on the record."
+msgstr "Бичлэгт хамгийн сүүлд илгээгдсэн зурвасын огноо."
 
-#. module: account_analytic_analysis
-#: selection:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: selection:sale.subscription,recurring_rule_type:0
 msgid "Day(s)"
+msgstr "Өдөр(үүд)"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
+msgid "Debit"
+msgstr "Дебит"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_plan_description
+msgid "Describe this contract in a few lines"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,name:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_description
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_name
 msgid "Description"
+msgstr "Тодорхойлолт"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_discount
+msgid "Discount (%)"
+msgstr "Хөнгөлөлт (%)"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
+msgid "Display Name"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
+msgid "End Date"
+msgstr "Дуусах огноо"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End Month"
-msgstr ""
+msgstr "Төгсөх Сар"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End date is in the next month"
 msgstr "Дуусах огноо дараа сард"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "End date passed or prepaid unit consumed"
-msgstr "Дуусах огноо хэтэрсэн буюу урьдчилан төлсөн нэгж хангагдсан"
-
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:674
-#, python-format
-msgid "Error!"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+msgid "End date passed"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,hours_qtt_est:0
-msgid "Estimation of Hours to Invoice"
-msgstr "Нэхэмжлэх цагийн тооцоолол"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,remaining_total:0
-msgid ""
-"Expectation of remaining income for this contract. Computed as the sum of "
-"remaining subtotals which, in turn, are computed as the maximum between "
-"'(Estimation - Invoiced)' and 'To Invoice' amounts"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+msgid "Expired"
 msgstr ""
-"Энэ гэрээн дах үлдэгдэл орлогын таамаглал. Үлдэж буйю дэд дүнгийн нийлбэрээр "
-"тооцоологдоно. Өөрөөр хэлбэл '(Таамаглагдсан - Нэхэмжилсэн)' болон "
-"'Нэхэмжлэх'-н хоорондын хамгийн ялгаагаар тооцоологдоно."
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Expected"
-msgstr "Тооцоолсон"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Expired or consumed"
-msgstr "Хугацаа дууссан эсвэл хангагдсан"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Expiring soon"
 msgstr "Удахгүй хугацаа дуусна"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,fix_price_invoices:0
-msgid "Fixed Price"
-msgstr "Тогтмол үнэ"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_follower_ids
+msgid "Followers"
+msgstr "Дагагчид"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,recurring_invoices:0
-msgid "Generate recurring invoices automatically"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_channel_ids
+msgid "Followers (Channels)"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Group By"
+msgstr "Бүлэглэх"
+
+#. module: sale_contract
+#: model:ir.module.category,description:sale_contract.module_category_contract_management
+msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr ""
 
-#. module: account_analytic_analysis
-#: model:ir.model,name:account_analytic_analysis.model_account_analytic_analysis_summary_user
-msgid "Hours Summary by User"
-msgstr "Хэрэглэгчээр багцалсан цаг"
-
-#. module: account_analytic_analysis
-#: model:ir.model,name:account_analytic_analysis.model_account_analytic_analysis_summary_month
-msgid "Hours summary by month"
-msgstr "Сарын цагийн хураангуй"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,id:0
-#: field:account_analytic_analysis.summary.month,id:0
-#: field:account_analytic_analysis.summary.user,id:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12136
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
 msgid "ID"
+msgstr "ID"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_unread
+msgid "If checked new messages require your attention."
+msgstr "Хэрэв тэмдэглэгдсэн бол таныг шинэ зурвасуудад анхаарал хандуулахыг шаардана."
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction
+msgid "If checked, new messages require your attention."
 msgstr ""
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,ca_to_invoice:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
-"If invoice from analytic account, the remaining amount you can invoice to "
-"the customer based on the total costs."
+"If set, confirming a sale order with this product will create a subscription"
 msgstr ""
-"If invoice from analytic account, the remaining amount you can invoice to "
-"the customer based on the total costs."
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,last_invoice_date:0
-msgid "If invoice from the costs, this is the date of the latest invoiced."
-msgstr ""
-"Хэрэв өртөгөөс нэхэмжлэх бол энэ нь хамгийн сүүлийн нэхэмжилсэн огноо."
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,last_worked_invoiced_date:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
 msgid ""
-"If invoice from the costs, this is the date of the latest work or cost that "
-"have been invoiced."
-msgstr "1"
+"If set, the associated contract will be overwritten by this sale order "
+"(every recurring line of the contract not in this sale order will be "
+"deleted)."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,state:0
+#: selection:sale.subscription.report,state:0
 msgid "In Progress"
-msgstr "Хийгдэж буй"
+msgstr "Боловсруулагдаж буй"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,recurring_invoice_line_ids:0
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive"
+msgstr "Идэвхгүй"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
 msgid "Invoice Lines"
-msgstr ""
+msgstr "Нэхэмжлэлийн мөр"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_rule_type
 msgid "Invoice automatically repeat at specified interval"
+msgstr "Өгсөн хугацааны давтамжтайгаар давтан нэхэмжлэх"
+
+#. module: sale_contract
+#: model:mail.template,subject:sale_contract.email_payment_success
+msgid "Invoice for subscription ${ctx.get('code')}"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Invoiced"
-msgstr "Нэхэмжилсэн"
+#. module: sale_contract
+#: model:mail.template,report_name:sale_contract.email_payment_success
+msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,ca_invoiced:0
-msgid "Invoiced Amount"
-msgstr "Нэхэмжлэлийн дүн"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Invoices"
+msgstr "Нэхэмжлэлүүд"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,hours_qtt_invoiced:0
-msgid "Invoiced Time"
-msgstr "Нэхэмжилсэн Цаг"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_is_follower
+msgid "Is Follower"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Invoicing"
-msgstr "Нэхэмжлэх"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_issues
+msgid "Issues"
+msgstr "Асуудал"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,last_invoice_date:0
-msgid "Last Invoice Date"
-msgstr "Сүүлийн нэхэмжлэлийн огноо"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_last_post
+msgid "Last Message Date"
+msgstr "Сүүлийн зурвасын огноо"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,write_uid:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Сүүлийн засвар хийсэн"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,write_date:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
 msgid "Last Updated on"
+msgstr "Сүүлийн засвар хийсэн огноо"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_user_selectable
+msgid ""
+"Leave this unchecked if you don't want this contract template to be "
+"available to the customer in the frontend (for a free trial, for example)"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: model:res.groups,name:account_analytic_analysis.group_template_required
-msgid "Mandatory use of templates in contracts"
-msgstr "Гэрээн дах үлгэрийн зайлшгүй хэрэглээ"
+#. module: sale_contract
+#: model:res.groups,name:sale_contract.group_sale_contract_manager
+msgid "Manage Contracts"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:sale.config.settings,group_template_required:0
-msgid "Mandatory use of templates."
-msgstr "Үлгэрүүдийн зайлшгүй хэрэглээ"
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
+msgid "Max between actual and sold quantities; this quantity will be invoiced"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,month_ids:0
-#: field:account_analytic_analysis.summary.month,month:0
-msgid "Month"
-msgstr "Сар"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_ids
+msgid "Messages"
+msgstr "Зурвасууд"
 
-#. module: account_analytic_analysis
-#: selection:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_ids
+msgid "Messages and communication history"
+msgstr "Зурвас болон харилцсан түүх"
+
+#. module: sale_contract
+#: selection:sale.subscription,recurring_rule_type:0
 msgid "Month(s)"
+msgstr "Сар(ууд)"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_name
+msgid "Name"
+msgstr "Нэр"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,state:0
+#: selection:sale.subscription.report,state:0
+msgid "New"
+msgstr "Шинэ"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+msgid "New Contracts"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:669
-#, python-format
-msgid "No Customer Defined!"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
+msgid "Number of Actions"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "No order to invoice, create"
-msgstr "Нэхэмжлэх, үүсгэх захиалга алга"
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Nothing to invoice, create"
-msgstr "Нэхэмжлэх, үүсгэх зүйлс алга"
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,hours_qtt_non_invoiced:0
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
-"Number of time (hours/days) (from journal of type 'general') that can be "
-"invoiced if you invoice based on analytic account."
+"Odoo automatically sets contracts to be renewed in a pending\n"
+"            state. After the negociation, the salesman should close or renew\n"
+"            pending contracts."
 msgstr ""
-"Хэрэв шинжилгээний данс дээр суурилж байгаа бол нэхэмжлэж болох хугацаа "
-"(цаг/өдөр) ('ерөнхий' төрөлтэй журналаас)."
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,hours_qtt_invoiced:0
-msgid ""
-"Number of time (hours/days) that can be invoiced plus those that already "
-"have been invoiced."
-msgstr "Нэхэмжлэгдсэн болон нэхэмжлэх ёстой хугацааны нийлбэр (цаг/өдөр)"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,hours_quantity:0
-msgid ""
-"Number of time you spent on the analytic account (from timesheet). It "
-"computes quantities on all journal of type 'general'."
+#. module: sale_contract
+#: model:ir.actions.client,name:sale_contract.action_client_sale_subscription_menu
+msgid "Open Subscriptions Menu"
 msgstr ""
-"Шинжилгээний данс дээрх таны зарцуулсан хугацаа (цагийн хуваариас). Энэ нь "
-"'ерөнхий' төрөлтэй бүх журналь дээр тооцоололт хийдэг."
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,invoice_on_timesheets:0
-msgid "On Timesheets"
-msgstr "Цагийн хуудсуудад"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,is_overdue_quantity:0
-msgid "Overdue Quantity"
-msgstr "Тоо ширхэг хязгаараас давсан"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
-msgid "Parent"
-msgstr "Эцэг"
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_res_partner
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Partner"
 msgstr "Харилцагч"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:mail.template,subject:sale_contract.email_payment_reminder
+msgid "Payment reminder for subscription ${object.code}"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Pending contracts"
 msgstr "Шийд хүлээсэн гэрээнүүд"
 
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:675
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
+msgid "Plan Description"
+msgstr ""
+
+#. module: sale_contract
+#: code:addons/sale_contract/models/sale_subscription.py:179
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
-msgstr ""
+msgstr "\"%s\" компанид борлуулалтын журналыг тодорхойлно уу."
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_pricelist_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_pricelist_id
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Pricelist"
-msgstr "Үнийн жагсаалт"
+msgstr "Үнийн хүснэгт"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,product_id:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_product_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_id
 msgid "Product"
-msgstr ""
+msgstr "Бараа"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,quantity:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
+msgid "Product Category"
+msgstr "Барааны ангилал"
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_product_template
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_tmpl_id
+msgid "Product Template"
+msgstr "Барааны үлгэр"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_quantity
 msgid "Quantity"
+msgstr "Тоо хэмжээ"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_actual_quantity
+msgid "Quantity actually used by the customer"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,real_margin:0
-msgid "Real Margin"
-msgstr "Бодит бохир ашиг"
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_sold_quantity
+msgid "Quantity sold to the customer"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,real_margin_rate:0
-msgid "Real Margin Rate (%)"
-msgstr "Бодит бохир ашгийн харьцаа (%)"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
+msgstr "Давталт"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
+msgid "Recurring Price"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Recurring Invoices"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_recurring_price
+msgid "Recurring price(per period)"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Remaining"
-msgstr "Үлдэгдэл"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_code
+msgid "Reference"
+msgstr "Дугаар"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,remaining_ca:0
-msgid "Remaining Revenue"
-msgstr "Үлдэх орлого"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,fix_price_to_invoice:0
-#: field:account.analytic.account,remaining_hours:0
-#: field:account.analytic.account,remaining_hours_to_invoice:0
-#: field:account.analytic.account,timesheet_ca_invoiced:0
-msgid "Remaining Time"
-msgstr "Үлдсэн хугацаа"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,recurring_interval:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
-msgstr ""
+msgstr "Тутамд давтах"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,recurring_interval:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
+msgstr "(Өдөр/Долооног/Сар/Жил) тутам давтах"
+
+#. module: sale_contract
+#: model:ir.ui.menu,name:sale_contract.menu_report_product_all
+msgid "Reports"
+msgstr "Тайлан"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_id
+msgid "Responsible"
+msgstr "Хариуцлага"
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription
+msgid "Sale Subscription"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,revenue_per_hour:0
-msgid "Revenue per Time (real)"
-msgstr "Орлого Хугацаагаар (бодит)"
-
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:543
-#, python-format
-msgid "Sales Order Lines to Invoice of %s"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
+msgid "Sale Subscriptions"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-#: model:ir.actions.act_window,name:account_analytic_analysis.action_sales_order
-msgid "Sales Orders"
-msgstr "Борлуулалтын захиалгууд"
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_order
+msgid "Sales Order"
+msgstr "Борлуулалтын захиалга"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_manager_id
+msgid "Sales Rep"
+msgstr ""
+
+#. module: sale_contract
+#: model:res.groups,name:sale_contract.group_sale_contract_view
+msgid "See Contracts"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
+msgid "Sequence"
+msgstr "Дараалал"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Active"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Inactive"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Open"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Settings"
+msgstr "Тохиргоо"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
+msgid "Sold Quantity"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
+msgid "Start Date"
+msgstr "Эхлэл огноо"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Start Month"
-msgstr ""
+msgstr "Эхлэх Сар"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
+msgid "State"
+msgstr "Төлөв"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_state
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Status"
 msgstr "Төлөв"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,price_subtotal:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_subtotal
 msgid "Sub Total"
+msgstr "Дэд дүн"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_analytic_account_id
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Subscription"
+msgstr "Захиалга"
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.action_subscription_report_all
+#: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_graph
+#: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_pivot
+msgid "Subscription Analysis"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,fix_price_to_invoice:0
-msgid "Sum of quotations for this contract."
-msgstr "Энэ гэрээний ханшийн нийлбэр."
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Subscription Lines"
+msgstr "Захиалгын цуваа"
 
-#. module: account_analytic_analysis
-#: help:account.analytic.account,timesheet_ca_invoiced:0
-msgid "Sum of timesheet lines invoiced for this contract."
-msgstr "Энэ гэрээнд нэхэмжлэгдсэн цагийн хуудсын мөрийн нийлбэр"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
+msgid "Subscription Product"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.product_action_subscription
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_product
+msgid "Subscription Products"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_report
+msgid "Subscription Statistics"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_template_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id
+#: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
+msgid "Subscription Template"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list_template
+msgid "Subscription Templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
+msgid "Subscription products"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_action
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_root
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+msgid "Subscriptions"
+msgstr "Бүртгэлүүд"
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
+#: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
+msgid "Susbcriptions to Renew"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
+msgid "Tags"
+msgstr "Пайзууд"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
+msgid "Tasks"
+msgstr "Даалгаврууд"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+#: selection:sale.subscription,type:0
 msgid "Template"
 msgstr "Үлгэр"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,theorical_margin:0
-msgid "Theoretical Margin"
-msgstr "Онолын Хязгаар"
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
+msgid ""
+"Templates are used to prefigure subscription that \n"
+"                can be selected by the salespeople to quickly configure the\n"
+"                terms and conditions of the subscription."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,ca_theorical:0
-msgid "Theoretical Revenue"
-msgstr "Онолын Орлого"
+#. module: sale_contract
+#: model:mail.template,subject:sale_contract.email_payment_close
+msgid "Termination of subscription ${object.code}"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: model:ir.actions.act_window,name:account_analytic_analysis.action_hr_tree_invoiced_all
-#: model:ir.ui.menu,name:account_analytic_analysis.menu_action_hr_tree_invoiced_all
-msgid "Time & Materials to Invoice"
-msgstr "Хугацаа & Нэхэмжлэлийн материал"
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.product_action_subscription
+msgid ""
+"The product form contains information to simplify the sale\n"
+"            process: price, notes in the quotation, accounting data,\n"
+"            procurement methods, etc."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Timesheets"
-msgstr "Цагийн хуудас"
+#. module: sale_contract
+#: model:res.groups,comment:sale_contract.group_sale_contract_view
+msgid "The user will have read access to contracts."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:652
+#. module: sale_contract
+#: model:res.groups,comment:sale_contract.group_sale_contract_manager
+msgid "The user will have write access to contracts."
+msgstr ""
+
+#. module: sale_contract
+#: code:addons/sale_contract/models/sale_order.py:77
+#: code:addons/sale_contract/models/sale_subscription.py:207
 #, python-format
-msgid "Timesheets to Invoice of %s"
-msgstr "%s-н нэхэмжлэх цаг бүртгэлүүд"
+msgid "This invoice covers the following period: %s - %s"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "To Invoice"
-msgstr "Үнийн нэхэмжлэл"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
+msgid "This order is linked to a subscription."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_overdue_search
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_timesheets
+msgid "Timesheets"
+msgstr "Цагийн Хуваарь"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
+#: selection:sale.subscription,state:0
+#: selection:sale.subscription.report,state:0
 msgid "To Renew"
 msgstr "Шинэчлэх"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Total"
-msgstr "Нийт"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_type
+msgid "Type"
+msgstr "Төрөл"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,total_cost:0
-msgid "Total Costs"
-msgstr "Нийт зардал"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_account_type
+msgid "Type of Account"
+msgstr "Дансны Төрөл"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,est_total:0
-msgid "Total Estimation"
-msgstr "Нийт таамаг тооцоо"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,invoiced_total:0
-msgid "Total Invoiced"
-msgstr "Нийт нэхэмжлэл"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,remaining_total:0
-msgid "Total Remaining"
-msgstr "Нийт үлдэгдэл"
-
-#. module: account_analytic_analysis
-#: field:account_analytic_analysis.summary.month,unit_amount:0
-#: field:account_analytic_analysis.summary.user,unit_amount:0
-msgid "Total Time"
-msgstr "Нийт хугацаа"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,hours_quantity:0
-msgid "Total Worked Time"
-msgstr "Нийт ажилласан хугацаа"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,ca_invoiced:0
-msgid "Total customer invoiced amount for this account."
-msgstr "Бүх хэрэглэгчидийн нэхэмжилсэн дансны хэмжээ"
-
-#. module: account_analytic_analysis
-#: help:account.analytic.account,total_cost:0
-msgid ""
-"Total of costs for this account. It includes real costs (from invoices) and "
-"indirect costs, like time spent on timesheets."
-msgstr ""
-"Энэ дансны нийт өртөг. Бодит өртөгийг ба дагалдах өртөгийг (нэхэмжлэлээс) "
-"багтаасан."
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,toinvoice_total:0
-msgid "Total to Invoice"
-msgstr "Нийт нэхэмжлэл"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,ca_to_invoice:0
-msgid "Uninvoiced Amount"
-msgstr "Нэхэмжлэгдээгүй дүн"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.account,hours_qtt_non_invoiced:0
-msgid "Uninvoiced Time"
-msgstr "Нэхэмжлээгүй Хугацаа"
-
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,price_unit:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_unit
 msgid "Unit Price"
-msgstr ""
+msgstr "Нэгж үнэ"
 
-#. module: account_analytic_analysis
-#: field:account.analytic.invoice.line,uom_id:0
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_uom_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_uom
 msgid "Unit of Measure"
+msgstr "Хэмжих нэгж"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_unread
+msgid "Unread Messages"
+msgstr "Уншаагүй Зурвасууд"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_unread_counter
+msgid "Unread Messages Counter"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Units Consumed"
-msgstr "Хангагдсан Нэгжүүд"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
+msgid "Update Contract"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "Units Remaining"
-msgstr "Нэгжийн үлдэгдэл"
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
+msgid ""
+"Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
+msgstr ""
 
-#. module: account_analytic_analysis
-#: field:account.analytic.account,user_ids:0
-#: field:account_analytic_analysis.summary.user,user:0
-msgid "User"
-msgstr "Хэрэглэгч"
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_website_message_ids
+msgid "Website Messages"
+msgstr "Вебсайтын зурвасууд"
 
-#. module: account_analytic_analysis
-#: selection:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_website_message_ids
+msgid "Website communication history"
+msgstr "Вебсайтын харилцааны түүх"
+
+#. module: sale_contract
+#: selection:sale.subscription,recurring_rule_type:0
 msgid "Week(s)"
-msgstr ""
+msgstr "Долоо хоног"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid ""
-"When reinvoicing costs, Odoo uses the\n"
-"                            pricelist of the contract which uses the price\n"
-"                            defined on the product related (e.g timesheet \n"
-"                            products are defined on each employee)."
-msgstr ""
-
-#. module: account_analytic_analysis
-#: selection:account.analytic.account,recurring_rule_type:0
+#. module: sale_contract
+#: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
+msgstr "Жил(үүд)"
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.product_action_subscription
+msgid ""
+"You must define a product for everything you sell, whether it's\n"
+"            a physical product, a consumable or a service you offer to\n"
+"            customers."
 msgstr ""
 
-#. module: account_analytic_analysis
-#: code:addons/account_analytic_analysis/account_analytic_analysis.py:669
+#. module: sale_contract
+#: code:addons/sale_contract/models/sale_subscription.py:174
 #, python-format
-msgid "You must first select a Customer for Contract %s!"
+msgid "You must first select a Customer for Subscription %s!"
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "or view"
-msgstr "эсвэл үзэх"
-
-#. module: account_analytic_analysis
-#: model:res.groups,comment:account_analytic_analysis.group_template_required
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
-"the field template of the analytic accounts and contracts will be required."
-msgstr ""
-"үлгэрийн талбар нь шинжилгээний данс болон гэрээнд заавал шаардагдана."
-
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid ""
-"{'required': "
-"[('type','=','contract'),'|','|',('fix_price_invoices','=',True), "
-"('invoice_on_timesheets', '=', True), ('recurring_invoices', '=', True)]}"
+"You will find here the contracts to be renewed because the\n"
+"            end date is passed or the working effort is higher than the\n"
+"            maximum authorized one."
 msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.view_account_analytic_account_template_required
-msgid ""
-"{'required': [('type','=','contract')], 'invisible': [('type','in',['view', "
-"'normal','template'])]}"
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
+msgid "sale.subscription.close.reason"
 msgstr ""
-"{'required': [('type','=','contract')], 'invisible': [('type','in',['view', "
-"'normal','template'])]}"
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "⇒ Invoice"
-msgstr "⇒ Нэхэмжлэл"
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_line
+msgid "sale.subscription.line"
+msgstr ""
 
-#. module: account_analytic_analysis
-#: view:account.analytic.account:account_analytic_analysis.account_analytic_account_form_form
-msgid "⇒ create invoices"
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "subscription Templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "⇒ Generate Invoice"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "⇒ Renewal Quotation"
 msgstr ""

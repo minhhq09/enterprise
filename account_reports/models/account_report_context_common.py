@@ -36,11 +36,10 @@ class AccountReportMulticompanyManager(models.TransientModel):
     _name = 'account.report.multicompany.manager'
     _description = 'manages multicompany for reports'
 
-    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=True)
+    multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=False)
     company_ids = fields.Many2many('res.company', relation='account_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
     available_company_ids = fields.Many2many('res.company', relation='account_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
 
-    @api.depends('create_uid')
     @api.one
     def _get_multi_company(self):
         group_multi_company = self.env['ir.model.data'].xmlid_to_object('base.group_multi_company')
@@ -82,6 +81,7 @@ class AccountReportContextCommon(models.TransientModel):
             'followup_report': 'account.followup.report',
             'bank_reconciliation': 'account.bank.reconciliation.report',
             'general_ledger': 'account.general.ledger',
+            'coa': 'account.coa.report',
             'l10n_be_partner_vat_listing': 'l10n.be.report.partner.vat.listing',
             'l10n_be_partner_vat_intra': 'l10n.be.report.partner.vat.intra',
         }
@@ -93,6 +93,7 @@ class AccountReportContextCommon(models.TransientModel):
             'account.followup.report': 'account.report.context.followup',
             'account.bank.reconciliation.report': 'account.report.context.bank.rec',
             'account.general.ledger': 'account.context.general.ledger',
+            'account.coa.report': 'account.context.coa',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
             'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
         }
@@ -410,6 +411,9 @@ class AccountReportContextCommon(models.TransientModel):
                         given_context[field] = None
                     update[field] = given_context[field]
             self.write(update)
+            if 'force_account' in given_context and (not self.date_from or self.date_from == self.date_to):
+                self.date_from = self.env.user.company_id.compute_fiscalyear_dates(datetime.strptime(self.date_to, "%Y-%m-%d"))['date_from']
+                self.date_filter = 'custom'
         lines = self.get_report_obj().get_lines(self)
         rcontext = {
             'res_company': self.env['res.users'].browse(self.env.uid).company_id,
@@ -521,20 +525,20 @@ class AccountReportContextCommon(models.TransientModel):
         if report_id:
             domain.append(('report_id', '=', int(report_id)))
         context = self.env[context_model].search(domain, limit=1)
-        if context and (given_context.get('force_fy') or given_context.get('force_account') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
+        if context and (given_context.get('force_fy') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
             context.unlink()
             context = self.env[context_model].browse([]) # set it to an empty set to indicate the contexts have been removed
         if not context:
             create_vals = {}
             if report_id:
                 create_vals['report_id'] = report_id
-            if 'force_account' in given_context:
-                create_vals['unfolded_accounts'] = [(4, given_context['active_id'])]
             if 'force_fy' in given_context:
                 create_vals['force_fy'] = True
             if report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'):
                 create_vals['journal_id'] = given_context['active_id']
             context = self.env[context_model].create(create_vals)
+        if 'force_account' in given_context:
+            context.unfolded_accounts = [(6, 0, [given_context['active_id']])]
         return [context_model, context.id]
 
 

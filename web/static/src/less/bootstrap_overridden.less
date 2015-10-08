@@ -61,6 +61,8 @@
 @modal-sm: 300px;
 @modal-md: 650px;
 @modal-lg: 980px;
+@modal-inner-padding: @odoo-horizontal-padding;
+@modal-title-padding: @odoo-horizontal-padding;
 
 //== Navs
 @nav-link-padding: 5px 10px;
@@ -84,22 +86,10 @@
 //== Titles
 @media (max-width: @screen-xs-max) {
     h1 {
-        font-size: max(@font-size-h1 * 3 / 4, @odoo-font-size-base-touch);
+        font-size: @font-size-h1 * 3 / 4;
     }
-    h2 {
-        font-size: max(@font-size-h2 * 3 / 4, @odoo-font-size-base-touch);
-    }
-    h3 {
-        font-size: max(@font-size-h3 * 3 / 4, @odoo-font-size-base-touch);
-    }
-    h4 {
-        font-size: max(@font-size-h4 * 3 / 4, @odoo-font-size-base-touch);
-    }
-    h5 {
-        font-size: max(@font-size-h5 * 3 / 4, @odoo-font-size-base-touch);
-    }
-    h6 {
-        font-size: max(@font-size-h6 * 3 / 4, @odoo-font-size-base-touch);
+    h2, h3, h4, h5, h6 {
+        font-size: @odoo-font-size-base-touch;
     }
 }
 

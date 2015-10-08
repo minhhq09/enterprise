@@ -176,11 +176,12 @@ class account_report_context_followup_all(models.TransientModel):
             'mode': 'display',
             'emails_not_sent': emails_not_sent,
             'context_all': self,
-            'all_partners_done': given_context.get('partner_done') == 'all',
+            'all_partners_done': given_context.get('partner_done') and self.valuenow == self.valuemax,
             'just_arrived': 'partner_done' not in given_context and 'partner_skipped' not in given_context,
             'time': time,
             'today': datetime.today().strftime('%Y-%m-%d'),
             'res_company': self.env.user.company_id,
+            'page': given_context.get('page')
         }
 
     @api.multi
@@ -222,8 +223,17 @@ class account_report_context_followup(models.TransientModel):
     _description = "A particular context for the followup report"
     _inherit = "account.report.context.common"
 
+    @api.depends('partner_id')
+    @api.one
+    def _get_invoice_address(self):
+        if self.partner_id:
+            self.invoice_address_id = self.partner_id.address_get(['invoice'])['invoice']
+        else:
+            self.invoice_address_id = False
+
     footnotes = fields.Many2many('account.report.footnote', 'account_context_footnote_followup', string='Footnotes')
     partner_id = fields.Many2one('res.partner', string='Partner')
+    invoice_address_id = fields.Many2one('res.partner', compute='_get_invoice_address', string='Invoice Address')
     summary = fields.Char(default=lambda s: s.env.user.company_id.overdue_msg and s.env.user.company_id.overdue_msg.replace('\n', '<br />') or s.env['res.company'].default_get(['overdue_msg'])['overdue_msg'])
 
     @api.multi

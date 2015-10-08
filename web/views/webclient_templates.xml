@@ -45,6 +45,8 @@
             <link rel="stylesheet" href="/web/static/src/less/fonts.less"/>
             <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
             <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/mimetypes.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/animation.less"/>
 
             <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
             <link rel="stylesheet" href="/web/static/src/fonts/lato/stylesheet.css" />
@@ -104,9 +106,7 @@
                 odoo._modules = <t t-raw="get_modules_order()"/>;
             </script>
             <!-- <link rel="stylesheet" href="/web/static/src/css/base.css"/> -->
-            <link rel="stylesheet" href="/web/static/src/css/data_export.css"/>
             <link rel="stylesheet" href="/base/static/src/css/modules.css"/>
-            <link rel="stylesheet" href="/web/static/src/css/mimetypes.css"/>
 
             <script type="text/javascript" src="/web/static/lib/py.js/lib/py.js"></script>
 
@@ -169,6 +169,7 @@
             <link rel="stylesheet" href="/web/static/src/less/datepicker.less"/>
             <link rel="stylesheet" href="/web/static/src/less/progress_bar.less"/>
             <link rel="stylesheet" href="/web/static/src/less/dropdown.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/tooltip.less"/>
             <link rel="stylesheet" href="/web/static/src/less/debug_manager.less"/>
             <link rel="stylesheet" href="/web/static/src/less/app_switcher.less"/>
             <link rel="stylesheet" href="/web/static/src/less/app_switcher_layout.less"/>
@@ -183,6 +184,7 @@
             <link rel="stylesheet" href="/web/static/src/less/list_view.less"/>
             <link rel="stylesheet" href="/web/static/src/less/search_view.less"/>
             <link rel="stylesheet" href="/web/static/src/less/modal.less"/>
+            <link rel="stylesheet" href="/web/static/src/less/data_export.less"/>
             <link rel="stylesheet" href="/web/static/src/less/compatibility.less"/>
         </template>
 
@@ -193,7 +195,6 @@
                     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
                     <title>Odoo</title>
                     <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
-                    <link rel="stylesheet" href="/web/static/src/css/full.css" />
                     <t t-raw="head or ''"/>
                 </head>
                 <body t-att-class="body_classname">
@@ -232,6 +233,7 @@
             <t t-call="web.login_layout">
 
                 <form class="oe_login_form" role="form" t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = this.action + location.hash">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
                     <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">
                         <label for="db" class="control-label">Database</label>
@@ -334,6 +336,13 @@
             <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
 
             <t t-call-assets="web.assets_common"/>
+            <script type="text/javascript">
+                odoo.define('web.csrf', function (require) {
+                    var token = "<t t-esc="request.csrf_token(None)"/>";
+                    require('web.core').csrf_token = token;
+                    require('qweb').default_dict.csrf_token = token;
+                });
+            </script>
             <t t-call-assets="web.assets_backend"/>
 
             <![CDATA[

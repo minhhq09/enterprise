@@ -11,6 +11,9 @@ from StringIO import StringIO
 from xml.sax.saxutils import escape
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
+# eBay api limits ItemRevise calls to 150 per day 
+MAX_REVISE_CALLS = 150
+
 
 class product_template(models.Model):
     _inherit = "product.template"
@@ -23,14 +26,17 @@ class product_template(models.Model):
         help='The title is restricted to 80 characters')
     ebay_subtitle = fields.Char('Subtitle', size=55,
         help='The subtitle is restricted to 55 characters. Fees can be claimed by eBay for this feature')
-    ebay_description = fields.Text('Description')
+    ebay_description = fields.Html('Description')
     ebay_item_condition_id = fields.Many2one('ebay.item.condition', string="Item Condition")
     ebay_category_id = fields.Many2one('ebay.category',
         string="Category", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)])
+    ebay_category_2_id = fields.Many2one('ebay.category',
+        string="Category 2 (Optional)", domain=[('category_type', '=', 'ebay'),('leaf_category','=',True)],
+        help="The use of a secondary category is not allowed on every eBay sites. Fees can be claimed by eBay for this feature")
     ebay_store_category_id = fields.Many2one('ebay.category',
-        string="Store Category", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_store_category_2_id = fields.Many2one('ebay.category',
-        string="Store Category 2", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
+        string="Store Category 2 (Optional)", domain=[('category_type', '=', 'store'),('leaf_category','=',True)])
     ebay_price = fields.Float(string='Starting Price for Auction')
     ebay_buy_it_now_price = fields.Float(string='Buy It Now Price')
     ebay_listing_type = fields.Selection([
@@ -50,13 +56,21 @@ class product_template(models.Model):
         string="Return Policy", domain=[('policy_type', '=', 'RETURN_POLICY')])
     ebay_seller_shipping_policy_id = fields.Many2one('ebay.policy',
         string="Shipping Policy", domain=[('policy_type', '=', 'SHIPPING')])
-    ebay_sync_stock = fields.Boolean(string="Use The Stock's Quantity", default=False)
+    ebay_sync_stock = fields.Boolean(string="Use Stock Quantity", default=False)
     ebay_best_offer = fields.Boolean(string="Allow Best Offer", default=False)
     ebay_private_listing = fields.Boolean(string="Private Listing", default=False)
     ebay_start_date = fields.Datetime('Start Date', readonly=1)
     ebay_quantity_sold = fields.Integer(related='product_variant_ids.ebay_quantity_sold', store=True)
     ebay_fixed_price = fields.Float(related='product_variant_ids.ebay_fixed_price', store=True)
     ebay_quantity = fields.Integer(related='product_variant_ids.ebay_quantity', store=True)
+    ebay_last_sync = fields.Datetime(string="Last update")
+    ebay_template_id = fields.Many2one('mail.template', string='Description Template',
+        ondelete='set null',
+        help='This field contains the template that will be used.')
+
+    _defaults = {
+        'date': fields.Datetime.now()
+    }
 
     @api.multi
     def _prepare_item_dict(self):
@@ -66,11 +80,14 @@ class product_template(models.Model):
         country = self.env['res.country'].browse(int(country_id))
         currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
         currency = self.env['res.currency'].browse(int(currency_id))
+        comp_currency = self.env.user.company_id.currency_id
         item = {
             "Item": {
                 "Title": self._ebay_encode(self.ebay_title),
                 "PrimaryCategory": {"CategoryID": self.ebay_category_id.category_id},
-                "StartPrice": self.ebay_price if self.ebay_listing_type == 'Chinese' else self.ebay_fixed_price,
+                "StartPrice": comp_currency.compute(self.ebay_price, currency)
+                if self.ebay_listing_type == 'Chinese'
+                else comp_currency.compute(self.ebay_fixed_price, currency),
                 "CategoryMappingAllowed": "true",
                 "Country": country.code,
                 "Currency": currency.name,
@@ -95,17 +112,18 @@ class product_template(models.Model):
                 },
             }
         }
-        if self.ebay_description and '<html>' in self.ebay_description:
-            item['Item']['Description'] = '<![CDATA['+self.ebay_description+']]>'
-        else:
-            item['Item']['Description'] = self._ebay_encode(self.ebay_description)
+        if self.ebay_description and self.ebay_template_id:
+            description = self.ebay_template_id.render_template(self.ebay_template_id.body_html, 'product.template', self.id)
+            item['Item']['Description'] = '<![CDATA['+description+']]>'
         if self.ebay_subtitle:
             item['Item']['SubTitle'] = self._ebay_encode(self.ebay_subtitle)
         picture_urls = self._create_picture_url()
         if picture_urls:
             item['Item']['PictureDetails'] = {'PictureURL': picture_urls}
+            if self.env['ir.config_parameter'].get_param('ebay_gallery_plus'):
+                item['Item']['PictureDetails']['GalleryType'] = 'Plus'
         if self.ebay_listing_type == 'Chinese' and self.ebay_buy_it_now_price:
-            item['Item']['BuyItNowPrice'] = self.ebay_buy_it_now_price
+            item['Item']['BuyItNowPrice'] = comp_currency.compute(self.ebay_buy_it_now_price, currency)
         NameValueList = []
         variant = self.product_variant_ids.filtered('ebay_use')
         # If only one variant selected to be published, we don't create variant
@@ -117,6 +135,8 @@ class product_template(models.Model):
                     'Name': self._ebay_encode(spec.attribute_id.name),
                     'Value': self._ebay_encode(spec.name),
                 })
+            if self.ebay_sync_stock:
+                variant.ebay_quantity = max(int(variant.virtual_available), 0)
             item['Item']['Quantity'] = variant.ebay_quantity
             item['Item']['StartPrice'] = variant.ebay_fixed_price
         # If one attribute has only one value, we don't create variant
@@ -128,16 +148,24 @@ class product_template(models.Model):
                         'Name': self._ebay_encode(attribute.attribute_id.name),
                         'Value': self._ebay_encode(attribute.value_ids.name),
                     })
+
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
+        if self.ebay_category_2_id:
+            item['Item']['SecondaryCategory'] = {'CategoryID': self.ebay_category_2_id.category_id}
         if self.ebay_store_category_id:
             item['Item']['Storefront'] = {
-                'StoreCategoryID': self.ebay_store_category_id.id,
+                'StoreCategoryID': self.ebay_store_category_id.category_id,
                 'StoreCategoryName': self._ebay_encode(self.ebay_store_category_id.name),
             }
             if self.ebay_store_category_2_id:
-                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.id
+                item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        if self.barcode:
+            if len(self.barcode) == 12:
+                item['Item']['ProductListingDetails'] = {'UPC': self.barcode}
+            elif len(self.barcode) == 13:
+                item['Item']['ProductListingDetails'] = {'EAN': self.barcode}
         return item
 
     @api.model
@@ -148,38 +176,47 @@ class product_template(models.Model):
     def _prepare_variant_dict(self):
         if not self.product_variant_ids.filtered('ebay_use'):
             raise UserError(_('No Variant Set To Be Published On eBay'))
+        currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
+        currency = self.env['res.currency'].browse(int(currency_id))
+        comp_currency = self.env.user.company_id.currency_id
         items = self._prepare_item_dict()
         items['Item']['Variations'] = {'Variation': []}
         variations = items['Item']['Variations']['Variation']
-        possible_name_values = []
-        # example of a valid name value list array
-        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
-        for variant in self.product_variant_ids.filtered('ebay_use'):
+
+        name_values = {}
+        for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
-                variant.ebay_quantity = int(variant.virtual_available)
+                variant.ebay_quantity = max(int(variant.virtual_available), 0)
             if not variant.ebay_quantity and\
                not self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                 raise UserError(_('All the quantities must be greater than 0 or you need to enable the Out Of Stock option.'))
             variant_name_values = []
             for spec in variant.attribute_value_ids:
-                if len(spec.attribute_id.value_ids) > 1:
-                    if not filter(
-                        lambda x:
-                        x['Name'] == self._ebay_encode(spec.attribute_id.name),
-                            possible_name_values):
-                        possible_name_values.append({
-                            'Name': self._ebay_encode(spec.attribute_id.name),
-                            'Value': [self._ebay_encode(n) for n in spec.attribute_id.value_ids.mapped('name')],
-                        })
+                attr_line = self.attribute_line_ids.filtered(
+                    lambda l: l.attribute_id.id == spec.attribute_id.id)
+                if len(attr_line.value_ids) > 1:
+                    if spec.attribute_id.name not in name_values:
+                        name_values[spec.attribute_id.name] = []
+                    if spec.name not in name_values[spec.attribute_id.name]:
+                        name_values[spec.attribute_id.name].append(spec.name)
                     variant_name_values.append({
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
                         })
             variations.append({
                 'Quantity': variant.ebay_quantity,
-                'StartPrice': variant.ebay_fixed_price,
+                'StartPrice': comp_currency.compute(variant.ebay_fixed_price, currency),
                 'VariationSpecifics': {'NameValueList': variant_name_values},
+                'Delete': False if variant.ebay_use else True,
                 })
+        # example of a valid name value list array
+        # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
+        possible_name_values = []
+        for key in name_values:
+            possible_name_values.append({
+                'Name': self._ebay_encode(key),
+                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+            })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
         }
@@ -254,8 +291,11 @@ class product_template(models.Model):
 
     @api.multi
     def _create_picture_url(self):
-        attachments = self.env['ir.attachment'].search([('res_model', '=', 'product.template'),
-                                                        ('res_id', '=', self.id)])
+        attachments = self.env['ir.attachment'].search([
+            ('res_model', '=', 'product.template'),
+            ('res_id', '=', self.id)
+        ], order="create_date")
+
         urls = []
         for att in attachments:
             image = StringIO(base64.standard_b64decode(att["datas"]))
@@ -271,21 +311,23 @@ class product_template(models.Model):
     @api.one
     def _update_ebay_data(self, response):
         domain = self.env['ir.config_parameter'].get_param('ebay_domain')
-        response_url = self.ebay_execute('GetItem', {'ItemID': response['ItemID']})
+        item = self.ebay_execute('GetItem', {'ItemID': response['ItemID']}).dict()
+        qty = int(item['Item']['Quantity']) - int(item['Item']['SellingStatus']['QuantitySold'])
         self.write({
-            'ebay_listing_status': 'Active',
+            'ebay_listing_status': 'Active' if qty > 0 else 'Out Of Stock',
             'ebay_id': response['ItemID'],
-            'ebay_url': response_url.dict()['Item']['ListingDetails']['ViewItemURL'],
+            'ebay_url': item['Item']['ListingDetails']['ViewItemURL'],
             'ebay_start_date': datetime.strptime(response['StartTime'].split('.')[0], '%Y-%m-%dT%H:%M:%S')
         })
 
     @api.one
     def push_product_ebay(self):
-        item_dict = self._get_item_dict()
-        response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
-                                     else 'AddFixedPriceItem', item_dict)
-        self._set_variant_url(response.dict()['ItemID'])
-        self._update_ebay_data(response.dict())
+        if self.ebay_listing_status != 'Active':
+            item_dict = self._get_item_dict()
+            response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
+                                         else 'AddFixedPriceItem', item_dict)
+            self._set_variant_url(response.dict()['ItemID'])
+            self._update_ebay_data(response.dict())
 
     @api.one
     def end_listing_product_ebay(self):
@@ -312,13 +354,19 @@ class product_template(models.Model):
         item_dict['Item']['ItemID'] = self.ebay_id
         if not self.ebay_subtitle:
             item_dict['DeletedField'] = 'Item.SubTitle'
+
         response = self.ebay_execute('ReviseItem' if self.ebay_listing_type == 'Chinese'
                                      else 'ReviseFixedPriceItem', item_dict)
         self._set_variant_url(response.dict()['ItemID'])
         self._update_ebay_data(response.dict())
 
     @api.model
-    def _sync_recent_product_status(self, page_number=1):
+    def sync_product_status(self, sync_big_stocks=False):
+        self._sync_recent_product_status(1, sync_big_stocks=sync_big_stocks)
+        self._sync_old_product_status(sync_big_stocks=sync_big_stocks)
+
+    @api.model
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -330,16 +378,26 @@ class product_template(models.Model):
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
-            product = self.search([('ebay_id', '=', item['ItemID'])])
+            domain = [
+                ('ebay_id', '=', item['ItemID']),
+                ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+            ]
+            product = self.search(domain)
             if product:
                 product._sync_transaction(item)
         if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
             self._sync_product_status(page_number + 1)
 
     @api.model
-    def _sync_old_product_status(self):
+    def _sync_old_product_status(self, sync_big_stocks=False):
         date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
-        products = self.search([('ebay_start_date', '<', date), ('ebay_listing_status', '=', 'Active')])
+        domain = [
+            ('ebay_use', '=', True),
+            ('ebay_start_date', '<', date),
+            ('ebay_listing_status', '=', 'Active'),
+            ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+        ]
+        products = self.search(domain)
         for product in products:
             response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
             product._sync_transaction(response.dict()['Item'])
@@ -350,8 +408,17 @@ class product_template(models.Model):
         if self.ebay_listing_status != 'Ended'\
            and self.ebay_listing_status != 'Out Of Stock':
             self.ebay_listing_status = item['SellingStatus']['ListingStatus']
+            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock') and\
+               self.ebay_listing_status == 'Ended':
+                self.ebay_listing_status = 'Out Of Stock'
             if int(item['SellingStatus']['QuantitySold']) > 0:
-                resp = self.ebay_execute('GetItemTransactions', {'ItemID': item['ItemID']}).dict()
+                call_data = {
+                    'ItemID': item['ItemID'],
+                }
+                if self.ebay_last_sync:
+                    call_data['ModTimeFrom'] = str(self.ebay_last_sync)
+                    self.ebay_last_sync = datetime.now()
+                resp = self.ebay_execute('GetItemTransactions', call_data).dict()
                 if 'TransactionArray' in resp:
                     transactions = resp['TransactionArray']['Transaction']
                     if not isinstance(transactions, list):
@@ -368,33 +435,52 @@ class product_template(models.Model):
             partner = self.env['res.partner'].search([
                 ('email', '=', transaction['Buyer']['Email'])])
             if not partner:
-                partner_data = {
-                    'name': transaction['Buyer']['UserID'],
-                    'ebay_id': transaction['Buyer']['UserID'],
-                    'email': transaction['Buyer']['Email'],
-                    'ref': 'eBay',
-                }
-                if 'BuyerInfo' in transaction['Buyer'] and\
-                   'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
-                    infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
-                    partner_data['name'] = infos.get('Name')
-                    partner_data['street'] = infos.get('Street1')
-                    partner_data['city'] = infos.get('CityName')
-                    partner_data['zip'] = infos.get('PostalCode')
-                    partner_data['phone'] = infos.get('Phone')
-                    partner_data['country_id'] = self.env['res.country'].search([
-                        ('code', '=', infos['Country'])
-                    ]).id
-                    partner_data['state_id'] = self.env['res.country.state'].search([
-                        ('name', '=', infos.get('StateOrProvince')),
-                        ('country_id', '=', partner_data['country_id'])
-                    ]).id
-                partner = self.env['res.partner'].create(partner_data)
-            if self.product_variant_count > 1 and 'Variation' in transaction:
-                variant = self.product_variant_ids.filtered(lambda l:
-                    l.ebay_use and
-                    l.ebay_variant_url.split("vti", 1)[1] ==
-                    transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+                partner = self.env['res.partner'].create({'name': transaction['Buyer']['UserID']})
+            partner_data = {
+                'name': transaction['Buyer']['UserID'],
+                'ebay_id': transaction['Buyer']['UserID'],
+                'email': transaction['Buyer']['Email'],
+                'ref': 'eBay',
+            }
+            if 'BuyerInfo' in transaction['Buyer'] and\
+               'ShippingAddress' in transaction['Buyer']['BuyerInfo']:
+                infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
+                partner_data['name'] = infos.get('Name')
+                partner_data['street'] = infos.get('Street1')
+                partner_data['city'] = infos.get('CityName')
+                partner_data['zip'] = infos.get('PostalCode')
+                partner_data['phone'] = infos.get('Phone')
+                partner_data['country_id'] = self.env['res.country'].search([
+                    ('code', '=', infos['Country'])
+                ]).id
+                partner_data['state_id'] = self.env['res.country.state'].search([
+                    ('name', '=', infos.get('StateOrProvince')),
+                    ('country_id', '=', partner_data['country_id'])
+                ]).id
+            partner.write(partner_data)
+            if self.product_variant_count > 1:
+                if 'Variation' in transaction:
+                    variant = self.product_variant_ids.filtered(
+                        lambda l:
+                        l.ebay_use and
+                        l.ebay_variant_url.split("vti", 1)[1] ==
+                        transaction['Variation']['VariationViewItemURL'].split("vti", 1)[1])
+                # If multiple variants but only one listed on eBay as Item Specific
+                else:
+                    call_data = {'ItemID': self.ebay_id, 'IncludeItemSpecifics': True}
+                    resp = self.ebay_execute('GetItem', call_data)
+                    name_value_list = resp.dict()['Item']['ItemSpecifics']['NameValueList']
+                    if not isinstance(name_value_list, list):
+                        name_value_list = [name_value_list]
+                    # get only the item specific in the value list
+                    specs = filter(lambda n: n['Source'] == 'ItemSpecific', name_value_list)
+                    attrs = []
+                    # get the attribute.value ids in order to get the variant listed on ebay
+                    for spec in specs:
+                        attr = self.env['product.attribute.value'].search([('name', '=', spec['Value'])])
+                        attrs.append(('attribute_value_ids', '=', attr.id))
+                    variant = self.env['product.product'].search(attrs).filtered(
+                        lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
             if not self.ebay_sync_stock:
@@ -407,7 +493,8 @@ class product_template(models.Model):
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
-                'client_order_ref': transaction['OrderLineItemID']
+                'client_order_ref': transaction['OrderLineItemID'],
+                'origin': 'eBay' + transaction['TransactionID'],
             })
             if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
                 sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
@@ -419,26 +506,52 @@ class product_template(models.Model):
                 'order_id': sale_order.id,
                 'name': self.name,
                 'product_uom_qty': float(transaction['QuantityPurchased']),
+                'product_uom': variant.uom_id.id,
                 'price_unit': currency.compute(
                     float(transaction['TransactionPrice']['value']),
                     self.env.user.company_id.currency_id),
             })
+            # create a sale order line if a shipping service is selected
             if 'ShippingServiceSelected' in transaction:
+                company_id = self.env.user.company_id
+                ir_values = self.env['ir.values']
+                taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
+                shipping_name = transaction['ShippingServiceSelected']['ShippingService']
+                shipping_product = self.env['product.template'].search([('name', '=', shipping_name)])
+                if not shipping_product:
+                    shipping_product = self.env['product.template'].create({
+                        'name': shipping_name,
+                        'uom_id': self.env.ref('product.product_uom_unit').id,
+                        'type': 'service',
+                        'categ_id': self.env.ref('sale_ebay.product_category_ebay').id,
+                    })
                 self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
-                    'name': transaction['ShippingServiceSelected']['ShippingService'],
+                    'name': shipping_name,
+                    'product_id': shipping_product.product_variant_ids[0].id,
                     'product_uom_qty': 1,
+                    'product_uom': self.env.ref('product.product_uom_unit').id,
                     'price_unit': currency.compute(
-                        float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
-                        self.env.user.company_id.currency_id)
-                    })
-            sale_order.action_button_confirm()
+                            float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
+                            company_id.currency_id),
+                    'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
+                })
+
+            sale_order.action_confirm()
             if 'BuyerCheckoutMessage' in transaction:
-                sale_order.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
-                sale_order.picking_ids.message_post(_('The Buyer posted :\n') + transaction['BuyerCheckoutMessage'])
+                sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
+                sale_order.picking_ids.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
+            if 'ShippingServiceSelected' in transaction:
+                sale_order.picking_ids.message_post(
+                    _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
             invoice_id = sale_order.action_invoice_create()
             invoice = self.env['account.invoice'].browse(invoice_id)
-            invoice.invoice_validate()
+            # set the default account for the shipping
+            if 'ShippingServiceSelected' in transaction:
+                lines_ids = map(lambda i: i.id, invoice.invoice_line_ids)
+                line = self.env['account.invoice.line'].search([
+                    ('id', 'in', lines_ids), ('name', '=', shipping_name)])
+            invoice.signal_workflow('invoice_open')
 
     @api.one
     def sync_available_qty(self):
@@ -446,12 +559,15 @@ class product_template(models.Model):
             if self.ebay_listing_status == 'Active':
                 # The product is Active on eBay but there is no more stock
                 if self.virtual_available <= 0:
-                    # If the Out Of Stock option is enabled only need to revise the quantity
-                    if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
-                        self.revise_product_ebay()
-                    else:
-                        self.end_listing_product_ebay()
-                    self.ebay_listing_status = 'Out Of Stock'
+                    # Only revise product if there is a change of quantity
+                    if self.ebay_quantity != self.virtual_available:
+                        # If the Out Of Stock option is enabled only need to revise the quantity
+                        if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
+                            self.revise_product_ebay()
+                            self.ebay_listing_status = 'Out Of Stock'
+                        else:
+                            self.end_listing_product_ebay()
+                            self.ebay_listing_status = 'Ended'
                 # The product is Active on eBay and there is some stock
                 # Check if the quantity in Odoo is different than the one on eBay
                 # If it is the case revise the quantity
@@ -463,11 +579,11 @@ class product_template(models.Model):
                                 break
                     else:
                         if self.ebay_quantity != self.virtual_available:
-                            self.revise_product_ebay
+                            self.revise_product_ebay()
             elif self.ebay_listing_status == 'Out Of Stock':
                 # The product is Out Of Stock on eBay but there is stock in Odoo
                 # If the Out Of Stock option is enabled then only revise the product
-                if self.virtual_available > 0:
+                if self.virtual_available > 0 and self.ebay_quantity != self.virtual_available:
                     if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                         self.revise_product_ebay()
                     else:

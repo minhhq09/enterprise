@@ -114,9 +114,17 @@
 .o_list_editable {
     position: relative;
 
+    .o_temp_visible {
+        opacity: 0;
+        display: block!important;
+    }
+
     .o_list_view {
         .o_row_edition > td {
             visibility: hidden;  // Hide row's content during edition
+            &.o_list_record_selector, &.o_list_record_delete {
+                visibility: visible;
+            }
         }
     }
 
@@ -133,6 +141,7 @@
                 display: block;
                 float: left;
                 white-space: normal;
+                max-width: 100%; // Fix a chrome bug where badge would not break on multiple lines
             }
             background-color: @odoo-view-background-color;
         }
@@ -147,7 +156,13 @@
         .o_form_input, .o_form_textarea, .o_form_field_many2manytags, .o_form_field_monetary {
             border-style: solid;
         }
-
+        .o_form_field_monetary .o_form_input {
+            width: 0;
+        }
+        .o_checkbox {
+            padding: 7px 0 0 5px;
+            background: transparent;
+        }
         .o_form_textarea {
             min-width: 0;
         }

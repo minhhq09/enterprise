@@ -815,7 +815,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
      */
     get_active_domain: function () {
         var self = this;
-        if (this.$('thead .o_list_record_selector').prop('checked')) {
+        if (this.$('thead .o_list_record_selector input').prop('checked')) {
             var search_view = this.getParent().searchview;
             var search_data = search_view.build_search_data();
             return pyeval.eval_domains_and_contexts({
@@ -953,7 +953,9 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
                     $row = self.$current.children(
                         '[data-id=' + record.get('id') + ']');
                 }
-                $row.replaceWith(self.render_record(record));
+                var $newRow = $(self.render_record(record));
+                $newRow.find('.o_list_record_selector input').prop('checked', !!$row.find('.o_list_record_selector input').prop('checked'));
+                $row.replaceWith($newRow);
             },
             'add': function (ev, records, record, index) {
                 var $new_row = $(self.render_record(record));
@@ -1116,10 +1118,10 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
     render: function () {
         var self = this;
         this.$current.html(
-            QWeb.render('ListView.rows', _.extend({
+            QWeb.render('ListView.rows', _.extend({}, this, {
                     render_cell: function () {
                         return self.render_cell.apply(self, arguments); }
-                }, this)));
+                })));
         this.pad_table_to(4);
     },
     pad_table_to: function (count) {
@@ -1537,32 +1539,34 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
                     return;
                 }
 
-                list.records.remove(to_move);
+                list.records.remove(to_move, {silent: true});
                 var to = target_id ? list.records.indexOf(target) + 1 : 0;
-                list.records.add(to_move, { at: to });
+                list.records.add(to_move, { at: to, silent: true });
 
                 // resequencing time!
                 var record, index = to,
                     // if drag to 1st row (to = 0), start sequencing from 0
                     // (exclusive lower bound)
                     seq = to ? list.records.at(to - 1).get(seqname) : 0;
+                var defs = [];
                 var fct = function (dataset, id, seq) {
-                    $.async_when().done(function () {
+                    defs.push($.async_when().then(function () {
                         var attrs = {};
                         attrs[seqname] = seq;
-                        dataset.write(id, attrs);
-                    });
+                        return dataset.write(id, attrs, {internal_dataset_changed: true});
+                    }));
                 };
                 while (++seq, (record = list.records.at(index++))) {
                     // write are independent from one another, so we can just
                     // launch them all at the same time and we don't really
                     // give a fig about when they're done
-                    // FIXME: breaks on o2ms (e.g. Accounting > Financial
-                    //        Accounting > Taxes > Taxes, child tax accounts)
-                    //        when synchronous (without setTimeout)
                     fct(dataset, record.get('id'), seq);
                     record.set(seqname, seq);
                 }
+                $.when.apply($, defs).then(function () {
+                    // use internal_dataset_changed and trigger one onchange after all writes
+                    dataset.trigger("dataset_changed");
+                });
             }
         });
     },
@@ -1749,6 +1753,10 @@ var Column = Class.extend({
         C.prototype = this;
         return new C(aggregation_func, this[aggregation_func]);
     },
+    heading: function () {
+        return _.escape(this.string);
+    },
+    width: function () {},
     /**
      *
      * @param row_data record whose values should be displayed in the cell
@@ -1772,7 +1780,8 @@ var Column = Class.extend({
                     ? ''
                     : options.value_if_empty;
         }
-        return this._format(row_data, options);
+        var f = this._format(row_data, options);
+        return (f !== '')? f : '&nbsp;';
     },
     /**
      * Method to override in order to provide alternative HTML content for the
@@ -1905,6 +1914,10 @@ var ColumnHandle = Column.extend({
         this.modifiers.readonly = true;
         this.string = ""; // Don't display the column header
     },
+    heading: function () {
+        return '<span class="o_row_handle fa fa-arrows invisible"></span>';
+    },
+    width: function () { return 1; },
     /**
      * Return styling hooks for a drag handle
      *

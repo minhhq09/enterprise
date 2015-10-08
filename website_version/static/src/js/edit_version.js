@@ -74,16 +74,13 @@ editor.Class.include({
             else{
                 self.$el.find(".o_first_choice").before(qweb.render("website_version.all_options", {version:'Save and Publish'}));
             }
-
         });
-
-        this.$('button[data-action=save]').parent().find("button, a").prop('disabled', true);
 
         return this._super();
     },
     rte_changed: function () {
-        this.$('button[data-action=save]').parent().find("button, a").prop('disabled', false);
-        return this._super();
+        this._super();
+        this.$('button[data-action=save]').parent().find("button, a").prop('disabled', !$('.o_dirty').length);
     },
 });
 

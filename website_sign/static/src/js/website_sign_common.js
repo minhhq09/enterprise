@@ -53,6 +53,7 @@ odoo.define('website_sign.PDFIframe', function(require) {
 
         waitForPDF: function() {
             if(this.$iframe.contents().find('#errorMessage').is(":visible")) {
+                this.fullyLoaded.resolve();
                 return Dialog.alert(this, _t("Need a valid PDF to add signature fields !"));
             }
 

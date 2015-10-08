@@ -5,12 +5,19 @@ var core = require('web.core');
 var FormViewBarcodeHandler = require('barcodes.FormViewBarcodeHandler');
 
 var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
+    init: function(parent, context) {
+        this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode
+        return this._super.apply(this, arguments);
+    },
+
     start: function() {
         this._super();
         this.map_barcode_method['O-CMD.MAIN-MENU'] = _.bind(this.do_action, this, 'stock_barcode.stock_barcode_action_main_menu', {clear_breadcrumbs: true});
         // FIXME: start is not a reliable place to do this.
-        this.form_view.options.initial_mode = 'edit';
         this.form_view.options.disable_autofocus = 'true';
+        if (this.form_view_initial_mode) {
+            this.form_view.options.initial_mode = this.form_view_initial_mode;
+        }
     },
 
     pre_onchange_hook: function(barcode) {
@@ -26,11 +33,12 @@ var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
             });
         }
         if (record) {
-            return field.data_update(record.get('id'), {'product_qty': record.get('product_qty') + 1}).then(function () {
-                return view.controller.reload_record(record);
+            field.data_update(record.get('id'), {'product_qty': record.get('product_qty') + 1}).then(function () {
+                view.controller.reload_record(record);
             });
+            return $.Deferred().resolve(false);
         } else {
-            return false;
+            return $.Deferred().resolve(true);
         }
     },
 });

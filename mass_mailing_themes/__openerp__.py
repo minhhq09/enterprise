@@ -5,7 +5,7 @@
     'name': 'Mass Mailing Themes',
     'summary': 'Design gorgeous mails with 8 high quality themes',
     'description': """
-Design gorgeous mails with 7 high quality themes
+Design gorgeous mails with 8 high quality themes
     """,
     'version': '1.0',
     'sequence': 110,
@@ -30,6 +30,5 @@ Design gorgeous mails with 7 high quality themes
     ],
     'installable': True,
     'auto_install': True,
-    'application': True,
     'license': 'OEEL-1',
 }

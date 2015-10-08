@@ -11,6 +11,10 @@ from fedex_request import FedexRequest
 _logger = logging.getLogger(__name__)
 
 
+# List of currencies that seems to be unaccepted by Fedex when declaring customs values
+FEDEX_CURRENCY_BLACKLIST = ['AED']
+
+
 class ProviderFedex(models.Model):
     _inherit = 'delivery.carrier'
 
@@ -27,6 +31,7 @@ class ProviderFedex(models.Model):
                                             ('REGULAR_PICKUP', 'REGULAR_PICKUP'),
                                             ('REQUEST_COURIER', 'REQUEST_COURIER'),
                                             ('STATION', 'STATION')],
+                                           string="Fedex drop-off type",
                                            default='REGULAR_PICKUP')
     fedex_packaging_type = fields.Selection([('FEDEX_BOX', 'FEDEX_BOX'),
                                              ('FEDEX_10KG_BOX', 'FEDEX_10KG_BOX'),
@@ -89,7 +94,7 @@ class ProviderFedex(models.Model):
 
             warnings = request.get('warnings_message')
             if warnings:
-                _logger.warn(warnings)
+                _logger.info(warnings)
 
             if not request.get('errors_message'):
                 if order_currency.name in request['price']:
@@ -126,27 +131,32 @@ class ProviderFedex(models.Model):
 
             srm.shipment_label('COMMON2D', 'PDF', self.fedex_label_stock_type, 'TOP_EDGE_OF_TEXT_FIRST', 'SHIPPING_LABEL_FIRST')
 
-            # dirty hack to get the currency of the originating SO
-            order_currency = picking.move_lines[0].procurement_id.sale_line_id.order_id.currency_id or picking.company_id.currency_id
+            order_currency = picking.sale_id.currency_id or picking.company_id.currency_id
 
             net_weight = _convert_weight(picking.weight, self.fedex_weight_unit)
 
             # Commodities for customs declaration (international shipping)
             if self.fedex_service_type in ['INTERNATIONAL_ECONOMY', 'INTERNATIONAL_PRIORITY']:
+
+                # Fedex does not accept some currencies, so we have to force conversion
+                commodity_currency = order_currency
+                if order_currency.name in FEDEX_CURRENCY_BLACKLIST:
+                    commodity_currency = self.env.ref('base.USD')
+
                 total_commodities_amount = 0.0
+                commodity_country_of_manufacture = picking.picking_type_id.warehouse_id.partner_id.country_id.code
+
                 for operation in picking.pack_operation_ids:
-                    total_commodities_amount += (operation.product_id.list_price * operation.product_qty)
-                    commodity_currency = order_currency.name
+                    commodity_amount = order_currency.compute(operation.product_id.list_price, commodity_currency)
+                    total_commodities_amount += (commodity_amount * operation.product_qty)
                     commodity_description = operation.product_id.name
-                    commodity_amount = operation.product_id.list_price
                     commodity_number_of_piece = '1'
                     commodity_weight_units = self.fedex_weight_unit
                     commodity_weight_value = _convert_weight(operation.product_id.weight * operation.product_qty, self.fedex_weight_unit)
-                    commodity_country_of_manufacture = picking.picking_type_id.warehouse_id.partner_id.country_id.code
                     commodity_quantity = operation.product_qty
                     commodity_quantity_units = 'EA'
-                    srm.commodities(commodity_currency, commodity_amount, commodity_number_of_piece, commodity_weight_units, commodity_weight_value, commodity_description, commodity_country_of_manufacture, commodity_quantity, commodity_quantity_units)
-                srm.customs_value(order_currency.name, total_commodities_amount, "NON_DOCUMENTS")
+                    srm.commodities(commodity_currency.name, commodity_amount, commodity_number_of_piece, commodity_weight_units, commodity_weight_value, commodity_description, commodity_country_of_manufacture, commodity_quantity, commodity_quantity_units)
+                srm.customs_value(commodity_currency.name, total_commodities_amount, "NON_DOCUMENTS")
                 srm.duties_payment(picking.picking_type_id.warehouse_id.partner_id.country_id.code, self.fedex_account_number)
 
             package_count = len(picking.pack_operation_ids) or 1
@@ -180,7 +190,7 @@ class ProviderFedex(models.Model):
 
                     warnings = request.get('warnings_message')
                     if warnings:
-                        _logger.warn(warnings)
+                        _logger.info(warnings)
 
                     # First package
                     if sequence == 1:
@@ -241,7 +251,7 @@ class ProviderFedex(models.Model):
 
                 warnings = request.get('warnings_message')
                 if warnings:
-                    _logger.warn(warnings)
+                    _logger.info(warnings)
 
                 if not request.get('errors_message'):
 
@@ -290,7 +300,7 @@ class ProviderFedex(models.Model):
 
         warnings = result.get('warnings_message')
         if warnings:
-            _logger.warn(warnings)
+            _logger.info(warnings)
 
         if result.get('delete_success') and not result.get('errors_message'):
             picking.message_post(body=_(u'Shipment N° %s has been cancelled' % picking.carrier_tracking_ref))

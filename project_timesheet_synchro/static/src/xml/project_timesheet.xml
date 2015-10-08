@@ -47,14 +47,11 @@
         <div class="pt_nav shadow-z-1">
             <div t-att-class="'pt_toggle ' + _toggle_action">
                 <a href="#" t-att-class="'fa fa-' + _toggle_icon "></a>
-            </div>
-            <div class="pt_title">
+            </div><div class="pt_title">
                 <a href="#"><t t-esc="_title"/></a>
-            </div>
-            <div class="pt_nav_sync">
+            </div><div class="pt_nav_sync">
                 <a class="fa fa-spin fa-refresh" title="Sync in progress"/>
-            </div>
-            <div t-att-class="'pt_action ' + _action">
+            </div><div t-att-class="'pt_action ' + _action">
                 <a t-att-class="'fa fa-' + _action_icon" href="#"></a>
             </div>
         </div>
@@ -100,12 +97,13 @@
                                         <td class="pt_plus_or_minus pt_quick_subtract_time" t-att-data-activity_id="aal.id">
                                             <span class="fa fa-minus"/>
                                         </td>
-                                        <td class="pt_duration" t-att-data-activity_id="aal.id">
+                                        <t t-set="flag_is_current_activity" t-value="widget.current_activity &amp;&amp; widget.current_activity.id == aal.id"/>
+                                        <td t-att-class="flag_is_current_activity ? 'pt_duration pt_btn_interrupt_activity' : 'pt_duration'" t-att-data-activity_id="aal.id">
                                             <div class="pt_duration_time">
-                                                <t t-if="widget.current_activity &amp;&amp; widget.current_activity.id == aal.id">
+                                                <t t-if="flag_is_current_activity">
                                                     <i class="fa fa-play"/>
                                                 </t>
-                                                <t t-if="!(widget.current_activity &amp;&amp; widget.current_activity.id == aal.id)">
+                                                <t t-if="!flag_is_current_activity">
                                                     <t t-if="aal.unit_amount">
                                                         <t t-esc="widget.unit_amount_to_hours_minutes(aal.unit_amount)"/>
                                                     </t>
@@ -173,10 +171,14 @@
                             </a>
                         </t>
                         <t t-if="!widget.current_activity &amp;&amp; widget.timer_on">
-                            <a href="#" class="btn btn-primary pt_btn_stop_timer fa fa-stop">&amp;emsp;Stop </a>
+                            <a href="#" class="btn btn-primary pt_btn_stop_timer">
+                                <span class="fa fa-stop"/>&amp;emsp;Stop
+                            </a>
                         </t>
                         <t t-if="widget.current_activity &amp;&amp; widget.timer_on">
-                            <a href="#" class="btn btn-primary pt_btn_interrupt_activity fa fa-stop">&amp;emsp;Stop </a>
+                            <a href="#" class="btn btn-primary pt_btn_interrupt_activity">
+                                <span class="fa fa-stop"/>&amp;emsp;Stop
+                            </a>
                         </t>
                     </div>
                     <div class="col-xs-6">
@@ -219,14 +221,19 @@
                         </t>
                     </table>
                 </t>
+                <t t-if="widget.day_plan_list.length === 0">
+                    <div class="pt_empty_day_planner_screen">
+                        Once you have created or synchronized projects and tasks, they will appear here. This will allow you to plan your day in advance.
+                    </div>
+                </t>
             </div>
             <div class="pt_footer container-fluid">
                 <div class="row">
                     <div class="col-xs-6">
-                        <div class="pt_day_plan_message">Activity created</div>
+                        <a href="#" class="btn btn-primary pt_today_link">Today</a>
                     </div>
                     <div class="col-xs-6">
-                        <a href="#" class="btn btn-primary pt_today_link">Today</a>
+                        <div class="pt_day_plan_message">Activity created</div>
                     </div>
                 </div>
             </div>
@@ -441,7 +448,14 @@
                     </t>
                     <!-- User is not logged-->
                     <t t-if="!widget.session || !widget.session.uid">
-                        <p>Log in to Synchronize your activities online</p>
+                        <p>Connect Timesheets to Odoo to synchronize your activities across all devices.</p>
+                        <p>
+                            Use Odoo to organize projects and tasks, forecast
+                            resources and invoice time spent on tasks.
+                        </p><p>
+                            If you don't have an Odoo account, you can create one
+                            for free on <a href="#" class="pt_link_to_odoo">https://www.odoo.com</a>.
+                        </p>
                         <br/>
                         <div>
                             <a href="#" class="btn btn-primary pt_odoo_login_link">Sign In</a>

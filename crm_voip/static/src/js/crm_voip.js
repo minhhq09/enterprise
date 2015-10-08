@@ -466,7 +466,7 @@ var DialingPanel = Widget.extend({
         this.current_phonecall = phonecall_id;
         var number;
         if(!this.widgets[this.current_phonecall].partner_phone){
-            this.do_notify(_t('The phonecall has no number'),_t('Please check if a phonenumber is given for the current phonecall'));
+            this.do_notify(_t('The phonecall has no number'),_t('Please check if a phone number is given for the current phonecall'));
             return;
         }
         number = this.widgets[this.current_phonecall].partner_phone;
@@ -626,8 +626,10 @@ var DialingPanel = Widget.extend({
         if(this.selected_phonecall){
             this.make_call(this.selected_phonecall.id);
         }else{
-                var next_call = _.filter(this.widgets, function(widget){return widget.state != "done";}).shift();
+            var next_call = _.filter(this.widgets, function(widget){return widget.state != "done";}).shift();
+            if(next_call){
                 this.make_call(next_call.id);
+            }
         }
     },
 
@@ -781,49 +783,44 @@ var transfer_call = function(parent, action){
 core.action_registry.add("reload_panel", reload_panel);
 core.action_registry.add("transfer_call", transfer_call);
 
+// Redefinition of FieldPhone
+core.form_widget_registry.get('phone').include({
+    init: function() {
+        this._super.apply(this, arguments);
+        this.clickable = true;
+        _.extend(this.events, {
+            'click': function(e) {
+                if(!this.get('effective_readonly')) {
+                    return;
+                }
 
-var crm_voip_field_phone = common.AbstractField.extend(common.ReinitializeFieldMixin, {
-    template: 'FieldPhone',
-    init: function (field_manager, node) {
-        this._super(field_manager, node);
-    },
-    render_value: function() {
-        if (!this.get('effective_readonly')) {
-            this._super();
-        } else {
-            var self = this;
-            var phone_number = this.get('value');
-            if (phone_number) {
-                this.$('a.oe_form_uri')
-                    .text(phone_number)
-                    .on("click",function(ev){
-                        ev.preventDefault();
-                        if(self.__parentedParent.datarecord.phone === phone_number){
-                            self.do_notify(_t('Start Calling'),_t('Calling ' + phone_number));
-                            if(self.DialingPanel){
-                                self.DialingPanel.call_partner(phone_number, self.__parentedParent.datarecord.id);
-                            }else{
-                                //To get the formatCurrency function from the server
-                                new Model("res.currency")
-                                    .call("get_format_currencies_js_function")
-                                    .then(function(data) {
-                                        var formatCurrency = new Function("amount, currency_id", data);
-                                        self.DialingPanel = new DialingPanel(web_client, formatCurrency);
-                                        self.DialingPanel.call_partner(phone_number, self.__parentedParent.datarecord.id);
-                                    });
-                            }
-                            
-                        }
-                    });
-            }else{
-                this.$('a.oe_form_uri')
-                    .text('');
+                e.preventDefault();
+                var self = this;
+                var phone_number = this.get('value');
+                
+                if(this.getParent().datarecord.phone === phone_number) {
+                    this.do_notify(_t('Start Calling'), _t('Calling ' + phone_number));
+                    if(this.DialingPanel) {
+                        do_call();
+                    } else {
+                        // To get the formatCurrency function from the server
+                        new Model("res.currency")
+                            .call("get_format_currencies_js_function")
+                            .then(function(data) {
+                                var formatCurrency = new Function("amount, currency_id", data);
+                                self.DialingPanel = new DialingPanel(web_client, formatCurrency);
+                                do_call();
+                            });
+                    }
+                }
+
+                function do_call() {
+                    self.DialingPanel.call_partner(phone_number, self.getParent().datarecord.id);
+                }
             }
-        }
-    },
+        });
+    }
 });
-
-core.form_widget_registry.add('phone', crm_voip_field_phone);
 
 return {
     voipTopButton: new VoipTopButton(),

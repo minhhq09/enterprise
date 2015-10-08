@@ -19,7 +19,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     init_ua: function(result){
         this.mode = result.mode;
         var ua_config = {};
-        if(!(result.login && result.pbx_ip && result.password)){
+        if(this.mode == "prod" && !(result.login && result.pbx_ip && result.password)){
             this.trigger_error(_t('One or more parameter is missing. Please check your configuration.'));
             return;
         }
@@ -36,7 +36,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         this.external_phone = result.external_phone;
         this.ring_number = result.ring_number;
         try{
-            if(this.mode == "prod_mode"){
+            if(this.mode == "prod"){
                 //test the ws uri
                 var test_ws = new window.WebSocket(result.wsServer, 'sip');
                 var self = this;
@@ -126,6 +126,9 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         this.sip_session = false;
         this.onCall = false;
         this.trigger('sip_bye');
+        if(this.mode == "demo"){
+            clearTimeout(this.timer_bye);
+        }
     },
 
     cancel: function(){
@@ -134,6 +137,9 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         clearTimeout(this.timer);
         this.ringbacktone.pause();
         this.trigger('sip_cancel');
+        if(this.mode == "demo"){
+            clearTimeout(this.timer_bye);
+        }
     },
 
     progress: function(response){
@@ -160,14 +166,14 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     },
 
     make_call: function(number){
-        if(this.mode == "demo_mode"){
+        if(this.mode == "demo"){
             var response = {'reason_phrase': "Ringing"};
             var self = this;
             this.progress(response);
             var timer_accepted = setTimeout(function(){
                 self.accepted(response);
             },5000);
-            var timer_bye = setTimeout(function(){
+            this.timer_bye = setTimeout(function(){
                 self.bye();
             },10000);
             return;
@@ -206,6 +212,13 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     },
 
     hangup: function(){
+        if(this.mode == "demo"){
+            if(this.onCall){
+                this.bye();
+            }else{
+                this.cancel();
+            }
+        }
         if(this.sip_session){
             if(this.onCall){
                 this.sip_session.bye();

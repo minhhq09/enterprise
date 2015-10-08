@@ -6,9 +6,8 @@ echo "Creating 'www' bundle for cordova app"
 cp -r extension/static www
 cp extension/timesheet.html www/index.html
 
-cp -r www /home/odoo/phonegap/timesheets/hello2/
-cp www/static/src/img/icon.png /home/odoo/phonegap/timesheets/hello2/
+cp -r www /home/odoo/phonegap/OdooTimesheets/
+cp www/static/src/img/icon.png /home/odoo/phonegap/OdooTimesheets/
 
-cd /home/odoo/phonegap/timesheets/hello2/
-cordova build android
-cordova run android
+cd /home/odoo/phonegap/OdooTimesheets/
+cordova prepare android

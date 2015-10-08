@@ -7,6 +7,32 @@
       </xpath>
     </template>
 
+    <record id="online_account_form" model="ir.ui.view">
+            <field name="name">online.account.form</field>
+            <field name="model">online.account</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <form string="Online Account" create="false" edit="false">
+                <sheet string="Online Account">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="journal_id"/>
+                        </group>
+                        <group>
+                            <field name="last_sync"/>
+                            <field name="institution_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
     <record id="view_config_online_sync_journal_form" model="ir.ui.view">
             <field name="name">account.config.online.sync.journal.form</field>
             <field name="model">account.journal.onlinesync.config</field>
@@ -62,12 +88,21 @@
           <br t-if="dashboard.number_to_reconcile == 0"/><button t-if="dashboard.number_to_reconcile == 0" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
           <a t-if="dashboard.number_to_reconcile > 0" type="action" name="%(action_config_online_sync_journal_form)d" class="oe_inline">Online synchronization</a>
         </xpath>
-        <xpath expr='//div[@name="bank_journal_cta"]' position='inside'>
-          <button t-if="dashboard.bank_statements_source == 'online_sync' &amp;&amp; dashboard.number_to_reconcile == 0" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
-          <a t-if="dashboard.bank_statements_source == 'online_sync' &amp;&amp; dashboard.number_to_reconcile > 0" type="action" name="%(action_config_online_sync_journal_form)d" class="oe_inline">Online synchronization</a>
-        </xpath>
         <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
-          <span t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next synchronization: <t t-esc="record.next_synchronization.value"/></span>
+          <span class="text-muted" t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next sync: <t t-esc="record.next_synchronization.value"/></span>
+        </xpath>
+      </field>
+    </record>
+
+     <record id="account_journal_form_inherit_online_sync" model="ir.ui.view">
+      <field name="name">account.journal.form.inherit.online.sync</field>
+      <field name="model">account.journal</field>
+      <field name="inherit_id" ref="account.view_account_journal_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//page[@name='advanced_settings']/group" position="inside">
+          <group string="Online Synchronization">
+          <button string="Configure" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm"/>
+          </group>
         </xpath>
       </field>
     </record>

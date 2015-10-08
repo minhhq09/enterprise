@@ -124,7 +124,7 @@
                         <t t-set="column" t-value="0" />
                         <t t-foreach="context.get_columns_names()" t-as="column_name">
                             <t t-set="column" t-value="column + 1" />
-                            <th t-att-class="context.get_columns_types()[column - 1] == 'number' and 'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" t-raw="column_name" width='1%' style='padding-left: 15px;'/>
+                            <th t-att-class="context.get_columns_types()[column - 1] == 'number' and 'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" t-raw="column_name" t-att-width="context.get_columns_types()[column - 1] == 'number' and '1%' or ''" style='padding-left: 15px;'/>
                         </t>
                     </tr>
                 </thead>

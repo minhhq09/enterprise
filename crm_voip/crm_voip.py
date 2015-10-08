@@ -376,6 +376,7 @@ class crm_phonecall_log_wizard(models.TransientModel):
     ], 'Schedule A New Call', required=True, default="no_reschedule")
     reschedule_date = fields.Datetime('Specific Date',
         default=lambda *a: datetime.now() + timedelta(hours=2))
+    next_activity_id = fields.Many2one("crm.activity", "Next Activity")
     new_title_action = fields.Char('Next Action')
     new_date_action = fields.Date()
     show_duration = fields.Boolean()
@@ -409,12 +410,10 @@ class crm_phonecall_log_wizard(models.TransientModel):
         phonecall.description = self.description
         if(self.opportunity_id):
             opportunity = self.env['crm.lead'].browse(self.opportunity_id)
-            if self.new_title_action and self.new_date_action:
+            if self.next_activity_id:
+                opportunity.next_activity_id = self.next_activity_id
                 opportunity.title_action = self.new_title_action
                 opportunity.date_action = self.new_date_action
-            else:
-                opportunity.title_action = self.opportunity_title_action
-                opportunity.date_action = self.opportunity_date_action
             if (self.show_duration):
                 mins = int(self.custom_duration)
                 sec = (self.custom_duration - mins)*0.6

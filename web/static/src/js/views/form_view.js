@@ -93,7 +93,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
         this.reload_mutex = new utils.Mutex();
         this.__clicked_inside = false;
         this.__blur_timeout = null;
-        this.rendering_engine = (config.device.xs)? new FormRenderingEngineMobile(this) : new FormRenderingEngine(this);
+        this.rendering_engine = (config.device.size_class <= config.device.SIZES.XS)? new FormRenderingEngineMobile(this) : new FormRenderingEngine(this);
         this.set({actual_mode: this.options.initial_mode});
         this.has_been_loaded.done(function() {
             self._build_onchange_specs();
@@ -1315,6 +1315,21 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
             args[0] = $tag;
             return fn.apply(self, args);
         } else {
+            // Add button box post rendering when window resize and record loaded events
+            if($tag.attr("name") == 'button_box') {
+                this.view.is_initialized.then(function() {
+                    var $buttons = $tag.children();
+                    self.organize_button_box($tag, $buttons);
+
+                    self.view.on('view_content_has_changed', self, function() {
+                        this.organize_button_box($tag, $buttons);
+                    });
+                    core.bus.on('size_class', self, function() {
+                        this.organize_button_box($tag, $buttons);
+                    });
+                });
+            }
+
             // generic tag handling, just process children
             $tag.children().each(function() {
                 self.process($(this));
@@ -1322,6 +1337,47 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
             self.handle_common_properties($tag, $tag);
             $tag.removeAttr("modifiers");
             return $tag;
+        }
+    },
+    organize_button_box: function($button_box, $buttons) {
+        var $visible_buttons = $buttons.not('.o_form_invisible');
+        var $invisible_buttons = $buttons.filter('.o_form_invisible');
+
+        // Get the unfolded buttons according to window size
+        var nb_buttons = [2, 4, 6, 7][config.device.size_class];
+        var $unfolded_buttons = $visible_buttons.slice(0, nb_buttons).add($invisible_buttons);
+
+        // Get the folded buttons
+        var $folded_buttons = $visible_buttons.slice(nb_buttons);
+        if($folded_buttons.length === 1) {
+            $unfolded_buttons = $buttons;
+            $folded_buttons = $();
+        }
+
+        // Empty button box and toggle class to tell if the button box is full (LESS requirement)
+        $buttons.detach();
+        $button_box.empty();
+        var full = ($visible_buttons.length > nb_buttons);
+        $button_box.toggleClass('o_full', full).toggleClass('o_not_full', !full);
+
+        // Add the unfolded buttons
+        $unfolded_buttons.each(function(index, elem) {
+            $(elem).appendTo($button_box);
+        });
+
+        // Add the dropdown with unfolded buttons if any
+        if($folded_buttons.length) {
+            $button_box.append($("<button/>", {
+                type: 'button',
+                'class': "btn btn-sm oe_stat_button o_button_more dropdown-toggle",
+                'data-toggle': "dropdown",
+                text: _t("More"),
+            }));
+
+            var $ul = $("<ul/>", {'class': "dropdown-menu o_dropdown_more", role: "menu"}).appendTo($button_box);
+            $folded_buttons.each(function(i, elem) {
+                $('<li/>').appendTo($ul).append(elem);
+            });
         }
     },
     process_header: function($statusbar) {

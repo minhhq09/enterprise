@@ -41,8 +41,11 @@ Key Features
       'views/res_config.xml',
       'views/res_partner.xml',
       'views/ebay_category.xml',
+      'views/stock_picking.xml',
+      'views/data_template.xml',
       'sale_ebay_cron.xml',
       'ebay_data.xml',
+      'data/product_data.xml'
   ],
   # only loaded in demonstration mode
   'demo': [

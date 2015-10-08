@@ -74,6 +74,8 @@
             }
             > .o_form_input {
                 border-style: none!important;
+                width: 100px;
+                .o-flex(1, 0, auto);
             }
         }
     }
@@ -152,13 +154,7 @@
 
     // Form with no sheet
     &.o_form_nosheet {
-        .o-webclient-padding(@top: @odoo-sheet-vpadding, @bottom: @odoo-sheet-vpadding);
-        height: 100%;
-        overflow: auto;
         background-color: @odoo-view-background-color;
-        .o_form_statusbar {
-            margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding 0 -@odoo-horizontal-padding;
-        }
     }
 
     // Sheet
@@ -171,16 +167,22 @@
 
     // Button box
     .oe_button_box {
+        position: relative;
         background-color: @odoo-brand-lightsecondary;
 
-        > .btn.oe_stat_button {
-            height: @odoo-statbutton-height;
+        &.o_full .oe_stat_button:not(.o_form_invisible) ~ .oe_stat_button {
             border-left: 1px solid @odoo-webclient-background-color;
+        }
+        &.o_not_full .oe_stat_button {
+            border-left: 1px solid @odoo-webclient-background-color;
+        }
 
+        .btn.oe_stat_button {
+            height: @odoo-statbutton-height;
             padding: @odoo-statbutton-vpadding @odoo-statbutton-spacing @odoo-statbutton-vpadding 0; // padding-left will be achieved through margin-left of content
             text-align: left;
             background-color: transparent;
-            &:hover {
+            &:hover, &:focus {
                 background-color: darken(@odoo-brand-lightsecondary, 10%);
                 color: inherit;
             }
@@ -234,6 +236,30 @@
             }
             &:hover .o_stat_info > .o_not_hover {
                 display: none !important;
+            }
+
+            &.o_button_more {
+                text-align: center;
+                &:after {
+                    margin-left: 5px;
+                    .o-caret-down;
+                }
+            }
+        }
+
+        > .o_dropdown_more {
+            background-color: @odoo-brand-lightsecondary;
+            border: none;
+            border-top: 1px solid @odoo-webclient-background-color;
+            border-left: 1px solid @odoo-webclient-background-color;
+            margin: 0;
+            padding: 0;
+            > li {
+                padding: 0;
+                > .btn.oe_stat_button {
+                    border: none;
+                    border-bottom: 1px solid @odoo-webclient-background-color;
+                }
             }
         }
     }
@@ -291,7 +317,7 @@
 
     // Notebooks
     .o_notebook {
-        margin-top: @odoo-form-spacing-unit * 3;
+        margin-top: @odoo-form-spacing-unit * 2;
         clear: both; // For the notebook not to have alongside floating elements
 
         > ul.nav-tabs {
@@ -325,6 +351,12 @@
             border: none;
             > .tab-pane {
                 min-height: 100px;
+
+                > :first-child {
+                    .oe_pad_content, .note-editor { // Remove the border-top of note editor when first-child of
+                        border-top: none;           // a tab (as it will be right under the tabs border-bottom)
+                    }
+                }
             }
         }
     }
@@ -365,7 +397,7 @@
 
             > ul {
                 @colored-tag-width: 45px;
-                width: 5*@colored-tag-width + 2px;
+                width: 5*@colored-tag-width + 3px;
                 > li {
                     float: left;
                     color: black;
@@ -436,11 +468,12 @@
 
         > input {
             padding-right: 15px;
+            cursor: pointer;
         }
 
         .o_dropdown_button {
             .o-position-absolute(0, 0);
-            cursor: pointer;
+            pointer-events: none;
             &:after {
                 .o-caret-down;
             }

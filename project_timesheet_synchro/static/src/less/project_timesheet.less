@@ -2,6 +2,7 @@
 @odoo-color: #a24689;
 @primary : #21b799;
 @warning : #f0ad4e;
+@gray: #666666;
 @footer-heigth: 60px;
 
 // Mixins for browser vendor prefixes
@@ -23,11 +24,16 @@
 // ------------------------------------------------------------------
 body {
     .pt_drawer_menu_wrapper{
+        @media screen and (max-device-width: 768px) {
+            width: 100%; // Override for mobile
+            left: -100%;
+        }
+
         position: fixed;
         top: 0;
-        left: -100%;
+        left: -320px;
         bottom: 0;
-        width: 100%;
+        width: 320px;
         height: 100%;
         z-index: 10;
 
@@ -36,14 +42,16 @@ body {
             webkit-transition: transform 0.3s ease-out;
             .pt_transform(translateX(100%));
 
-            .pt_drawer_menu_shade {
-                transition : opacity 0.2s 0.3s;
-                opacity: 1;
+            @media screen and (max-device-width: 768px) {
+                .pt_drawer_menu_shade {
+                    transition : opacity 0.2s 0.3s;
+                    opacity: 1;
+                }
             }
         }
 
         .pt_drawer_menu {
-            width: 250px;
+            width: ~"calc(100% - 50px)";
             height: 100%;
             opacity: 1;
 
@@ -62,9 +70,9 @@ body {
         .pt_drawer_menu_shade {
             position: absolute;
             height: 100%;
-            left: 250px;
+            left: ~"calc(100% - 50px)";
             top:0px;
-            width: ~"-webkit-calc(100% - 250px)";
+            width: 51px;
             background-color: rgba(0, 0, 0, 0.5);
             opacity: 0;
         }
@@ -72,6 +80,13 @@ body {
 
     .pt_screen{
         height: 100%;
+
+        .form-control {
+            border-width: 0px;
+        }
+        .pt_description {
+            resize: none;
+        }
 
         .pt_nav {
             position: absolute;
@@ -85,7 +100,8 @@ body {
                 display: inline-block;
                 height: 100%;
                 width: 15%;
-                text-align: center;
+                text-align: left;
+                padding-left: 14px;
                 a {
                     line-height: inherit;
                 }
@@ -94,11 +110,13 @@ body {
             > .pt_title {
                 display: inline-block;
                 height: 100%;
-                width: 50%;
+                width: 55%;
                 text-align: left;
                 a {
                     cursor: default;
                     line-height: inherit;
+                    font-weight: 500;
+                    font-size: 1.45em;
                 }
             }
 
@@ -171,10 +189,10 @@ body {
             font-size: 1.25em;
             margin-bottom: 2em;
             position: absolute;
-              top: 60px;
+            top: 25px;
             left: 20px;
-              color: white;
-              font-weight: bold;
+            color: white;
+            font-weight: bold;
         }
         .pt_sync_link.pt_username{
             cursor: pointer;
@@ -191,6 +209,10 @@ body {
 
                 &:hover {
                     background-color: rgba(200,200,200,0.2);
+
+                    .menu_icon{
+                        color: black;
+                    }
                 }
 
                 > a {
@@ -200,11 +222,14 @@ body {
                     height: 24px;
                     width: 24px;
                     margin: auto;
+                    color: @gray;
                 }
 
                 .menu_text{
                     position: relative;
-                      left: 8px;
+                    left: 30px;
+                    font-size: 14px;
+                    font-weight: bold;
                 }
             }
         }
@@ -236,7 +261,7 @@ body {
 
             // Activities screen
             &.pt_activities_screen {
-                bottom: @footer-heigth + 20px;
+                bottom: @footer-heigth;
             }
 
             .pt_empty_activities_screen {
@@ -262,6 +287,9 @@ body {
                     .pt_no_task {
                         color: lightgray;
                     }
+                }
+                td:first-child {
+                    padding-left: 14px;
                 }
             }
 
@@ -296,9 +324,22 @@ body {
                     color: @primary;
                     font-weight: bold;
 
-                    &:hover {
+                    &:hover:not(.pt_btn_interrupt_activity) {
                         color: white;
                         background-color: @primary;
+                    }
+
+                    &.pt_btn_interrupt_activity {
+
+                        &:hover {
+                            color: white;
+                            background-color: @danger;
+
+                            .fa-play:before {
+                                content: ~'"\f04d"';
+                                font-family: FontAwesome;
+                            }
+                        }
                     }
                 }
             }
@@ -337,6 +378,11 @@ body {
                 padding-bottom: 2px;
             }
 
+            .pt_empty_day_planner_screen {
+                margin-top : 1em;
+                margin-left: 14px;
+            }
+
             .pt_sync_screen {
 
                 margin-top: 1em;
@@ -363,6 +409,40 @@ body {
                 }
             }
 
+            // ------------------------------------------------------------------
+            // Select2 overrides part 1
+            // ------------------------------------------------------------------
+            div.select2-container {
+                a.select2-choice {
+                    border: none;
+                    background-image: linear-gradient(@primary, @primary), linear-gradient(#D2D2D2, #D2D2D2);
+                    background-size: 0px 2px, 100% 1px;
+                    background-repeat: no-repeat;
+                    background-position: center bottom, center calc(100% - 1px);
+                    background-color: transparent;
+                    transition: background 0s ease-out 0s;
+
+                    span.select2-arrow {
+                        border-left: none;
+                        background: none;
+                    }
+                }
+
+                &.select2-container-active {
+                    a.select2-choice {
+                        box-shadow: none;
+                        -webkit-box-shadow: none;
+                    }
+
+                }
+
+                &.select2-dropdown-open {
+                    a.select2-choice {
+                        background-color: white;
+                    }
+                }
+            }
+
         }
 
         .pt_footer {
@@ -379,6 +459,7 @@ body {
 
             .btn {
                 color: white;
+                margin: 13px 1px;
 
                 &.pt_btn_stop_timer,
                 &.pt_btn_interrupt_activity {
@@ -388,6 +469,9 @@ body {
                 &.pt_validate_edit_btn {
                     margin-left: 15px;
                 }
+            }
+            .btn:hover {
+                box-shadow: none !important;
             }
 
             // Activities Screen Footer Style
@@ -431,9 +515,23 @@ body {
     }
 
 // ------------------------------------------------------------------
+// Select2 overrides part 2
+// ------------------------------------------------------------------
+    .select2-drop.select2-drop-active {
+        border: none;
+
+        .select2-search {
+            input {
+                background: none;
+                border: none;
+            }
+        }
+    }
+
+// ------------------------------------------------------------------
 // Global styling rules
 // ------------------------------------------------------------------
-    a, a:hover, a:visited, a:link, a:active{
+    a, a:hover, a:visited, a:link, a:active {
         text-decoration: none;
     }
 

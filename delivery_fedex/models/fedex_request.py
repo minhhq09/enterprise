@@ -261,6 +261,8 @@ class FedexRequest():
                 if (self.RequestedShipment.RequestedPackageLineItems.SequenceNumber == self.RequestedShipment.PackageCount) or self.hasOnePackage:
                     for rating in self.response.CompletedShipmentDetail.ShipmentRating.ShipmentRateDetails:
                         formatted_response['price'][rating.TotalNetFedExCharge.Currency] = rating.TotalNetFedExCharge.Amount
+                        if 'CurrencyExchangeRate' in rating:
+                            formatted_response['price'][rating.CurrencyExchangeRate.FromCurrency] = rating.TotalNetFedExCharge.Amount / rating.CurrencyExchangeRate.Rate
                 if 'MasterTrackingId' in self.response.CompletedShipmentDetail:
                     formatted_response['master_tracking_id'] = self.response.CompletedShipmentDetail.MasterTrackingId.TrackingNumber
 

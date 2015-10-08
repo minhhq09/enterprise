@@ -4,7 +4,7 @@
 
 [ -d extension/static/src/css ] || mkdir -p extension/static/src/css
 
-lessc static/src/less/import.less > extension/static/src/css/project_timesheet.css
+lessc static/src/less/import.less > static/src/css/project_timesheet.css
 
 cp -r static extension
 cp views/timesheet.html extension
@@ -28,7 +28,6 @@ cp ../web/static/src/js/framework/core.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/mixins.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/registry.js extension/static/src/js/framework
 
-cp -r ../web/static/lib/select2 extension/static/lib
 cp -r ../web/static/lib/qweb extension/static/lib
 cp -r ../web/static/lib/nvd3 extension/static/lib
 cp -r ../web/static/lib/jquery extension/static/lib

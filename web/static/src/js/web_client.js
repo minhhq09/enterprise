@@ -61,6 +61,15 @@ var WebClient = Widget.extend({
         this._title_changed();
         this.$el.toggleClass('o_touch_device', config.device.touch);
 
+        core.bus.on('display_notification', this, function (title, message, sticky) {
+            this.notification_manager.notify(title, message, sticky);
+        });
+
+        core.bus.on('display_warning', this, function (title, message, sticky) {
+            this.notification_manager.warn(title, message, sticky);
+        });
+
+
         return session.session_bind(this.origin).then(function () {
             self.bind_events();
             return self.show_common();
@@ -252,7 +261,16 @@ var WebClient = Widget.extend({
             // a dummy haschange event so that `self.on_hashchange` will take care of toggling the
             // app switcher and load the action.
             if (_.isEmpty($.bbq.getState(true))) {
-                self.toggle_app_switcher(true);
+                // Check if the user has a defined home action and do it if any (otherwise, show appswitcher)
+                return new Model("res.users").call("read", [session.uid, ["action_id"]]).then(function(data) {
+                    if(data.action_id) {
+                        return self.do_action(data.action_id[0]).then(function() {
+                            self.toggle_app_switcher(false);
+                        });
+                    } else {
+                        self.toggle_app_switcher(true);
+                    }
+                });
             } else {
                 $(window).trigger('hashchange');
             }
@@ -435,7 +453,7 @@ var WebClient = Widget.extend({
     // Scrolltop handling
     // --------------------------------------------------------------
     get_scrollTop: function () {
-        if (config.device.xs) {
+        if (config.device.size_class <= config.device.SIZES.XS) {
             return this.el.scrollTop;
         } else {
             return this.action_manager.el.scrollTop;
@@ -450,7 +468,7 @@ var WebClient = Widget.extend({
      */
     scrollTo: function (ev) {
         var offset = {top: ev.data.offset, left: ev.data.offset_left || 0};
-        var xs_device = config.device.xs;
+        var xs_device = config.device.size_class <= config.device.SIZES.XS;
         if (!offset.top) {
             offset = framework.getPosition(document.querySelector(ev.data.selector));
             if (!xs_device) {

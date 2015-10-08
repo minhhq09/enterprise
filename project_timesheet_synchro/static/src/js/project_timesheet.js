@@ -114,9 +114,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                 session.setup(self.server, {use_cors : true});
                 session.session_reload().then(function(){
                     // Check if the sync module is installed in the backend and set the syncable flag accordingly
-                    var modules = new Model('ir.module.module');
-                    sync_defs.push(modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
-                        if (response.length > 0) {
+                    sync_defs.push(session.rpc('/web/session/modules').then(function(response){
+                        if (response.length > 0 && _.contains(response, 'project_timesheet_synchro')) {
                             self.syncable = true;
                             self.sync({
                                 callback : function(){
@@ -133,6 +132,19 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.auto_sync = setInterval(function(){
                 core.bus.trigger('sync');
             } , 36000000);
+
+            // backbutton handler for mobile
+            $(document).on("backbutton", function(e) {
+                e.preventDefault();
+                if (self.current_screen != self.activities_screen) {
+                    core.bus.trigger('change_screen', {
+                        id : 'activities',
+                    });
+                }
+                else {
+                    navigator.app.exitApp();
+                }
+            });
 
             return $.when.apply($, sync_defs);
         },
@@ -898,8 +910,10 @@ odoo.define('project_timeshee.ui', function (require ) {
         // Each entry of the list is a [project, task] pair, where task might be false.
         make_day_plan_list: function() {
             var self = this;
+            var today = time_module.date_to_str(new Date());
+            var aals = self.getParent().data.account_analytic_lines;
             self.day_plan_list = [];
-            _.each(self.getParent().data.account_analytic_lines, function(aal) {
+            _.each(aals, function(aal) {
                 if(!aal.to_remove) {
                     var to_add = true;
                     _.each(self.day_plan_list, function(list_entry) {
@@ -910,7 +924,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                             to_add =false;
                         }
                     });
-                    if (to_add) {
+                    if (to_add && !_.findWhere(aals, {project_id : aal.project_id, task_id : aal.task_id, date : today})) {
                         self.day_plan_list.push([aal.project_id, aal.task_id]);
                     }
                 }
@@ -1500,9 +1514,13 @@ odoo.define('project_timeshee.ui', function (require ) {
                     "click .pt_reset_app" : "reset_app",
                     "click .pt_keep_data" : "on_keep_data",
                     "click .pt_discard_data" : "on_discard_data",
+                    "click .pt_link_to_odoo" : "go_to_odoo",
                 }
             );
             this.session = session;
+        },
+        go_to_odoo : function() {
+            window.open("https://www.odoo.com");
         },
         select_odoo_login: function() {
             var self = this;
@@ -1585,9 +1603,8 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         on_successful_login: function() {
             var self = this;
-            var modules = new Model('ir.module.module');
-            modules.call('search', [[['name', '=', 'project_timesheet_synchro'], ['state', '=', 'installed']]]).then(function(response){
-                if (response.length > 0) {
+            session.rpc('/web/session/modules').then(function(response){
+                if (response.length > 0 && _.contains(response, 'project_timesheet_synchro')) {
                     self.getParent().syncable = true;
                     self.$('.pt_keep_guest_data').modal();
                 } else {

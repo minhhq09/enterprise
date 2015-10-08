@@ -272,7 +272,7 @@ var CompletionFieldMixin = {
     // all search/create popup handling
     _search_create_popup: function(view, ids, context) {
         var self = this;
-        new SelectCreateDialog(this, {
+        new SelectCreateDialog(this, _.extend({}, (this.options || {}), {
             res_model: self.field.relation,
             domain: self.build_domain(),
             context: new data.CompoundContext(self.build_context(), context || {}),
@@ -284,7 +284,7 @@ var CompletionFieldMixin = {
                 self.add_id(element_ids[0]);
                 self.focus();
             }
-        }).open();
+        })).open();
     },
     /**
      * To implement.
@@ -951,7 +951,7 @@ var SelectCreateListView = ListView.extend({
         this.popup.close();
     },
     do_select: function(ids, records) {
-        this._super(ids, records);
+        this._super.apply(this, arguments);
         this.popup.on_click_element(ids);
     }
 });
@@ -1028,6 +1028,9 @@ var SelectCreateDialog = ViewDialog.extend({
                 e.cancel = true;
             });
             self.view_list.popup = self;
+            self.view_list.on('list_view_loaded', self, function() {
+                this.on_view_list_loaded();
+            });
             self.view_list.appendTo(self.$el).then(function() {
                 self.view_list.do_show();
             }).then(function() {
@@ -1071,14 +1074,11 @@ var SelectCreateDialog = ViewDialog.extend({
         this.close();
         return new FormViewDialog(this.__parentedParent, this.options).open();
     },
+    on_view_list_loaded: function() {},
 });
 
 var DomainEditorDialog = SelectCreateDialog.extend({
     init: function(parent, options) {
-        if (options.readonly) {
-            this._super(parent, options);
-            return;
-        }
         options = _.defaults(options, {initial_facet: {
             category: _t("Custom Filter"),
             icon: 'fa-star',
@@ -1095,7 +1095,7 @@ var DomainEditorDialog = SelectCreateDialog.extend({
 
     get_domain: function (selected_ids) {
         var group_domain = [], domain;
-        if (this.$('.o_list_record_selector > input').prop('checked')) {
+        if (this.$('.o_list_record_selector input').prop('checked')) {
             if (this.view_list.grouped) {
                 var group_domain = _.chain(_.values(this.view_list.groups.children))
                                         .filter(function (child) { return child.records.length; })
@@ -1115,6 +1115,11 @@ var DomainEditorDialog = SelectCreateDialog.extend({
             domain = [["id", "in", selected_ids]];
         }
         return this.dataset.domain.concat(group_domain).concat(domain || []);
+    },
+
+    on_view_list_loaded: function() {
+        this.$('.o_list_record_selector input').prop('checked', true);
+        this.$footer.find(".o_selectcreatepopup_search_select").prop('disabled', false);
     },
 });
 

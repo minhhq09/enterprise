@@ -32,11 +32,10 @@ var Loading = Widget.extend({
     on_rpc_event : function(increment) {
         var self = this;
         if (!this.count && increment === 1) {
-            // Block UI after 0.3s
             this.long_running_timer = setTimeout(function () {
                 self.blocked_ui = true;
                 framework.blockUI();
-            }, 600);
+            }, 3000);
         }
 
         this.count += increment;

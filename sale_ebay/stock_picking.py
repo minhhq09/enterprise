@@ -6,15 +6,21 @@ from openerp import models, api
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.multi
+    @api.one
     def do_transfer(self):
         result = super(StockPicking, self).do_transfer()
-        so = self.env['sale.order'].search([('name', '=', self.origin)])
+        self._ebay_update_carrier(transfered=True)
+        return result
+
+    @api.one
+    def _ebay_update_carrier(self, transfered=False):
+        so = self.env['sale.order'].search([('name', '=', self.origin), ('origin', 'like', 'eBay')])
         if so.product_id.product_tmpl_id.ebay_use:
             call_data = {
                 'OrderLineItemID': so.client_order_ref,
-                'Shipped': True
             }
+            if transfered:
+                call_data['Shipped'] = True
             if self.carrier_tracking_ref and self.carrier_id:
                 call_data['Shipment'] = {
                     'ShipmentTrackingDetails': {
@@ -23,4 +29,3 @@ class StockPicking(models.Model):
                     },
                 }
             self.env['product.template'].ebay_execute("CompleteSale", call_data)
-        return result

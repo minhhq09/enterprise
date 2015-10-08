@@ -16,12 +16,11 @@ Features:
     'author': 'Camptocamp / Odoo',
     'depends': ['sale'],
     'data': [
-        'security/account_analytic_analysis_security.xml',
+        'security/sale_contract_security.xml',
         'security/ir.model.access.csv',
         'views/sale_contract_view.xml',
         'data/sale_contract_cron.xml',
         'data/sale_contract_data.xml',
-        'views/account_analytic_analysis.xml',
         'report/sale_contract_report_view.xml',
     ],
     'demo': [],

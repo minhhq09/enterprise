@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-import simplejson
+import json
 import datetime
 import time
 
@@ -42,7 +42,7 @@ class YodleeAccountJournal(models.Model):
             or not self.company_id.yodlee_user_login \
             or not self.company_id.yodlee_user_password:
             return super(YodleeAccountJournal, self).fetch_all_institution()
-        resp_json = simplejson.loads(self.fetch('/jsonsdk/SiteTraversal/getAllSites', 'yodlee', {}))
+        resp_json = json.loads(self.fetch('/jsonsdk/SiteTraversal/getAllSites', 'yodlee', {}))
         institutions = self.env['online.institution'].search([('type', '=', 'yodlee')])
         institution_name = [i.name for i in institutions]
         for institution in resp_json:
@@ -69,7 +69,7 @@ class YodleeAccountJournal(models.Model):
             resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login, timeout=3)
         except Exception:
             raise UserError(_('An error has occurred while trying to connect to yodlee service'))
-        resp_json = simplejson.loads(resp.text)
+        resp_json = json.loads(resp.text)
         if 'cobrandConversationCredentials' not in resp_json:
             raise UserError(_('Incorrect Yodlee login/password, please check your credentials in accounting/settings'))
         self.company_id.write({'yodlee_access_token': resp_json['cobrandConversationCredentials']['sessionToken'],
@@ -89,7 +89,7 @@ class YodleeAccountJournal(models.Model):
             resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=3)
         except Exception:
             raise UserError(_('An error has occurred while trying to connect to yodlee service'))
-        resp_json = simplejson.loads(resp.text)
+        resp_json = json.loads(resp.text)
         if not resp_json.get('userContext', False):
             raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or 'An Error has occurred')
         self.company_id.write({'yodlee_user_access_token': resp_json['userContext']['conversationCredentials']['sessionToken'],
@@ -136,8 +136,8 @@ class YodleeAccount(models.Model):
     It knows how to fetch Yodlee to get the new bank statements
     '''
 
-    site_account_id = fields.Char("Site id")
-    account_id = fields.Char("Account id")
+    site_account_id = fields.Char("Site")
+    account_id = fields.Char("Account")
 
     @api.multi
     def yodlee_refresh(self, depth=30):
@@ -150,7 +150,7 @@ class YodleeAccount(models.Model):
         params = {
             'memSiteAccId': self.site_account_id,
         }
-        resp_json = simplejson.loads(yodlee.fetch('/jsonsdk/Refresh/getSiteRefreshInfo', 'yodlee', params))
+        resp_json = json.loads(yodlee.fetch('/jsonsdk/Refresh/getSiteRefreshInfo', 'yodlee', params))
         if resp_json['code'] == 801:
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
@@ -192,7 +192,7 @@ class YodleeAccount(models.Model):
             'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
             'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
         }
-        resp_json = simplejson.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
+        resp_json = json.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
         # Prepare the transaction
         if resp_json.get('numberOfHits', 0) > 0:
             transactions = []

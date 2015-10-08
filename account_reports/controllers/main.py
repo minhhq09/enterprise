@@ -6,7 +6,7 @@ from openerp.http import request
 from openerp.addons.web.controllers.main import _serialize_exception
 from openerp.tools import html_escape
 
-import simplejson
+import json
 
 
 class FinancialReportController(http.Controller):
@@ -64,7 +64,7 @@ class FinancialReportController(http.Controller):
                 'message': 'Odoo Server Error',
                 'data': se
             }
-            return request.make_response(html_escape(simplejson.dumps(error)))
+            return request.make_response(html_escape(json.dumps(error)))
         else:
             return request.not_found()
 
@@ -91,5 +91,5 @@ class FinancialReportController(http.Controller):
                 'message': 'Odoo Server Error',
                 'data': se
             }
-            return request.make_response(html_escape(simplejson.dumps(error)))
+            return request.make_response(html_escape(json.dumps(error)))
 

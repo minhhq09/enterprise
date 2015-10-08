@@ -16,15 +16,15 @@
                 <button name="sync_ebay_details" type="object" string="Sync countries and currencies" class="oe_highlight"/>
                 <button name="sync_categories" type="object" string="Sync categories" class="oe_highlight"/>
                 <button name="sync_policies" type="object" string="Sync policies" class="oe_highlight"/>
-                <button name="sync_product_status" type="object" string="Sync product status" class="oe_highlight"/>
+                <button name="button_sync_product_status" type="object" string="Sync product status" class="oe_highlight"/>
               </div>
-              <div groups="base.group_multi_salesteams">
+              <div>
                 <label for="ebay_sales_team"/>
                 <field name="ebay_sales_team" class="oe_inline"/>
               </div>
               <div>
                 <label for="ebay_currency"/>
-                <field name="ebay_currency" class="oe_inline" options="{'no_create': True, 'no_open': True}"/>
+                <field name="ebay_currency" class="oe_inline" context="{'active_test': False}" options="{'no_create': True, 'no_open': True}"/>
               </div>
               <div>
                 <label for="ebay_country"/>
@@ -49,6 +49,10 @@
               <div>
                 <label for="ebay_out_of_stock"/>
                 <field name="ebay_out_of_stock" class="oe_inline"/>
+              </div>
+              <div>
+                <label for="ebay_gallery_plus"/>
+                <field name="ebay_gallery_plus" class="oe_inline"/>
               </div>
               <div>
                 <label for="ebay_dev_id"/>

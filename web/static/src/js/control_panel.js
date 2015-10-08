@@ -211,26 +211,27 @@ var ControlPanel = Widget.extend({
      */
     _update_search_view: function(searchview, is_hidden) {
         if (searchview) {
-            this.nodes.$searchview.toggle(!is_hidden);
             // Set the $buttons div (in the DOM) of the searchview as the $buttons
             // have been appended to a jQuery node not in the DOM at SearchView initialization
             searchview.$buttons = this.nodes.$searchview_buttons;
             searchview.toggle_visibility(!is_hidden);
-            this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.device.xs);
+        }
 
-            if(this.$enable_searchview === undefined) {
-                var self = this;
-                this.$enable_searchview = $('<button/>', {type: 'button'})
-                    .addClass('o_enable_searchview btn btn-sm btn-default fa fa-search')
-                    .on('click', function() {
-                        self.$el.toggleClass('o_breadcrumb_full');
-                    });
-            }
-            if(!is_hidden && config.device.xs) {
-                this.$enable_searchview.insertAfter(this.nodes.$searchview);
-            } else {
-                this.$enable_searchview.detach();
-            }
+        this.nodes.$searchview.toggle(!is_hidden);
+        this.$el.toggleClass('o_breadcrumb_full', is_hidden || config.device.size_class <= config.device.SIZES.XS);
+
+        if(this.$enable_searchview === undefined) {
+            var self = this;
+            this.$enable_searchview = $('<button/>', {type: 'button'})
+                .addClass('o_enable_searchview btn btn-sm btn-default fa fa-search')
+                .on('click', function() {
+                    self.$el.toggleClass('o_breadcrumb_full');
+                });
+        }
+        if(!is_hidden && config.device.size_class <= config.device.SIZES.XS) {
+            this.$enable_searchview.insertAfter(this.nodes.$searchview);
+        } else {
+            this.$enable_searchview.detach();
         }
     },
 });

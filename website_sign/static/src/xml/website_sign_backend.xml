@@ -7,7 +7,7 @@
             <div t-if="widget.tCorrect" class="col-md-2 o_sign_dashboard_item">
                 <a href="#" class="o_sign_upload_template_button btn btn-block">
                     <span class="o_sign_dashboard_item_icon fa fa-upload fa-2x"/>
-                    <div class="o_sign_dashboard_item_title">Upload New</div>
+                    <div class="o_sign_dashboard_item_title">Upload New PDF</div>
                 </a>
                 <input type="file" name="files[]" class="o_sign_upload_template_input"/>
             </div>
@@ -135,8 +135,9 @@
         </div>
 
         <div t-if="!widget.isPDF" class="o_sign_image_document">
-            <img t-if="widget.signature_request_template.attachment_id.file_type_icon == 'webimage'" class="media-object" t-attf-src="/web/binary/image?model=ir.attachment&amp;field=datas&amp;id={{widget.signature_request_template.attachment_id.id}}"/>
-            <img t-if="widget.signature_request_template.attachment_id.file_type_icon != 'webimage'" class="media-object" t-attf-src="/mail/static/src/img/mimetypes/{{widget.signature_request_template.attachment_id.file_type_icon}}.png"/>
+            <t t-set="webimage" t-value="new RegExp('image.*(gif|jpe|jpg|png)').test(widget.signature_request_template.attachment_id.mimetype)"/>
+            <img t-if="webimage" t-attf-src="/web/image/{{widget.signature_request_template.attachment_id.id}}"/>
+            <div t-if="!webimage" class="o_image" t-att-data-mimetype="widget.signature_request_template.attachment_id.mimetype"/>
         </div>
 
         <iframe t-if="widget.isPDF" class="o_sign_pdf_iframe"/>

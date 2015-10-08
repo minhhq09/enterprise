@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
+from sepa_credit_transfer import prepare_SEPA_string
 from sepa_credit_transfer import check_valid_SEPA_str
 
 class ResCompany(models.Model):
@@ -26,7 +27,7 @@ class ResCompany(models.Model):
         help="Identification assigned by an institution (eg. VAT number).")
     sepa_orgid_issr = fields.Char('Issuer', size=35, copy=False,
         help="Entity that assigns the identification (eg. KBE-BCO or Finanzamt Muenchen IV).")
-    sepa_initiating_party_name = fields.Char('Your Company Name', size=70, copy=False, default=lambda self: self.env.user.company_id.name,
+    sepa_initiating_party_name = fields.Char('Your Company Name', size=70, copy=False, default=lambda self: prepare_SEPA_string(self.env.user.company_id.name),
         help="Will appear in SEPA payments as the name of the party initiating the payment. Limited to 70 characters.")
 
     @api.one

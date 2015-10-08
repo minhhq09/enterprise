@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-import simplejson
+import json
 import datetime
 
 from openerp import models, api, fields
@@ -51,9 +51,9 @@ class PlaidAccountJournal(models.Model):
         except Exception:
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
         #Add request status code in response
-        resp_json = simplejson.loads(resp.text)
+        resp_json = json.loads(resp.text)
         resp_json['status_code'] = resp.status_code
-        return simplejson.dumps(resp_json)
+        return json.dumps(resp_json)
 
     @api.multi
     def fetch_all_institution(self):
@@ -63,7 +63,7 @@ class PlaidAccountJournal(models.Model):
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
         institutions = self.env['online.institution'].search([('type', '=', 'plaid')])
         institution_name = [i.name for i in institutions]
-        for institution in simplejson.loads(resp.text):
+        for institution in json.loads(resp.text):
             if institution['name'] not in institution_name:
                 self.env['online.institution'].create({
                     'name': institution['name'],
@@ -99,7 +99,7 @@ class PlaidAccount(models.Model):
         ctx = dict(self._context or {})
         ctx['patch'] = False
         resp = self.journal_id.with_context(ctx).fetch("connect/get", 'plaid', params)
-        resp_json = simplejson.loads(resp)
+        resp_json = json.loads(resp)
         # Three possible cases : no error, user error, or plaid.com error
         # There is no error
         if resp_json['status_code'] == 200:
@@ -109,6 +109,8 @@ class PlaidAccount(models.Model):
                     end_amount = account['balance']['current']
             # Prepare the transaction
             transactions = []
+            if len(resp_json['transactions']) == 0:
+                return action
             for transaction in resp_json['transactions']:
                 trans = {
                     'id': transaction['_id'],
@@ -120,9 +122,8 @@ class PlaidAccount(models.Model):
                 if 'meta' in transaction and 'location' in transaction['meta']:
                     trans['location'] = transaction['meta']['location']
                 transactions.append(trans)
-                # Create the bank statement with the transactions
-                return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
-            return action
+            # Create the bank statement with the transactions
+            return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
         # Error from the user (auth, ...)
         elif resp_json['status_code'] >= 400 and resp_json['status_code'] < 500:
             subject = _("Error in synchronization")

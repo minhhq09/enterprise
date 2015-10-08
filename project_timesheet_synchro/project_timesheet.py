@@ -46,9 +46,15 @@ class account_analytic_line(models.Model):
 
         # Tasks
         task_ids = self.env["project.task"].search([
-            '|',
-            ("user_id", "=", self.env.uid),
-            ("id", "in", task_ids_list),
+            '&',
+                '|',
+                    '|',
+                        '|',
+                        ("user_id", "=", self.env.uid),
+                        ("user_id", "=", False),
+                    ("message_partner_ids", "=", self.env.user.partner_id.id),
+                ("id", "in", task_ids_list),
+            ('active', '=', True),
         ])
         tasks_fields = [
             "id",
@@ -63,11 +69,13 @@ class account_analytic_line(models.Model):
 
         # Projects
         projects_ids = self.env["project.project"].search([
-            '|',
+            '&',
                 '|',
-                ("id", "in", project_ids_list),
-                ("user_id", '=', self.env.uid),  # User is the manager of the project
-            ("analytic_account_id", "in", account_ids_list),
+                    '|',
+                    ("id", "in", project_ids_list),
+                    ("user_id", '=', self.env.uid),  # User is the manager of the project
+                ("analytic_account_id", "in", account_ids_list),
+            ('active', '=', True),
         ])
 
         projects_fields = [
@@ -114,10 +122,12 @@ class account_analytic_line(models.Model):
                 if ls_project.get('to_sync'):
                     ls_projects_to_import.append([
                         str(ls_project['id']),
-                        str(ls_project['name']),
+                        ls_project['name'],
                     ])
                 else:
                     ls_projects_to_remove.append(str(ls_project['id']))
+            elif not sv_project.active:
+                ls_projects_to_remove.append(str(ls_project['id']))
 
         projects_fields = [
             'id',
@@ -134,12 +144,14 @@ class account_analytic_line(models.Model):
                 if ls_task.get('to_sync'):
                     ls_tasks_to_import.append([
                         str(ls_task['id']),
-                        str(ls_task['name']),
+                        ls_task['name'],
                         str(ls_task['project_id']),
                         str(self.env.uid),
                     ])
                 else:
                     ls_tasks_to_remove.append(str(ls_task['id']))
+            elif not sv_task.active:
+                ls_tasks_to_remove.append(str(ls_task['id']))
 
         tasks_fields = [
             'id',

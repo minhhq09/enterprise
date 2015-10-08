@@ -22,8 +22,8 @@ Features:
         'account_contract_dashboard',
     ],
     'data': [
-        'views/account_analytic_account_templates.xml',
-        'views/account_analytic_account_views.xml',
+        'views/sale_subscription_templates.xml',
+        'views/sale_subscription_views.xml',
         'views/payment_acquirer_views.xml',
         'security/ir.model.access.csv',
         'security/portal_contract_security.xml',

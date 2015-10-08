@@ -23,6 +23,13 @@ odoo.define('website.app_switcher', function(require) {
                         return false;
                     }
 
+                    // When you load the menu for the first time, it takes at least 3sec.
+                    // We add a spinner for the user to understand the loading.
+                    var icon_switcher = $(e.currentTarget).find('span.fa');
+                    icon_switcher
+                        .removeClass('fa-th')
+                        .addClass('fa-spin fa-spinner');
+
                     loading = true;
                     if(!self.app_switcher) {
                         session.session_reload().then(function() { // hack to get uid
@@ -47,6 +54,10 @@ odoo.define('website.app_switcher', function(require) {
                     }
 
                     function toggle_content() {
+                        icon_switcher
+                            .addClass('fa-th')
+                            .removeClass('fa-spin fa-spinner');
+
                         self.app_switcher_navbar.toggle_back_button(true);
                         self.app_switcher.$el.prependTo($body);
                         self.app_switcher_navbar.$el.prependTo($body);

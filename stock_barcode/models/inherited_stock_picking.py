@@ -17,22 +17,33 @@ class StockPackOperation(models.Model):
         context=dict(self.env.context)
         # As there is no quantity, just add the quantity
         if context.get('only_create') and context.get('serial'):
-            self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
+            if barcode in [x.lot_name for x in self.pack_lot_ids]:
+                return { 'warning': {
+                            'title': _('You have entered this serial number already'),
+                            'message': _('You have already scanned the serial number "%(barcode)s"') % {'barcode': barcode},
+                        }}
+            else:
+                self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_name': barcode})
         elif context.get('only_create') and not context.get('serial'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_name == barcode)
             if corresponding_pl:
                 corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
             else:
-                self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_name': barcode })
+                self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_name': barcode})
         elif not context.get('only_create'):
             corresponding_pl = self.pack_lot_ids.filtered(lambda r: r.lot_id.name == barcode)
             if corresponding_pl:
-                corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
+                if context.get('serial') and corresponding_pl[0].qty == 1.0:
+                    return {'warning': {'title': _('You have entered this serial number already'),
+                            'message': _('You have already scanned the serial number "%(barcode)s"') % {'barcode': barcode},}}
+                else:
+                    corresponding_pl[0].qty = corresponding_pl[0].qty + 1.0
+                    corresponding_pl[0].plus_visible = (corresponding_pl[0].qty_todo == 0.0) or (corresponding_pl[0].qty < corresponding_pl[0].qty_todo)
             else:
                 # Search lot with correct name
                 lots = self.env['stock.production.lot'].search([('product_id', '=', self.product_id.id), ('name', '=', barcode)])
                 if lots:
-                    self.pack_lot_ids += self.pack_lot_ids.new({ 'qty': 1.0, 'lot_id': lots[0].id })
+                    self.pack_lot_ids += self.pack_lot_ids.new({'qty': 1.0, 'lot_id': lots[0].id, 'plus_visible': False})
                 else:
                     return { 'warning': {
                         'title': _('No lot found'),
@@ -192,9 +203,6 @@ class StockPicking(models.Model):
         return True
 
     def on_barcode_scanned(self, barcode):
-        if self.state in ('cancel', 'done'):
-            return
-
         if not self.picking_type_id.barcode_nomenclature_id:
             # Logic for products
             product = self.env['product.product'].search(['|', ('barcode', '=', barcode), ('default_code', '=', barcode)], limit=1)
@@ -250,3 +258,17 @@ class StockPicking(models.Model):
                 if location and location.parent_left < self.location_dest_id.parent_right and location.parent_left >= self.location_dest_id.parent_left:
                     if self._check_destination_location(location):
                         return
+
+        return {'warning': {
+            'title': _('Wrong barcode'),
+            'message': _('The barcode "%(barcode)s" doesn\'t correspond to a proper product, package or location.') % {'barcode': barcode}
+        }}
+
+
+class StockPickingType(models.Model):
+
+    _inherit = 'stock.picking.type'
+
+    @api.multi
+    def get_action_picking_tree_ready_kanban(self):
+        return self._get_action('stock_barcode.stock_picking_action_kanban')

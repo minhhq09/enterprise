@@ -28,6 +28,7 @@ class ebay_configuration(models.TransientModel):
     ebay_location = fields.Char(string="Location Where The Products Are Stored")
     ebay_out_of_stock = fields.Boolean("Use Out Of Stock Option", default=False)
     ebay_sales_team = fields.Many2one("crm.team", string="Sales Team")
+    ebay_gallery_plus = fields.Boolean("Use Gallery Plus Option", default=False)
 
     @api.multi
     def set_ebay(self):
@@ -52,6 +53,8 @@ class ebay_configuration(models.TransientModel):
         currency = self[0].ebay_currency or self.env['res.country'].search(
             [('ebay_available', '=', True)])[0]
         self.env['ir.config_parameter'].set_param('ebay_currency', currency.id)
+        # by default all currencies active field is set to False except EUR and USD
+        self[0].ebay_currency.active = True
         country = self[0].ebay_country or self.env['res.country'].search(
             [('ebay_available', '=', True)])[0]
         self.env['ir.config_parameter'].set_param('ebay_country', country.id)
@@ -61,6 +64,8 @@ class ebay_configuration(models.TransientModel):
         self.env['ir.config_parameter'].set_param('ebay_zip_code', zip_code)
         location = self[0].ebay_location or ''
         self.env['ir.config_parameter'].set_param('ebay_location', location)
+        gallery_plus = self[0].ebay_gallery_plus or ''
+        self.env['ir.config_parameter'].set_param('ebay_gallery_plus', gallery_plus)
         out_of_stock = self[0].ebay_out_of_stock or ''
         if out_of_stock != self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
             self.env['ir.config_parameter'].set_param('ebay_out_of_stock', out_of_stock)
@@ -120,6 +125,7 @@ class ebay_configuration(models.TransientModel):
         ebay_out_of_stock = params.get_param('ebay_out_of_stock', default=False)
         ebay_sales_team = int(params.get_param('ebay_sales_team',
                               default=self.env['crm.team'].search([])[0]))
+        ebay_gallery_plus = params.get_param('ebay_gallery_plus')
         return {'ebay_dev_id': ebay_dev_id,
                 'ebay_sandbox_token': ebay_sandbox_token,
                 'ebay_sandbox_app_id': ebay_sandbox_app_id,
@@ -135,6 +141,7 @@ class ebay_configuration(models.TransientModel):
                 'ebay_location': ebay_location,
                 'ebay_out_of_stock': ebay_out_of_stock,
                 'ebay_sales_team': ebay_sales_team,
+                'ebay_gallery_plus': ebay_gallery_plus,
                 }
 
     @api.model
@@ -145,9 +152,13 @@ class ebay_configuration(models.TransientModel):
     def sync_policies(self, context=None):
         self.env['ebay.policy'].sync_policies()
 
-    @api.multi
-    def sync_product_status(self, context=None):
-        self.env['product.template'].sync_ebay_products()
+    @api.model
+    def button_sync_product_status(self, context=None):
+        self.env['product.template'].sync_product_status(sync_big_stocks=False)
+
+    @api.model
+    def sync_product_status(self, sync_big_stocks=False):
+        self.env['product.template'].sync_product_status(sync_big_stocks=sync_big_stocks)
 
     @api.model
     def sync_ebay_details(self, context=None):
@@ -164,7 +175,7 @@ class ebay_configuration(models.TransientModel):
         for currency in self.env['res.currency'].search([('ebay_available', '=', True)]):
             currency.ebay_available = False
         for currency in response.dict()['CurrencyDetails']:
-            record = self.env['res.currency'].search([('name', '=', currency['Currency'])])
+            record = self.env['res.currency'].with_context(active_test=False).search([('name', '=', currency['Currency'])])
             if record:
                 record.ebay_available = True
         for site in response.dict()['SiteDetails']:

@@ -77,7 +77,7 @@
         .o_cp_searchview {
             .o-when-full();
 
-            .o_searchview {
+            > div { // searchview or custom widget
                 width: 100%;
                 max-height: 1000px;
                 transition: max-height 0ms ease 400ms;
@@ -106,7 +106,7 @@
             .o_cp_searchview {
                 .o-when-not-full();
 
-                .o_searchview {
+                > div { // searchview or custom widget
                     max-height: @breadcrumb-height;
                     transition: max-height 0ms ease 0ms;
                 }

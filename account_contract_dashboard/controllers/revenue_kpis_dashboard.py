@@ -27,6 +27,9 @@ class RevenueKPIsDashboard(http.Controller):
 
         if not end_date:
             end_date = date.today()
+        else:
+            end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
+
         net_new_mrr = compute_mrr_growth_values(end_date, end_date)['net_new_mrr']
         revenue_churn = self.compute_stat('revenue_churn', end_date, end_date)
 
@@ -171,9 +174,9 @@ class RevenueKPIsDashboard(http.Controller):
     @http.route('/account_contract_dashboard/compute_stat', type='json', auth='user')
     def compute_stat(self, stat_type, start_date, end_date, contract_ids=None):
 
-        if type(start_date) == str:
+        if isinstance(start_date, (str, unicode)):
             start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
-        if type(end_date) == str:
+        if isinstance(end_date, (str, unicode)):
             end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
 
         return STAT_TYPES[stat_type]['compute'](start_date, end_date, contract_ids=contract_ids)

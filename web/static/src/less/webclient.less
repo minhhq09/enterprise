@@ -83,6 +83,20 @@ select { // FIXME buggy 'padding-left'
     }
 }
 
+.o-placeholder() { // Rules below need to be separeted. Otherwise all browsers will discard the whole rule.
+    color: @odoo-brand-secondary;
+    opacity: 0.5;
+}
+::-webkit-input-placeholder { // WebKit, Blink, Edge
+    .o-placeholder();
+}
+::-moz-placeholder { // Mozilla Firefox 19+
+    .o-placeholder();
+}
+:-ms-input-placeholder { // Internet Explorer 10-11
+    .o-placeholder();
+}
+
 // ------------------------------------------------------------------
 // Layout
 // ------------------------------------------------------------------

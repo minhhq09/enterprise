@@ -31,6 +31,7 @@ class sale_order(models.Model):
             :param company : the company of the created PO
             :rtype company : res.company record
         """
+        self = self.with_context(force_company=company.id, company_id=company.id)
         PurchaseOrder = self.env['purchase.order']
         company_partner = self.company_id and self.company_id.partner_id or False
         if not company or not company_partner.id:
@@ -70,14 +71,18 @@ class sale_order(models.Model):
             :rtype company : res.company record
         """
         # find location and warehouse, pick warehouse from company object
+        PurchaseOrder = self.env['purchase.order']
         warehouse = company.warehouse_id and company.warehouse_id.company_id.id == company.id and company.warehouse_id or False
         if not warehouse:
-            raise Warning(_('Configure correct warehouse for company(%s) from Menu: Settings/companies/companies' % (company.name)))
+            raise Warning(_('Configure correct warehouse for company(%s) from Menu: Settings/Users/Companies' % (company.name)))
 
-        return {
+        intercompany_uid = company.intercompany_user_id.id
+        picking_type_id = PurchaseOrder.sudo(intercompany_uid)._default_picking_type()
+        res = {
             'name': self.env['ir.sequence'].sudo().next_by_code('purchase.order'),
             'origin': self.name,
             'partner_id': company_partner.id,
+            'picking_type_id': picking_type_id,
             'date_order': self.date_order,
             'company_id': company.id,
             'fiscal_position_id': company_partner.property_account_position_id,
@@ -87,6 +92,7 @@ class sale_order(models.Model):
             'partner_ref': self.name,
             'dest_address_id': self.partner_shipping_id and self.partner_shipping_id.id or False,
         }
+        return res
 
     @api.model
     def _prepare_purchase_order_line_data(self, so_line, date_order, purchase_id, company):

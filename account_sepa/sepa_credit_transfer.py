@@ -13,7 +13,7 @@ from openerp.exceptions import UserError, ValidationError
 
 
 def check_valid_SEPA_str(string):
-    if re.search('[^A-Za-z0-9/\-?:().,\'+ ]', string) != None:
+    if re.search('[^-A-Za-z0-9/?:().,\'+ ]', string) != None:
         raise ValidationError(_("The text used in SEPA files can only contain the following characters :\n\n"
             "a b c d e f g h i j k l m n o p q r s t u v w x y z\n"
             "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"
@@ -32,7 +32,7 @@ def prepare_SEPA_string(string):
         string = string[1:]
     while string.endswith('/'): # No ending slash allowed
         string = string[:-1]
-    string = re.sub('[^A-Za-z0-9/-?:().,\'+ ]', '', string) # Only keep allowed characters
+    string = re.sub('[^-A-Za-z0-9/?:().,\'+ ]', '', string) # Only keep allowed characters
     return string
 
 
@@ -40,8 +40,8 @@ class AccountSepaCreditTransfer(models.TransientModel):
     _name = "account.sepa.credit.transfer"
     _description = "Create SEPA credit transfer files"
 
-    journal_id = fields.Many2one('account.journal', readonly=True)
-    bank_account_id = fields.Many2one('res.partner.bank', readonly=True)
+    journal_id = fields.Many2one('account.journal', string="Journal", readonly=True)
+    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", readonly=True)
     is_generic = fields.Boolean(readonly=True,
         help="Technical feature used during the file creation. A SEPA message is said to be 'generic' if it cannot be considered as "
              "a standard european credit transfer. That is if the bank journal is not in €, a transaction is not in € or a payee is "
@@ -61,7 +61,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """
         # Since this method is called via a client_action_multi, we need to make sure the received records are what we expect
-        payments = payments.filtered(lambda r: r.payment_method_id.code == 'sepa_ct' and r.state in ('posted', 'sent'))
+        payments = payments.filtered(lambda r: r.payment_method_id.code == 'sepa_ct' and r.state in ('posted', 'sent')).sorted(key=lambda r: r.id)
 
         if len(payments) == 0:
             raise UserError(_("Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' selected as payment method and be posted"))
@@ -79,7 +79,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         res = self.create({
             'journal_id': journal.id,
             'bank_account_id': bank_account.id,
-            'filename': "sct_" + bank_account.sanitized_acc_number + time.strftime("_%Y-%m-%d") + ".xml",
+            'filename': "SCT" + bank_account.sanitized_acc_number + time.strftime("%Y%m%d") + ".xml",
             'is_generic': self._require_generic_message(journal, payments),
         })
 

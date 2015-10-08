@@ -67,10 +67,6 @@ class view(models.Model):
     def _read_template(self, cr, uid, view_id, context=None):
         arch = self.read_combined(cr, uid, view_id, fields=['arch'], context=context)['arch']
         arch_tree = etree.fromstring(arch)
-
-        if 'lang' in context:
-            arch_tree = self.translate_qweb(cr, uid, view_id, arch_tree, context['lang'], context)
-
         self.distribute_branding(arch_tree)
         root = etree.Element('templates')
         root.append(arch_tree)
@@ -127,26 +123,6 @@ class view(models.Model):
             all_id = self.search(cr, uid, [('key', '=', view.key)], context=dict(context or {}, active_test=False))
             for v in self.browse(cr, uid, all_id, context=dict(context or {}, active_test=False)):
                 v.write({'active': not v.active})
-
-    @api.model
-    def translate_qweb(self, id_, arch, lang):
-        view = self.browse(id_)
-        if not view.key:
-            return super(view, self).translate_qweb(id_, arch, lang)
-        views = self.search([('key', '=', view.key), '|',
-                             ('website_id', '=', view.website_id.id), ('website_id', '=', False)])
-        fallback_views = self
-        for v in views:
-            if v.mode == 'primary' and v.inherit_id.mode == 'primary':
-                # template is `cloned` from parent view
-                fallback_views += view.inherit_id
-        views += fallback_views
-        def translate_func(term):
-            Translations = self.env['ir.translation']
-            trans = Translations._get_source('website', 'view', lang, term, views.ids)
-            return trans
-        self._translate_qweb(arch, translate_func)
-        return arch
 
     @api.model
     def customize_template_get(self, key, full=False, bundles=False, **kw):
