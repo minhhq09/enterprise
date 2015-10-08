@@ -22,6 +22,8 @@ class report_account_coa(models.AbstractModel):
             'cash_basis': context_id.cash_basis,
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
+            'periods_number': context_id.periods_number,
+            'periods': [[False, context_id.date_to]] + context_id.get_cmp_periods(),
         })
         return self.with_context(new_context)._lines(line_id)
 
@@ -30,7 +32,15 @@ class report_account_coa(models.AbstractModel):
         lines = []
         context = self.env.context
         company_id = context.get('company_id') or self.env.user.company_id
-        grouped_accounts = self.with_context(date_from_aml=context['date_from'], date_from=context['date_from'] and company_id.compute_fiscalyear_dates(datetime.strptime(context['date_from'], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
+        grouped_accounts = {}
+        period_number = 0
+        for period in context['periods']:
+            res = self.with_context(date_from_aml=period[1], date_to=period[1], date_from=period[0] and company_id.compute_fiscalyear_dates(datetime.strptime(period[0], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
+            for account in res:
+                if account not in grouped_accounts.keys():
+                    grouped_accounts[account] = [{'balance': 0, 'debit': 0, 'credit': 0} for p in context['periods']]
+                grouped_accounts[account][period_number] = res[account]
+            period_number += 1
         sorted_accounts = sorted(grouped_accounts, key=lambda a: a.code)
         title_index = '0'
         for account in sorted_accounts:
@@ -41,7 +51,7 @@ class report_account_coa(models.AbstractModel):
                     'type': 'line',
                     'name': _("Class %s" % (title_index)),
                     'footnotes': [],
-                    'columns': ['', ''],
+                    'columns': sum([['', ''] for p in xrange(len(context['periods']))], []),
                     'level': 1,
                     'unfoldable': False,
                     'unfolded': True,
@@ -51,8 +61,9 @@ class report_account_coa(models.AbstractModel):
                 'type': 'account_id',
                 'name': account.code + " " + account.name,
                 'footnotes': self.env.context['context_id']._get_footnotes('account_id', account.id),
-                'columns': [grouped_accounts[account]['balance'] > 0 and self._format(grouped_accounts[account]['debit'] - grouped_accounts[account]['credit']) or '',
-                            grouped_accounts[account]['balance'] < 0 and self._format(grouped_accounts[account]['credit'] - grouped_accounts[account]['debit']) or ''],
+                'columns': sum([[grouped_accounts[account][p]['balance'] > 0 and self._format(grouped_accounts[account][p]['debit'] - grouped_accounts[account][p]['credit']) or '',
+                                 grouped_accounts[account][p]['balance'] < 0 and self._format(grouped_accounts[account][p]['credit'] - grouped_accounts[account][p]['debit']) or '']
+                                for p in xrange(len(context['periods']))], []),
                 'level': 1,
                 'unfoldable': False,
             })
@@ -83,8 +94,20 @@ class account_context_coa(models.TransientModel):
         return self.env['account.coa.report']
 
     def get_columns_names(self):
-        return [_("Debit"), _("Credit")]
+        columns = [_('Debit') + '<br/>' + self.get_full_date_names(self.date_to), _('Credit')]
+        if self.comparison and (self.periods_number == 1 or self.date_filter_cmp == 'custom'):
+            columns += [_('Debit') + '<br/>' + self.get_cmp_date(), _('Credit')]
+        else:
+            for period in self.get_cmp_periods(display=True):
+                columns += [_('Debit') + '<br/>' + str(period), _('Credit')]
+        return columns
 
     @api.multi
     def get_columns_types(self):
-        return ["number", "number"]
+        types = ['number', 'number']
+        if self.comparison and (self.periods_number == 1 or self.date_filter_cmp == 'custom'):
+            types += ['number', 'number']
+        else:
+            for period in self.get_cmp_periods(display=True):
+                types += ['number', 'number']
+        return types
