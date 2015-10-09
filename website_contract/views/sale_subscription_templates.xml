@@ -168,6 +168,7 @@
                                 <div t-if="payment_mandatory and allow_reopen and account.state!='open'">
                                     <p t-if="allow_reopen and account.state == 'close'">Your account is closed. If you wish to reopen it, you can pay your invoice for the current invoicing period.</p>
                                     <form method="post" class="mt16 clearfix" id="wc-payment-form" t-attf-action="/my/contract/payment/#{account.id}/#{account.uuid}">
+                                        <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <div class="form-group">
                                             <select class="form-control" name="pay_meth">
                                                 <option value="-2">Current: <span t-esc="account.payment_method_id.name"/></option>
@@ -304,6 +305,7 @@
                             <h4 class="modal-title">Close your contract</h4>
                         </div>
                         <form method="post" t-attf-action="/my/contract/#{account.id}/close/?uuid=#{account.uuid}">
+                            <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-body">
                                 <p>If you confirm, you contract will be closed right away. Your current invoicing period is valid until <span t-field="account.recurring_next_date"/>.</p>
                                 <p>We always listen to our customer. Could you specify the reason for cancelling your subscription?</p>
@@ -436,6 +438,7 @@
                             <h4 class="modal-title">Close your contract</h4>
                         </div>
                         <form method="post" t-attf-action="/my/contract/#{account.id}/close/?uuid=#{account.uuid}">
+                            <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="modal-body">
                                 <p>If you confirm, you contract will be closed right away. Your current invoicing period is valid until <span t-field="account.recurring_next_date"/>.</p>
                                 <p>We always listen to our customer. Could you specify the reason for cancelling your subscription?</p>
@@ -466,6 +469,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="post" t-attf-action="/my/contract/#{account.id}/remove_option/?uuid=#{account.uuid}">
+                        <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <div class="modal-header">
                             <h4 class="modal-title">Confirm Option Removal</h4>
                         </div>
@@ -499,11 +503,13 @@
                     <div class="modal-footer">
                         <form method="post" t-attf-action="/my/contract/#{account.id}/pay_option"
                               t-if="(line.price_subtotal)&gt;0.0 and account.sudo().template_id.partial_invoice">
+                            <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-primary contract-submit">Confirm</button>
                         </form>
                         <form method="post" t-attf-action="/my/contract/#{account.id}/add_option/?uuid=#{account.uuid}" t-if="(line.price_subtotal)==0.0 or not account.sudo().template_id.partial_invoice">
+                            <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-primary contract-submit">Confirm</button>
@@ -671,6 +677,7 @@
                     <form method="post" t-if="template.user_selectable and account.template_id.id != template.id">
                         <input class="hidden" name="new_template_id" t-att-value="template.id"/>
                         <input class="hidden" name="uuid" t-att-value="account.uuid"/>
+                        <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <button type="button" class="btn btn-primary pull-right" data-toggle="modal" t-att-data-target="'#contract_confirm_'+str(template.id)"><i class="fa fa-fw fa-arrow-circle-right"></i> Select</button>
                         <div class="modal fade" t-att-id="'contract_confirm_'+str(template.id)">
                             <div class="modal-dialog">
