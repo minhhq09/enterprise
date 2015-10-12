@@ -1386,6 +1386,9 @@ var FieldMany2ManyTags = AbstractManyField.extend(common.CompletionFieldMixin, c
                     }
                 }
             });
+            this.many2one.get_search_blacklist = function () {
+                return self.get('value');
+            };
         }
     },
     destroy_content: function() {
