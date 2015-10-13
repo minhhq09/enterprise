@@ -184,6 +184,12 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                 self.trigger('switch_mode', view_type, no_store, view_options);
             });
         });
+        switched.fail(function() {
+            self.do_warn(_t("Error"), view.controller.display_name + _t(" view couldn't be loaded"));
+            // Restore internal state
+            self.active_view = old_view;
+            self.view_stack.pop();
+        });
         return switched;
     },
     _display_view: function (view_options, old_view) {
