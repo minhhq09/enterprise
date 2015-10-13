@@ -1,63 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
+
 <template id="print_check_middle">
-    <t t-call="l10n_us_check_printing.base_styles" />
-    <style type="text/css">
-        .ckus_stub_1 {
-            top: 0in;
-        }
-        .ckus_check {
-            top: 3.45in;
-        }
-        .ckus_stub_2 {
-            top: 7.0in;
-        }
-
-        .ckus_check .sequence_number {
-            top: 0.1in;
-            left: 6.90in;
-            width: 1.0in;
-        }
-        .ckus_payee_name {
-            top: 2.0in;
-            left: 0.35in;
-            width: 5.5in;
-            text-align: left;
-        }
-        .ckus_date {
-            top: 1.5in;
-            left: 4.55in;
-            width: 1.40in;
-            text-align: center;
-        }
-        .ckus_amount {
-            top: 1.5in;
-            left: 6.60in;
-            width: 1.40in;
-            text-align: center;
-        }
-        .ckus_amount_in_word {
-            top: 2.3in;
-            left: 0.35in;
-            width: 5.0in;
-            text-align: left;
-            font-weight: bold;
-            overflow: hidden;
-        }
-        .ckus_memo {
-            top: 2.6in;
-            left: 0.35in;
-            width: 4.10in;
-            text-align: left;
-            font-size: 0.9em;
-            overflow: hidden;
-        }
-    </style>
-
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="o">
-            <div t-foreach="pages(o)" t-as="page" class="page ckus_page" t-attf-style="top: {{ o.company_id.us_check_margin_top }}in; left: {{ o.company_id.us_check_margin_left }}in;">
+            <div t-foreach="pages(o)" t-as="page" class="page ckus_page ckus_middle_page" t-attf-style="top: {{ o.company_id.us_check_margin_top }}in; left: {{ o.company_id.us_check_margin_left }}in;">
                 <t t-call="l10n_us_check_printing.ckus_stub"><t t-set="stub_num" t-value="1"/></t>
                 <t t-call="l10n_us_check_printing.ckus_check" />
                 <t t-call="l10n_us_check_printing.ckus_stub"><t t-set="stub_num" t-value="2"/></t>
@@ -65,5 +13,6 @@
         </t>
     </t>
 </template>
+
 </data>
 </openerp>
