@@ -88,6 +88,14 @@
           <br t-if="dashboard.number_to_reconcile == 0"/><button t-if="dashboard.number_to_reconcile == 0" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
           <a t-if="dashboard.number_to_reconcile > 0" type="action" name="%(action_config_online_sync_journal_form)d" class="oe_inline">Online synchronization</a>
         </xpath>
+        <xpath expr='//div[@name="bank_journal_cta"]' position='inside'>
+          <t t-if="dashboard.bank_statements_source == 'online_sync'">
+            <button t-if="dashboard.number_to_reconcile == 0" attrs="{'invisible': [('online_account_id', '!=', False)]}" type="action" name="%(action_config_online_sync_journal_form)d" class="btn btn-primary btn-sm">Online synchronization</button>
+            <a t-if="dashboard.number_to_reconcile > 0" attrs="{'invisible': [('online_account_id', '!=', False)]}" type="action" name="%(action_config_online_sync_journal_form)d" class="oe_inline">Online synchronization</a>
+            <button t-if="dashboard.number_to_reconcile == 0" attrs="{'invisible': [('online_account_id', '=', False)]}" type="object" name="online_sync" class="btn btn-primary btn-sm">Online synchronization</button>
+            <a t-if="dashboard.number_to_reconcile > 0" attrs="{'invisible': [('online_account_id', '=', False)]}" type="object" name="online_sync" class="oe_inline">Online synchronization</a>
+          </t>
+        </xpath>
         <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="inside">
           <span class="text-muted" t-if="(record.online_account_id.value != '')" t-att-title="record.next_synchronization.value">Next sync: <t t-esc="record.next_synchronization.value"/></span>
         </xpath>
