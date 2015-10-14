@@ -221,7 +221,7 @@ class product_template(models.Model):
         for key in name_values:
             possible_name_values.append({
                 'Name': self._ebay_encode(key),
-                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+                'Value': map(lambda n: self._ebay_encode(n), sorted(name_values[key]))
             })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
