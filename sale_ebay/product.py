@@ -161,6 +161,15 @@ class product_template(models.Model):
             if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        return item
+
+    @api.model
+    def _ebay_encode(self, string):
+        return escape(string.strip().encode('utf-8')) if string else ''
+
+    @api.multi
+    def _prepare_non_variant_dict(self):
+        item = self._prepare_item_dict()
         item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
         if self.barcode:
             if len(self.barcode) == 12:
@@ -168,10 +177,6 @@ class product_template(models.Model):
             elif len(self.barcode) == 13:
                 item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
-
-    @api.model
-    def _ebay_encode(self, string):
-        return escape(string.strip().encode('utf-8')) if string else ''
 
     @api.multi
     def _prepare_variant_dict(self):
@@ -229,7 +234,7 @@ class product_template(models.Model):
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict()
         else:
-            item_dict = self._prepare_item_dict()
+            item_dict = self._prepare_non_variant_dict()
         return item_dict
 
     @api.one
