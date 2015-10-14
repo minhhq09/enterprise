@@ -562,7 +562,7 @@ class product_template(models.Model):
                 ir_values = self.env['ir.values']
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
                 shipping_name = transaction['ShippingServiceSelected']['ShippingService']
-                self.env['sale.order.line'].create({
+                so_line = self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
                     'name': shipping_name,
                     'product_uom_qty': 1,
@@ -571,6 +571,12 @@ class product_template(models.Model):
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
                 })
+                result = so_line.product_id_change(
+                    pricelist=sale_order.pricelist_id.id,
+                    product=variant.id,
+                    fiscal_position=sale_order.fiscal_position.id,
+                )
+                so_line.tax_id = [(6, 0, result['value']['tax_id'])]
             sale_order.action_button_confirm()
             if 'BuyerCheckoutMessage' in transaction:
                 sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
