@@ -30,15 +30,6 @@ class TestContract(TestContractCommon):
         self.assertTrue(len(self.contract.recurring_invoice_line_ids.ids) == 1, 'sale_contract: recurring_invoice_line_ids not created when confirming sale_order with recurring_product')
         self.assertEqual(self.sale_order.state, 'done', 'sale_contract: so state should be after confirmation done when there is a subscription')
 
-    @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
-    def test_invoice(self):
-        """ Test invoice generation"""
-        self.contract.write(self.contract.on_change_template(template_id=self.contract_tmpl.id)['value'])
-        self.contract.write({'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': 31415.9, 'uom_id': self.product_tmpl.uom_id.id})]})
-        invoice_id = self.contract._recurring_create_invoice()
-        invoice = self.env['account.invoice'].browse(invoice_id)
-        self.assertEqual(invoice.amount_untaxed, 31415.9, 'sale_contract: recurring invoice generation problem')
-
     def test_renewal(self):
         """ Test contract renewal """
         res = self.contract.prepare_renewal_order()

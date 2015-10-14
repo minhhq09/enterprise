@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from openerp.tests import common
+from openerp.addons.account.tests.account_test_classes import AccountingTestCase
 
 
-class TestContractCommon(common.TransactionCase):
+class TestContractCommon(AccountingTestCase):
 
     def setUp(self):
         super(TestContractCommon, self).setUp()
