@@ -56,7 +56,7 @@ models.load_models([
     },{
         model: 'loyalty.reward',
         condition: function(self){ return !!self.loyalty; },
-        fields: ['name','reward_type','minimum_points','gift_product_id','point_cost','discount_product_id','discount','point_value','point_product_id'],
+        fields: ['name','reward_type','minimum_points','gift_product_id','point_cost','discount_product_id','discount','point_product_id'],
         domain: function(self){ return [['loyalty_program_id','=',self.loyalty.id]]; },
         loaded: function(self,rewards){
             self.loyalty.rewards = rewards; 
