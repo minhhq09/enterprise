@@ -1212,10 +1212,13 @@ var FieldBinaryFile = FieldBinary.extend({
                 }
             }
         } else {
-            if (this.filename) {
-                this.$input.val(this.filename);
+            if(this.get('value')) {
+                this.$el.children().removeClass('o_hidden');
+                this.$('.o_select_file_button').first().addClass('o_hidden');
+                this.$input.val(this.filename || this.get('value'));
             } else {
-                this.$input.val((this.get('value')) ? this.get('value') : '');
+                this.$el.children().addClass('o_hidden');
+                this.$('.o_select_file_button').first().removeClass('o_hidden');
             }
         }
     }
