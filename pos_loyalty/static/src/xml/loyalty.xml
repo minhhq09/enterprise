@@ -82,4 +82,56 @@
         </t>
     </t>
 
+    <t t-extend="PosTicket">
+        <t t-jquery='.receipt-change' t-operation='after'>
+            <t t-if='receipt.loyalty'>
+                <div class='loyalty'>
+                    <br/>
+                    <div class="title">
+                        <t t-esc='receipt.loyalty.name'/>
+                    </div>
+                    <div class="subtitle">
+                        <t t-esc='receipt.loyalty.client' />
+                    </div>
+                    <br/>
+                    <table class='receipt-total'>
+                        <t t-if='receipt.loyalty.points_won'>
+                            <tr>
+                                <td class="pos-left-align">
+                                    Points Won:
+                                </td>
+                                <td class="pos-right-align">
+                                    <t t-esc='receipt.loyalty.points_won' />
+                                </td>
+                            </tr>
+                        </t>
+
+                        <t t-if='receipt.loyalty.points_spent'>
+                            <tr>
+                                <td class="pos-left-align">
+                                    Points Spent:
+                                </td>
+                                <td class="pos-right-align">
+                                    <t t-esc='receipt.loyalty.points_spent' />
+                                </td>
+                            </tr>
+                        </t>
+
+                        <t t-if='receipt.loyalty.points_total'>
+                            <tr class="emph">
+                                <td class="pos-left-align">
+                                    Total Points:
+                                </td>
+                                <td class="pos-right-align">
+                                    <t t-esc='receipt.loyalty.points_total' />
+                                </td>
+                            </tr>
+                        </t>
+
+                    </table>
+                </div>
+            </t>
+        </t>
+    </t>
+
 </templates>
