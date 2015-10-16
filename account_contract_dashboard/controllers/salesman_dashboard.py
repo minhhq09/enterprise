@@ -31,7 +31,7 @@ class SalemanDashboard(http.Controller):
         return {
             'salesman_ids': salesman_ids,
             'default_salesman': current_salesmen[0] if current_salesmen else None,
-            'currency_id': request.env['res.company'].search([], order='id')[0].currency_id.id,
+            'currency_id': request.env.user.company_id.currency_id.id,
         }
 
     @http.route('/account_contract_dashboard/get_values_salesman', type='json', auth='user')

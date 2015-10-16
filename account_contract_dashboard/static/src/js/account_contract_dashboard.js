@@ -474,7 +474,6 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             additional_context = {
                 'search_default_asset_end_date': moment(this.end_date).toDate(),
                 'search_default_asset_start_date': moment(this.end_date).toDate(),
-                'search_default_currency_id': this.currency_id,
                 // TODO: add contract_ids as another filter
             };
             view_xmlid = "account_contract_dashboard.action_invoice_line_entries_report";

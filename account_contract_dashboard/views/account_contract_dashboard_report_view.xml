@@ -19,7 +19,6 @@
             <search string="Invoice Line Entries Analysis">
                 <field name="asset_start_date" string="Asset Start Date" filter_domain="[('asset_start_date','&lt;=', self)]"/>
                 <field name="asset_end_date" string="Asset End Date" filter_domain="[('asset_end_date','&gt;=', self)]"/>
-                <field name="currency_id" string="Currency" filter_domain="[('currency_id', '=', self)]"/>
                 <group expand="0" string="Group By">
                     <separator/>
                     <filter string="OUT invoices" name="OUT" domain="[('invoice_id.type', 'in', ('out_invoice', 'out_refund'))]"/>
