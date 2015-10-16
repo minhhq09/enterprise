@@ -113,7 +113,9 @@ class report_account_general_ledger(models.AbstractModel):
                     progress = progress + line_debit - line_credit
                     currency = "" if not line.account_id.currency_id else line.amount_currency
                     name = []
-                    name = line.name and line.name or '/'
+                    name = line.name and line.name or ''
+                    if line.ref:
+                        name = name and name + ' - ' + line.ref or line.ref
                     if len(name) > 35:
                         name = name[:32] + "..."
                     domain_lines.append({
@@ -136,7 +138,7 @@ class report_account_general_ledger(models.AbstractModel):
                 domain_lines[:0] = [{
                     'id': account.id,
                     'type': 'initial_balance',
-                    'name': 'Initial Balance',
+                    'name': _('Initial Balance'),
                     'footnotes': self.env.context['context_id']._get_footnotes('initial_balance', account.id),
                     'columns': ['', '', '', initial_currency, self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
                     'level': 1,
@@ -144,7 +146,7 @@ class report_account_general_ledger(models.AbstractModel):
                 domain_lines.append({
                     'id': account.id,
                     'type': 'o_account_reports_domain_total',
-                    'name': 'Total ' + account.name,
+                    'name': _('Total ') + account.name,
                     'footnotes': self.env.context['context_id']._get_footnotes('o_account_reports_domain_total', account.id),
                     'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                     'level': 1,

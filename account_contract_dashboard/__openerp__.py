@@ -19,7 +19,8 @@ It adds dashboards to :
         'templates/assets.xml',
     ],
     'demo': [
-        'demo/account_contract_dashboard_demo.xml',
+        #if any, demo data should be created using yml files, in the same flavour then in account_asset
+        #'demo/account_contract_dashboard_demo.xml',
     ],
     'qweb': [
         "static/src/xml/account_contract_dashboard.xml",

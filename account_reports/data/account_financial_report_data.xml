@@ -25,7 +25,7 @@
         <record id="account_financial_report_gross_profit0" model="account.financial.html.report.line">
             <field name="name">GROSS PROFIT</field>
             <field name="code">GRP</field>
-            <field name="formulas">balance = INC.balance - COS.balance</field>
+            <field name="formulas">balance = INC.balance + OIN.balance - COS.balance</field>
             <field name="parent_id" ref='account_financial_report_net_profit0'/>
             <field name="sequence" eval="1"/>
             <field name="level" eval="1" />
@@ -42,6 +42,17 @@
             <field name="level" eval="2" />
         </record>
 
+        <record id="account_financial_report_other_income0" model="account.financial.html.report.line">
+            <field name="name">Other Income</field>
+            <field name="code">OIN</field>
+            <field name="formulas">balance = -sum.balance</field>
+            <field name="parent_id" ref='account_financial_report_gross_profit0'/>
+            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_other_income'))]" />
+            <field name="groupby">account_id</field>
+            <field name="sequence" eval="2"/>
+            <field name="level" eval="2" />
+        </record>
+
         <record id="account_financial_report_cost_sales0" model="account.financial.html.report.line">
             <field name="name">Cost of Revenue</field>
             <field name="code">COS</field>
@@ -49,7 +60,7 @@
             <field name="parent_id" ref='account_financial_report_gross_profit0'/>
             <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_account_type_direct_costs'))]" />
             <field name="groupby">account_id</field>
-            <field name="sequence" eval="2"/>
+            <field name="sequence" eval="3"/>
             <field name="green_on_positive" eval="False"/>
             <field name="level" eval="2" />
         </record>

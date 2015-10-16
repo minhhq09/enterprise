@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-30 13:36+0000\n"
-"PO-Revision-Date: 2015-09-30 13:36+0000\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2015-10-09 09:22+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -192,8 +192,8 @@ msgid "Plain"
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:107
-#: code:addons/delivery_temando/models/temando_request.py:112
+#: code:addons/delivery_temando/models/temando_request.py:52
+#: code:addons/delivery_temando/models/temando_request.py:57
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr ""
@@ -219,20 +219,25 @@ msgid "Sales Order"
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:142
+#: code:addons/delivery_temando/models/delivery_temando.py:147
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:114
+#: code:addons/delivery_temando/models/delivery_temando.py:118
 #, python-format
-msgid "Shipment created into Temando <br/> <b>Tracking Number : </b>%s"
+msgid "Shipment created into Temando <br/> <b>Carrier: </b>%s <br/> <b>Tracking Number: </b>%s"
 msgstr ""
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_carrier_id
 msgid "Temando Carrier ID"
+msgstr ""
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_carrier_name
+msgid "Temando Carrier Name"
 msgstr ""
 
 #. module: delivery_temando
@@ -323,27 +328,33 @@ msgid "Test Mode"
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:104
+#: code:addons/delivery_temando/models/temando_request.py:49
 #, python-format
 msgid "The address of your company is missing or wrong (Missing fields : %s...)."
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:114
+#: code:addons/delivery_temando/models/temando_request.py:59
 #, python-format
-msgid "The delivery cannot be done because the weight of your product is missing."
+msgid "The delivery cannot be done because the weight of some products is missing."
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:109
+#: code:addons/delivery_temando/models/temando_request.py:54
 #, python-format
 msgid "The estimated price cannot be computed because the weight of your product is missing."
 msgstr ""
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:101
+#: code:addons/delivery_temando/models/temando_request.py:44
 #, python-format
 msgid "The recipient address is missing or wrong (Missing fields : %s...)."
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:84
+#, python-format
+msgid "This picking cannot be sent through Temando, as it has no linked sale order"
 msgstr ""
 
 #. module: delivery_temando

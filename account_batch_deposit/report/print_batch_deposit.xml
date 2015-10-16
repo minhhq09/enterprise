@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
+
+<template id="assets_common" name="account_batch_deposit pdf assets" inherit_id="report.assets_common">
+    <xpath expr="." position="inside">
+        <link href="/account_batch_deposit/static/src/less/report_batch_deposit.less" rel="stylesheet"/>
+    </xpath>
+</template>
+
 <template id="print_batch_deposit">
     <t t-call="report.html_container">
-        <style type="text/css">
-            .deposit_details {
-                margin: 0.2in 0;
-                font-size: 2em;
-            }
-        </style>
         <t t-foreach="docs" t-as="o">
-            <div t-foreach="pages(o)" t-as="page" class="page">
+            <div t-foreach="pages(o)" t-as="page" class="page page_batch_deposit">
                 <div class="row deposit_details">
                     <div class="col-xs-6"><t t-esc="page['date']"/></div>
                     <div class="col-xs-6 text-right"><t t-esc="page['journal_name']"/> : <t t-esc="page['deposit_name']"/></div>

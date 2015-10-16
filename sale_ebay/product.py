@@ -161,11 +161,12 @@ class product_template(models.Model):
             if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
         if self.barcode:
             if len(self.barcode) == 12:
-                item['Item']['ProductListingDetails'] = {'UPC': self.barcode}
+                item['Item']['ProductListingDetails']['UPC'] = self.barcode
             elif len(self.barcode) == 13:
-                item['Item']['ProductListingDetails'] = {'EAN': self.barcode}
+                item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
 
     @api.model
@@ -175,7 +176,7 @@ class product_template(models.Model):
     @api.multi
     def _prepare_variant_dict(self):
         if not self.product_variant_ids.filtered('ebay_use'):
-            raise UserError(_('No Variant Set To Be Published On eBay'))
+            raise UserError(_("Error Encountered.\n No Variant Set To Be Listed On eBay."))
         currency_id = self.env['ir.config_parameter'].get_param('ebay_currency')
         currency = self.env['res.currency'].browse(int(currency_id))
         comp_currency = self.env.user.company_id.currency_id
@@ -224,9 +225,7 @@ class product_template(models.Model):
 
     @api.multi
     def _get_item_dict(self):
-        if self.product_variant_count > 1 and not self.product_variant_ids.filtered('ebay_use'):
-            raise UserError(_("Error Encountered.\n No Variant Set To Be Listed On eBay."))
-        if len(self.product_variant_ids.filtered('ebay_use')) > 1 \
+        if len(self.product_variant_ids) > 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict()
         else:
@@ -287,7 +286,29 @@ class product_template(models.Model):
         try:
             return ebay_api.execute(verb, data, list_nodes, verb_attrs, files)
         except ConnectionError as e:
-            self._handle_ebay_error(e)
+            errors = e.response.dict()['Errors']
+            if not isinstance(errors, list):
+                errors = [errors]
+            error_message = ''
+            for error in errors:
+                if error['SeverityCode'] == 'Error':
+                    error_message += error['LongMessage']
+            if 'Condition is required for this category.' in error_message:
+                error_message += _('Or the condition is not compatible with the category.')
+            if any(s in error for s in ['Internal error to the application', 'Internal application error']):
+                error_message = _('eBay is unreachable. Please try again later.')
+            if 'Invalid Multi-SKU item id supplied with variations' in error_message:
+                error_message = _('Impossible to revise a listing into a multi-variations listing.\n Create a new listing.')
+            if 'UPC is missing a value.' in error_message:
+                error_message = _('The UPC value (the barcode value of your product) is not valid by using the checksum.')
+            if 'must have a quantity greater than 0' in error_message:
+                error_message += _(" If you want to set quantity to 0, the Out Of Stock option should be enabled"
+                                  " and the listing duration should set to Good 'Til Canceled")
+            if 'Item Specifics entered for a Multi-SKU item should be different' in error_message:
+                error_message = _(" You need to have at least 2 variations selected for a multi-variations listing.\n"
+                                   " Or if you try to delete a variation, you cannot do it by unselecting it."
+                                   " Setting the quantity to 0 is the safest method to make a variation unavailable.")
+            raise UserError(_("Error Encountered.\n'%s'") % (error_message,))
 
     @api.multi
     def _create_picture_url(self):
@@ -335,7 +356,7 @@ class product_template(models.Model):
                      "EndingReason": "NotAvailable"}
         self.ebay_execute('EndItem' if self.ebay_listing_type == 'Chinese'
                           else 'EndFixedPriceItem', call_data)
-        self.sync_ebay_products()
+        self.ebay_listing_status = 'Ended'
 
     @api.one
     def relist_product_ebay(self):
@@ -361,12 +382,12 @@ class product_template(models.Model):
         self._update_ebay_data(response.dict())
 
     @api.model
-    def sync_product_status(self, sync_big_stocks=False):
-        self._sync_recent_product_status(1, sync_big_stocks=sync_big_stocks)
-        self._sync_old_product_status(sync_big_stocks=sync_big_stocks)
+    def sync_product_status(self, sync_big_stocks=False, auto_commit=False):
+        self._sync_recent_product_status(1, sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
+        self._sync_old_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
-    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False):
+    def get_seller_list(self, page_number=1, auto_commit=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -374,7 +395,19 @@ class product_template(models.Model):
                                     'PageNumber': page_number,
                                     }
                      }
-        response = self.ebay_execute('GetSellerList', call_data)
+        try:
+            return self.ebay_execute('GetSellerList', call_data)
+        except (UserError, RedirectWarning), e:
+            if auto_commit:
+                self.env.cr.rollback()
+                self.env.user.message_post(body=_("eBay error: Impossible to synchronize the products. \n'%s'") % e[0])
+                self.env.cr.commit()
+            else:
+                raise
+
+    @api.model
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False, auto_commit=False):
+        response = self.get_seller_list(page_number=page_number, auto_commit=auto_commit)
         if response.dict()['ItemArray'] is None:
             return
         for item in response.dict()['ItemArray']['Item']:
@@ -384,49 +417,59 @@ class product_template(models.Model):
             ]
             product = self.search(domain)
             if product:
-                product._sync_transaction(item)
+                product._sync_transaction(item, auto_commit=auto_commit)
         if page_number < int(response.dict()['PaginationResult']['TotalNumberOfPages']):
             self._sync_product_status(page_number + 1)
 
     @api.model
-    def _sync_old_product_status(self, sync_big_stocks=False):
+    def _sync_old_product_status(self, sync_big_stocks=False, auto_commit=False):
         date = (datetime.today()-timedelta(days=119)).strftime(DEFAULT_SERVER_DATE_FORMAT)
         domain = [
             ('ebay_use', '=', True),
             ('ebay_start_date', '<', date),
-            ('ebay_listing_status', '=', 'Active'),
+            ('ebay_listing_status', 'in', ['Active', 'Error']),
             ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
         ]
         products = self.search(domain)
         for product in products:
             response = self.ebay_execute('GetItem', {'ItemID': product.ebay_id})
-            product._sync_transaction(response.dict()['Item'])
+            product._sync_transaction(response.dict()['Item'], auto_commit=auto_commit)
         return
 
     @api.one
-    def _sync_transaction(self, item):
-        if self.ebay_listing_status != 'Ended'\
-           and self.ebay_listing_status != 'Out Of Stock':
-            self.ebay_listing_status = item['SellingStatus']['ListingStatus']
-            if self.env['ir.config_parameter'].get_param('ebay_out_of_stock') and\
-               self.ebay_listing_status == 'Ended':
-                self.ebay_listing_status = 'Out Of Stock'
-            if int(item['SellingStatus']['QuantitySold']) > 0:
-                call_data = {
-                    'ItemID': item['ItemID'],
-                }
-                if self.ebay_last_sync:
-                    call_data['ModTimeFrom'] = str(self.ebay_last_sync)
-                    self.ebay_last_sync = datetime.now()
-                resp = self.ebay_execute('GetItemTransactions', call_data).dict()
-                if 'TransactionArray' in resp:
-                    transactions = resp['TransactionArray']['Transaction']
-                    if not isinstance(transactions, list):
-                        transactions = [transactions]
-                    for transaction in transactions:
-                        if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
-                            self.create_sale_order(transaction)
-        self.sync_available_qty()
+    def _sync_transaction(self, item, auto_commit=False):
+        try:
+            if self.ebay_listing_status != 'Ended'\
+               and self.ebay_listing_status != 'Out Of Stock':
+                self.ebay_listing_status = item['SellingStatus']['ListingStatus']
+                if self.env['ir.config_parameter'].get_param('ebay_out_of_stock') and\
+                   self.ebay_listing_status == 'Ended':
+                    self.ebay_listing_status = 'Out Of Stock'
+                if int(item['SellingStatus']['QuantitySold']) > 0:
+                    call_data = {
+                        'ItemID': item['ItemID'],
+                    }
+                    if self.ebay_last_sync:
+                        call_data['ModTimeFrom'] = str(self.ebay_last_sync)
+                        self.ebay_last_sync = datetime.now()
+                    resp = self.ebay_execute('GetItemTransactions', call_data).dict()
+                    if 'TransactionArray' in resp:
+                        transactions = resp['TransactionArray']['Transaction']
+                        if not isinstance(transactions, list):
+                            transactions = [transactions]
+                        for transaction in transactions:
+                            if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
+                                self.create_sale_order(transaction)
+            self.sync_available_qty()
+        except (UserError, RedirectWarning), e:
+            if auto_commit:
+                self.env.cr.rollback()
+                self.ebay_listing_status = 'Error'
+                self.message_post(
+                    body=_("eBay error: Impossible to synchronize the products. \n'%s'") % e[0])
+                self.env.cr.commit()
+            else:
+                raise e
 
     @api.one
     def create_sale_order(self, transaction):
@@ -544,19 +587,21 @@ class product_template(models.Model):
             if 'ShippingServiceSelected' in transaction:
                 sale_order.picking_ids.message_post(
                     _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
-            invoice_id = sale_order.action_invoice_create()
-            invoice = self.env['account.invoice'].browse(invoice_id)
+            # create invoices through the sales orders' workflow
+            sale_order.signal_workflow('manual_invoice')
+            invoice = sale_order.invoice_ids
             # set the default account for the shipping
             if 'ShippingServiceSelected' in transaction:
                 lines_ids = map(lambda i: i.id, invoice.invoice_line_ids)
                 line = self.env['account.invoice.line'].search([
                     ('id', 'in', lines_ids), ('name', '=', shipping_name)])
+
             invoice.signal_workflow('invoice_open')
 
     @api.one
     def sync_available_qty(self):
         if self.ebay_use and self.ebay_sync_stock:
-            if self.ebay_listing_status == 'Active':
+            if self.ebay_listing_status in ['Active', 'Error']:
                 # The product is Active on eBay but there is no more stock
                 if self.virtual_available <= 0:
                     # Only revise product if there is a change of quantity
@@ -588,23 +633,6 @@ class product_template(models.Model):
                         self.revise_product_ebay()
                     else:
                         self.relist_product_ebay()
-
-    @api.model
-    def _handle_ebay_error(self, connectionError):
-        errors = connectionError.response.dict()['Errors']
-        if not isinstance(errors, list):
-            errors = [errors]
-        error_message = ''
-        for error in errors:
-            if error['SeverityCode'] == 'Error':
-                error_message += error['LongMessage']
-        if 'Condition is required for this category.' in error_message:
-            error_message += 'Or the condition is not compatible with the category.'
-        if 'Internal error to the application' in error_message:
-            error_message = 'eBay is unreachable. Please try again later.'
-        if 'Invalid Multi-SKU item id supplied with variations' in error_message:
-            error_message = 'Impossible to revise a listing into a multi-variations listing.\n Create a new listing.'
-        raise UserError(_("Error Encountered.\n'%s'") % (error_message,))
 
     @api.model
     def _cron_sync_ebay_products(self):

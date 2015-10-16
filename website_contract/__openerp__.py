@@ -33,7 +33,8 @@ Features:
         'static/src/xml/*.xml'
     ],
     'demo': [
-        'data/demo.xml',
+        #if any, demo data should be created using yml files, in the same flavour then in account_asset
+        #'data/demo.xml',
     ],
     'installable': True,
     'application': True,

@@ -378,9 +378,7 @@ var WebClient = Widget.extend({
                     $.when(self.do_action(result, {
                         clear_breadcrumbs: true,
                         action_menu_id: ev.data.menu_id,
-                    })).fail(function () {
-                        self.toggle_app_switcher(true);
-                    }).always(function () {
+                    })).always(function () {
                         completed.resolve();
                     });
 
