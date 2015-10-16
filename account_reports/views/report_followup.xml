@@ -30,7 +30,8 @@
             </a>
             <t t-call="account_reports.report_financial_footnote_sup" />
             <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <li role="presentation"><a class='o_account_reports_web_action' role="menuitem" tabindex="-1" data-res-model='account.invoice' t-att-data-active-id="context.env['account.move.line'].browse(int(a.get('id'))).invoice_id.id">View Invoice</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" t-att-data-active-id="a.get('action')[1]" t-att-data-res-model="a.get('action')[0]" class="o_account_reports_web_action"><t t-esc="a.get('action')[2]" /></a></li>           
+                <li role="presentation" t-if="a.get('action')[0] != 'account.move'"><a role="menuitem" tabindex="-1" t-att-data-active-id="a.get('move_id')" data-res-model="account.move" class="o_account_reports_web_action">View Journal Entry</a></li>           
                 <li role="presentation"><a role="menuitem" tabindex="-1" class="change_exp_date">Change expected payment date/note</a></li>
             </ul>
         </div>
