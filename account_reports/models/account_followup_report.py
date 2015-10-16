@@ -48,6 +48,8 @@ class report_account_followup_report(models.AbstractModel):
                 lines.append({
                     'id': aml.id,
                     'name': aml.move_id.name,
+                    'action': aml.get_model_id_and_name(),
+                    'move_id': aml.move_id.id,
                     'type': is_payment and 'payment' or 'unreconciled_aml',
                     'footnotes': {},
                     'unfoldable': False,
