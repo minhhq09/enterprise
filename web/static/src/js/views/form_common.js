@@ -669,7 +669,7 @@ var AbstractField = FormWidget.extend(FieldInterface, {
             this._check_css_flags();
         });
 
-        this.$translate = (this.field.translate)? $('<button/>', {
+        this.$translate = (_t.database.multi_lang && this.field.translate) ? $('<button/>', {
             type: 'button',
         }).addClass('o_field_translate fa fa-globe btn btn-link') : $();
     },
