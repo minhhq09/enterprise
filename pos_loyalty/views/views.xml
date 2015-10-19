@@ -23,10 +23,7 @@
             <field name="inherit_id" ref="point_of_sale.view_partner_property_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//group[@name='point_of_sale']" position="attributes">
-                        <attribute name="string">Loyalty Program</attribute>
-                    </xpath>
-                    <field name="barcode" position="before">
+                    <field name="barcode" position="after">
                         <field name="loyalty_points"/>
                     </field>
                 </data>
