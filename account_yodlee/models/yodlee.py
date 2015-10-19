@@ -13,6 +13,10 @@ class OnlineInstitution(models.Model):
 
     type = fields.Selection(selection_add=[('yodlee', 'Yodlee')])
 
+    @api.multi
+    def _migrate_online_institution(self):
+        self.env['ir.model.data'].search([('module', '=', 'account_yodlee'), ('model', '=', 'online.institution')]).unlink()
+
 class OnlineSyncConfig(models.TransientModel):
     _inherit = 'account.journal.onlinesync.config'
 
