@@ -504,10 +504,17 @@ class product_template(models.Model):
                 partner_data['country_id'] = self.env['res.country'].search([
                     ('code', '=', infos['Country'])
                 ]).id
-                partner_data['state_id'] = self.env['res.country.state'].search([
-                    ('name', '=', infos.get('StateOrProvince')),
+                state = self.env['res.country.state'].search([
+                    ('code', '=', infos.get('StateOrProvince')),
                     ('country_id', '=', partner_data['country_id'])
-                ]).id
+                ])
+                if not state:
+                    state = self.env['res.country.state'].search([
+                        ('name', '=', infos.get('StateOrProvince')),
+                        ('country_id', '=', partner_data['country_id'])
+                    ])
+                partner_data['state_id'] = state.id
+
             partner.write(partner_data)
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
