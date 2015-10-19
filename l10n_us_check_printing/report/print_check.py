@@ -85,12 +85,19 @@ class report_print_check(report_sxw.rml_parse):
     def make_stub_line(self, payment, invoice):
         """ Return the dict used to display an invoice/refund in the stub
         """
-        invoice_payment_aml = payment.move_line_ids.filtered(lambda r: r.invoice_id == invoice and r.user_type_id.type in ('payable', 'receivable'))
-        invoice_sign = invoice.type == 'in_refund' and -1 or 1
-        if payment.currency_id != payment.journal_id.company_id.currency_id:
-            amount_paid = abs(invoice_payment_aml.amount_currency)
+        # Find the account.partial.reconcile which are common to the invoice and the payment
+        if invoice.type in ['in_invoice', 'out_refund']:
+            invoice_sign = 1
+            invoice_payment_reconcile = invoice.move_id.line_ids.mapped('matched_debit_ids').filtered(lambda r: r.debit_move_id in payment.move_line_ids)
         else:
-            amount_paid = abs(invoice_payment_aml.debit - invoice_payment_aml.credit)
+            invoice_sign = -1
+            invoice_payment_reconcile = invoice.move_id.line_ids.mapped('matched_credit_ids').filtered(lambda r: r.credit_move_id in payment.move_line_ids)
+
+        if payment.currency_id != payment.journal_id.company_id.currency_id:
+            amount_paid = abs(sum(invoice_payment_reconcile.mapped('amount_currency')))
+        else:
+            amount_paid = abs(sum(invoice_payment_reconcile.mapped('amount')))
+
         return {
             'due_date': invoice.date_due,
             'number': invoice.reference and invoice.number + ' - ' + invoice.reference or invoice.number,
