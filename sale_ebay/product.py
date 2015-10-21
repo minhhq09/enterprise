@@ -498,6 +498,7 @@ class product_template(models.Model):
                 infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
                 partner_data['name'] = infos.get('Name')
                 partner_data['street'] = infos.get('Street1')
+                partner_data['street2'] = infos.get('Street2')
                 partner_data['city'] = infos.get('CityName')
                 partner_data['zip'] = infos.get('PostalCode')
                 partner_data['phone'] = infos.get('Phone')
