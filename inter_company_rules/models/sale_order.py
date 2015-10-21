@@ -85,7 +85,7 @@ class sale_order(models.Model):
             'picking_type_id': picking_type_id,
             'date_order': self.date_order,
             'company_id': company.id,
-            'fiscal_position_id': company_partner.property_account_position_id,
+            'fiscal_position_id': company_partner.property_account_position_id.id,
             'payment_term_id': company_partner.property_supplier_payment_term_id.id,
             'auto_generated': True,
             'auto_sale_order_id': self.id,
