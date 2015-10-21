@@ -15,20 +15,22 @@
             </div>
         </div>
 
-        <div t-foreach="stat_types" t-as="stat" class="o_inline">
-            <a href="#" class="on_stat_box" t-att-data-stat="stat['code']">
-                <div class="box o_stat_box" t-att-name="stat['name']" t-att-code="stat['code']">
-                    <div class="o_loader"><span class="fa fa-3x fa-spin fa-spinner fa-pulse"/></div>
-                </div>
-            </a>
-        </div>
+        <div class="o_stats_section">
+            <div t-foreach="stat_types" t-as="stat">
+                <a href="#" class="on_stat_box" t-att-data-stat="stat['code']">
+                    <div class="box o_stat_box" t-att-name="stat['name']" t-att-code="stat['code']">
+                        <div class="o_loader"><span class="fa fa-3x fa-spin fa-spinner fa-pulse"/></div>
+                    </div>
+                </a>
+            </div>
 
-        <div t-foreach="_.values(forecast_stat_types)" t-as="forecast" class="o_inline">
-            <a href="#" class="on_forecast_box" t-att-data-forecast="forecast['code']">
-                <div class="box o_forecast_box" t-att-name="forecast['name']" t-att-code="forecast['code']">
-                    <div class="o_loader"><span class="fa fa-3x fa-spin fa-spinner fa-pulse"/></div>
-                </div>
-            </a>
+            <div t-foreach="_.values(forecast_stat_types)" t-as="forecast">
+                <a href="#" class="on_forecast_box" t-att-data-forecast="forecast['code']">
+                    <div class="box o_forecast_box" t-att-name="forecast['name']" t-att-code="forecast['code']">
+                        <div class="o_loader"><span class="fa fa-3x fa-spin fa-spinner fa-pulse"/></div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 
