@@ -937,7 +937,6 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
             var html_modifications = QWeb.render('account_contract_dashboard.contract_modifications', {
                 modifications: result['contract_modifications'],
-                get_str_diff: self.get_str_diff,
                 get_color_class: get_color_class,
                 currency_id: self.currency_id,
                 format_number: self.format_number,
@@ -1019,10 +1018,6 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
     format_number: function(value) {
         value = utils.human_number(value);
         return render_monetary_field(value, this.currency_id);
-    },
-
-    get_str_diff: function(diff) {
-        return diff < 0 ? diff.toString() : '+' + diff.toString();
     },
 
     on_update_options: function(ev) {

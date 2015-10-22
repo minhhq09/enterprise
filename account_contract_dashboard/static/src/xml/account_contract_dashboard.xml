@@ -365,7 +365,7 @@
                     <td><t t-esc="modification['account_analytic'] or ''"/></td>
                     <td><t t-esc="modification['account_analytic_template'] or ''"/></td>
                     <td><t t-esc="format_number(modification['previous_mrr'])"/></td>
-                    <td><t t-esc="format_number(modification['current_mrr'])"/> (<span t-att-class="get_color_class(modification['diff'], 'up')"><t t-esc="get_str_diff(modification['diff']) + currency"/></span>)</td>
+                    <td><t t-esc="format_number(modification['current_mrr'])"/> (<span t-att-class="get_color_class(modification['diff'], 'up')"><t t-esc="format_number(modification['diff'])"/></span>)</td>
                 </tr>
             </table>
         </div>
