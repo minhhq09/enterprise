@@ -161,6 +161,15 @@ class product_template(models.Model):
             if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        return item
+
+    @api.model
+    def _ebay_encode(self, string):
+        return escape(string.strip().encode('utf-8')) if string else ''
+
+    @api.multi
+    def _prepare_non_variant_dict(self):
+        item = self._prepare_item_dict()
         item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
         if self.barcode:
             if len(self.barcode) == 12:
@@ -168,10 +177,6 @@ class product_template(models.Model):
             elif len(self.barcode) == 13:
                 item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
-
-    @api.model
-    def _ebay_encode(self, string):
-        return escape(string.strip().encode('utf-8')) if string else ''
 
     @api.multi
     def _prepare_variant_dict(self):
@@ -216,7 +221,7 @@ class product_template(models.Model):
         for key in name_values:
             possible_name_values.append({
                 'Name': self._ebay_encode(key),
-                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+                'Value': map(lambda n: self._ebay_encode(n), sorted(name_values[key]))
             })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
@@ -229,7 +234,7 @@ class product_template(models.Model):
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict()
         else:
-            item_dict = self._prepare_item_dict()
+            item_dict = self._prepare_non_variant_dict()
         return item_dict
 
     @api.one
@@ -411,7 +416,10 @@ class product_template(models.Model):
             return
         if response.dict()['ItemArray'] is None:
             return
-        for item in response.dict()['ItemArray']['Item']:
+        items = response.dict()['ItemArray']['Item']
+        if not isinstance(items, list):
+            items = [items]
+        for item in items:
             domain = [
                 ('ebay_id', '=', item['ItemID']),
                 ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
@@ -496,16 +504,24 @@ class product_template(models.Model):
                 infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
                 partner_data['name'] = infos.get('Name')
                 partner_data['street'] = infos.get('Street1')
+                partner_data['street2'] = infos.get('Street2')
                 partner_data['city'] = infos.get('CityName')
                 partner_data['zip'] = infos.get('PostalCode')
                 partner_data['phone'] = infos.get('Phone')
                 partner_data['country_id'] = self.env['res.country'].search([
                     ('code', '=', infos['Country'])
                 ]).id
-                partner_data['state_id'] = self.env['res.country.state'].search([
-                    ('name', '=', infos.get('StateOrProvince')),
+                state = self.env['res.country.state'].search([
+                    ('code', '=', infos.get('StateOrProvince')),
                     ('country_id', '=', partner_data['country_id'])
-                ]).id
+                ])
+                if not state:
+                    state = self.env['res.country.state'].search([
+                        ('name', '=', infos.get('StateOrProvince')),
+                        ('country_id', '=', partner_data['country_id'])
+                    ])
+                partner_data['state_id'] = state.id
+
             partner.write(partner_data)
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
@@ -532,13 +548,10 @@ class product_template(models.Model):
                         lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
-            if not self.ebay_sync_stock:
-                variant.write({
-                    'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
-                    'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
-                    })
-            else:
-                variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
+            variant.write({
+                'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
+                'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
+                })
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
@@ -574,7 +587,7 @@ class product_template(models.Model):
                         'type': 'service',
                         'categ_id': self.env.ref('sale_ebay.product_category_ebay').id,
                     })
-                self.env['sale.order.line'].create({
+                so_line = self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
                     'name': shipping_name,
                     'product_id': shipping_product.product_variant_ids[0].id,
@@ -585,7 +598,7 @@ class product_template(models.Model):
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
                 })
-
+                so_line._compute_tax_id()
             sale_order.action_confirm()
             if 'BuyerCheckoutMessage' in transaction:
                 sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
