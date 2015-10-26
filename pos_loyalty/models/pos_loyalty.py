@@ -1,86 +1,62 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
-import openerp
 
-from openerp import tools
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
-
-_logger = logging.getLogger(__name__)
-
-class loyalty_program(osv.osv):
+class LoyaltyProgram(models.Model):
     _name = 'loyalty.program'
-    _columns = {
-        'name' :        fields.char('Loyalty Program Name', size=32, select=1,
-             required=True, help="An internal identification for the loyalty program configuration"),
-        'pp_currency':  fields.float('Points per currency',help="How many loyalty points are given to the customer by sold currency"),
-        'pp_product':   fields.float('Points per product',help="How many loyalty points are given to the customer by product sold"),
-        'pp_order':     fields.float('Points per order',help="How many loyalty points are given to the customer for each sale or order"),
-        'rounding':     fields.float('Points Rounding', help="The loyalty point amounts are rounded to multiples of this value."),
-        'rule_ids':     fields.one2many('loyalty.rule','loyalty_program_id','Rules'),
-        'reward_ids':   fields.one2many('loyalty.reward','loyalty_program_id','Rewards'),
-        
-    }
-    _defaults = {
-        'rounding': 1,
-    }
 
-class loyalty_rule(osv.osv):
+    name = fields.Char(string='Loyalty Program Name', index=True, required=True, help="An internal identification for the loyalty program configuration")
+    pp_currency = fields.Float(string='Points per currency', help="How many loyalty points are given to the customer by sold currency")
+    pp_product = fields.Float(string='Points per product', help="How many loyalty points are given to the customer by product sold")
+    pp_order = fields.Float(string='Points per order', help="How many loyalty points are given to the customer for each sale or order")
+    rounding = fields.Float(string='Points Rounding', default=1, help="The loyalty point amounts are rounded to multiples of this value.")
+    rule_ids = fields.One2many('loyalty.rule', 'loyalty_program_id', string='Rules')
+    reward_ids = fields.One2many('loyalty.reward', 'loyalty_program_id', string='Rewards')
+
+
+class LoyaltyRule(models.Model):
     _name = 'loyalty.rule'
-    _columns = {
-        'name':                 fields.char('Name', size=32, select=1, required=True, help="An internal identification for this loyalty program rule"),
-        'loyalty_program_id':   fields.many2one('loyalty.program', 'Loyalty Program', help='The Loyalty Program this exception belongs to'),
-        'type':                 fields.selection((('product','Product'),('category','Category')), 'Type', required=True, help='Does this rule affects products, or a category of products ?'),
-        'product_id':           fields.many2one('product.product','Target Product',  help='The product affected by the rule'),
-        'category_id':          fields.many2one('pos.category',   'Target Category', help='The category affected by the rule'),
-        'cumulative':           fields.boolean('Cumulative',        help='The points won from this rule will be won in addition to other rules'),
-        'pp_product':           fields.float('Points per product',  help='How many points the product will earn per product ordered'),
-        'pp_currency':          fields.float('Points per currency', help='How many points the product will earn per value sold'),
-    }
-    _defaults = {
-        'type':'product',
-    }
 
-class loyalty_reward(osv.osv):
+    name = fields.Char(index=True, required=True, help="An internal identification for this loyalty program rule")
+    loyalty_program_id = fields.Many2one('loyalty.program', string='Loyalty Program', help='The Loyalty Program this exception belongs to')
+    rule_type = fields.Selection((('product', 'Product'), ('category', 'Category')), old_name='type', required=True, default='product', help='Does this rule affects products, or a category of products ?')
+    product_id = fields.Many2one('product.product', string='Target Product', help='The product affected by the rule')
+    category_id = fields.Many2one('pos.category', string='Target Category', help='The category affected by the rule')
+    cumulative = fields.Boolean(help='The points won from this rule will be won in addition to other rules')
+    pp_product = fields.Float(string='Points per product', help='How many points the product will earn per product ordered')
+    pp_currency = fields.Float(string='Points per currency', help='How many points the product will earn per value sold')
+
+
+class LoyaltyReward(models.Model):
     _name = 'loyalty.reward'
-    _columns = {
-        'name':                 fields.char('Name', size=32, select=1, required=True, help='An internal identification for this loyalty reward'),
-        'loyalty_program_id':   fields.many2one('loyalty.program', 'Loyalty Program', help='The Loyalty Program this reward belongs to'),
-        'minimum_points':       fields.float('Minimum Points', help='The minimum amount of points the customer must have to qualify for this reward'),
-        'type':                 fields.selection((('gift','Gift'),('discount','Discount'),('resale','Resale')), 'Type', required=True, help='The type of the reward'),
-        'gift_product_id':           fields.many2one('product.product','Gift Product', help='The product given as a reward'),
-        'point_cost':           fields.float('Point Cost', help='The cost of the reward per monetary unit discounted'),
-        'discount_product_id':  fields.many2one('product.product','Discount Product', help='The product used to apply discounts'),
-        'discount':             fields.float('Discount',help='The discount percentage'),
-        'point_product_id':    fields.many2one('product.product', 'Point Product', help='The product that represents a point that is sold by the customer'),
-    }
 
-    def _check_gift_product(self, cr, uid, ids, context=None):
-        for reward in self.browse(cr, uid, ids, context=context):
-            if reward.type == 'gift':
-                return bool(reward.gift_product_id)
-            else:
-                return True
+    name = fields.Char(index=True, required=True, help='An internal identification for this loyalty reward')
+    loyalty_program_id = fields.Many2one('loyalty.program', string='Loyalty Program', help='The Loyalty Program this reward belongs to')
+    minimum_points = fields.Float(help='The minimum amount of points the customer must have to qualify for this reward')
+    reward_type = fields.Selection((('gift', 'Gift'), ('discount', 'Discount'), ('resale', 'Resale')), old_name='type', required=True, help='The type of the reward')
+    gift_product_id = fields.Many2one('product.product', string='Gift Product', help='The product given as a reward')
+    point_cost = fields.Float(help='The cost of the reward')
+    discount_product_id = fields.Many2one('product.product', string='Discount Product', help='The product used to apply discounts')
+    discount = fields.Float(help='The discount percentage')
+    point_product_id = fields.Many2one('product.product', string='Point Product', help='The product that represents a point that is sold by the customer')
 
-    def _check_discount_product(self, cr, uid, ids, context=None):
-        for reward in self.browse(cr, uid, ids, context=context):
-            if reward.type == 'discount':
-                return bool(reward.discount_product_id)
-            else:
-                return True
+    @api.multi
+    @api.constrains('reward_type', 'gift_product_id')
+    def _check_gift_product(self):
+        if self.filtered(lambda reward: reward.reward_type == 'gift' and not reward.gift_product_id):
+            raise ValidationError(_('The gift product field is mandatory for gift rewards'))
 
-    def _check_point_product(self, cr, uid, ids, context=None):
-        for reward in self.browse(cr, uid, ids, context=context):
-            if reward.type == 'resale':
-                return bool(reward.point_product_id)
-            else:
-                return True
+    @api.multi
+    @api.constrains('reward_type', 'discount_product_id')
+    def _check_discount_product(self):
+        if self.filtered(lambda reward: reward.reward_type == 'discount' and not reward.discount_product_id):
+            raise ValidationError(_('The discount product field is mandatory for discount rewards'))
 
-    _constraints = [
-        (_check_gift_product,     "The gift product field is mandatory for gift rewards",         ["type","gift_product_id"]),
-        (_check_discount_product, "The discount product field is mandatory for discount rewards", ["type","discount_product_id"]),
-        (_check_point_product,    "The point product field is mandatory for point resale rewards", ["type","discount_product_id"]),
-    ]
+    @api.multi
+    @api.constrains('reward_type', 'discount_product_id')
+    def _check_point_product(self):
+        if self.filtered(lambda reward: reward.reward_type == 'resale' and not reward.point_product_id):
+            raise ValidationError(_('The point product field is mandatory for point resale rewards'))

@@ -1,9 +1,8 @@
-<?xml version="1.0"?>
-<openerp>
-    <data>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
 
-        <record model="ir.ui.view" id="view_pos_config_form">
-            <field name="name">pos.config.form.view</field>
+        <record id="view_pos_config_form" model="ir.ui.view">
+            <field name="name">pos.config.form.inherit</field>
             <field name="model">pos.config</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_config_form" />
             <field name="arch" type="xml">
@@ -17,8 +16,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_partner_property_form">
-            <field name="name">res.partner.product.property.form.inherit</field>
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="point_of_sale.view_partner_property_form"/>
             <field name="arch" type="xml">
@@ -30,8 +29,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_pos_pos_form">
-            <field name="name">pos.order.inherit</field>
+        <record id="view_pos_pos_form" model="ir.ui.view">
+            <field name="name">pos.order.form.inherit</field>
             <field name="model">pos.order</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
             <field name="arch" type="xml">
@@ -43,8 +42,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_loyalty_program_form">
-            <field name="name">loyalty.program.form.view</field>
+        <record id="view_loyalty_program_form" model="ir.ui.view">
+            <field name="name">loyalty.program.form</field>
             <field name="model">loyalty.program</field>
             <field name="arch" type="xml">
                 <form string="Loyalty Program">
@@ -78,7 +77,7 @@
                         <field name="reward_ids" colspan="4" nolabel="1">
                             <tree string="Rewards">
                                 <field name="name"/>
-                                <field name="type"/>
+                                <field name="reward_type"/>
                             </tree>
                         </field>
 
@@ -87,8 +86,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_loyalty_rule_form">
-            <field name="name">loyalty.rule.form.view</field>
+        <record id="view_loyalty_rule_form" model="ir.ui.view">
+            <field name="name">loyalty.rule.form</field>
             <field name="model">loyalty.rule</field>
             <field name="arch" type="xml">
                 <form string="Loyalty Rule">
@@ -96,13 +95,13 @@
                         <label class="oe_edit_only" for="name" string="Rule Name"/>
                         <h1><field name="name"/></h1>
                     </div>
-                    <group>
-                        <group >
-                            <field name="type" />
+                    <group col="4">
+                        <group col='2'>
+                            <field name="rule_type" />
                         </group>
-                        <group>
-                            <field name="product_id"  attrs="{ 'invisible':[('type','!=','product')],  'required':[('type','==','product')]}" />
-                            <field name="category_id" attrs="{ 'invisible':[('type','!=','category')], 'required':[('type','==','category')]}"/>
+                        <group col='2'>
+                            <field name="product_id"  attrs="{ 'invisible':[('rule_type','!=','product')],  'required':[('rule_type','==','product')]}" />
+                            <field name="category_id" attrs="{ 'invisible':[('rule_type','!=','category')], 'required':[('rule_type','==','category')]}"/>
                         </group>
                     </group>
                     <group col="6">
@@ -114,8 +113,8 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_loyalty_reward_form">
-            <field name="name">loyalty.reward.form.view</field>
+        <record id="view_loyalty_reward_form" model="ir.ui.view">
+            <field name="name">loyalty.reward.form</field>
             <field name="model">loyalty.reward</field>
             <field name="arch" type="xml">
                 <form string="Loyalty Reward">
@@ -124,28 +123,28 @@
                         <h1><field name="name"/></h1>
                     </div>
                     <group>
-                        <field name="type" />
+                        <field name="reward_type" />
                     </group>
                     <group >
-                        <field name="gift_product_id"       attrs="{ 'invisible':[('type','!=','gift')], 'required':[('type','==','gift')]}" />
-                        <label for="discount" attrs="{'invisible': [('type', '!=', 'discount')]}"/>
-                        <div class="o_row" attrs="{'invisible': [('type', '!=', 'discount')]}">
+                        <field name="gift_product_id"       attrs="{ 'invisible':[('reward_type','!=','gift')], 'required':[('reward_type','==','gift')] }" />
+                        <label for="discount" attrs="{ 'invisible':[('reward_type','!=','discount')] }"/>
+                        <div class="o_row" attrs="{ 'invisible':[('reward_type','!=','discount')] }">
                             <field name="discount" />
                             <label string="%"/>
                         </div>
-                        <field name="discount_product_id"   attrs="{ 'invisible':[('type','!=','discount')], 'required':[('type','==','discount')] }"/>
-                        <field name="point_product_id"      attrs="{ 'invisible':[('type','!=','resale')],   'required':[('type','==','resale')] }"/>
+                        <field name="discount_product_id"   attrs="{ 'invisible':[('reward_type','!=','discount')], 'required':[('reward_type','==','discount')] }"/>
+                        <field name="point_product_id"      attrs="{ 'invisible':[('reward_type','!=','resale')],   'required':[('reward_type','==','resale')] }"/>
                     </group>
                     <group>
-                        <field name="point_cost"           attrs="{ 'invisible':[('type','=','resale')] }" />      
+                        <field name="point_cost"           attrs="{ 'invisible':[('reward_type','=','resale')] }" />      
                         <field name="minimum_points" />
                     </group>
                 </form>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_loyalty_program_tree">
-            <field name="name">loyalty.program.form.view</field>
+        <record id="view_loyalty_program_tree" model="ir.ui.view">
+            <field name="name">loyalty.program.form</field>
             <field name="model">loyalty.program</field>
             <field name="arch" type="xml">
                 <tree string="Loyalty Programs">
@@ -154,7 +153,7 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="action_loyalty_program_form">
+        <record id="action_loyalty_program_form" model="ir.actions.act_window">
             <field name="name">Loyalty Programs</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">loyalty.program</field>
@@ -177,5 +176,4 @@
             sequence="30"
             groups="point_of_sale.group_pos_manager" />
 
-    </data>
-</openerp>
+</odoo>

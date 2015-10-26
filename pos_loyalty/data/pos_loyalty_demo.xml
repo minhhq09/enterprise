@@ -1,13 +1,9 @@
-<?xml version="1.0"?>
-<openerp>
-    <data>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
         <!-- ****** Basic Loyalty Program ****** -->
-
-
-
         <record id="reward_01" model="loyalty.reward">
             <field name="name">Free Fruits</field>
-            <field name="type">gift</field>
+            <field name="reward_type">gift</field>
             <field name="point_cost">1000</field>
             <field name="gift_product_id" eval="ref('point_of_sale.raisins_noir')" />
         </record>
@@ -22,5 +18,4 @@
             <field name="loyalty_id" eval="ref('pos_loyalty.program')"/>
         </record>
 
-    </data>
-</openerp>
+</odoo>
