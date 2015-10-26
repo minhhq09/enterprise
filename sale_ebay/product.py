@@ -542,13 +542,10 @@ class product_template(models.Model):
                         lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
-            if not self.ebay_sync_stock:
-                variant.write({
-                    'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
-                    'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
-                    })
-            else:
-                variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
+            variant.write({
+                'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
+                'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
+                })
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
