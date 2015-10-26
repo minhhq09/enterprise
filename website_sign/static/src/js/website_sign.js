@@ -623,12 +623,9 @@
 
                 self.iframeWidget.$iframe.prev().animate({'height': '0px', 'opacity': 0}, {
                     duration: 750,
-                    progress: function() {
-                        self.iframeWidget.resize(false);
-                    },
                     complete: function() {
                         self.iframeWidget.$iframe.prev().hide();
-                        self.iframeWidget.resize(true);
+                        self.iframeWidget.refreshSignatureItems();
 
                         self.onClick();
                     }
@@ -754,12 +751,6 @@
         start: function(attachmentLocation, $signatureItemsInfo) {
             var self = this;
 
-            var resizeWindowTimer = null;
-            $(window).on('resize', function(e) {
-                clearTimeout(resizeWindowTimer);
-                resizeWindowTimer = setTimeout(function() {self.resize(true);}, 250);
-            });
-
             var viewerURL = ((!self.editMode)? "../" : "") + "../../website_sign/static/lib/pdfjs/web/viewer.html?file=";
             viewerURL += encodeURIComponent(attachmentLocation).replace(/'/g,"%27").replace(/"/g,"%22") + "#page=1&zoom=page-width";
             self.$iframe.attr('src', viewerURL);
@@ -786,17 +777,10 @@
                 setTimeout(function() { self.waitForPDF($signatureItemsInfo); }, 50);
         },
 
-        resize: function(refresh) {
-            this.$iframe.css('height', $('body').outerHeight()-this.$iframe.offset().top);
-            if(refresh)
-                this.refreshSignatureItems();
-        },
-
         doPDFPostLoad: function($signatureItemsInfo) {
             var self = this;
 
             self.setElement(self.$iframe.contents().find('html'));
-            self.resize(false);
 
             self.$('#openFile, #pageRotateCw, #pageRotateCcw, #pageRotateCcw').add(self.$('#lastPage').next()).hide();
             self.$('button#print').prop('title', "Print original document");
@@ -1782,6 +1766,7 @@
             }
 
             return websiteSignPage.start().then(function() {
+                websiteSignPage.$el.addClass('o_sign_body');
                 return websiteSign.signatureDialog.appendTo(websiteSignPage.$el);
             });
         });
