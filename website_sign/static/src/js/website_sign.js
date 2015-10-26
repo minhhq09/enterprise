@@ -1714,8 +1714,11 @@
                     }
                 }
 
-                if(!ok)
-                    return alert("Some fields must be completed !\nIf there is a problem, please try reloading the page.");
+                if(!ok) {
+                    self.iframeWidget.refreshSignatureItems();
+                    self.iframeWidget.checkSignatureItemsCompletion();
+                    return alert("Some required fields are still empty.");
+                }
 
                 self.iframeWidget.disableItems();
                 self.thank(ajax.jsonRpc($(e.target).data('action'), 'call', {
