@@ -375,7 +375,7 @@
 <t t-name="ListView.buttons">
     <t t-if="!widget.no_leaf and widget.options.action_buttons !== false and widget.options.addable and widget.is_action_enabled('create')">
     <div class="o_list_buttons">
-        <button type="button" class="btn btn-primary btn-sm o_list_button_add">
+        <button type="button" class="btn btn-primary btn-sm o_list_button_add" accesskey="C">
             <t t-esc="widget.options.addable"/>
         </button>
     </div>
@@ -419,10 +419,10 @@
 
 <t t-extend="ListView.buttons">
     <t t-jquery="button.o_list_button_add" t-operation="after">
-        <button type="button" class="btn btn-primary btn-sm o_list_button_save">
+        <button type="button" class="btn btn-primary btn-sm o_list_button_save" accesskey="S">
             Save
         </button>
-        <button type="button" class="btn btn-default btn-sm o_list_button_discard">
+        <button type="button" class="btn btn-default btn-sm o_list_button_discard" accesskey="D">
             Discard
         </button>
     </t>
