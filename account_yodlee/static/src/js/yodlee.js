@@ -85,7 +85,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 .then(function(result){
                     var resp_json = JSON.parse(result);
                     //Check for error and exception first
-                    if (resp_json.siteRefreshInfo === undefined && resp_json.errorOccurred === "true"){
+                    if (resp_json.siteRefreshInfo === undefined || resp_json.errorOccurred === "true"){
                         self.show_error("ERROR: " + resp_json.exceptionType);
                     }
                     //Check siteRefreshStatus, should be REFRESH_TRIGGERED
@@ -111,7 +111,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         var self = this;
         if (this._super()){
             //Get back sync date information and selected account_id and create online.account object with those information
-            var sync_date = this.configurator_wizard.$el.find('.o_datepicker_input').val();
+            var sync_date = this.datepicker.get_value();
             var option_selected = this.configurator_wizard.$el.find('input[name="account-selection"]:checked');
             var account_name = option_selected.attr('value');
             var account_id = option_selected.attr('account');
@@ -161,6 +161,9 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 .then(function(result){
                     var resp_json = JSON.parse(result);
                     var refresh_status = resp_json.siteRefreshStatus.siteRefreshStatus;
+                    if (resp_json.code === undefined || resp_json.errorOccurred === "true"){
+                        self.show_error("ERROR: " + resp_json.exceptionType);
+                    }
                     if (resp_json.code === 801 || (resp_json.code === 0 && refresh_status !== 'REFRESH_COMPLETED' && refresh_status !== 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED')) {
                         if (refresh_status === 'REFRESH_TIMED_OUT'){
                             number = 1;

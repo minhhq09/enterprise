@@ -160,9 +160,10 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
 
     attach_datepicker: function() {
         var current_date = new moment();
-        var input = new datepicker.DateWidget(this);
-        input.appendTo(this.configurator_wizard.$el.find('.js_online_sync_date'));
-        input.set_value(current_date.subtract(15, 'days'));
+        var dp = new datepicker.DateWidget(this);
+        dp.appendTo(this.configurator_wizard.$el.find('.js_online_sync_date'));
+        dp.set_value(current_date.subtract(15, 'days'));
+        this.datepicker = dp;
     },
 });
 

@@ -2,11 +2,14 @@
 import requests
 import json
 import datetime
+import logging
 
 from openerp import models, api, fields
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+
+_logger = logging.getLogger(__name__)
 
 class OnlineInstitution(models.Model):
     _inherit = 'online.institution'
@@ -22,9 +25,10 @@ class PlaidAccountJournal(models.Model):
     _inherit = 'account.journal'
 
     def _get_plaid_credentials(self):
-        login = self.env['ir.config_parameter'].get_param('plaid_id')
-        secret = self.env['ir.config_parameter'].get_param('plaid_secret')
-        url = 'https://tartan.plaid.com/' if (login == 'test_id' and secret == 'test_secret') else 'https://api.plaid.com/'
+        ICP_obj = self.env['ir.config_parameter'].sudo()
+        login = ICP_obj.get_param('plaid_id') or self._cr.dbname
+        secret = ICP_obj.get_param('plaid_secret') or ICP_obj.get_param('database.uuid')
+        url = ICP_obj.get_param('plaid_service_url') or 'https://onlinesync.odoo.com/plaid/api'
         return {'login': login, 'secret': secret, 'url': url,}
 
     @api.multi
@@ -42,23 +46,32 @@ class PlaidAccountJournal(models.Model):
                 if self.online_account_id and self._context.get('patch', True):
                     if not params.get('access_token', False):
                         params['access_token'] = self.online_account_id.token
-                    resp = requests.patch(api + service, params=params, timeout=3)
+                    resp = requests.patch(api + service, params=params, timeout=20)
                 else:
-                    resp = requests.post(api + service, params=params, timeout=3)
+                    resp = requests.post(api + service, params=params, timeout=20)
             elif type_request == "get":
                 #Trying to get information on institution, so we don't need to pass credential information in GET request
-                resp = requests.get(api + service, timeout=3)
+                resp = requests.get(api + service, timeout=20)
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code in (400, 403):
+                raise UserError(_('An error has occurred while trying to connect to plaid service') + ' ' + e.response.content)
+            else:
+                raise UserError(_('An error has occurred while trying to connect to plaid service') + ' ' + str(e.response.status_code))
         except Exception:
+            _logger.exception('An error has occurred while trying to connect to Plaid service')
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
         #Add request status code in response
         resp_json = json.loads(resp.text)
         resp_json['status_code'] = resp.status_code
+        if resp_json.get('error', False):
+            raise UserError(resp_json.get('error'))
         return json.dumps(resp_json)
 
     @api.multi
     def fetch_all_institution(self):
         try:
-            resp = requests.get('https://api.plaid.com/institutions', timeout=3)
+            resp = requests.get('https://api.plaid.com/institutions', timeout=20)
+            resp.raise_for_status()
         except Exception:
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
         institutions = self.env['online.institution'].search([('type', '=', 'plaid')])
@@ -98,7 +111,7 @@ class PlaidAccount(models.Model):
         }
         ctx = dict(self._context or {})
         ctx['patch'] = False
-        resp = self.journal_id.with_context(ctx).fetch("connect/get", 'plaid', params)
+        resp = self.journal_id.with_context(ctx).fetch("/connect/get", 'plaid', params)
         resp_json = json.loads(resp)
         # Three possible cases : no error, user error, or plaid.com error
         # There is no error

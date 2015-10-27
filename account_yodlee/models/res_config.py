@@ -5,6 +5,7 @@ from openerp import api, fields, models
 from openerp.exceptions import UserError
 from openerp.tools.translate import _
 
+# TODO: To remove in v10
 class YodleeConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
@@ -25,9 +26,9 @@ class YodleeConfigSettings(models.TransientModel):
 
     @api.multi
     def set_yodlee_info(self):
-        self.env['ir.config_parameter'].set_param('yodlee_service_url', self.sanetize_yodlee_url(self.yodlee_service_url or ''))
-        self.env['ir.config_parameter'].set_param('yodlee_id', self.yodlee_id or '')
-        self.env['ir.config_parameter'].set_param('yodlee_secret', self.yodlee_secret or '')
+        self.env['ir.config_parameter'].set_param('yodlee_service_url', self.sanetize_yodlee_url(self.yodlee_service_url or ''), groups=["base.group_erp_manager"])
+        self.env['ir.config_parameter'].set_param('yodlee_id', self.yodlee_id or '', groups=["base.group_erp_manager"])
+        self.env['ir.config_parameter'].set_param('yodlee_secret', self.yodlee_secret or '', groups=["base.group_erp_manager"])
 
     @api.multi
     def create_new_yodlee_user(self):

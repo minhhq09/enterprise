@@ -155,7 +155,7 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
         //Create account on journal
         var self = this;
         if (this._super()) {
-            var sync_date = this.configurator_wizard.$el.find('.o_datepicker_input').val();
+            var sync_date = this.datepicker.get_value();
             var option_selected = this.configurator_wizard.$el.find('input[name="account-selection"]:checked');
             var account_name = option_selected.attr('value');
             var account_id = option_selected.attr('account');
