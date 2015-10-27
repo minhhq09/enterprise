@@ -109,6 +109,9 @@
     .o_list_number {
         text-align: right;
     }
+    .o_list_text {
+        white-space: pre-wrap;
+    }
 }
 
 .o_list_editable {
@@ -134,6 +137,9 @@
             padding: 0;
             position: absolute;
             white-space: nowrap;
+            &.o_form_textarea {
+                white-space: pre-wrap;
+            }
             &.oe_read_only {
                 visibility: hidden; // Read-only fields can't be edited
             }
