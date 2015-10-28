@@ -37,6 +37,7 @@ var ReportWidget = Widget.extend({
     },
     // Used to trigger actions
     outboundLink: function(e) {
+        e.stopPropagation();
         var self = this;
         var action_id = $(e.target).data('action-id');
         var action_name = $(e.target).data('action-name');

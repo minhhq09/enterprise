@@ -82,6 +82,9 @@
                     </a>
                     <t t-if="'action_id' not in a or mode == 'print'">
                         <t t-esc="a.get('name')"/>
+                        <t t-if="report.get_name() == 'general_ledger'">
+                            <a t-att-data-active-id="a.get('id')" data-action-name="account.action_move_select" class="o_account_reports_web_action o_account_reports_display_when_unfolded">(view journal entries)</a>
+                        </t>
                     </t>
                     <t t-call="account_reports.report_financial_footnote_sup" />
                 </span>
