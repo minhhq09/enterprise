@@ -203,9 +203,9 @@ class YodleeAccount(models.Model):
             for transaction in resp_json['searchResult']['transactions']:
                 transaction_date = transaction.get('transactionDate').split("T")[0]
                 if transaction.get('transactionBaseType') == 'debit':
-                    amount = transaction['amount']['amount']
-                else:
                     amount = -1 * transaction['amount']['amount']
+                else:
+                    amount = transaction['amount']['amount']
                 transactions.append({
                     'id': transaction['viewKey']['transactionId'],
                     'date': transaction_date,
