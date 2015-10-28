@@ -764,13 +764,6 @@ var AbstractField = FormWidget.extend(FieldInterface, {
     _check_css_flags: function() {
         var show_translate = (this.$translate.parent().length > 0 && !this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
         this.$el.parent().toggleClass('o_show_translate', !!show_translate);
-        if(show_translate) {
-            this.$translate.css({
-                top: this.$el.position().top,
-                left: this.$el.position().left + this.$el.width() - this.$translate.width(),
-            });
-        }
-
         this.$el.add(this.$label)
             .toggleClass('o_form_invalid', !this.disable_utility_classes && !!this.field_manager.get('display_invalid_fields') && !this.is_valid());
     },
