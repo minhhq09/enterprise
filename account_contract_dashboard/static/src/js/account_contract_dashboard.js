@@ -525,7 +525,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 .y(function(d) { return getValue(d); })
                 .margin({left: 100})
                 .useInteractiveGuideline(true)
-                .transitionDuration(350)
+                .duration(350)
                 .showLegend(true)
                 .showYAxis(true)
                 .showXAxis(true);
@@ -683,7 +683,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             chart
                 .margin({left: 100})
                 .useInteractiveGuideline(true)
-                .transitionDuration(350)
+                .duration(350)
                 .showLegend(false)
                 .showYAxis(true)
                 .showXAxis(true);
@@ -999,7 +999,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                     .staggerLabels(true)
                     .tooltips(false)
                     .showValues(true)
-                    .transitionDuration(350);
+                    .duration(350);
 
                 var svg = d3.select(div_to_display)
                     .append("svg")
@@ -1185,7 +1185,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             chart
             .margin({left: 100})
             .useInteractiveGuideline(true)
-            .transitionDuration(350)
+            .duration(350)
             .showLegend(true)
             .showYAxis(true)
             .showXAxis(true);
@@ -1194,7 +1194,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             chart
             .margin({left: 0, top: 0, bottom: 0, right: 0})
             .useInteractiveGuideline(false)
-            .transitionDuration(350)
+            .duration(350)
             .showLegend(false)
             .showYAxis(false)
             .showXAxis(false)
