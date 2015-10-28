@@ -155,6 +155,11 @@ class YodleeAccount(models.Model):
             'memSiteAccId': self.site_account_id,
         }
         resp_json = json.loads(yodlee.fetch('/jsonsdk/Refresh/getSiteRefreshInfo', 'yodlee', params))
+        if resp_json.get('errorCode'):
+            raise UserError(
+                _('An error has occured while trying to get transactions, try again later.\nError code: %s\nError message: %s')\
+                % (resp_json.get('errorCode'), resp_json.get('errorDetail'))
+            )
         if resp_json['code'] == 801:
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
