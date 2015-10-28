@@ -690,8 +690,6 @@
                 this.signatureItemNav.onClick();
             },
 
-            'click #toolbarContainer': 'delayedRefresh',
-
             'itemChange .o_sign_signature_item': function(e) {
                 this.updateSignatureItem($(e.target));
                 this.$iframe.trigger('templateChange');
@@ -721,7 +719,7 @@
                 this.deleteSignatureItem($target);
                 this.refreshSignatureItems();
                 this.$iframe.trigger('templateChange');
-            }
+            },
         },
 
         init: function(parent, $iframe, editMode) {
@@ -742,8 +740,6 @@
             this.configuration = {};
 
             this.types = {};
-
-            this.refreshTimer = null;
 
             this.fullyLoaded = new $.Deferred();
         },
@@ -966,7 +962,7 @@
             }); 
 
             $.when.apply($, waitFor).then(function() {
-                self.refreshSignatureItems();
+                refresh_interval();
 
                 self.$('.o_sign_signature_item').each(function(i, el) {
                     if(self.editMode)
@@ -982,31 +978,27 @@
                 self.$('#viewerContainer').on('scroll', function(e) {
                     if(!self.editMode && self.signatureItemNav.started)
                         self.signatureItemNav.setTip('next');
-                    if(self.editMode || !self.signatureItemNav.isScrolling)
-                        self.delayedRefresh();
                 });
 
                 self.$('#viewerContainer').css('visibility', 'visible').animate({'opacity': 1}, 1000);
 
                 self.fullyLoaded.resolve();
+
+                function refresh_interval() {
+                    self.refreshSignatureItems();
+                    self.refresh_timer = setTimeout(refresh_interval, 2000);
+                }
             });
         },
 
-        delayedRefresh: function() {
-            var self = this;
-
-            clearTimeout(self.refreshTimer);
-            self.refreshTimer = setTimeout(function() {
-                self.refreshSignatureItems();
-            }, 250);
-        },
-
         refreshSignatureItems: function() {
-            clearTimeout(this.refreshTimer);
             for(var page in this.configuration) {
                 var $pageContainer = this.$('body #pageContainer' + page);
-                for(var i = 0 ; i < this.configuration[page].length ; i++)
-                    $pageContainer.append(this.configuration[page][i].detach());
+                for(var i = 0 ; i < this.configuration[page].length ; i++) {
+                    if(!this.configuration[page][i].parent().hasClass('page')) {
+                        $pageContainer.append(this.configuration[page][i]);
+                    }
+                }
             }
             this.updateFontSize();
         },
@@ -1042,6 +1034,7 @@
             if(!readonly) {
                 if(type['type'] === "signature" || type['type'] === "initial") {
                     $signatureItem.on('click', function(e) {
+                        self.refreshSignatureItems();
                         var $signedItems = self.$('.o_sign_signature_item').filter(function(i) {
                             var $item = $(this);
                             return ($item.data('type') === type['id']
@@ -1231,6 +1224,7 @@
         },
 
         checkSignatureItemsCompletion: function() {
+            this.refreshSignatureItems();
             var $toComplete = this.$('.o_sign_signature_item.o_sign_signature_item_required:not(.o_sign_signature_item_pdfview)').filter(function(i, el) {
                 var $elem = $(el);
                 return !(($elem.val() && $elem.val().trim()) || $elem.data('signature'));
@@ -1244,7 +1238,12 @@
 
         disableItems: function() {
             this.$('.o_sign_signature_item').addClass('o_sign_signature_item_pdfview').removeClass('ui-selected');
-        }
+        },
+
+        destroy: function() {
+            clearTimeout(this.refresh_timer);
+            this._super.apply(this, arguments);
+        },
     });
 
     /* --------------------------------- */
@@ -1699,7 +1698,6 @@
                 }
 
                 if(!ok) {
-                    self.iframeWidget.refreshSignatureItems();
                     self.iframeWidget.checkSignatureItemsCompletion();
                     return alert("Some required fields are still empty.");
                 }
