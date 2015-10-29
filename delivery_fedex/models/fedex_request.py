@@ -262,6 +262,8 @@ class FedexRequest():
                     if 'ShipmentRating' in self.response.CompletedShipmentDetail:
                         for rating in self.response.CompletedShipmentDetail.ShipmentRating.ShipmentRateDetails:
                             formatted_response['price'][rating.TotalNetFedExCharge.Currency] = rating.TotalNetFedExCharge.Amount
+                    else:
+                        formatted_response['price']['USD'] = 0.0
                 if 'MasterTrackingId' in self.response.CompletedShipmentDetail:
                     formatted_response['master_tracking_id'] = self.response.CompletedShipmentDetail.MasterTrackingId.TrackingNumber
 
