@@ -76,6 +76,7 @@ class crm_team(osv.osv):
     _inherit = "crm.team"
 
     @api.model
+    @api.returns('self', lambda value: value.id)
     def _get_default_team_id(self, user_id=None):
         team_id = super(crm_team, self)._get_default_team_id(user_id=user_id)
         if user_id is None:
