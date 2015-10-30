@@ -406,11 +406,8 @@ odoo.define('website_sign.frontend', function(require) {
                 self.checkSignatureItemsCompletion();
 
                 self.$('#viewerContainer').on('scroll', function(e) {
-                    if(!self.signatureItemNav.isScrolling) {
-                        if(self.signatureItemNav.started) {
-                            self.signatureItemNav.setTip('next');
-                        }
-                        self.delayedRefresh();
+                    if(!self.signatureItemNav.isScrolling && self.signatureItemNav.started) {
+                        self.signatureItemNav.setTip('next');
                     }
                 });
 
@@ -428,6 +425,7 @@ odoo.define('website_sign.frontend', function(require) {
             if(!readonly) {
                 if(type['type'] === "signature" || type['type'] === "initial") {
                     $signatureItem.on('click', function(e) {
+                        self.refreshSignatureItems();
                         var $signedItems = self.$('.o_sign_signature_item').filter(function(i) {
                             var $item = $(this);
                             return ($item.data('type') === type['id']
@@ -482,6 +480,7 @@ odoo.define('website_sign.frontend', function(require) {
         },
 
         checkSignatureItemsCompletion: function() {
+            this.refreshSignatureItems();
             var $toComplete = this.$('.o_sign_signature_item.o_sign_signature_item_required:not(.o_sign_signature_item_pdfview)').filter(function(i, el) {
                 var $elem = $(el);
                 return !(($elem.val() && $elem.val().trim()) || $elem.data('signature'));
@@ -554,7 +553,7 @@ odoo.define('website_sign.frontend', function(require) {
 
                         if(!value) {
                             if($elem.data('required')) {
-                                this.iframeWidget.refreshSignatureItems();
+                                this.iframeWidget.checkSignatureItemsCompletion();
                                 Dialog.alert(this, _t("Some fields have still to be completed !"), {title: _t("Warning")});
                                 return;
                             }

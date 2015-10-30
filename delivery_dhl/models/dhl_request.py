@@ -286,6 +286,7 @@ class DHLProvider():
         etree.SubElement(shipper_node, "CompanyName").text = self._remove_accents(param["shipper_company"].name)
         etree.SubElement(shipper_node, "AddressLine").text = self._remove_accents(param["shipper_streetLines"])
         etree.SubElement(shipper_node, "City").text = self._remove_accents(param["shipper_partner"].city)
+        etree.SubElement(shipper_node, "PostalCode").text = self._remove_accents(param["shipper_partner"].zip)
         etree.SubElement(shipper_node, "CountryCode").text = param["shipper_partner"].country_id.code
         etree.SubElement(shipper_node, "CountryName").text = param["shipper_partner"].country_id.name
 

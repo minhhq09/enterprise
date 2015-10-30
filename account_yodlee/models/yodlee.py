@@ -13,6 +13,10 @@ class OnlineInstitution(models.Model):
 
     type = fields.Selection(selection_add=[('yodlee', 'Yodlee')])
 
+    @api.multi
+    def _migrate_online_institution(self):
+        self.env['ir.model.data'].search([('module', '=', 'account_yodlee'), ('model', '=', 'online.institution')]).unlink()
+
 class OnlineSyncConfig(models.TransientModel):
     _inherit = 'account.journal.onlinesync.config'
 
@@ -151,6 +155,11 @@ class YodleeAccount(models.Model):
             'memSiteAccId': self.site_account_id,
         }
         resp_json = json.loads(yodlee.fetch('/jsonsdk/Refresh/getSiteRefreshInfo', 'yodlee', params))
+        if resp_json.get('errorCode'):
+            raise UserError(
+                _('An error has occured while trying to get transactions, try again later.\nError code: %s\nError message: %s')\
+                % (resp_json.get('errorCode'), resp_json.get('errorDetail'))
+            )
         if resp_json['code'] == 801:
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
@@ -199,9 +208,9 @@ class YodleeAccount(models.Model):
             for transaction in resp_json['searchResult']['transactions']:
                 transaction_date = transaction.get('transactionDate').split("T")[0]
                 if transaction.get('transactionBaseType') == 'debit':
-                    amount = transaction['amount']['amount']
-                else:
                     amount = -1 * transaction['amount']['amount']
+                else:
+                    amount = transaction['amount']['amount']
                 transactions.append({
                     'id': transaction['viewKey']['transactionId'],
                     'date': transaction_date,

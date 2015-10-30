@@ -665,8 +665,6 @@ odoo.define('website_sign.backend', function(require) {
             this._super.apply(this, arguments);
 
             this.events = _.extend(this.events || {}, {
-                'click #toolbarContainer': 'delayedRefresh',
-
                 'itemChange .o_sign_signature_item': function(e) {
                     this.updateSignatureItem($(e.target));
                     this.$iframe.trigger('templateChange');
@@ -823,10 +821,6 @@ odoo.define('website_sign.backend', function(require) {
                         self.enableCustom($(el));
                     });
                 }
-
-                self.$('#viewerContainer').on('scroll', function(e) {
-                    self.delayedRefresh();
-                });
             });
 
             this._super.apply(this, arguments);

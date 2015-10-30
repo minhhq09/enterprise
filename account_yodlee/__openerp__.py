@@ -15,12 +15,11 @@ Yodlee interface.
 ''',
     'data': [
         'views/yodlee_views.xml',
-    ],
-    'init_xml': [
-        'data/online.institution.csv',
+        'views/delete_ir_model_data.xml',
     ],
     'qweb': [
         'views/yodlee_templates.xml',
     ],
     'license': 'OEEL-1',
+    'post_init_hook': '_load_csv',
 }

@@ -1383,12 +1383,12 @@ odoo.define('project_timeshee.ui', function (require ) {
                   .showYAxis(false)
                   .x(function(d) { return d.label ;})    //Specify the data accessors.
                   .y(function(d) { return d.value ;})
-                  .tooltips(false)
                   .showValues(true)
                   .margin({right:15,left:15})
                   .valueFormat(function(d) {return self.unit_amount_to_hours_minutes(d);})
                   .color(["#a24689"])
                   ;
+                self.chart.tooltip.enabled(false);
                 nv.utils.windowResize(self.chart.update);
               return self.chart;
             });

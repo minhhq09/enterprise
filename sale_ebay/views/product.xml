@@ -101,16 +101,18 @@
                 </tree>
               </field>
             </div>
-            <label for="ebay_template_id"/>
-            <field name="ebay_template_id"
-              domain="[('model','=','product.template')]"
-              context="{
-                  'form_view_ref':'product_email_template.email_template_form_simplified',
-                  'default_model': 'product.template',
-                  'default_subject': name,
-                  'default_name': name,
-              }"
-            />
+            <div>
+              <label for="ebay_template_id"/>
+              <field name="ebay_template_id"
+                domain="[('model','=','product.template')]"
+                context="{
+                    'form_view_ref':'product_email_template.email_template_form_simplified',
+                    'default_model': 'product.template',
+                    'default_subject': name,
+                    'default_name': name,
+                }"
+              />
+            </div>
             <label for="ebay_description"/>
             <field name="ebay_description" placeholder="Describe the product characteristics..."/>
           </page>

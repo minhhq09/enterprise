@@ -129,7 +129,7 @@ odoo.define('website_sign.PDFIframe', function(require) {
                 }); 
 
             $.when.apply($, waitFor).then(function() {
-                self.refreshSignatureItems();
+                refresh_interval();
 
                 self.$('.o_sign_signature_item').each(function(i, el) {
                     self.updateSignatureItem($(el));
@@ -138,24 +138,30 @@ odoo.define('website_sign.PDFIframe', function(require) {
 
                 self.$('#viewerContainer').css('visibility', 'visible').animate({'opacity': 1}, 1000);
                 self.fullyLoaded.resolve();
+
+                /**
+                 * This function is called every 2sec to check if the PDFJS viewer did not detach some signature items.
+                 * Indeed, when scrolling, zooming, ... the PDFJS viewer replaces page content with loading icon, removing
+                 * any custom content with it.
+                 * Previous solutions were tried (refresh after scroll, on zoom click, ...) but this did not always work
+                 * for some reason when the PDF was too big.
+                 */
+                function refresh_interval() {
+                    try { // if an error occurs it means the iframe has been detach and will be reinitialized anyway (so the interval must stop)
+                        self.refreshSignatureItems();
+                        self.refresh_timer = setTimeout(refresh_interval, 2000);
+                    } catch (e) {}
+                }
             });
         },
 
-        delayedRefresh: function() {
-            var self = this;
-
-            clearTimeout(self.refreshTimer);
-            this.refreshTimer = setTimeout(function() {
-                self.refreshSignatureItems();
-            }, 250);
-        },
-
         refreshSignatureItems: function() {
-            clearTimeout(this.refreshTimer);
             for(var page in this.configuration) {
                 var $pageContainer = this.$('body #pageContainer' + page);
                 for(var i = 0 ; i < this.configuration[page].length ; i++) {
-                    $pageContainer.append(this.configuration[page][i]);
+                    if(!this.configuration[page][i].parent().hasClass('page')) {
+                        $pageContainer.append(this.configuration[page][i]);
+                    }
                 }
             }
             this.updateFontSize();
@@ -226,6 +232,11 @@ odoo.define('website_sign.PDFIframe', function(require) {
 
         disableItems: function() {
             this.$('.o_sign_signature_item').addClass('o_sign_signature_item_pdfview').removeClass('ui-selected');
+        },
+
+        destroy: function() {
+            clearTimeout(this.refresh_timer);
+            this._super.apply(this, arguments);
         },
     });
 

@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
                 # wipe the subscription clean if needed
                 if order.update_contract:
                     to_remove = [(2, line.id, 0) for line in order.subscription_id.recurring_invoice_line_ids]
-                    order.subscription_id.sudo().write({'recurring_invoice_line_ids': to_remove, 'description': order.note})
+                    order.subscription_id.sudo().write({'recurring_invoice_line_ids': to_remove, 'description': order.note, 'state': 'open'})
                 # add new lines or increment quantities on existing lines
                 values = {'recurring_invoice_line_ids': []}
                 for line in order.order_line:

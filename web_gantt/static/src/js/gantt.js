@@ -623,18 +623,29 @@ var GanttView = View.extend({
             gantt.updateTask(parent.id);
             if (parent.parent) update_date_parent(parent.id);
         };
+        /**
+         * Triggered at the start of a task drag. We use this hook to store directly on the
+         * tasks their current date start/end so that we can restore their state if the drag
+         * is not successful.
+         */
         gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
             var task = gantt.getTask(id);
-            var attr = e.target.attributes.getNamedItem("consolidation_ids");
+            task._original_start_date = task.start_date;
+            task._original_end_date = task.end_date;
             this.lastX = e.pageX;
-            if (attr) {
-                var children = attr.value.split(" ");
-                this.drag_child = children;
-                return true;
+            if (task.is_group) {
+                var attr = e.target.attributes.getNamedItem("consolidation_ids");
+                if (attr) {
+                    var children = attr.value.split(" ");
+                    this.drag_child = children;
+                    _.each(this.drag_child, function(child_id) {
+                        var child = gantt.getTask(child_id);
+                        child._original_start_date = child.start_date;
+                        child._original_end_date = child.end_date;
+                    });
+                }
             }
-            if (gantt.getTask(id).is_group) return false;
             return true;
-
         });
         gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e){
             if(gantt.getTask(id).is_group){
@@ -646,7 +657,7 @@ var GanttView = View.extend({
                 if (self.scale === "year") d = 51840000;
                 var diff = (e.pageX - this.lastX) * d;
                 this.lastX = e.pageX;
-                
+
                 if (task.start_date > original.start_date){ task.start_date = original.start_date; }
                 if (task.end_date < original.end_date){ task.end_date = original.end_date; }
 
@@ -670,19 +681,35 @@ var GanttView = View.extend({
             update_date_parent(id);
             return true;
         });
+
+        /**
+         * This will call `on_task_changed`, which will write in the dataset. This write can fail
+         * if, for example, constraints defined on the model are not met. In this case, we have to
+         * replace the task at its original place.
+         */
         gantt.attachEvent("onAfterTaskDrag", function(id){
-            if (gantt.getTask(id).is_group && this.drag_child){
-                _.each(this.drag_child, function(child_id){
-                    var child = gantt.getTask(child_id);
-                    gantt.roundTaskDates(child);
-                    gantt.updateTask(child_id);
-                    update_date_parent(child_id);
-                    self.on_task_changed(gantt.getTask(child_id));
+            var update_task = function (task_id) {
+                var task = gantt.getTask(task_id);
+                self.on_task_changed(task).fail(function () {
+                    task.start_date = task._original_start_date;
+                    task.end_date = task._original_end_date;
+                    gantt.updateTask(task_id);
+                    delete task._original_start_date;
+                    delete task._original_end_date;
+                }).always(function () {
+                    update_date_parent(task_id);
                 });
-                return false;
             }
-            update_date_parent(id);
-            self.on_task_changed(gantt.getTask(id));
+
+            // A group of tasks has been dragged
+            if (gantt.getTask(id).is_group && this.drag_child) {
+                _.each(this.drag_child, function(child_id) {
+                    update_task(child_id);
+                });
+            }
+
+            // A task has been dragged
+            update_task(id);
         });
 
         gantt.attachEvent("onGanttRender", function() {
@@ -782,7 +809,7 @@ var GanttView = View.extend({
             data[self.fields_view.arch.attrs.date_delay] = duration;
         }
         var task_id = parseInt(task_obj.id.split("gantt_task_").slice(1)[0], 10);
-        this.dataset.write(task_id, data);
+        return this.dataset.write(task_id, data);
     },
 
     /**

@@ -449,15 +449,19 @@
     
     // Translate icons
     .o_field_translate {
-        .o-position-absolute();
         padding: 0;
         display: none;
         cursor: pointer;
+        margin-left: -15px;
+        vertical-align: top;
+        &::before {
+            position: relative;
+        }
     }
     .o_show_translate {
         position: relative;
         .o_field_translate {
-            display: block;
+            display: inline-block;
         }
     }
 

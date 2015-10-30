@@ -9,10 +9,6 @@ def _build_sql_query(fields, tables, conditions, query_args):
 
     # The conditions should use named arguments and these arguments are in query_args.
 
-    # We cannot have invoices with 2 different currencies grouped together
-    conditions.append("account_invoice.currency_id = %(currency_id)s")
-    query_args['currency_id'] = request.env.user.company_id.currency_id.id
-
     if query_args.get('contract_ids'):
         tables.append("account_analytic_account")
         tables.append("sale_subscription")

@@ -19,7 +19,6 @@
             <search string="Invoice Line Entries Analysis">
                 <field name="asset_start_date" string="Asset Start Date" filter_domain="[('asset_start_date','&lt;=', self)]"/>
                 <field name="asset_end_date" string="Asset End Date" filter_domain="[('asset_end_date','&gt;=', self)]"/>
-                <field name="currency_id" string="Currency" filter_domain="[('currency_id', '=', self)]"/>
                 <group expand="0" string="Group By">
                     <separator/>
                     <filter string="OUT invoices" name="OUT" domain="[('invoice_id.type', 'in', ('out_invoice', 'out_refund'))]"/>
@@ -58,4 +57,8 @@
         <field name="context">{'search_default_OUT':1, 'search_default_ACTIVE':1,}</field>
         <field name="help">From this view, have an analysis of your different invoice line entries.</field>
     </record>
+
+    <menuitem id="menu_sale_subscription_dashboard" name="Dashboard" sequence="1" parent="sale_contract.menu_sale_subscription_root"/>
+    <menuitem action="account_contract_dashboard.action_contract_dashboard_report_main" id="menu_action_contract_dashboard_report_main" parent="menu_sale_subscription_dashboard" name="Revenue KPIs" groups="sale_contract.group_sale_contract_manager"/>
+    <menuitem action="account_contract_dashboard.action_contract_dashboard_report_salesman" id="menu_action_contract_dashboard_report_salesman" parent="menu_sale_subscription_dashboard" name="Salesman Dashboard"/>
 </odoo>

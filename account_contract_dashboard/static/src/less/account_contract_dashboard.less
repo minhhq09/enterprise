@@ -36,22 +36,20 @@
         }
     }
 
-    div.o_inline {
-        display: inline-block;
+    .o_stats_section {
+        .o-flex-display();
+        .o-flex-flow(row, wrap);
 
-        @media (max-width: @screen-xs-max) {
-            width: 100%;
+        > div {
+            .o-flex(1, 1, auto);
         }
     }
 
     .on_stat_box, .on_forecast_box {
         display: inline-block;
         text-decoration: none;
-        width: 350px;
-
-        @media (max-width: @screen-xs-max) {
-            width: 100%;
-        }
+        min-width: 350px;
+        width: 100%;
     }
 
     div.o_stat_box, div.o_forecast_box {
@@ -166,6 +164,8 @@
     }
 
     .o_welcome_message {
+        margin: 5px;
+
         .o-flex-display();
         justify-content: center;
 

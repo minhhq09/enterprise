@@ -90,6 +90,8 @@ class ProjectForecast(models.Model):
                 timesheets = self.env['account.analytic.line'].search([('task_id', '=', self.task_id.id), ('user_id', '=', self.user_id.id), ('date', '>=', self.start_date), ('date', '<=', self.end_date)])
             elif self.project_id:
                 timesheets = self.env['account.analytic.line'].search([('account_id', '=', self.project_id.analytic_account_id.id), ('user_id', '=', self.user_id.id), ('date', '>=', self.start_date), ('date', '<=', self.end_date)])
+            else:
+                timesheets = self.env['account.analytic.line'].browse()
             acc = 0
             for timesheet in timesheets:
                 acc += timesheet.unit_amount

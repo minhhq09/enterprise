@@ -21,9 +21,13 @@ class AccountJournal(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals.get('batch_deposit_sequence_id'):
-            vals.update({'batch_deposit_sequence_id': self._create_batch_deposit_sequence(vals).id})
-        return super(AccountJournal, self.sudo()).create(vals)
+        journal = super(AccountJournal, self.sudo()).create(vals)
+        if not journal.batch_deposit_sequence_id:
+            journal.batch_deposit_sequence_id = self._create_batch_deposit_sequence({
+                'name': journal.name,
+                'company_id': journal.company_id.id,
+            })
+        return journal
 
     @api.one
     def copy(self, default=None):

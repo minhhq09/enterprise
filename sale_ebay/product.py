@@ -161,6 +161,15 @@ class product_template(models.Model):
             if self.ebay_store_category_2_id:
                 item['Item']['Storefront']['StoreCategory2ID'] = self.ebay_store_category_2_id.category_id
                 item['Item']['Storefront']['StoreCategory2Name'] = self._ebay_encode(self.ebay_store_category_2_id.name)
+        return item
+
+    @api.model
+    def _ebay_encode(self, string):
+        return escape(string.strip().encode('utf-8')) if string else ''
+
+    @api.multi
+    def _prepare_non_variant_dict(self):
+        item = self._prepare_item_dict()
         item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
         if self.barcode:
             if len(self.barcode) == 12:
@@ -168,10 +177,6 @@ class product_template(models.Model):
             elif len(self.barcode) == 13:
                 item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
-
-    @api.model
-    def _ebay_encode(self, string):
-        return escape(string.strip().encode('utf-8')) if string else ''
 
     @api.multi
     def _prepare_variant_dict(self):
@@ -216,7 +221,7 @@ class product_template(models.Model):
         for key in name_values:
             possible_name_values.append({
                 'Name': self._ebay_encode(key),
-                'Value': map(lambda n: self._ebay_encode(n), name_values[key])
+                'Value': map(lambda n: self._ebay_encode(n), sorted(name_values[key]))
             })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
@@ -229,7 +234,7 @@ class product_template(models.Model):
            and self.ebay_listing_type == 'FixedPriceItem':
             item_dict = self._prepare_variant_dict()
         else:
-            item_dict = self._prepare_item_dict()
+            item_dict = self._prepare_non_variant_dict()
         return item_dict
 
     @api.one
@@ -387,7 +392,7 @@ class product_template(models.Model):
         self._sync_old_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
-    def get_seller_list(self, page_number=1, auto_commit=False):
+    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False, auto_commit=False):
         call_data = {'StartTimeFrom': str(datetime.today()-timedelta(days=119)),
                      'StartTimeTo': str(datetime.today()),
                      'DetailLevel': 'ReturnAll',
@@ -396,21 +401,25 @@ class product_template(models.Model):
                                     }
                      }
         try:
-            return self.ebay_execute('GetSellerList', call_data)
-        except (UserError, RedirectWarning), e:
+            response = self.ebay_execute('GetSellerList', call_data)
+        except UserError, e:
             if auto_commit:
                 self.env.cr.rollback()
                 self.env.user.message_post(body=_("eBay error: Impossible to synchronize the products. \n'%s'") % e[0])
                 self.env.cr.commit()
             else:
-                raise
-
-    @api.model
-    def _sync_recent_product_status(self, page_number=1, sync_big_stocks=False, auto_commit=False):
-        response = self.get_seller_list(page_number=page_number, auto_commit=auto_commit)
+                raise e
+        except RedirectWarning, e:
+            if not auto_commit:
+                raise e
+            # not configured, ignore
+            return
         if response.dict()['ItemArray'] is None:
             return
-        for item in response.dict()['ItemArray']['Item']:
+        items = response.dict()['ItemArray']['Item']
+        if not isinstance(items, list):
+            items = [items]
+        for item in items:
             domain = [
                 ('ebay_id', '=', item['ItemID']),
                 ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
@@ -461,7 +470,7 @@ class product_template(models.Model):
                             if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
                                 self.create_sale_order(transaction)
             self.sync_available_qty()
-        except (UserError, RedirectWarning), e:
+        except UserError, e:
             if auto_commit:
                 self.env.cr.rollback()
                 self.ebay_listing_status = 'Error'
@@ -470,6 +479,11 @@ class product_template(models.Model):
                 self.env.cr.commit()
             else:
                 raise e
+        except RedirectWarning, e:
+            if not auto_commit:
+                raise e
+            # not configured, ignore
+            return
 
     @api.one
     def create_sale_order(self, transaction):
@@ -490,16 +504,24 @@ class product_template(models.Model):
                 infos = transaction['Buyer']['BuyerInfo']['ShippingAddress']
                 partner_data['name'] = infos.get('Name')
                 partner_data['street'] = infos.get('Street1')
+                partner_data['street2'] = infos.get('Street2')
                 partner_data['city'] = infos.get('CityName')
                 partner_data['zip'] = infos.get('PostalCode')
                 partner_data['phone'] = infos.get('Phone')
                 partner_data['country_id'] = self.env['res.country'].search([
                     ('code', '=', infos['Country'])
                 ]).id
-                partner_data['state_id'] = self.env['res.country.state'].search([
-                    ('name', '=', infos.get('StateOrProvince')),
+                state = self.env['res.country.state'].search([
+                    ('code', '=', infos.get('StateOrProvince')),
                     ('country_id', '=', partner_data['country_id'])
-                ]).id
+                ])
+                if not state:
+                    state = self.env['res.country.state'].search([
+                        ('name', '=', infos.get('StateOrProvince')),
+                        ('country_id', '=', partner_data['country_id'])
+                    ])
+                partner_data['state_id'] = state.id
+
             partner.write(partner_data)
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
@@ -526,13 +548,10 @@ class product_template(models.Model):
                         lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
-            if not self.ebay_sync_stock:
-                variant.write({
-                    'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
-                    'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
-                    })
-            else:
-                variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
+            variant.write({
+                'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
+                'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
+                })
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
@@ -568,7 +587,7 @@ class product_template(models.Model):
                         'type': 'service',
                         'categ_id': self.env.ref('sale_ebay.product_category_ebay').id,
                     })
-                self.env['sale.order.line'].create({
+                so_line = self.env['sale.order.line'].create({
                     'order_id': sale_order.id,
                     'name': shipping_name,
                     'product_id': shipping_product.product_variant_ids[0].id,
@@ -579,7 +598,7 @@ class product_template(models.Model):
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
                 })
-
+                so_line._compute_tax_id()
             sale_order.action_confirm()
             if 'BuyerCheckoutMessage' in transaction:
                 sale_order.message_post(_('The Buyer Posted :\n') + transaction['BuyerCheckoutMessage'])
@@ -587,16 +606,7 @@ class product_template(models.Model):
             if 'ShippingServiceSelected' in transaction:
                 sale_order.picking_ids.message_post(
                     _('The Buyer Chose The Following Delivery Method :\n') + shipping_name)
-            # create invoices through the sales orders' workflow
-            sale_order.signal_workflow('manual_invoice')
-            invoice = sale_order.invoice_ids
-            # set the default account for the shipping
-            if 'ShippingServiceSelected' in transaction:
-                lines_ids = map(lambda i: i.id, invoice.invoice_line_ids)
-                line = self.env['account.invoice.line'].search([
-                    ('id', 'in', lines_ids), ('name', '=', shipping_name)])
-
-            invoice.signal_workflow('invoice_open')
+            sale_order.action_invoice_create(final=True)
 
     @api.one
     def sync_available_qty(self):
@@ -635,12 +645,8 @@ class product_template(models.Model):
                         self.relist_product_ebay()
 
     @api.model
-    def _cron_sync_ebay_products(self):
-        try:
-            self.sync_ebay_products()
-        except RedirectWarning:
-            # not configured, ignore
-            pass
+    def _cron_sync_ebay_products(self, sync_big_stocks=False, auto_commit=False):
+        self.sync_product_status(sync_big_stocks=sync_big_stocks, auto_commit=auto_commit)
 
     @api.model
     def sync_ebay_products(self, page_number=1):

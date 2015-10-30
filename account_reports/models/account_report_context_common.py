@@ -367,7 +367,7 @@ class AccountReportContextCommon(models.TransientModel):
         )
 
         header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.external_layout_header",
+            self._cr, self._uid, [], "report.internal_layout",
             values=rcontext,
             context=self.env.context
         )
@@ -377,22 +377,11 @@ class AccountReportContextCommon(models.TransientModel):
             context=self.env.context
         )
 
-        footer = self.pool['report'].render(
-            self._cr, self._uid, [], "report.external_layout_footer",
-            values=rcontext,
-            context=self.env.context
-        )
-        footer = self.pool['report'].render(
-            self._cr, self._uid, [], "report.minimal_layout",
-            values=dict(rcontext, subst=True, body=footer),
-            context=self.env.context
-        )
-
         landscape = False
         if len(self.get_columns_names()) > 4:
             landscape = True
 
-        return self.env['report']._run_wkhtmltopdf([header], [footer], [(0, body)], landscape, self.env.user.company_id.paperformat_id)
+        return self.env['report']._run_wkhtmltopdf([header], [''], [(0, body)], landscape, self.env.user.company_id.paperformat_id, spec_paperformat_args={'data-report-margin-top': 10, 'data-report-header-spacing': 10})
 
     @api.multi
     def get_html_and_data(self, given_context={}):

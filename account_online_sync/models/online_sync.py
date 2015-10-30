@@ -149,7 +149,7 @@ class AccountBankStatement(models.Model):
                  'id': online id,                  (unique ID for the transaction)
                  'date': transaction date,         (The date of the transaction)
                  'description': transaction description,  (The description)
-                 'amount': transaction amount,     (The amount of the transaction. Positif for debit, negative for credit)
+                 'amount': transaction amount,     (The amount of the transaction. Negative for debit, positive for credit)
                  'end_amount': total amount on the account
                  'location': optional field used to find the partner (see _find_partner for more info)
              }, ...]

@@ -474,7 +474,6 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             additional_context = {
                 'search_default_asset_end_date': moment(this.end_date).toDate(),
                 'search_default_asset_start_date': moment(this.end_date).toDate(),
-                'search_default_currency_id': this.currency_id,
                 // TODO: add contract_ids as another filter
             };
             view_xmlid = "account_contract_dashboard.action_invoice_line_entries_report";
@@ -526,7 +525,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 .y(function(d) { return getValue(d); })
                 .margin({left: 100})
                 .useInteractiveGuideline(true)
-                .transitionDuration(350)
+                .duration(350)
                 .showLegend(true)
                 .showYAxis(true)
                 .showXAxis(true);
@@ -684,7 +683,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             chart
                 .margin({left: 100})
                 .useInteractiveGuideline(true)
-                .transitionDuration(350)
+                .duration(350)
                 .showLegend(false)
                 .showYAxis(true)
                 .showXAxis(true);
@@ -938,7 +937,6 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
             var html_modifications = QWeb.render('account_contract_dashboard.contract_modifications', {
                 modifications: result['contract_modifications'],
-                get_str_diff: self.get_str_diff,
                 get_color_class: get_color_class,
                 currency_id: self.currency_id,
                 format_number: self.format_number,
@@ -1001,7 +999,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                     .staggerLabels(true)
                     .tooltips(false)
                     .showValues(true)
-                    .transitionDuration(350);
+                    .duration(350);
 
                 var svg = d3.select(div_to_display)
                     .append("svg")
@@ -1020,10 +1018,6 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
     format_number: function(value) {
         value = utils.human_number(value);
         return render_monetary_field(value, this.currency_id);
-    },
-
-    get_str_diff: function(diff) {
-        return diff < 0 ? diff.toString() : '+' + diff.toString();
     },
 
     on_update_options: function(ev) {
@@ -1191,7 +1185,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             chart
             .margin({left: 100})
             .useInteractiveGuideline(true)
-            .transitionDuration(350)
+            .duration(350)
             .showLegend(true)
             .showYAxis(true)
             .showXAxis(true);
@@ -1200,7 +1194,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             chart
             .margin({left: 0, top: 0, bottom: 0, right: 0})
             .useInteractiveGuideline(false)
-            .transitionDuration(350)
+            .duration(350)
             .showLegend(false)
             .showYAxis(false)
             .showXAxis(false)
