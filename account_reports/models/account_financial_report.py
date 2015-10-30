@@ -22,7 +22,7 @@ class ReportAccountFinancialReport(models.Model):
                                    string='Analysis Periods', default=False, required=True,
                                    help='For report like the balance sheet that do not work with date ranges')
     company_id = fields.Many2one('res.company', string='Company')
-    menuitem_created = fields.Boolean(default=False)
+    menuitem_created = fields.Boolean("Menu Has Been Created", default=False)
     parent_id = fields.Many2one('ir.ui.menu')
 
     def create_action_and_menu(self, parent_id):
