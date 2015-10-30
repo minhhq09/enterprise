@@ -53,12 +53,16 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         this.response = {'siteId': this.view.fields.online_id.get("value"),
                          'credentialFields.enclosedType': 'com.yodlee.common.FieldInfoSingle'}
         $.each(resp_json.componentList, function(k,v) {
-            if (v.isOptional == false || v.isOptional == undefined) {
+            // if (v.isOptional == false || v.isOptional == undefined) {
+                if (v.isOptional == undefined) {
+                    v.isOptional = false;
+                }
                 var vals = {displayName: v.displayName,
                     fieldType: self.map_field_type(v.fieldType.typeName),
                     indexResponse: k,
                     maxlength: v.maxlength || -1,
-                    selectValues: v.validValues,}
+                    selectValues: v.validValues,
+                    optional: v.isOptional,}
                 inputs_vals = inputs_vals.concat(vals);
                 //Prepare response dict
                 self.response['credentialFields['+k+'].displayName'] = v.displayName;
@@ -68,7 +72,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 self.response['credentialFields['+k+'].valueIdentifier'] = v.valueIdentifier;
                 self.response['credentialFields['+k+'].valueMask'] = v.valueMask;
                 self.response['credentialFields['+k+'].isEditable'] = v.isEditable;
-            }
+            // }
         });
         this.config_template_data = {inputs: inputs_vals};
     },

@@ -36,7 +36,7 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
 
     check_empty_field: function() {
         var self = this;
-        var $inputs = this.configurator_wizard.$el.find('input:not([type="radio"])');
+        var $inputs = this.configurator_wizard.$el.find('input[optional="false"]:not([type="radio"])');
         var $radios = this.configurator_wizard.$el.find('input[type="radio"]');
         var $selects = this.configurator_wizard.$el.find('select');
         var hasError = false;

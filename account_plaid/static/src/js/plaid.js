@@ -20,19 +20,22 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
             inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.username,
                 fieldType: 'text',
                 indexResponse: 'username',
-                maxlength: -1,});
+                maxlength: -1,
+                optional: false,});
         }
         if (resp_json.credentials.password !== undefined) {
             inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.password,
                 fieldType: 'password',
                 indexResponse: 'password',
-                maxlength: -1,});
+                maxlength: -1,
+                optional: false,});
         }
         if (resp_json.credentials.pin !== undefined) {
             inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.pin,
                 fieldType: 'text',
                 indexResponse: 'pin',
-                maxlength: -1,});
+                maxlength: -1,
+                optional: false,});
         }
         this.config_template_data = {inputs: inputs_vals};
     },

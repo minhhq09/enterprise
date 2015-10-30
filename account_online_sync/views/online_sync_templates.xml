@@ -12,7 +12,7 @@
             <label class="col-sm-2"><t t-esc="input.displayName"/></label>
             <t t-if="input.fieldType == 'text' || input.fieldType == 'password'">
               <div class="col-sm-10">
-                <input t-att-id="input.indexResponse" t-att-type="input.fieldType" t-att-size="input.maxlength" class="form-control js_online_sync_input"/>
+                <input t-att-id="input.indexResponse" t-att-type="input.fieldType" t-att-optional="input.optional" t-att-size="input.maxlength" class="form-control js_online_sync_input"/>
               </div>
             </t>
             <!-- <t t-if="input.fieldType == 'radio'">
