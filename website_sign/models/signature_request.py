@@ -388,14 +388,22 @@ class SignatureRequestItem(models.Model):
             self.signature = signature
         else:
             SignatureItemValue = self.env['signature.item.value']
-            for itemId in signature:
-                item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', self.signature_request_id.id)])
-                if not item_value:
-                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': self.signature_request_id.id})
-                item_value.value = signature[itemId]
+            request = self.signature_request_id
 
-                if item_value.signature_item_id.type_id.type == 'signature':
-                    self.signature = signature[itemId][signature[itemId].find(',')+1:]
+            signerItems = request.template_id.signature_item_ids.filtered(lambda r: not r.responsible_id or r.responsible_id.id == self.role_id.id)
+            autorizedIDs = set(signerItems.mapped('id'))
+            requiredIDs = set(signerItems.filtered('required').mapped('id'))
+
+            itemIDs = set(map(lambda k: int(k), signature.keys()))
+            if not (itemIDs <= autorizedIDs and requiredIDs <= itemIDs): # Security check
+                return False
+
+            for itemId in signature:
+                item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', request.id)])
+                if not item_value:
+                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': signature[itemId]})
+                    if item_value.signature_item_id.type_id.type == 'signature':
+                        self.signature = signature[itemId][signature[itemId].find(',')+1:]
 
         self.action_completed()
 
