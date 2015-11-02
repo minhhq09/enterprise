@@ -159,11 +159,11 @@ class YodleeAccountJournal(models.Model):
             return super(YodleeAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
         credentials = self._get_yodlee_credentials()
         last_login = self.company_id.yodlee_last_login and datetime.datetime.strptime(self.company_id.yodlee_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = last_login and (datetime.datetime.now() - last_login).seconds or 101 * 60
+        delta = last_login and (datetime.datetime.now() - last_login).total_seconds() or 101 * 60
         if not self.company_id.yodlee_access_token or delta / 60 >= 95:
             self._get_access_token()
         user_last_date = self.company_id.yodlee_user_last_login and datetime.datetime.strptime(self.company_id.yodlee_user_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = self.company_id.yodlee_user_last_login and (datetime.datetime.now() - user_last_date).seconds or 31 * 60
+        delta = self.company_id.yodlee_user_last_login and (datetime.datetime.now() - user_last_date).total_seconds() or 31 * 60
         if not self.company_id.yodlee_user_access_token or delta / 60 >= 25:
             self._get_user_access()
         params['cobSessionToken'] = self.company_id.yodlee_access_token
