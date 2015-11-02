@@ -38,6 +38,7 @@ class SaleOrder(models.Model):
 
             self.project_id = subscription.analytic_account_id
             # send new contract email to partner
+            # TDE FIXME: should probably be a classic message_post, to remove styling
             _, template_id = self.env['ir.model.data'].get_object_reference('website_contract', 'email_contract_open')
             mail_template = self.env['mail.template'].browse(template_id)
             mail_template.send_mail(subscription.id, force_send=True)
