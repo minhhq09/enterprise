@@ -1076,7 +1076,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
             $box.remove();
         });
         // add content inside notification box on top of the sheet/form
-        var $target = this.$('.oe_form_sheet').length ? this.$('.oe_form_sheet') : this.$el;
+        var $target = this.$('.o_form_sheet_bg').length ? this.$('.o_form_sheet_bg') : this.$el;
         $target.prepend($box);
     },
     open_defaults_dialog: function () {
