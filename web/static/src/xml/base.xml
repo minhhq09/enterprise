@@ -373,12 +373,20 @@
 </div>
 
 <t t-name="ListView.buttons">
-    <t t-if="!widget.no_leaf and widget.options.action_buttons !== false and widget.options.addable and widget.is_action_enabled('create')">
-    <div class="o_list_buttons">
-        <button type="button" class="btn btn-primary btn-sm o_list_button_add" accesskey="C">
-            <t t-esc="widget.options.addable"/>
-        </button>
-    </div>
+    <t t-if="!widget.no_leaf and widget.options.action_buttons !== false">
+        <div class="o_list_buttons">
+            <t t-if="widget.options.addable and widget.is_action_enabled('create')">
+                <button type="button" class="btn btn-primary btn-sm o_list_button_add" accesskey="C">
+                    <t t-esc="widget.options.addable"/>
+                </button>
+            </t>
+            <button type="button" class="btn btn-primary btn-sm o_list_button_save" accesskey="S">
+                Save
+            </button>
+            <button type="button" class="btn btn-default btn-sm o_list_button_discard" accesskey="D">
+                Discard
+            </button>
+        </div>
     </t>
 </t>
 
@@ -416,17 +424,6 @@
         <span name="delete" class="fa fa-trash-o"/>
     </td>
 </tr>
-
-<t t-extend="ListView.buttons">
-    <t t-jquery="button.o_list_button_add" t-operation="after">
-        <button type="button" class="btn btn-primary btn-sm o_list_button_save" accesskey="S">
-            Save
-        </button>
-        <button type="button" class="btn btn-default btn-sm o_list_button_discard" accesskey="D">
-            Discard
-        </button>
-    </t>
-</t>
 
 <button t-name="ListView.row.text_button" type="button"
         t-att-title="widget.string" t-att-disabled="disabled || undefined"
@@ -1313,6 +1310,23 @@
                 </t>
             </t>
         </section>
+    </t>
+</t>
+
+<t t-name="notification-box">
+    <div t-att-class="'alert alert-dismissible alert-' + type" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true" class="fa fa-times"></span>
+        </button>
+    </div>
+</t>
+
+<t t-name="translation-alert">
+    <t t-foreach="fields" t-as="field">
+        <div>
+            You have updated <strong><t t-esc="field.string"/></strong> (<t t-esc="lang"/>).
+            <a class="oe_field_translate" t-att-name="field.name" href="#">Update translations</a>
+        </div>
     </t>
 </t>
 
