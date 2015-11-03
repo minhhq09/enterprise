@@ -452,7 +452,7 @@ class AccountReportContextCommon(models.TransientModel):
         sheet.write(0, 0, '', title_style)
 
         x = 1
-        for column in self.get_columns_names():
+        for column in self.with_context(is_xls=True).get_columns_names():
             sheet.write(0, x, column, title_style)
             x += 1
 
