@@ -398,7 +398,10 @@ var WebClient = Widget.extend({
                 self.action_manager.set_scrollTop(self.get_scrollTop());
 
                 // Detach the web_client contents and its navbar
-                var $to_detach = self.$el.contents().not('.o_loading').not('.ui-autocomplete');
+                var $to_detach = self.$el.contents()
+                        .not('.o_loading')
+                        .not('.o_chat_window')
+                        .not('.ui-autocomplete');
                 self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});
                 framework.detach([{widget: self.menu}]);
 

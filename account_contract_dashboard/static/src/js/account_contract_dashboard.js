@@ -997,9 +997,10 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                     .x(function(d) { return d.label })
                     .y(function(d) { return d.value })
                     .staggerLabels(true)
-                    .tooltips(false)
                     .showValues(true)
                     .duration(350);
+
+                chart.tooltip.enabled(false);
 
                 var svg = d3.select(div_to_display)
                     .append("svg")

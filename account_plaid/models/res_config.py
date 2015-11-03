@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from openerp import fields, models, api
 
+# TODO: To remove in v10
 class PlaidConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
@@ -20,7 +21,7 @@ class PlaidConfigSettings(models.TransientModel):
     @api.one
     def _inverse_plaid_id(self):
         if self.plaid_id:
-            self.env['ir.config_parameter'].set_param('plaid_id', self.plaid_id)
+            self.env['ir.config_parameter'].set_param('plaid_id', self.plaid_id, groups=["base.group_erp_manager"])
 
     @api.one
     def _compute_plaid_secret(self):
@@ -29,4 +30,4 @@ class PlaidConfigSettings(models.TransientModel):
     @api.one
     def _inverse_plaid_secret(self):
         if self.plaid_secret:
-            self.env['ir.config_parameter'].set_param('plaid_secret', self.plaid_secret)
+            self.env['ir.config_parameter'].set_param('plaid_secret', self.plaid_secret, groups=["base.group_erp_manager"])

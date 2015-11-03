@@ -53,12 +53,16 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         this.response = {'siteId': this.view.fields.online_id.get("value"),
                          'credentialFields.enclosedType': 'com.yodlee.common.FieldInfoSingle'}
         $.each(resp_json.componentList, function(k,v) {
-            if (v.isOptional == false || v.isOptional == undefined) {
+            // if (v.isOptional == false || v.isOptional == undefined) {
+                if (v.isOptional == undefined) {
+                    v.isOptional = false;
+                }
                 var vals = {displayName: v.displayName,
                     fieldType: self.map_field_type(v.fieldType.typeName),
                     indexResponse: k,
                     maxlength: v.maxlength || -1,
-                    selectValues: v.validValues,}
+                    selectValues: v.validValues,
+                    optional: v.isOptional,}
                 inputs_vals = inputs_vals.concat(vals);
                 //Prepare response dict
                 self.response['credentialFields['+k+'].displayName'] = v.displayName;
@@ -68,7 +72,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 self.response['credentialFields['+k+'].valueIdentifier'] = v.valueIdentifier;
                 self.response['credentialFields['+k+'].valueMask'] = v.valueMask;
                 self.response['credentialFields['+k+'].isEditable'] = v.isEditable;
-            }
+            // }
         });
         this.config_template_data = {inputs: inputs_vals};
     },
@@ -85,7 +89,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 .then(function(result){
                     var resp_json = JSON.parse(result);
                     //Check for error and exception first
-                    if (resp_json.siteRefreshInfo === undefined && resp_json.errorOccurred === "true"){
+                    if (resp_json.siteRefreshInfo === undefined || resp_json.errorOccurred === "true"){
                         self.show_error("ERROR: " + resp_json.exceptionType);
                     }
                     //Check siteRefreshStatus, should be REFRESH_TRIGGERED
@@ -111,7 +115,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         var self = this;
         if (this._super()){
             //Get back sync date information and selected account_id and create online.account object with those information
-            var sync_date = this.configurator_wizard.$el.find('.o_datepicker_input').val();
+            var sync_date = this.datepicker.get_value();
             var option_selected = this.configurator_wizard.$el.find('input[name="account-selection"]:checked');
             var account_name = option_selected.attr('value');
             var account_id = option_selected.attr('account');
@@ -161,6 +165,9 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 .then(function(result){
                     var resp_json = JSON.parse(result);
                     var refresh_status = resp_json.siteRefreshStatus.siteRefreshStatus;
+                    if (resp_json.code === undefined || resp_json.errorOccurred === "true"){
+                        self.show_error("ERROR: " + resp_json.exceptionType);
+                    }
                     if (resp_json.code === 801 || (resp_json.code === 0 && refresh_status !== 'REFRESH_COMPLETED' && refresh_status !== 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED')) {
                         if (refresh_status === 'REFRESH_TIMED_OUT'){
                             number = 1;
