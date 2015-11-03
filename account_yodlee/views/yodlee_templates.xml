@@ -9,7 +9,7 @@
               <img t-attf-src="data:image/png;base64, #{question.image}" alt="captcha"/>
             </div>
             <div class="col-sm-3">
-              <input class="form-control js_yodlee_captcha"/>
+              <input class="form-control js_yodlee_captcha" optional="false"/>
             </div>
         </div>
       </t>
@@ -17,7 +17,7 @@
         <div class="form-group">
           <label class="col-sm-12"><t t-esc="question.name"/></label>
             <div class="col-sm-3">
-              <input t-att-size="question.maxLength" class="form-control js_yodlee_token"/>
+              <input t-att-size="question.maxLength" class="form-control js_yodlee_token" optional="false"/>
             </div>
         </div>
       </t>
@@ -26,7 +26,7 @@
           <div class="form-group">
             <label class="col-sm-12"><t t-esc="q.name"/></label>
             <div class="col-sm-6">
-              <input class="form-control js_yodlee_security" t-att-id="q.indexResponse"/>
+              <input class="form-control js_yodlee_security" t-att-id="q.indexResponse" optional="false"/>
             </div>
           </div>
         </t>

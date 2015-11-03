@@ -96,6 +96,7 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
 
     show_error: function(message, errorCode) {
         framework.unblockUI();
+        this.configurator_wizard.$el.find('.js_online_sync_wait').hide();
         if (message === false) {
             message = "An error occured!";
         }
