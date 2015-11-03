@@ -43,7 +43,7 @@ class YodleeAccountJournal(models.Model):
 
     @api.one
     def _register_new_yodlee_user(self):
-        username = self.env.registry.db_name + '_' + slugify(self.company_id.name) + '_' + str(uuid.uuid4())
+        username = self.env.registry.db_name + '_' + str(uuid.uuid4())
         password = str(uuid.uuid4())
         email = self.company_id.partner_id.email
         if not email:
@@ -60,7 +60,7 @@ class YodleeAccountJournal(models.Model):
                 'userProfile.emailAddress': email
             }
             resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params, timeout=20)
-            resp_json = simplejson.loads(resp.text)
+            resp_json = json.loads(resp.text)
             if resp_json.get('errorOccurred', False) == 'true':
                 #Log error if any
                 errorMsg = _('An error occured while trying to register new user on yodlee: ') + resp_json.get('exceptionType', 'Unknown Error') + ' - Message: ' +resp_json.get('message', '')
