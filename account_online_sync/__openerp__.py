@@ -12,7 +12,7 @@
     'website': "http://www.odoo.com",
     'category': 'Uncategorized',
     'version': '0.1',
-    'depends': ['account_accountant'],
+    'depends': ['account'],
 
     'data': [
         'security/ir.model.access.csv',
