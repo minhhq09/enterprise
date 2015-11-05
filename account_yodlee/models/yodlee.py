@@ -263,10 +263,8 @@ class YodleeAccount(models.Model):
             transactions = []
             if type(resp_json['searchResult']['transactions']) != list:
                 _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
-            tr_date = datetime.datetime.strptime(fields.Date.today(), DEFAULT_SERVER_DATE_FORMAT)
-            tr_date = datetime.datetime.strftime(tr_date, "%Y-%m-%d")
             for transaction in resp_json['searchResult']['transactions']:
-                transaction_date = datetime.datetime.strptime(transaction.get('transactionDate', to_date).split("T")[0], '%Y-%m-%d')
+                transaction_date = datetime.datetime.strptime(transaction.get('transactionDate', fields.Date.today()).split("T")[0], '%Y-%m-%d')
                 if transaction.get('transactionBaseType') == 'debit':
                     amount = -1 * transaction['amount']['amount']
                 else:
