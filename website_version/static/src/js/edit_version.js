@@ -55,7 +55,7 @@ editor.Class.include({
             }
             else
             {
-                var wizard = $(qweb.render("website_version.publish",{message:_t("Are you sure you want to publish your modifications.")}));
+                var wizard = $(qweb.render("website_version.publish",{message:_t("Are you sure you want to publish your modifications?")}));
                 wizard.appendTo($('body')).modal({"keyboard" :true});
                 wizard.on('click','.o_confirm', function(){
                     self.save();

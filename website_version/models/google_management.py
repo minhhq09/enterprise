@@ -44,7 +44,7 @@ class google_management(models.AbstractModel):
             x = gs_pool._do_request(url, data_json, headers, type='POST')
             result = x[1]['id']
         except Exception, e:
-            _logger.info(_('An exception occured during the google analytics rquest: %s') % e)
+            _logger.info(_('An exception occured during the google analytics request: %s') % e)
             raise
         return result
 
