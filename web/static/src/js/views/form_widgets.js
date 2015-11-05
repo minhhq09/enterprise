@@ -1463,7 +1463,6 @@ var FieldMonetary = FieldFloat.extend({
         if(currency) {
             var before = (currency.position === 'before');
             this.$el[(before)? 'prepend' : 'append']($('<span/>', {html: currency.symbol}));
-            this.$el.toggleClass('o_currency_before', before);
         }
     },
     get_currency_info: function() {
