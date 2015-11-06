@@ -1000,6 +1000,10 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
                 e.stopPropagation();
                 var $row = $(e.target).closest('tr');
                 $(self).trigger('deleted', [[self.row_id($row)]]);
+                // IE Edge go crazy when we use confirm dialog and remove the focused element
+                if(document.hasFocus && !document.hasFocus()) {
+                    $('<input />').appendTo('body').focus().remove();
+                }
             })
             .delegate('td button', 'click', function (e) {
                 e.stopPropagation();
