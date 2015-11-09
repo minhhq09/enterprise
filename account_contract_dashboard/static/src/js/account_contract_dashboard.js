@@ -63,13 +63,13 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
 
     get_filtered_contract_ids: function() {
         var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
-        return _.map($contract_inputs, function(el) { return $(el).data('id') });
+        return _.map($contract_inputs, function(el) { return $(el).data('id'); });
     },
 
     update_cp: function() {
         var self = this;
 
-        var def = undefined;
+        var def;
         if(!this.$searchview) {
             this.$searchview = $(QWeb.render("account_contract_dashboard.dashboard_option_pickers"));
             this.$searchview.find('.o_update_options').on('click', this.on_update_options);
@@ -179,7 +179,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             if (this.unresolved_defs_vals.length){
                 var stat_boxes = this.$main_dashboard.find('.o_stat_box');
                 _.each(this.unresolved_defs_vals, function(v, k){
-                    self.defs.push(new account_contract_dashboard_stat_box(
+                    self.defs.push(new AccountContractDashboardStatBox(
                         self,
                         self.start_date,
                         self.end_date,
@@ -209,10 +209,10 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/fetch_data', 'call', {
         }).done(function (result) {
-            self.stat_types = result['stat_types'];
-            self.forecast_stat_types = result['forecast_stat_types'];
-            self.currency_id = result['currency_id'];
-            self.show_demo = result['show_demo'];
+            self.stat_types = result.stat_types;
+            self.forecast_stat_types = result.forecast_stat_types;
+            self.currency_id = result.currency_id;
+            self.show_demo = result.show_demo;
         });
     },
 
@@ -231,7 +231,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         var forecast_boxes = this.$main_dashboard.find('.o_forecast_box');
 
         for (var i=0; i < stat_boxes.length; i++) {
-            this.defs.push(new account_contract_dashboard_stat_box(
+            this.defs.push(new AccountContractDashboardStatBox(
                 this,
                 this.start_date,
                 this.end_date,
@@ -244,16 +244,16 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             ).replace($(stat_boxes[i])));
         }
 
-        for (var i=0; i < forecast_boxes.length; i++) {
-            new account_contract_dashboard_forecast_box(
+        for (var j=0; j < forecast_boxes.length; j++) {
+            new AccountContractDashboardForecastBox(
                 this,
                 this.end_date,
                 this.forecast_stat_types,
-                forecast_boxes[i].getAttribute("name"),
-                forecast_boxes[i].getAttribute("code"),
+                forecast_boxes[j].getAttribute("name"),
+                forecast_boxes[j].getAttribute("code"),
                 this.currency_id,
                 this.show_demo
-            ).replace($(forecast_boxes[i]));
+            ).replace($(forecast_boxes[j]));
         }
 
         this.update_cp();
@@ -266,7 +266,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             if (v && v.state() != "resolved"){
                 self.unresolved_defs_vals.push(k);
             }
-        })
+        });
     },
 
     on_stat_box: function(ev) {
@@ -284,7 +284,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
             'currency_id': this.currency_id,
-        }
+        };
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_detailed", options);
     },
 
@@ -298,7 +298,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
             'currency_id': this.currency_id,
-        }
+        };
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_forecast", options);
     },
 
@@ -319,16 +319,16 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
     init: function(parent, context, options) {
         this._super(parent);
 
-        this.start_date = options['start_date'];
-        this.end_date = options['end_date'];
-        this.selected_stat = options['selected_stat'];
-        this.stat_types = options['stat_types'];
-        this.contract_templates = options['contract_templates'];
-        this.contract_ids = options['contract_ids'];
-        this.currency_id = options['currency_id'];
+        this.start_date = options.start_date;
+        this.end_date = options.end_date;
+        this.selected_stat = options.selected_stat;
+        this.stat_types = options.stat_types;
+        this.contract_templates = options.contract_templates;
+        this.contract_ids = options.contract_ids;
+        this.currency_id = options.currency_id;
 
         this.display_stats_by_plan = !_.contains(['nrr', 'arpu', 'logo_churn'], this.selected_stat);
-        this.report_name = this.stat_types[this.selected_stat]['name'];
+        this.report_name = this.stat_types[this.selected_stat].name;
     },
 
     fetch_computed_stat: function() {
@@ -389,7 +389,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'contract_ids': this.contract_ids,
         }).done(function (result) {
             // Rounding of result
-            _.map(result, function(v, k, dict) {dict[k] = Math.round(v * 100) / 100;})
+            _.map(result, function(v, k, dict) {dict[k] = Math.round(v * 100) / 100;});
             var html = QWeb.render('account_contract_dashboard.stats_history', {
                 stats_history: result,
                 stat_type: self.selected_stat,
@@ -428,7 +428,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
     },
 
     compute_rate: function(old_value, new_value) {
-        return old_value == 0 ? 0 : parseInt(100.0 * (new_value-old_value) / old_value);
+        return old_value === 0 ? 0 : parseInt(100.0 * (new_value-old_value) / old_value);
     },
 
     render_detailed_dashboard_graph: function() {
@@ -443,7 +443,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'points_limit': 0,
             'contract_ids': this.contract_ids,
         }).done(function(result){
-            load_chart('#stat_chart_div', self.stat_types[self.selected_stat]['name'], result, true);
+            load_chart('#stat_chart_div', self.stat_types[self.selected_stat].name, result, true);
             self.$('#stat_chart_div div.o_loader').hide();
         });
     },
@@ -484,33 +484,33 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             view_xmlid = "account.action_account_invoice_report_all";
         }
 
-        this.load_action(view_xmlid, {additional_context: additional_context})
+        this.load_action(view_xmlid, {additional_context: additional_context});
     },
 
     load_chart_mrr_growth_stat: function(div_to_display, result) {
         var data_chart = [
             {
-                values: result['new_mrr'],
+                values: result.new_mrr,
                 key: 'New MRR',
                 color: '#26b548',
             },
             {
-                values: result['churned_mrr'],
+                values: result.churned_mrr,
                 key: 'Churned MRR',
                 color: '#df2e28',
             },
             {
-                values: result['expansion_mrr'],
+                values: result.expansion_mrr,
                 key: 'Expansion MRR',
                 color: '#fed049',
             },
             {
-                values: result['down_mrr'],
+                values: result.down_mrr,
                 key: 'Down MRR',
                 color: '#ffa500',
             },
             {
-                values: result['net_new_mrr'],
+                values: result.net_new_mrr,
                 key: 'Net New MRR',
                 color: '#2693d5',
             }
@@ -530,7 +530,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 .showYAxis(true)
                 .showXAxis(true);
 
-            var tick_values = getPrunedTickValues(data_chart[0]['values'], 10);
+            var tick_values = getPrunedTickValues(data_chart[0].values, 10);
 
             chart.xAxis
                 .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
@@ -543,7 +543,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
 
             var svg = d3.select(div_to_display)
                 .append("svg")
-                .attr("height", '20em')
+                .attr("height", '20em');
             svg
                 .datum(data_chart)
                 .call(chart);
@@ -564,11 +564,11 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     init: function(parent, context, options) {
         this._super(parent);
 
-        this.start_date = options['start_date'];
-        this.end_date = options['end_date'];
-        this.contract_templates = options['contract_templates'];
-        this.contract_ids = options['contract_ids'];
-        this.currency_id = options['currency_id'];
+        this.start_date = options.start_date;
+        this.end_date = options.end_date;
+        this.contract_templates = options.contract_templates;
+        this.contract_ids = options.contract_ids;
+        this.currency_id = options.currency_id;
 
         this.values = {};
     },
@@ -593,8 +593,8 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             get_currency: this.get_currency,
         }));
 
-        this.values['mrr']['growth_type'] = 'linear';
-        this.values['contracts']['growth_type'] = 'linear';
+        this.values.mrr.growth_type = 'linear';
+        this.values.contracts.growth_type = 'linear';
         this.reload_chart('mrr');
         this.reload_chart('contracts');
 
@@ -602,17 +602,17 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     },
 
     on_forecast_input: function(ev) {
-        var forecast_type = $(ev.target).data()['forecast'];
-        var data_type = $(ev.target).data()['type'];
+        var forecast_type = $(ev.target).data().forecast;
+        var data_type = $(ev.target).data().type;
         this.values[forecast_type][data_type] = parseInt($(ev.target).val());
         this.reload_chart(forecast_type);
     },
 
     on_growth_type_change: function(ev) {
-        var forecast_type = $(ev.target).data()['type'];
+        var forecast_type = $(ev.target).data().type;
 
-        this.values[forecast_type]['growth_type'] = this.$("input:radio[name=growth_type_"+forecast_type+"]:checked").val();
-        if (this.values[forecast_type]['growth_type'] === 'linear') {
+        this.values[forecast_type].growth_type = this.$("input:radio[name=growth_type_"+forecast_type+"]:checked").val();
+        if (this.values[forecast_type].growth_type === 'linear') {
             this.$('#linear_growth_' + forecast_type).show();
             this.$('#expon_growth_' + forecast_type).hide();
         }
@@ -624,23 +624,24 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     },
 
     fetch_default_values_forecast: function(forecast_type) {
+        addLoader(this.$('#forecast_chart_div_mrr, #forecast_chart_div_contracts'));
+
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/get_default_values_forecast', 'call', {
             'forecast_type': forecast_type
         }).done(function(result){
             self.values[forecast_type] = result;
         });
-        addLoader(this.$('#forecast_chart_div_mrr, #forecast_chart_div_contracts'));
     },
 
     reload_chart: function(chart_type) {
         var computed_values = compute_forecast_values(
-            this.values[chart_type]['starting_value'],
-            this.values[chart_type]['projection_time'],
-            this.values[chart_type]['growth_type'],
-            this.values[chart_type]['churn'],
-            this.values[chart_type]['linear_growth'],
-            this.values[chart_type]['expon_growth']
+            this.values[chart_type].starting_value,
+            this.values[chart_type].projection_time,
+            this.values[chart_type].growth_type,
+            this.values[chart_type].churn,
+            this.values[chart_type].linear_growth,
+            this.values[chart_type].expon_growth
         );
         this.load_chart_forecast('#forecast_chart_div_' + chart_type, computed_values);
 
@@ -688,7 +689,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
                 .showYAxis(true)
                 .showXAxis(true);
 
-            var tick_values = getPrunedTickValues(data_chart[0]['values'], 10);
+            var tick_values = getPrunedTickValues(data_chart[0].values, 10);
 
             chart.xAxis
                 .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
@@ -719,7 +720,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
 });
 
 // These are two smalls widgets to display all the stat boxes in the main dashboard
-var account_contract_dashboard_stat_box = Widget.extend({
+var AccountContractDashboardStatBox = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
     init: function(parent, start_date, end_date, contract_ids, currency_id, stat_types, box_name, stat_type, show_demo) {
@@ -736,7 +737,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
         this.show_demo = show_demo;
 
         this.chart_div_id = 'chart_div_' + this.stat_type;
-        this.added_symbol = this.stat_types[this.stat_type]['add_symbol'];
+        this.added_symbol = this.stat_types[this.stat_type].add_symbol;
         this.is_monetary = this.added_symbol === 'currency';
         this.render_monetary_field = render_monetary_field;
 
@@ -750,7 +751,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
             'logo_churn': 7,
             'revenue_churn': 5,
             'nb_contracts': 50,
-        }
+        };
     },
 
     willStart: function() {
@@ -767,7 +768,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
         var self = this;
         return this._super().then(function() {
             load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
-        })
+        });
     },
 
     compute_graph: function() {
@@ -791,9 +792,9 @@ var account_contract_dashboard_stat_box = Widget.extend({
             'end_date': this.end_date,
             'contract_ids': this.contract_ids,
         }).done(function(result){
-            self.value = result['value_2'];
-            self.perc = result['perc'];
-            self.color = get_color_class(result['perc'], self.stat_types[self.stat_type]['dir']);
+            self.value = result.value_2;
+            self.perc = result.perc;
+            self.color = get_color_class(result.perc, self.stat_types[self.stat_type].dir);
         });
     },
 
@@ -807,7 +808,7 @@ var account_contract_dashboard_stat_box = Widget.extend({
     },
 });
 
-var account_contract_dashboard_forecast_box = Widget.extend({
+var AccountContractDashboardForecastBox = Widget.extend({
     template: 'account_contract_dashboard.forecast_stat_box_content',
 
     init: function(parent, end_date, forecast_stat_types, box_name, stat_type, currency_id, show_demo) {
@@ -820,7 +821,7 @@ var account_contract_dashboard_forecast_box = Widget.extend({
         this.stat_type = stat_type;
         this.show_demo = show_demo;
 
-        this.added_symbol = this.forecast_stat_types[this.stat_type]['add_symbol'];
+        this.added_symbol = this.forecast_stat_types[this.stat_type].add_symbol;
         this.is_monetary = this.added_symbol === 'currency';
         this.chart_div_id = 'chart_div_' + this.stat_type;
         this.render_monetary_field = render_monetary_field;
@@ -844,7 +845,7 @@ var account_contract_dashboard_forecast_box = Widget.extend({
         var self = this;
         return this._super().then(function() {
             load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
-        })
+        });
     },
 
     compute_numbers: function() {
@@ -855,11 +856,11 @@ var account_contract_dashboard_forecast_box = Widget.extend({
             'end_date': this.end_date,
         }).done(function(result){
             self.computed_graph = compute_forecast_values(
-                result['starting_value'],
-                result['projection_time'],
+                result.starting_value,
+                result.projection_time,
                 'linear',
-                result['churn'],
-                result['linear_growth'],
+                result.churn,
+                result.linear_growth,
                 0
             );
             self.value = self.computed_graph[self.computed_graph.length - 1][1];
@@ -892,9 +893,9 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/fetch_salesmen', 'call', {
         }).then(function (result) {
-            self.salesman_ids = result['salesman_ids'];
-            self.salesman = result['default_salesman'] || {};
-            self.currency_id = result['currency_id'];
+            self.salesman_ids = result.salesman_ids;
+            self.salesman = result.default_salesman || {};
+            self.currency_id = result.currency_id;
         });
     },
 
@@ -918,7 +919,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
         ajax.jsonRpc('/account_contract_dashboard/get_values_salesman', 'call', {
             'period': this.period,
-            'salesman_id': this.salesman['id'],
+            'salesman_id': this.salesman.id,
         }).done(function(result){
             load_chart_mrr_salesman('#mrr_growth_salesman', result);
             self.$('#mrr_growth_salesman div.o_loader').hide();
@@ -931,12 +932,12 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                 'up': 'o_green fa fa-arrow-up',
             };
 
-            _.each(result['contract_modifications'], function(v, k, list){
-                v['class_type'] = ICON_BY_TYPE[v['type']];
+            _.each(result.contract_modifications, function(v, k, list){
+                v.class_type = ICON_BY_TYPE[v.type];
             });
 
             var html_modifications = QWeb.render('account_contract_dashboard.contract_modifications', {
-                modifications: result['contract_modifications'],
+                modifications: result.contract_modifications,
                 get_color_class: get_color_class,
                 currency_id: self.currency_id,
                 format_number: self.format_number,
@@ -945,7 +946,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
             // 2. NRR invoices
             var html_nrr_invoices = QWeb.render('account_contract_dashboard.nrr_invoices', {
-                invoices: result['nrr_invoices'],
+                invoices: result.nrr_invoices,
                 currency_id: self.currency_id,
                 format_number: self.format_number,
             });
@@ -953,8 +954,8 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
             // 3. Summary
             var html_summary = QWeb.render('account_contract_dashboard.salesman_summary', {
-                mrr: result['net_new'],
-                nrr: result['nrr'],
+                mrr: result.net_new,
+                nrr: result.nrr,
                 currency_id: self.currency_id,
                 format_number: self.format_number,
             });
@@ -967,35 +968,35 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                 values: [
                     { 
                         "label" : "New MRR" ,
-                        "value" : result['new']
+                        "value" : result.new
                     } , 
                     { 
                         "label" : "Churned MRR" , 
-                        "value" : result['churn']
+                        "value" : result.churn
                     } , 
                     { 
                         "label" : "Expansion MRR" , 
-                        "value" : result['up']
+                        "value" : result.up
                     } , 
                     { 
                         "label" : "Down MRR" , 
-                        "value" : result['down']
+                        "value" : result.down
                     } , 
                     { 
                         "label" : "Net New MRR" ,
-                        "value" : result['net_new']
+                        "value" : result.net_new
                     } , 
                     { 
                         "label" : "NRR" ,
-                        "value" : result['nrr']
+                        "value" : result.nrr
                     } ,
                 ]
             }];
 
             nv.addGraph(function() {
                 var chart = nv.models.discreteBarChart()
-                    .x(function(d) { return d.label })
-                    .y(function(d) { return d.value })
+                    .x(function(d) { return d.label; })
+                    .y(function(d) { return d.value; })
                     .staggerLabels(true)
                     .showValues(true)
                     .duration(350);
@@ -1004,7 +1005,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
                 var svg = d3.select(div_to_display)
                     .append("svg")
-                    .attr("height", '20em')
+                    .attr("height", '20em');
                 svg
                     .datum(data_chart)
                     .call(chart);
@@ -1166,7 +1167,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             "0": "2015-08-15",
             "1": 69
           },
-        ]
+        ];
     }
     var data_chart = [
     {
@@ -1178,10 +1179,10 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
     ];
     nv.addGraph(function() {
         var chart = nv.models.lineChart()
-        .interpolate("monotone")
-        .forceY([getMinY(result)])
-        .x(function(d) { return getDate(d); })
-        .y(function(d) { return getValue(d); });
+            .interpolate("monotone")
+            .forceY([getMinY(result)])
+            .x(function(d) { return getDate(d); })
+            .y(function(d) { return getValue(d); });
         if (show_legend){
             chart
             .margin({left: 100})
@@ -1202,18 +1203,17 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
             .interactive(false);
         }
 
-        var tick_values = getPrunedTickValues(data_chart[0]['values'], 10);
+        var tick_values = getPrunedTickValues(data_chart[0].values, 10);
         chart.xAxis
-        .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
-        .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
-        .rotateLabels(55);
+            .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
+            .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
+            .rotateLabels(55);
 
         chart.yAxis
-        .axisLabel(key_name)
-        .tickFormat(d3.format('.02f'));
+            .axisLabel(key_name)
+            .tickFormat(d3.format('.02f'));
 
-        var svg = d3.select(div_to_display)
-        .append("svg");
+        var svg = d3.select(div_to_display).append("svg");
         if (show_legend){
             svg.attr("height", '20em');
         }
@@ -1242,14 +1242,14 @@ function render_monetary_field(value, currency_id) {
 function get_color_class(value, direction) {
     var color = 'o_black';
 
-    if (value != 0 && direction === 'up') {
+    if (value !== 0 && direction === 'up') {
         color = (value > 0) && 'o_green' || 'o_red';
     }
-    if (value != 0 && direction != 'up') {
+    if (value !== 0 && direction != 'up') {
         color = (value < 0) && 'o_green' || 'o_red';
     }
 
-    return color
+    return color;
 }
 
 // Add client actions
