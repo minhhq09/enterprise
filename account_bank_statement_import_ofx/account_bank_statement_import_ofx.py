@@ -5,8 +5,11 @@ import StringIO
 
 from openerp import api, models, _
 from openerp.exceptions import UserError
-from ofxparse import OfxParser
-from ofxparse.ofxparse import OfxParserException
+try:
+    from ofxparse import OfxParser
+    from ofxparse.ofxparse import OfxParserException
+except ImportError:
+    OfxParser = OfxParserException = None
 
 _logger = logging.getLogger(__name__)
 
@@ -15,6 +18,9 @@ class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
     def _check_ofx(self, file):
+        if OfxParser is None:
+            _logger.warning("ofxparse python library not available, unable to parse ofx files")
+            return False
         try:
             ofx = OfxParser.parse(file)
         except (TypeError, AttributeError, OfxParserException):
