@@ -76,11 +76,13 @@ editor.Class.include({
             }
         });
 
+        this.$('button[data-action="save"] + .dropdown-toggle').prop('disabled', $('.o_dirty').length==0);
+
         return this._super();
     },
     rte_changed: function () {
         this._super();
-        this.$('button[data-action=save]').parent().find("button, a").prop('disabled', !$('.o_dirty').length);
+        this.$('button[data-action="save"] + .dropdown-toggle').prop('disabled', $('.o_dirty').length==0);
     },
 });
 
