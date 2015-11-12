@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
             tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
             payment_method = tx.payment_method_id
         if self.template_id and self.template_id.contract_template and not self.project_id \
-                and any(self.template_id.contract_template.recurring_invoice_line_ids.mapped('product_id').mapped('recurring_invoice')):
+                and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
             values = self._prepare_contract_data(payment_method_id=payment_method.id if self.require_payment else False)
             subscription = self.env['sale.subscription'].sudo().create(values)
             subscription.name = self.partner_id.name + ' - ' + subscription.code
