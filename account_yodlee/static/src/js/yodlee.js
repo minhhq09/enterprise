@@ -130,10 +130,10 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     var result = self._process_input(index, val, args);
                     if (k < v.fieldInfoList.length-1) {
                         result['or'] = true;
+                        index = index + 1;
                     }
                     vals_tmp = vals_tmp.concat(result);
                     vals = vals_tmp;
-                    index = index + 1;
                 });
             }
             else if (v.fieldType != undefined) {

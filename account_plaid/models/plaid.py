@@ -74,6 +74,7 @@ class PlaidAccountJournal(models.Model):
             resp = requests.get('https://api.plaid.com/institutions', timeout=20)
             resp.raise_for_status()
         except Exception:
+            _logger.exception('An error has occurred while trying to connect to Plaid service')
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
         institutions = self.env['online.institution'].search([('type', '=', 'plaid')])
         institution_name = [i.name for i in institutions]
