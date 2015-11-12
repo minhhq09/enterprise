@@ -875,11 +875,15 @@ var FormViewDialog = ViewDialog.extend({
 
             if(!readonly) {
                 options.buttons.splice(0, 0, {text: _t("Save") + ((multi_select)? _t(" & Close") : ""), classes: "btn-primary", click: function() {
-                        $.when(self.view_form.save()).done(function() {
-                            self.view_form.reload_mutex.exec(function() {
-                                self.trigger('record_saved');
-                                self.close();
-                            });
+                        self.view_form.onchanges_mutex.def.then(function() {
+                            if (!self.view_form.warning_displayed) {
+                                $.when(self.view_form.save()).done(function() {
+                                    self.view_form.reload_mutex.exec(function() {
+                                        self.trigger('record_saved');
+                                        self.close();
+                                    });
+                                });
+                            }
                         });
                     }
                 });
