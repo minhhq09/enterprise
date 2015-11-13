@@ -13,7 +13,4 @@
         'views/delivery_usps_view.xml',
         'views/delivery_usps_template.xml',
     ],
-    'demo': [
-        'data/delivery_usps_data_demo.xml'
-    ],
 }

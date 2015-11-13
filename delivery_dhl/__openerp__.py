@@ -12,7 +12,4 @@
         'data/delivery_dhl_data.xml',
         'views/delivery_dhl_view.xml',
     ],
-    'demo': [
-        'data/delivery_dhl_demo_data.xml'
-    ],
 }
