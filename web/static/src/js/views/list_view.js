@@ -1616,8 +1616,11 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
         return {ids: ids, records: records};
     },
     on_records_reset: function () {
-        this.children = {};
         this.$to_be_removed = $(this.elements);
+        _.each(this.children, function(child){
+            this.$to_be_removed = this.$to_be_removed.add(child.$to_be_removed);
+        }.bind(this));
+        this.children = {};
     },
     get_records: function () {
         if (_(this.children).isEmpty()) {
