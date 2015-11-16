@@ -142,7 +142,7 @@
         <field name="name">Leveringen vanuit het buitenland (omzet)</field>
         <field name="sequence" eval="4"/>
         <field name="level" eval="1"/>
-        <field name="formulas">balance = NLTAX_A4a.balance + NLTAX_A4b.balance</field>
+        <field name="formulas">balance = - NLTAX_A4a.balance - NLTAX_A4b.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01"/>
     </record>
     <record id="financial_report_line_nl_01_04_01" model="account.financial.html.report.line">
@@ -290,7 +290,7 @@
         <field name="name">Voorbelasting, kleineondernemersregeling, schatting en eindtotaal (BTW)</field>
         <field name="sequence" eval="4"/>
         <field name="level" eval="1"/>
-        <field name="formulas">balance = NLTAX_B5a.balance + NLTAX_B5b.balance + NLTAX_B5c.balance + NLTAX_B5d.balance + NLTAX_B5e.balance + NLTAX_B5f.balance + NLTAX_B5g.balance</field>
+        <field name="formulas">balance = NLTAX_B5a.balance - NLTAX_B5b.balance + NLTAX_B5c.balance + NLTAX_B5d.balance + NLTAX_B5e.balance + NLTAX_B5f.balance + NLTAX_B5g.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
     </record>
     <record id="financial_report_line_nl_02_04_01" model="account.financial.html.report.line">
