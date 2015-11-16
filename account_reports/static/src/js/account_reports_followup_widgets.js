@@ -101,24 +101,32 @@ var FollowupReportWidget = ReportWidget.extend({
         return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}]); // Write the change in db
     },
     onKeyPress: function(e) {
+        var self = this;
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name === 'followup_report') { // on ctrl-enter
-            var letter_partner_list = [];
-            var email_context_list = [];
-            this.$("*[data-primary='1'].followup-email").each(function() { // List all the followups where sending an email is needed
-                email_context_list.push($(this).data('context'));
-            });
-            this.$("*[data-primary='1'].followup-letter").each(function() { // List all the followups where printing a pdf is needed
-                letter_partner_list.push($(this).data('partner'));
-            });
-            framework.blockUI();
-            session.get_file({
-                url: '/account_reports/followup_report/' + letter_partner_list + '/',
-                complete: framework.unblockUI,
-                error: crash_manager.rpc_error.bind(crash_manager),
-            });
-            var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
-            this.getParent().restart(report_context);
+            return new Model('account.report.context.followup.all').call('search', [[['create_uid', '=', session.uid]]]).then(function(result) {
+                return new Model('account.report.context.followup.all').query(['partner_filter'])
+                .filter([['id', '=', result[0]]]).first().then(function (result) {
+                    if (result['partner_filter'] == 'action') {
+                        var letter_partner_list = [];
+                        var email_context_list = [];
+                        self.$("*[data-primary='1'].followup-email").each(function() { // List all the followups where sending an email is needed
+                            email_context_list.push($(this).data('context'));
+                        });
+                        self.$("*[data-primary='1'].followup-letter").each(function() { // List all the followups where printing a pdf is needed
+                            letter_partner_list.push($(this).data('partner'));
+                        });
+                        framework.blockUI();
+                        session.get_file({
+                            url: '/account_reports/followup_report/' + letter_partner_list + '/',
+                            complete: framework.unblockUI,
+                            error: crash_manager.rpc_error.bind(crash_manager),
+                        });
+                        var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
+                        self.getParent().restart(report_context);
+                    }
+                });
+            })
         }
     },
     donePartner: function(e) {
