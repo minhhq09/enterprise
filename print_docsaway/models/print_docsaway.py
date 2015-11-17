@@ -310,7 +310,7 @@ class PrintOrder(models.Model):
     docsaway_zone = fields.Integer('Docsaway Zone', help="Docsaway Station ID.")
     # transaction fields
     docsaway_reference = fields.Char('Docsaway Reference', help="Docsaway Reference Order.")
-    docsaway_status = fields.Char('Docsaway Approved', help="Docsaway Transation Status.")
+    docsaway_status = fields.Char('Docsaway Approved', help="Docsaway Transaction Status.")
 
 
     def _docsaway_prepare_printing(self):
