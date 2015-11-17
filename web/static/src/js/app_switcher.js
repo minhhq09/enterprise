@@ -5,7 +5,6 @@ var core = require('web.core');
 var Widget = require('web.Widget');
 var UserMenu = require('web.UserMenu');
 var Model = require('web.Model');
-var framework = require('web.framework');
 var QWeb = core.qweb;
 
 var AppSwitcher = Widget.extend({
@@ -42,6 +41,9 @@ var AppSwitcher = Widget.extend({
     /** Checks for the database expiration date and display a warning accordingly. */
     enterprise_expiration_check: function() {
         var self = this;
+        if (!self.session) {
+            return;
+        }
         var P = new Model('ir.config_parameter');
 
         $.when(
@@ -69,7 +71,7 @@ var AppSwitcher = Widget.extend({
                 if (diffDays <= 0) {
                     expiration_panel.children().addClass('alert-danger');
                     expiration_panel.find('a.oe_instance_register_show').on('click', self.events['click a.oe_instance_register_show']);
-                    framework.blockUI({ message: expiration_panel[0] });
+                    $.blockUI({ message: expiration_panel[0] });
                 }
 
             }
@@ -83,26 +85,26 @@ var AppSwitcher = Widget.extend({
         var enterprise_code = $('.database_expiration_panel').find('#enterprise_code').val();
         $.when(P.call('set_param', ['database.enterprise_code', enterprise_code])).then(function() {
             Publisher.call('update_notification', [[]]);
-            framework.unblockUI();
+            $.unblockUI();
             location.reload();
         });
     },
     enterprise_buy: function(ev) {
         var limit_date = new moment().subtract(15, 'days').format("YYYY-MM-DD");
         new Model("res.users").call("search_count", [[["share", "=", false],["login_date", ">=", limit_date]]]).then(function(users) {
-            framework.redirect("https://www.odoo.com/odoo-enterprise/upgrade?num_users=" + users);
+            window.location = "https://www.odoo.com/odoo-enterprise/upgrade?num_users=" + users;
         });
     },
     enterprise_renew: function(ev) {
         new Model('ir.config_parameter').call('get_param', ['database.enterprise_code']).then(function(code) {
-            framework.redirect("https://www.odoo.com/odoo-enterprise/renew?code=" + code);
+            window.location = "https://www.odoo.com/odoo-enterprise/renew?code=" + code;
         });
     },
     enterprise_upsell: function(ev) {
         var limit_date = new moment().subtract(15, 'days').format("YYYY-MM-DD");
         new Model('ir.config_parameter').call('get_param', ['database.enterprise_code']).then(function(code) {
             new Model("res.users").call("search_count", [[["share", "=", false],["login_date", ">=", limit_date]]]).then(function(users) {
-                framework.redirect("https://www.odoo.com/odoo-enterprise/upsell?num_users=" + users + "&code=" + code);
+                window.location = "https://www.odoo.com/odoo-enterprise/upsell?num_users=" + users + "&code=" + code;
             });
         });
     },
