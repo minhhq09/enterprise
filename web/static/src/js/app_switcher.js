@@ -53,7 +53,7 @@ var AppSwitcher = Widget.extend({
             P.call('get_param', ['database.expiration_reason'])
         ).then(function(is_user, dbexpiration_date, dbenterprise_code, dbexpiration_reason) {
             // don't show the expiration warning for portal users
-            if (!is_user) {
+            if (!is_user || !dbexpiration_date) {
                 return;
             }
             var today = new moment();
