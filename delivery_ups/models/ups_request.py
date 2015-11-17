@@ -406,6 +406,7 @@ class UPSRequest():
 
         except suds.WebFault as e:
             # childAtPath behaviour is changing at version 0.6
+            prefix = ''
             if SUDS_VERSION >= "0.6":
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
@@ -432,6 +433,7 @@ class UPSRequest():
 
         except suds.WebFault as e:
             # childAtPath behaviour is changing at version 0.6
+            prefix = ''
             if SUDS_VERSION >= "0.6":
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
