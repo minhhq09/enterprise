@@ -137,6 +137,9 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <p class="text-muted" align="right">Tip: Hit CTRL-Enter to send followups for all the customers statements in the sheet.</p>
+        </div>
         <t t-foreach="context.footnotes" t-as="footnote">
             <p class="footnote" t-att-id="'footnote' + str(footnote.number)">
                 <span class='text'><t t-raw="str(footnote.number) + '. ' + footnote.text"/></span>
