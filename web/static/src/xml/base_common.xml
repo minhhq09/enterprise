@@ -148,16 +148,16 @@
                         Your database will expire in <span t-esc="diffDays"/> days.
                     </t>
                     <t t-if="diffDays &lt; 1">
-                        Your database expired.
+                        Your database has expired.
                     </t>
                     <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason === false">
-                        <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy</a>.
+                        <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy</a> one.
                     </t>
                     <t t-if="dbexpiration_reason == 'renewal'">
                         <a class="oe_instance_renew" href="#">Renew your subscription</a>.
                     </t>
                     <t t-if="dbexpiration_reason == 'upsell'">
-                        You are using more user than specified in your subscription. 
+                        You have more active users than included in your subscription.
                         <a class="oe_instance_upsell" href="#">Add more users</a>.
                     </t>
                 </span>
