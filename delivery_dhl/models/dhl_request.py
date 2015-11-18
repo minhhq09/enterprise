@@ -240,7 +240,7 @@ class DHLProvider():
 
         if param["recipient_partner"].state_id:
             etree.SubElement(consignee_node, "Division").text = param["recipient_partner"].state_id.name
-            etree.SubElement(consignee_node, "DivisionCode").text = param["recipient_partner"].state_id.name
+            etree.SubElement(consignee_node, "DivisionCode").text = param["recipient_partner"].state_id.code
         etree.SubElement(consignee_node, "PostalCode").text = param["recipient_partner"].zip
         etree.SubElement(consignee_node, "CountryCode").text = param["recipient_partner"].country_id.code
         etree.SubElement(consignee_node, "CountryName").text = param["recipient_partner"].country_id.name
