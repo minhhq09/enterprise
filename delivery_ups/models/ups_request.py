@@ -172,23 +172,29 @@ class UPSRequest():
         return client
 
     def check_required_value(self, shipper, ship_from, ship_to, order=False, picking=False):
-        required_field = {'street': 'Street', 'city': 'City', 'zip': 'ZIP code', 'country_id': 'Country', 'phone': 'Phone'}
+        required_field = {'city': 'City', 'zip': 'ZIP code', 'country_id': 'Country', 'phone': 'Phone'}
         # Check required field for shipper
         res = [required_field[field] for field in required_field if not shipper[field]]
         if shipper.country_id.code in ('US', 'CA', 'IE') and not shipper.state_id.code:
             res.append('State')
+        if not shipper.street and not shipper.street2:
+            res.append('Street')
         if res:
             raise ValidationError(_("The address of your company is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
         # Check required field for warehouse address
         res = [required_field[field] for field in required_field if not ship_from[field]]
         if ship_from.country_id.code in ('US', 'CA', 'IE') and not ship_from.state_id.code:
             res.append('State')
+        if not ship_from.street and not ship_from.street2:
+            res.append('Street')
         if res:
             raise ValidationError(_("The address of your warehouse is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
         # Check required field for recipient address
         res = [required_field[field] for field in required_field if not ship_to[field]]
         if ship_to.country_id.code in ('US', 'CA', 'IE') and not ship_to.state_id.code:
             res.append('State')
+        if not ship_to.street and not ship_to.street2:
+            res.append('Street')
         if res:
             raise ValidationError(_("The recipient address is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
         if order:
@@ -342,7 +348,7 @@ class UPSRequest():
 
         shipment.Shipper.AttentionName = shipper.name or ''
         shipment.Shipper.Name = shipper.parent_id.name or shipper.name or ''
-        shipment.Shipper.Address.AddressLine = [shipper.street or '', shipper.street2 or '']
+        shipment.Shipper.Address.AddressLine = [l for l in [shipper.street or '', shipper.street2 or ''] if l]
         shipment.Shipper.Address.City = shipper.city or ''
         shipment.Shipper.Address.PostalCode = shipper.zip or ''
         shipment.Shipper.Address.CountryCode = shipper.country_id.code or ''
@@ -353,7 +359,7 @@ class UPSRequest():
 
         shipment.ShipFrom.AttentionName = ship_from.name or ''
         shipment.ShipFrom.Name = ship_from.parent_id.name or ship_from.name or ''
-        shipment.ShipFrom.Address.AddressLine = [ship_from.street or '', ship_from.street2 or '']
+        shipment.ShipFrom.Address.AddressLine = [l for l in [ship_from.street or '', ship_from.street2 or ''] if l]
         shipment.ShipFrom.Address.City = ship_from.city or ''
         shipment.ShipFrom.Address.PostalCode = ship_from.zip or ''
         shipment.ShipFrom.Address.CountryCode = ship_from.country_id.code or ''
@@ -363,7 +369,7 @@ class UPSRequest():
 
         shipment.ShipTo.AttentionName = ship_to.name or ''
         shipment.ShipTo.Name = ship_to.parent_id.name or ship_to.name or ''
-        shipment.ShipTo.Address.AddressLine = [ship_to.street or '', ship_to.street2 or '']
+        shipment.ShipTo.Address.AddressLine = [l for l in [ship_to.street or '', ship_to.street2 or ''] if l]
         shipment.ShipTo.Address.City = ship_to.city or ''
         shipment.ShipTo.Address.PostalCode = ship_to.zip or ''
         shipment.ShipTo.Address.CountryCode = ship_to.country_id.code or ''
