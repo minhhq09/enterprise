@@ -33,6 +33,12 @@ class account_report_context_followup_all(models.TransientModel):
         res['action_contexts'] = self.action_contexts
         return res
 
+    @api.depends('valuenow')  # Doesn't directly depend on valuenow but when valuenow is updated it means that this should change
+    def _compute_pages(self):
+        for context in self:
+            partners = [x not in context.skipped_partners_ids.ids and x for x in self.env['res.partner'].get_partners_in_need_of_action_and_update().keys()]
+            context.last_page = len(partners) / 15
+
 
 class account_report_context_followup(models.TransientModel):
     _inherit = "account.report.context.followup"

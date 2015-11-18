@@ -17,13 +17,21 @@ class ResPartner(models.Model):
                                            ('account_id.deprecated', '=', False), '&', ('account_id.internal_type', '=', 'receivable')])
 
     def get_partners_in_need_of_action(self, overdue_only=False):
-        result = self.ids
+        result = []
         today = fields.Date.context_today(self)
-        partners = self.search(['|', ('payment_next_action_date', '=', False), ('payment_next_action_date', '<=', today)])
-        domain = partners.get_followup_lines_domain(today, overdue_only=overdue_only, only_unblocked=True)
-        for line in self.env['account.move.line'].read_group(domain, ['partner_id'], ['partner_id']):
-            if line.get('partner_id', False):
-                result.append(line['partner_id'][0])
+        partners = self.search([('payment_next_action_date', '>', today)])
+        domain = partners.with_context(exclude_given_ids=True).get_followup_lines_domain(today, overdue_only=overdue_only, only_unblocked=True)
+        query = self.env['account.move.line']._where_calc(domain)
+        tables, where_clause, where_params = query.get_sql()
+        sql = """SELECT "account_move_line".partner_id
+                 FROM %s
+                 WHERE %s GROUP BY "account_move_line".partner_id"""
+        query = sql % (tables, where_clause)
+        self.env.cr.execute(query, where_params)
+        results = self.env.cr.fetchall()
+        for res in results:
+            if res[0]:
+                result.append(res[0])
         return self.browse(result)
 
     def get_followup_lines_domain(self, date, overdue_only=False, only_unblocked=False):
