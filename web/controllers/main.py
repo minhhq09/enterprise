@@ -42,6 +42,17 @@ import mimetypes
 from openerp.http import request, serialize_exception as _serialize_exception, STATIC_CACHE
 from openerp.exceptions import AccessError
 
+# Monkey patch release to set the edition as 'enterprise'
+from openerp.release import RELEASE_LEVELS_DISPLAY
+version_info = (9, 0, 0, 'final', 0, 'e')
+openerp.release.version_info = version_info
+version_split = openerp.release.version.split('-', 1)
+openerp.release.version = (version_split[0][:-1] + version_info[5] +
+                           ('-%s' % version_split[1] if len(version_split) > 1 else ''))
+openerp.service.common.RPC_VERSION_1.update(
+    server_version=openerp.release.version,
+    server_version_info=openerp.release.version_info)
+
 _logger = logging.getLogger(__name__)
 
 if hasattr(sys, 'frozen'):
@@ -513,6 +524,23 @@ def binary_content(xmlid=None, model='ir.attachment', id=None, field='datas', un
 
     return (status, headers, content)
 
+def db_info():
+    cr, uid, context = request.cr, request.uid, request.context
+    version_info = openerp.service.common.exp_version()
+    if request.registry['res.users'].has_group(cr, uid, 'base.group_system'):
+        warn_enterprise = 'admin'
+    elif request.registry['res.users'].has_group(cr, uid, 'base.group_user'):
+        warn_enterprise = 'user'
+    else:
+        warn_enterprise = False
+    return {
+        'server_version': version_info.get('server_version'),
+        'server_version_info': version_info.get('server_version_info'),
+        'expiration_date': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_date', context=context),
+        'expiration_reason': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_reason', context=context),
+        'warning': warn_enterprise,
+    }
+
 #----------------------------------------------------------
 # OpenERP Web web Controllers
 #----------------------------------------------------------
@@ -532,7 +560,7 @@ class Home(http.Controller):
             return werkzeug.utils.redirect(kw.get('redirect'), 303)
 
         request.uid = request.session.uid
-        return request.render('web.webclient_bootstrap')
+        return request.render('web.webclient_bootstrap', qcontext={'db_info': json.dumps(db_info())})
 
     @http.route('/web/dbredirect', type='http', auth="none")
     def web_db_redirect(self, redirect='/', **kw):
