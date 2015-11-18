@@ -92,7 +92,10 @@ class DHLProvider():
         request_text = self._create_shipping_xml(param)
 
         root = self._send_request(request_text)
-        if root.tag == '{http://www.dhl.com}ShipmentResponse':
+        if root.tag == '{http://www.dhl.com}ErrorResponse':
+            condition = root.findall('Response/Status/Condition/ConditionData')
+            raise UserError(_(condition[0].text))
+        elif root.tag == '{http://www.dhl.com}ShipmentResponse':
             label_image = root.findall('LabelImage')
             self.label = label_image[0].findall('OutputImage')[0].text
             dict_response['tracking_number'] = root.findtext('AirwayBillNumber')
@@ -115,8 +118,10 @@ class DHLProvider():
         }
         request_text = self._create_rate_xml(param_final_rating)
         root = self._send_request(request_text)
-
-        if root.tag == '{http://www.dhl.com}DCTResponse':
+        if root.tag == '{http://www.dhl.com}ErrorResponse':
+            condition = root.findall('Response/Status/Condition/ConditionData')
+            raise UserError(_(condition[0].text))
+        elif root.tag == '{http://www.dhl.com}DCTResponse':
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
@@ -146,11 +151,7 @@ class DHLProvider():
         except URLError:
             raise UserError("DHL Server not found. Check your connectivity.")
         root = etree.fromstring(response_text)
-        error = root.findall('.//ConditionData')
-        if error:
-            raise UserError(_(error[0].text))
-        else:
-            return root
+        return root
 
     def _create_rate_xml(self, param):
         etree.register_namespace("req", "http://www.dhl.com")
