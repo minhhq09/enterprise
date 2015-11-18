@@ -42,6 +42,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
      */
     on_attach_callback: function() {
         this.trigger('attached');
+        this.autofocus();
     },
     /**
      * Called each time the form view is detached from the DOM
@@ -373,8 +374,6 @@ var FormView = View.extend(common.FieldManagerMixin, {
                 self.do_push_state({});
             }
             self.$el.removeClass('oe_form_dirty');
-
-            self.autofocus();
         });
     },
     /**
