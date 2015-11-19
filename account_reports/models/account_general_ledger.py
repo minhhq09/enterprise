@@ -118,6 +118,9 @@ class report_account_general_ledger(models.AbstractModel):
                         name = name and name + ' - ' + line.ref or line.ref
                     if len(name) > 35:
                         name = name[:32] + "..."
+                    partner_name = line.partner_id.name
+                    if len(partner_name) > 35:
+                        partner_name = partner_name[:32] + "..."
                     domain_lines.append({
                         'id': line.id,
                         'type': 'move_line_id',
@@ -125,7 +128,7 @@ class report_account_general_ledger(models.AbstractModel):
                         'action': line.get_model_id_and_name(),
                         'name': line.move_id.name if line.move_id.name else '/',
                         'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', line.id),
-                        'columns': [line.date, name, line.partner_id.name, currency,
+                        'columns': [line.date, name, partner_name, currency,
                                     line_debit != 0 and self._format(line_debit) or '',
                                     line_credit != 0 and self._format(line_credit) or '',
                                     self._format(progress)],
