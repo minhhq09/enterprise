@@ -46,16 +46,10 @@
             </t>
             <t t-if="mode == 'print' and a['type'] not in ['line', 'total']"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/></span><t t-call="account_reports.report_financial_footnote_sup" /></t>
             <t t-if="a['type'] not in ['account_id', 'line', 'tax_id', 'unreconciled_aml', 'bank_statement_id', 'partner_id', 'move_line_id', 'too_many', 'payment', 'total'] and mode != 'print'"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span></t>
-            <a t-if="a['type'] == 'partner_id' and mode != 'print' and report.get_title() != 'Aged Payable'">
-                <span t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span>
-            </a>
             <a t-if="a['type'] == 'too_many' and mode != 'print'">
                 <span t-att-data-active-id="a.get('id')" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
             </a>
-            <span t-if="a['type'] == 'partner_id' and mode != 'print' and report.get_title() == 'Aged Payable'" t-att-class="domainClass">
-                <t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" />
-            </span>
-            <div class="dropdown" t-if="(a['type'] in ['account_id', 'tax_id', 'bank_statement_id', 'move_line_id']) and mode != 'print'">
+            <div class="dropdown" t-if="(a['type'] in ['account_id', 'tax_id', 'bank_statement_id', 'move_line_id', 'partner_id']) and mode != 'print'">
                 <a data-toggle="dropdown" href='#'>
                     <span t-att-data-id="a.get('id')" t-att-class="' '.join([a['type'], domainClass])">
                         <t t-esc="a.get('name')"/>
@@ -64,6 +58,9 @@
                 </a>
                 <t t-call="account_reports.report_financial_footnote_sup" />
                 <ul class="dropdown-menu o_account_reports_domain_dropdown" role="menu" aria-labelledby="dLabel">
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" class="o_account_reports_web_action">Customer Statement</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_receivable" class="o_account_reports_web_action">Partner Ledger</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Payable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_payable" class="o_account_reports_web_action">Partner Ledger</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_general_ledger_force_account" data-force-context='true' class="o_account_reports_web_action">General Ledger</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id' and a.get('account_type') == 'receivable'"><a class='o_account_reports_web_action' data-action-name='account_reports.action_account_report_ar' data-force-context='true' role="menuitem" tabindex="-1">Aged Receivable</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id' and a.get('account_type') == 'payable'"><a class='o_account_reports_web_action' data-action-name='account_reports.action_account_report_ap' data-force-context='true' role="menuitem" tabindex="-1">Aged Payable</a></li>
