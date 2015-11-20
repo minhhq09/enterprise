@@ -981,6 +981,9 @@ var X2ManyListView = ListView.extend({
         });
         this._super($node, options);
     },
+    display_nocontent_helper: function () {
+        return false;
+    },
 });
 
 /**

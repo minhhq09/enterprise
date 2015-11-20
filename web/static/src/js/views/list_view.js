@@ -233,35 +233,31 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
     load_list: function() {
         var self = this;
 
-        if (!this.dataset.size()) {
-            this.no_result();
-        } else {
-            // Render the table and append its content
-            this.$el.html(QWeb.render(this._template, this));
-            this.$el.addClass(this.fields_view.arch.attrs['class']);
-            if (this.grouped) {
-                this.$('.o_list_view').addClass('o_list_view_grouped');
-            }
-            this.$('.o_list_view').append(this.groups.elements);
+        // Render the table and append its content
+        this.$el.html(QWeb.render(this._template, this));
+        this.$el.addClass(this.fields_view.arch.attrs['class']);
+        if (this.grouped) {
+            this.$('.o_list_view').addClass('o_list_view_grouped');
+        }
+        this.$('.o_list_view').append(this.groups.elements);
 
-            // Compute the aggregates and display them in the list's footer
-            this.compute_aggregates();
+        // Compute the aggregates and display them in the list's footer
+        this.compute_aggregates();
 
-            // Head hook
-            // Selecting records
-            this.$('thead .o_list_record_selector input').click(function() {
-                self.$('tbody .o_list_record_selector input').prop('checked', $(this).prop('checked') || false);
-                var selection = self.groups.get_selection();
-                $(self.groups).trigger('selected', [selection.ids, selection.records]);
-            });
+        // Head hook
+        // Selecting records
+        this.$('thead .o_list_record_selector input').click(function() {
+            self.$('tbody .o_list_record_selector input').prop('checked', $(this).prop('checked') || false);
+            var selection = self.groups.get_selection();
+            $(self.groups).trigger('selected', [selection.ids, selection.records]);
+        });
 
-            // Sort
-            if (this.dataset._sort.length) {
-                if (this.dataset._sort[0].indexOf('-') === -1) {
-                    this.$('th[data-id=' + this.dataset._sort[0] + ']').addClass("o-sort-down");
-                } else {
-                    this.$('th[data-id=' + this.dataset._sort[0].split('-')[1] + ']').addClass("o-sort-up");
-                }
+        // Sort
+        if (this.dataset._sort.length) {
+            if (this.dataset._sort[0].indexOf('-') === -1) {
+                this.$('th[data-id=' + this.dataset._sort[0] + ']').addClass("o-sort-down");
+            } else {
+                this.$('th[data-id=' + this.dataset._sort[0].split('-')[1] + ']').addClass("o-sort-up");
             }
         }
 
@@ -468,6 +464,9 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.dataset.index = self.records.length ? 0 : null;
             }
             self.load_list().then(function () {
+                if (self.display_nocontent_helper()) {
+                    self.no_result();
+                }
                 reloaded.resolve();
             });
         });
@@ -575,7 +574,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.records.remove(self.records.get(id));
             });
             // Hide the table if there is no more record in the dataset
-            if (self.dataset.size() === 0) {
+            if (self.display_nocontent_helper()) {
                 self.no_result();
             } else {
                 // Load previous page if the current one is empty
@@ -877,6 +876,9 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                     .attr('colspan', this.previous_colspan);
             this.previous_colspan = null;
         }
+    },
+    display_nocontent_helper: function () {
+        return (this.dataset.size() === 0);
     },
     no_result: function () {
         this.$('.oe_view_nocontent').remove();
