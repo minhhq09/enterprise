@@ -932,6 +932,7 @@ var FormViewDialog = ViewDialog.extend({
         self.view_form.on("form_view_loaded", self, function() {
             self.view_form.do_show().then(function() {
                 self.do_show();
+                self.view_form.autofocus();
             });
         });
 
