@@ -66,6 +66,10 @@ var Menu = Widget.extend({
         return this._super.apply(this, arguments);
     },
     change_menu_section: function (primary_menu_id) {
+        if (!this.$menu_sections[primary_menu_id]) {
+            return; // unknown menu_id
+        }
+
         if (this.current_primary_menu) {
             this.$menu_sections[this.current_primary_menu].detach();
         }
