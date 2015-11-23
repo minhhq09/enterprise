@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import base64
+
 import dateutil.parser
 import StringIO
 
@@ -17,6 +19,17 @@ class AccountBankStatementImport(models.TransientModel):
         help="Accounting journal related to the bank statement you're importing. It has be be manually chosen "
              "for statement formats which doesn't allow automatic journal detection (QIF for example).")
     hide_journal_field = fields.Boolean(string='Hide the journal field in the view', default=_get_hide_journal_field)
+
+    show_qif_date_format = fields.Boolean(default=False, store=False,
+        help="Technical field used to ask the user for the date format used in the QIF file, as this format is ambiguous.")
+    qif_date_format = fields.Selection([('month_first', "mm/dd/yy"), ('day_first', "dd/mm/yy")], string='Dates format', required=True, store=False,
+        help="Altough the historic QIF date format is month-first (mm/dd/yy), many financial institutions use the local format."
+             "Therefore, it is frequent outside the US to have QIF date formated day-first (dd/mm/yy).")
+
+    @api.onchange('data_file')
+    def _onchange_data_file(self):
+        file_content = self.data_file and base64.b64decode(self.data_file) or ""
+        self.show_qif_date_format = self._check_qif(file_content)
 
     def _find_additional_data(self, *args):
         """ As .QIF format does not allow us to detect the journal, we need to let the user choose it.
@@ -55,7 +68,8 @@ class AccountBankStatementImport(models.TransientModel):
                 if not line:
                     continue
                 if line[0] == 'D':  # date of transaction
-                    vals_line['date'] = dateutil.parser.parse(line[1:], fuzzy=True).date()
+                    dayfirst = self.qif_date_format == 'day_first'
+                    vals_line['date'] = dateutil.parser.parse(line[1:], fuzzy=True, dayfirst=dayfirst).date()
                 elif line[0] == 'T':  # Total amount
                     total += float(line[1:].replace(',', ''))
                     vals_line['amount'] = float(line[1:].replace(',', ''))
