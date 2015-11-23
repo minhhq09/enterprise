@@ -10,6 +10,7 @@ var formats = require('web.formats');
 var Model = require('web.Model');
 var session = require('web.session');
 var utils = require('web.utils');
+var web_client = require('web.web_client');
 var Widget = require('web.Widget');
 
 var _t = core._t;
@@ -38,17 +39,25 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         });
     },
 
-    do_show: function() {
-        this._super.apply(this, arguments);
+    on_reverse_breadcrumb: function() {
         this.update_cp();
+        web_client.do_push_state({action: this.main_dashboard_action_id});
     },
 
     load_action: function(view_xmlid, options) {
+        options.on_reverse_breadcrumb = this.on_reverse_breadcrumb;
         var self = this;
         new Model("ir.model.data")
             .call("xmlid_to_res_id", [view_xmlid])
             .then(function(data) {
-                self.getParent().do_action(data, options);
+                self.do_action(data, options).then(function() {
+                    // This detailed dashboard can only be loaded from the main dashboard.
+                    // If the user refreshs the page or uses an URL and is direclty redirected to this page,
+                    // we redirect him to the main dashboard to avoid any error.
+                    if (options.push_main_state && self.main_dashboard_action_id){
+                        web_client.do_push_state({action: self.main_dashboard_action_id});
+                    }
+                });
             });
     },
 
@@ -149,6 +158,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     init: function(parent, context) {
         this._super(parent);
 
+        this.main_dashboard_action_id = context.id;
         this.start_date = moment().subtract(1, 'M').format('YYYY-MM-DD');
         this.end_date = moment().format('YYYY-MM-DD');
 
@@ -168,7 +178,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         });
     },
 
-    do_show: function() {
+    on_reverse_breadcrumb: function() {
         this._super();
 
         var self = this;
@@ -284,6 +294,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
             'currency_id': this.currency_id,
+            'push_main_state': true,
         };
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_detailed", options);
     },
@@ -298,6 +309,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'contract_templates': this.contract_templates,
             'contract_ids': this.contract_ids,
             'currency_id': this.currency_id,
+            'push_main_state': true,
         };
         this.load_action("account_contract_dashboard.action_contract_dashboard_report_forecast", options);
     },
@@ -305,7 +317,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     on_demo_contracts: function(ev) {
         ev.preventDefault();
 
-        this.load_action("sale_contract.sale_subscription_action");
+        this.load_action("sale_contract.sale_subscription_action", {});
     },
 });
 
@@ -319,10 +331,11 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
     init: function(parent, context, options) {
         this._super(parent);
 
+        this.main_dashboard_action_id = options.main_dashboard_action_id;
+        this.stat_types = options.stat_types;
         this.start_date = options.start_date;
         this.end_date = options.end_date;
         this.selected_stat = options.selected_stat;
-        this.stat_types = options.stat_types;
         this.contract_templates = options.contract_templates;
         this.contract_ids = options.contract_ids;
         this.currency_id = options.currency_id;
@@ -535,7 +548,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             chart.xAxis
                 .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
                 .tickValues(_.map(tick_values, function(d) {return getDate(d); }))
-                .rotateLabels(55);
+                .rotateLabels(-30);
 
             chart.yAxis
                 .axisLabel('MRR')
@@ -564,6 +577,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
     init: function(parent, context, options) {
         this._super(parent);
 
+        this.main_dashboard_action_id = options.main_dashboard_action_id;
         this.start_date = options.start_date;
         this.end_date = options.end_date;
         this.contract_templates = options.contract_templates;
@@ -694,7 +708,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
             chart.xAxis
                 .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
                 .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
-                .rotateLabels(55);
+                .rotateLabels(-30);
 
             chart.yAxis
                 .tickFormat(d3.format('.02f'));
@@ -1207,7 +1221,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
         chart.xAxis
             .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
             .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
-            .rotateLabels(55);
+            .rotateLabels(-30);
 
         chart.yAxis
             .axisLabel(key_name)
