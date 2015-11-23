@@ -11,13 +11,13 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
     @api.model
     def is_xml_export_available(self, report_obj):
-        if report_obj._name == 'l10n.be.report.partner.vat.listing' or report_obj._name == 'l10n.be.report.partner.vat.intra' or (report_obj._name == 'account.financial.html.report' and report_obj.id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0')):
+        if report_obj._name == 'l10n.be.report.partner.vat.listing' or report_obj._name == 'l10n.be.report.partner.vat.intra' or (report_obj._name == 'account.financial.html.report' and report_obj.id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be_reports.account_financial_report_l10n_be_tva0')):
             return True
         else:
             return super(AccountFinancialReportXMLExport, self).is_xml_export_available(report_obj)
 
     def do_xml_export(self, context):
-        if context.get_report_obj()._name == 'account.financial.report' and context.get_report_obj().id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0'):
+        if context.get_report_obj()._name == 'account.financial.html.report' and context.get_report_obj().id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be_reports.account_financial_report_l10n_be_tva0'):
             return self._l10n_be_vat_export(context)
         if context.get_report_obj()._name == 'l10n.be.report.partner.vat.listing':
             return self._l10n_be_partner_vat_export(context)
@@ -28,13 +28,13 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
     @api.model
     def check(self, report_name, report_id=None):
-        if report_name == 'account.financial.report' and report_id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be.account_financial_report_l10n_be_tva0'):
+        if report_name == 'account.financial.html.report' and report_id == self.env['ir.model.data'].xmlid_to_res_id('l10n_be_reports.account_financial_report_l10n_be_tva0'):
             company = self.env.user.company_id
             vat_no = company.partner_id.vat
             if not vat_no:
                 return _('No VAT number associated with your company.')
             default_address = company.partner_id.address_get()
-            address = self.env['res.partner'].browse(default_address.get("default", company.partner_id))
+            address = self.env['res.partner'].browse(default_address.get("default")) or company.partner_id
             if not address.email:
                 return _('No email address associated with the company.')
             if not address.phone:
@@ -275,7 +275,6 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
     def _l10n_be_vat_export(self, context):
         list_of_tags = ['00', '01', '02', '03', '44', '45', '46', '47', '48', '49', '54', '55', '56', '57', '59', '61', '62', '63', '64', '71', '72', '81', '82', '83', '84', '85', '86', '87', '88', '91']
         company = self.env.user.company_id
-
         vat_no = company.partner_id.vat
         if not vat_no:
             raise UserError(_('No VAT number associated with your company.'))
@@ -283,7 +282,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         vat_no = vat_no.replace(' ', '').upper()
 
         default_address = company.partner_id.address_get()
-        address = self.env['res.partner'].browse(default_address.get("default", company.partner_id))
+        address = self.env['res.partner'].browse(default_address.get("default", company.partner_id.id))
 
         issued_by = vat_no[:2]
 
