@@ -79,6 +79,7 @@ class report_account_general_ledger(models.AbstractModel):
         company_id = context.get('company_id') or self.env.user.company_id
         grouped_accounts = self.with_context(date_from_aml=context['date_from'], date_from=context['date_from'] and company_id.compute_fiscalyear_dates(datetime.strptime(context['date_from'], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
         sorted_accounts = sorted(grouped_accounts, key=lambda a: a.code)
+        unfold_all = context.get('print_mode') and not context['context_id']['unfolded_accounts']
         for account in sorted_accounts:
             debit = grouped_accounts[account]['debit']
             credit = grouped_accounts[account]['credit']
@@ -92,10 +93,10 @@ class report_account_general_ledger(models.AbstractModel):
                 'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                 'level': 2,
                 'unfoldable': True,
-                'unfolded': account in context['context_id']['unfolded_accounts'] or context.get('print_mode'),
+                'unfolded': account in context['context_id']['unfolded_accounts'] or unfold_all,
                 'colspan': 4,
             })
-            if account in context['context_id']['unfolded_accounts'] or context.get('print_mode'):
+            if account in context['context_id']['unfolded_accounts'] or unfold_all:
                 progress = 0
                 domain_lines = []
                 amls = grouped_accounts[account]['lines']
