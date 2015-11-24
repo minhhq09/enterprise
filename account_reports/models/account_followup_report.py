@@ -325,7 +325,7 @@ class account_report_context_followup(models.TransientModel):
             email_template = self.env['mail.template'].create({
                 'name': _('Followup ') + self.partner_id.name,
                 'email_from': self.env.user.email or '',
-                'model_id': 1,
+                'model_id': self.env['ir.model'].search([('model', '=', 'account.report.context.followup')]).id,
                 'subject': _('%s Payment Reminder') % self.env.user.company_id.name,
                 'email_to': email,
                 'lang': self.partner_id.lang,
