@@ -24,15 +24,15 @@ class FinancialReportController(http.Controller):
         context_obj = request.env['account.report.context.common'].get_context_by_report_name(report_name)
         context_id = context_obj.sudo(uid).search(domain, limit=1)
         try:
-            if output_format == 'xls':
+            if output_format == 'xlsx':
                 response = request.make_response(
                     None,
                     headers=[
                         ('Content-Type', 'application/vnd.ms-excel'),
-                        ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xls;')
+                        ('Content-Disposition', 'attachment; filename=' + report_obj.get_name() + '.xlsx;')
                     ]
                 )
-                context_id.get_xls(response)
+                context_id.get_xlsx(response)
                 response.set_cookie('fileToken', token)
                 return response
             if output_format == 'pdf':

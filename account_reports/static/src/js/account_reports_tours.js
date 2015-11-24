@@ -69,8 +69,8 @@ Tour.register({
             element:    '.o_account-widget-pdf'
         },*/
         {
-            title:      "export xls",
-            element:    '.o_account-widget-xls'
+            title:      "export xlsx",
+            element:    '.o_account-widget-xlsx'
         },
         {
             title:      "change bool filter",

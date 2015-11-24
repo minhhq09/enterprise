@@ -125,10 +125,10 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         });
 
         // xls output
-        this.$buttons.siblings('.o_account-widget-xls').bind('click', function () {
+        this.$buttons.siblings('.o_account-widget-xlsx').bind('click', function () {
             framework.blockUI();
             session.get_file({
-                url: self.controller_url.replace('output_format', 'xls'),
+                url: self.controller_url.replace('output_format', 'xlsx'),
                 complete: framework.unblockUI,
                 error: crash_manager.rpc_error.bind(crash_manager),
             });

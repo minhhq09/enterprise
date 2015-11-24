@@ -2,11 +2,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import models, fields, api, _, osv
-from xlwt import Workbook, easyxf
+import xlsxwriter
 from openerp.exceptions import Warning
 from datetime import timedelta, datetime
 import calendar
 import json
+import StringIO
 
 
 class AccountReportFootnotesManager(models.TransientModel):
@@ -423,31 +424,32 @@ class AccountReportContextCommon(models.TransientModel):
         result['available_companies'] = self.multicompany_manager_id.get_available_company_ids_and_names()
         return result
 
-    def get_xls(self, response):
-        book = Workbook()
+    def get_xlsx(self, response):
+        output = StringIO.StringIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         report_id = self.get_report_obj()
-        sheet = book.add_sheet(report_id.get_title())
+        sheet = workbook.add_worksheet(report_id.get_title())
 
-        title_style = easyxf('font: bold true; borders: bottom medium;')
-        level_0_style = easyxf('font: bold true; borders: bottom medium, top medium; pattern: pattern solid;')
-        level_0_style_left = easyxf('font: bold true; borders: bottom medium, top medium, left medium; pattern: pattern solid;')
-        level_0_style_right = easyxf('font: bold true; borders: bottom medium, top medium, right medium; pattern: pattern solid;')
-        level_1_style = easyxf('font: bold true; borders: bottom medium, top medium;')
-        level_1_style_left = easyxf('font: bold true; borders: bottom medium, top medium, left medium;')
-        level_1_style_right = easyxf('font: bold true; borders: bottom medium, top medium, right medium;')
-        level_2_style = easyxf('font: bold true; borders: top medium;')
-        level_2_style_left = easyxf('font: bold true; borders: top medium, left medium;')
-        level_2_style_right = easyxf('font: bold true; borders: top medium, right medium;')
-        level_3_style = easyxf()
-        level_3_style_left = easyxf('borders: left medium;')
-        level_3_style_right = easyxf('borders: right medium;')
-        domain_style = easyxf('font: italic true;')
-        domain_style_left = easyxf('font: italic true; borders: left medium;')
-        domain_style_right = easyxf('font: italic true; borders: right medium;')
-        upper_line_style = easyxf('borders: top medium;')
-        def_style = easyxf()
+        def_style = workbook.add_format({'font_name': 'Arial'})
+        title_style = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2})
+        level_0_style = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2, 'pattern': 1, 'font_color': '#FFFFFF'})
+        level_0_style_left = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2, 'left': 2, 'pattern': 1, 'font_color': '#FFFFFF'})
+        level_0_style_right = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2, 'right': 2, 'pattern': 1, 'font_color': '#FFFFFF'})
+        level_1_style = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2})
+        level_1_style_left = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2, 'left': 2})
+        level_1_style_right = workbook.add_format({'font_name': 'Arial', 'bold': True, 'bottom': 2, 'top': 2, 'right': 2})
+        level_2_style = workbook.add_format({'font_name': 'Arial', 'bold': True, 'top': 2})
+        level_2_style_left = workbook.add_format({'font_name': 'Arial', 'bold': True, 'top': 2, 'left': 2})
+        level_2_style_right = workbook.add_format({'font_name': 'Arial', 'bold': True, 'top': 2, 'right': 2})
+        level_3_style = def_style
+        level_3_style_left = workbook.add_format({'font_name': 'Arial', 'left': 2})
+        level_3_style_right = workbook.add_format({'font_name': 'Arial', 'right': 2})
+        domain_style = workbook.add_format({'font_name': 'Arial', 'italic': True})
+        domain_style_left = workbook.add_format({'font_name': 'Arial', 'italic': True, 'left': 2})
+        domain_style_right = workbook.add_format({'font_name': 'Arial', 'italic': True, 'right': 2})
+        upper_line_style = workbook.add_format({'font_name': 'Arial', 'top': 2})
 
-        sheet.col(0).width = 10000
+        sheet.set_column(0, 0, 1000) #  Set the first column width to 1000
 
         sheet.write(0, 0, '', title_style)
 
@@ -502,7 +504,10 @@ class AccountReportContextCommon(models.TransientModel):
             for x in xrange(0, len(lines[0]['columns']) + 1):
                 sheet.write(len(lines) + y_offset, x, None, upper_line_style)
 
-        book.save(response.stream)
+        workbook.close()
+        output.seek(0)
+        response.stream.write(output.read())
+        output.close()
 
     # Tries to find the corresponding context (model name and id) and creates it if none is found.
     @api.model
