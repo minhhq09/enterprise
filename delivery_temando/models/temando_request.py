@@ -230,7 +230,7 @@ class TemandoRequest():
 
     def set_labelprinter_detail(self):
         self.LabelPrinter = self.client.factory.create('com:LabelPrinterType')
-        self.LabelPrinter.labelPrinterType = 'Standard'
+        self.LabelPrinter.labelPrinterType = 'Thermal'
 
     def set_client_reference(self, client_id):
         self.Reference = client_id
