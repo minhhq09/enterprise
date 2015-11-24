@@ -140,7 +140,8 @@ class TemandoRequest():
                          'carrier_name': False,
                          'delivery_method': False}
         try:
-            self.response = self.client.service.getQuotes(anythings=self.Anything, anywhere=self.Anywhere, general=self.General, quoteFilter=self.QuoteFilter)
+            qf = getattr(self, 'QuoteFilter', None)
+            self.response = self.client.service.getQuotes(anythings=self.Anything, anywhere=self.Anywhere, general=self.General, quoteFilter=qf)
 
             if self.response.quotes:
                 dict_response['price'] = float(self.response.quotes.quote[0].totalPrice)
