@@ -43,9 +43,7 @@ from openerp.http import request, serialize_exception as _serialize_exception, S
 from openerp.exceptions import AccessError
 
 # Monkey patch release to set the edition as 'enterprise'
-from openerp.release import RELEASE_LEVELS_DISPLAY
-version_info = (9, 0, 0, 'final', 0, 'e')
-openerp.release.version_info = version_info
+openerp.release.version_info = version_info = openerp.release.version_info[:5] + ('e',)
 version_split = openerp.release.version.split('-', 1)
 openerp.release.version = (version_split[0][:-1] + version_info[5] +
                            ('-%s' % version_split[1] if len(version_split) > 1 else ''))
