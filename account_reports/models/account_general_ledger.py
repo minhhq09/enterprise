@@ -120,7 +120,7 @@ class report_account_general_ledger(models.AbstractModel):
                     if len(name) > 35:
                         name = name[:32] + "..."
                     partner_name = line.partner_id.name
-                    if len(partner_name) > 35:
+                    if partner_name and len(partner_name) > 35:
                         partner_name = partner_name[:32] + "..."
                     domain_lines.append({
                         'id': line.id,
