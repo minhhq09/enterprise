@@ -3,10 +3,15 @@ import requests
 import json
 import datetime
 import time
+import logging
+import uuid
 
 from openerp import models, api, fields
 from openerp.exceptions import UserError
 from openerp.tools.translate import _
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+
+_logger = logging.getLogger(__name__)
 
 class OnlineInstitution(models.Model):
     _inherit = 'online.institution'
@@ -29,11 +34,49 @@ class YodleeAccountJournal(models.Model):
     This yodlee.account record fetchs the bank statements
     '''
 
+    def _raise_exception(self, e, resp):
+        msg = ''
+        if isinstance(e, requests.HTTPError):
+            msg = " (%s)" % (e.response.status_code)
+        _logger.exception('An error has occurred while trying to connect to yodlee service')
+        raise UserError(_('An error has occurred while trying to connect to yodlee service') + msg)
+
+    @api.one
+    def _register_new_yodlee_user(self):
+        username = self.env.registry.db_name + '_' + str(uuid.uuid4())
+        password = str(uuid.uuid4())
+        email = self.company_id.partner_id.email
+        if not email:
+            raise UserError(_('Please configure an email in the company settings.'))
+        
+        credentials = self._get_yodlee_credentials()
+        url = credentials['url']
+        try:
+            params = {
+                'cobSessionToken': self.company_id.yodlee_access_token,
+                'userCredentials.loginName': username,
+                'userCredentials.password': password,
+                'userCredentials.objectInstanceType': 'com.yodlee.ext.login.PasswordCredentials',
+                'userProfile.emailAddress': email
+            }
+            resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params, timeout=20)
+            resp_json = json.loads(resp.text)
+            if resp_json.get('errorOccurred', False) == 'true':
+                #Log error if any
+                errorMsg = _('An error occured while trying to register new user on yodlee: ') + resp_json.get('exceptionType', 'Unknown Error') + ' - Message: ' +resp_json.get('message', '')
+                raise UserError(errorMsg)
+            else:
+                return self.company_id.write({'yodlee_user_login': username, 'yodlee_user_password': password,})
+            resp.raise_for_status()
+        except Exception as e:
+            self._raise_exception(e, resp)
+
+    @api.model
     def _get_yodlee_credentials(self):
-        ICP_obj = self.env['ir.config_parameter']
-        login = ICP_obj.get_param('yodlee_id')
-        secret = ICP_obj.get_param('yodlee_secret')
-        url = ICP_obj.get_param('yodlee_service_url')
+        ICP_obj = self.env['ir.config_parameter'].sudo()
+        login = ICP_obj.get_param('yodlee_id') or self._cr.dbname
+        secret = ICP_obj.get_param('yodlee_secret') or ICP_obj.get_param('database.uuid')
+        url = ICP_obj.get_param('yodlee_service_url') or 'https://onlinesync.odoo.com/yodlee/api'
         return {'login': login, 'secret': secret, 'url': url,}
 
     @api.multi
@@ -70,10 +113,18 @@ class YodleeAccountJournal(models.Model):
             'cobrandPassword': credentials['secret'],
         }
         try:
-            resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login, timeout=3)
-        except Exception:
-            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
+            resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login, timeout=20)
+            resp.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code in (400, 403):
+                raise UserError(_('An error has occurred while trying to connect to Yodlee service ') + e.response.content)
+            else:
+                raise UserError(_('An error has occurred while trying to connect to Yodlee service ') + str(e.response.status_code))
+        except Exception as e:
+            self._raise_exception(e, resp)
         resp_json = json.loads(resp.text)
+        if 'error' in resp_json:
+            raise UserError(resp_json.get('error'))
         if 'cobrandConversationCredentials' not in resp_json:
             raise UserError(_('Incorrect Yodlee login/password, please check your credentials in accounting/settings'))
         self.company_id.write({'yodlee_access_token': resp_json['cobrandConversationCredentials']['sessionToken'],
@@ -84,18 +135,21 @@ class YodleeAccountJournal(models.Model):
         # This method log in yodlee user
         # This method is used by fetch()
         credentials = self._get_yodlee_credentials()
+        if not self.company_id.yodlee_user_login:
+            self._register_new_yodlee_user()
         params = {
             'cobSessionToken': self.company_id.yodlee_access_token,
             'login': self.company_id.yodlee_user_login,
             'password': self.company_id.yodlee_user_password,
         }
         try:
-            resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=3)
-        except Exception:
-            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
+            resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=20)
+            resp.raise_for_status()
+        except Exception as e:
+            self._raise_exception(e, resp)
         resp_json = json.loads(resp.text)
         if not resp_json.get('userContext', False):
-            raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or 'An Error has occurred')
+            raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or _('An Error has occurred'))
         self.company_id.write({'yodlee_user_access_token': resp_json['userContext']['conversationCredentials']['sessionToken'],
                 'yodlee_user_last_login': datetime.datetime.now(),})
 
@@ -103,22 +157,22 @@ class YodleeAccountJournal(models.Model):
     def fetch(self, service, online_type, params, type_request='post'):
         if online_type != 'yodlee':
             return super(YodleeAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
-
         credentials = self._get_yodlee_credentials()
         last_login = self.company_id.yodlee_last_login and datetime.datetime.strptime(self.company_id.yodlee_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = last_login and (datetime.datetime.now() - last_login).seconds or 101 * 60
+        delta = last_login and (datetime.datetime.now() - last_login).total_seconds() or 101 * 60
         if not self.company_id.yodlee_access_token or delta / 60 >= 95:
             self._get_access_token()
         user_last_date = self.company_id.yodlee_user_last_login and datetime.datetime.strptime(self.company_id.yodlee_user_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = self.company_id.yodlee_user_last_login and (datetime.datetime.now() - user_last_date).seconds or 31 * 60
+        delta = self.company_id.yodlee_user_last_login and (datetime.datetime.now() - user_last_date).total_seconds() or 31 * 60
         if not self.company_id.yodlee_user_access_token or delta / 60 >= 25:
             self._get_user_access()
         params['cobSessionToken'] = self.company_id.yodlee_access_token
         params['userSessionToken'] = self.company_id.yodlee_user_access_token
         try:
-            resp = requests.post(credentials['url'] + service, params=params, timeout=3)
-        except Exception:
-            raise UserError(_('An error has occurred while trying to connect to yodlee service'))
+            resp = requests.post(credentials['url'] + service, params=params)
+            resp.raise_for_status()
+        except Exception as e:
+            self._raise_exception(e, resp)
         return resp.text
 
 
@@ -149,7 +203,6 @@ class YodleeAccount(models.Model):
         if depth <= 0:
             return False
         time.sleep(2)
-        # yodlee = self.env.user.get_yodlee()
         yodlee = self.journal_id
         params = {
             'memSiteAccId': self.site_account_id,
@@ -185,19 +238,22 @@ class YodleeAccount(models.Model):
             raise UserError(_('An error has occured while trying to get transactions, try again later'))
         # 2) Fetch
         # Convert the date at the correct format
-        from_date = datetime.datetime.strptime(self.last_sync, "%Y-%m-%d")
+        from_date = datetime.datetime.strptime(self.last_sync, DEFAULT_SERVER_DATE_FORMAT)
         from_date = datetime.datetime.strftime(from_date, "%m-%d-%Y")
+        to_date = datetime.datetime.strptime(fields.Date.today(), DEFAULT_SERVER_DATE_FORMAT)
+        to_date = datetime.datetime.strftime(to_date, "%m-%d-%Y")
         params = {
             'transactionSearchRequest.containerType': 'All',
             'transactionSearchRequest.higherFetchLimit': 500,
             'transactionSearchRequest.lowerFetchLimit': 1,
-            'transactionSearchRequest.resultRange.endNumber': 100,
+            'transactionSearchRequest.resultRange.endNumber': 500,
             'transactionSearchRequest.resultRange.startNumber': 1,
             'transactionSearchRequest.searchClients.clientId': 1,
             'transactionSearchRequest.searchClients.clientName': 'DataSearchService',
             'transactionSearchRequest.userInput': '',
             'transactionSearchRequest.ignoreUserInput': True,
             'transactionSearchRequest.searchFilter.postDateRange.fromDate': from_date,
+            'transactionSearchRequest.searchFilter.postDateRange.toDate': to_date,
             'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
             'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
         }
@@ -205,15 +261,18 @@ class YodleeAccount(models.Model):
         # Prepare the transaction
         if resp_json.get('numberOfHits', 0) > 0:
             transactions = []
+            if type(resp_json['searchResult']['transactions']) != list:
+                _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
             for transaction in resp_json['searchResult']['transactions']:
-                transaction_date = transaction.get('transactionDate').split("T")[0]
+                tr_date = transaction.get('postDate', transaction.get('transactionDate', fields.Date.today()))
+                transaction_date = datetime.datetime.strptime(tr_date.split("T")[0], '%Y-%m-%d')
                 if transaction.get('transactionBaseType') == 'debit':
                     amount = -1 * transaction['amount']['amount']
                 else:
                     amount = transaction['amount']['amount']
                 transactions.append({
                     'id': transaction['viewKey']['transactionId'],
-                    'date': transaction_date,
+                    'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
                     'description': transaction['description']['description'],
                     'amount': amount,
                     'end_amount': transaction['account']['accountBalance']['amount'],

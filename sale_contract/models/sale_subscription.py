@@ -105,7 +105,7 @@ class SaleSubscription(osv.osv):
 
     _defaults = {
         'recurring_interval': 1,
-        'recurring_next_date': lambda *a: time.strftime('%Y-%m-%d'),
+        'recurring_next_date': lambda self, cr, uid, context: fields.date.context_today(self, cr, uid, context=context),
         'recurring_rule_type': 'monthly',
         'user_selectable': True,
         'state': 'draft',
@@ -330,7 +330,8 @@ class SaleSubscription(osv.osv):
 
     def increment_period(self, cr, uid, ids, context=None):
         for account in self.browse(cr, uid, ids, context=context):
-            next_date = datetime.datetime.strptime(account.recurring_next_date, "%Y-%m-%d")
+            current_date = account.recurring_next_date or self.default_get(cr, uid, ['recurring_next_date'], context=context)['recurring_next_date']
+            next_date = datetime.datetime.strptime(current_date, "%Y-%m-%d")
             periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
             invoicing_period = relativedelta(**{periods[account.recurring_rule_type]: account.recurring_interval})
             new_date = next_date + invoicing_period

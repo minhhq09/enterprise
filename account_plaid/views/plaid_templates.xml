@@ -20,12 +20,12 @@
 		          	<label class="col-sm-12"><t t-esc="q.question"/></label>
 		            <t t-if="type == 'questions'">
 		              <div class="col-sm-12">
-		                <input type="text" class="form-control js_plaid_answer"/>
+		                <input type="text" class="form-control js_plaid_answer" optional="false"/>
 		              </div>
 		            </t>
 		            <t t-if="type == 'selections'">
 		              <div class="col-sm-12">
-		                <select class="form-control js_plaid_answer">
+		                <select class="form-control js_plaid_answer" optional="false">
 			                <t t-foreach="q.answers" t-as="v">
 			                  <option t-att-value="v"><t t-esc="v"/></option>
 			                </t>
@@ -39,7 +39,7 @@
   			<div class="form-group">
   			<label class="col-sm-12"><t t-esc="name"/></label>
             <div class="col-sm-3">
-              <input class="form-control js_plaid_answer"/>
+              <input class="form-control js_plaid_answer" optional="false"/>
             </div>
             </div>
   		</t>

@@ -18,50 +18,5 @@
       </field>
     </record>
 
-    <record id="account_config_settings_view_inherit_yodlee" model="ir.ui.view">
-      <field name="name">account.config.settings.view.inherit.yodlee</field>
-      <field name="model">account.config.settings</field>
-      <field name="inherit_id" ref="account.view_account_config_settings"/>
-      <field name="arch" type="xml">
-      <div name="bank_statement_import_options" position="after">
-          <label for="id" string="Yodlee Configuration" id="yodlee_label_config"/>
-          <div name="yodlee_config">
-        	  <div>
-              <label for="yodlee_id"/>
-              <field name="yodlee_id" class="oe_inline"/>
-              <br/>
-              <label for="yodlee_secret"/>
-              <field name="yodlee_secret" class="oe_inline" password="1"/>
-              <br/>
-              <label for="yodlee_service_url"/>
-              <field name="yodlee_service_url" class="oe_inline"/>
-        	  </div>
-              <notebook>
-                <page string="Use Existing User">
-                  <label for="yodlee_user_login"/>
-            	    <field name="yodlee_user_login" class="oe_inline"/>
-            	    <br/>
-            	    <label for="yodlee_user_password"/>
-                  <field name="yodlee_user_password" class="oe_inline" password="1"/>
-
-                </page>
-                <page string="Create New User">
-                  <label for="yodlee_new_user_login"/>
-                  <field name="yodlee_new_user_login" class="oe_inline"/>
-                  <br/>
-                  <label for="yodlee_new_user_password"/>
-                  <field name="yodlee_new_user_password" class="oe_inline" password="1"/>
-                  <br/>
-                  <label for="yodlee_new_user_email"/>
-                  <field name="yodlee_new_user_email" class="oe_inline"/>
-                  <br/>
-                  <button type="object" name="create_new_yodlee_user" string="Create new User"/>
-
-                </page>
-              </notebook>
-          </div>
-        </div>
-      </field>
-    </record>
   </data>
 </openerp>

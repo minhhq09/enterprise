@@ -669,7 +669,7 @@ var AbstractField = FormWidget.extend(FieldInterface, {
             this._check_css_flags();
         });
 
-        this.$translate = (this.field.translate)? $('<button/>', {
+        this.$translate = (_t.database.multi_lang && this.field.translate) ? $('<button/>', {
             type: 'button',
         }).addClass('o_field_translate fa fa-globe btn btn-link') : $();
     },
@@ -875,11 +875,15 @@ var FormViewDialog = ViewDialog.extend({
 
             if(!readonly) {
                 options.buttons.splice(0, 0, {text: _t("Save") + ((multi_select)? _t(" & Close") : ""), classes: "btn-primary", click: function() {
-                        $.when(self.view_form.save()).done(function() {
-                            self.view_form.reload_mutex.exec(function() {
-                                self.trigger('record_saved');
-                                self.close();
-                            });
+                        self.view_form.onchanges_mutex.def.then(function() {
+                            if (!self.view_form.warning_displayed) {
+                                $.when(self.view_form.save()).done(function() {
+                                    self.view_form.reload_mutex.exec(function() {
+                                        self.trigger('record_saved');
+                                        self.close();
+                                    });
+                                });
+                            }
                         });
                     }
                 });
@@ -928,6 +932,7 @@ var FormViewDialog = ViewDialog.extend({
         self.view_form.on("form_view_loaded", self, function() {
             self.view_form.do_show().then(function() {
                 self.do_show();
+                self.view_form.autofocus();
             });
         });
 
@@ -996,6 +1001,7 @@ var SelectCreateDialog = ViewDialog.extend({
         }
         var $header = $('<div/>').addClass('o_modal_header').appendTo(this.$el);
         var $buttons = $('<div/>').addClass('o_search_options').appendTo($header);
+        var $pager = $('<div/>').addClass('o_pager').appendTo($header);
         this.searchview = new SearchView(this, this.dataset, false,  search_defaults, {$buttons: $buttons});
         this.searchview.on('search_data', self, function(domains, contexts, groupbys) {
             if (self.initial_ids) {
@@ -1015,7 +1021,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     'import_enabled': false,
                     '$buttons': self.$buttons,
                     'disable_editable_mode': true,
-                    '$pager': self.$('.o_popup_list_pager'),
+                    'pager': true,
                 }, self.options.list_view_options || {}));
             self.view_list.on('edit:before', self, function (e) {
                 e.cancel = true;
@@ -1026,6 +1032,7 @@ var SelectCreateDialog = ViewDialog.extend({
             });
             self.view_list.appendTo(self.$el).then(function() {
                 self.view_list.do_show();
+                self.view_list.render_pager($pager);
             }).then(function() {
                 if (self.options.initial_facet) {
                     self.searchview.query.reset([self.options.initial_facet], {

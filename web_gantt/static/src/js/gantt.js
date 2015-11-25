@@ -7,7 +7,9 @@ var Model = require('web.Model');
 var time = require('web.time');
 var View = require('web.View');
 var form_common = require('web.form_common');
+var Dialog = require('web.Dialog');
 
+var _t = core._t;
 var _lt = core._lt;
 var QWeb = core.qweb;
 
@@ -795,6 +797,14 @@ var GanttView = View.extend({
     },
 
     on_task_changed: function (task_obj) {
+        // We first check that the fields aren't defined as readonly.
+        if (this.fields[this.fields_view.arch.attrs.date_start].readonly === true || this.fields[this.fields_view.arch.attrs.date_stop].readonly === true) {
+            Dialog.alert(this, _t('You are trying to write on a read-only field!'));
+            return $.Deferred().reject();
+        }
+
+        // Now we try to write the new values in the dataset. Note that it may fail
+        // if the constraints defined on the model aren't met.
         var self = this;
         var start = task_obj.start_date;
         var end = task_obj.end_date;

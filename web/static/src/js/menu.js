@@ -49,14 +49,19 @@ var Menu = Widget.extend({
         // Navbar's menus event handlers
         this.$menu_brand_placeholder = this.$('.o_menu_brand');
         this.$section_placeholder = this.$('.o_menu_sections');
-        _.each(this.$menu_sections, function ($section, primary_menu_id) {
+
+        var menu_ids = _.keys(this.$menu_sections);
+        var primary_menu_id, $section;
+        for(var i = 0; i < menu_ids.length; i++) {
+            primary_menu_id = menu_ids[i];
+            $section = this.$menu_sections[primary_menu_id];
             $section.on('click', 'a[data-menu]', self, function (ev) {
                 ev.preventDefault();
                 var menu_id = $(ev.currentTarget).data('menu');
                 var action_id = $(ev.currentTarget).data('action-id');
                 self._on_secondary_menu_click(menu_id, action_id);
             });
-        });
+        };
 
         return this._super.apply(this, arguments);
     },

@@ -13,6 +13,13 @@
                     <group attrs="{'invisible': [('hide_journal_field', '=', True)]}">
                         <field name="journal_id" domain="[('type', '=', 'bank')]" context="{'default_type':'bank'}"/>
                     </group>
+                    <field name="show_qif_date_format" invisible="1"/>
+                    <group attrs="{'invisible': [('show_qif_date_format', '=', False)]}">
+                        <p class="oe_form_box_info" colspan="2">
+                            The QIF format is ambiguous about dates: please check with your financial institution whether they format it with month or day first.<br/>
+                        </p>
+                        <field name="qif_date_format" widget="radio"/>
+                    </group>
                 </xpath>
             </field>
         </record>

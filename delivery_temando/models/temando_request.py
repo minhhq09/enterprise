@@ -237,8 +237,7 @@ class TemandoRequest():
 
     def make_booking(self):
         try:
-            dict_response = {'form_id': 0,
-                             'tracking_number': 0.0,
+            dict_response = {'tracking_number': 0.0,
                              'carrier_name': False,
                              'price': 0.0,
                              'currency': False}

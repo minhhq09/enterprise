@@ -539,6 +539,7 @@ var FilterGroup = Input.extend(/** @lends instance.web.search.FilterGroup# */{
         return {
             category: _t("Filter"),
             icon: this.icon,
+            separator: _t(" or "),
             values: values,
             field: this
         };
@@ -685,6 +686,7 @@ var GroupbyGroup = FilterGroup.extend({
         return {
             category: _t("Group By"),
             icon: this.icon,
+            separator: " > ",
             values: values,
             field: this.searchview._s_groupby
         };

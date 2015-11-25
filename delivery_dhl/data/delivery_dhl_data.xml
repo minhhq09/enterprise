@@ -17,7 +17,7 @@
     </record>
 
     <record id="delivery_carrier_dhl_dom" model="delivery.carrier">
-        <field name="name">DHL Domestic</field>
+        <field name="name">DHL USA</field>
         <field name="partner_id" ref="dhl_partner"/>
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
@@ -26,10 +26,13 @@
         <field name="dhl_package_width">10</field>
         <field name="dhl_package_depth">10</field>
         <field name="dhl_product_code">N</field>
+        <field name="dhl_SiteID">CustomerTest</field>
+        <field name="dhl_password">alkd89nBV</field>
+        <field name="dhl_account_number">803921577</field>
     </record>
 
     <record id="delivery_carrier_dhl_intl" model="delivery.carrier">
-        <field name="name">DHL International</field>
+        <field name="name">DHL USA -> International</field>
         <field name="partner_id" ref="dhl_partner"/>
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
@@ -38,6 +41,9 @@
         <field name="dhl_package_width">10</field>
         <field name="dhl_package_depth">10</field>
         <field name="dhl_product_code">D</field>
+        <field name="dhl_SiteID">CustomerTest</field>
+        <field name="dhl_password">alkd89nBV</field>
+        <field name="dhl_account_number">803921577</field>
     </record>
 
 </data>

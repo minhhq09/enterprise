@@ -11,7 +11,7 @@
     'author': "Odoo SA",
     'category': 'Accounting &amp; Finance',
     'version': '1.0',
-    'depends': ['account_accountant', 'base_iban'],
+    'depends': ['account', 'base_iban'],
     'data': [
         'data/sepa.xml',
         'views/account_journal_dashboard_view.xml',

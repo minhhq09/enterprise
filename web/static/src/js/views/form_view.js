@@ -42,6 +42,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
      */
     on_attach_callback: function() {
         this.trigger('attached');
+        this.autofocus();
     },
     /**
      * Called each time the form view is detached from the DOM
@@ -373,8 +374,6 @@ var FormView = View.extend(common.FieldManagerMixin, {
                 self.do_push_state({});
             }
             self.$el.removeClass('oe_form_dirty');
-
-            self.autofocus();
         });
     },
     /**
@@ -543,11 +542,16 @@ var FormView = View.extend(common.FieldManagerMixin, {
         }
         // FIXME XXX a list of warnings?
         if (!_.isEmpty(result.warning)) {
-            new Dialog(this, {
+            this.warning_displayed = true;
+            var dialog = new Dialog(this, {
                 size: 'medium',
                 title:result.warning.title,
                 $content: QWeb.render("CrashManager.warning", result.warning)
-            }).open();
+            });
+            dialog.open();
+            dialog.on('closed', this, function () {
+                this.warning_displayed = false;
+            });
         }
 
         return $.Deferred().resolve();
@@ -619,6 +623,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
      */
     to_view_mode: function() {
         this._actualize_mode("view");
+        this.trigger('to_view_mode');
     },
     /**
      * Ask the view to switch to edit mode if possible. The view may not do it
@@ -627,6 +632,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
     to_edit_mode: function() {
         this.onchanges_mutex = new utils.Mutex();
         this._actualize_mode("edit");
+        this.trigger('to_edit_mode');
     },
     /**
      * Ask the view to switch to a precise mode if possible. The view is free to
@@ -858,6 +864,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
                     if (!self.datarecord.id) {
                         // Creation save
                         save_deferral = self.dataset.create(values, {readonly_fields: readonly_values}).then(function(r) {
+                            self.display_translation_alert(values);
                             return self.record_created(r, prepend_on_create);
                         }, null);
                     } else if (_.isEmpty(values)) {
@@ -866,6 +873,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
                     } else {
                         // Write save
                         save_deferral = self.dataset.write(self.datarecord.id, values, {readonly_fields: readonly_values}).then(function(r) {
+                            self.display_translation_alert(values);
                             return self.record_saved(r);
                         }, null);
                     }
@@ -960,6 +968,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
             } else {
                 var fields = _.keys(self.fields_view.fields);
                 fields.push('display_name');
+                fields.push('__last_update');
                 return self.dataset.read_index(fields,
                     {
                         context: { 'bin_size': true },
@@ -1024,6 +1033,56 @@ var FormView = View.extend(common.FieldManagerMixin, {
     },
     sidebar_eval_context: function () {
         return $.when(this.build_eval_context());
+    },
+    /*
+     * Show a warning message if the user modified a translated field.  For each
+     * field, the notification provides a link to edit the field's translations.
+     */
+    display_translation_alert: function(values) {
+        if (_t.database.multi_lang) {
+            var alert_fields = _.filter(this.translatable_fields, function(field) {
+                return _.has(values, field.name)
+            });
+            if (alert_fields.length) {
+                var $content = $(QWeb.render('translation-alert', {
+                        fields: alert_fields,
+                        lang: _t.database.parameters.name
+                    }));
+                // bind click event on "Update translations" links
+                $content.find('.oe_field_translate').click(function(ev) {
+                    ev.preventDefault();
+                    _.find(alert_fields, {'name': ev.target.name}).on_translate();
+                });
+                // show notification
+                this.once('to_view_mode', this, function () {
+                    this.notify_in_form($content);
+                });
+            }
+        }
+    },
+    /**
+     * Add a notification box inside the form. The notification automatically
+     * goes away (by default when switching to edit mode or changing the form
+     * content.)
+     *
+     * @param {jQuery} $content
+     * @param {Object} [options]
+     * @param {String} [options.type], one of: "success", "info", "warning", "danger"
+     * @param {String} [options.events], when to remove notification
+     */
+    notify_in_form: function ($content, options) {
+        options = options || {};
+        var type = options.type || 'info';
+        var $box = $(QWeb.render('notification-box', {type: type}));
+        $box.append($content);
+        // create handler to remove notification box
+        var events = options.events || 'to_edit_mode view_content_has_changed';
+        this.once(events, null, function() {
+            $box.remove();
+        });
+        // add content inside notification box on top of the sheet/form
+        var $target = this.$('.o_form_sheet_bg').length ? this.$('.o_form_sheet_bg') : this.$el;
+        $target.prepend($box);
     },
     open_defaults_dialog: function () {
         var self = this;

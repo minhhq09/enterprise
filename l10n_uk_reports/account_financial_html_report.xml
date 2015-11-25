@@ -79,7 +79,7 @@
         <field name="sequence" eval="3"/>
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_uk.tag_pt11'), ref('l10n_uk.tag_pt5'), ref('l10n_uk.tag_pt2'), ref('l10n_uk.tag_pt1'), ref('l10n_uk.tag_pt0')])]"/>
-        <field name="formulas">balance = sum.balance</field>
+        <field name="formulas">balance = sum.balance + UKTAX_9.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_uk"/>
         <field name="show_domain">never</field>
     </record>

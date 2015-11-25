@@ -862,15 +862,13 @@ var TimezoneMismatch = FieldSelection.extend({
     },
     render_value: function() {
         this._super.apply(this, arguments);
-        this.$label.find('.o_tz_warning').remove();
+        this.$label.next('.o_tz_warning').remove();
         if(this.check_timezone()){
             var options = _.extend({
                 delay: { show: 501, hide: 0 },
                 title: _t("Timezone Mismatch : The timezone of your browser doesn't match the selected one. The time in Odoo is displayed according to your field timezone."),
             });
-            this.$label.css('white-space', 'normal');
-            $('<span/>').addClass('fa fa-exclamation-triangle o_tz_warning').appendTo(this.$label);
-            this.$label.find('.o_tz_warning').tooltip(options);
+            $('<span/>').addClass('fa fa-exclamation-triangle o_tz_warning').insertAfter(this.$label).tooltip(options);
         }
     }
 });
@@ -1463,7 +1461,6 @@ var FieldMonetary = FieldFloat.extend({
         if(currency) {
             var before = (currency.position === 'before');
             this.$el[(before)? 'prepend' : 'append']($('<span/>', {html: currency.symbol}));
-            this.$el.toggleClass('o_currency_before', before);
         }
     },
     get_currency_info: function() {

@@ -42,6 +42,15 @@ import mimetypes
 from openerp.http import request, serialize_exception as _serialize_exception, STATIC_CACHE
 from openerp.exceptions import AccessError
 
+# Monkey patch release to set the edition as 'enterprise'
+openerp.release.version_info = version_info = openerp.release.version_info[:5] + ('e',)
+version_split = openerp.release.version.split('-', 1)
+openerp.release.version = (version_split[0][:-1] + version_info[5] +
+                           ('-%s' % version_split[1] if len(version_split) > 1 else ''))
+openerp.service.common.RPC_VERSION_1.update(
+    server_version=openerp.release.version,
+    server_version_info=openerp.release.version_info)
+
 _logger = logging.getLogger(__name__)
 
 if hasattr(sys, 'frozen'):
@@ -241,7 +250,7 @@ def manifest_glob(extension, addons=None, db=None, include_remotes=False):
     return r
 
 def manifest_list(extension, mods=None, db=None, debug=None):
-    """ list ressources to load specifying either:
+    """ list resources to load specifying either:
     mods: a comma separated string listing modules
     db: a database name (return all installed modules in that database)
     """
@@ -513,6 +522,23 @@ def binary_content(xmlid=None, model='ir.attachment', id=None, field='datas', un
 
     return (status, headers, content)
 
+def db_info():
+    cr, uid, context = request.cr, request.uid, request.context
+    version_info = openerp.service.common.exp_version()
+    if request.registry['res.users'].has_group(cr, uid, 'base.group_system'):
+        warn_enterprise = 'admin'
+    elif request.registry['res.users'].has_group(cr, uid, 'base.group_user'):
+        warn_enterprise = 'user'
+    else:
+        warn_enterprise = False
+    return {
+        'server_version': version_info.get('server_version'),
+        'server_version_info': version_info.get('server_version_info'),
+        'expiration_date': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_date', context=context),
+        'expiration_reason': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_reason', context=context),
+        'warning': warn_enterprise,
+    }
+
 #----------------------------------------------------------
 # OpenERP Web web Controllers
 #----------------------------------------------------------
@@ -532,7 +558,7 @@ class Home(http.Controller):
             return werkzeug.utils.redirect(kw.get('redirect'), 303)
 
         request.uid = request.session.uid
-        return request.render('web.webclient_bootstrap')
+        return request.render('web.webclient_bootstrap', qcontext={'db_info': json.dumps(db_info())})
 
     @http.route('/web/dbredirect', type='http', auth="none")
     def web_db_redirect(self, redirect='/', **kw):
@@ -653,8 +679,8 @@ class WebClient(http.Controller):
         ids = res_lang.search(request.cr, uid, [("code", "=", lang)])
         lang_params = None
         if ids:
-            lang_params = res_lang.read(request.cr, uid, ids[0], ["direction", "date_format", "time_format",
-                                                "grouping", "decimal_point", "thousands_sep"])
+            lang_params = res_lang.read(request.cr, uid, ids[0],
+                ["name", "direction", "date_format", "time_format", "grouping", "decimal_point", "thousands_sep"])
 
         # Regional languages (ll_CC) must inherit/override their parent lang (ll), but this is
         # done server-side when the language is loaded, so we only need to load the user's lang.
@@ -669,8 +695,11 @@ class WebClient(http.Controller):
             translations_per_module[mod]['messages'].extend({'id': m['src'],
                                                              'string': m['value']} \
                                                                 for m in msg_group)
-        return {"modules": translations_per_module,
-                "lang_parameters": lang_params}
+        return {
+            'lang_parameters': lang_params,
+            'modules': translations_per_module,
+            'multi_lang': len(res_lang.get_installed(request.cr, uid)) > 1,
+        }
 
     @http.route('/web/webclient/version_info', type='json', auth="none")
     def version_info(self):
