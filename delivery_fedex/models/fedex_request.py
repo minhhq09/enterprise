@@ -242,8 +242,7 @@ class FedexRequest():
     def process_shipment(self):
         if self.hasCommodities:
             self.RequestedShipment.CustomsClearanceDetail.Commodities = self.listCommodities
-        formatted_response = {'form_id': 0,
-                              'tracking_number': 0.0,
+        formatted_response = {'tracking_number': 0.0,
                               'price': {},
                               'master_tracking_id': None}
 
@@ -256,7 +255,6 @@ class FedexRequest():
 
             if (self.response.HighestSeverity != 'ERROR' and self.response.HighestSeverity != 'FAILURE'):
                 formatted_response['tracking_number'] = self.response.CompletedShipmentDetail.CompletedPackageDetails[0].TrackingIds[0].TrackingNumber
-                formatted_response['form_id'] = self.response.CompletedShipmentDetail.CompletedPackageDetails[0].TrackingIds[0].FormId
 
                 if (self.RequestedShipment.RequestedPackageLineItems.SequenceNumber == self.RequestedShipment.PackageCount) or self.hasOnePackage:
                     if 'ShipmentRating' in self.response.CompletedShipmentDetail:

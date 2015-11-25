@@ -42,6 +42,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
      */
     on_attach_callback: function() {
         this.trigger('attached');
+        this.autofocus();
     },
     /**
      * Called each time the form view is detached from the DOM
@@ -373,8 +374,6 @@ var FormView = View.extend(common.FieldManagerMixin, {
                 self.do_push_state({});
             }
             self.$el.removeClass('oe_form_dirty');
-
-            self.autofocus();
         });
     },
     /**
@@ -543,11 +542,16 @@ var FormView = View.extend(common.FieldManagerMixin, {
         }
         // FIXME XXX a list of warnings?
         if (!_.isEmpty(result.warning)) {
-            new Dialog(this, {
+            this.warning_displayed = true;
+            var dialog = new Dialog(this, {
                 size: 'medium',
                 title:result.warning.title,
                 $content: QWeb.render("CrashManager.warning", result.warning)
-            }).open();
+            });
+            dialog.open();
+            dialog.on('closed', this, function () {
+                this.warning_displayed = false;
+            });
         }
 
         return $.Deferred().resolve();
@@ -964,6 +968,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
             } else {
                 var fields = _.keys(self.fields_view.fields);
                 fields.push('display_name');
+                fields.push('__last_update');
                 return self.dataset.read_index(fields,
                     {
                         context: { 'bin_size': true },

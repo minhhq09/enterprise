@@ -464,6 +464,9 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.dataset.index = self.records.length ? 0 : null;
             }
             self.load_list().then(function () {
+                if (self.display_nocontent_helper()) {
+                    self.no_result();
+                }
                 reloaded.resolve();
             });
         });
@@ -571,7 +574,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.records.remove(self.records.get(id));
             });
             // Hide the table if there is no more record in the dataset
-            if (self.dataset.size() === 0) {
+            if (self.display_nocontent_helper()) {
                 self.no_result();
             } else {
                 // Load previous page if the current one is empty
@@ -874,6 +877,9 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
             this.previous_colspan = null;
         }
     },
+    display_nocontent_helper: function () {
+        return (this.dataset.size() === 0);
+    },
     no_result: function () {
         this.$('.oe_view_nocontent').remove();
         if (this.groups.group_by ||
@@ -1000,6 +1006,10 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
                 e.stopPropagation();
                 var $row = $(e.target).closest('tr');
                 $(self).trigger('deleted', [[self.row_id($row)]]);
+                // IE Edge go crazy when we use confirm dialog and remove the focused element
+                if(document.hasFocus && !document.hasFocus()) {
+                    $('<input />').appendTo('body').focus().remove();
+                }
             })
             .delegate('td button', 'click', function (e) {
                 e.stopPropagation();
@@ -1494,9 +1504,6 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
 
                 self.records.add(records, {silent: true});
                 list.render();
-                if (_.isEmpty(records)) {
-                    view.no_result();
-                }
                 return list;
             });
         });
@@ -1612,8 +1619,11 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
         return {ids: ids, records: records};
     },
     on_records_reset: function () {
-        this.children = {};
         this.$to_be_removed = $(this.elements);
+        _.each(this.children, function(child){
+            this.$to_be_removed = this.$to_be_removed.add(child.$to_be_removed);
+        }.bind(this));
+        this.children = {};
     },
     get_records: function () {
         if (_(this.children).isEmpty()) {

@@ -349,7 +349,7 @@ var DataExport = Dialog.extend({
         var self = this;
     
         if(expansion) {
-            this.$(".o_export_tree_item[data-id=" + expansion + "]")
+            this.$('.o_export_tree_item[data-id="' + expansion + '"]')
                 .addClass('open')
                 .find('.o_expand_parent')
                 .toggleClass('fa-plus fa-minus')
@@ -370,7 +370,7 @@ var DataExport = Dialog.extend({
         });
     },
     show_content: function(id) {
-        var $this = this.$(".o_export_tree_item[data-id='" + id + "']");
+        var $this = this.$('.o_export_tree_item[data-id="' + id + '"]');
         $this.toggleClass('open');
         var is_open = $this.hasClass('open');
 

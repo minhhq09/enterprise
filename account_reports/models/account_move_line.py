@@ -12,7 +12,7 @@ class AccountMoveLine(models.Model):
     internal_note = fields.Text('Internal Note', help="Note you can set through the customer statement about a receivable journal item")
     next_action_date = fields.Date('Next Action Date', help="Date where the next action should be taken for a receivable item. Usually, automatically set when sending reminders through the customer statement.")
 
-    def compute_fields(self, field_names):
+    def _compute_fields(self, field_names):
         """ Computes the required fields with the options given in the context using _query_get()
             @param field_names: a list of the fields to compute
             @returns : a dictionnary that has for each aml in the domain a dictionnary of the values of the fields

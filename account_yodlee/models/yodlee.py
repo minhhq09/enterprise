@@ -43,7 +43,7 @@ class YodleeAccountJournal(models.Model):
 
     @api.one
     def _register_new_yodlee_user(self):
-        username = self.env.registry.db_name + '_' + slugify(self.company_id.name) + '_' + str(uuid.uuid4())
+        username = self.env.registry.db_name + '_' + str(uuid.uuid4())
         password = str(uuid.uuid4())
         email = self.company_id.partner_id.email
         if not email:
@@ -60,7 +60,7 @@ class YodleeAccountJournal(models.Model):
                 'userProfile.emailAddress': email
             }
             resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params, timeout=20)
-            resp_json = simplejson.loads(resp.text)
+            resp_json = json.loads(resp.text)
             if resp_json.get('errorOccurred', False) == 'true':
                 #Log error if any
                 errorMsg = _('An error occured while trying to register new user on yodlee: ') + resp_json.get('exceptionType', 'Unknown Error') + ' - Message: ' +resp_json.get('message', '')
@@ -263,10 +263,9 @@ class YodleeAccount(models.Model):
             transactions = []
             if type(resp_json['searchResult']['transactions']) != list:
                 _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
-            tr_date = datetime.datetime.strptime(fields.Date.today(), DEFAULT_SERVER_DATE_FORMAT)
-            tr_date = datetime.datetime.strftime(tr_date, "%Y-%m-%d")
             for transaction in resp_json['searchResult']['transactions']:
-                transaction_date = datetime.datetime.strptime(transaction.get('transactionDate', to_date).split("T")[0], '%Y-%m-%d')
+                tr_date = transaction.get('postDate', transaction.get('transactionDate', fields.Date.today()))
+                transaction_date = datetime.datetime.strptime(tr_date.split("T")[0], '%Y-%m-%d')
                 if transaction.get('transactionBaseType') == 'debit':
                     amount = -1 * transaction['amount']['amount']
                 else:

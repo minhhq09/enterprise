@@ -275,7 +275,7 @@ return Widget.extend({
         },
         'click .o_add_condition': 'append_proposition',
         'click .o_apply_filter': 'commit_search',
-        'keyup .searchview_extended_prop_value': function (ev) {
+        'keyup .o_searchview_extended_prop_value': function (ev) {
             if (ev.which === $.ui.keyCode.ENTER) {
                 this.commit_search();
             }

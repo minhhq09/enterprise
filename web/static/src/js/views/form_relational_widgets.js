@@ -865,6 +865,9 @@ var FieldX2Many = AbstractManyField.extend({
         }
         return true;
     },
+    is_false: function() {
+        return false;
+    },
 });
 
 var X2ManyDataSet = data.BufferedDataSet.extend({
@@ -953,7 +956,8 @@ var X2ManyListView = ListView.extend({
             field.no_rerender = true;
             current_values[field.name] = field.get('value');
         });
-        var valid = _.every(this.dataset.cache, function(record){
+        var cached_records = _.filter(this.dataset.cache, function(item){return !_.isEmpty(item.values)});
+        var valid = _.every(cached_records, function(record){
             _.each(fields, function(field){
                 var value = record.values[field.name];
                 field.set_value(_.isArray(value) && _.isArray(value[0]) ? [COMMANDS.delete_all()].concat(value) : value);
@@ -976,6 +980,9 @@ var X2ManyListView = ListView.extend({
             single_page_hidden: true,
         });
         this._super($node, options);
+    },
+    display_nocontent_helper: function () {
+        return false;
     },
 });
 

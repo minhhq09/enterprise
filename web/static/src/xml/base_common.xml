@@ -137,6 +137,43 @@
     </li>
 </t>
 
+<t t-name="WebClient.database_expiration_panel">
+    <div class="database_expiration_panel" id="announcement_bar_table">
+        <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':(diffDays&lt;31?'info':''))}" role="alert">
+            <span>
+                <span class="oe_instance_expires"></span>
+                <span class="oe_instance_register">
+                    <strong>Warning!</strong>
+                    <t t-if="diffDays &gt; 0">
+                        Your database will expire in <span t-esc="diffDays"/> days.
+                    </t>
+                    <t t-if="diffDays &lt; 1">
+                        Your database has expired.
+                    </t>
+                    <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason === false">
+                        <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy</a> one.
+                    </t>
+                    <t t-if="dbexpiration_reason == 'renewal'">
+                        <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                    </t>
+                    <t t-if="dbexpiration_reason == 'upsell'">
+                        You have more active users than included in your subscription.
+                        <a class="oe_instance_upsell" href="#">Add more users</a>.
+                    </t>
+                </span>
+            </span>
+            <form class="form-inline oe_instance_register_form">
+                <br/>
+                <div class="form-group">
+                    <label for="enterprise_code">Enterprise Code: </label>
+                    <input type="text" class="form-control" id="enterprise_code" placeholder="Paste code here" t-att-value="dbenterprise_code or ''"/>
+                </div>
+                <button class="btn btn-sm btn-primary" id="confirm_enterprise_code">Register</button>
+            </form>
+        </div>
+    </div>
+</t>
+
 <div t-name="AppSwitcher" class="o_application_switcher">
     <div class="o_apps">
         <a t-foreach="widget.menu_data" t-as="primary_menu"

@@ -15,7 +15,7 @@ class followup(models.Model):
 
     followup_line_ids = fields.One2many('account_followup.followup.line', 'followup_id', 'Follow-up', copy=True, oldname="followup_line")
     company_id = fields.Many2one('res.company', 'Company', required=True,
-                                 default=lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'account_followup.followup', context=c))
+                                 default=lambda self: self.env['res.company']._company_default_get('account_followup.followup'))
     name = fields.Char(related='company_id.name', readonly=True)
 
     _sql_constraints = [('company_uniq', 'unique(company_id)', 'Only one follow-up per company is allowed')] 

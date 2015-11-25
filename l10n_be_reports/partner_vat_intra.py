@@ -38,26 +38,27 @@ class ReportL10nBePartnerVatIntra(models.AbstractModel):
                 p_count += 1
 
             amt = row['amount'] or 0.0
-            seq += 1
-            amount_sum += amt
+            if amt:
+                seq += 1
+                amount_sum += amt
 
-            [intra_code, code] = row['intra_code'] == tag_ids[0] and ['44', 'S'] or (row['intra_code'] == tag_ids[1] and ['46L', 'L'] or (row['intra_code'] == tag_ids[2] and ['46T', 'T'] or ['', '']))
+                [intra_code, code] = row['intra_code'] == tag_ids[0] and ['44', 'S'] or (row['intra_code'] == tag_ids[1] and ['46L', 'L'] or (row['intra_code'] == tag_ids[2] and ['46T', 'T'] or ['', '']))
 
-            columns = [row['vat'].replace(' ', '').upper(), code, intra_code, amt]
-            if not self.env.context.get('no_format', False):
-                currency_id = self.env.user.company_id.currency_id
-                columns[3] = formatLang(self.env, columns[3], currency_obj=currency_id)
+                columns = [row['vat'].replace(' ', '').upper(), code, intra_code, amt]
+                if not self.env.context.get('no_format', False):
+                    currency_id = self.env.user.company_id.currency_id
+                    columns[3] = formatLang(self.env, columns[3], currency_obj=currency_id)
 
-            lines.append({
-                'id': row['partner_id'],
-                'type': 'partner_id',
-                'name': row['partner_name'],
-                'footnotes': context_id._get_footnotes('partner_id', row['partner_id']),
-                'columns': columns,
-                'level': 2,
-                'unfoldable': False,
-                'unfolded': False,
-            })
+                lines.append({
+                    'id': row['partner_id'],
+                    'type': 'partner_id',
+                    'name': row['partner_name'],
+                    'footnotes': context_id._get_footnotes('partner_id', row['partner_id']),
+                    'columns': columns,
+                    'level': 2,
+                    'unfoldable': False,
+                    'unfolded': False,
+                })
 
         if get_xml_data:
             return {'lines': lines, 'clientnbr': str(seq), 'amountsum': round(amount_sum, 2), 'partner_wo_vat': p_count}
