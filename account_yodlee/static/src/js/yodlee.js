@@ -152,11 +152,19 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
             self.display_wait();
             var inputs = $(".js_online_sync_input");
             _.each(inputs, function(input){
-                self.response['credentialFields[' + input.id + '].value'] = input.value;
+                var value = input.value;
+                if (value === ""){
+                    value = false;
+                }
+                self.response['credentialFields[' + input.id + '].value'] = value;
             });
             var inputs_multi = $(".js_online_sync_input_multi");
             _.each(inputs_multi, function(input){
-                self.response['credentialFields[' + input.id + '].values[' + $(input).attr("subid") + ']'] = input.value;
+                var value = input.value;
+                if (value === ""){
+                    value = false;
+                }
+                self.response['credentialFields[' + input.id + '].values[' + $(input).attr("subid") + ']'] = value;
             });
             framework.blockUI();
             var request = new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/SiteAccountManagement/addSiteAccount1', this.online_type, this.response])
