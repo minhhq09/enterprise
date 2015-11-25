@@ -45,41 +45,69 @@ var AppSwitcher = Widget.extend({
             return;
         }
         var P = new Model('ir.config_parameter');
-
-        $.when(
-            this.session.user_has_group('base.group_user'),
-            P.call('get_param', ['database.expiration_date']),
-            P.call('get_param', ['database.enterprise_code']),
-            P.call('get_param', ['database.expiration_reason'])
-        ).then(function(is_user, dbexpiration_date, dbenterprise_code, dbexpiration_reason) {
-            // don't show the expiration warning for portal users
-            if (!is_user || !dbexpiration_date) {
-                return;
-            }
-            var today = new moment();
-            dbexpiration_date = new moment(dbexpiration_date);
-            var duration = moment.duration(dbexpiration_date.diff(today));
-            var diffDays = Math.round(duration.asDays());
-
-            //Show expiration panel 30 days before the expiry
-            if (diffDays <= 30) {
-
-                var expiration_panel = $(QWeb.render('WebClient.database_expiration_panel', {
-                    diffDays: diffDays, dbenterprise_code:dbenterprise_code, dbexpiration_reason:dbexpiration_reason
-                })).prependTo(self.$('.o_apps'));
-
-                if (diffDays <= 0) {
-                    expiration_panel.children().addClass('alert-danger');
-                    expiration_panel.find('a.oe_instance_register_show').on('click.widget_events', self.events['click a.oe_instance_register_show']);
-                    expiration_panel.find('.oe_instance_buy').on('click.widget_events', self.proxy('enterprise_buy'));
-                    expiration_panel.find('.oe_instance_renew').on('click.widget_events', self.proxy('enterprise_renew'));
-                    expiration_panel.find('.oe_instance_upsell').on('click.widget_events', self.proxy('enterprise_upsell'));
-                    expiration_panel.find('#confirm_enterprise_code').on('click.widget_events', self.proxy('enterprise_code_submit'));
-                    $.blockUI({ message: expiration_panel[0] });
+        if (!odoo.db_info) {
+            $.when(
+                this.session.user_has_group('base.group_user'),
+                this.session.user_has_group('base.group_system'),
+                P.call('get_param', ['database.expiration_date']),
+                P.call('get_param', ['database.enterprise_code']),
+                P.call('get_param', ['database.expiration_reason'])
+            ).then(function(is_user, is_admin, dbexpiration_date, dbenterprise_code, dbexpiration_reason) {
+                // don't show the expiration warning for portal users
+                if (!(is_user && dbexpiration_date)) {
+                    return;
                 }
+                var today = new moment();
+                dbexpiration_date = new moment(dbexpiration_date);
+                var duration = moment.duration(dbexpiration_date.diff(today));
+                var options = {
+                    'diffDays': Math.round(duration.asDays()),
+                    'dbexpiration_reason': dbexpiration_reason,
+                    'warning': is_admin?'admin':(is_user?'user':false),
+                    'dbenterprise_code': dbenterprise_code
+                };
+                self.enterprise_show_panel(options);
+            });
+        } else {
+            $.when(
+                P.call('get_param', ['database.enterprise_code'])
+            ).then(function(dbenterprise_code) {
+                // don't show the expiration warning for portal users
+                if (!(odoo.db_info.warning && odoo.db_info.expiration_date))  {
+                    return;
+                }
+                var today = new moment();
+                var dbexpiration_date = new moment(odoo.db_info.expiration_date);
+                var duration = moment.duration(dbexpiration_date.diff(today));
+                var options = {
+                    'diffDays': Math.round(duration.asDays()),
+                    'dbexpiration_reason': odoo.db_info.expiration_reason,
+                    'warning': odoo.db_info.warning,
+                    'dbenterprise_code': dbenterprise_code
+                };
+                self.enterprise_show_panel(options);
+            });
+        }
+    },
+    enterprise_show_panel: function(options) {
+        //Show expiration panel 30 days before the expiry
+        var self = this;
+        if (options.diffDays <= 30) {
 
+            var expiration_panel = $(QWeb.render('WebClient.database_expiration_panel', {
+                diffDays: options.diffDays, dbenterprise_code:options.dbenterprise_code, dbexpiration_reason:options.dbexpiration_reason, warning: options.warning
+            })).prependTo(self.$('.o_apps'));
+
+            if (options.diffDays <= 0) {
+                expiration_panel.children().addClass('alert-danger');
+                expiration_panel.find('a.oe_instance_register_show').on('click.widget_events', self.events['click a.oe_instance_register_show']);
+                expiration_panel.find('.oe_instance_buy').on('click.widget_events', self.proxy('enterprise_buy'));
+                expiration_panel.find('.oe_instance_renew').on('click.widget_events', self.proxy('enterprise_renew'));
+                expiration_panel.find('.oe_instance_upsell').on('click.widget_events', self.proxy('enterprise_upsell'));
+                expiration_panel.find('#confirm_enterprise_code').on('click.widget_events', self.proxy('enterprise_code_submit'));
+                $.blockUI({ message: expiration_panel[0], css: { cursor : 'auto' }, overlayCSS: { cursor : 'auto' } });
             }
-        });
+        }
     },
     /** Save the registration code then triggers a ping to submit it*/
     enterprise_code_submit: function(ev) {
