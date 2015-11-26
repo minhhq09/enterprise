@@ -158,7 +158,7 @@ class AccountFinancialReportLine(models.Model):
 
     def _format(self, value):
         if self.env.context.get('no_format'):
-            return round(value, 1)
+            return value
         if self.figure_type == 'float':
             currency_id = self.env.user.company_id.currency_id
             if currency_id.is_zero(value):
