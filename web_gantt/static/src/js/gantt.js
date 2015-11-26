@@ -546,7 +546,9 @@ var GanttView = View.extend({
         gantt.parse({"data": gantt_tasks});
 
         // End of horrible hack
+        var scroll_state = gantt.getScrollState();
         this.$el.append(this.$div.contents());
+        gantt.scrollTo(scroll_state.x, scroll_state.y);
         this.$div.remove();
         if (temp_div_with_id) temp_div_with_id.remove();
 
