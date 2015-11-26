@@ -216,5 +216,26 @@
       <field name="value" eval="'ir.actions.server,%d'%action_end_items_listings"/>
     </record>
 
+    <record id="action_unlink_items_listings" model="ir.actions.server">
+      <field name="name">Unlink eBay Items' Listings</field>
+      <field name="model_id" ref="sale.model_product_template"/>
+      <field name="state">code</field>
+      <field name="code">
+        if context.get('active_model') == 'product.template':
+          ids = []
+          if(context['active_ids']):
+              ids = context['active_ids']
+          else:
+              ids = context['active_id']
+          self.unlink_listing_product_ebay(cr, uid, ids, context=context)
+      </field>
+    </record>
+
+    <record id="value_unlink_items_listings" model="ir.values">
+      <field name="key2" eval="'client_action_multi'"/>
+      <field name="model" eval="'product.template'"/>
+      <field name="name">Unlink eBay Items' Listings</field>
+      <field name="value" eval="'ir.actions.server,%d'%action_unlink_items_listings"/>
+    </record>
   </data>
 </openerp>

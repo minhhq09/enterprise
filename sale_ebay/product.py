@@ -422,6 +422,7 @@ class product_template(models.Model):
             domain = [
                 ('ebay_id', '=', item['ItemID']),
                 ('virtual_available', '>' if sync_big_stocks else '<', MAX_REVISE_CALLS),
+                ('ebay_use', '=', True),
             ]
             product = self.search(domain)
             if product:
@@ -643,6 +644,16 @@ class product_template(models.Model):
                         self.revise_product_ebay()
                     else:
                         self.relist_product_ebay()
+
+    @api.one
+    def unlink_listing_product_ebay(self):
+        self._sync_recent_product_status()
+        self.write({
+            'ebay_use': False,
+            'ebay_id': False,
+            'ebay_listing_status': 'Unlisted',
+            'ebay_url': False,
+        })
 
 
 class product_product(models.Model):
