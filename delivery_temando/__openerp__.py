@@ -11,6 +11,7 @@
     'data': [
         'data/delivery_temando.xml',
         'views/delivery_temando_view.xml',
+        'views/sale_order_view.xml',
     ],
     'demo': [
         'data/delivery_temando_demo.xml',
