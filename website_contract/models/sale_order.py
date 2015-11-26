@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
         if self.require_payment:
             tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
             payment_method = tx.payment_method_id
-        if self.template_id and self.template_id.contract_template and not self.project_id \
+        if self.template_id and self.template_id.contract_template and not self.subscription_id \
                 and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
             values = self._prepare_contract_data(payment_method_id=payment_method.id if self.require_payment else False)
             subscription = self.env['sale.subscription'].sudo().create(values)
@@ -61,6 +61,11 @@ class SaleOrder(models.Model):
             'recurring_rule_type': contract_tmp.recurring_rule_type,
             'recurring_interval': contract_tmp.recurring_interval,
         }
+        # if there already is an AA, use it in the subscription's inherits
+        if self.project_id:
+            values.pop('name')
+            values.pop('partner_id')
+            values['analytic_account_id'] = self.project_id.id
         # compute the next date
         today = datetime.date.today()
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
