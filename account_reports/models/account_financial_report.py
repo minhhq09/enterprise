@@ -357,6 +357,8 @@ class AccountFinancialReportLine(models.Model):
             lines = [vals]
             groupby = line.groupby or 'aml'
             if line in context.unfolded_lines or line.show_domain == 'always':
+                if line.groupby == 'partner_id' or line.groupby == 'account_id':
+                    domain_ids = sorted(list(domain_ids), key=lambda k: line._get_gb_name(k))
                 for domain_id in domain_ids:
                     name = line._get_gb_name(domain_id)
                     vals = {
