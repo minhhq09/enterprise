@@ -464,7 +464,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.dataset.index = self.records.length ? 0 : null;
             }
             self.load_list().then(function () {
-                if (self.display_nocontent_helper()) {
+                if (!self.grouped && self.display_nocontent_helper()) {
                     self.no_result();
                 }
                 reloaded.resolve();
