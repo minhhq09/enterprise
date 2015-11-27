@@ -17,6 +17,9 @@
             </header>
             <sheet>
                 <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" attrs="{'invisible':[('state', 'not in', ('done','cancel'))]}">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
                     <button class="oe_inline oe_stat_button"
                         name="action_get_users_input"
                         type="object"
@@ -79,6 +82,7 @@
         <field name="model">hr.appraisal</field>
         <field name="arch" type="xml">
             <tree string="Appraisal">
+                <field name="active" invisible="1"/>
                 <field name="employee_id" string="Name"/>
                 <field name="date_close"/>
                 <field name="date_final_interview"/>
@@ -95,6 +99,7 @@
         <field name="arch" type="xml">
             <search string="Search Appraisal">
                 <field name="employee_id"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
                 <group expand='0' string='Group by...'>
                     <filter string='Employee' icon="terp-personal" domain="[]" context="{'group_by' : 'employee_id'}"/>
                </group>

@@ -20,6 +20,7 @@ class HrAppraisal(models.Model):
         ('cancel', "Cancelled"),
     ]
 
+    active = fields.Boolean(default=True)
     action_plan = fields.Text(string="Action Plan", help="If the evaluation does not meet the expectations, you can propose an action plan")
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id)
     color = fields.Integer(string='Color Index', help='This color will be used in the kanban view.')
