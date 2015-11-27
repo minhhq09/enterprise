@@ -214,11 +214,11 @@
     </record>
 
     <record id="email_contract_open" model="mail.template">
-        <field name="name">Website Contract: Contract open</field>
-        <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
-        <field name="subject">Your subscription ${object.code} is active!</field>
+        <field name="name">Website Contract: Quote Validation</field>
+        <field name="email_from">${(object.subscription_id.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+        <field name="subject">Your subscription ${object.subscription_id.code} is active!</field>
         <field name="email_to">${ctx.get('email_to') or object.partner_id.email}</field>
-        <field name="model_id" ref="sale_contract.model_sale_subscription"/>
+        <field name="model_id" ref="sale.model_sale_order"/>
         <field name="body_html"><![CDATA[
 <div summary="o_mail_template" style="padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777">
     <table cellspacing="0" cellpadding="0" style="width:600px; border-collapse:collapse; background:inherit; color:inherit">
@@ -242,11 +242,11 @@
     <table cellspacing="0" cellpadding="0" style="width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit">
         <tbody><tr>
             <td style="padding:0px 10px 5px 5px;font-size: 14px;">
-                <p>Dear ${object.partner_id.name},</p>
-                <p>Your new Odoo Online Subscription is ready!</p>
+                <p>Dear ${object.subscription_id.partner_id.name},</p>
+                <p>Your subscription ${object.subscription_id.name} is active!</p>
 
                 <p>You can view your subscription online by going to our <a style="text-decoration:none; color: #a24689;" href="/my/home">Online Portal</a> or by following this link
-                <p style="text-align: center;"><a style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #a24689; border: 1px solid #a24689; border-radius:3px" href="/my/contract/${object.id}/${object.uuid}">View Subscription</a></p>
+                <p style="text-align: center;"><a style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #a24689; border: 1px solid #a24689; border-radius:3px" href="/my/contract/${object.subscription_id.id}/${object.subscription_id.uuid}">View Subscription</a></p>
 
                 <p>With this page, you can easily manage your contracts:</p>
                 <ul>
@@ -257,7 +257,7 @@
                 <p>You can access this link publicly or share it with someone else to give him/her the right to manage this subscription.</p>
 
                 <p>If you have any question, do not hesitate to contact us.</p>
-                <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>
+                <p>Thank you for choosing ${object.subscription_id.company_id.name or 'us'}!</p>
             </td>
         </tr><tr>
             <td style="padding:0px 10px 5px 5px;font-size: 14px;">

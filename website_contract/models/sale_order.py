@@ -38,11 +38,6 @@ class SaleOrder(models.Model):
                 subscription.write(sub_values)
 
             self.project_id = subscription.analytic_account_id
-            # send new contract email to partner
-            # TDE FIXME: should probably be a classic message_post, to remove styling
-            _, template_id = self.env['ir.model.data'].get_object_reference('website_contract', 'email_contract_open')
-            mail_template = self.env['mail.template'].browse(template_id)
-            mail_template.sudo().send_mail(subscription.id, force_send=True)
             return subscription
         return False
 
@@ -81,9 +76,8 @@ class SaleOrder(models.Model):
 
     @api.one
     def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
         self.create_contract()
-        return res
+        return super(SaleOrder, self).action_confirm()
 
     # DBO: the following is there to amend the behaviour of website_sale:
     # - do not update price on sale_order_line where force_price = True
