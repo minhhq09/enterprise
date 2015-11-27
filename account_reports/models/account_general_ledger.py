@@ -32,6 +32,7 @@ class report_account_general_ledger(models.AbstractModel):
             'cash_basis': context_id.cash_basis,
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
+            'journal_ids': context_id.journal_ids.ids,
         })
         return self.with_context(new_context)._lines(line_id)
 
@@ -54,7 +55,7 @@ class report_account_general_ledger(models.AbstractModel):
         initial_bal_date_to = datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d") + timedelta(days=-1)
         initial_bal_results = self.with_context(date_to=initial_bal_date_to.strftime('%Y-%m-%d')).do_query(line_id)
         context = self.env.context
-        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
+        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids']), ('journal_id', 'in', context['journal_ids'])]
         if context['date_from_aml']:
             base_domain.append(('date', '>=', context['date_from_aml']))
         if context['state'] == 'posted':
@@ -191,6 +192,16 @@ class account_context_general_ledger(models.TransientModel):
 
     fold_field = 'unfolded_accounts'
     unfolded_accounts = fields.Many2many('account.account', 'context_to_account', string='Unfolded lines')
+    journal_ids = fields.Many2many('account.journal', relation='account_report_gl_journals', default=lambda s: [(6, 0, s.env['account.journal'].search([]).ids)])
+    available_journal_ids = fields.Many2many('account.journal', relation='account_report_gl_available_journal', default=lambda s: [(6, 0, s.env['account.journal'].search([]).ids)])
+
+    @api.multi
+    def get_available_journal_ids_and_names(self):
+        return [[c.id, c.name] for c in self.available_journal_ids]
+
+    @api.model
+    def get_available_journals(self):
+        return self.env.user.journal_ids
 
     def get_report_obj(self):
         return self.env['account.general.ledger']

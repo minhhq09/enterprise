@@ -157,5 +157,15 @@
                 </t>
             </ul>
         </div>
+        <div class="o_dropdown o_account_reports_date-filter-journals" t-if="context.journal_ids">
+            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-book"/> Journals: <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <t t-foreach="context.available_journals" t-as="j">
+                    <li t-att-title="c=j[1]" t-att-data-value="j[0]" t-att-class="'o_account_reports_one-journal ' + ((context.journal_ids.indexOf(j[0]) !== -1) and 'selected' or '')"><a><t t-esc='j[1]'/></a></li>
+                </t>
+            </ul>
+        </div>
     </t>
 </templates>

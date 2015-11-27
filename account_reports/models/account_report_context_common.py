@@ -419,6 +419,9 @@ class AccountReportContextCommon(models.TransientModel):
         result['html'] = self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
         result['report_type'] = self.get_report_obj().get_report_type()
         select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company']
+        if self.get_report_obj().get_name() == 'general_ledger':
+            select += ['journal_ids']
+            result['available_journals'] = self.get_available_journal_ids_and_names()
         result['report_context'] = self.read(select)[0]
         result['xml_export'] = self.env['account.financial.html.report.xml.export'].is_xml_export_available(self.get_report_obj())
         result['fy'] = {

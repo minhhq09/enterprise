@@ -80,6 +80,9 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.fy = result.fy;
                 self.report_context = result.report_context;
                 self.report_context.available_companies = result.available_companies;
+                if (result.available_journals) {
+                    self.report_context.available_journals = result.available_journals;
+                }
                 self.render_buttons();
                 self.render_searchview_buttons();
                 self.render_searchview();
@@ -235,6 +238,19 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 }
                 else {
                     report_context.remove_company_ids = value;
+                }
+                self.restart(report_context);
+            });
+        }
+        if (this.report_context.journal_ids) { // Same for th ecompany filter
+            this.$searchview_buttons.find('.o_account_reports_one-journal').bind('click', function (event) {
+                var report_context = {};
+                var value = $(event.target).parents('li').data('value');
+                if(self.report_context.journal_ids.indexOf(value) === -1){
+                    report_context.add_journal_ids = value;
+                }
+                else {
+                    report_context.remove_journal_ids = value;
                 }
                 self.restart(report_context);
             });
