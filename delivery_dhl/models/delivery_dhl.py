@@ -10,9 +10,9 @@ class Providerdhl(models.Model):
 
     delivery_type = fields.Selection(selection_add=[('dhl', "DHL")])
 
-    dhl_SiteID = fields.Char(string="DHL SiteID")
-    dhl_password = fields.Char(string="DHL Password")
-    dhl_account_number = fields.Char(string="DHL Account Number")
+    dhl_SiteID = fields.Char(string="DHL SiteID", groups="base.group_system")
+    dhl_password = fields.Char(string="DHL Password", groups="base.group_system")
+    dhl_account_number = fields.Char(string="DHL Account Number", groups="base.group_system")
     dhl_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production DHL Web Services")
     dhl_package_dimension_unit = fields.Selection([('IN', 'Inches'),
                                                    ('CM', 'Centimeters')],
