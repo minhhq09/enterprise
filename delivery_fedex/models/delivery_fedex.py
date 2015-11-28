@@ -21,10 +21,10 @@ class ProviderFedex(models.Model):
     delivery_type = fields.Selection(selection_add=[('fedex', "FedEx")])
 
     # TODO in master: add help strings and tweak view to explain how to get these
-    fedex_developer_key = fields.Char(string="Developer Key")
-    fedex_developer_password = fields.Char(string="Password")
-    fedex_account_number = fields.Char(string="Account Number")
-    fedex_meter_number = fields.Char(string="Meter Number")
+    fedex_developer_key = fields.Char(string="Developer Key", groups="base.group_system")
+    fedex_developer_password = fields.Char(string="Password", groups="base.group_system")
+    fedex_account_number = fields.Char(string="Account Number", groups="base.group_system")
+    fedex_meter_number = fields.Char(string="Meter Number", groups="base.group_system")
     fedex_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production Fedex Web Services")
     fedex_droppoff_type = fields.Selection([('BUSINESS_SERVICE_CENTER', 'BUSINESS_SERVICE_CENTER'),
                                             ('DROP_BOX', 'DROP_BOX'),
@@ -77,8 +77,9 @@ class ProviderFedex(models.Model):
 
             # Authentication stuff
             srm = FedexRequest(request_type="rating", test_mode=self.fedex_test_mode)
-            srm.web_authentication_detail(self.fedex_developer_key, self.fedex_developer_password)
-            srm.client_detail(self.fedex_account_number, self.fedex_meter_number)
+            superself = self.sudo()
+            srm.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
+            srm.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
 
             # Build basic rating request and set addresses
             srm.transaction_detail(order.name)
@@ -118,8 +119,9 @@ class ProviderFedex(models.Model):
         for picking in pickings:
 
             srm = FedexRequest(request_type="shipping", test_mode=self.fedex_test_mode)
-            srm.web_authentication_detail(self.fedex_developer_key, self.fedex_developer_password)
-            srm.client_detail(self.fedex_account_number, self.fedex_meter_number)
+            superself = self.sudo()
+            srm.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
+            srm.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
 
             srm.transaction_detail(picking.id)
             srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, self.fedex_packaging_type, self.fedex_weight_unit)
@@ -291,8 +293,9 @@ class ProviderFedex(models.Model):
 
     def fedex_cancel_shipment(self, picking):
         request = FedexRequest(request_type="shipping", test_mode=self.fedex_test_mode)
-        request.web_authentication_detail(self.fedex_developer_key, self.fedex_developer_password)
-        request.client_detail(self.fedex_account_number, self.fedex_meter_number)
+        superself = self.sudo()
+        request.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
+        request.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
         request.transaction_detail(picking.id)
 
         request.set_deletion_details(picking.carrier_tracking_ref)

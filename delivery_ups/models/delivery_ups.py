@@ -11,10 +11,10 @@ class ProviderUPS(models.Model):
 
     delivery_type = fields.Selection(selection_add=[('ups', "UPS")])
 
-    ups_username = fields.Char(string='UPS Username')
-    ups_passwd = fields.Char(string='UPS Password')
-    ups_shipper_number = fields.Char(string='UPS Shipper Number')
-    ups_access_number = fields.Char(string='UPS AccessLicenseNumber')
+    ups_username = fields.Char(string='UPS Username', groups="base.group_system")
+    ups_passwd = fields.Char(string='UPS Password', groups="base.group_system")
+    ups_shipper_number = fields.Char(string='UPS Shipper Number', groups="base.group_system")
+    ups_access_number = fields.Char(string='UPS AccessLicenseNumber', groups="base.group_system")
     ups_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production UPS Web Services")
     ups_default_packaging_type = fields.Selection([('01', 'UPS Letter'),
                                                    ('02', 'Package/customer supplied'),
@@ -50,7 +50,8 @@ class ProviderUPS(models.Model):
 
     def ups_get_shipping_price_from_so(self, orders):
         res = []
-        srm = UPSRequest(self.ups_username, self.ups_passwd, self.ups_shipper_number, self.ups_access_number, self.ups_test_mode)
+        superself = self.sudo()
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
         ResCurrency = self.env['res.currency']
         for order in orders:
             packages = []
@@ -84,7 +85,8 @@ class ProviderUPS(models.Model):
 
     def ups_send_shipping(self, pickings):
         res = []
-        srm = UPSRequest(self.ups_username, self.ups_passwd, self.ups_shipper_number, self.ups_access_number, self.ups_test_mode)
+        superself = self.sudo()
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
         ResCurrency = self.env['res.currency']
         for picking in pickings:
             packages = []
@@ -153,7 +155,8 @@ class ProviderUPS(models.Model):
         if self.ups_test_mode:
             tracking_ref = "1ZISDE016691676846"  # used for testing purpose
 
-        srm = UPSRequest(self.ups_username, self.ups_passwd, self.ups_shipper_number, self.ups_access_number, self.ups_test_mode)
+        superself = self.sudo()
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
         result = srm.cancel_shipment(tracking_ref)
 
         if result.get('error_message'):

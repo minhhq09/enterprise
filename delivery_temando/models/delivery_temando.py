@@ -17,9 +17,9 @@ class ProviderTemando(models.Model):
 
     delivery_type = fields.Selection(selection_add=[('temando', "Temando")])
 
-    temando_username = fields.Char(string='Temando Username')
-    temando_password = fields.Char(string='Temando Password')
-    temando_client_id = fields.Char(string='Temando Client Id')
+    temando_username = fields.Char(string='Temando Username', groups="base.group_system")
+    temando_password = fields.Char(string='Temando Password', groups="base.group_system")
+    temando_client_id = fields.Char(string='Temando Client Id', groups="base.group_system")
     temando_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production Temando Web Services")
     temando_delivery_nature = fields.Selection([('Domestic', 'Domestic'), ('International', 'International')], default="Domestic", required=True)
     temando_delivery_type = fields.Selection([('Door to Door', 'Door to Door'), ('Depot to Depot', 'Depot to Depot')], required=True, default='Door to Door')
@@ -41,11 +41,12 @@ class ProviderTemando(models.Model):
     def temando_get_shipping_price_from_so(self, orders):
         res = []
         ResCurrency = self.env['res.currency']
+        superself = self.sudo()
 
         for order in orders:
             price = 0.0
 
-            request = TemandoRequest(self.temando_test_mode, self.temando_username, self.temando_password)
+            request = TemandoRequest(self.temando_test_mode, superself.temando_username, superself.temando_password)
             request.check_required_value(order.partner_shipping_id, order.warehouse_id.partner_id, order=order)
             request.set_quotes_anything_detail(self, order)
             request.set_anywhere_detail(self, order.warehouse_id.partner_id, order.partner_shipping_id)
@@ -76,6 +77,7 @@ class ProviderTemando(models.Model):
     def temando_send_shipping(self, pickings):
         res = []
         ResCurrency = self.env['res.currency']
+        superself = self.sudo()
 
         for picking in pickings:
 
@@ -83,7 +85,7 @@ class ProviderTemando(models.Model):
             if not sale_order:
                 raise ValidationError(_("This picking cannot be sent through Temando, as it has no linked sale order"))
 
-            request = TemandoRequest(self.temando_test_mode, self.temando_username, self.temando_password)
+            request = TemandoRequest(self.temando_test_mode, superself.temando_username, superself.temando_password)
 
             currency_order = sale_order.currency_id or picking.company_id.currency_id
             total_price = sum([(line.product_id.lst_price * line.product_uom_qty) for line in picking.move_lines]) or 0.0
@@ -97,7 +99,7 @@ class ProviderTemando(models.Model):
 
             request.set_carrier_quotefilter_detail(sale_order)
 
-            request.set_client_reference(self.temando_client_id)
+            request.set_client_reference(superself.temando_client_id)
             request.set_general_detail(currency_order.name, total_price, self.temando_delivery_nature)
             request.set_payment_detail()
             request.set_labelprinter_detail()
@@ -134,9 +136,10 @@ class ProviderTemando(models.Model):
         return res
 
     def temando_cancel_shipment(self, picking):
-        request = TemandoRequest(self.temando_test_mode, self.temando_username, self.temando_password)
+        superself = self.sudo()
+        request = TemandoRequest(self.temando_test_mode, superself.temando_username, superself.temando_password)
 
-        request.set_deletion_detail(self.temando_client_id, picking.carrier_tracking_ref)
+        request.set_deletion_detail(superself.temando_client_id, picking.carrier_tracking_ref)
         result = request.cancel_shipment()
 
         if result.get('error_message'):
