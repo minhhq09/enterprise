@@ -363,7 +363,7 @@ class AccountFinancialReportLine(models.Model):
                     name = line._get_gb_name(domain_id)
                     vals = {
                         'id': domain_id,
-                        'name': len(name) >= 45 and name[0:40] + '...' or name,
+                        'name': name and len(name) >= 45 and name[0:40] + '...' or name,
                         'level': 1,
                         'type': groupby,
                         'footnotes': context._get_footnotes(groupby, domain_id),
