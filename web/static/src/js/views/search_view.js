@@ -202,7 +202,7 @@ var FacetView = Widget.extend({
         return $.when(this._super()).then(function () {
             return $.when.apply(null, self.model.values.map(function (value, index) {
                 if (index > 0) {
-                    $('<span/>', {html: self.model.get('separator')}).addClass('o_facet_values_sep').appendTo($e);
+                    $('<span/>', {html: self.model.get('separator') || _t(" or ")}).addClass('o_facet_values_sep').appendTo($e);
                 }
                 return new FacetValueView(self, value).appendTo($e);
             }));
