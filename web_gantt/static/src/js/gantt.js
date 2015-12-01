@@ -549,6 +549,16 @@ var GanttView = View.extend({
         gantt.showDate(self.focus_date);
         gantt.parse({"data": gantt_tasks});
 
+        gantt.sort(function(a, b){
+            if (gantt.hasChild(a.id) && !gantt.hasChild(b.id)){
+                return -1;
+            } else if (!gantt.hasChild(a.id) && gantt.hasChild(b.id)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
         // End of horrible hack
         var scroll_state = gantt.getScrollState();
         this.$el.append(this.$div.contents());
@@ -740,15 +750,6 @@ var GanttView = View.extend({
                 }
             }
 
-            gantt.sort(function(a, b){
-                if (gantt.hasChild(a.id) && !gantt.hasChild(b.id)){
-                    return -1;
-                } else if (!gantt.hasChild(a.id) && gantt.hasChild(b.id)) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
             self.open_task_id = undefined;
 
             return true;
