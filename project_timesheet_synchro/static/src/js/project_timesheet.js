@@ -20,6 +20,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             "Opportunities don't happen, you create them.",
             "You can do anything, but not everything.",
     ];
+    var SANITIZERREGEX = /\./g; // Since it will be used in a loop, we don't want to compile the regex at each iteration.
 
     //Main widget to instantiate the app
     var ProjectTimesheet = Widget.extend({
@@ -66,12 +67,14 @@ odoo.define('project_timeshee.ui', function (require ) {
                     self.user = session.username;
                     self.server = session.origin;
                     self.get_user_data(self.user, self.server);
+                    self.sanitize_all_ids();
                 });
             }
             else {
                 self.user = localStorage.getItem('pt_current_user') ? localStorage.getItem('pt_current_user') : "$no_user$";
                 self.server = localStorage.getItem('pt_current_server') ? localStorage.getItem('pt_current_server') : "$no_server$";
                 self.get_user_data(self.user, self.server);
+                self.sanitize_all_ids();
                 return $.Deferred().resolve();
             }
         },
@@ -192,7 +195,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         'next_aal_id': 1,
                         'next_project_id': 1,
                         'next_task_id': 1,
-                        'module_key': 'Project_timesheet_UI_',
+                        'module_key': 'project_timesheet_synchro.',
                         'original_timestamp': timestamp,
                         'settings': {
                             'default_project_id': undefined,
@@ -454,6 +457,37 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         reset_app : function() {
             localStorage.clear();
+        },
+        // Odoo XML ids require a specific format : module.id.
+        // This function removes any extra dot contained in an id string
+        sanitize_xml_id: function(xml_id) {
+            return xml_id.replace(SANITIZERREGEX, '');
+        },
+        // Cleans ids that were created earlier with a wrong format and module key.
+        fix_id: function(id) {
+            if(id && id.indexOf('Project_timesheet_UI') >= 0) {
+                id = id.replace(SANITIZERREGEX, '');
+                id = 'project_timesheet_synchro.' + id.replace(/Project_timesheet_UI/, '');
+            }
+            return id;
+        },
+        // Some ids that were created earlier do not respect the conventions.
+        // This method ensures that all ids are valid.
+        sanitize_all_ids: function() {
+            var self = this;
+            _.each(self.data.projects, function(project) {
+                project.id = self.fix_id(project.id);
+            });
+            _.each(self.data.tasks, function(task) {
+                task.id = self.fix_id(task.id);
+                task.project_id = self.fix_id(task.project_id);
+            });
+            _.each(self.data.account_analytic_lines, function(aal) {
+                aal.id = self.fix_id(aal.id);
+                aal.task_id = self.fix_id(aal.task_id);
+                aal.project_id = self.fix_id(aal.project_id);
+            });
+            self.save_user_data();
         },
     });
 
@@ -941,7 +975,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
 
             var activity = {
-                id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id,
+                id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id),
                 project_id : event.currentTarget.dataset.project_id,
                 task_id : task_id,
                 date : time_module.date_to_str(new Date()),
@@ -1016,7 +1050,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
+                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1147,7 +1181,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_project." + self.getParent().data.next_project_id,
+                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1189,7 +1223,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_task." + self.getParent().data.next_task_id,
+                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_task_" + self.getParent().data.next_task_id),
                         name : user_input.trim(),
                         isNew: true,
                         project_id: self.activity.project_id
@@ -1305,7 +1339,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             // Create operations
             if (_.isUndefined(stored_activity)) {
                 this.getParent().data.account_analytic_lines.unshift({
-                    id : self.getParent().data.module_key + self.getParent().user + self.getParent().data.original_timestamp + "_aal." + self.getParent().data.next_aal_id
+                    id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id)
                 });
                 stored_activity = this.getParent().data.account_analytic_lines[0];
                 stored_activity.date = this.activity.date;
@@ -1659,7 +1693,6 @@ odoo.define('project_timeshee.ui', function (require ) {
             session.origin = server_address;
             session.setup(server_address, {use_cors : true});
             session._session_authenticate(db_name, login, password).then(function() {
-                console.log('Login Successful');
                 self.getParent().show_db_selector_screen();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
