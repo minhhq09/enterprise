@@ -23,20 +23,6 @@
     </xpath>
 </template>
 <template id='report_followup_body' inherit_id='account_reports.report_followup_body'>
-    <xpath expr="//h2/span/a" position='before'>
-        <span t-if="not context.env.context.get('public')" class="dropdown" t-att-data-partner='context.partner_id.id'>
-            <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='trustDropdown'>
-                <i t-if="context.partner_id.trust == 'good'" class="fa fa-circle oe-account_followup-trust" style="color: green; font-size: 0.8em;"></i>
-                <i t-if="context.partner_id.trust == 'normal'" class="fa fa-circle oe-account_followup-trust" style="color: grey; font-size: 0.8em;"></i>
-                <i t-if="context.partner_id.trust == 'bad'" class="fa fa-circle oe-account_followup-trust" style="color: red; font-size: 0.8em;"></i>
-            </span>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="trustDropdown">
-                <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='good'><i class="fa fa-circle" style="color: green;"></i> Good Debtor</a></li>
-                <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='normal'><i class="fa fa-circle" style="color: grey;"></i> Normal Debtor</a></li>
-                <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='bad'><i class="fa fa-circle" style="color: red;"></i> Bad Debtor</a></li>
-            </ul>
-        </span>
-    </xpath>
     <xpath expr="//span[@id='action-buttons']" position='replace'>
         <span id='action-buttons' t-if="mode != 'print'" class='o_account_reports_followup_not_clicked'>
             <button t-if='context.level.send_letter' data-primary='1' class="btn btn-primary followup-letter" t-att-data-partner="str(context.partner_id.id)" t-att-data-target="'/account_reports/followup_report/' + str(context.partner_id.id) + '/'">Print Letter</button>

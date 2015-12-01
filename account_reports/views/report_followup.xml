@@ -95,7 +95,21 @@
     </xpath>
     <xpath expr="//h2" position="replace">
         <h2>
-            <span t-if="not context.env.context.get('public')"><a t-att-data-active-id="context.partner_id.id" data-res-model="res.partner" class="o_account_reports_web_action"><t t-esc='context.partner_id.name' /></a></span>
+            <span t-if="not context.env.context.get('public')">
+                <span t-if="not context.env.context.get('public')" class="dropdown" t-att-data-partner='context.partner_id.id'>
+                    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='trustDropdown'>
+                        <i t-if="context.partner_id.trust == 'good'" class="fa fa-circle oe-account_followup-trust" style="color: green; font-size: 0.8em;"></i>
+                        <i t-if="context.partner_id.trust == 'normal'" class="fa fa-circle oe-account_followup-trust" style="color: grey; font-size: 0.8em;"></i>
+                        <i t-if="context.partner_id.trust == 'bad'" class="fa fa-circle oe-account_followup-trust" style="color: red; font-size: 0.8em;"></i>
+                    </span>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="trustDropdown">
+                        <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='good'><i class="fa fa-circle" style="color: green;"></i> Good Debtor</a></li>
+                        <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='normal'><i class="fa fa-circle" style="color: grey;"></i> Normal Debtor</a></li>
+                        <li role='presentation'><a role='menuitem' class='changeTrust' data-new-trust='bad'><i class="fa fa-circle" style="color: red;"></i> Bad Debtor</a></li>
+                    </ul>
+                </span>
+                <a t-att-data-active-id="context.partner_id.id" data-res-model="res.partner" class="o_account_reports_web_action"><t t-esc='context.partner_id.name' /></a>
+            </span>
             <span t-if="context.env.context.get('public')"><t t-esc='context.partner_id.name' /></span>
         </h2>
     </xpath>

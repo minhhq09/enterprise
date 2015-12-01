@@ -14,14 +14,6 @@ Tour.register({
             title:      "wait web client",
             waitFor:    ".o_account_reports_page:contains(Epic Technologies)",
         },
-        {
-            title:      "click trust ball",
-            waitFor:    ".o_account_reports_page:contains(Epic Technologies) i.oe-account_followup-trust",
-        },
-        {
-            title:      "change trust",
-            waitFor:    ".o_account_reports_page:contains(Epic Technologies) a[data-new-trust='good']",
-        },
     ]
 });
 });

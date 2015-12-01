@@ -14,6 +14,7 @@ var QWeb = core.qweb;
 
 var FollowupReportWidget = ReportWidget.extend({
     events: _.defaults({
+        'click .changeTrust': 'changeTrust',
         'click .change_exp_date': 'displayExpNoteModal',
         'click .followup-email': 'sendFollowupEmail',
         'click .followup-letter': 'printFollowupLetter',
@@ -23,6 +24,25 @@ var FollowupReportWidget = ReportWidget.extend({
         "change *[name='blocked']": 'onChangeBlocked',
         'click .o_account_reports_followup-set-next-action': 'setNextAction',
     }, ReportWidget.prototype.events),
+    changeTrust: function(e) {
+        var partner_id = $(e.target).parents('span.dropdown').data("partner");
+        var newTrust = $(e.target).data("new-trust");
+        if (!newTrust) {
+            newTrust = $(e.target).parents('a.changeTrust').data("new-trust");
+        }
+        var color = 'grey';
+        switch(newTrust) {
+            case 'good':
+                color = 'green';
+                break;
+            case 'bad':
+                color = 'red';
+                break;
+        }
+        return new Model('res.partner').call('write', [[parseInt(partner_id, 10)], {'trust': newTrust}]).then(function () {
+            $(e.target).parents('span.dropdown').find('i.oe-account_followup-trust').attr('style', 'color: ' + color + '; font-size: 0.8em;');
+        });
+    },
     enableAuto: function(e) { // Auto mode is enabled -> Next action is computed automatically when clicking on 'Done'
         var target_id;
         if ($(e.target).is('.btn-default')) { // If auto mode wasn't alreayd enabled

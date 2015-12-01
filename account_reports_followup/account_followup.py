@@ -183,7 +183,6 @@ class res_partner(models.Model):
                                              help="Optionally you can assign a user to this field, which will make him responsible for the action.",
                                              track_visibility="onchange", copy=False, company_dependent=True)
     payment_note = fields.Text('Customer Payment Promise', help="Payment Note", track_visibility="onchange", copy=False, company_dependent=True)
-    trust = fields.Selection([('good', 'Good Debtor'), ('normal', 'Normal Debtor'), ('bad', 'Bad Debtor')], string='Degree of trust you have in this debtor', default='normal', company_dependent=True)
 
 
 class account_config_settings(models.TransientModel):

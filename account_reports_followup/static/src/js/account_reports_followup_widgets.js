@@ -39,7 +39,6 @@ account_report_followup_generic.include({
 
 FollowupReportWidget.include({
     events: _.defaults({
-        'click .changeTrust': 'changeTrust',
         'click .followup-action': 'doManualAction',
     }, FollowupReportWidget.prototype.events),
     onKeyPress: function(e) {
@@ -74,25 +73,6 @@ FollowupReportWidget.include({
                 });
             })
         }
-    },
-    changeTrust: function(e) {
-        var partner_id = $(e.target).parents('span.dropdown').data("partner");
-        var newTrust = $(e.target).data("new-trust");
-        if (!newTrust) {
-            newTrust = $(e.target).parents('a.changeTrust').data("new-trust");
-        }
-        var color = 'grey';
-        switch(newTrust) {
-            case 'good':
-                color = 'green';
-                break;
-            case 'bad':
-                color = 'red';
-                break;
-        }
-        return new Model('res.partner').call('write', [[parseInt(partner_id, 10)], {'trust': newTrust}]).then(function () {
-            $(e.target).parents('span.dropdown').find('i.oe-account_followup-trust').attr('style', 'color: ' + color + '; font-size: 0.8em;');
-        });
     },
     doManualAction: function(e) {
         e.stopPropagation();

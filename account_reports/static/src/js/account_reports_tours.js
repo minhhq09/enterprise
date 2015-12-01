@@ -150,6 +150,14 @@ Tour.register({
             waitFor:    ".o_account_reports_page:contains(Agrolait)",
         },
         {
+            title:      "click trust ball",
+            waitFor:    ".o_account_reports_page:contains(Agrolait) i.oe-account_followup-trust",
+        },
+        {
+            title:      "change trust",
+            waitFor:    ".o_account_reports_page:contains(Agrolait) a[data-new-trust='good']",
+        },
+        {
             title:      "click excluded",
             element:    ".o_account_reports_page:contains(Best Designers) input[name='blocked']",
         },
