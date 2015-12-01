@@ -479,11 +479,15 @@ var GanttView = View.extend({
         // Creation of the chart
         var gantt_tasks = [];
         var generate_tasks = function(task, level, parent_id) {
+            if ((task.__is_group && !task.group_start) || (!task.__is_group && !task.task_start)) {
+                return;
+            }
             if (task.__is_group) {
                 // Only add empty group for the first level
                 if (level > 0 && task.tasks.length === 0){
                     return;
                 }
+
                 var project_id = _.uniqueId("gantt_project_");
                 var group_name = task.name ? formats.format_value(task.name, self.fields[group_bys[level]]) : "-";
                 // progress
