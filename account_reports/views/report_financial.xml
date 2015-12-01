@@ -53,6 +53,8 @@
                 <a data-toggle="dropdown" href='#'>
                     <span t-att-data-id="a.get('id')" t-att-class="' '.join([a['type'], domainClass])">
                         <t t-esc="a.get('name')"/>
+                        <i t-if="report.get_title() == 'Aged Receivable' and a['trust'] == 'bad'" class="fa fa-circle" style="color: red; font-size: 0.8em;"></i>
+                        <i t-if="report.get_title() == 'Aged Receivable' and a['trust'] == 'good'" class="fa fa-circle" style="color: green; font-size: 0.8em;"></i>
                     </span>
                     <span class="caret"></span>
                 </a>

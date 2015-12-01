@@ -369,6 +369,8 @@ class AccountFinancialReportLine(models.Model):
                         'footnotes': context._get_footnotes(groupby, domain_id),
                         'columns': res[domain_id],
                     }
+                    if line.financial_report_id.name == 'Aged Receivable':
+                        vals['trust'] = self.env['res.partner'].browse([domain_id]).trust
                     lines.append(vals)
                 if domain_ids:
                     lines.append({
