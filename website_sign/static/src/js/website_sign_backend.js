@@ -497,7 +497,7 @@ odoo.define('website_sign.backend', function(require) {
         addSigner: function(roleID, roleName, multiple) {
             var $newSigner = $('<div/>').addClass('o_sign_new_signer form-group');
 
-            $newSigner.append($('<label/>').addClass('col-md-3').html(roleName).data('role', roleID));
+            $newSigner.append($('<label/>').addClass('col-md-3').text(roleName).data('role', roleID));
             
             var $signerInfo = $('<select/>').attr('placeholder', _t("Write email or search contact..."));
             if(multiple) {
@@ -927,7 +927,7 @@ odoo.define('website_sign.backend', function(require) {
 
             if(this.editMode) {
                 var responsibleName = this.parties[$signatureItem.data('responsible')].name;
-                $signatureItem.find('.o_sign_responsible_display').html(responsibleName).prop('title', responsibleName);
+                $signatureItem.find('.o_sign_responsible_display').text(responsibleName).prop('title', responsibleName);
             }
         },
     });
@@ -1294,16 +1294,16 @@ odoo.define('website_sign.backend', function(require) {
                 formatResult: function(data, resultElem, searchObj) {
                     if(!data.text) {
                         $(data.element[0]).data('create_name', searchObj.term);
-                        return _t("Create: \"") + searchObj.term + "\"";
+                        return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""});
                     }
-                    return data.text;
+                    return $("<div/>", {text: data.text});
                 },
 
                 formatSelection: function(data) {
                     if(!data.text) {
-                        return $(data.element[0]).data('create_name');
+                        return $("<div/>", {text: $(data.element[0]).data('create_name')}).html();
                     }
-                    return data.text;
+                    return $("<div/>", {text: data.text}).html();
                 },
 
                 matcher: function(search, data) {
@@ -1318,7 +1318,7 @@ odoo.define('website_sign.backend', function(require) {
                 var $select = $(e.target), $option = $(e.added.element[0]);
 
                 var resp = parseInt($option.val());
-                var name = $option.html() || $option.data('create_name');
+                var name = $option.text() || $option.data('create_name');
                 
                 if(resp >= 0 || !name) {
                     return false;
@@ -1337,7 +1337,7 @@ odoo.define('website_sign.backend', function(require) {
             for(var id in parties) {
                 $responsibleSelect.append($('<option/>', {
                     value: parseInt(id),
-                    html: parties[id].name,
+                    text: parties[id].name,
                 }));
             }
             $responsibleSelect.append($('<option/>', {value: -1}));
@@ -1379,10 +1379,10 @@ odoo.define('website_sign.backend', function(require) {
                         var partnerMatch = searchObj.term.match(/(?:\s|\()*(((?:\w|-|\.)+)@(?:\w|-)+\.(?:\w|-)+)(?:\s|\))*/);
                         if(!partnerMatch || partnerMatch[1] === undefined) {
                             $elem.removeData('name mail');
-                            return $("<div/>", {html: _t("Create: \"") + searchObj.term + "\""})
+                            return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""})
                                     .addClass('o_sign_create_partner')
                                     .append($("<span/>").addClass('fa fa-exclamation-circle'))
-                                    .append($("<span/>", {html: _t("Enter email (and name if you want)")}).addClass('small'));
+                                    .append($("<span/>", {text: _t("Enter email (and name if you want)")}).addClass('small'));
                         } else {
                             var index = searchObj.term.indexOf(partnerMatch[0]);
                             var name = searchObj.term.substr(0, index) + " " + searchObj.term.substr(index + partnerMatch[0].length);
@@ -1391,13 +1391,13 @@ odoo.define('website_sign.backend', function(require) {
                             }
 
                             $elem.data({name: name, mail: partnerMatch[1]});
-                            return $("<div/>", {html: _t("Create: \"") + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\""})
+                            return $("<div/>", {text: _t("Create: \"") + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\""})
                                 .addClass('o_sign_create_partner')
                                 .append($("<span/>").addClass('fa fa-check-circle'));
                         }
                     }
 
-                    return $("<div/>", {html: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).addClass('o_sign_add_partner');
+                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).addClass('o_sign_add_partner');
                 },
 
                 formatSelection: function(data) {
@@ -1406,7 +1406,7 @@ odoo.define('website_sign.backend', function(require) {
                         return _t("Error");
                     }
 
-                    return ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")";
+                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).html();
                 },
 
                 matcher: function(search, data) {
@@ -1446,11 +1446,11 @@ odoo.define('website_sign.backend', function(require) {
                             $select.data('newNumber', newNumber);
 
                             $option.val(newNumber);
-                            $option.html('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
+                            $option.text('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
 
                             var $newOption = $('<option/>', {
                                 value: 0,
-                                html: "{}"
+                                text: "{}",
                             });
                             $select.find('option').filter(':last').after($newOption);
                         }
@@ -1485,12 +1485,12 @@ odoo.define('website_sign.backend', function(require) {
             for(var i = 0 ; i < data.length ; i++) {
                 $partnerSelect.append($('<option/>', {
                     value: data[i]['id'],
-                    html: JSON.stringify(data[i])
+                    text: JSON.stringify(data[i]),
                 }));
             }
             $partnerSelect.append($('<option/>', {
                 value: 0,
-                html: "{}",
+                text: "{}",
             }));
 
             getPartnerSelectConfiguration.def.resolve($partnerSelect.html(), select2Options, selectChangeHandler);
