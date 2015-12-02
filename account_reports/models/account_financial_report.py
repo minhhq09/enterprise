@@ -158,7 +158,7 @@ class AccountFinancialReportLine(models.Model):
 
     def _format(self, value):
         if self.env.context.get('no_format'):
-            return round(value, 1)
+            return value
         if self.figure_type == 'float':
             currency_id = self.env.user.company_id.currency_id
             if currency_id.is_zero(value):
@@ -357,11 +357,13 @@ class AccountFinancialReportLine(models.Model):
             lines = [vals]
             groupby = line.groupby or 'aml'
             if line in context.unfolded_lines or line.show_domain == 'always':
+                if line.groupby == 'partner_id' or line.groupby == 'account_id':
+                    domain_ids = sorted(list(domain_ids), key=lambda k: line._get_gb_name(k))
                 for domain_id in domain_ids:
                     name = line._get_gb_name(domain_id)
                     vals = {
                         'id': domain_id,
-                        'name': len(name) >= 45 and name[0:40] + '...' or name,
+                        'name': name and len(name) >= 45 and name[0:40] + '...' or name,
                         'level': 1,
                         'type': groupby,
                         'footnotes': context._get_footnotes(groupby, domain_id),

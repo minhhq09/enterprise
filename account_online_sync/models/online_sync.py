@@ -119,7 +119,7 @@ class AccountJournal(models.Model):
 
     @api.one
     def _compute_next_synchronization(self):
-        self.next_synchronization = self.env['ir.cron'].search([('name', '=', 'online.sync.gettransaction.cron')], limit=1).nextcall
+        self.next_synchronization = self.env['ir.cron'].sudo().search([('name', '=', 'online.sync.gettransaction.cron')], limit=1).nextcall
 
     @api.multi
     def get_journal_dashboard_datas(self):

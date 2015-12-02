@@ -68,7 +68,7 @@ class AccountBankStatementImport(models.TransientModel):
                 if not line:
                     continue
                 if line[0] == 'D':  # date of transaction
-                    dayfirst = self.qif_date_format == 'day_first'
+                    dayfirst = self.env.context.get('qif_date_format') == 'day_first'
                     vals_line['date'] = dateutil.parser.parse(line[1:], fuzzy=True, dayfirst=dayfirst).date()
                 elif line[0] == 'T':  # Total amount
                     total += float(line[1:].replace(',', ''))

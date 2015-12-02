@@ -464,7 +464,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
                 self.dataset.index = self.records.length ? 0 : null;
             }
             self.load_list().then(function () {
-                if (self.display_nocontent_helper()) {
+                if (!self.grouped && self.display_nocontent_helper()) {
                     self.no_result();
                 }
                 reloaded.resolve();
@@ -1110,7 +1110,7 @@ ListView.List = Class.extend( /** @lends instance.web.ListView.List# */{
                     ids = value;
                 }
                 new Model(column.relation)
-                    .call('name_get', [ids, this.dataset.context]).done(function (names) {
+                    .call('name_get', [ids, this.dataset.get_context()]).done(function (names) {
                         // FIXME: nth horrible hack in this poor listview
                         record.set(column.id + '__display',
                                    _(names).pluck(1).join(', '));

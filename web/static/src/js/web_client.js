@@ -69,6 +69,11 @@ var WebClient = Widget.extend({
             this.notification_manager.warn(title, message, sticky);
         });
 
+        core.bus.on('change_menu_section', this, function (menu_id) {
+            this.do_push_state(_.extend($.bbq.getState(), {
+                menu_id: menu_id,
+            }));
+        });
 
         return session.session_bind(this.origin).then(function () {
             self.bind_events();
@@ -301,6 +306,9 @@ var WebClient = Widget.extend({
     do_push_state: function(state) {
         this.set_title(state.title);
         delete state.title;
+        if (!state.menu_id) {
+            state.menu_id = this.menu.current_primary_menu;
+        }
         var url = '#' + $.param(state);
         this._current_state = $.deparam($.param(state), false);     // stringify all values
         $.bbq.pushState(url);
@@ -315,12 +323,30 @@ var WebClient = Widget.extend({
             var stringstate = event.getState(false);
             if (!_.isEqual(this._current_state, stringstate)) {
                 var state = event.getState(true);
-                if (!state.action && state.menu_id) {
-                    var action_id = self.menu.menu_id_to_action_id(state.menu_id);
-                    self.do_action(action_id, {clear_breadcrumbs: true}).then(update_menu);
-                } else if (state.action || (state.model && (state.view_type || state.id))) {
+                if (state.action || (state.model && (state.view_type || state.id))) {
                     state._push_me = false;  // no need to push state back...
-                    self.action_manager.do_load_state(state, !!this._current_state).then(update_menu);
+                    self.action_manager.do_load_state(state, !!this._current_state).then(function () {
+                        if (state.menu_id) {
+                            if (state.menu_id !== self.menu.current_primary_menu) {
+                                core.bus.trigger('change_menu_section', state.menu_id);
+                            }
+                        } else {
+                            var action = self.action_manager.get_inner_action();
+                            if (action) {
+                                var menu_id = self.menu.action_id_to_primary_menu_id(action.get_action_descr().id);
+                                if (menu_id) {
+                                    core.bus.trigger('change_menu_section', menu_id);
+                                }
+                            }
+                        }
+                        self.toggle_app_switcher(false);
+                    });
+                } else if (state.menu_id) {
+                    var action_id = self.menu.menu_id_to_action_id(state.menu_id);
+                    self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
+                        core.bus.trigger('change_menu_section', state.menu_id);
+                        self.toggle_app_switcher(false);
+                    });
                 } else {
                     self.toggle_app_switcher(true);
                 }
@@ -328,17 +354,6 @@ var WebClient = Widget.extend({
             this._current_state = stringstate;
         }
         this._ignore_hashchange = false;
-
-        function update_menu() {
-            var action = self.action_manager.get_inner_action();
-            if (action) {
-                var menu_id = self.menu.action_id_to_primary_menu_id(action.get_action_descr().id);
-                if (menu_id) {
-                    core.bus.trigger('change_menu_section', menu_id);
-                }
-            }
-            self.toggle_app_switcher(false);
-        }
     },
     // --------------------------------------------------------------
     // Menu handling

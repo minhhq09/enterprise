@@ -34,7 +34,7 @@ odoo.define('website.app_switcher', function(require) {
                     if(!self.app_switcher) {
                         session.session_reload().then(function() { // hack to get uid
                             var Menus = new Model('ir.ui.menu');
-                            return Menus.call('load_menus_root').then(function(menu_data) {
+                            return Menus.call('load_menus_root', {context: session.user_context}).then(function(menu_data) {
                                 for(var i = 0 ; i < menu_data.children.length ; i++) {
                                     menu_data.children[i]['href'] = '/web' + ((session.debug)? '?debug' : '') + '#menu_id=' + menu_data.children[i].id + '&action='
                                                                     + ((menu_data.children[i].action)? menu_data.children[i].action.split(',')[1] : '');

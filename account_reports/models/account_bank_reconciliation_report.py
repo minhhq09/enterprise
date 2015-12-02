@@ -65,11 +65,12 @@ class account_bank_reconciliation_report(models.AbstractModel):
 
     def add_bank_statement_line(self, line, amount):
         self.line_number += 1
+        name = line.name
         return {
             'id': self.line_number,
             'statement_id': line.statement_id.id,
             'type': 'bank_statement_id',
-            'name': line.name,
+            'name': len(name) >= 85 and name[0:80] + '...' or name,
             'footnotes': self.env.context['context_id']._get_footnotes('bank_statement_id', self.line_number),
             'columns': [line.date, line.ref, self._format(amount)],
             'level': 1,
