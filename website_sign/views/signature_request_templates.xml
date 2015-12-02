@@ -211,15 +211,15 @@
 
                     <div class="col-md-4 mb8">
                         <t t-if="signature_request.state != 'signed'">
-                            <h5 class="page-header mb8 mt8">Waiting Signatures (<t t-raw="str(len(signature_request.request_item_ids)-signature_request.nb_closed)"/>)</h5>
+                            <h5 class="page-header mb8 mt8">Waiting Signatures (<t t-esc="str(len(signature_request.request_item_ids)-signature_request.nb_closed)"/>)</h5>
                             <t t-foreach="signature_request.request_item_ids" t-as="sign">
-                                <div t-if="sign.state != 'completed'" class="clearfix"><b><t t-raw="sign.partner_id.name if sign.partner_id else 'Public user'"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/> <button t-if="env.user.id == signature_request.create_uid.id and sign.state != 'draft'" type="button" t-att-data-id="sign.id" class="o_sign_resend_access_button btn btn-link fa fa-envelope pull-right" title="Resend the invitation" style="padding:0;"/><em t-if="sign.state != 'sent'"><br/>(the mail access has not been sent)</em></div>
+                                <div t-if="sign.state != 'completed'" class="clearfix"><b><t t-esc="sign.partner_id.name if sign.partner_id else 'Public user'"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/> <button t-if="env.user.id == signature_request.create_uid.id and sign.state != 'draft'" type="button" t-att-data-id="sign.id" class="o_sign_resend_access_button btn btn-link fa fa-envelope pull-right" title="Resend the invitation" style="padding:0;"/><em t-if="sign.state != 'sent'"><br/>(the mail access has not been sent)</em></div>
                             </t>
                         </t>
                         <t t-if="signature_request.nb_closed > 0">
-                            <h5 t-att-class="'page-header mb8 ' + ('mt8' if signature_request.state == 'signed' else 'mt16')">Signed (<t t-raw="str(signature_request.nb_closed) +'/'+ str(len(signature_request.request_item_ids))"/>)</h5>
+                            <h5 t-att-class="'page-header mb8 ' + ('mt8' if signature_request.state == 'signed' else 'mt16')">Signed (<t t-esc="str(signature_request.nb_closed) +'/'+ str(len(signature_request.request_item_ids))"/>)</h5>
                             <t t-foreach="signature_request.request_item_ids" t-as="sign">
-                                <div t-if="sign.state == 'completed'" class="clearfix"><img t-if="sign.signature" class="media-object pull-right" t-attf-src="/web/binary/image?model=signature.request.item&amp;field=signature&amp;id={{sign.id}}" style="width: 30%;"/><b><t t-raw="sign.partner_id.name"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/><br/><em>Signed on <span t-field="sign.signing_date"></span></em></div>
+                                <div t-if="sign.state == 'completed'" class="clearfix"><img t-if="sign.signature" class="media-object pull-right" t-attf-src="/web/binary/image?model=signature.request.item&amp;field=signature&amp;id={{sign.id}}" style="width: 30%;"/><b><t t-esc="sign.partner_id.name"/></b><t t-esc="(' - ' + sign.role_id.name) if sign.role_id else ''"/><br/><em>Signed on <span t-field="sign.signing_date"></span></em></div>
                             </t>
                         </t>
                     </div>

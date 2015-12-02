@@ -37,14 +37,14 @@
                             var $elem = $(data.element[0]);
                             if(!partnerInfo) {
                                 $elem.removeData('name mail');
-                                return "Create: \"" + searchObj.term + "\" <span class='fa fa-exclamation-circle' style='color:rgb(255, 192, 128);'/> <span style='font-size:0.7em'>Enter mail (and name if you want)</span>";
+                                return $("<div/>", {text: "Create: \"" + searchObj.term + "\""}).html() + " <span class='fa fa-exclamation-circle' style='color:rgb(255, 192, 128);'/> <span style='font-size:0.7em'>Enter mail (and name if you want)</span>";
                             }
 
                             $elem.data(partnerInfo);
-                            return "Create: \"" + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\" <span class='fa fa-check-circle' style='color:rgb(128, 255, 128);'/>";
+                            return $("<div/>", {text: "Create: \"" + $elem.data('name') + " (" + $elem.data('mail') + ")\""}).html() + " <span class='fa fa-check-circle' style='color:rgb(128, 255, 128);'/>";
                         }
 
-                        return $("<div/>", {html: ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")"}).css('border-bottom', '1px dashed silver');
+                        return $("<div/>", {text: ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")"}).css('border-bottom', '1px dashed silver');
                     },
 
                     formatSelection: function(data) {
@@ -52,7 +52,7 @@
                         if($.isEmptyObject(partner))
                             return "Error";
 
-                        return ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")";
+                        return $("<div/>", {text: ((partner['new'])? "New: " : "") + partner.name + " (" + partner.email + ")"}).html();
                     },
 
                     matcher: function(search, data) {
@@ -88,11 +88,11 @@
                                 $select.data('newNumber', newNumber);
 
                                 $option.val(newNumber);
-                                $option.html('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
+                                $option.text('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
 
                                 var $newOption = $('<option/>', {
                                     value: 0,
-                                    html: "{}"
+                                    text: "{}"
                                 });
                                 $select.find('option').filter(':last').after($newOption);
                             }
@@ -119,11 +119,11 @@
                     for(var i = 0 ; i < data.length ; i++)
                         $partnerSelect.append($('<option/>', {
                             value: data[i]['id'],
-                            html: JSON.stringify(data[i])
+                            text: JSON.stringify(data[i])
                         }));
                     $partnerSelect.append($('<option/>', {
                         value: 0,
-                        html: "{}"
+                        text: "{}"
                     }));
 
                     return self.getPartnerSelectConfiguration.def.resolve($partnerSelect.html(), select2Options, selectChangeHandler).promise();
@@ -201,15 +201,15 @@
                     formatResult: function(data, resultElem, searchObj) {
                         if(!data.text) {
                             $(data.element[0]).data('create_name', searchObj.term);
-                            return "Create: \"" + searchObj.term + "\"";
+                            return $("<div/>", {text: "Create: \"" + searchObj.term + "\""});
                         }
-                        return data.text;
+                        return $("<div/>", {text: data.text});
                     },
 
                     formatSelection: function(data) {
                         if(!data.text)
-                            return $(data.element[0]).data('create_name');
-                        return data.text;
+                            return $("<div/>", {text: $(data.element[0]).data('create_name')}).html();
+                        return $("<div/>", {text: data.text}).html();
                     },
 
                     matcher: function(search, data) {
@@ -223,7 +223,7 @@
                     var $select = $(e.target), $option = $(e.added.element[0]);
 
                     var resp = parseInt($option.val());
-                    var name = $option.html() || $option.data('create_name');
+                    var name = $option.text() || $option.data('create_name');
                     
                     if(resp >= 0 || !name)
                         return false;
@@ -244,7 +244,7 @@
                 $('.o_sign_parties_input_info').each(function(i, el) {
                     $responsibleSelect.append($('<option/>', {
                         value: parseInt($(el).data('id')),
-                        html: $(el).data('name')
+                        text: $(el).data('name')
                     }));
                 });
                 $responsibleSelect.append($('<option/>', {value: -1}));
@@ -612,7 +612,7 @@
         },
 
         setTip: function(tip) {
-            this.$el.html(tip);
+            this.$el.text(tip);
         },
 
         onClick: function(e) {
@@ -1215,7 +1215,7 @@
 
             if(this.editMode) {
                 var responsibleName = websiteSign.getResponsibleName($signatureItem.data('responsible'));
-                $signatureItem.find('.o_sign_responsible_display').html(responsibleName).prop('title', responsibleName);
+                $signatureItem.find('.o_sign_responsible_display').text(responsibleName).prop('title', responsibleName);
             }
 
             var resp = $signatureItem.data('responsible');
@@ -1298,7 +1298,7 @@
         addSigner: function(roleID, roleName, multiple) {
             var $newSigner = $('<div/>').addClass('o_sign_new_signer form-group');
 
-            $newSigner.append($('<label/>').addClass('col-md-3 control-label').html(roleName).data('role', roleID));
+            $newSigner.append($('<label/>').addClass('col-md-3 control-label').text(roleName).data('role', roleID));
             
             var $signerInfo = $('<select placeholder="Write email or search contact..."/>');
             if(multiple)
