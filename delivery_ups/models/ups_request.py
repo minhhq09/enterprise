@@ -9,6 +9,7 @@ except ImportError:
 from PIL import Image
 import logging
 import os
+import re
 from urllib2 import URLError
 
 import suds
@@ -171,6 +172,9 @@ class UPSRequest():
         client.set_options(location='%s%s' % (self.endurl, api))
         return client
 
+    def _clean_phone_number(self, phone):
+        return re.sub('[^0-9]','', phone)
+
     def check_required_value(self, shipper, ship_from, ship_to, order=False, picking=False):
         required_field = {'street': 'Street', 'city': 'City', 'zip': 'ZIP code', 'country_id': 'Country', 'phone': 'Phone'}
         # Check required field for shipper
@@ -179,18 +183,24 @@ class UPSRequest():
             res.append('State')
         if res:
             raise ValidationError(_("The address of your company is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(shipper.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120115')))
         # Check required field for warehouse address
         res = [required_field[field] for field in required_field if not ship_from[field]]
         if ship_from.country_id.code in ('US', 'CA', 'IE') and not ship_from.state_id.code:
             res.append('State')
         if res:
             raise ValidationError(_("The address of your warehouse is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(ship_from.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120313')))
         # Check required field for recipient address
         res = [required_field[field] for field in required_field if not ship_to[field]]
         if ship_to.country_id.code in ('US', 'CA', 'IE') and not ship_to.state_id.code:
             res.append('State')
         if res:
             raise ValidationError(_("The recipient address is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(ship_to.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120213')))
         if order:
             if not order.order_line:
                 raise ValidationError(_("Please provide at least one item to ship."))
@@ -349,7 +359,7 @@ class UPSRequest():
         if shipper.country_id.code in ('US', 'CA', 'IE'):
             shipment.Shipper.Address.StateProvinceCode = shipper.state_id.code or ''
         shipment.Shipper.ShipperNumber = self.shipper_number or ''
-        shipment.Shipper.Phone.Number = shipper.phone or ''
+        shipment.Shipper.Phone.Number = self._clean_phone_number(shipper.phone)
 
         shipment.ShipFrom.AttentionName = ship_from.name or ''
         shipment.ShipFrom.Name = ship_from.parent_id.name or ship_from.name or ''
@@ -359,7 +369,7 @@ class UPSRequest():
         shipment.ShipFrom.Address.CountryCode = ship_from.country_id.code or ''
         if ship_from.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipFrom.Address.StateProvinceCode = ship_from.state_id.code or ''
-        shipment.ShipFrom.Phone.Number = ship_from.phone or ''
+        shipment.ShipFrom.Phone.Number = self._clean_phone_number(ship_from.phone)
 
         shipment.ShipTo.AttentionName = ship_to.name or ''
         shipment.ShipTo.Name = ship_to.parent_id.name or ship_to.name or ''
@@ -369,7 +379,7 @@ class UPSRequest():
         shipment.ShipTo.Address.CountryCode = ship_to.country_id.code or ''
         if ship_to.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipTo.Address.StateProvinceCode = ship_to.state_id.code or ''
-        shipment.ShipTo.Phone.Number = ship_to.phone or ''
+        shipment.ShipTo.Phone.Number = self._clean_phone_number(ship_to.phone)
 
         shipment.Service.Code = service_type or ''
         shipment.Service.Description = 'Service Code'
