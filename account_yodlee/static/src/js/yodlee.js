@@ -217,8 +217,15 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         $.each(resp_json, function(k,v){
             // if (v.contentServiceInfo.containerInfo.containerName === 'credits' || v.contentServiceInfo.containerInfo.containerName === 'bank') {
                 $.each(v.itemData.accounts, function(index, value){
+                    var account_name = value.accountName;
+                    if (value.accountDisplayName !== undefined && value.accountDisplayName.defaultNormalAccountName !== undefined) {
+                        account_name = value.accountDisplayName.defaultNormalAccountName;
+                    }
+                    if (value.accountNumber !== undefined){
+                        account_name += ' ('+value.accountNumber+')';
+                    }
                     data = data.concat({
-                        name: value.accountName,
+                        name: account_name,
                         accountId: value.itemAccountId,
                         containerType: v.contentServiceInfo.containerInfo.containerName,
                         checked: selected,

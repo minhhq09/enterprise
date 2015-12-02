@@ -398,7 +398,11 @@ class AccountReportContextCommon(models.TransientModel):
                         given_context[field] = False
                     if given_context[field] == 'none':
                         given_context[field] = None
-                    update[field] = given_context[field]
+                    if field == 'company_ids': #  Needs to be treated differently as it's a many2many
+                        update[field] = [(6, 0, given_context[field])]
+                    else:
+                        update[field] = given_context[field]
+
             self.write(update)
             if 'force_account' in given_context and (not self.date_from or self.date_from == self.date_to):
                 self.date_from = self.env.user.company_id.compute_fiscalyear_dates(datetime.strptime(self.date_to, "%Y-%m-%d"))['date_from']

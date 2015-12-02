@@ -93,7 +93,7 @@ var GraphView = View.extend({
     },
     do_search: function (domain, context, group_by) {
         if (!this.widget) {
-            this.initial_groupbys = context.graph_groupbys || this.initial_groupbys;
+            this.initial_groupbys = context.graph_groupbys || (group_by.length ? group_by : this.initial_groupbys);
             this.widget = new GraphWidget(this, this.dataset.model, {
                 measure: context.graph_measure || this.active_measure,
                 mode: context.graph_mode || this.active_mode,

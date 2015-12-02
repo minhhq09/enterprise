@@ -202,7 +202,7 @@ var FacetView = Widget.extend({
         return $.when(this._super()).then(function () {
             return $.when.apply(null, self.model.values.map(function (value, index) {
                 if (index > 0) {
-                    $('<span/>', {html: self.model.get('separator')}).addClass('o_facet_values_sep').appendTo($e);
+                    $('<span/>', {html: self.model.get('separator') || _t(" or ")}).addClass('o_facet_values_sep').appendTo($e);
                 }
                 return new FacetValueView(self, value).appendTo($e);
             }));
@@ -470,7 +470,11 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
      */
     select_completion: function (e, ui) {
         e.preventDefault();
-        this.query.add(ui.item.facet);
+        if(ui.item.facet.values && ui.item.facet.values.length && String(ui.item.facet.values[0].value).trim() !== "") {
+            this.query.add(ui.item.facet);
+        } else {
+            this.query.trigger('add');
+        }
     },
     subviewForRoot: function (subview_root) {
         return _(this.input_subviews).detect(function (subview) {

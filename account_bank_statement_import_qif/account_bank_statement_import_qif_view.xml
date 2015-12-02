@@ -21,6 +21,14 @@
                         <field name="qif_date_format" widget="radio"/>
                     </group>
                 </xpath>
+                <xpath expr="//button[@name='import_file']" position="replace">
+                    <div attrs="{'invisible': [('qif_date_format', '=', 'day_first')]}">
+                        <button name="import_file" string="_Import" type="object" class="btn-primary" />
+                    </div>
+                    <div attrs="{'invisible': [('qif_date_format', '!=', 'day_first')]}">
+                        <button name="import_file" string="_Import" type="object" class="btn-primary" context="{'qif_date_format': 'day_first'}"/>
+                    </div>
+                </xpath>
             </field>
         </record>
 

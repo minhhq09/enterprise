@@ -145,7 +145,7 @@ odoo.define('website_sign.frontend', function(require) {
         },
 
         getSignatureText: function() {
-            var text = this.$signerNameInput.val().replace(/[^\w-'" ]/g, '');
+            var text = this.$signerNameInput.val().replace(/[^[\w\u00E0-\u00FC]-'" ]/g, '');
             if(this.signatureType === 'initial') {
                 return (text.split(' ').map(function(w) { return w[0]; }).join('.') + '.');
             }
@@ -154,7 +154,7 @@ odoo.define('website_sign.frontend', function(require) {
 
         getSVGText: function(font, text) {
             var canvas = this.$signatureField.find('canvas')[0];
-            return ("data:image/svg+xml;base64," + btoa(core.qweb.render('website_sign.svg_text', {
+            return ("data:image/svg+xml," + encodeURI(core.qweb.render('website_sign.svg_text', {
                 width: canvas.width,
                 height: canvas.height,
                 font: font,

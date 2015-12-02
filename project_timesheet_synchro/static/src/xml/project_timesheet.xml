@@ -449,17 +449,11 @@
                     <!-- User is not logged-->
                     <t t-if="!widget.session || !widget.session.uid">
                         <p>Connect Timesheets to Odoo to synchronize your activities across all devices.</p>
-                        <p>
-                            Use Odoo to organize projects and tasks, forecast
-                            resources and invoice time spent on tasks.
-                        </p><p>
-                            If you don't have an Odoo account, you can create one
-                            for free at <a href="#" class="pt_link_to_odoo">https://www.odoo.com</a>.
-                        </p>
+                        <p>Use Odoo to organize projects and tasks, forecast resources and invoice time spent on tasks</p>
                         <br/>
                         <div>
                             <a href="#" class="btn btn-primary pt_odoo_login_link">Sign In</a>
-                            <!-- Account creation comment, to be restored <a href="#" class="btn btn-primary pt_create_account_link">Sign Up</a> -->
+                            <a href="#" class="btn btn-primary pt_create_account_link">Sign Up</a>
                         </div>
                     </t>
                 </div>
@@ -547,28 +541,18 @@
             <a href="#" class="btn btn-primary pt_send_premise_login">Login</a>
         </form>
     </t>
-    <!-- Account creation comment, to be restored <t t-name="account_creation">
-        <h3>Start using Odoo now !</h3> <p>You will be able to create invoices based on your timesheets.</p>
-        <form>
-            <div class="form-group">
-                <label for="pt_creation_instance">Instance name</label>
-                <input class="pt_creation_instance form-control" name="pt_creation_instance"></input>
-            </div>
-            <div class="form-group">
-                <label for="pt_creation_email">Your Email</label>
-                <input class="pt_creation_email form-control" name="pt_creation_email"></input>
-            </div>
-            <div class="form-group">
-                <label for="pt_creation_name">Your Name</label>
-                <input class="pt_creation_name form-control" name="pt_creation_name"></input>
-            </div>
-            <div class="form-group">
-                <label for="pt_creation_password">Password</label>
-                <input type="password" class="pt_creation_password form-control" name="pt_creation_password"></input>
-            </div>
-            <a href="#" class="btn btn-primary pt_create_instance">Go !</a>
-        </form>
-    </t> -->
+    <t t-name="account_creation">
+        <t t-if="widget.show_iframe &amp;&amp; widget.odoo_is_online">
+            <iframe src="https://www.odoo.com/trial?form_light=true&amp;selected_app=project_timesheet_synchro" class="pt_signup"/>
+        </t>
+        <t t-if="!widget.odoo_is_online">
+            <p>Either you or the Odoo server is offline at the moment. Make sure you do have a connection or try again later.</p>
+        </t>
+        <t t-if="widget.show_success_message">
+            <p>Your database and account have been created !</p>
+            <p> You should have received and email with a link to activate your account. Once it is activated, you'll be able to <a href="#" class="pt_sign_in_link">sign in</a>.</p>
+        </t>
+    </t>
     <t t-name="db_selector">
         <div>
             Select your Odoo instance from the list below :
