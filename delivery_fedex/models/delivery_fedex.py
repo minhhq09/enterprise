@@ -159,7 +159,7 @@ class ProviderFedex(models.Model):
                 srm.customs_value(commodity_currency.name, total_commodities_amount, "NON_DOCUMENTS")
                 srm.duties_payment(picking.picking_type_id.warehouse_id.partner_id.country_id.code, self.fedex_account_number)
 
-            package_count = len(picking.pack_operation_ids) or 1
+            package_count = len(picking.package_ids) or 1
 
             # TODO RIM master: factorize the following crap
 
@@ -180,13 +180,13 @@ class ProviderFedex(models.Model):
                 master_tracking_id = False
                 package_labels = []
 
-                for sequence, operation in enumerate(picking.pack_operation_ids, start=1):
+                for sequence, package in enumerate(picking.package_ids, start=1):
 
-                    package_weight = _convert_weight(operation.product_id.weight * operation.product_qty, self.fedex_weight_unit)
+                    package_weight = _convert_weight(package.weight, self.fedex_weight_unit)
                     srm.add_package(package_weight, sequence_number=sequence)
                     srm.set_master_package(net_weight, package_count, master_tracking_id=master_tracking_id)
                     request = srm.process_shipment()
-                    package_name = operation.result_package_id.name if operation.result_package_id else sequence
+                    package_name = package.name or sequence
 
                     warnings = request.get('warnings_message')
                     if warnings:
