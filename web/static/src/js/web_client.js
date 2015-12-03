@@ -306,7 +306,7 @@ var WebClient = Widget.extend({
     do_push_state: function(state) {
         this.set_title(state.title);
         delete state.title;
-        if (!state.menu_id) {
+        if (!state.menu_id && this.menu) {
             state.menu_id = this.menu.current_primary_menu;
         }
         var url = '#' + $.param(state);
