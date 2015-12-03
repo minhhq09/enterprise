@@ -207,6 +207,7 @@ class account_report_context_followup_all(models.TransientModel):
             self.write({'valuemax': self.valuenow + len(partners)})
         if self.partner_filter == 'all':
             partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
+        partners = sorted(partners, key=lambda x: x.name)
         for partner in partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)]:
             context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
             if not context_id:
