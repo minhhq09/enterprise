@@ -449,18 +449,16 @@
         padding: 0;
         display: none;
         cursor: pointer;
-        margin-left: -15px;
+        width: 12px;
+        margin-left: -12px;
         vertical-align: top;
-        &::before {
+        &::before { // seems to be useful for some old browser
             position: relative;
         }
 
         &.o_translate_active {
             display: inline-block;
         }
-    }
-    .o_show_translate {
-        position: relative;
     }
 
     // Dropdowns input (many2one, ...)
