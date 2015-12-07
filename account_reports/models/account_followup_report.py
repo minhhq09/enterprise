@@ -36,7 +36,7 @@ class report_account_followup_report(models.AbstractModel):
                 date_due = aml.date_maturity or aml.date
                 total += amount
                 is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
-                is_payment = amount < 0
+                is_payment = aml.payment_id
                 if is_overdue or is_payment:
                     total_issued += not aml.blocked and amount or 0
                 if is_overdue:
