@@ -268,7 +268,7 @@ models.Order = models.Order.extend({
             crounding = this.pos.currency.rounding;
             spendable = this.get_spendable_points();
             order_total = this.get_total_with_tax();
-            var discount    = round_pr(order_total * reward.discount,crounding);
+            var discount = round_pr(order_total * (reward.discount / 100), crounding);
 
             if ( round_pr(discount * reward.point_cost,lrounding) > spendable ) { 
                 discount = round_pr(Math.floor( spendable / reward.point_cost ), crounding);
