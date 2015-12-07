@@ -43,10 +43,10 @@ FollowupReportWidget.include({
         'click .followup-action': 'doManualAction',
     }, FollowupReportWidget.prototype.events),
     onKeyPress: function(e) {
-        e.preventDefault();
         var self = this;
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name === 'followup_report') {
+            e.preventDefault();
             return new Model('account.report.context.followup.all').call('search', [[['create_uid', '=', session.uid]]]).then(function(result) {
                 return new Model('account.report.context.followup.all').query(['partner_filter'])
                 .filter([['id', '=', result[0]]]).first().then(function (result) {

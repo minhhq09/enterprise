@@ -101,10 +101,10 @@ var FollowupReportWidget = ReportWidget.extend({
         return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}]); // Write the change in db
     },
     onKeyPress: function(e) {
-        e.preventDefault();
         var self = this;
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name === 'followup_report') { // on ctrl-enter
+            e.preventDefault();
             return new Model('account.report.context.followup.all').call('search', [[['create_uid', '=', session.uid]]]).then(function(result) {
                 return new Model('account.report.context.followup.all').query(['partner_filter'])
                 .filter([['id', '=', result[0]]]).first().then(function (result) {
