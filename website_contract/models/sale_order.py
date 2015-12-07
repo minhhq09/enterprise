@@ -60,11 +60,13 @@ class SaleOrder(models.Model):
             'pricelist_id': self.pricelist_id.id,
             'recurring_rule_type': contract_tmp.recurring_rule_type,
             'recurring_interval': contract_tmp.recurring_interval,
+            'company_id': self.company_id.id,
         }
         # if there already is an AA, use it in the subscription's inherits
         if self.project_id:
             values.pop('name')
             values.pop('partner_id')
+            values.pop('company_id')
             values['analytic_account_id'] = self.project_id.id
         # compute the next date
         today = datetime.date.today()
