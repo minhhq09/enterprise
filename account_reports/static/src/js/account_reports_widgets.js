@@ -202,9 +202,9 @@ var ReportWidget = Widget.extend({
             }
         }
         var active_id = $(e.target).parents('tr').find('td.o_account_reports_foldable').data('id');
-        $(e.target).parents('tr').find('td.o_account_reports_foldable').attr('class', 'o_account_reports_unfoldable ' + active_id); // Change the class, rendering, and remove line from model
+        $(e.target).parents('tr').toggleClass('o_account_reports_unfolded'); // Change the class, rendering, and remove line from model
+        $(e.target).parents('tr').find('td.o_account_reports_foldable').attr('class', 'o_account_reports_unfoldable ' + active_id);
         $(e.target).parents('tr').find('span.o_account_reports_foldable').replaceWith(QWeb.render("unfoldable", {lineId: active_id}));
-        $(e.target).parents('tr').toggleClass('o_account_reports_unfolded');
         return this.context_model.call('remove_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]);
     },
     unfold: function(e) {
@@ -253,9 +253,9 @@ var ReportWidget = Widget.extend({
                     }
                 });
             }
-            $(e.target).parents('tr').find('td.o_account_reports_unfoldable').attr('class', 'o_account_reports_foldable ' + active_id); // Change the class, and rendering of the unfolded line
+            $(e.target).parents('tr').toggleClass('o_account_reports_unfolded'); // Change the class, and rendering of the unfolded line
+            $(e.target).parents('tr').find('td.o_account_reports_unfoldable').attr('class', 'o_account_reports_foldable ' + active_id);
             $(e.target).parents('tr').find('span.o_account_reports_unfoldable').replaceWith(QWeb.render("foldable", {lineId: active_id}));
-            $(e.target).parents('tr').toggleClass('o_account_reports_unfolded');
         });
     },
     goToFootNote: function(e) {
