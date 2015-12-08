@@ -55,7 +55,9 @@ class report_account_general_ledger(models.AbstractModel):
         initial_bal_date_to = datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d") + timedelta(days=-1)
         initial_bal_results = self.with_context(date_to=initial_bal_date_to.strftime('%Y-%m-%d')).do_query(line_id)
         context = self.env.context
-        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids']), ('journal_id', 'in', context['journal_ids'])]
+        base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
+        if context.get('journal_ids'):
+            base_domain.append(('journal_id', 'in', context['journal_ids']))
         if context['date_from_aml']:
             base_domain.append(('date', '>=', context['date_from_aml']))
         if context['state'] == 'posted':
