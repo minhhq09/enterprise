@@ -365,10 +365,12 @@ class SaleSubscription(osv.osv):
         if not ids:
             return res
         for sub in self.browse(cr, uid, ids, context=context):
-            if sub.type == 'template':
-                res.append((sub.id, '%s - %s' % (sub.code, sub.name)))
+            if sub.type != 'template':
+                name = '%s - %s' % (sub.code, sub.partner_id.name) if sub.code else sub.partner_id.name
+                res.append((sub.id, '%s/%s' % (sub.template_id.code, name) if sub.template_id.code else name))
             else:
-                res.append((sub.id, '%s/%s - %s' % (sub.template_id.code, sub.code, sub.partner_id.name)))
+                name = '%s - %s' % (sub.code, sub.name) if sub.code else sub.name
+                res.append((sub.id, name))
         return res
 
 
