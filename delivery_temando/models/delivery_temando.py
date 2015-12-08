@@ -23,7 +23,7 @@ class ProviderTemando(models.Model):
     temando_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production Temando Web Services")
     temando_delivery_nature = fields.Selection([('Domestic', 'Domestic'), ('International', 'International')], default="Domestic", required=True)
     temando_delivery_type = fields.Selection([('Door to Door', 'Door to Door'), ('Depot to Depot', 'Depot to Depot')], required=True, default='Door to Door')
-    temando_preferred_carrier = fields.Integer(string="Preferred Carrier ID")
+    temando_preferred_carrier = fields.Integer(string="Preferred Carrier ID", help="If set, Temando fetch quotations only for this carrier. If not set, the cheapest one is selected.")
 
     # Required based on condition
     temando_subclass = fields.Selection([('Household Goods', 'Household Goods'), ('Furniture', 'Furniture'), ('Other (Etc.)', 'Other (Etc.)')], default='Other (Etc.)')
@@ -52,7 +52,7 @@ class ProviderTemando(models.Model):
             request.set_general_detail(order.currency_id.name, order.amount_total, self.temando_delivery_nature)
 
             if self.temando_preferred_carrier:
-                request.set_carrier_quotefilter_detail(order)
+                request.set_carrier_quotefilter_rating(self.temando_preferred_carrier)
             else:
                 request.set_cheapest_quotefilter_detail()
 

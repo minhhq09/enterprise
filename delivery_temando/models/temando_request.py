@@ -85,9 +85,14 @@ class TemandoRequest():
         if delivery_nature == 'International':
             self.General.termsOfTrade = 'Delivered Duty Paid'
 
+    def set_carrier_quotefilter_rating(self, carrier_id):
+        self.QuoteFilter = self.client.factory.create('com:QuoteFilter')
+        self.QuoteFilter.preference = 'Carrier Order'
+        self.QuoteFilter.carriers = {'carrier': {'carrierId': carrier_id}}
+
     def set_carrier_quotefilter_detail(self, sale_order):
         self.QuoteFilter = self.client.factory.create('com:QuoteFilter')
-        self.QuoteFilter.preference = 'Carriers Only'
+        self.QuoteFilter.preference = 'Carrier Order'
         self.QuoteFilter.carriers = {'carrier': {'carrierId': sale_order.temando_carrier_id, 'deliveryMethods': {'deliveryMethod': sale_order.temando_delivery_method}}}
 
     def set_cheapest_quotefilter_detail(self):
