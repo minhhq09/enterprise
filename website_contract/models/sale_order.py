@@ -41,7 +41,7 @@ class SaleOrder(models.Model):
             # send new contract email to partner
             _, template_id = self.env['ir.model.data'].get_object_reference('website_contract', 'email_contract_open')
             mail_template = self.env['mail.template'].browse(template_id)
-            mail_template.send_mail(subscription.id, force_send=True)
+            mail_template.sudo().send_mail(subscription.id, force_send=True)
             return subscription
         return False
 
