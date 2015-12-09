@@ -23,7 +23,7 @@ class AccountBankStatementImport(models.TransientModel):
             return False
         try:
             ofx = OfxParser.parse(file)
-        except (TypeError, AttributeError, OfxParserException):
+        except (TypeError, AttributeError, OfxParserException, IndexError, ValueError):
             return False
         return ofx
 
