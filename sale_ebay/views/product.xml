@@ -11,7 +11,7 @@
             <field name="ebay_id"/>
           </group>
           <footer>
-            <button name="link_listing" type="object" string="Link Listing" class="oe_highlight"/>
+            <button name="link_listing" type="object" string="Link with eBay Listing" class="oe_highlight"/>
             or
             <button string="Cancel" class="oe_link" special="cancel" />
           </footer>
@@ -20,7 +20,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="action_ebay_link_listing">
-      <field name="name">Link Existing Listing</field>
+      <field name="name">Link with Existing eBay Listing</field>
       <field name="res_model">ebay.link.listing</field>
       <field name="view_type">form</field>
       <field name="view_mode">form</field>
@@ -35,11 +35,11 @@
       <field name="arch" type="xml">
         <data>
         <xpath expr="//header" position="inside">
-              <button name="push_product_ebay" type="object" string="List Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status', 'in', ['Active', 'Out Of Stock', 'Error'])]}"/>
-            <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status','not in', ['Ended', 'Completed', 'Out Of Stock'])]}"/>
+              <button name="push_product_ebay" type="object" string="List Item on eBay" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status', 'in', ['Active', 'Out Of Stock', 'Error'])]}"/>
+              <button name="relist_product_ebay" type="object" string="Relist Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), ('ebay_listing_status','not in', ['Ended', 'Completed', 'Out Of Stock'])]}"/>
               <button name="revise_product_ebay" type="object" string="Revise Item" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),('ebay_listing_status','not in', ['Active', 'Out Of Stock', 'Error'])]}"/>
               <button name="end_listing_product_ebay" type="object" string="End Item's Listing" attrs="{'invisible': ['|', ('ebay_use', '=', False), '|',('ebay_url','=', False),'|',('ebay_listing_status','not in',['Active', 'Error']),('ebay_listing_status','=','Out Of Stock')]}"/>
-            <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing Listing' attrs="{'invisible': ['|',('ebay_use', '=', False),('ebay_listing_status','!=', 'Unlisted')]}"/>
+              <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing eBay Listing' attrs="{'invisible': ['|',('ebay_use', '=', False),('ebay_listing_status','!=', 'Unlisted')]}"/>
         </xpath>
         <div name="options" position="inside">
           <div>          
@@ -134,7 +134,7 @@
 
     <!-- server actions to add option in the menu "More" -->
     <record id="action_list_items" model="ir.actions.server">
-      <field name="name">List Items</field>
+      <field name="name">List Items on eBay</field>
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
@@ -151,12 +151,12 @@
     <record id="value_list_items" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
       <field name="model" eval="'product.template'"/>
-      <field name="name">List Items</field>
+      <field name="name">List Items on eBay</field>
       <field name="value" eval="'ir.actions.server,%d'%action_list_items"/>
     </record>
 
     <record id="action_revise_items" model="ir.actions.server">
-      <field name="name">Revise Items</field>
+      <field name="name">Revise Items on eBay</field>
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
@@ -173,12 +173,12 @@
     <record id="value_revise_items" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
       <field name="model" eval="'product.template'"/>
-      <field name="name">Revise Items</field>
+      <field name="name">Revise Items on eBay</field>
       <field name="value" eval="'ir.actions.server,%d'%action_revise_items"/>
     </record>
 
     <record id="action_relist_items" model="ir.actions.server">
-      <field name="name">Relist Items</field>
+      <field name="name">Relist Items on eBay</field>
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
@@ -195,12 +195,12 @@
     <record id="value_relist_items" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
       <field name="model" eval="'product.template'"/>
-      <field name="name">Relist Items</field>
+      <field name="name">Relist Items on eBay</field>
       <field name="value" eval="'ir.actions.server,%d'%action_relist_items"/>
     </record>
 
     <record id="action_end_items_listings" model="ir.actions.server">
-      <field name="name">End Items' Listings</field>
+      <field name="name">End Items' Listings on eBay</field>
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
@@ -217,7 +217,7 @@
     <record id="value_end_items_listings" model="ir.values">
       <field name="key2" eval="'client_action_multi'"/>
       <field name="model" eval="'product.template'"/>
-      <field name="name">End Items' Listings</field>
+      <field name="name">End Items' Listings on eBay</field>
       <field name="value" eval="'ir.actions.server,%d'%action_end_items_listings"/>
     </record>
 
