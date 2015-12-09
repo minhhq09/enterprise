@@ -125,7 +125,7 @@ class USPSRequest():
         errors_return = root.findall('.//Description')
         errors_number = root.findall('.//Number')
         if errors_return:
-            dict_response['error_message'] = self._error_message(errors_number[0].text, errors_return[0].text)
+            dict_response['error_message'] = self._error_message(errors_number[0].text if errors_number else '', errors_return[0].text)
             return dict_response
         # Domestic Rate
         elif root.tag == 'RateV4Response':
