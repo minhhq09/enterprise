@@ -421,9 +421,9 @@ ListView.include(/** @lends instance.web.ListView# */{
     resize_field: function (field, cell) {
         var $cell = $(cell);
         field.set_dimensions($cell.outerHeight(), $cell.outerWidth()-3); // -3 to have a gap between fields
-        field.$el.addClass('o_temp_visible').css({top: 0, left: 0}).position({
-            my: 'left top',
-            at: 'left top',
+        field.$el.add(field.$translate).addClass('o_temp_visible').css({top: 0, left: 0}).position({
+            my: 'right top',
+            at: 'right top',
             of: $cell,
         }).removeClass('o_temp_visible');
         if(field.get('effective_readonly')) {
