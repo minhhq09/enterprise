@@ -182,18 +182,21 @@
 
 <div t-name="AppSwitcher" class="o_application_switcher">
     <div class="o_apps">
-        <a t-foreach="widget.menu_data" t-as="primary_menu"
+        <t t-foreach="widget.menu_data" t-as="primary_menu">
+          <t t-set="action_id" t-value="primary_menu.action ? primary_menu.action.split(',')[1] : ''"/>
+          <a
             t-att-class="'o_app' + ((primary_menu.href)? '' : ' o_action_app')"
             t-att-data-menu="primary_menu.id"
             t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
-            t-att-data-action-id="primary_menu.action ? primary_menu.action.split(',')[1] : ''"
-            t-att-href="primary_menu.href ? primary_menu.href : '#'">
+            t-att-data-action-id="action_id"
+            t-att-href="primary_menu.href ? primary_menu.href : ('#menu_id='+primary_menu.id+'&amp;action_id='+action_id)">
             <img t-if="primary_menu.web_icon_data"
                 class="o_app_web_icon"
                 t-att-src="'data:image/png;base64,' + primary_menu.web_icon_data"/>
             <span t-if="!primary_menu.web_icon_data" class="o_app_icon fa fa-cube"/>
             <div class="o_caption"><t t-esc="primary_menu.name"/></div>
-        </a>
+          </a>
+        </t>
     </div>
     <div class="o_application_switcher_footer">
         <img src="/web/static/src/img/odoo.png" alt="Odoo"/>
