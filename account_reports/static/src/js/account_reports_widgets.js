@@ -42,6 +42,7 @@ var ReportWidget = Widget.extend({
         var action_name = $(e.target).data('action-name');
         var active_id = $(e.target).data('active-id');
         var res_model = $(e.target).data('res-model');
+        var action_domain = $(e.target).data('action-domain');
         var force_context = $(e.target).data('force-context');
         var additional_context = {};
         if (active_id) { 
@@ -54,6 +55,15 @@ var ReportWidget = Widget.extend({
                 res_id: active_id,
                 views: [[false, 'form']],
                 target: 'current'
+            });
+        }
+        if (res_model && action_domain) {
+            return this.do_action({
+                type: 'ir.actions.act_window',
+                name: action_name ? action_name : '',
+                res_model: res_model,
+                domain: action_domain,
+                views: [[false, 'list']],
             });
         }
         if (!_.isUndefined(force_context)) {

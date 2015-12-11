@@ -171,3 +171,18 @@ class AccountReportContextTax(models.TransientModel):
             for period in self.get_cmp_periods(display=True):
                 types += ['number', 'number']
         return types
+
+    def get_action(self, tax_type, active_id):
+        name = tax_type == 'net' and _('Net Tax Lines') or _('Tax Lines')
+        domain = [('date', '>=', self.date_from), ('date', '<=', self.date_to)]
+        if not self.all_entries:
+            domain.append(('move_id.state', '=', 'posted'))
+        if tax_type == 'net':
+            domain.append(('tax_ids', 'in', [active_id]))
+        elif tax_type == 'tax':
+            domain.append(('tax_line_id', 'in', [active_id]))
+        return {
+            'name': name,
+            'res_model': 'account.move.line',
+            'domain': domain,
+        }
