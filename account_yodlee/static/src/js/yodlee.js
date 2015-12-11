@@ -259,7 +259,10 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     if (resp_json.code === undefined || resp_json.errorOccurred === "true"){
                         self.show_error("ERROR: " + resp_json.exceptionType);
                     }
-                    if (resp_json.code === 801 || (resp_json.code === 0 && refresh_status !== 'REFRESH_COMPLETED' && refresh_status !== 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED')) {
+                    if (resp_json.code === 801 || 
+                        (resp_json.code === 0 && refresh_status !== 'REFRESH_COMPLETED' 
+                            && refresh_status !== 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED' 
+                            && refresh_status != 'REFRESH_COMPLETED_WITH_UNCERTAIN_ACCOUNT')) {
                         if (refresh_status === 'REFRESH_TIMED_OUT'){
                             number = 1;
                         }
