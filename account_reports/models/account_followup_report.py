@@ -8,6 +8,7 @@ from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
 import time
 from openerp.tools.safe_eval import safe_eval
+import math
 
 
 class report_account_followup_report(models.AbstractModel):
@@ -102,6 +103,8 @@ class account_report_context_followup_all(models.TransientModel):
     _name = "account.report.context.followup.all"
     _description = "A progress bar for followup reports"
 
+    PAGER_SIZE = 15
+
     @api.depends('valuenow', 'valuemax')
     def _compute_percentage(self):
         for progressbar in self:
@@ -112,7 +115,7 @@ class account_report_context_followup_all(models.TransientModel):
     def _compute_pages(self):
         for context in self:
             partners = self.env['res.partner'].get_partners_in_need_of_action() - context.skipped_partners_ids
-            context.last_page = len(partners) / 15
+            context.last_page = math.ceil(float(len(partners)) / float(self.PAGER_SIZE))
 
     valuenow = fields.Integer('current amount of invoices done', default=0)
     valuemax = fields.Integer('total amount of invoices to do')
@@ -160,7 +163,7 @@ class account_report_context_followup_all(models.TransientModel):
                 for email_context in email_contexts:
                     if not email_context.send_email():
                         emails_not_sent = emails_not_sent | email_context
-            partners_done = partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)] - emails_not_sent.partner_id
+            partners_done = partners[((given_context['page'] - 1) * self.PAGER_SIZE):(given_context['page'] * self.PAGER_SIZE)] - emails_not_sent.partner_id
             partners_done.update_next_action()
             self.write({'valuenow': min(self.valuemax, self.valuenow + 2)})
             partners = partners - partners_done
@@ -208,7 +211,7 @@ class account_report_context_followup_all(models.TransientModel):
         if self.partner_filter == 'all':
             partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
         partners = sorted(partners, key=lambda x: x.name)
-        for partner in partners[((given_context['page'] - 1) * 15):(given_context['page'] * 15)]:
+        for partner in partners[((given_context['page'] - 1) * self.PAGER_SIZE):(given_context['page'] * self.PAGER_SIZE)]:
             context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
             if not context_id:
                 context_id = self._get_html_create_context(partner)
