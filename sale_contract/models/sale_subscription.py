@@ -373,6 +373,16 @@ class SaleSubscription(osv.osv):
                 res.append((sub.id, name))
         return res
 
+    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
+        print('name_search: %s' % name)
+        args = args or []
+        domain = ['|', ('code', operator, name), ('name', operator, name)]
+        partner_ids = self.pool['res.partner'].search(cr, uid, [('name', operator, name)], limit=limit, context=context)
+        if partner_ids:
+            domain = ['|'] + domain + [('partner_id', 'in', partner_ids)]
+        rec_ids = self.search(cr, uid, domain + args, limit=limit, context=context)
+        return self.name_get(cr, uid, rec_ids, context=context)
+
 
 class SaleSubscriptionLine(osv.osv):
     _name = "sale.subscription.line"
