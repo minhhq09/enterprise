@@ -1390,7 +1390,7 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
         this.handle_common_properties($new_statusbar, $statusbar);
         $statusbar.find('button').addClass('o_in_statusbar');
         this.fill_statusbar_buttons($new_statusbar.find('.o_statusbar_buttons'), $statusbar.contents('button'));
-        $new_statusbar.append($statusbar.contents('field'));
+        $new_statusbar.append($statusbar.find('field'));
         $statusbar.before($new_statusbar).remove();
         this.process($new_statusbar);
     },
