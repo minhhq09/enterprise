@@ -50,3 +50,10 @@ class StockBarcodeController(http.Controller):
                 return {'warning': _('No internal picking type. Please configure one in warehouse settings.')}
 
         return {'warning': _('No picking or location corresponding to barcode %(barcode)s') % {'barcode': barcode}}
+
+
+    @http.route('/stock_barcode/rid_of_message_demo_barcodes', type='json', auth='user')
+    def rid_of_message_demo_barcodes(self, **kw):
+        """ Edit the main_menu client action so that it doesn't display the 'print demo barcodes sheet' message """
+        action = request.env.ref('stock_barcode.stock_barcode_action_main_menu')
+        action and action.sudo().write({'params': {'message_demo_barcodes': False}})
