@@ -13,7 +13,6 @@ class Providerdhl(models.Model):
     dhl_SiteID = fields.Char(string="DHL SiteID", groups="base.group_system")
     dhl_password = fields.Char(string="DHL Password", groups="base.group_system")
     dhl_account_number = fields.Char(string="DHL Account Number", groups="base.group_system")
-    dhl_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production DHL Web Services")
     dhl_package_dimension_unit = fields.Selection([('IN', 'Inches'),
                                                    ('CM', 'Centimeters')],
                                                   default='CM',
@@ -57,7 +56,7 @@ class Providerdhl(models.Model):
 
     def dhl_get_shipping_price_from_so(self, orders):
         res = []
-        srm = DHLProvider(self.dhl_test_mode)
+        srm = DHLProvider(self.prod_environment)
         for order in orders:
             srm.check_required_value(self, order.partner_shipping_id, order.warehouse_id.partner_id, order=order)
             result = srm.rate_request(order, self)
@@ -72,7 +71,7 @@ class Providerdhl(models.Model):
     def dhl_send_shipping(self, pickings):
         res = []
 
-        srm = DHLProvider(self.dhl_test_mode)
+        srm = DHLProvider(self.prod_environment)
         for picking in pickings:
             shipping = srm.send_shipping(picking, self)
             order_currency = picking.sale_id.currency_id or picking.company_id.currency_id

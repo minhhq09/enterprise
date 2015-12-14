@@ -10,7 +10,6 @@
                 <group string='USPS Configuration' attrs="{'invisible': [('delivery_type', '!=', 'usps')]}">
                     <group>
                         <field name="usps_username" attrs="{'required': [('delivery_type', '=', 'usps')]}"/>
-                        <field name="usps_test_mode"/>
                         <field name="usps_account_validated" attrs="{'required': [('delivery_type', '=', 'usps')]}"/>
                         <field name="usps_delivery_nature" attrs="{'required': [('delivery_type', '=', 'usps')]}"/>
                         <field name="usps_content_type" attrs="{'required': [('delivery_type', '=', 'usps')]}"/>

@@ -12,8 +12,8 @@ from openerp.exceptions import ValidationError
 
 class DHLProvider():
 
-    def __init__(self, test_mode):
-        if test_mode:
+    def __init__(self, prod_environment):
+        if not prod_environment:
             self.url = 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
         else:
             self.url = 'https://xmlpi-ea.dhl.com/XMLShippingServlet'

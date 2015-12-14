@@ -21,8 +21,8 @@ class TemandoRequest():
     """ Low-level object intended to interface Odoo recordsets with Temando,
         through appropriate SOAP requests """
 
-    def __init__(self, test_mode, username, password):
-        if test_mode:
+    def __init__(self, prod_environment, username, password):
+        if not prod_environment:
             wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/test/server.wsdl')
         else:
             wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/prod/server.wsdl')

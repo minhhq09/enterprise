@@ -19,19 +19,19 @@ class FedexRequest():
     """ Low-level object intended to interface Odoo recordsets with FedEx,
         through appropriate SOAP requests """
 
-    def __init__(self, request_type="shipping", test_mode=True):
+    def __init__(self, request_type="shipping", prod_environment=False):
         self.hasCommodities = False
         self.hasOnePackage = False
 
         if request_type == "shipping":
-            if test_mode:
+            if not prod_environment:
                 wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/test/ShipService_v15.wsdl')
             else:
                 wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/prod/ShipService_v15.wsdl')
             self.start_shipping_transaction(wsdl_path)
 
         elif request_type == "rating":
-            if test_mode:
+            if not prod_environment:
                 wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/test/RateService_v16.wsdl')
             else:
                 wsdl_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../api/prod/RateService_v16.wsdl')

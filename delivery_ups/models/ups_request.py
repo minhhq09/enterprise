@@ -127,10 +127,10 @@ class FixRequestNamespacePlug(MessagePlugin):
 
 
 class UPSRequest():
-    def __init__(self, username, password, shipper_number, access_number, test_mode):
+    def __init__(self, username, password, shipper_number, access_number, prod_environment):
         # Product and Testing url
         self.endurl = "https://onlinetools.ups.com/webservices/"
-        if test_mode:
+        if not prod_environment:
             self.endurl = "https://wwwcie.ups.com/webservices/"
 
         # Basic detail require to authenticate

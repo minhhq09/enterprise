@@ -20,12 +20,10 @@ class ProviderFedex(models.Model):
 
     delivery_type = fields.Selection(selection_add=[('fedex', "FedEx")])
 
-    # TODO in master: add help strings and tweak view to explain how to get these
     fedex_developer_key = fields.Char(string="Developer Key", groups="base.group_system")
     fedex_developer_password = fields.Char(string="Password", groups="base.group_system")
     fedex_account_number = fields.Char(string="Account Number", groups="base.group_system")
     fedex_meter_number = fields.Char(string="Meter Number", groups="base.group_system")
-    fedex_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production Fedex Web Services")
     fedex_droppoff_type = fields.Selection([('BUSINESS_SERVICE_CENTER', 'BUSINESS_SERVICE_CENTER'),
                                             ('DROP_BOX', 'DROP_BOX'),
                                             ('REGULAR_PICKUP', 'REGULAR_PICKUP'),
@@ -69,7 +67,7 @@ class ProviderFedex(models.Model):
             weight_value = _convert_weight(est_weight_value, self.fedex_weight_unit)
 
             # Authentication stuff
-            srm = FedexRequest(request_type="rating", test_mode=self.fedex_test_mode)
+            srm = FedexRequest(request_type="rating", prod_environment=self.prod_environment)
             superself = self.sudo()
             srm.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
             srm.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
@@ -111,7 +109,7 @@ class ProviderFedex(models.Model):
 
         for picking in pickings:
 
-            srm = FedexRequest(request_type="shipping", test_mode=self.fedex_test_mode)
+            srm = FedexRequest(request_type="shipping", prod_environment=self.prod_environment)
             superself = self.sudo()
             srm.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
             srm.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
@@ -293,7 +291,7 @@ class ProviderFedex(models.Model):
         return res
 
     def fedex_cancel_shipment(self, picking):
-        request = FedexRequest(request_type="shipping", test_mode=self.fedex_test_mode)
+        request = FedexRequest(request_type="shipping", prod_environment=self.prod_environment)
         superself = self.sudo()
         request.web_authentication_detail(superself.fedex_developer_key, superself.fedex_developer_password)
         request.client_detail(superself.fedex_account_number, superself.fedex_meter_number)

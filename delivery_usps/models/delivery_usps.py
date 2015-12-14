@@ -12,7 +12,6 @@ class ProviderUSPS(models.Model):
     delivery_type = fields.Selection(selection_add=[('usps', "USPS")])
     # Fields required to configure
     usps_username = fields.Char(string='USPS User ID', groups="base.group_system")
-    usps_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production UPS Web Services")
     usps_account_validated = fields.Boolean(string="Account Validated", help="Check this box if your account is validated by USPS")
     usps_delivery_nature = fields.Selection([('domestic', 'Domestic'),
                                              ('international', 'International')],
@@ -84,7 +83,7 @@ class ProviderUSPS(models.Model):
 
     def usps_get_shipping_price_from_so(self, orders):
         res = []
-        srm = USPSRequest(self.usps_test_mode)
+        srm = USPSRequest(self.prod_environment)
 
         for order in orders:
             srm.check_required_value(order.partner_shipping_id, order.carrier_id.usps_delivery_nature, order.warehouse_id.partner_id, order=order)
@@ -105,10 +104,10 @@ class ProviderUSPS(models.Model):
 
     def usps_send_shipping(self, pickings):
         res = []
-        srm = USPSRequest(self.usps_test_mode)
+        srm = USPSRequest(self.prod_environment)
         for picking in pickings:
             srm.check_required_value(picking.partner_id, self.usps_delivery_nature, picking.picking_type_id.warehouse_id.partner_id, picking=picking)
-            booking = srm.usps_request(picking, self.usps_delivery_nature, self.usps_test_mode, self.usps_service)
+            booking = srm.usps_request(picking, self.usps_delivery_nature, self.usps_service)
 
             if booking.get('error_message'):
                 raise ValidationError(booking['error_message'])
@@ -142,9 +141,9 @@ class ProviderUSPS(models.Model):
 
     def usps_cancel_shipment(self, picking):
 
-        srm = USPSRequest(self.usps_test_mode)
+        srm = USPSRequest(self.prod_environment)
 
-        result = srm.cancel_shipment(picking, self.usps_account_validated, self.usps_test_mode)
+        result = srm.cancel_shipment(picking, self.usps_account_validated)
 
         if result['error_found']:
             raise ValidationError(result['error_message'])

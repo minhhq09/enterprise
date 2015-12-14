@@ -25,11 +25,12 @@ CANCEL_SHIPMENT_ADDRESS = {'ID': '308ABC004378',
 
 class USPSRequest():
 
-    def __init__(self, usps_test_mode):
-        if usps_test_mode:
+    def __init__(self, prod_environment):
+        if not prod_environment:
             self.url = 'http://testing.shippingapis.com/ShippingAPI.dll?API='
         else:
             self.url = 'http://production.shippingapis.com/ShippingAPI.dll?API='
+        self.prod_environment = prod_environment
 
     def check_required_value(self, recipient, delivery_nature, shipper, order=False, picking=False):
         recipient_required_field = ['city', 'zip', 'country_id']
@@ -159,7 +160,7 @@ class USPSRequest():
         carrier = picking.carrier_id
         itemdetail = []
 
-        api = self._api_url(carrier.usps_delivery_nature, carrier.usps_test_mode, carrier.usps_service)
+        api = self._api_url(carrier.usps_delivery_nature, carrier.usps_service)
 
         for line in picking.move_lines:
             USD = carrier.env['res.currency'].search([('name', '=', 'USD')], limit=1)
@@ -212,12 +213,12 @@ class USPSRequest():
         }
         return shipping_detail
 
-    def usps_request(self, picking, delivery_nature, usps_test_mode, service):
+    def usps_request(self, picking, delivery_nature, service):
         ship_detail = self._usps_shipping_data(picking)
         request_text = picking.env['ir.qweb'].render('delivery_usps.usps_shipping_common',
                                                      ship_detail,
                                                      loader=lambda name: picking.env['ir.ui.view'].read_template(name))
-        api = self._api_url(delivery_nature, usps_test_mode, service)
+        api = self._api_url(delivery_nature, service)
         dict_response = {'tracking_number': 0.0, 'price': 0.0, 'currency': "USD"}
         url = 'https://secure.shippingapis.com/ShippingAPI.dll?API='
         xml = '&XML=%s' % (quote(request_text))
@@ -253,8 +254,8 @@ class USPSRequest():
 
         return dict_response
 
-    def _usps_cancel_shipping_data(self, usps_test_mode, picking):
-        if not usps_test_mode:
+    def _usps_cancel_shipping_data(self, picking):
+        if self.prod_environment:
             return {
                 'ID': picking.carrier_id.sudo().usps_username,
                 'FirmName': picking.picking_type_id.warehouse_id.partner_id.name,
@@ -269,8 +270,8 @@ class USPSRequest():
             }
         return CANCEL_SHIPMENT_ADDRESS
 
-    def cancel_shipment(self, picking, account_validated, test_mode):
-        cancel_detail = self._usps_cancel_shipping_data(test_mode, picking)
+    def cancel_shipment(self, picking, account_validated):
+        cancel_detail = self._usps_cancel_shipping_data(picking)
         request_text = picking.env["ir.qweb"].render('delivery_usps.usps_cancel_request',
                                                      cancel_detail,
                                                      loader=lambda name: picking.env['ir.ui.view'].read_template(name))
@@ -303,9 +304,9 @@ class USPSRequest():
         ounces = round((weight_in_pounds - pounds) * 16, 3)
         return {'pound': pounds, 'ounce': ounces}
 
-    def _api_url(self, delivery_nature, usps_test_mode, service):
+    def _api_url(self, delivery_nature, service):
         api = ''
-        if usps_test_mode:
+        if not self.prod_environment:
             if delivery_nature == 'domestic':
                 if service == 'Express':
                     api = 'ExpressMailLabelCertify'

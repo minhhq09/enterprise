@@ -15,7 +15,6 @@ class ProviderUPS(models.Model):
     ups_passwd = fields.Char(string='UPS Password', groups="base.group_system")
     ups_shipper_number = fields.Char(string='UPS Shipper Number', groups="base.group_system")
     ups_access_number = fields.Char(string='UPS AccessLicenseNumber', groups="base.group_system")
-    ups_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production UPS Web Services")
     ups_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
     ups_default_service_type = fields.Selection([('03', 'UPS Ground'),
                                                  ('11', 'UPS Standard'),
@@ -43,7 +42,7 @@ class ProviderUPS(models.Model):
     def ups_get_shipping_price_from_so(self, orders):
         res = []
         superself = self.sudo()
-        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.prod_environment)
         ResCurrency = self.env['res.currency']
         for order in orders:
             packages = []
@@ -79,7 +78,7 @@ class ProviderUPS(models.Model):
     def ups_send_shipping(self, pickings):
         res = []
         superself = self.sudo()
-        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.prod_environment)
         ResCurrency = self.env['res.currency']
         for picking in pickings:
             packages = []
@@ -146,11 +145,11 @@ class ProviderUPS(models.Model):
 
     def ups_cancel_shipment(self, picking):
         tracking_ref = picking.carrier_tracking_ref
-        if self.ups_test_mode:
+        if not self.prod_environment:
             tracking_ref = "1ZISDE016691676846"  # used for testing purpose
 
         superself = self.sudo()
-        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.ups_test_mode)
+        srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.prod_environment)
         result = srm.cancel_shipment(tracking_ref)
 
         if result.get('error_message'):
