@@ -99,8 +99,6 @@ UPS_ERROR_MAP = {
 
 class Package():
     def __init__(self, carrier, weight, quant_pack=False, name=''):
-        assert weight > 0
-
         self.weight = self._convert_weight(weight, carrier.ups_package_weight_unit)
         self.weight_unit = carrier.ups_package_weight_unit
         self.name = name
