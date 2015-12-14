@@ -129,7 +129,7 @@ class FixRequestNamespacePlug(MessagePlugin):
 class UPSRequest():
     def __init__(self, username, password, shipper_number, access_number, test_mode):
         # Product and Testing url
-        self.endurl = "https://onlinetools.ups.com/webservices"
+        self.endurl = "https://onlinetools.ups.com/webservices/"
         if test_mode:
             self.endurl = "https://wwwcie.ups.com/webservices/"
 
