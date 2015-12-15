@@ -84,7 +84,8 @@ class DHLProvider():
             'shipper_company': picking.company_id,
             'shipper_streetLines': ('%s%s') % (picking.picking_type_id.warehouse_id.partner_id.street or '',
                                                picking.picking_type_id.warehouse_id.partner_id.street2 or ''),
-            'LabelImageFormat': 'PDF',
+            'LabelImageFormat': carrier.dhl_label_image_format,
+            'LabelTemplate': carrier.dhl_label_template,
             'is_dutiable': carrier.dhl_dutiable,
             'currency_name': picking.sale_id.currency_id.name or picking.company_id.currency_id.name,
             'total_value': str(sum([line.product_id.lst_price * int(line.product_uom_qty) for line in picking.move_lines]))
@@ -296,7 +297,11 @@ class DHLProvider():
         contact_node = etree.SubElement(shipper_node, "Contact")
         etree.SubElement(contact_node, "PersonName").text = self._remove_accents(param["shipper_partner"].name)
         etree.SubElement(contact_node, "PhoneNumber").text = param["shipper_partner"].phone
+
         etree.SubElement(root, "LabelImageFormat").text = param["LabelImageFormat"]
+
+        label_node = etree.SubElement(root, "Label")
+        etree.SubElement(label_node, "LabelTemplate").text = param["LabelTemplate"]
 
         return etree.tostring(root)
 

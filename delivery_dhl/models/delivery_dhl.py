@@ -47,6 +47,23 @@ class Providerdhl(models.Model):
     dhl_package_width = fields.Integer(string="Package Width")
     dhl_package_depth = fields.Integer(string="Package Depth")
     dhl_dutiable = fields.Boolean(string="Dutiable Material", help="Check this if your package is dutiable.")
+    dhl_label_image_format = fields.Selection([
+        ('EPL2', 'EPL2'),
+        ('PDF', 'PDF'),
+        ('ZPL2', 'ZPL2'),
+    ], string="Label Image Format", default='PDF')
+    dhl_label_template = fields.Selection([
+        ('8X4_A4_PDF', '8X4_A4_PDF'),
+        ('8X4_thermal', '8X4_thermal'),
+        ('8X4_A4_TC_PDF', '8X4_A4_TC_PDF'),
+        ('6X4_thermal', '6X4_thermal'),
+        ('6X4_A4_PDF', '6X4_A4_PDF'),
+        ('8X4_CI_PDF', '8X4_CI_PDF'),
+        ('8X4_CI_thermal', '8X4_CI_thermal'),
+        ('8X4_RU_A4_PDF', '8X4_RU_A4_PDF'),
+        ('6X4_PDF', '6X4_PDF'),
+        ('8X4_PDF', '8X4_PDF')
+    ], string="Label Template", default='8X4_A4_PDF')
 
     def dhl_get_shipping_price_from_so(self, orders):
         res = []
