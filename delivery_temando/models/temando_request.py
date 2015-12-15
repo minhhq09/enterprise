@@ -221,8 +221,8 @@ class TemandoRequest():
         self.LocationDestination.code = recipient_partner.zip
         self.LocationDestination.country = recipient_partner.country_id.code
         self.LocationDestination.phone1 = recipient_partner.phone
-        self.LocationDestination.fax = recipient_partner.fax
-        self.LocationDestination.email = recipient_partner.email
+        self.LocationDestination.fax = recipient_partner.fax or ''
+        self.LocationDestination.email = recipient_partner.email or ''
 
     def set_payment_detail(self):
         self.Payment = self.client.factory.create('com:Payment')
