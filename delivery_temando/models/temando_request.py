@@ -241,9 +241,9 @@ class TemandoRequest():
         self.Payment = self.client.factory.create('com:Payment')
         self.Payment.paymentType = 'Account'
 
-    def set_labelprinter_detail(self):
+    def set_labelprinter_detail(self, label_printer_type):
         self.LabelPrinter = self.client.factory.create('com:LabelPrinterType')
-        self.LabelPrinter.labelPrinterType = 'Thermal'
+        self.LabelPrinter.labelPrinterType = label_printer_type
 
     def set_client_reference(self, client_id):
         self.Reference = client_id

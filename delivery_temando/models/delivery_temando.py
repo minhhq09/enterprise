@@ -38,6 +38,8 @@ class ProviderTemando(models.Model):
     temando_package_width = fields.Integer(string='Package Width', help="Fix Width if not provided on the product packaging.")
     temando_package_length = fields.Integer(string='Package Length', help="Fix Length if not provided on the product packaging.")
 
+    temando_label_printer_type = fields.Selection([('Standard', 'Standard'), ('Thermal', 'Thermal'), ('ZPL', 'ZPL')], default='Thermal')
+
     def temando_get_shipping_price_from_so(self, orders):
         res = []
         ResCurrency = self.env['res.currency']
@@ -102,7 +104,7 @@ class ProviderTemando(models.Model):
             request.set_client_reference(superself.temando_client_id)
             request.set_general_detail(currency_order.name, total_price, self.temando_delivery_nature)
             request.set_payment_detail()
-            request.set_labelprinter_detail()
+            request.set_labelprinter_detail(self.temando_label_printer_type)
 
             booking = request.make_booking()
 
