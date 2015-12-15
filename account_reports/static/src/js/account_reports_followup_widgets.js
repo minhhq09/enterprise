@@ -118,13 +118,16 @@ var FollowupReportWidget = ReportWidget.extend({
                             letter_partner_list.push($(this).data('partner'));
                         });
                         framework.blockUI();
+                        var complete = function() {
+                            framework.unblockUI();
+                            var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
+                            self.getParent().restart(report_context);
+                        }
                         session.get_file({
                             url: '/account_reports/followup_report/' + letter_partner_list + '/',
-                            complete: framework.unblockUI,
+                            complete: complete,
                             error: crash_manager.rpc_error.bind(crash_manager),
                         });
-                        var report_context = {partner_done: 'all', email_context_list: email_context_list}; // Restart the report giving the list for the emails
-                        self.getParent().restart(report_context);
                     }
                 });
             })

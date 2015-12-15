@@ -141,7 +141,7 @@ class res_partner(models.Model):
         return result
 
     @api.multi
-    def update_next_action(self):
+    def update_next_action(self, batch=False):
         company_id = self.env.user.company_id
         context = self.env.context
         cr = self.env.cr
@@ -164,20 +164,24 @@ class res_partner(models.Model):
             old = result['id']
 
         fups[old] = (current_date - delay, old)
+        to_delete = self.env['res.partner']
 
         for partner in self:
+            self.payment_next_action_date = current_date + datetime.timedelta(days=6)
             for aml in partner.unreconciled_aml_ids:
                 followup_line_id = aml.followup_line_id.id or None
-                delete_context = False
                 if aml.date_maturity:
                     if aml.date_maturity <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
                         aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
-                        delete_context = True
+                        to_delete = to_delete | partner
                 elif aml.date and aml.date <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
                     aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
-                    delete_context = True
-                if delete_context:
-                    self.env['account.report.context.followup'].search([('partner_id', '=', partner.id), ('create_uid', '=', self.env.user.id)]).unlink()
+                    to_delete = to_delete | partner
+
+        if batch:
+            return to_delete
+        self.env['account.report.context.followup'].search([('partner_id', 'in', to_delete.ids)]).unlink()
+        return
 
     payment_responsible_id = fields.Many2one('res.users', ondelete='set null', string='Follow-up Responsible',
                                              help="Optionally you can assign a user to this field, which will make him responsible for the action.",

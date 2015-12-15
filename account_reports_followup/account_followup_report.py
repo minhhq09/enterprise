@@ -4,6 +4,7 @@
 from openerp import models, fields, api
 from openerp.tools.translate import _
 import time
+import math
 
 
 class account_report_context_followup_all(models.TransientModel):
@@ -36,7 +37,7 @@ class account_report_context_followup_all(models.TransientModel):
     def _compute_pages(self):
         for context in self:
             partners = [x not in context.skipped_partners_ids.ids and x for x in self.env['res.partner'].get_partners_in_need_of_action_and_update().keys()]
-            context.last_page = len(partners) / 15
+            context.last_page = math.ceil(float(len(partners)) / float(self.PAGER_SIZE))
 
 
 class account_report_context_followup(models.TransientModel):

@@ -35,7 +35,7 @@ class report_account_followup_report(models.AbstractModel):
             for aml in aml_recs:
                 amount = aml.currency_id and aml.amount_residual_currency or aml.amount_residual
                 date_due = aml.date_maturity or aml.date
-                total += amount
+                total += not aml.blocked and amount or 0
                 is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
                 is_payment = aml.payment_id
                 if is_overdue or is_payment:
@@ -154,8 +154,10 @@ class account_report_context_followup_all(models.TransientModel):
         return self.env['res.partner'].get_partners_in_need_of_action() - self.skipped_partners_ids
 
     def _get_html_partner_done(self, given_context, partners):
+        partners = partners.sorted(key=lambda x: x.name)
         context_obj = self.env['account.report.context.followup']
         emails_not_sent = context_obj.browse()
+        processed_partners = False
         if given_context['partner_done'] == 'all':
             if 'email_context_list' in given_context:
                 email_context_list = given_context['email_context_list']
@@ -164,24 +166,25 @@ class account_report_context_followup_all(models.TransientModel):
                     if not email_context.send_email():
                         emails_not_sent = emails_not_sent | email_context
             partners_done = partners[((given_context['page'] - 1) * self.PAGER_SIZE):(given_context['page'] * self.PAGER_SIZE)] - emails_not_sent.partner_id
-            partners_done.update_next_action()
-            self.write({'valuenow': min(self.valuemax, self.valuenow + 2)})
+            processed_partners = partners_done.update_next_action(batch=True)
+            self.write({'valuenow': min(self.valuemax, self.valuenow + len(partners_done))})
             partners = partners - partners_done
         else:
             self.write({'valuenow': self.valuenow + 1})
-        return [partners, emails_not_sent]
+        return [partners, emails_not_sent, processed_partners]
 
     def _get_html_create_context(self, partner):
         return self.env['account.report.context.followup'].with_context(lang=partner.lang).create({'partner_id': partner.id})
 
     def _get_html_build_rcontext(self, reports, emails_not_sent, given_context):
+        all_partners_done = given_context.get('partner_done') and (self.valuenow == self.valuemax or given_context['partner_done'] == 'all')
         return {
-            'reports': reports,
+            'reports': not all_partners_done and reports or [],
             'report': self.env['account.followup.report'],
             'mode': 'display',
             'emails_not_sent': emails_not_sent,
             'context_all': self,
-            'all_partners_done': given_context.get('partner_done') and self.valuenow == self.valuemax,
+            'all_partners_done': all_partners_done,
             'just_arrived': 'partner_done' not in given_context and 'partner_skipped' not in given_context,
             'time': time,
             'today': datetime.today().strftime('%Y-%m-%d'),
@@ -195,6 +198,7 @@ class account_report_context_followup_all(models.TransientModel):
         report_obj = self.env['account.followup.report']
         reports = []
         emails_not_sent = context_obj.browse()
+        processed_partners = False  # The partners that have been processed and for who the context should be deleted
         if 'partner_skipped' in given_context:
             self.skip_partner(self.env['res.partner'].browse(int(given_context['partner_skipped'])))
         partners = self._get_html_get_partners()
@@ -205,12 +209,12 @@ class account_report_context_followup_all(models.TransientModel):
                 self.write({'skipped_partners_ids': [(4, int(given_context['partner_done']))]})
             except ValueError:
                 pass
-            [partners, emails_not_sent] = self._get_html_partner_done(given_context, partners)
+            [partners, emails_not_sent, processed_partners] = self._get_html_partner_done(given_context, partners)
         if self.valuemax != self.valuenow + len(partners):
             self.write({'valuemax': self.valuenow + len(partners)})
         if self.partner_filter == 'all':
             partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
-        partners = sorted(partners, key=lambda x: x.name)
+        partners = partners.sorted(key=lambda x: x.name)
         for partner in partners[((given_context['page'] - 1) * self.PAGER_SIZE):(given_context['page'] * self.PAGER_SIZE)]:
             context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
             if not context_id:
@@ -221,7 +225,10 @@ class account_report_context_followup_all(models.TransientModel):
                 'lines': lines,
             })
         rcontext = self._get_html_build_rcontext(reports, emails_not_sent, given_context)
-        return self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup_all').render(rcontext)
+        res = self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup_all').render(rcontext)
+        if processed_partners:
+            self.env['account.report.context.followup'].search([('partner_id', 'in', processed_partners.ids)]).unlink()
+        return res
 
 
 class account_report_context_followup(models.TransientModel):
@@ -323,7 +330,7 @@ class account_report_context_followup(models.TransientModel):
 
     @api.multi
     def send_email(self):
-        pdf = self.get_pdf().encode('base64')
+        pdf = self.with_context(public=True).get_pdf().encode('base64')
         name = self.partner_id.name + '_followup.pdf'
         attachment = self.env['ir.attachment'].create({'name': name, 'datas_fname': name, 'datas': pdf, 'type': 'binary'})
         email = self.env['res.partner'].browse(self.partner_id.address_get(['invoice'])['invoice']).email
