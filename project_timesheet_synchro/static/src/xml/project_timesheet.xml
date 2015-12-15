@@ -513,8 +513,14 @@
                     <option value="http://">http://</option>
                     <option value="https://">https://</option>
                 </select>
-                <input type="text" class="pt_premise_url form-control" value="localhost:8069"></input>
+                <input type="text" class="pt_premise_url form-control" t-att-value="widget.url || 'localhost:8069'"></input>
             </div>
+            <t t-if="!!widget.show_db_field">
+                <div class="form-group">
+                    <strong><br/>Please enter a database name:<br/></strong>
+                    <input type="text" class="pt_premise_db form-control" value=""></input>
+                </div>
+            </t>
             <a href="#" class="btn btn-primary pt_validate_url">Next</a>
         </form>
     </t>

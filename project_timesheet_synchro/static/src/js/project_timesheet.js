@@ -1778,15 +1778,26 @@ odoo.define('project_timeshee.ui', function (require ) {
             var protocol = this.$(".pt_premise_protocol").val();
             session.origin = protocol + server_address;
             session.setup(protocol + server_address, {use_cors : true});
+
+            if(this.$(".pt_premise_db") && this.$(".pt_premise_db").val()) {
+                self.getParent().db_list = [this.$(".pt_premise_db").val()];
+                self.getParent().show_premise_login_form_screen();
+                return;
+            }
+
             session.rpc('/jsonrpc',  { method : 'list' , service : 'db', args : []}).then(function(result) {
                 self.getParent().db_list = result;
                 self.getParent().show_premise_login_form_screen();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
                     alert("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
-                }
-                else {
+                } else if (self.url) {
                     alert("Could not find server. Please check that the url you entered is correct.");
+                } else {
+                    // Re render the form with a field allowing to enter a database name. Useful for servers that don't allow listing databases.
+                    self.url = server_address;
+                    self.show_db_field = true;
+                    self.renderElement();
                 }
             });
         },
@@ -1810,7 +1821,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                 self.getParent().on_successful_login();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
-                    alert("Could not reach the server. Please check that you have an internet connection, that the server address you entered is valid, and that the server is online.");
+                    alert("Could not reach the server. Please check that you have an internet connection, that the server address and database name you entered is valid, and that the server is online.");
                 } else {
                     alert("Could not login. Please check that the information you entered is correct.");
                 }
