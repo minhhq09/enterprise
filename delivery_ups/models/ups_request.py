@@ -9,6 +9,7 @@ except ImportError:
 from PIL import Image
 import logging
 import os
+import re
 from urllib2 import URLError
 
 import suds
@@ -31,8 +32,8 @@ UPS_ERROR_MAP = {
     '110002': "Please provide at least one item to ship.",
     '110208': "Please set a valid country in the recipient address.",
     '110308': "Please set a valid country in the warehouse address.",
-    '110548': "This measurement system is not valid for the selected country. It should be LBS/IN or KGS/CM. Configure it from the delivery method.",
-    '111057': "This measurement system is not valid for the selected country. It should be LBS/IN or KGS/CM. Configure it from the delivery method.",
+    '110548': "A shipment cannot have a KGS/IN or LBS/CM as its unit of measurements. Configure it from the delivery method.",
+    '111057': "This measurement system is not valid for the selected country. Please switch from LBS/IN to KGS/CM (or vice versa). Configure it from the delivery method.",
     '111091': "The selected service is not possible from your warehouse to the recipient address, please choose another service.",
     '111100': "The service is invalid from the requested warehouse.",
     '111107': "Please provide a valid zip code in the warehouse address.",
@@ -75,7 +76,7 @@ UPS_ERROR_MAP = {
     '120313': "Warehouse Phone must be at least 10 alphanumeric characters.",
     '120314': "Warehouse Phone must contain only numbers.",
     '120412': "Please provide a valid shipper Number.",
-    '121057': "This measurement system is not valid for the selected country. It should be LBS/IN or KGS/CM. Configure it from delivery method",
+    '121057': "This measurement system is not valid for the selected country. Please switch from LBS/IN to KGS/CM (or vice versa). Configure it from delivery method",
     '121210': "The requested service is unavailable between the selected locations.",
     '128089': "Access License number is Invalid. Provide a valid number (Length sholuld be 0-35 alphanumeric characters)",
     '190001': "Cancel shipment not available at this time , Please try again Later.",
@@ -98,8 +99,6 @@ UPS_ERROR_MAP = {
 
 class Package():
     def __init__(self, carrier, weight, quant_pack=False, name=''):
-        assert weight > 0
-
         self.weight = self._convert_weight(weight, carrier.ups_package_weight_unit)
         self.weight_unit = carrier.ups_package_weight_unit
         self.name = name
@@ -130,7 +129,7 @@ class FixRequestNamespacePlug(MessagePlugin):
 class UPSRequest():
     def __init__(self, username, password, shipper_number, access_number, test_mode):
         # Product and Testing url
-        self.endurl = "https://onlinetools.ups.com/webservices"
+        self.endurl = "https://onlinetools.ups.com/webservices/"
         if test_mode:
             self.endurl = "https://wwwcie.ups.com/webservices/"
 
@@ -171,6 +170,9 @@ class UPSRequest():
         client.set_options(location='%s%s' % (self.endurl, api))
         return client
 
+    def _clean_phone_number(self, phone):
+        return re.sub('[^0-9]','', phone)
+
     def check_required_value(self, shipper, ship_from, ship_to, order=False, picking=False):
         required_field = {'city': 'City', 'zip': 'ZIP code', 'country_id': 'Country', 'phone': 'Phone'}
         # Check required field for shipper
@@ -181,6 +183,8 @@ class UPSRequest():
             res.append('Street')
         if res:
             raise ValidationError(_("The address of your company is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(shipper.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120115')))
         # Check required field for warehouse address
         res = [required_field[field] for field in required_field if not ship_from[field]]
         if ship_from.country_id.code in ('US', 'CA', 'IE') and not ship_from.state_id.code:
@@ -189,6 +193,8 @@ class UPSRequest():
             res.append('Street')
         if res:
             raise ValidationError(_("The address of your warehouse is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(ship_from.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120313')))
         # Check required field for recipient address
         res = [required_field[field] for field in required_field if not ship_to[field]]
         if ship_to.country_id.code in ('US', 'CA', 'IE') and not ship_to.state_id.code:
@@ -197,6 +203,8 @@ class UPSRequest():
             res.append('Street')
         if res:
             raise ValidationError(_("The recipient address is missing or wrong.\n(Missing field(s) : %s)") % ",".join(res))
+        if len(self._clean_phone_number(ship_to.phone)) < 10:
+            raise ValidationError(_(UPS_ERROR_MAP.get('120213')))
         if order:
             if not order.order_line:
                 raise ValidationError(_("Please provide at least one item to ship."))
@@ -355,7 +363,7 @@ class UPSRequest():
         if shipper.country_id.code in ('US', 'CA', 'IE'):
             shipment.Shipper.Address.StateProvinceCode = shipper.state_id.code or ''
         shipment.Shipper.ShipperNumber = self.shipper_number or ''
-        shipment.Shipper.Phone.Number = shipper.phone or ''
+        shipment.Shipper.Phone.Number = self._clean_phone_number(shipper.phone)
 
         shipment.ShipFrom.AttentionName = ship_from.name or ''
         shipment.ShipFrom.Name = ship_from.parent_id.name or ship_from.name or ''
@@ -365,7 +373,7 @@ class UPSRequest():
         shipment.ShipFrom.Address.CountryCode = ship_from.country_id.code or ''
         if ship_from.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipFrom.Address.StateProvinceCode = ship_from.state_id.code or ''
-        shipment.ShipFrom.Phone.Number = ship_from.phone or ''
+        shipment.ShipFrom.Phone.Number = self._clean_phone_number(ship_from.phone)
 
         shipment.ShipTo.AttentionName = ship_to.name or ''
         shipment.ShipTo.Name = ship_to.parent_id.name or ship_to.name or ''
@@ -375,7 +383,7 @@ class UPSRequest():
         shipment.ShipTo.Address.CountryCode = ship_to.country_id.code or ''
         if ship_to.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipTo.Address.StateProvinceCode = ship_to.state_id.code or ''
-        shipment.ShipTo.Phone.Number = ship_to.phone or ''
+        shipment.ShipTo.Phone.Number = self._clean_phone_number(ship_to.phone)
 
         shipment.Service.Code = service_type or ''
         shipment.Service.Description = 'Service Code'
