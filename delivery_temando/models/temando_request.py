@@ -211,17 +211,25 @@ class TemandoRequest():
             quantity = quantity - 1
         self.Anything.articles = {'article': res}
 
-    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner):
+    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner, shipper_warehouse=None):
+        # RIM: Dirty hack to have this behavior in stable: if there is a
+        # custom field called x_temando_location on a stock.warehouse, manifesting
+        # system is enabled
+        location_name = getattr(shipper_warehouse, 'x_temando_location', False)
+        if location_name:
+            self.LocationOrigin = self.client.factory.create('com:Location')
+            self.LocationOrigin.description = location_name
+            self.LocationOrigin.manifesting = 'Y'
         self.LocationOrigin = self.client.factory.create('com:Location')
         self.LocationOrigin.contactName = shipper_company_partner.name
         self.LocationOrigin.companyName = shipper_company_partner.name
-        self.LocationOrigin.street = ('%s %s') % (shipper_warehouse_partner.street or '', shipper_warehouse_partner.street2 or '')
-        self.LocationOrigin.country = shipper_warehouse_partner.country_id.code
-        self.LocationOrigin.code = shipper_warehouse_partner.zip
-        self.LocationOrigin.suburb = shipper_warehouse_partner.city
-        self.LocationOrigin.state = shipper_warehouse_partner.state_id.code
-        self.LocationOrigin.phone1 = shipper_warehouse_partner.phone
-        self.LocationOrigin.email = shipper_warehouse_partner.email
+        self.LocationOrigin.street = ('%s %s') % (shipper_warehouse.partner_id.street or '', shipper_warehouse.partner_id.street2 or '')
+        self.LocationOrigin.country = shipper_warehouse.partner_id.country_id.code
+        self.LocationOrigin.code = shipper_warehouse.partner_id.zip
+        self.LocationOrigin.suburb = shipper_warehouse.partner_id.city
+        self.LocationOrigin.state = shipper_warehouse.partner_id.state_id.code
+        self.LocationOrigin.phone1 = shipper_warehouse.partner_id.phone
+        self.LocationOrigin.email = shipper_warehouse.partner_id.email
 
     def set_location_destination_detail(self, recipient_partner):
         self.LocationDestination = self.client.factory.create('com:Location')
@@ -302,6 +310,23 @@ class TemandoRequest():
             dict_response['error_message'] = fault
         except URLError:
             dict_response['error_message'] = 'Temando Server Not Found'
+        return dict_response
+
+    # Manifest stuff
+
+    def get_manifest(self, client_id, location_name, carrier_id=0):
+        dict_response = {'error_message': '',
+                         'manifest_bin': None}
+        try:
+            self.response = self.client.service.confirmManifest(clientId=client_id, location=location_name)
+            if self.response.manifestDocument:
+                dict_response['manifest_bin'] = binascii.a2b_base64(self.response.manifestDocument)
+            else:
+                dict_response['error_message'] = _('Temando did not return any manifest')
+        except suds.WebFault as fault:
+            dict_response['error_message'] = fault
+        except URLError:
+            dict_response['error_message'] = _('Temando Server Not Found')
         return dict_response
 
     # Helpers
