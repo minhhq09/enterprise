@@ -13,17 +13,34 @@ class TestDeliveryTemando(TransactionCase):
         self.iMac = self.env.ref('product.product_product_8')
         self.uom_unit = self.env.ref('product.product_uom_unit')
 
-        # set Currency USD for Domestic
-        self.usd = self.env.ref('base.USD')
+        self.aud = self.env.ref('base.AUD')
         self.pricelist = self.env.ref('product.list0')
-        # Add a full address to "Your Company"
+
         self.your_company = self.env.ref('base.main_partner')
-        self.your_company.write({'phone': 9874582356})
-        self.jackson_group = self.env.ref('base.res_partner_10')
-        self.jackson_group.write({'phone': 3132223456})
+        self.your_company.write({'street': 'Test Street',
+                                 'zip': 2000,
+                                 'state_id': self.env.ref('base.state_au_2').id,
+                                 'city': 'Sydney',
+                                 'country_id': self.env.ref('base.au').id,
+                                 'phone': 9874582356})
+        Partner = self.env['res.partner']
+        self.test_company_au = Partner.create({'name': 'Test Company',
+                                               'street': 'Test Street',
+                                               'zip': 5097,
+                                               'state_id': self.env.ref('base.state_au_5').id,
+                                               'city': 'Ridgehaven',
+                                               'country_id': self.env.ref('base.au').id,
+                                               'phone': 1234567891})
+        self.odoo_usa = Partner.create({'name': 'Odoo Inc.',
+                                                'street': '44 Federal Street',
+                                                'zip': 94107,
+                                                'state_id': self.env.ref('base.state_us_5').id,
+                                                'city': 'San Francisco',
+                                                'country_id': self.env.ref('base.us').id,
+                                                'phone': 1234567891})
 
     @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
-    def test_01_temando_basic_us_domestic_flow(self):
+    def test_01_temando_basic_au_domestic_flow(self):
         SaleOrder = self.env['sale.order']
 
         sol_vals = {'product_id': self.iPadMini.id,
@@ -31,12 +48,10 @@ class TestDeliveryTemando(TransactionCase):
                     'product_uom': self.uom_unit.id,
                     'product_uom_qty': 1.0,
                     'price_unit': self.iPadMini.lst_price}
-
-        self.pricelist.currency_id = self.usd.id
-        so_vals = {'partner_id': self.jackson_group.id,
+        self.pricelist.currency_id = self.aud.id
+        so_vals = {'partner_id': self.test_company_au.id,
                    'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando').id,
                    'order_line': [(0, None, sol_vals)]}
-
         sale_order = SaleOrder.create(so_vals)
 
         self.assertGreater(sale_order.delivery_price, 0.0, "temando delivery cost for this SO has not been correctly estimated.")
@@ -49,9 +64,10 @@ class TestDeliveryTemando(TransactionCase):
 
         picking.force_assign()
 
+        picking.pack_operation_product_ids.qty_done = 1.0
+
         self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
 
-        picking.pack_operation_product_ids.qty_done = 1.0
         picking.do_transfer()
 
         self.assertIsNot(picking.carrier_tracking_ref, False, "Temando did not return any tracking number")
@@ -63,50 +79,7 @@ class TestDeliveryTemando(TransactionCase):
         self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
     @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
-    def test_02_temando_basic_international_flow(self):
-        self.your_company.write({'country_id': self.env.ref('base.au').id,
-                                 'state_id': self.env.ref('base.state_au_4').id,
-                                 'city': 'Brisbane',
-                                 'zip': 4000})
-
-        SaleOrder = self.env['sale.order']
-
-        sol_vals = {'product_id': self.iPadMini.id,
-                    'name': "[A1232] iPad Mini",
-                    'product_uom': self.uom_unit.id,
-                    'product_uom_qty': 1.0,
-                    'price_unit': self.iPadMini.lst_price}
-
-        so_vals = {'partner_id': self.jackson_group.id,
-                   'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando_international').id,
-                   'order_line': [(0, None, sol_vals)]}
-
-        sale_order = SaleOrder.create(so_vals)
-        self.assertGreater(sale_order.delivery_price, 0.0, "Temando delivery cost for this SO has not been correctly estimated.")
-
-        sale_order.action_confirm()
-        self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
-
-        picking = sale_order.picking_ids[0]
-        self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
-
-        picking.force_assign()
-
-        self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
-
-        picking.pack_operation_product_ids.qty_done = 1.0
-        picking.do_transfer()
-
-        self.assertIsNot(picking.carrier_tracking_ref, False, "Temando did not return any tracking number")
-        self.assertGreater(picking.carrier_price, 0.0, "Temando carrying price is probably incorrect")
-
-        picking.cancel_shipment()
-
-        self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
-        self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
-
-    @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
-    def test_03_temando_multipackage_international_flow(self):
+    def test_02_temando_multipackage_au_flow(self):
         SaleOrder = self.env['sale.order']
 
         sol_1_vals = {'product_id': self.iPadMini.id,
@@ -118,14 +91,13 @@ class TestDeliveryTemando(TransactionCase):
                       'name': "[A1090] iMac",
                       'product_uom': self.uom_unit.id,
                       'product_uom_qty': 1.0,
-                      'price_unit': self.iPadMini.lst_price}
-
-        so_vals = {'partner_id': self.jackson_group.id,
-                   'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando_international').id,
+                      'price_unit': self.iMac.lst_price}
+        self.pricelist.currency_id = self.aud.id
+        so_vals = {'partner_id': self.test_company_au.id,
+                   'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando').id,
                    'order_line': [(0, None, sol_1_vals), (0, None, sol_2_vals)]}
-
-        self.pricelist.currency_id = self.usd.id
         sale_order = SaleOrder.create(so_vals)
+
         self.assertGreater(sale_order.delivery_price, 0.0, "Temando delivery cost for this SO has not been correctly estimated.")
 
         sale_order.action_confirm()
@@ -145,6 +117,45 @@ class TestDeliveryTemando(TransactionCase):
 
         self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
         self.assertTrue(all([po.result_package_id is not False for po in picking.pack_operation_ids]), "Some products have not been put in packages")
+
+        picking.do_transfer()
+
+        self.assertIsNot(picking.carrier_tracking_ref, False, "Temando did not return any tracking number")
+        self.assertGreater(picking.carrier_price, 0.0, "Temando carrying price is probably incorrect")
+
+        picking.cancel_shipment()
+
+        self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
+        self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+
+    @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
+    def test_03_temando_basic_international_flow(self):
+        SaleOrder = self.env['sale.order']
+
+        sol_vals = {'product_id': self.iPadMini.id,
+                    'name': "[A1232] iPad Mini",
+                    'product_uom': self.uom_unit.id,
+                    'product_uom_qty': 1.0,
+                    'price_unit': self.iPadMini.lst_price}
+        self.pricelist.currency_id = self.aud.id
+        so_vals = {'partner_id': self.odoo_usa.id,
+                   'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando_international').id,
+                   'order_line': [(0, None, sol_vals)]}
+        sale_order = SaleOrder.create(so_vals)
+
+        self.assertGreater(sale_order.delivery_price, 0.0, "temando delivery cost for this SO has not been correctly estimated.")
+
+        sale_order.action_confirm()
+        self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
+
+        picking = sale_order.picking_ids[0]
+        self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
+
+        picking.force_assign()
+
+        picking.pack_operation_product_ids.qty_done = 1.0
+
+        self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
 
         picking.do_transfer()
 
