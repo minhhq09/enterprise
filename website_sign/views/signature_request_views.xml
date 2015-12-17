@@ -192,13 +192,9 @@
     <menuitem id="website_sign.digital_signatures_dashboard_menu" name="Documents" parent="website_sign.digital_signatures_menu" action="digital_signatures_dashboard_action"/>
     <menuitem id="website_sign.signature_request_menu" name="Signature Requests" parent="website_sign.digital_signatures_menu" action="signature_request_action" groups="base.group_no_one"/>
 
-    <record id="action_client_digital_signature_menu" model="ir.actions.client">
-        <field name="name">Open Digital Signatures Menu</field>
-        <field name="tag">reload</field>
-        <field name="params" eval="{'menu_id': ref('website_sign.digital_signatures_dashboard_menu')}"/>
-    </record>
+    <!-- After installation of the module, open the related menu -->
     <record id="base.open_menu" model="ir.actions.todo">
-        <field name="action_id" ref="action_client_digital_signature_menu"/>
+        <field name="action_id" ref="base.action_open_website"/>
         <field name="state">open</field>
     </record>
 </odoo>
