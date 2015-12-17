@@ -8,6 +8,12 @@ import datetime
 import time
 
 
+class ResCompany(models.Model):
+    _inherit = "res.company"
+
+    min_days_between_followup = fields.Integer('Minimum days between two follow-ups', help="Use this if you want to be sure than a minimum number of days occurs between two follow-ups.", default=6)
+
+
 class followup(models.Model):
     _name = 'account_followup.followup'
     _description = 'Account Follow-up'
@@ -167,7 +173,7 @@ class res_partner(models.Model):
         to_delete = self.env['res.partner']
 
         for partner in self:
-            self.payment_next_action_date = current_date + datetime.timedelta(days=6)
+            partner.payment_next_action_date = current_date + datetime.timedelta(days=company_id.min_days_between_followup)
             for aml in partner.unreconciled_aml_ids:
                 followup_line_id = aml.followup_line_id.id or None
                 if aml.date_maturity:
