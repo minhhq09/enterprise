@@ -182,7 +182,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                             self.get_mfa_process(resp_json.siteAccountId);
                         }
                         else {
-                            self.refresh_process(resp_json.siteAccountId, 30);
+                            self.refresh_process(resp_json.siteAccountId, 90);
                         }
                     }
                     else{
@@ -309,7 +309,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     // framework.unblockUI();
                     if (resp_json.errorCode === 0) {
                         // framework.blockUI();
-                        self.refresh_process(siteAccountId, 30);
+                        self.refresh_process(siteAccountId, 90);
                     }
                     else {
                         //ERROR
