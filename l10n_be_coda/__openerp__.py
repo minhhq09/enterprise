@@ -56,9 +56,6 @@ V2.2 specifications.
 If required, you can manually adjust the descriptions via the CODA configuration menu.
 ''',
     'depends': ['account_accountant', 'l10n_be', 'account_bank_statement_import'],
-    'demo': [
-        'l10n_be_coda_demo.xml',
-    ],
     'data': [
         'l10n_be_coda_view.xml',
     ],
