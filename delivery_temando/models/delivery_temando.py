@@ -23,7 +23,7 @@ class ProviderTemando(models.Model):
     temando_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production Temando Web Services")
     temando_delivery_nature = fields.Selection([('Domestic', 'Domestic'), ('International', 'International')], default="Domestic", required=True)
     temando_delivery_type = fields.Selection([('Door to Door', 'Door to Door'), ('Depot to Depot', 'Depot to Depot')], required=True, default='Door to Door')
-    temando_preferred_carrier = fields.Integer(string="Preferred Carrier ID")
+    temando_preferred_carrier = fields.Integer(string="Preferred Carrier ID", help="If set, Temando fetch quotations only for this carrier. If not set, the cheapest one is selected.")
 
     # Required based on condition
     temando_subclass = fields.Selection([('Household Goods', 'Household Goods'), ('Furniture', 'Furniture'), ('Other (Etc.)', 'Other (Etc.)')], default='Other (Etc.)')
@@ -53,7 +53,7 @@ class ProviderTemando(models.Model):
             request.set_general_detail(order.currency_id.name, order.amount_total, self.temando_delivery_nature)
 
             if self.temando_preferred_carrier:
-                request.set_carrier_quotefilter_detail(order)
+                request.set_carrier_quotefilter_rating(self.temando_preferred_carrier)
             else:
                 request.set_cheapest_quotefilter_detail()
 
@@ -94,7 +94,7 @@ class ProviderTemando(models.Model):
             request.set_shipping_anything_detail(self, picking)
 
             request.set_anywhere_detail(self, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id)
-            request.set_location_origin_detail(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id)
+            request.set_location_origin_detail(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.picking_type_id.warehouse_id)
             request.set_location_destination_detail(picking.partner_id)
 
             request.set_carrier_quotefilter_detail(sale_order)
@@ -149,3 +149,30 @@ class ProviderTemando(models.Model):
                        'carrier_price': False})
         logmessage = (_(u"Shipment N° %s has been cancelled") % (picking.carrier_tracking_ref))
         picking.message_post(body=logmessage)
+
+    def temando_get_manifest(self, pickings):
+        res = []
+
+        for picking in pickings:
+            carrier_id = picking.sale_id.temando_carrier_id or picking.carrier_id.temando_carrier_id
+            # RIM: Dirty hack to have this behavior in stable: if there is a
+            # custom field called x_temando_location on a stock.warehouse, manifesting
+            # system is enabled
+            location_name = getattr(picking.picking_type_id.warehouse_id, 'x_temando_location', False)
+            today = fields.Date.context_today()
+
+            if not location_name:
+                raise ValidationError(_("No Temando location is associated to this warehouse, Manifest collection is not available"))
+            if not carrier_id:
+                raise ValidationError(_("No CarrierID found for this delivery order"))
+
+            request = TemandoRequest(self.temando_test_mode, self.temando_username, self.temando_password)
+            result = request.get_manifest(self.temando_client_id, location_name, carrier_id=carrier_id, readyDate=today)
+            if result.get('error_message'):
+                raise ValidationError(result['error_message'])
+
+            logmessage = _("Manifest for this shipping")
+            picking.message_post(body=logmessage, attachments=[('Manifest.pdf', result['manifest_bin'])])
+            res.append(result['manifest_bin'])
+
+        return res

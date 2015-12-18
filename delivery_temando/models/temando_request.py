@@ -85,9 +85,14 @@ class TemandoRequest():
         if delivery_nature == 'International':
             self.General.termsOfTrade = 'Delivered Duty Paid'
 
+    def set_carrier_quotefilter_rating(self, carrier_id):
+        self.QuoteFilter = self.client.factory.create('com:QuoteFilter')
+        self.QuoteFilter.preference = 'Carrier Order'
+        self.QuoteFilter.carriers = {'carrier': {'carrierId': carrier_id}}
+
     def set_carrier_quotefilter_detail(self, sale_order):
         self.QuoteFilter = self.client.factory.create('com:QuoteFilter')
-        self.QuoteFilter.preference = 'Carriers Only'
+        self.QuoteFilter.preference = 'Carrier Order'
         self.QuoteFilter.carriers = {'carrier': {'carrierId': sale_order.temando_carrier_id, 'deliveryMethods': {'deliveryMethod': sale_order.temando_delivery_method}}}
 
     def set_cheapest_quotefilter_detail(self):
@@ -140,7 +145,8 @@ class TemandoRequest():
                          'carrier_name': False,
                          'delivery_method': False}
         try:
-            self.response = self.client.service.getQuotes(anythings=self.Anything, anywhere=self.Anywhere, general=self.General, quoteFilter=self.QuoteFilter)
+            qf = getattr(self, 'QuoteFilter', None)
+            self.response = self.client.service.getQuotes(anythings=self.Anything, anywhere=self.Anywhere, general=self.General, quoteFilter=qf)
 
             if self.response.quotes:
                 dict_response['price'] = float(self.response.quotes.quote[0].totalPrice)
@@ -182,34 +188,48 @@ class TemandoRequest():
             self.Anything.quantity = line.product_qty
             self.Anything.description = line.product_id.name
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
-            self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, line.product_qty, shipper_currency.name)
+            # RIM: Dirty hack to have this behavior in stable: if there is a
+            # custom field called x_hs_code on a product.template, then it is
+            # used, else we take the default on delivery.carrier
+            # TODO in master: create and use a real field
+            product_hs_code = getattr(line.product_id, 'x_hs_code', None) or carrier.temando_hs_code
+            self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, line.product_qty, shipper_currency.name, product_hs_code=product_hs_code)
             res.append(self.Anything)
         self.Anything = {'anything': res}
 
-    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency):
+    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code=None):
         res = []
         while (quantity):
             self.Article = self.client.factory.create('com:Article')
             self.Article.anythingIndex = int(quantity)
             self.Article.countryOfOrigin = shipper_partner.country_id.code
             self.Article.countryOfManufacture = shipper_partner.country_id.code
-            self.Article.hs = carrier.temando_hs_code
             self.Article.goodsCurrency = shipper_currency
+            if carrier.temando_delivery_nature == 'International':
+                self.Article.hs = product_hs_code
             res.append(self.Article)
             quantity = quantity - 1
         self.Anything.articles = {'article': res}
 
-    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner):
+    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner, shipper_warehouse=None):
+        # RIM: Dirty hack to have this behavior in stable: if there is a
+        # custom field called x_temando_location on a stock.warehouse, manifesting
+        # system is enabled
+        location_name = getattr(shipper_warehouse, 'x_temando_location', False)
+        if location_name:
+            self.LocationOrigin = self.client.factory.create('com:Location')
+            self.LocationOrigin.description = location_name
+            self.LocationOrigin.manifesting = 'Y'
         self.LocationOrigin = self.client.factory.create('com:Location')
         self.LocationOrigin.contactName = shipper_company_partner.name
         self.LocationOrigin.companyName = shipper_company_partner.name
-        self.LocationOrigin.street = ('%s %s') % (shipper_warehouse_partner.street or '', shipper_warehouse_partner.street2 or '')
-        self.LocationOrigin.country = shipper_warehouse_partner.country_id.code
-        self.LocationOrigin.code = shipper_warehouse_partner.zip
-        self.LocationOrigin.suburb = shipper_warehouse_partner.city
-        self.LocationOrigin.state = shipper_warehouse_partner.state_id.code
-        self.LocationOrigin.phone1 = shipper_warehouse_partner.phone
-        self.LocationOrigin.email = shipper_warehouse_partner.email
+        self.LocationOrigin.street = ('%s %s') % (shipper_warehouse.partner_id.street or '', shipper_warehouse.partner_id.street2 or '')
+        self.LocationOrigin.country = shipper_warehouse.partner_id.country_id.code
+        self.LocationOrigin.code = shipper_warehouse.partner_id.zip
+        self.LocationOrigin.suburb = shipper_warehouse.partner_id.city
+        self.LocationOrigin.state = shipper_warehouse.partner_id.state_id.code
+        self.LocationOrigin.phone1 = shipper_warehouse.partner_id.phone
+        self.LocationOrigin.email = shipper_warehouse.partner_id.email
 
     def set_location_destination_detail(self, recipient_partner):
         self.LocationDestination = self.client.factory.create('com:Location')
@@ -221,8 +241,8 @@ class TemandoRequest():
         self.LocationDestination.code = recipient_partner.zip
         self.LocationDestination.country = recipient_partner.country_id.code
         self.LocationDestination.phone1 = recipient_partner.phone
-        self.LocationDestination.fax = recipient_partner.fax
-        self.LocationDestination.email = recipient_partner.email
+        self.LocationDestination.fax = recipient_partner.fax or ''
+        self.LocationDestination.email = recipient_partner.email or ''
 
     def set_payment_detail(self):
         self.Payment = self.client.factory.create('com:Payment')
@@ -230,7 +250,7 @@ class TemandoRequest():
 
     def set_labelprinter_detail(self):
         self.LabelPrinter = self.client.factory.create('com:LabelPrinterType')
-        self.LabelPrinter.labelPrinterType = 'Standard'
+        self.LabelPrinter.labelPrinterType = 'Thermal'
 
     def set_client_reference(self, client_id):
         self.Reference = client_id
@@ -290,6 +310,23 @@ class TemandoRequest():
             dict_response['error_message'] = fault
         except URLError:
             dict_response['error_message'] = 'Temando Server Not Found'
+        return dict_response
+
+    # Manifest stuff
+
+    def get_manifest(self, client_id, location_name, carrier_id=0):
+        dict_response = {'error_message': '',
+                         'manifest_bin': None}
+        try:
+            self.response = self.client.service.confirmManifest(clientId=client_id, location=location_name)
+            if self.response.manifestDocument:
+                dict_response['manifest_bin'] = binascii.a2b_base64(self.response.manifestDocument)
+            else:
+                dict_response['error_message'] = _('Temando did not return any manifest')
+        except suds.WebFault as fault:
+            dict_response['error_message'] = fault
+        except URLError:
+            dict_response['error_message'] = _('Temando Server Not Found')
         return dict_response
 
     # Helpers
