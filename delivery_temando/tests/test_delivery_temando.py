@@ -22,7 +22,8 @@ class TestDeliveryTemando(TransactionCase):
                                  'state_id': self.env.ref('base.state_au_2').id,
                                  'city': 'Sydney',
                                  'country_id': self.env.ref('base.au').id,
-                                 'phone': 9874582356})
+                                 'phone': 9874582356,
+                                 'email': 'shipper@example.com'})
         Partner = self.env['res.partner']
         self.test_company_au = Partner.create({'name': 'Test Company',
                                                'street': 'Test Street',
@@ -30,14 +31,16 @@ class TestDeliveryTemando(TransactionCase):
                                                'state_id': self.env.ref('base.state_au_5').id,
                                                'city': 'Ridgehaven',
                                                'country_id': self.env.ref('base.au').id,
-                                               'phone': 1234567891})
+                                               'phone': 1234567891,
+                                               'email': 'test@company.au.example.com'})
         self.odoo_usa = Partner.create({'name': 'Odoo Inc.',
                                                 'street': '44 Federal Street',
                                                 'zip': 94107,
                                                 'state_id': self.env.ref('base.state_us_5').id,
                                                 'city': 'San Francisco',
                                                 'country_id': self.env.ref('base.us').id,
-                                                'phone': 1234567891})
+                                                'phone': 1234567891,
+                                                'email': 'odoo@usa.example.com'})
 
     @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
     def test_01_temando_basic_au_domestic_flow(self):
