@@ -387,7 +387,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
         var keys = _.keys(this.fields_view.fields);
         if (keys.length) {
             return this.dataset.default_get(keys).then(function(r) {
-                self.trigger('load_record', r);
+                self.trigger('load_record', _.clone(r));
             });
         }
         return self.trigger('load_record', {});
@@ -1444,7 +1444,7 @@ var FormRenderingEngine = FormRenderingEngineInterface.extend({
         this.handle_common_properties($new_statusbar, $statusbar);
         $statusbar.find('button').addClass('o_in_statusbar');
         this.fill_statusbar_buttons($new_statusbar.find('.o_statusbar_buttons'), $statusbar.contents('button'));
-        $new_statusbar.append($statusbar.contents('field'));
+        $new_statusbar.append($statusbar.find('field'));
         $statusbar.before($new_statusbar).remove();
         this.process($new_statusbar);
     },

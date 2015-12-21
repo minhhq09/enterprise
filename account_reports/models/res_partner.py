@@ -51,3 +51,5 @@ class ResPartner(models.Model):
         domain = self.get_followup_lines_domain(today)
         aml = self.env['account.move.line'].search(domain)
         aml.write({'next_action_date': next_action_date})
+
+        return self.env['res.partner']

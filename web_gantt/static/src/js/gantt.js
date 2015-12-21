@@ -31,6 +31,7 @@ var GanttView = View.extend({
         this.focus_date = moment(new Date());  // main date displayed on the gantt chart
 
         // Gantt configuration
+        this.gantt_events = [];
         gantt.config.autosize = "y";
         gantt.config.round_dnd_dates = false;
         gantt.config.drag_links = false;
@@ -163,6 +164,13 @@ var GanttView = View.extend({
                        self.fields = fields;
                        self.has_been_loaded.resolve();
                    });
+    },
+
+    destroy: function () {
+        while (this.gantt_events.length)
+            gantt.detachEvent(this.gantt_events.pop());
+
+        this._super.apply(this, arguments);
     },
 
     do_show: function () {
@@ -471,11 +479,15 @@ var GanttView = View.extend({
         // Creation of the chart
         var gantt_tasks = [];
         var generate_tasks = function(task, level, parent_id) {
+            if ((task.__is_group && !task.group_start) || (!task.__is_group && !task.task_start)) {
+                return;
+            }
             if (task.__is_group) {
                 // Only add empty group for the first level
                 if (level > 0 && task.tasks.length === 0){
                     return;
                 }
+
                 var project_id = _.uniqueId("gantt_project_");
                 var group_name = task.name ? formats.format_value(task.name, self.fields[group_bys[level]]) : "-";
                 // progress
@@ -527,7 +539,8 @@ var GanttView = View.extend({
         this.$div.prependTo(document.body);
 
         // Initialize the gantt chart
-        gantt.detachAllEvents();
+        while (this.gantt_events.length)
+            gantt.detachEvent(this.gantt_events.pop());
         self.scale_zoom(self.scale);
         gantt.init(this.chart_id);
         gantt._click.gantt_row = undefined; // Remove the focus on click
@@ -536,8 +549,20 @@ var GanttView = View.extend({
         gantt.showDate(self.focus_date);
         gantt.parse({"data": gantt_tasks});
 
+        gantt.sort(function(a, b){
+            if (gantt.hasChild(a.id) && !gantt.hasChild(b.id)){
+                return -1;
+            } else if (!gantt.hasChild(a.id) && gantt.hasChild(b.id)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
         // End of horrible hack
+        var scroll_state = gantt.getScrollState();
         this.$el.append(this.$div.contents());
+        gantt.scrollTo(scroll_state.x, scroll_state.y);
         this.$div.remove();
         if (temp_div_with_id) temp_div_with_id.remove();
 
@@ -546,7 +571,7 @@ var GanttView = View.extend({
 
     _configure_gantt_chart: function (tasks, group_bys, groups) {
         var self = this;
-        gantt.attachEvent("onTaskClick", function (id, e) {
+        this.gantt_events.push(gantt.attachEvent("onTaskClick", function (id, e) {
             // If we are in planning, we want a single click to open the task. If there is more than one task in the clicked range, the bar is unfold
             if (self.type === 'planning' && e.target.className.indexOf('inside_task_bar') > -1) {
                 var ids = e.target.attributes.consolidation_ids.value;
@@ -589,17 +614,17 @@ var GanttView = View.extend({
                 self.on_task_display(gantt.getTask(id));
             }
             return true;
-        });
+        }));
         // Remove double click
-        gantt.attachEvent("onTaskDblClick", function(){ return false; });
+        this.gantt_events.push(gantt.attachEvent("onTaskDblClick", function(){ return false; }));
         // Fold and unfold project bar when click on it
-        gantt.attachEvent("onBeforeTaskSelected", function(id) {
+        this.gantt_events.push(gantt.attachEvent("onBeforeTaskSelected", function(id) {
             if(gantt.getTask(id).is_group){
                 $("[task_id="+id+"] .gantt_tree_icon").click();
                 return false;
             }
             return true;
-        });
+        }));
 
         // Drag and drop
         var update_date_parent = function(id) {
@@ -630,7 +655,7 @@ var GanttView = View.extend({
          * tasks their current date start/end so that we can restore their state if the drag
          * is not successful.
          */
-        gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
+        this.gantt_events.push(gantt.attachEvent("onBeforeTaskDrag", function(id, mode, e){
             var task = gantt.getTask(id);
             task._original_start_date = task.start_date;
             task._original_end_date = task.end_date;
@@ -648,8 +673,8 @@ var GanttView = View.extend({
                 }
             }
             return true;
-        });
-        gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e){
+        }));
+        this.gantt_events.push(gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e){
             if(gantt.getTask(id).is_group){
                 // var d is the number of millisecond for one pixel
                 var d;
@@ -682,14 +707,14 @@ var GanttView = View.extend({
             }
             update_date_parent(id);
             return true;
-        });
+        }));
 
         /**
          * This will call `on_task_changed`, which will write in the dataset. This write can fail
          * if, for example, constraints defined on the model are not met. In this case, we have to
          * replace the task at its original place.
          */
-        gantt.attachEvent("onAfterTaskDrag", function(id){
+        this.gantt_events.push(gantt.attachEvent("onAfterTaskDrag", function(id){
             var update_task = function (task_id) {
                 var task = gantt.getTask(task_id);
                 self.on_task_changed(task).fail(function () {
@@ -712,9 +737,9 @@ var GanttView = View.extend({
 
             // A task has been dragged
             update_task(id);
-        });
+        }));
 
-        gantt.attachEvent("onGanttRender", function() {
+        this.gantt_events.push(gantt.attachEvent("onGanttRender", function() {
             // show the focus date
             if(!self.open_task_id || self.type == 'planning'){
                 gantt.showDate(self.focus_date);
@@ -725,19 +750,10 @@ var GanttView = View.extend({
                 }
             }
 
-            gantt.sort(function(a, b){
-                if (gantt.hasChild(a.id) && !gantt.hasChild(b.id)){
-                    return -1;
-                } else if (!gantt.hasChild(a.id) && gantt.hasChild(b.id)) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            });
             self.open_task_id = undefined;
 
             return true;
-        });
+        }));
     },
 
     scale_zoom: function (value) {

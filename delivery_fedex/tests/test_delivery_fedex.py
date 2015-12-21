@@ -2,6 +2,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import unittest
 from openerp.tests.common import TransactionCase
+from openerp.exceptions import ValidationError
+
+
+ERROR_200 = u"200: Rating is temporarily unavailable, please try again later."
+SKIP_MSG = u"Test skipped due to FedEx server unavailability"
 
 
 class TestDeliveryFedex(TransactionCase):
@@ -20,129 +25,153 @@ class TestDeliveryFedex(TransactionCase):
 
     @unittest.skip("Fedex test disabled: We do not want to overload Fedex with runbot's requests")
     def test_01_fedex_basic_us_domestic_flow(self):
-        SaleOrder = self.env['sale.order']
+        try:
 
-        sol_vals = {'product_id': self.iPadMini.id,
-                    'name': "[A1232] iPad Mini",
-                    'product_uom': self.uom_unit.id,
-                    'product_uom_qty': 1.0,
-                    'price_unit': self.iPadMini.lst_price}
+            SaleOrder = self.env['sale.order']
 
-        so_vals = {'partner_id': self.delta_pc.id,
-                   'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_us').id,
-                   'order_line': [(0, None, sol_vals)]}
+            sol_vals = {'product_id': self.iPadMini.id,
+                        'name': "[A1232] iPad Mini",
+                        'product_uom': self.uom_unit.id,
+                        'product_uom_qty': 1.0,
+                        'price_unit': self.iPadMini.lst_price}
 
-        sale_order = SaleOrder.create(so_vals)
+            so_vals = {'partner_id': self.delta_pc.id,
+                       'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_us').id,
+                       'order_line': [(0, None, sol_vals)]}
 
-        self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
+            sale_order = SaleOrder.create(so_vals)
 
-        sale_order.action_confirm()
-        self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
+            self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
 
-        picking = sale_order.picking_ids[0]
-        self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
+            sale_order.action_confirm()
+            self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
 
-        picking.force_assign()
+            picking = sale_order.picking_ids[0]
+            self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
 
-        self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
+            picking.force_assign()
 
-        picking.pack_operation_product_ids.qty_done = 1.0
-        picking.do_transfer()
+            self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
 
-        self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
-        self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
+            picking.pack_operation_product_ids.qty_done = 1.0
+            picking.do_transfer()
 
-        picking.cancel_shipment()
+            self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
+            self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
 
-        self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
-        self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+            picking.cancel_shipment()
+
+            self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
+            self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+
+        except ValidationError as e:
+            if e.name == ERROR_200:
+                raise unittest.SkipTest(SKIP_MSG)
+            else:
+                raise e
 
     @unittest.skip("Fedex test disabled: We do not want to overload Fedex with runbot's requests")
     def test_02_fedex_basic_international_flow(self):
-        SaleOrder = self.env['sale.order']
+        try:
 
-        sol_vals = {'product_id': self.iPadMini.id,
-                    'name': "[A1232] iPad Mini",
-                    'product_uom': self.uom_unit.id,
-                    'product_uom_qty': 1.0,
-                    'price_unit': self.iPadMini.lst_price}
+            SaleOrder = self.env['sale.order']
 
-        so_vals = {'partner_id': self.agrolait.id,
-                   'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_inter').id,
-                   'order_line': [(0, None, sol_vals)]}
+            sol_vals = {'product_id': self.iPadMini.id,
+                        'name': "[A1232] iPad Mini",
+                        'product_uom': self.uom_unit.id,
+                        'product_uom_qty': 1.0,
+                        'price_unit': self.iPadMini.lst_price}
 
-        sale_order = SaleOrder.create(so_vals)
-        self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
+            so_vals = {'partner_id': self.agrolait.id,
+                       'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_inter').id,
+                       'order_line': [(0, None, sol_vals)]}
 
-        sale_order.action_confirm()
-        self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
+            sale_order = SaleOrder.create(so_vals)
+            self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
 
-        picking = sale_order.picking_ids[0]
-        self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
+            sale_order.action_confirm()
+            self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
 
-        picking.force_assign()
-        self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
+            picking = sale_order.picking_ids[0]
+            self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
 
-        picking.pack_operation_product_ids.qty_done = 1.0
-        picking.do_transfer()
+            picking.force_assign()
+            self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
 
-        self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
-        self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
+            picking.pack_operation_product_ids.qty_done = 1.0
+            picking.do_transfer()
 
-        picking.cancel_shipment()
+            self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
+            self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
 
-        self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
-        self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+            picking.cancel_shipment()
+
+            self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
+            self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+
+        except ValidationError as e:
+            if e.name == ERROR_200:
+                raise unittest.SkipTest(SKIP_MSG)
+            else:
+                raise e
 
     @unittest.skip("Fedex test disabled: We do not want to overload Fedex with runbot's requests")
     def test_03_fedex_multipackage_international_flow(self):
-        SaleOrder = self.env['sale.order']
+        try:
 
-        sol_1_vals = {'product_id': self.iPadMini.id,
-                      'name': "[A1232] iPad Mini",
-                      'product_uom': self.uom_unit.id,
-                      'product_uom_qty': 1.0,
-                      'price_unit': self.iPadMini.lst_price}
-        sol_2_vals = {'product_id': self.iMac.id,
-                      'name': "[A1090] iMac",
-                      'product_uom': self.uom_unit.id,
-                      'product_uom_qty': 1.0,
-                      'price_unit': self.iMac.lst_price}
+            SaleOrder = self.env['sale.order']
 
-        so_vals = {'partner_id': self.agrolait.id,
-                   'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_inter').id,
-                   'order_line': [(0, None, sol_1_vals), (0, None, sol_2_vals)]}
+            sol_1_vals = {'product_id': self.iPadMini.id,
+                          'name': "[A1232] iPad Mini",
+                          'product_uom': self.uom_unit.id,
+                          'product_uom_qty': 1.0,
+                          'price_unit': self.iPadMini.lst_price}
+            sol_2_vals = {'product_id': self.iMac.id,
+                          'name': "[A1090] iMac",
+                          'product_uom': self.uom_unit.id,
+                          'product_uom_qty': 1.0,
+                          'price_unit': self.iMac.lst_price}
 
-        sale_order = SaleOrder.create(so_vals)
-        self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
+            so_vals = {'partner_id': self.agrolait.id,
+                       'carrier_id': self.env.ref('delivery_fedex.delivery_carrier_fedex_inter').id,
+                       'order_line': [(0, None, sol_1_vals), (0, None, sol_2_vals)]}
 
-        sale_order.action_confirm()
-        self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
+            sale_order = SaleOrder.create(so_vals)
+            self.assertGreater(sale_order.delivery_price, 0.0, "FedEx delivery cost for this SO has not been correctly estimated.")
 
-        picking = sale_order.picking_ids[0]
-        self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
+            sale_order.action_confirm()
+            self.assertEquals(len(sale_order.picking_ids), 1, "The Sale Order did not generate a picking.")
 
-        picking.force_assign()
+            picking = sale_order.picking_ids[0]
+            self.assertEquals(picking.carrier_id.id, sale_order.carrier_id.id, "Carrier is not the same on Picking and on SO.")
 
-        po0 = picking.pack_operation_product_ids[0]
-        po1 = picking.pack_operation_product_ids[1]
-        po0.qty_done = 1
-        picking.put_in_pack()
-        po1.qty_done = 1
-        picking.put_in_pack()
+            picking.force_assign()
 
-        self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
-        self.assertTrue(all([po.result_package_id is not False for po in picking.pack_operation_ids]), "Some products have not been put in packages")
+            po0 = picking.pack_operation_product_ids[0]
+            po1 = picking.pack_operation_product_ids[1]
+            po0.qty_done = 1
+            picking.put_in_pack()
+            po1.qty_done = 1
+            picking.put_in_pack()
 
-        picking.do_transfer()
+            self.assertGreater(picking.weight, 0.0, "Picking weight should be positive.")
+            self.assertTrue(all([po.result_package_id is not False for po in picking.pack_operation_ids]), "Some products have not been put in packages")
 
-        self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
-        self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
+            picking.do_transfer()
 
-        picking.cancel_shipment()
+            self.assertIsNot(picking.carrier_tracking_ref, False, "FedEx did not return any tracking number")
+            self.assertGreater(picking.carrier_price, 0.0, "FedEx carrying price is probably incorrect")
 
-        self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
-        self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+            picking.cancel_shipment()
+
+            self.assertFalse(picking.carrier_tracking_ref, "Carrier Tracking code has not been properly deleted")
+            self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
+
+        except ValidationError as e:
+            if e.name == ERROR_200:
+                raise unittest.SkipTest(SKIP_MSG)
+            else:
+                raise e
 
     # TODO RIM master: other tests scenarios:
     # - incomplete addresses:

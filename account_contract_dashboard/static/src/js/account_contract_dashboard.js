@@ -62,8 +62,8 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     },
 
     on_update_options: function(ev) {
-        this.start_date = this.start_picker.get_value();
-        this.end_date = this.end_picker.get_value();
+        this.start_date = this.start_picker.get_value() || '0001-02-01';
+        this.end_date = this.end_picker.get_value()  || '9999-12-31';
         this.contract_ids = this.get_filtered_contract_ids();
 
         this.$el.empty();

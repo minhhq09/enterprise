@@ -12,7 +12,7 @@ class report_account_generic_tax_report(models.AbstractModel):
 
     def _format(self, value):
         if self.env.context.get('no_format'):
-            return round(value, 1)
+            return value
         currency_id = self.env.user.company_id.currency_id
         if currency_id.is_zero(value):
             # don't print -0.0 in reports
@@ -171,3 +171,18 @@ class AccountReportContextTax(models.TransientModel):
             for period in self.get_cmp_periods(display=True):
                 types += ['number', 'number']
         return types
+
+    def get_action(self, tax_type, active_id):
+        name = tax_type == 'net' and _('Net Tax Lines') or _('Tax Lines')
+        domain = [('date', '>=', self.date_from), ('date', '<=', self.date_to)]
+        if not self.all_entries:
+            domain.append(('move_id.state', '=', 'posted'))
+        if tax_type == 'net':
+            domain.append(('tax_ids', 'in', [active_id]))
+        elif tax_type == 'tax':
+            domain.append(('tax_line_id', 'in', [active_id]))
+        return {
+            'name': name,
+            'res_model': 'account.move.line',
+            'domain': domain,
+        }

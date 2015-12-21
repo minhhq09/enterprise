@@ -22,5 +22,5 @@ class res_company(models.Model):
     us_check_margin_top = fields.Float('Top Margin', default=0.25,
         help="Adjust the margins of generated checks to make it fit your printer's settings.")
 
-    us_check_margin_left = fields.Float('Left Margin', default=0,
+    us_check_margin_left = fields.Float('Left Margin', default=0.25,
         help="Adjust the margins of generated checks to make it fit your printer's settings.")

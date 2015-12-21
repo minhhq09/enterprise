@@ -46,6 +46,7 @@ FollowupReportWidget.include({
         var self = this;
         var report_name = $("div.o_account_reports_page").data("report-name");
         if ((e.which === 13 || e.which === 10) && (e.ctrlKey || e.metaKey) && report_name === 'followup_report') {
+            e.preventDefault();
             return new Model('account.report.context.followup.all').call('search', [[['create_uid', '=', session.uid]]]).then(function(result) {
                 return new Model('account.report.context.followup.all').query(['partner_filter'])
                 .filter([['id', '=', result[0]]]).first().then(function (result) {
@@ -63,13 +64,16 @@ FollowupReportWidget.include({
                             action_context_list.push($(this).data('context'));
                         });
                         framework.blockUI();
+                        var complete = function() {
+                            framework.unblockUI();
+                            var report_context = {partner_done: 'all', email_context_list: email_context_list, action_context_list: action_context_list}; // Restart the report giving the list for the emails and actions
+                            self.getParent().restart(report_context);
+                        }
                         session.get_file({
                             url: '/account_reports/followup_report/' + letter_partner_list + '/',
-                            complete: framework.unblockUI,
+                            complete: complete,
                             error: crash_manager.rpc_error.bind(crash_manager),
                         });
-                        var report_context = {partner_done: 'all', email_context_list: email_context_list, action_context_list: action_context_list}; // Restart the report giving the list for the emails and actions
-                        self.getParent().restart(report_context);
                     }
                 });
             })
@@ -99,7 +103,7 @@ FollowupReportWidget.include({
         e.preventDefault();
         var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
         return new Model('account.report.context.followup').call('do_manual_action', [[parseInt(context_id, 10)]]).then (function () {
-            if ($(e.target).data('primary') === '1') {
+            if ($(e.target).data('primary') === 1) {
                 $(e.target).parents('#action-buttons').addClass('o_account_reports_followup_clicked');
                 $(e.target).toggleClass('btn-primary btn-default');
                 $(e.target).data('primary', '0');

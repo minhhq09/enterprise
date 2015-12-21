@@ -154,13 +154,14 @@ class DHLProvider():
         return root
 
     def _create_rate_xml(self, param):
+        carrier = param["carrier"].sudo()
         etree.register_namespace("req", "http://www.dhl.com")
         root = etree.Element("{http://www.dhl.com}DCTRequest")
         get_quote_node = etree.SubElement(root, "GetQuote")
         service_header_node = etree.SubElement(get_quote_node, "Request")
         service_header_node = etree.SubElement(service_header_node, "ServiceHeader")
-        etree.SubElement(service_header_node, "SiteID").text = param["carrier"].dhl_SiteID
-        etree.SubElement(service_header_node, "Password").text = param["carrier"].dhl_password
+        etree.SubElement(service_header_node, "SiteID").text = carrier.dhl_SiteID
+        etree.SubElement(service_header_node, "Password").text = carrier.dhl_password
 
         from_node = etree.SubElement(get_quote_node, "From")
         etree.SubElement(from_node, "CountryCode").text = param["shipper_partner"].country_id.code
@@ -171,28 +172,28 @@ class DHLProvider():
         etree.SubElement(bkg_details_node, "PaymentCountryCode").text = param["shipper_partner"].country_id.code
         etree.SubElement(bkg_details_node, "Date").text = param["Date"]
         etree.SubElement(bkg_details_node, "ReadyTime").text = param["ReadyTime"]
-        etree.SubElement(bkg_details_node, "DimensionUnit").text = param["carrier"].dhl_package_dimension_unit
-        etree.SubElement(bkg_details_node, "WeightUnit").text = param["carrier"].dhl_package_weight_unit
+        etree.SubElement(bkg_details_node, "DimensionUnit").text = carrier.dhl_package_dimension_unit
+        etree.SubElement(bkg_details_node, "WeightUnit").text = carrier.dhl_package_weight_unit
         pieces_node = etree.SubElement(bkg_details_node, "Pieces")
         if param["package_ids"]:
             for index, package in enumerate(param["package_ids"], start=1):
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(index)
-                etree.SubElement(piece_node, "PackageTypeCode").text = param["carrier"].dhl_package_type
-                etree.SubElement(piece_node, "Height").text = str(param["carrier"].dhl_package_height)
-                etree.SubElement(piece_node, "Depth").text = str(param["carrier"].dhl_package_depth)
-                etree.SubElement(piece_node, "Width").text = str(param["carrier"].dhl_package_width)
+                etree.SubElement(piece_node, "PackageTypeCode").text = carrier.dhl_package_type
+                etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
+                etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
+                etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
                 etree.SubElement(piece_node, "Weight").text = str(package.weight)
         else:
             piece_node = etree.SubElement(pieces_node, "Piece")
             etree.SubElement(piece_node, "PieceID").text = str(1)
-            etree.SubElement(piece_node, "PackageTypeCode").text = param["carrier"].dhl_package_type
-            etree.SubElement(piece_node, "Height").text = str(param["carrier"].dhl_package_height)
-            etree.SubElement(piece_node, "Depth").text = str(param["carrier"].dhl_package_depth)
-            etree.SubElement(piece_node, "Width").text = str(param["carrier"].dhl_package_width)
+            etree.SubElement(piece_node, "PackageTypeCode").text = carrier.dhl_package_type
+            etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
+            etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
+            etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
             etree.SubElement(piece_node, "Weight").text = str(param["total_weight"])
 
-        etree.SubElement(bkg_details_node, "PaymentAccountNumber").text = param["carrier"].dhl_account_number
+        etree.SubElement(bkg_details_node, "PaymentAccountNumber").text = carrier.dhl_account_number
         if param["is_dutiable"]:
             etree.SubElement(bkg_details_node, "IsDutiable").text = "Y"
         else:
@@ -209,6 +210,7 @@ class DHLProvider():
         return etree.tostring(root)
 
     def _create_shipping_xml(self, param):
+        carrier = param["carrier"].sudo()
         etree.register_namespace("req", "http://www.dhl.com")
         root = etree.Element("{http://www.dhl.com}ShipmentRequest")
         root.attrib['schemaVersion'] = "1.0"
@@ -219,8 +221,8 @@ class DHLProvider():
         request_node = etree.SubElement(request_node, "ServiceHeader")
         etree.SubElement(request_node, "MessageTime").text = param["MessageTime"]
         etree.SubElement(request_node, "MessageReference").text = param["MessageReference"]
-        etree.SubElement(request_node, "SiteID").text = param["carrier"].dhl_SiteID
-        etree.SubElement(request_node, "Password").text = param["carrier"].dhl_password
+        etree.SubElement(request_node, "SiteID").text = carrier.dhl_SiteID
+        etree.SubElement(request_node, "Password").text = carrier.dhl_password
 
         etree.SubElement(root, "RegionCode").text = param["RegionCode"]
         etree.SubElement(root, "RequestedPickupTime").text = "Y"
@@ -229,7 +231,7 @@ class DHLProvider():
         etree.SubElement(root, "PiecesEnabled").text = param["PiecesEnabled"]
 
         billing_node = etree.SubElement(root, "Billing")
-        etree.SubElement(billing_node, "ShipperAccountNumber").text = param['carrier'].dhl_account_number
+        etree.SubElement(billing_node, "ShipperAccountNumber").text = carrier.dhl_account_number
         etree.SubElement(billing_node, "ShippingPaymentType").text = param['ShippingPaymentType']
         if param["is_dutiable"]:
             etree.SubElement(billing_node, "DutyPaymentType").text = "S"
@@ -262,17 +264,17 @@ class DHLProvider():
             for package in param["package_ids"]:
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(package.name)   # need to be removed
-                etree.SubElement(piece_node, "Width").text = str(param["carrier"].dhl_package_width)
-                etree.SubElement(piece_node, "Height").text = str(param["carrier"].dhl_package_height)
-                etree.SubElement(piece_node, "Depth").text = str(param["carrier"].dhl_package_depth)
+                etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
+                etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
+                etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
                 etree.SubElement(piece_node, "PieceContents").text = str(package.name)
         if param["weight_bulk"]:
             # Monopackage
             piece_node = etree.SubElement(pieces_node, "Piece")
             etree.SubElement(piece_node, "PieceID").text = str(1)   # need to be removed
-            etree.SubElement(piece_node, "Width").text = str(param["carrier"].dhl_package_width)
-            etree.SubElement(piece_node, "Height").text = str(param["carrier"].dhl_package_height)
-            etree.SubElement(piece_node, "Depth").text = str(param["carrier"].dhl_package_depth)
+            etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
+            etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
+            etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
         etree.SubElement(shipment_details_node, "Weight").text = str(param["total_weight"])
         etree.SubElement(shipment_details_node, "WeightUnit").text = param["weight_unit"]
         etree.SubElement(shipment_details_node, "GlobalProductCode").text = param["GlobalProductCode"]
@@ -283,7 +285,7 @@ class DHLProvider():
         etree.SubElement(shipment_details_node, "CurrencyCode").text = param["currency_name"]
 
         shipper_node = etree.SubElement(root, "Shipper")
-        etree.SubElement(shipper_node, "ShipperID").text = param["carrier"].dhl_account_number
+        etree.SubElement(shipper_node, "ShipperID").text = carrier.dhl_account_number
         etree.SubElement(shipper_node, "CompanyName").text = self._remove_accents(param["shipper_company"].name)
         etree.SubElement(shipper_node, "AddressLine").text = self._remove_accents(param["shipper_streetLines"])
         etree.SubElement(shipper_node, "City").text = self._remove_accents(param["shipper_partner"].city)
@@ -299,6 +301,7 @@ class DHLProvider():
         return etree.tostring(root)
 
     def check_required_value(self, carrier, recipient, shipper, order=False, picking=False):
+        carrier = carrier.sudo()
         recipient_required_field = ['city', 'zip', 'country_id']
         if not carrier.dhl_SiteID:
             raise ValidationError(_("DHL Site ID is missing, please modify your delivery method settings."))

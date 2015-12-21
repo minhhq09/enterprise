@@ -360,25 +360,22 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
     },
     sort_by_column: function (e) {
         e.stopPropagation();
-        // Deactivate sort feature in grouped mode as it annoyingly closes each group
-        if (!this.grouped) {
-            var $column = $(e.currentTarget);
-            var col_name = $column.data('id');
-            var field = this.fields_view.fields[col_name];
-            // test whether the field is sortable
-            if (field && !field.sortable) {
-                return false;
-            }
-            this.dataset.sort(col_name);
-            if($column.hasClass("o-sort-down") || $column.hasClass("o-sort-up"))  {
-                $column.toggleClass("o-sort-up o-sort-down");
-            } else {
-                $column.addClass("o-sort-down");
-            }
-            $column.siblings('.o_column_sortable').removeClass("o-sort-up o-sort-down");
-
-            return this.reload_content();
+        var $column = $(e.currentTarget);
+        var col_name = $column.data('id');
+        var field = this.fields_view.fields[col_name];
+        // test whether the field is sortable
+        if (field && !field.sortable) {
+            return false;
         }
+        this.dataset.sort(col_name);
+        if($column.hasClass("o-sort-down") || $column.hasClass("o-sort-up"))  {
+            $column.toggleClass("o-sort-up o-sort-down");
+        } else {
+            $column.addClass("o-sort-down");
+        }
+        $column.siblings('.o_column_sortable').removeClass("o-sort-up o-sort-down");
+
+        return this.reload_content();
     },
     /**
      * Sets up the listview's columns: merges view and fields data, move
