@@ -26,7 +26,7 @@ Hello ${object.name},
         % for account in accounts:
         <tr>
             <td>${partner.name}</td>
-            <td><a href="${ctx["base_url"]}/#action=${ctx["action_id"]}&id=${account.id}&view_type=form">${account.name}</a></td>
+            <td><a href="${ctx["base_url"]}/web#action=${ctx["action_id"]}&id=${account.id}&view_type=form">${account.name}</a></td>
             <td>${account.date_start} to ${account.date and account.date or '???'}</td>
             <td>
             % if account.quantity_max != 0.0:
