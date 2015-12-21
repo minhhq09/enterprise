@@ -365,11 +365,23 @@ class SaleSubscription(osv.osv):
         if not ids:
             return res
         for sub in self.browse(cr, uid, ids, context=context):
-            if sub.type == 'template':
-                res.append((sub.id, '%s - %s' % (sub.code, sub.name)))
+            if sub.type != 'template':
+                name = '%s - %s' % (sub.code, sub.partner_id.name) if sub.code else sub.partner_id.name
+                res.append((sub.id, '%s/%s' % (sub.template_id.code, name) if sub.template_id.code else name))
             else:
-                res.append((sub.id, '%s/%s - %s' % (sub.template_id.code, sub.code, sub.partner_id.name)))
+                name = '%s - %s' % (sub.code, sub.name) if sub.code else sub.name
+                res.append((sub.id, name))
         return res
+
+    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
+        print('name_search: %s' % name)
+        args = args or []
+        domain = ['|', ('code', operator, name), ('name', operator, name)]
+        partner_ids = self.pool['res.partner'].search(cr, uid, [('name', operator, name)], limit=limit, context=context)
+        if partner_ids:
+            domain = ['|'] + domain + [('partner_id', 'in', partner_ids)]
+        rec_ids = self.search(cr, uid, domain + args, limit=limit, context=context)
+        return self.name_get(cr, uid, rec_ids, context=context)
 
 
 class SaleSubscriptionLine(osv.osv):

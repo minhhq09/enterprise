@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
+from openerp.osv import expression
 
 
 class ProjectForecast(models.Model):
@@ -86,12 +87,19 @@ class ProjectForecast(models.Model):
         if not self.task_id and not self.project_id:
             self.effective_hours = 0
         else:
-            if self.task_id and self.env['project.config.settings'].search([]).module_project_timesheet:
-                timesheets = self.env['account.analytic.line'].search([('task_id', '=', self.task_id.id), ('user_id', '=', self.user_id.id), ('date', '>=', self.start_date), ('date', '<=', self.end_date)])
+            aac_obj = self.env['account.analytic.line']
+            aac_domain = [
+                ('user_id', '=', self.user_id.id),
+                ('date', '>=', self.start_date),
+                ('date', '<=', self.end_date)
+            ]
+            # TODO: move this to a link module. This checks that the project_timesheet module is installed.
+            if self.task_id and hasattr(self.task_id, 'analytic_account_id'):
+                timesheets = aac_obj.search(expression.AND([[('task_id', '=', self.task_id.id)], aac_domain]))
             elif self.project_id:
-                timesheets = self.env['account.analytic.line'].search([('account_id', '=', self.project_id.analytic_account_id.id), ('user_id', '=', self.user_id.id), ('date', '>=', self.start_date), ('date', '<=', self.end_date)])
+                timesheets = aac_obj.search(expression.AND([[('account_id', '=', self.project_id.analytic_account_id.id)], aac_domain]))
             else:
-                timesheets = self.env['account.analytic.line'].browse()
+                timesheets = aac_obj.browse()
             acc = 0
             for timesheet in timesheets:
                 acc += timesheet.unit_amount

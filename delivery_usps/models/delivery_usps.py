@@ -11,7 +11,7 @@ class ProviderUSPS(models.Model):
 
     delivery_type = fields.Selection(selection_add=[('usps', "USPS")])
     # Fields required to configure
-    usps_username = fields.Char(string='USPS User ID')
+    usps_username = fields.Char(string='USPS User ID', groups="base.group_system")
     usps_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production UPS Web Services")
     usps_account_validated = fields.Boolean(string="Account Validated", help="Check this box if your account is validated by USPS")
     usps_delivery_nature = fields.Selection([('domestic', 'Domestic'),

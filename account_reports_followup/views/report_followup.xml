@@ -23,6 +23,9 @@
     </xpath>
 </template>
 <template id='report_followup_body' inherit_id='account_reports.report_followup_body'>
+    <xpath expr="//h2" position='inside'>
+        <div class='pull-right'><small><t t-esc="context.level.name"/></small></div>
+    </xpath>
     <xpath expr="//span[@id='action-buttons']" position='replace'>
         <span id='action-buttons' t-if="mode != 'print'" class='o_account_reports_followup_not_clicked'>
             <button t-if='context.level.send_letter' data-primary='1' class="btn btn-primary followup-letter" t-att-data-partner="str(context.partner_id.id)" t-att-data-target="'/account_reports/followup_report/' + str(context.partner_id.id) + '/'">Print Letter</button>

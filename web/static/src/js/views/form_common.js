@@ -762,8 +762,9 @@ var AbstractField = FormWidget.extend(FieldInterface, {
         return this.get('value') === false;
     },
     _check_css_flags: function() {
-        var show_translate = (this.$translate.parent().length > 0 && !this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
-        this.$el.parent().toggleClass('o_show_translate', !!show_translate);
+        var show_translate = (!this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
+        this.$translate.toggleClass('o_translate_active', !!show_translate);
+
         this.$el.add(this.$label)
             .toggleClass('o_form_invalid', !this.disable_utility_classes && !!this.field_manager.get('display_invalid_fields') && !this.is_valid());
     },

@@ -105,7 +105,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         }
         var status = {
             breadcrumbs: this.actionManager.get_breadcrumbs(),
-            cp_content: {$buttons: this.$buttons, $searchview_buttons: this.$searchview_buttons, $pager: this.pager, $searchview: this.$searchview},
+            cp_content: {$buttons: this.$buttons, $searchview_buttons: this.$searchview_buttons, $pager: this.$pager, $searchview: this.$searchview},
         };
         return this.update_control_panel(status);
     },
@@ -163,8 +163,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     // this function is reimplemented by subclasses
     render_pager: function() {
-        this.pager = '';
-        return this.pager;
     },
     render_searchview: function() {
         this.$searchview = '';

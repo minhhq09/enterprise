@@ -130,17 +130,16 @@ var account_report_followup_generic = account_report_generic.extend({
     render_pager: function() {
         var self = this;
         if (this.followup_all) {
-            this.pager = new Pager(this, this.report_context.last_page, this.page, 1);
-            this.pager.on('pager_changed', this, function (state) {
+            var pager = new Pager(this, this.report_context.last_page, this.page, 1);
+            pager.appendTo($('<div>')); // render the pager
+            this.$pager = pager.$el;
+            pager.on('pager_changed', this, function (state) {
                 self.page = state.current_min;
                 var report_context = {page: self.page}; // Create the context that will be given to the restart method
                 self.restart(report_context); // Then restart the report
             });
         }
-        else {
-            this.pager = '';
-        }
-        return this.pager;
+        return this.$pager;
     },
     render_searchview: function() {
         if (this.followup_all) { // Progressbar goes in the searchview area. Only when listing all the customer statements

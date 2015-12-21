@@ -113,7 +113,7 @@
                                 <field name="recurring_interval" class="oe_inline"/>
                                 <field name="recurring_rule_type" class="oe_inline"/>
                             </div>
-                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" on_change="on_change_template(template_id)" context="{'default_type': 'template'}"/>
+                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" on_change="on_change_template(template_id)" context="{'default_type': 'template'}" domain="[('type', '=', 'template'), ('state', '=', 'open')]"/>
                             <field name="manager_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>

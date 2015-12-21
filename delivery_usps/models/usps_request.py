@@ -82,7 +82,7 @@ class USPSRequest():
 
         rate_detail = {
             'api': 'RateV4' if carrier.usps_delivery_nature == 'domestic' else 'IntlRateV2',
-            'ID': carrier.usps_username,
+            'ID': carrier.sudo().usps_username,
             'revision': "2",
             'package_id': '%s%d' % ("PKG", order.id),
             'ZipOrigination': order.warehouse_id.partner_id.zip,
@@ -125,7 +125,7 @@ class USPSRequest():
         errors_return = root.findall('.//Description')
         errors_number = root.findall('.//Number')
         if errors_return:
-            dict_response['error_message'] = self._error_message(errors_number[0].text, errors_return[0].text)
+            dict_response['error_message'] = self._error_message(errors_number[0].text if errors_number else '', errors_return[0].text)
             return dict_response
         # Domestic Rate
         elif root.tag == 'RateV4Response':
@@ -176,7 +176,7 @@ class USPSRequest():
         weight_in_ounces = picking.weight * 35.274
         shipping_detail = {
             'api': api,
-            'ID': carrier.usps_username,
+            'ID': carrier.sudo().usps_username,
             'revision': "2",
             'ImageParameters': '',
             'picking_warehouse_partner': picking.picking_type_id.warehouse_id.partner_id,
@@ -256,7 +256,7 @@ class USPSRequest():
     def _usps_cancel_shipping_data(self, usps_test_mode, picking):
         if not usps_test_mode:
             return {
-                'ID': picking.carrier_id.usps_username,
+                'ID': picking.carrier_id.sudo().usps_username,
                 'FirmName': picking.picking_type_id.warehouse_id.partner_id.name,
                 'SuiteOrApt': picking.picking_type_id.warehouse_id.partner_id.street,
                 'Address2': picking.picking_type_id.warehouse_id.partner_id.street2,

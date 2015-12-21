@@ -230,7 +230,7 @@ odoo.define('website_sign.frontend', function(require) {
         },
 
         setTip: function(tip) {
-            this.$el.html(tip);
+            this.$el.text(tip);
         },
 
         onClick: function(e) {

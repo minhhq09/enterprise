@@ -306,7 +306,7 @@ var WebClient = Widget.extend({
     do_push_state: function(state) {
         this.set_title(state.title);
         delete state.title;
-        if (!state.menu_id) {
+        if (!state.menu_id && this.menu) {
             state.menu_id = this.menu.current_primary_menu;
         }
         var url = '#' + $.param(state);
@@ -416,6 +416,7 @@ var WebClient = Widget.extend({
                 var $to_detach = self.$el.contents()
                         .not('.o_loading')
                         .not('.o_chat_window')
+                        .not('.o_notification_manager')
                         .not('.ui-autocomplete')
                         .not('.blockUI');
                 self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});

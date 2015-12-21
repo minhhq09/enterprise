@@ -4,7 +4,7 @@
 from openerp import models, fields, api
 from openerp.tools.translate import _
 import time
-from openerp.tools.safe_eval import safe_eval
+import math
 
 
 class account_report_context_followup_all(models.TransientModel):
@@ -18,7 +18,7 @@ class account_report_context_followup_all(models.TransientModel):
 
     def _get_html_partner_done(self, given_context, partners):
         if given_context['partner_done'] == 'all' and 'action_context_list' in given_context:
-            action_context_list = safe_eval('[' + given_context['action_context_list'] + ']')
+            action_context_list = given_context['action_context_list']
             self.action_contexts = self.env['account.report.context.followup'].browse(action_context_list)
         return super(account_report_context_followup_all, self)._get_html_partner_done(given_context, partners)
 
@@ -37,7 +37,7 @@ class account_report_context_followup_all(models.TransientModel):
     def _compute_pages(self):
         for context in self:
             partners = [x not in context.skipped_partners_ids.ids and x for x in self.env['res.partner'].get_partners_in_need_of_action_and_update().keys()]
-            context.last_page = len(partners) / 15
+            context.last_page = math.ceil(float(len(partners)) / float(self.PAGER_SIZE))
 
 
 class account_report_context_followup(models.TransientModel):

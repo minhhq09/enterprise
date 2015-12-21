@@ -12,7 +12,7 @@ class report_account_general_ledger(models.AbstractModel):
 
     def _format(self, value):
         if self.env.context.get('no_format'):
-            return round(value, 1)
+            return value
         currency_id = self.env.user.company_id.currency_id
         if currency_id.is_zero(value):
             # don't print -0.0 in reports
