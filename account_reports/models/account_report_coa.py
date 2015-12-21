@@ -23,7 +23,7 @@ class report_account_coa(models.AbstractModel):
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
             'periods_number': context_id.periods_number,
-            'periods': [[False, context_id.date_to]] + context_id.get_cmp_periods(),
+            'periods': [[context_id.date_from, context_id.date_to]] + context_id.get_cmp_periods(),
         })
         return self.with_context(new_context)._lines(line_id)
 
@@ -35,7 +35,7 @@ class report_account_coa(models.AbstractModel):
         grouped_accounts = {}
         period_number = 0
         for period in context['periods']:
-            res = self.with_context(date_from_aml=period[1], date_to=period[1], date_from=period[0] and company_id.compute_fiscalyear_dates(datetime.strptime(period[0], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
+            res = self.with_context(date_from_aml=period[0], date_to=period[1], date_from=period[0] and company_id.compute_fiscalyear_dates(datetime.strptime(period[0], "%Y-%m-%d"))['date_from'] or None).group_by_account_id(line_id)  # Aml go back to the beginning of the user chosen range but the amount on the account line should go back to either the beginning of the fy or the beginning of times depending on the account
             for account in res:
                 if account not in grouped_accounts.keys():
                     grouped_accounts[account] = [{'balance': 0, 'debit': 0, 'credit': 0} for p in context['periods']]
@@ -79,7 +79,7 @@ class report_account_coa(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'no_date_range'
+        return 'date_range'
 
 
 class account_context_coa(models.TransientModel):

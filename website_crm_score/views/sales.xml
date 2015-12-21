@@ -177,59 +177,39 @@
                                 <field name="running"/>
                                 <templates>
                                     <t t-name="kanban-box">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <ul>
-                                                        <li>
-                                                            <a type="open">
-                                                                <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" class="oe_kanban_image"/>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <div style='text-align: center; padding: 4px;'>
-                                                                <t t-if="record.running.raw_value === true">
-                                                                    <button name="toggle_active" type="object" style="
-                                                                        color: #eeeeee;
-                                                                        background-image: -webkit-gradient(linear, left top, left bottom, from(#3faf3f), to(#1a721a));">
-                                                                        <span class="fa fa-check"/>
-                                                                    </button>
-                                                                </t>
-                                                                <t t-if="record.running.raw_value === false">
-                                                                    <button name="toggle_active" type="object" style="
-                                                                        color: #eeeeee;
-                                                                        background-image: -webkit-gradient(linear, left top, left bottom, from(#df3f3f), to(#a21a1a));">
-                                                                        <span class="fa fa-times"/>
-                                                                    </button>
-                                                                </t>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <div class="oe_kanban_details">
-                                                        <table>
-                                                            <tr>
-                                                                <td style='width: 240px'>
-                                                                    <ul>
-                                                                        <li><a type="open">
-                                                                            <b><field name="name"/></b>
-                                                                        </a></li>
-                                                                        <li><field name="team_user_domain" widget='filters'/></li>
-                                                                    </ul>
-                                                                </td>
-                                                                <td>
-                                                                    <field name="maximum_user_leads" invisible="1"/>
-                                                                    <field name="leads_count" widget="gauge"
-                                                                        style="width:108px; height: 81px; cursor: pointer;"
-                                                                        options="{'max_field': 'maximum_user_leads'}"/>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <t t-set="active" t-value="record.running.raw_value"/>
+                                        <t t-set="button_state">
+                                            <t t-if="active">o_assignation_button_active</t>
+                                            <t t-if="!active">o_assignation_button_inactive</t>
+                                        </t>
+                                        <t t-set="button_icon">
+                                            <t t-if="active">fa-check</t>
+                                            <t t-if="!active">fa-times</t>
+                                        </t>
+
+                                        <div class="o_assignation_kanban_record">
+                                            <ul>
+                                                <li>
+                                                    <a type="open">
+                                                        <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" class="oe_kanban_image"/>
+                                                    </a>
+                                                </li>
+                                                <li t-att-class="button_state">
+                                                    <button name="toggle_active" type="object">
+                                                        <span t-attf-class="fa {{button_icon}}"/>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                            <ul class="o_assignation_body">
+                                                <li><a type="open"><b><field name="name"/></b></a></li>
+                                                <li><field name="team_user_domain" widget="filters"/></li>
+                                            </ul>
+                                            <div class="o_assignation_leads_count">
+                                                <field name="maximum_user_leads" invisible="1"/>
+                                                <field name="leads_count" widget="gauge"
+                                                       options="{'max_field': 'maximum_user_leads'}"/>
+                                            </div>
+                                        </div>
                                     </t>
                                 </templates>
                             </kanban>

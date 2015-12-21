@@ -42,7 +42,7 @@ class SaleOrder(models.Model):
             # TDE FIXME: should probably be a classic message_post, to remove styling
             _, template_id = self.env['ir.model.data'].get_object_reference('website_contract', 'email_contract_open')
             mail_template = self.env['mail.template'].browse(template_id)
-            mail_template.send_mail(subscription.id, force_send=True)
+            mail_template.sudo().send_mail(subscription.id, force_send=True)
             return subscription
         return False
 
@@ -61,11 +61,13 @@ class SaleOrder(models.Model):
             'pricelist_id': self.pricelist_id.id,
             'recurring_rule_type': contract_tmp.recurring_rule_type,
             'recurring_interval': contract_tmp.recurring_interval,
+            'company_id': self.company_id.id,
         }
         # if there already is an AA, use it in the subscription's inherits
         if self.project_id:
             values.pop('name')
             values.pop('partner_id')
+            values.pop('company_id')
             values['analytic_account_id'] = self.project_id.id
         # compute the next date
         today = datetime.date.today()

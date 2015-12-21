@@ -10,7 +10,10 @@
     'depends': ['delivery', 'mail'],
     'data': [
         'data/delivery_temando.xml',
+        'data/delivery.carrier.csv',
         'views/delivery_temando_view.xml',
+        'views/sale_order_view.xml',
+        'views/stock_picking_view.xml',
     ],
     'demo': [
         'data/delivery_temando_demo.xml',
