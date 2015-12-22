@@ -552,7 +552,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
 
             chart.yAxis
                 .axisLabel('MRR')
-                .tickFormat(d3.format('.02f'));
+                .tickFormat(function(d) { return formats.format_value(d, { type : 'float' });});
 
             var svg = d3.select(div_to_display)
                 .append("svg")
@@ -711,7 +711,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
                 .rotateLabels(-30);
 
             chart.yAxis
-                .tickFormat(d3.format('.02f'));
+                .tickFormat(function(d) { return formats.format_value(d, { type : 'float' });});
 
             var svg = d3.select(div_to_display)
                 .append("svg");
@@ -1225,7 +1225,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
 
         chart.yAxis
             .axisLabel(key_name)
-            .tickFormat(d3.format('.02f'));
+            .tickFormat(function(d) { return formats.format_value(d, { type : 'float' });});
 
         var svg = d3.select(div_to_display).append("svg");
         if (show_legend){
