@@ -57,6 +57,70 @@
     </div>
 </form>
 
+<div t-name="AppSwitcher" class="o_application_switcher">
+    <div class="o_apps">
+        <t t-foreach="widget.menu_data" t-as="primary_menu">
+          <t t-set="action_id" t-value="primary_menu.action ? primary_menu.action.split(',')[1] : ''"/>
+          <a
+            t-att-class="'o_app' + ((primary_menu.href)? '' : ' o_action_app')"
+            t-att-data-menu="primary_menu.id"
+            t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
+            t-att-data-action-id="action_id"
+            t-att-href="primary_menu.href ? primary_menu.href : ('#menu_id='+primary_menu.id+'&amp;action_id='+action_id)">
+            <img t-if="primary_menu.web_icon_data"
+                class="o_app_web_icon"
+                t-att-src="'data:image/png;base64,' + primary_menu.web_icon_data"/>
+            <span t-if="!primary_menu.web_icon_data" class="o_app_icon fa fa-cube"/>
+            <div class="o_caption"><t t-esc="primary_menu.name"/></div>
+          </a>
+        </t>
+    </div>
+    <div class="o_application_switcher_footer">
+        <img src="/web/static/src/img/odoo.png" alt="Odoo"/>
+    </div>
+</div>
+
+<div t-name="WebClient.database_expiration_panel" class="database_expiration_panel" id="announcement_bar_table">
+    <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':(diffDays&lt;31?'info':''))}" role="alert">
+        <span>
+            <span class="oe_instance_expires"></span>
+            <span class="oe_instance_register">
+                <strong>Warning!</strong>
+                <t t-if="diffDays &gt; 0">
+                    Your database will expire in <span t-esc="diffDays"/> days.
+                </t>
+                <t t-if="diffDays &lt; 1">
+                    Your database has expired.
+                </t>
+                <!-- only show corrective actions to an admin (group_system) -->
+                <t t-if="warning=='admin'">
+                    <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason === false">
+                        <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy</a> one.
+                    </t>
+                    <t t-if="dbexpiration_reason == 'renewal'">
+                        <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                    </t>
+                    <t t-if="dbexpiration_reason == 'upsell'">
+                        You are using more users than specified in your subscription. 
+                        <a class="oe_instance_upsell" href="#">Add more users</a>.
+                    </t>
+                </t>
+                <t t-if="warning=='user'">
+                    Log in as an administrator to correct the issue.
+                </t>
+            </span>
+        </span>
+        <form class="form-inline oe_instance_register_form">
+            <br/>
+            <div class="form-group">
+                <label for="enterprise_code">Enterprise Code: </label>
+                <input type="text" class="form-control" id="enterprise_code" placeholder="Paste code here" t-att-value="dbenterprise_code or ''"/>
+            </div>
+            <button class="btn btn-sm btn-primary" id="confirm_enterprise_code">Register</button>
+        </form>
+    </div>
+</div>
+
 <div t-name="ActionManager" class="o_content"/>
 
 <t t-name="ControlPanel">
@@ -1314,6 +1378,24 @@
             </t>
         </section>
     </t>
+</t>
+
+<t t-name="UserMenu">
+    <li class="o_user_menu">
+        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+            <img class="img-circle oe_topbar_avatar" t-att-src="_s + '/web/static/src/img/user_menu_avatar.png'"/>
+            <span class="oe_topbar_name"/> <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="#" data-menu="documentation">Documentation</a></li>
+            <li><a href="#" data-menu="support">Support</a></li>
+            <li><a href="#" data-menu="about">About</a></li>
+            <li class="divider"/>
+            <li><a href="#" data-menu="settings">Preferences</a></li>
+            <li><a href="#" data-menu="account">My Odoo.com account</a></li>
+            <li><a href="#" data-menu="logout">Log out</a></li>
+        </ul>
+    </li>
 </t>
 
 </templates>
