@@ -188,16 +188,12 @@ class TemandoRequest():
             self.Anything.quantity = line.product_qty
             self.Anything.description = line.product_id.name
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
-            # RIM: Dirty hack to have this behavior in stable: if there is a
-            # custom field called x_hs_code on a product.template, then it is
-            # used, else we take the default on delivery.carrier
-            # TODO in master: create and use a real field
-            product_hs_code = getattr(line.product_id, 'x_hs_code', None) or carrier.temando_hs_code
-            self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, line.product_qty, shipper_currency.name, product_hs_code=product_hs_code)
+            product_hs_code = line.product_id.hs_code or carrier.temando_hs_code
+            self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, line.product_qty, shipper_currency.name, product_hs_code)
             res.append(self.Anything)
         self.Anything = {'anything': res}
 
-    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code=None):
+    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code):
         res = []
         while (quantity):
             self.Article = self.client.factory.create('com:Article')

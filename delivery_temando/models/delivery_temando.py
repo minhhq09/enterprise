@@ -33,7 +33,7 @@ class ProviderTemando(models.Model):
     temando_distance_measurement_type = fields.Selection([('Centimetres', 'Centimetres'), ('Metres', 'Metres'), ('Inches', 'Inches'), ('Feet', 'Feet')], default='Centimetres')
     temando_weight_measurement_type = fields.Selection([('Grams', 'Grams'), ('Kilograms', 'Kilograms'), ('Ounces', 'Ounces'), ('Pounds', 'Pounds')], default='Kilograms')
     temando_location_selection = fields.Selection([('Priority', 'Priority'), ('Nearest', 'Nearest'), ('Nearest by Priority', 'Nearest by Priority'), ('Most Stock', 'Most Stock')], default='Nearest')
-    temando_hs_code = fields.Char(string='HS Code')
+    temando_hs_code = fields.Char(string='Default HS Code', help="Used only if a HS code is not set on the product.")
     temando_package_height = fields.Integer(string='Package Height', help="Fix Height if not provided on the product packaging.")
     temando_package_width = fields.Integer(string='Package Width', help="Fix Width if not provided on the product packaging.")
     temando_package_length = fields.Integer(string='Package Length', help="Fix Length if not provided on the product packaging.")
