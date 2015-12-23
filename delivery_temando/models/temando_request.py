@@ -207,11 +207,8 @@ class TemandoRequest():
             quantity = quantity - 1
         self.Anything.articles = {'article': res}
 
-    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner, shipper_warehouse=None):
-        # RIM: Dirty hack to have this behavior in stable: if there is a
-        # custom field called x_temando_location on a stock.warehouse, manifesting
-        # system is enabled
-        location_name = getattr(shipper_warehouse, 'x_temando_location', False)
+    def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner, shipper_warehouse):
+        location_name = shipper_warehouse.temando_location
         if location_name:
             self.LocationOrigin = self.client.factory.create('com:Location')
             self.LocationOrigin.description = location_name

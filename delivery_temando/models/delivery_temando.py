@@ -155,10 +155,7 @@ class ProviderTemando(models.Model):
 
         for picking in pickings:
             carrier_id = picking.sale_id.temando_carrier_id or picking.carrier_id.temando_carrier_id
-            # RIM: Dirty hack to have this behavior in stable: if there is a
-            # custom field called x_temando_location on a stock.warehouse, manifesting
-            # system is enabled
-            location_name = getattr(picking.picking_type_id.warehouse_id, 'x_temando_location', False)
+            location_name = picking.picking_type_id.warehouse_id.temando_location
             today = fields.Date.context_today()
 
             if not location_name:

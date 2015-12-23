@@ -3,3 +3,4 @@
 import delivery_temando
 import sale_order
 import stock_picking
+import stock_warehouse
