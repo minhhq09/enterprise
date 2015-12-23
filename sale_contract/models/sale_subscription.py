@@ -169,7 +169,7 @@ class SaleSubscription(osv.osv):
         if not partner:
             raise UserError(_("You must first select a Customer for Subscription %s!") % contract.name)
 
-        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.company_id.id, partner.id, context=context)
+        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.id, context=context)
         journal_ids = journal_obj.search(cr, uid, [('type', '=', 'sale'), ('company_id', '=', contract.company_id.id or False)], limit=1)
         if not journal_ids:
             raise UserError(_('Please define a sale journal for the company "%s".') % (contract.company_id.name or '', ))
