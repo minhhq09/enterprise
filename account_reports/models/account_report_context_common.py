@@ -170,9 +170,10 @@ class AccountReportContextCommon(models.TransientModel):
         raise Warning(_('get_columns_names not implemented'))
 
     def get_full_date_names(self, dt_to, dt_from=None):
-        dt_to = datetime.strptime(dt_to, "%Y-%m-%d")
+        convert_date = self.env['ir.qweb.field.date'].value_to_html
+        date_to = convert_date(dt_to, None)
         if dt_from:
-            dt_from = datetime.strptime(dt_from, "%Y-%m-%d")
+            date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
             return dt_to.strftime('%b %Y')
         if 'quarter' in self.date_filter:
@@ -184,8 +185,8 @@ class AccountReportContextCommon(models.TransientModel):
             else:
                 return str(dt_to.year - 1) + ' - ' + str(dt_to.year)
         if not dt_from:
-            return dt_to.strftime('(as of %d %b %Y)')
-        return dt_from.strftime('(From %d %b %Y <br />') + dt_to.strftime('to %d %b %Y)')
+            return '(As of %s)' % (date_to,)
+        return '(From %s <br />to  %s)' % (date_from, date_to)
 
     def get_cmp_date(self):
         if self.get_report_obj().get_report_type() == 'no_date_range':
