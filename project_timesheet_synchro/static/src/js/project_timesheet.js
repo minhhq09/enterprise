@@ -195,7 +195,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         'next_aal_id': 1,
                         'next_project_id': 1,
                         'next_task_id': 1,
-                        'module_key': 'project_timesheet_synchro.',
+                        'module_key': '__export__.',
                         'original_timestamp': timestamp,
                         'settings': {
                             'default_project_id': undefined,
@@ -467,7 +467,9 @@ odoo.define('project_timeshee.ui', function (require ) {
         fix_id: function(id) {
             if(id && id.indexOf('Project_timesheet_UI') >= 0) {
                 id = id.replace(SANITIZERREGEX, '');
-                id = 'project_timesheet_synchro.' + id.replace(/Project_timesheet_UI/, '');
+                id = '__export__.' + id.replace(/Project_timesheet_UI/, '');
+            } else if (id && id.indexOf('project_timesheet_synchro.') >= 0) {
+                id = '__export__.' + id.replace(/project_timesheet_synchro./, '');
             }
             return id;
         },
