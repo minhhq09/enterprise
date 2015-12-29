@@ -172,6 +172,7 @@ class AccountReportContextCommon(models.TransientModel):
     def get_full_date_names(self, dt_to, dt_from=None):
         convert_date = self.env['ir.qweb.field.date'].value_to_html
         date_to = convert_date(dt_to, None)
+        dt_to = datetime.strptime(dt_to, "%Y-%m-%d")
         if dt_from:
             date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
