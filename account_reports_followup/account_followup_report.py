@@ -20,6 +20,8 @@ class account_report_context_followup_all(models.TransientModel):
         if given_context['partner_done'] == 'all' and 'action_context_list' in given_context:
             action_context_list = given_context['action_context_list']
             self.action_contexts = self.env['account.report.context.followup'].browse(action_context_list)
+            partners = partners - self.action_contexts
+            self.skip_partner(self.action_contexts.partners)
         return super(account_report_context_followup_all, self)._get_html_partner_done(given_context, partners)
 
     def _get_html_create_context(self, partner):

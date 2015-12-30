@@ -125,9 +125,9 @@ class account_report_context_followup_all(models.TransientModel):
     skipped_partners_ids = fields.Many2many('res.partner', 'account_fup_report_skipped_partners', string='Skipped partners')
     last_page = fields.Integer('number of pages', compute='_compute_pages')
 
-    def skip_partner(self, partner):
-        self.write({'skipped_partners_ids': [(4, partner.id)]})
-        self.write({'valuenow': self.valuenow + 1})
+    def skip_partner(self, partners):
+        self.write({'skipped_partners_ids': [(4, partners.ids)]})
+        self.write({'valuenow': self.valuenow + len(partners)})
 
     def get_total_time(self):
         delta = fields.datetime.now() - datetime.strptime(self.started, tools.DEFAULT_SERVER_DATETIME_FORMAT)
