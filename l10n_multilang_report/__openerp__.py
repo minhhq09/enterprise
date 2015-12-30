@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Multi Language Accounting Reports',
+    'name': 'Multi Language Accounting Reports - Deprecated',
     'version': '1.1',
     'category': 'Hidden/Dependency',
     'description': """
@@ -11,6 +11,6 @@
     'depends' : ['l10n_multilang', 'account_reports'],
     'data': [],
     'demo': [],
-    'installable': True,
-    'auto_install': True,
+    'installable': False,
+    'auto_install': False,
 }
