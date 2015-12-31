@@ -69,9 +69,9 @@
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         History <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu dropdown-menu-right o_account_reports_history" role="menu">
                         <t t-foreach="context.get_history()" t-as='msg'>
-                            <li role="presentation" style='margin-left: 5px'><t t-raw='msg.body' /></li>
+                            <li role="presentation" style='margin-left: 5px'><t t-esc='msg.date' /> (<t t-esc='msg.author_id.name' />) : <t t-raw='msg.body' /></li>
                             <li role="presentation" class="divider"></li>
                         </t>
                     </ul>

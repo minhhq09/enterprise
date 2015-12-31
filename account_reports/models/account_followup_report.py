@@ -254,7 +254,10 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def change_next_action(self, date, note):
         self.partner_id.write({'payment_next_action': note, 'payment_next_action_date': date})
-        msg = _('Next action date: ') + date + '.\n' + note
+        if self.partner_id.payment_next_action_date != fields.Date.context_today(self):
+            msg = _('Next action date: ') + self.partner_id.payment_next_action_date + '.\n' + note
+        else:
+            msg = note
         self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
     @api.multi
@@ -325,7 +328,7 @@ class account_report_context_followup(models.TransientModel):
             headers.append(header)
             footers.append(footer)
             if log:
-                msg = fields.Date.context_today(self) + _(': Sent a followup letter')
+                msg = _('Sent a followup letter')
                 context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
         return self.env['report']._run_wkhtmltopdf(headers, footers, bodies, False, self.env.user.company_id.paperformat_id)
@@ -349,7 +352,7 @@ class account_report_context_followup(models.TransientModel):
                 'attachment_ids': [(6, 0, [attachment.id])],
             })
             email_template.send_mail(self.id)
-            msg = fields.Date.context_today(self) + _(': Sent a followup email')
+            msg = _(': Sent a followup email')
             self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
             return True
         return False

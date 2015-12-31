@@ -51,7 +51,7 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def do_manual_action(self):
         for context in self:
-            msg = fields.Date.context_today(self) + _(': Manual action done\n') + context.level.manual_action_note
+            msg = _('Manual action done\n') + context.level.manual_action_note
             context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
     @api.model
