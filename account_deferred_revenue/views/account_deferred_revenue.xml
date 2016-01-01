@@ -26,10 +26,10 @@
             <form string="Revenue Recognition">
                 <header>
                     <button name="validate" states="draft" string="Confirm" type="object" class="oe_highlight"/>
-                    <button type="object" name="compute_depreciation_board" string="Compute Depreciation" states="draft"/>
+                    <button type="object" name="compute_depreciation_board" string="Compute Revenue" states="draft"/>
                     <button name="set_to_close" states="open" string="Sell or Dispose" type="object" class="oe_highlight"/>
                     <button name="set_to_draft" states="open" string="Set to Draft" type="object" />
-                    <button name="%(account_asset.action_asset_modify)d" states="open" string="Modify Depreciation" type="action"/>
+                    <button name="%(account_asset.action_asset_modify)d" states="open" string="Modify Revenue" type="action"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
                 </header>
                 <sheet>
@@ -62,12 +62,12 @@
                         </group>
                     </group>
                     <notebook colspan="4">
-                        <page string="Depreciation Board">
+                        <page string="Revenue Board">
                             <field name="depreciation_line_ids" mode="tree" options="{'reload_whole_on_button': true}">
                                 <tree string="Depreciation Lines" decoration-info="(move_check == False)" create="false">
-                                    <field name="depreciation_date"/>
-                                    <field name="depreciated_value" readonly="1"/>
-                                    <field name="amount" widget="monetary" string="Depreciation"/>
+                                    <field name="depreciation_date" string="Revenue Date"/>
+                                    <field name="depreciated_value" string="Cumulative Revenue" readonly="1"/>
+                                    <field name="amount" widget="monetary" string="Revenue"/>
                                     <field name="remaining_value" readonly="1" widget="monetary" string="Residual"/>
                                     <field name="move_check" invisible="1"/>
                                     <field name="parent_state" invisible="1"/>
@@ -93,7 +93,7 @@
                                 </form>
                             </field>
                         </page>
-                        <page string="Depreciation Information">
+                        <page string="Revenue Information">
                             <group>
                                 <label for="method_time"/>
                                 <div>
@@ -102,7 +102,7 @@
                                 <field name="prorata" attrs="{'invisible': [('method_time','=','end')]}"/>
                             </group>
                             <group>
-                                <field name="method_number" attrs="{'invisible':[('method_time','=','end')], 'required':[('method_time','=','number')]}"/>
+                                <field name="method_number" string="Number of Revenues" attrs="{'invisible':[('method_time','=','end')], 'required':[('method_time','=','number')]}"/>
                                 <field name="method_period"/>
                                 <field name="method_end" attrs="{'required': [('method_time','=','end')], 'invisible':[('method_time','=','number')]}"/>
                             </group>
