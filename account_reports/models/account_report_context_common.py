@@ -386,7 +386,9 @@ class AccountReportContextCommon(models.TransientModel):
         return self.env['report']._run_wkhtmltopdf([header], [''], [(0, body)], landscape, self.env.user.company_id.paperformat_id, spec_paperformat_args={'data-report-margin-top': 10, 'data-report-header-spacing': 10})
 
     @api.multi
-    def get_html_and_data(self, given_context={}):
+    def get_html_and_data(self, given_context=None):
+        if given_context is None:
+            given_context = {}
         result = {}
         if given_context:
             update = {}

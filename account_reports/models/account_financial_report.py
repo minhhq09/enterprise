@@ -427,7 +427,9 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
 
 class FormulaLine(object):
-    def __init__(self, obj, type='balance', linesDict={}):
+    def __init__(self, obj, type='balance', linesDict=None):
+        if linesDict is None:
+            linesDict = {}
         fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
         if type == 'balance':
             fields = obj.get_balance(linesDict)[0]
