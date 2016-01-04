@@ -52,15 +52,11 @@ class PlaidAccountJournal(models.Model):
             elif type_request == "get":
                 #Trying to get information on institution, so we don't need to pass credential information in GET request
                 resp = requests.get(api + service, timeout=20)
-            resp.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code in (400, 403):
-                raise UserError(_('An error has occurred while trying to connect to plaid service') + ' ' + e.response.content)
-            else:
-                raise UserError(_('An error has occurred while trying to connect to plaid service') + ' ' + str(e.response.status_code))
         except Exception:
             _logger.exception('An error has occurred while trying to connect to Plaid service')
             raise UserError(_('An error has occurred while trying to connect to plaid service'))
+        if resp.status_code in (400, 403):
+            raise UserError(_('An error has occurred while trying to connect to plaid service') + ' ' + resp.text)
         #Add request status code in response
         resp_json = json.loads(resp.text)
         resp_json['status_code'] = resp.status_code
