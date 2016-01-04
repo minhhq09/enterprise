@@ -3,13 +3,14 @@
 # * sale_ebay
 # 
 # Translators:
+# Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2015-11-28 06:17+0000\n"
+"Last-Translator: Mateo Tibaquirá <nestormateo@gmail.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/odoo/odoo-9/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,63 +26,79 @@ msgid ""
 "          ${object.ebay_description | safe}\n"
 "        \n"
 "      "
-msgstr ""
+msgstr "\n                  \n${object.ebay_description | safe}\n        \n      "
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:305
+#, python-format
+msgid ""
+" If you want to set quantity to 0, the Out Of Stock option should be enabled"
+" and the listing duration should set to Good 'Til Canceled"
+msgstr "Si quiere fijar la cantidad a 0, la opción Agotado debe estar habilitada y la duración del listado debe ser Buena Hasta ser Cancelada"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:308
+#, python-format
+msgid ""
+" You need to have at least 2 variations selected for a multi-variations listing.\n"
+" Or if you try to delete a variation, you cannot do it by unselecting it. Setting the quantity to 0 is the safest method to make a variation unavailable."
+msgstr "Usted necesita tener por lo menos 2 variaciones seleccionadas para un listado de múltiples variaciones. O si usted trata de borrar una variación, no puede hacerlo deseleccionandola. Fijando la cantidad a 0 es el método más seguro de hacer que una variación no este disponible."
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "10 Days"
-msgstr ""
+msgstr "10 Días"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "3 Days"
-msgstr ""
+msgstr "3 Días"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "30 Days (only for fixed price)"
-msgstr ""
+msgstr "30 Días (sólo para precio fijo)"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "5 Days"
-msgstr ""
+msgstr "5 Días"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "7 Days"
-msgstr ""
+msgstr "7 Días"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:192
+#: code:addons/sale_ebay/product.py:193
 #, python-format
 msgid ""
 "All the quantities must be greater than 0 or you need to enable the Out Of "
 "Stock option."
-msgstr ""
+msgstr "Todas las cantidades deben ser mayores a 0 o necesitará habilitar la opción Fuera de Existencias."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_best_offer
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_best_offer
 msgid "Allow Best Offer"
-msgstr ""
+msgstr "Permitir Mejor Oferta"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_type:0
 msgid "Auction"
-msgstr ""
+msgstr "Subasta"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_res_country_ebay_available
 #: model:ir.model.fields,field_description:sale_ebay.field_res_currency_ebay_available
 msgid "Availability To Use For eBay API"
-msgstr ""
+msgstr "Disponibilidad para usar el API de eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_buy_it_now_price
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_buy_it_now_price
 msgid "Buy It Now Price"
-msgstr ""
+msgstr "Precio Al Comprar Ahora"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.ebay_link_listing_view
@@ -98,22 +115,22 @@ msgstr "Categoría"
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_category_2_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_category_2_id
 msgid "Category 2 (Optional)"
-msgstr ""
+msgstr "Categoría 2 (Opcional)"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_category_id
 msgid "Category ID"
-msgstr ""
+msgstr "ID Categoría"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_category_parent_id
 msgid "Category Parent ID"
-msgstr ""
+msgstr "ID Categoría Padre"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_category_type
 msgid "Category Type"
-msgstr ""
+msgstr "Tipo de Categoría"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_item_condition_code
@@ -123,23 +140,23 @@ msgstr "Código"
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:273
+#: code:addons/sale_ebay/product.py:272
 #, python-format
 msgid "Configure The eBay Integrator Now"
-msgstr ""
+msgstr "Configure el Integrador con eBay Ahora"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_res_country
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_country
 msgid "Country Where The Products Are Stored"
-msgstr ""
+msgstr "País donde se almacenan los productos"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_create_uid
@@ -167,12 +184,12 @@ msgstr "Moneda"
 #. module: sale_ebay
 #: selection:ebay.category,category_type:0
 msgid "Custom Store Category"
-msgstr ""
+msgstr "Categoría Personalizada de la Tienda"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "Describe the product characteristics..."
-msgstr ""
+msgstr "Describa las características del producto..."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_description
@@ -184,12 +201,12 @@ msgstr "Descripción"
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_template_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_template_id
 msgid "Description Template"
-msgstr ""
+msgstr "Plantilla de Descripción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_dev_id
 msgid "Developer Key"
-msgstr ""
+msgstr "Llave de Desarrollador"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_display_name
@@ -198,7 +215,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_display_name
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre Público"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_listing_duration
@@ -209,49 +226,49 @@ msgstr "Duración"
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "End Item's Listing"
-msgstr ""
+msgstr "Listado de Producto Final"
 
 #. module: sale_ebay
 #: model:ir.actions.server,name:sale_ebay.action_end_items_listings
 msgid "End Items' Listings"
-msgstr ""
+msgstr "Listados de Producto Final"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:228
+#: code:addons/sale_ebay/product.py:179
 #, python-format
 msgid ""
 "Error Encountered.\n"
 " No Variant Set To Be Listed On eBay."
-msgstr ""
+msgstr "Error Encontrado.\nNo hay una variante fijada para ser listada en eBay."
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:607
+#: code:addons/sale_ebay/product.py:311
 #, python-format
 msgid ""
 "Error Encountered.\n"
 "'%s'"
-msgstr ""
+msgstr "Error Encontrado.\n'%s'"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_fixed_price
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_fixed_price
 msgid "Fixed Price"
-msgstr ""
+msgstr "Precio Fijo"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_type:0
 msgid "Fixed price"
-msgstr ""
+msgstr "Precio fijo"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_full_name
 msgid "Full Name"
-msgstr ""
+msgstr "Nombre Completo"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_duration:0
 msgid "Good 'Til Cancelled (only for fixed price)"
-msgstr ""
+msgstr "Bueno Hasta Cancelado (sólo para precio fijo)"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_id
@@ -266,13 +283,21 @@ msgstr "ID"
 #: model:ir.model.fields,help:sale_ebay.field_product_product_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
-msgstr ""
+msgstr "Si se marca, confirmando una orden de venta con este producto creará una suscripción"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:301
+#, python-format
+msgid ""
+"Impossible to revise a listing into a multi-variations listing.\n"
+" Create a new listing."
+msgstr "Imposible revisar un listado en una lista de múltiples variaciones.\nCree una nueva lista."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_item_condition_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_item_condition_id
 msgid "Item Condition"
-msgstr ""
+msgstr "Condición de Elemento"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category___last_update
@@ -281,7 +306,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy___last_update
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificación el"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_write_uid
@@ -305,49 +330,49 @@ msgstr "Actualizado"
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_last_sync
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_last_sync
 msgid "Last update"
-msgstr ""
+msgstr "Última actualización"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_leaf_category
 msgid "Leaf category"
-msgstr ""
+msgstr "Categoría hoja"
 
 #. module: sale_ebay
 #: model:ir.actions.act_window,name:sale_ebay.action_ebay_link_listing
 #: model:ir.ui.view,arch_db:sale_ebay.ebay_link_listing_view
 msgid "Link Existing Listing"
-msgstr ""
+msgstr "Enlazar Listado Existente"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.ebay_link_listing_view
 msgid "Link Listing"
-msgstr ""
+msgstr "Enlazar Listado"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "Link With Existing Listing"
-msgstr ""
+msgstr "Enlazar Con Listado Existente"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "List Item"
-msgstr ""
+msgstr "Elemento del Listado"
 
 #. module: sale_ebay
 #: model:ir.actions.server,name:sale_ebay.action_list_items
 msgid "List Items"
-msgstr ""
+msgstr "Elementos del Listado"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_listing_type
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_listing_type
 msgid "Listing Type"
-msgstr ""
+msgstr "Tipo de Listado"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_location
 msgid "Location Where The Products Are Stored"
-msgstr ""
+msgstr "Ubicación donde se almacenan los productos"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_name
@@ -361,91 +386,92 @@ msgstr "Nombre"
 #: code:addons/sale_ebay/sale_ebay.py:181
 #, python-format
 msgid "No Business Policies"
-msgstr ""
-
-#. module: sale_ebay
-#: code:addons/sale_ebay/product.py:178
-#, python-format
-msgid "No Variant Set To Be Published On eBay"
-msgstr ""
+msgstr "Sin Políticas Comerciales"
 
 #. module: sale_ebay
 #: selection:ebay.category,category_type:0
 msgid "Official eBay Category"
-msgstr ""
+msgstr "Categoría Oficial de eBay"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:272
+#: code:addons/sale_ebay/product.py:271
 #, python-format
 msgid "One parameter is missing."
-msgstr ""
+msgstr "Falta un parámetro."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_optional_product_ids
 msgid "Optional Products"
-msgstr ""
+msgstr "Productos Opcionales"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:297
+#, python-format
+msgid "Or the condition is not compatible with the category."
+msgstr "O la condición no es compatible con la categoría."
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_res_partner
 msgid "Partner"
-msgstr "Empresa/Cliente"
+msgstr "Asociado"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_seller_payment_policy_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_seller_payment_policy_id
 msgid "Payment Policy"
-msgstr ""
+msgstr "Política de Pago"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_policy_id
 msgid "Policy ID"
-msgstr ""
+msgstr "ID Póliza"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_private_listing
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_private_listing
 msgid "Private Listing"
-msgstr ""
+msgstr "Listado Privado"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_product_product
+#: model:ir.ui.view,arch_db:sale_ebay.product_template_ebay_tree_view
 msgid "Product"
 msgstr "Producto"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_product_template
 msgid "Product Template"
-msgstr ""
+msgstr "Plantilla del Producto"
 
 #. module: sale_ebay
 #: selection:sale.config.settings,ebay_domain:0
 msgid "Production"
-msgstr ""
+msgstr "Producción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_prod_app_id
 msgid "Production App Key"
-msgstr ""
+msgstr "Llave de la App de Producción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_prod_cert_id
 msgid "Production Cert Key"
-msgstr ""
+msgstr "Llave del Cert. de Producción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_prod_token
 msgid "Production Token"
-msgstr ""
+msgstr "Token de Producción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,help:sale_ebay.field_product_product_optional_product_ids
 msgid "Products to propose when add to cart."
-msgstr ""
+msgstr "Productos a proponer cuando añada al carrito."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_use
 msgid "Publish On eBay"
-msgstr ""
+msgstr "Publicar en eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_quantity
@@ -457,64 +483,64 @@ msgstr "Cantidad"
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_quantity_sold
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_quantity_sold
 msgid "Quantity Sold"
-msgstr ""
+msgstr "Cantidad Vendida"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "Relist Item"
-msgstr ""
+msgstr "Relistar Elemento"
 
 #. module: sale_ebay
 #: model:ir.actions.server,name:sale_ebay.action_relist_items
 msgid "Relist Items"
-msgstr ""
+msgstr "Relistar Elementos"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_seller_return_policy_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_seller_return_policy_id
 msgid "Return Policy"
-msgstr ""
+msgstr "Política de Devolución"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "Revise Item"
-msgstr ""
+msgstr "Revisar Elemento"
 
 #. module: sale_ebay
 #: model:ir.actions.server,name:sale_ebay.action_revise_items
 msgid "Revise Items"
-msgstr ""
+msgstr "Revisar Elementos"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_sales_team
 msgid "Sales Team"
-msgstr ""
+msgstr "Equipo de Ventas"
 
 #. module: sale_ebay
 #: selection:sale.config.settings,ebay_domain:0
 msgid "Sandbox"
-msgstr ""
+msgstr "Sandbox"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_sandbox_app_id
 msgid "Sandbox App Key"
-msgstr ""
+msgstr "Llave de la App de la Sandbox"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_sandbox_cert_id
 msgid "Sandbox Cert Key"
-msgstr ""
+msgstr "Llave del Cert. de la Sandbox"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_sandbox_token
 msgid "Sandbox Token"
-msgstr ""
+msgstr "Token de la Sandbox"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_seller_shipping_policy_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_seller_shipping_policy_id
 msgid "Shipping Policy"
-msgstr ""
+msgstr "Política de Envío"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_start_date
@@ -526,30 +552,30 @@ msgstr "Fecha de Inicio"
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_price
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_price
 msgid "Starting Price for Auction"
-msgstr ""
+msgstr "Precio Inicial para Subasta"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_store_category_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_store_category_id
 msgid "Store Category (Optional)"
-msgstr ""
+msgstr "Categoría de la Tienda (Opcional)"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_store_category_2_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_store_category_2_id
 msgid "Store Category 2 (Optional)"
-msgstr ""
+msgstr "Categoría 2 de la Tienda (Opcional)"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_recurring_invoice
 msgid "Subscription Product"
-msgstr ""
+msgstr "Producto de la Suscripción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_subtitle
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_subtitle
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítulo"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_short_summary
@@ -559,34 +585,42 @@ msgstr "Resumen"
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "Sync categories"
-msgstr ""
+msgstr "Sincronizar categorías"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "Sync countries and currencies"
-msgstr ""
+msgstr "Sincronizar paises y monedas"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "Sync policies"
-msgstr ""
+msgstr "Sinc pólizas"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "Sync product status"
-msgstr ""
+msgstr "Sinc estado del producto"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:546
+#: code:addons/sale_ebay/product.py:589
 #, python-format
 msgid "The Buyer Chose The Following Delivery Method :\n"
-msgstr ""
+msgstr "El Comprador escoje el siguiente Método de Entrega:\n"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:542 code:addons/sale_ebay/product.py:543
+#: code:addons/sale_ebay/product.py:585 code:addons/sale_ebay/product.py:586
 #, python-format
 msgid "The Buyer Posted :\n"
-msgstr ""
+msgstr "El Comprador Publicó :\n"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:303
+#, python-format
+msgid ""
+"The UPC value (the barcode value of your product) is not valid by using the "
+"checksum."
+msgstr "El valor UPC (el valor del código de barras de su producto) no es válido usando el checksum."
 
 #. module: sale_ebay
 #: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_subtitle
@@ -594,13 +628,13 @@ msgstr ""
 msgid ""
 "The subtitle is restricted to 55 characters. Fees can be claimed by eBay for"
 " this feature"
-msgstr ""
+msgstr "El subtítulo está restringido a 55 caracteres. Las tarifas pueden ser reclamados por eBay para esta característica"
 
 #. module: sale_ebay
 #: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_title
 #: model:ir.model.fields,help:sale_ebay.field_product_template_ebay_title
 msgid "The title is restricted to 80 characters"
-msgstr ""
+msgstr "El título está restringido a 80 caracteres"
 
 #. module: sale_ebay
 #: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_category_2_id
@@ -608,24 +642,24 @@ msgstr ""
 msgid ""
 "The use of a secondary category is not allowed on every eBay sites. Fees can"
 " be claimed by eBay for this feature"
-msgstr ""
+msgstr "El uso de una categoría secundaria no es permitido en todos los sitios eBay. eBay puede pedir cuotas por esta característica"
 
 #. module: sale_ebay
 #: model:ir.model.fields,help:sale_ebay.field_product_product_ebay_template_id
 #: model:ir.model.fields,help:sale_ebay.field_product_template_ebay_template_id
 msgid "This field contains the template that will be used."
-msgstr ""
+msgstr "Este campo contiene la plantilla que será usada."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_title
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_title
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transferir"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_policy_type
@@ -635,28 +669,28 @@ msgstr "Tipo"
 #. module: sale_ebay
 #: model:ir.actions.server,name:sale_ebay.action_ebay_update_carrier
 msgid "Update eBay Carrier Information"
-msgstr ""
+msgstr "Actualizar Información del Transportista en eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_gallery_plus
 msgid "Use Gallery Plus Option"
-msgstr ""
+msgstr "Usar la opción Galería Plus"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_out_of_stock
 msgid "Use Out Of Stock Option"
-msgstr ""
+msgstr "Usar opción Agotado"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_sync_stock
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_sync_stock
 msgid "Use Stock Quantity"
-msgstr ""
+msgstr "Usar Cantidad de Existencias"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_use
 msgid "Use eBay"
-msgstr ""
+msgstr "Usar eBay"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
@@ -666,101 +700,123 @@ msgstr "Variantes"
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_zip_code
 msgid "Zip Code Where The Products Are Stored"
-msgstr ""
+msgstr "Código postal donde se almacenan los productos"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.sale_ebay_category_tree_view
 msgid "eBay Categories"
-msgstr ""
+msgstr "Categorías eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_currency
 msgid "eBay Currency"
-msgstr ""
+msgstr "Divisa eBay"
 
 #. module: sale_ebay
 #: model:product.category,name:sale_ebay.product_category_ebay
 msgid "eBay Delivery Services"
-msgstr ""
+msgstr "Servicios de Entrega de eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site_ebay_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_id
 msgid "eBay ID"
-msgstr ""
+msgstr "ID eBay"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.view_sale_ebay_settings
 msgid "eBay Integration"
-msgstr ""
+msgstr "Integración con eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_link_listing_ebay_id
 msgid "eBay Listing ID"
-msgstr ""
+msgstr "ID del Listado de eBay"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.product_template_sale_ebay_form_view
 msgid "eBay Sale"
-msgstr ""
+msgstr "Venta de eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_domain
 msgid "eBay Site"
-msgstr ""
+msgstr "Sitio de eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_site
 msgid "eBay Site Used"
-msgstr ""
+msgstr "Sitio de eBay Usado"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_listing_status
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_listing_status
 msgid "eBay Status"
-msgstr ""
+msgstr "Estado de eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_res_partner_ebay_id
 msgid "eBay User ID"
-msgstr ""
+msgstr "ID de Usuario eBay"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_variant_url
 msgid "eBay Variant URL"
-msgstr ""
+msgstr "URL de la Variante de eBay"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/res_config.py:160
+#, python-format
+msgid ""
+"eBay error: Impossible to synchronize the categories. \n"
+"'%s'"
+msgstr "Error de eBay: Imposible sincronizar las categorías. \n'%s'"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:403 code:addons/sale_ebay/product.py:469
+#, python-format
+msgid ""
+"eBay error: Impossible to synchronize the products. \n"
+"'%s'"
+msgstr "Error de eBay: Imposible sincronizar los productos. \n'%s'"
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:299
+#, python-format
+msgid "eBay is unreachable. Please try again later."
+msgstr "eBay es inalcanzable. Por favor inténte más tarde."
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_url
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_url
 msgid "eBay url"
-msgstr ""
+msgstr "Url de eBay"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_ebay_category
 msgid "ebay.category"
-msgstr ""
+msgstr "ebay.category"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_ebay_item_condition
 msgid "ebay.item.condition"
-msgstr ""
+msgstr "ebay.item.condition"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_ebay_link_listing
 msgid "ebay.link.listing"
-msgstr ""
+msgstr "ebay.link.listing"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_ebay_policy
 msgid "ebay.policy"
-msgstr ""
+msgstr "ebay.policy"
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_ebay_site
 msgid "ebay.site"
-msgstr ""
+msgstr "ebay.site"
 
 #. module: sale_ebay
 #: model:ir.ui.view,arch_db:sale_ebay.ebay_link_listing_view
@@ -770,4 +826,4 @@ msgstr "o"
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_sale_config_settings
 msgid "sale.config.settings"
-msgstr ""
+msgstr "sale.config.settings"

@@ -3,14 +3,16 @@
 # * website_contract
 # 
 # Translators:
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2015
+# Volluta <volluta@tutanota.com>, 2015
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2015-12-16 13:50+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +71,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hallo ${object.partner_id.name},</p>\n        \n        <p>Uw nieuwe Odoo Online Abonnement staat klaar!</p>\n\n        <p>U kunt uw abonnement online bekijken op <a href=\"/my/home\">Online Portal</a> of u klikt op deze link:</p>\n        <a style=\"display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #a24689; border-radius: 5px 5px; background-repeat: repeat no-repeat;\"\n            href=\"/my/contract/${object.id}/${object.uuid}\">Bekijk Abonnement</a>\n\n\n        <p>Op deze pagina kunt u uw contracten beheren:</p>\n        <ul>\n            <li>Toevoegen/Verwijderen van opties</li>\n            <li>Wijzig uw terugkerende periode van maandelijks naar jaarlijks</li>\n            <li>Neem contact op met de verkoopvertegenwoordiger</li>\n        </ul>\n        <p>U krijgt toegang om deze link openbaar te maken of om deze te delen met iemand anders om hem/haar het recht te geven dit abonnement te beheren.</p>\n        <br/>\n        <p>Wij behandelen graag alle vragen, neem hiervoor contact met ons op</p>\n        <p>Bedankt voor het kiezen van ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 347px; margin: 0px; padding: 0px; background-color: #a24689; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #fff;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #333; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
@@ -124,7 +126,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hallo ${object.partner_id.name},</p>\n        \n        <p>\n            Uw abonnement (${ctx.get('code')}) is zojuist vernieuwd\n            %if ctx.get('total_amount') and ctx.get('payment_method'):\n                via de betaling ${ctx['total_amount']} ${ctx['currency']} geheven op ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Uw factuur is bijgesloten</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Uw volgende factuur zal zijn op ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>Als u vragen heeft, neem met ons contact op.</p>\n        <p>Bedankt voor het kiezen van ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
@@ -180,7 +182,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hallo ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Dis is onze laatste poging om de betaling van je inschrijving te verwerken met de door u gekozen betaalmethode \n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n          % if ctx.get('error'):\n            Uw bank of krediet verstrekker hebben u de volgende gegevens gegeven over het probleem : <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Onze laatste poging de betaling te verwerken is mislukt omdat we geen betaalwijze hebben ontvangen.\n        % endif \n        </p>\n\n        <p>\n          Omdat uw betaling <strong>15 dagen geleden</strong> gemaakt had moeten zijn, is uw inschrijving opgezegt.\n        </p>\n\n        <br/>\n        <p>Wilt u het probleem herstellen, aarzel dan niet om contact met ons op te nemen.</p>\n        <p>Dank u voor uw keuze in ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Tel: &nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Website: &nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -238,7 +240,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hallo ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          We zijn niet in staat de betaling te verwerken met deze betaalwijze.\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            Uw bank of krediet verstrekker hebben u de volgende gegevens gegeven over het probleem : <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Onze poging de betaling te verwerken is mislukt omdat we geen betaalwijze hebben ontvangen\n        % endif \n        </p>\n\n        <p>\n          Uw inschrijving ${ctx.get('code')} is nog steeds actief maar wordt <b>geschorts</b>\n          op ${ctx.get('date_close')} behalve als u de betaling tussentijds wel is gelukt (we proberen het 1x per dag).\n          Controleer graag nogmaals of u voldoende saldo heeft\n        </p>\n\n        <br/>\n        <p>Als u vragen heeft, aarzel niet om contact met ons op te nemen.</p>\n        <p>Bedankt voor het kiezen van ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Tel: &nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Website: &nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
@@ -436,7 +438,7 @@ msgstr "Voeg opties toe"
 msgid ""
 "Add an option directly or create a sale order with prorated discount for the"
 " current invoicing period (options are added on confirmation)"
-msgstr ""
+msgstr "Voeg een optie toe om direct een verkooporder aan te maken met pro-rato korting voor de huidige factuurperiode (opties worden toegevoegd bij de bevestiging)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -1370,4 +1372,4 @@ msgstr "jaar(en)"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
-msgstr ""
+msgstr "=> Upselling"

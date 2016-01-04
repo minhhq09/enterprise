@@ -3,13 +3,14 @@
 # * sale_contract
 # 
 # Translators:
+# Kris Krnacs, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2015-12-20 10:39+0000\n"
+"Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n            A (${ctx.get('code')}) feliratkozását megújítottuk\n            %if ctx.get('total_amount') és ctx.get('payment_method'):\n                a kifizetett összeg ${ctx['total_amount']} ${ctx['currency']} terhelve erre ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Mellékelve megtalálja a számláját.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Következő számlájának várható dátuma ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>További felmerülő kérdésekben állunk szíves rendelkezésükre.</p>\n        <p>Köszönjük, hogy a  ${object.company_id.name or 'us'} választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_close
@@ -126,7 +127,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Utoljára megpróbáljuk az előfizetéséhez tartozó befizetést elvégezni a választott fizetési módjával\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Az előfizetéséhez tartozó befizetés utolsó próbája a következőt rögzítette.\n        % endif \n        </p>\n\n        <p>\n          Mivel a befizetést <strong>15 napja</strong> meg kellet volna tennie, ezért a feliratkozását szüneteltetjük.\n        </p>\n\n        <br/>\n        <p>Ha megoldást szeretne találni z ügyben, kéjük vegye fel velünk a kapcsolatot.</p>\n        <p>Köszönjük, hogy a ${object.company_id.name or 'us'} választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_reminder
@@ -184,7 +185,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Nem tudtuk végrehajtani a feliratkozásához tartozó befizetést a fizetési módjával\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről:  <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Feliratkozására nem tudjuk végrehajtani a befizetési műveletet, mivel nem került rögzítésre fizetési módo.\n        % endif \n        </p>\n\n        <p>\n          A feliratkozás ${ctx.get('code')} még érvényes, de időközben szüneteltetésre került <b>szüneteltetésre </b> került \n          ${ctx.get('date_close')} dátummal, hacsak, időközben sikerül a befizetés (minden nap egyszer kísérletet teszünk).\n          Kérem ellenőrizze, hogy megvan rá a fedezete.\n        </p>\n\n        <br/>\n        <p>További felmerülő kérdésekben, állunk szíves rendelkezésükre.</p>\n        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
@@ -260,7 +261,7 @@ msgstr "Felelős"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Művelet szükséges"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
@@ -270,17 +271,17 @@ msgstr "Aktív"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Active templates"
-msgstr ""
+msgstr "Aktív sablonok"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 msgid "Actual Quantity"
-msgstr ""
+msgstr "Aktuális mennyiség"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
 msgid "Allow Online Order"
-msgstr ""
+msgstr "Online megrendelés engedélyezése"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_analytic_account_id
@@ -307,7 +308,7 @@ msgstr "Tervsorok"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Cancel Subscription"
-msgstr ""
+msgstr "Feliratkozás érvénytelenítése"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -324,12 +325,12 @@ msgstr "Visszavont szerződések"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
 msgid "Check this box to manage customer activities through this project"
-msgstr ""
+msgstr "Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó vásárlói tevékenységek kezeléséhez."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
 msgid "Check this box to manage internal activities through this project"
-msgstr ""
+msgstr "Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó belső tevékenységek kezeléséhez."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_timesheets
@@ -339,40 +340,40 @@ msgstr "Jelölje ki ezt a mezőt, ha ez a projekt időkimutatásokat kezel"
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
 msgid "Click here to create a template of subscription."
-msgstr ""
+msgstr "Kattintson egy feliratkozás sablon létrehozásához."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid "Click to create a new contract."
-msgstr ""
+msgstr "Kattintson egy új szerződés létrehozásához."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid "Click to define a new contract."
-msgstr ""
+msgstr "Kattintson egy új szerződés meghatározásához."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
 msgid "Click to define a new product."
-msgstr ""
+msgstr "Kattintson egy új termék meghatározásához."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
-msgstr ""
+msgstr "Zárás oka"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
 msgid "Close Reasons"
-msgstr ""
+msgstr "Zárás okai"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
-msgstr ""
+msgstr "Feliratkozás lezárása"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -389,7 +390,7 @@ msgstr "Lezárt szerződések"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Comercial Partner"
-msgstr ""
+msgstr "Kereskedelmi partner"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
@@ -401,7 +402,7 @@ msgstr "Vállalat"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_uom_id
 msgid "Company UOM"
-msgstr ""
+msgstr "Cég mértékegysége"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_config
@@ -422,12 +423,12 @@ msgstr "Figyelmeztetés a szerződés lejártára ${user.company_id.name}"
 #. module: sale_contract
 #: model:ir.module.category,name:sale_contract.module_category_contract_management
 msgid "Contracts"
-msgstr ""
+msgstr "Szerződések"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts in progress"
-msgstr ""
+msgstr "Folyamatban lévő szerződések"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -449,7 +450,7 @@ msgstr "Ország"
 msgid ""
 "Create a sale order that will overwrite this contract when confirmed "
 "(renewal quotation)"
-msgstr ""
+msgstr "Egy vásárlói megrendelést hoz létre, mely felülírja ezt a szerződést, ha jóváhagyásra kerül (árajánlat megújítás)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
@@ -515,7 +516,7 @@ msgstr "Tartozik"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_plan_description
 msgid "Describe this contract in a few lines"
-msgstr ""
+msgstr "Fejtse ki ezt a szerződés egy pár sorban"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_description
@@ -534,7 +535,7 @@ msgstr "Árengedmény (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Név megjelenítése"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -554,12 +555,12 @@ msgstr "A lejárat dátuma a következő hónapban lesz"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End date passed"
-msgstr ""
+msgstr "Befejezés dátuma túlhaladva"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Expired"
-msgstr ""
+msgstr "Lejárt"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -574,12 +575,12 @@ msgstr "Követők"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_channel_ids
 msgid "Followers (Channels)"
-msgstr ""
+msgstr "Követők (Csatornák)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Követők (Partnerek)"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -590,7 +591,7 @@ msgstr "Csoportosítás..."
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
 msgid "Helps you handle subscriptions and recurring invoicing."
-msgstr ""
+msgstr "Segítséget nyújt a feliratkozások és ismétlődő számlázás kezelésében."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12136
@@ -608,13 +609,13 @@ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
-msgstr ""
+msgstr "Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés jóváhagyása egy feliratkozást fog létrehozni"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
@@ -622,7 +623,7 @@ msgid ""
 "If set, the associated contract will be overwritten by this sale order "
 "(every recurring line of the contract not in this sale order will be "
 "deleted)."
-msgstr ""
+msgstr "Ha beállított, a társított szerződés felülírásra kerül ezzel a vásárlói megrendeléssel (a szerződés minden ismétlődő tételsora, mely nincs benne ebbe a vásárlói megrendelésben, törlésre kerül)."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -639,7 +640,7 @@ msgstr "Inaktív"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Inactive templates"
-msgstr ""
+msgstr "Nem aktív sablonok"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -654,12 +655,12 @@ msgstr "Számlák automatikusan ismétlődnek a megadott intervallum szerint"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Ennek a feliratkozásnak a számlája ${ctx.get('code')}"
 
 #. module: sale_contract
 #: model:mail.template,report_name:sale_contract.email_payment_success
 msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-msgstr ""
+msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -669,7 +670,7 @@ msgstr "Számlák"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Ő követő"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_issues
@@ -687,7 +688,7 @@ msgstr "Utolsó üzenet dátuma"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Utoljára frissítve ekkor"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
@@ -708,17 +709,17 @@ msgstr "Utoljára frissítve ekkor"
 msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
-msgstr ""
+msgstr "Hagyja bejelöletlenül, ha nem akarja ezt a szerződés sablont a vásárlók részére elérhetővé tenni a kapcsolat felőli oldalon (például mint ingyenes próba)"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
 msgid "Manage Contracts"
-msgstr ""
+msgstr "Szerződések kezelése"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Az aktuális és az értékesített mennyiségek közti maximum; ez kerül számlázásra"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_ids
@@ -750,22 +751,22 @@ msgstr "Új"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "New Contracts"
-msgstr ""
+msgstr "Új szerződések"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Műveletek száma"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Üzenetek száma, melyek közbenjárást igényelnek"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Olvasatlan üzenetek száma"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
@@ -773,12 +774,12 @@ msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
 "            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
-msgstr ""
+msgstr "Odoo rendszer automatikusan beállítja a szerződéseket megújítandónak, ha azok függő\n            állapotúak. Tárgyalás után, az értékesítőnek le kell zárnia vagy megújítania a \n            függőben lévő szerződéseket."
 
 #. module: sale_contract
 #: model:ir.actions.client,name:sale_contract.action_client_sale_subscription_menu
 msgid "Open Subscriptions Menu"
-msgstr ""
+msgstr "Előjegyzés menü megnyitása"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_res_partner
@@ -789,7 +790,7 @@ msgstr "Partner"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Fizetési emlékeztető ehhez a feliratkozáshoz ${object.code}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -799,7 +800,7 @@ msgstr "Függő szerződések"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
-msgstr ""
+msgstr "Terv leírás"
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:179
@@ -839,12 +840,12 @@ msgstr "Mennyiség"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "A vásárló részéről felhasznált aktuális mennyiség"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Quantity sold to the customer"
-msgstr ""
+msgstr "Vásárló részére értékesített mennyiség"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
@@ -855,12 +856,12 @@ msgstr "Ismétlődés"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
 msgid "Recurring Price"
-msgstr ""
+msgstr "Ismétlődő ár"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_recurring_price
 msgid "Recurring price(per period)"
-msgstr ""
+msgstr "Ismétlődő ár(periódusonként)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_code
@@ -890,12 +891,12 @@ msgstr "Felelős"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr ""
+msgstr "Értékesítés előjegyzés"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
 msgid "Sale Subscriptions"
-msgstr ""
+msgstr "Értékesítés előjegyzések"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
@@ -906,12 +907,12 @@ msgstr "Vevői megrendelés"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_manager_id
 msgid "Sales Rep"
-msgstr ""
+msgstr "Értékesítési képv."
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
 msgid "See Contracts"
-msgstr ""
+msgstr "Szerződések megtekintése"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
@@ -931,7 +932,7 @@ msgstr "Beállítás inaktívnak"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Open"
-msgstr ""
+msgstr "Nyitottnak állítva"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -941,7 +942,7 @@ msgstr "Beállítások"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Sold Quantity"
-msgstr ""
+msgstr "Értékesített mennyiség"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
@@ -981,7 +982,7 @@ msgstr "Feliratkozás"
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_graph
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_pivot
 msgid "Subscription Analysis"
-msgstr ""
+msgstr "Feliratkozás elemzések"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -991,18 +992,18 @@ msgstr "Előjegyzés sorok"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
 msgid "Subscription Product"
-msgstr ""
+msgstr "Feliratkozási termék"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.product_action_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_product
 msgid "Subscription Products"
-msgstr ""
+msgstr "Feliratkozási termékek"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_report
 msgid "Subscription Statistics"
-msgstr ""
+msgstr "Feliratkozási statisztikák"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
@@ -1010,17 +1011,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id
 #: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
 msgid "Subscription Template"
-msgstr ""
+msgstr "Feliratkozási sablon"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list_template
 msgid "Subscription Templates"
-msgstr ""
+msgstr "Feliratkozási sablonok"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
 msgid "Subscription products"
-msgstr ""
+msgstr "Feliratkozási termékek"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
@@ -1036,7 +1037,7 @@ msgstr "Feliratkozások"
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
 msgid "Susbcriptions to Renew"
-msgstr ""
+msgstr "Megújítandó feliratkozás"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -1061,12 +1062,12 @@ msgid ""
 "Templates are used to prefigure subscription that \n"
 "                can be selected by the salespeople to quickly configure the\n"
 "                terms and conditions of the subscription."
-msgstr ""
+msgstr "Sablonokat használ a feliratkozások előkonfigurálásához, melyeket \n                az értékesítő kiválaszthat és gyorsan beállíthat a\n                 feliratkozás feltételeihez és részleteihez."
 
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Ennek a feliratkozásnak a megszüntetése ${object.code}"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -1074,29 +1075,29 @@ msgid ""
 "The product form contains information to simplify the sale\n"
 "            process: price, notes in the quotation, accounting data,\n"
 "            procurement methods, etc."
-msgstr ""
+msgstr "A termék űrlap információkat tartalmaz az értékesítési folyamat \n            egyszerűsítésére:  ár, megjegyzések az árajánlaton, könyvelési  \n            adatok, beszerzési módok, stb."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_view
 msgid "The user will have read access to contracts."
-msgstr ""
+msgstr "A felhasználónak olvasási hozzáférése lesz a szerződésekre."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
 msgid "The user will have write access to contracts."
-msgstr ""
+msgstr "A felhasználónak írása hozzáférése lesz a szerződésekre."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:77
 #: code:addons/sale_contract/models/sale_subscription.py:207
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
-msgstr ""
+msgstr "A számla a következő időszakot fedi le: %s - %s"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
 msgid "This order is linked to a subscription."
-msgstr ""
+msgstr "Ez a megrendelés hozzá van fűzve egy feliratkozáshoz."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_timesheets
@@ -1140,12 +1141,12 @@ msgstr "Olvasatlan üzenetek"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Olvasatlan üzenetek számlálója"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
 msgid "Update Contract"
-msgstr ""
+msgstr "Szerződés frissítés"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
@@ -1153,7 +1154,7 @@ msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
 "                work done, expenses and/or sales orders. Odoo will automatically manage\n"
 "                the alerts for the renewal of the contracts to the right salesperson."
-msgstr ""
+msgstr "Használja a szerződéseket a folyamatok, ügyek, időtáblák vagy \n                számlázások elvégzett feladatok,  kiadások és/vagy vevői megrendelések \n                alapján való nyomon követésére. Odoo rendszer automatikusan \n                kezeli a megfelelő értékesítő felé a szerződés megújítására vonatkozó figyelmeztetéseket."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_website_message_ids
@@ -1181,13 +1182,13 @@ msgid ""
 "You must define a product for everything you sell, whether it's\n"
 "            a physical product, a consumable or a service you offer to\n"
 "            customers."
-msgstr ""
+msgstr "Mindene amit értékesít egy terméket kell meghatároznia,\n            akár egy fizikai termék, egy fogyó termék vagy egy szolgáltatás \n            melyet a vársárlóinak értékesít."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:174
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
-msgstr ""
+msgstr "Először ki kell választania az Ügyfelet a Feliratkozáshoz %s!"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
@@ -1195,29 +1196,29 @@ msgid ""
 "You will find here the contracts to be renewed because the\n"
 "            end date is passed or the working effort is higher than the\n"
 "            maximum authorized one."
-msgstr ""
+msgstr "Itt találja majd a befejezés dátumán túllépett, vagy a beállított \n            maximumnál magasabb befektetett munkát igénylő \n            megújítandó szerződéseket."
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "sale.subscription.close.reason"
-msgstr ""
+msgstr "sale.subscription.close.reason"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
-msgstr ""
+msgstr "sale.subscription.line"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "subscription Templates"
-msgstr ""
+msgstr "feliratkozási Sablonok"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Generate Invoice"
-msgstr ""
+msgstr "⇒ Kimenő számla generálása"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
-msgstr ""
+msgstr "⇒ Árajánlat megújításra"
