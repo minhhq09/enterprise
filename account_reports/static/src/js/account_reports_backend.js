@@ -73,7 +73,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.given_context = {};
             }
             // Finally, actually get the html and various data
-            return self.context_model.call('get_html_and_data', [self.context_id, self.given_context]).then(function (result) {
+            return self.context_model.call('get_html_and_data', [self.context_id, self.given_context], {context: session.user_context}).then(function (result) {
                 self.report_type = result.report_type;
                 self.html = result.html;
                 self.xml_export = result.xml_export;
