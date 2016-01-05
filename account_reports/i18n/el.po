@@ -3,13 +3,14 @@
 # * account_reports
 # 
 # Translators:
+# Goutoudis Kostas <goutoudis@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"POT-Creation-Date: 2015-12-30 16:07+0000\n"
+"PO-Revision-Date: 2016-01-01 20:19+0000\n"
+"Last-Translator: Goutoudis Kostas <goutoudis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/odoo/odoo-9/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,14 +23,14 @@ msgstr ""
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Date "
-msgstr ""
+msgstr "Ημερομηνία"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:271
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Due Date "
-msgstr ""
+msgstr "Προθεσμία"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:272
@@ -41,14 +42,14 @@ msgstr ""
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Expected Date "
-msgstr ""
+msgstr "Αναμενόμενη Ημερομηνία"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:271
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Total Due "
-msgstr ""
+msgstr "Σύνολο Οφειλής"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:329
@@ -155,12 +156,17 @@ msgid "A progress bar for followup reports"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_total_assets0
+msgid "ASSETS"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_form
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_tree
 msgid "Account Report"
-msgstr ""
+msgstr "Αναφορά Λογιστικής"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
@@ -174,6 +180,8 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedpayable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedpayable_line0
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:103
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
@@ -188,6 +196,8 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedreceivable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedreceivable_line0
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:102
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
@@ -230,7 +240,7 @@ msgstr ""
 #. module: account_reports
 #: selection:account.financial.html.report.line,show_domain:0
 msgid "Always"
-msgstr ""
+msgstr "Πάντα"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
@@ -284,25 +294,41 @@ msgid "Available company ids"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:193
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_avgcre0
+msgid "Average creditors days"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_avdebt0
+msgid "Average debtors days"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_balancesheet0
+msgid "BALANCE SHEET"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #, python-format
 msgid "Balance"
 msgstr "Ισοζύγιο"
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_balancesheet0
 #: model:ir.actions.client,name:account_reports.action_account_report_bs
 msgid "Balance Sheet"
 msgstr "Υπόλοιπο"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:188
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journals
 #, python-format
 msgid "Bank Accounts"
 msgstr "Τραπεζικοί Λογαριασμοί"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:163
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:164
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation_with_journal
 #, python-format
@@ -310,11 +336,16 @@ msgid "Bank Reconciliation"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:186
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journal_id
 #, python-format
 msgid "Bank account"
 msgstr "Τραπεζικός λογαριασμός"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_bank_view0
+msgid "Bank and Cash Accounts"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_bank_reconciliation_report
@@ -329,7 +360,7 @@ msgstr ""
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
 msgid "Based on date ranges"
-msgstr ""
+msgstr "Με βάση τα χρονικά διαστήματα"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
@@ -348,6 +379,16 @@ msgid "Business Statements"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash0
+msgid "CASH"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_current_year_earnings0
+msgid "CURRENT YEAR EARNINGS"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:146
 #, python-format
@@ -355,8 +396,73 @@ msgid "Cash Basis Method"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
 #: model:ir.actions.client,name:account_reports.action_account_report_cs
 msgid "Cash Flow Statement"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
+msgid "Cash and cash equivalents, beginning of year"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_closing_balance0
+msgid "Cash and cash equivalents, closing balance"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing0
+msgid "Cash flows from financing activities"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing0
+msgid "Cash flows from investing & extraordinary activities"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_operating0
+msgid "Cash flows from operating activities"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified0
+msgid "Cash flows from unclassified activities"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing_in0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_in0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_in0
+msgid "Cash in"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing_out0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_out0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_out0
+msgid "Cash out"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_received0
+msgid "Cash received"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_received0
+msgid "Cash received from customers"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_spent0
+msgid "Cash spent"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_surplus0
+msgid "Cash surplus"
 msgstr ""
 
 #. module: account_reports
@@ -365,11 +471,10 @@ msgid "Change expected payment date/note"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:63
-#: model:ir.ui.menu,name:account_reports.menu_action_account_report_coa
+#: code:addons/account_reports/models/account_report_coa.py:74
 #, python-format
 msgid "Chart of Account"
-msgstr ""
+msgstr "Λογιστικό Σχέδιο"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_coa_report
@@ -387,7 +492,7 @@ msgid "Children Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:42
+#: code:addons/account_reports/models/account_report_coa.py:52
 #, python-format
 msgid "Class %s"
 msgstr ""
@@ -408,6 +513,11 @@ msgid "Close"
 msgstr "Κλείσιμο"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_closing_bank_balance0
+msgid "Closing bank balance"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_code
 msgid "Code"
 msgstr "Κωδικός"
@@ -420,7 +530,7 @@ msgstr ""
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:271
 #: code:addons/account_reports/models/account_followup_report.py:272
-#: code:addons/account_reports/models/account_general_ledger.py:193
+#: code:addons/account_reports/models/account_general_ledger.py:195
 #, python-format
 msgid "Communication"
 msgstr "Επικοινωνία"
@@ -463,7 +573,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_filter_cmp
 msgid "Comparison date filter used"
-msgstr ""
+msgstr "Χρησιμοποιείται φίλτρο Σύγκρισης Ημερομηνίών"
 
 #. module: account_reports
 #. openerp-web
@@ -480,6 +590,16 @@ msgstr "Υπολογισμός"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_line_form
 msgid "Cosmetics"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cost_sales0
+msgid "Cost of Revenue"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
+msgid "Cost of Sales"
 msgstr ""
 
 #. module: account_reports
@@ -518,22 +638,45 @@ msgstr "Δημιουργήθηκε στις"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:193
-#: code:addons/account_reports/models/account_report_coa.py:86
+#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_report_coa.py:97
+#: code:addons/account_reports/models/account_report_coa.py:99
+#: code:addons/account_reports/models/account_report_coa.py:102
 #, python-format
 msgid "Credit"
 msgstr "Πίστωση"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:193
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_creditors0
+msgid "Creditors"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #, python-format
 msgid "Currency"
 msgstr "Νόμισμα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:87
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets_view0
+msgid "Current Assets"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:88
 #, python-format
 msgid "Current Balance in Odoo"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
+msgid "Current Liabilities"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_ca_to_l0
+msgid "Current assets to liabilities"
 msgstr ""
 
 #. module: account_reports
@@ -545,27 +688,23 @@ msgid "Custom"
 msgstr "Προσωποποιημένο"
 
 #. module: account_reports
-#: model:ir.actions.client,name:account_reports.action_account_followup
-#: model:ir.actions.client,name:account_reports.action_account_followup_all
-msgid "Customer Follow-ups"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Customer Statement"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.actions.client,name:account_reports.action_account_followup
+#: model:ir.actions.client,name:account_reports.action_account_followup_all
 #: model:ir.ui.menu,name:account_reports.menu_action_followups
 msgid "Customers Statement"
 msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
-#: code:addons/account_reports/models/account_general_ledger.py:193
+#: code:addons/account_reports/models/account_general_ledger.py:195
 #, python-format
 msgid "Date"
-msgstr "Ημερ/νία"
+msgstr "Ημερομηνία"
 
 #. module: account_reports
 #. openerp-web
@@ -584,7 +723,7 @@ msgstr "Ημερομηνία :"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_filter
 msgid "Date filter used"
-msgstr ""
+msgstr "Χρησιμοποιείται φίλτρο Ημερομηνιών"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_move_line_next_action_date
@@ -595,11 +734,23 @@ msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:193
-#: code:addons/account_reports/models/account_report_coa.py:86
+#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_report_coa.py:97
+#: code:addons/account_reports/models/account_report_coa.py:99
+#: code:addons/account_reports/models/account_report_coa.py:102
 #, python-format
 msgid "Debit"
 msgstr "Χρέωση"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_debtors0
+msgid "Debtors"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_depreciation0
+msgid "Depreciation"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_display_name
@@ -622,7 +773,7 @@ msgstr "Χρέωση"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Εμφάνιση Ονόματος"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -652,6 +803,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Done"
 msgstr "Ολοκληρωμένο"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_equity0
+msgid "EQUITY"
+msgstr ""
 
 #. module: account_reports
 #. openerp-web
@@ -724,7 +880,7 @@ msgstr "Ημερομηνία λήξης"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_to_cmp
 msgid "End date for comparison"
-msgstr ""
+msgstr "Ημερομηνία λήξης για σύγκριση"
 
 #. module: account_reports
 #. openerp-web
@@ -755,6 +911,11 @@ msgid "Error"
 msgstr "Σφάλμα"
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_executivesummary0
+msgid "Executive Summary"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:133
 #: model:ir.model.fields,field_description:account_reports.field_account_move_line_expected_pay_date
@@ -771,15 +932,22 @@ msgid ""
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_expenses0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_expense0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_less_expenses0
+msgid "Expenses"
+msgstr "Έξοδα"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_financial_report_id
 msgid "Financial Report"
-msgstr ""
+msgstr "Χρηματοοικονομική Αναφορά"
 
 #. module: account_reports
 #: model:ir.actions.act_window,name:account_reports.action_account_financial_report_tree
 #: model:ir.ui.menu,name:account_reports.menu_account_financial_reports_tree
 msgid "Financial Reports"
-msgstr ""
+msgstr "Χρηματοοικονομικές Αναφορές"
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,figure_type:0
@@ -792,18 +960,13 @@ msgid "Foldable"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_followup_public_body
-msgid "Follow-ups"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:326
+#: code:addons/account_reports/models/account_followup_report.py:339
 #, python-format
 msgid "Followup "
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:84
+#: code:addons/account_reports/models/account_followup_report.py:87
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -853,8 +1016,13 @@ msgid "From the beginning"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_gross_profit0
+msgid "GROSS PROFIT"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_general_ledger.py:167
+#: code:addons/account_reports/models/account_general_ledger.py:173
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:101
 #: model:ir.actions.client,name:account_reports.action_account_general_ledger_force_account
 #: model:ir.actions.client,name:account_reports.action_account_report_general_ledger
@@ -876,13 +1044,23 @@ msgid "Generic Tax Report"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
+msgid "Gross profit"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gpmargin0
+msgid "Gross profit margin (gross profit / income)"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
 msgid "Group By"
 msgstr "Ομαδοποίηση Ανά"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_groupby
-msgid "Groupby"
+msgid "Group by"
 msgstr ""
 
 #. module: account_reports
@@ -942,14 +1120,26 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
 #, python-format
 msgid "Include Unposted Entries"
-msgstr ""
+msgstr "Να συμπεριληφθούν Μη δημοσιευμένες Καταχωρήσεις"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
 #, python-format
 msgid "Include unposted entries"
-msgstr ""
+msgstr "Να συμπεριληφθούν Μη δημοσιευμένες Καταχωρήσεις"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
+msgid "Income"
+msgstr "Έσοδα"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:145
+#, python-format
+msgid "Initial Balance"
+msgstr "Αρχικό Ισοζύγιο"
 
 #. module: account_reports
 #. openerp-web
@@ -970,12 +1160,12 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_move_line_internal_note
 msgid "Internal Note"
-msgstr ""
+msgstr "Εσωτερική Σημείωση"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_invoice_address_id
 msgid "Invoice Address"
-msgstr ""
+msgstr "Διεύθυνση Τιμολόγησης"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_green_on_positive
@@ -986,6 +1176,11 @@ msgstr ""
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
 msgstr "Στοιχείο Ημερολογίου"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_liabilities_view0
+msgid "LIABILITIES"
+msgstr ""
 
 #. module: account_reports
 #. openerp-web
@@ -1015,7 +1210,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Τελευταία αλλαγή στις"
 
 #. module: account_reports
 #. openerp-web
@@ -1052,7 +1247,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_uid
 msgid "Last Updated by"
-msgstr "Τελευταία ενημέρωση από"
+msgstr "Τελευταία Ενημέρωση από"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_write_date
@@ -1069,7 +1264,7 @@ msgstr "Τελευταία ενημέρωση από"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
 msgid "Last Updated on"
-msgstr "Τελευταία ενημέρωση στις"
+msgstr "Τελευταία Ενημέρωση στις"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
@@ -1146,7 +1341,7 @@ msgstr "Χειροκίνητα"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_menuitem_created
-msgid "Menuitem created"
+msgid "Menu Has Been Created"
 msgstr ""
 
 #. module: account_reports
@@ -1166,16 +1361,47 @@ msgid "Multi-company Manager"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_assets0
+msgid "NET ASSETS"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_profit0
+msgid "NET PROFIT"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_name
 msgid "Name"
 msgstr "Όνομα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:155
 #: code:addons/account_reports/models/account_generic_tax_report.py:157
-#: code:addons/account_reports/models/account_generic_tax_report.py:160
+#: code:addons/account_reports/models/account_generic_tax_report.py:159
+#: code:addons/account_reports/models/account_generic_tax_report.py:162
 #, python-format
 msgid "Net"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#, python-format
+msgid "Net Tax Lines"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_net_assets0
+msgid "Net assets"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_net_increase0
+msgid "Net increase in cash and cash equivalents"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_npmargin0
+msgid "Net profit margin (net profit / income)"
 msgstr ""
 
 #. module: account_reports
@@ -1241,7 +1467,12 @@ msgid "No followup to send !"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:506
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
+msgid "Non-current Liabilities"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:522
 #, python-format
 msgid "Non-issued"
 msgstr ""
@@ -1257,7 +1488,7 @@ msgstr "Σημείωση"
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_res_partner_payment_next_action
 msgid "Note regarding the next action."
-msgstr ""
+msgstr "Σημείωση σχετικά με την επόμενη ενέργεια."
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_move_line_internal_note
@@ -1328,20 +1559,30 @@ msgid "Options:"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.view_company_inherit_form
-msgid "Overdue Payments"
-msgstr "Ληξιπρόθεσμες Οφειλές"
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_other_income0
+msgid "Other Income"
+msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.view_company_inherit_form
-msgid "Overdue Payments Message"
-msgstr "Μήνυμα καθυστερημένων πληρωμών"
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_performance0
+msgid "PERFORMANCE"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_position0
+msgid "POSITION"
+msgstr ""
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:33
 #, python-format
 msgid "PRINT PREVIEW"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profitability0
+msgid "PROFITABILITY"
 msgstr ""
 
 #. module: account_reports
@@ -1355,7 +1596,7 @@ msgid "Parent id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:193
+#: code:addons/account_reports/models/account_general_ledger.py:195
 #: model:ir.model,name:account_reports.model_res_partner
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_partner_id
 #, python-format
@@ -1385,21 +1626,36 @@ msgid "Percents"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:127
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
+msgid "Plus Fixed Assets"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_assets_view0
+msgid "Plus Non-current Assets"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
 #, python-format
 msgid "Plus Outstanding Payment"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:112
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
 #, python-format
 msgid "Plus Un-Reconciled Bank Statement Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:154
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
 #, python-format
 msgid "Plus Unencoded Statements"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
+msgid "Prepayments"
 msgstr ""
 
 #. module: account_reports
@@ -1415,13 +1671,23 @@ msgid "Print Letter"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
+msgid "Profit"
+msgstr "Κέρδος"
+
+#. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_pnl
 #: model:ir.actions.client,name:account_reports.action_account_report_pnl_fy
 msgid "Profit And Loss"
-msgstr ""
+msgstr "Κέρδη Kαι Ζημίες"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:98
+#: model:account.financial.html.report,name:account_reports.account_financial_report_profitandloss0
+msgid "Profit and Loss"
+msgstr "Κέρδη και Ζημίες"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:99
 #, python-format
 msgid "Purchase"
 msgstr "Αγορά"
@@ -1432,12 +1698,22 @@ msgid "Put back in the list"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_retained_earnings0
+msgid "RETAINED EARNINGS"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_receivable0
+msgid "Receivables"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Reconciliation Report"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
 #, python-format
 msgid "Reference"
 msgstr "Αναφορά"
@@ -1463,7 +1739,12 @@ msgid "Report Type"
 msgstr "Τύπος Αναφοράς"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:98
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_return_investment0
+msgid "Return on investments (net profit / assets)"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:99
 #, python-format
 msgid "Sale"
 msgstr "Πώληση"
@@ -1507,12 +1788,17 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Send by email"
-msgstr ""
+msgstr "Αποστολή με Email"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
 msgid "Sequence"
 msgstr "Ιεράρχηση"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_st_cash_forecast0
+msgid "Short term cash forecast"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_debit_credit
@@ -1562,7 +1848,7 @@ msgstr "Ημερομηνία έναρξης"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_date_from_cmp
 msgid "Start date for comparison"
-msgstr ""
+msgstr "Ημερομηνία έναρξης για σύγκριση"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_started
@@ -1586,15 +1872,21 @@ msgid "Target id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:155
 #: code:addons/account_reports/models/account_generic_tax_report.py:157
-#: code:addons/account_reports/models/account_generic_tax_report.py:160
+#: code:addons/account_reports/models/account_generic_tax_report.py:159
+#: code:addons/account_reports/models/account_generic_tax_report.py:162
 #, python-format
 msgid "Tax"
 msgstr "Φόρος"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:131
+#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#, python-format
+msgid "Tax Lines"
+msgstr "Γραμμές Φόρου"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:132
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
@@ -1608,7 +1900,7 @@ msgstr "Κείμενο"
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_res_partner_payment_next_action_date
 msgid "The date before which no action should be taken."
-msgstr ""
+msgstr "Η ημερομηνία πριν από την οποία δεν πρέπει να γίνει κάποια ενέργεια."
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:139
@@ -1624,7 +1916,7 @@ msgid "The followup report was successfully emailed !"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:156
+#: code:addons/account_reports/models/account_general_ledger.py:158
 #, python-format
 msgid ""
 "There are more than 80 items in this list, click here to see all of them"
@@ -1642,7 +1934,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:65
 #, python-format
 msgid "This Month"
-msgstr ""
+msgstr "Αυτόν τον μήνα"
 
 #. module: account_reports
 #. openerp-web
@@ -1660,6 +1952,12 @@ msgid "Total"
 msgstr "Σύνολο"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:149
+#, python-format
+msgid "Total "
+msgstr ""
+
+#. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:66
 #, python-format
 msgid "Total Due"
@@ -1673,8 +1971,9 @@ msgstr ""
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_coa
+#: model:ir.ui.menu,name:account_reports.menu_action_account_report_coa
 msgid "Trial Balance"
-msgstr ""
+msgstr "Ισοζύγιο"
 
 #. module: account_reports
 #. openerp-web
@@ -1732,15 +2031,15 @@ msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_move_line.py:40
-#: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
 msgid "View Invoice"
-msgstr "Δες Τιμολόγιο"
+msgstr "Προβολή Τιμολογίου"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:105
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
+#: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
 msgid "View Journal Entry"
 msgstr ""
@@ -1755,7 +2054,7 @@ msgstr ""
 #: code:addons/account_reports/models/account_move_line.py:38
 #, python-format
 msgid "View Payment"
-msgstr ""
+msgstr "Προβολή Πληρωμής"
 
 #. module: account_reports
 #. openerp-web
@@ -1774,6 +2073,16 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "You have sent"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_followup_public_body
+msgid "Your Statement"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
+msgid "cash paid for"
 msgstr ""
 
 #. module: account_reports

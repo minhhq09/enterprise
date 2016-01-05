@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Davor Bojkić <bole@dajmi5.com>, 2015
+# Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2015
 # Karolina Tonković <karolina.tonkovic@storm.hr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-18 20:38+0000\n"
-"Last-Translator: Ivica Dimjašević <ivica.dimjasevic@storm.hr>\n"
+"PO-Revision-Date: 2015-11-19 14:07+0000\n"
+"Last-Translator: Davor Bojkić <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -391,7 +392,7 @@ msgstr "Zatvoreni ugovori"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Comercial Partner"
-msgstr ""
+msgstr "Komercijalni partner"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
@@ -403,7 +404,7 @@ msgstr "Tvrtka"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_uom_id
 msgid "Company UOM"
-msgstr ""
+msgstr "UOM organizacije"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_config
@@ -536,7 +537,7 @@ msgstr "Popust (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Naziv za prikaz"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -610,13 +611,13 @@ msgstr "Ako je odabrano, nove poruke zahtijevaju Vašu pažnju."
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
-msgstr ""
+msgstr "Ako je takva postava, potvrda prodajnog naloga će stvoriti pretplatu"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
@@ -656,7 +657,7 @@ msgstr "Račun se automatski ponavlja u određenim intervalima"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Račun za pretplatu ${ctx.get('code')}"
 
 #. module: sale_contract
 #: model:mail.template,report_name:sale_contract.email_payment_success
@@ -710,7 +711,7 @@ msgstr "Vrijeme promjene"
 msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
-msgstr ""
+msgstr "Ostavite to označenim ako ugovor e želite spremiti kao predložak dostupan krajnem kupcu (npr. za besplatno suđenje)"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
@@ -720,7 +721,7 @@ msgstr "Upravljanje ugovorima"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Razlika između stvarne i prodane količine; za ovu će se količinu izdati račun"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_ids
@@ -757,7 +758,7 @@ msgstr "Novi ugovori"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
 msgid "Number of Actions"
-msgstr "Broj Akcija"
+msgstr "Broj akcija"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_needaction_counter
@@ -791,7 +792,7 @@ msgstr "Partner"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Podsjetnik za plaćanje pretplate ${object.code}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -1038,7 +1039,7 @@ msgstr "Pretplate"
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
 msgid "Susbcriptions to Renew"
-msgstr ""
+msgstr "Pretplate za obnavljanje"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -1068,7 +1069,7 @@ msgstr ""
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Prestanak pretplate ${object.code}"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -1093,7 +1094,7 @@ msgstr "Korisnik će imati pristup pisanju ugovora. "
 #: code:addons/sale_contract/models/sale_subscription.py:207
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
-msgstr ""
+msgstr "Ovaj račun pokriva slijedeći period: %s - %s"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
@@ -1183,7 +1184,7 @@ msgid ""
 "You must define a product for everything you sell, whether it's\n"
 "            a physical product, a consumable or a service you offer to\n"
 "            customers."
-msgstr ""
+msgstr "Morate definirati proizvod za sve što želite prodati, bilo da je\nfizički proizvod, potrošni materijal ili uslugu koju nudite\nklijentima."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:174
@@ -1197,7 +1198,7 @@ msgid ""
 "You will find here the contracts to be renewed because the\n"
 "            end date is passed or the working effort is higher than the\n"
 "            maximum authorized one."
-msgstr ""
+msgstr "Ovdje ćete naći ugovore koje treba obnoviti jer\nje istekao datum završetka ili je radni napor veći\nod najvećeg ovlaštenog."
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason

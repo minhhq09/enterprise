@@ -54,8 +54,33 @@ var UserMenu = Widget.extend({
         };
         this.update_promise = this.update_promise.then(fct, fct);
     },
-    on_menu_logout: function() {
-        this.do_action('logout');
+    on_menu_documentation: function () {
+        window.open('https://www.odoo.com/documentation/user', '_blank');
+    },
+    on_menu_support: function () {
+        window.location.href = 'mailto:help@odoo.com';
+    },
+    on_menu_about: function () {
+        var self = this;
+        if (odoo.db_info) {
+            menu_help_about(odoo.db_info);
+        } else {
+            this.rpc("/web/webclient/version_info", {}).done(menu_help_about);
+        }
+
+        function menu_help_about(db_info) {
+            var $help = $(QWeb.render("UserMenu.about", {db_info: db_info}));
+            $help.find('a.oe_activate_debug_mode').click(function (e) {
+                e.preventDefault();
+                window.location = $.param.querystring(window.location.href, 'debug');
+            });
+            new Dialog(self, {
+                size: 'medium',
+                dialogClass: 'o_act_window',
+                title: _t("About"),
+                $content: $help
+            }).open();
+        }
     },
     on_menu_settings: function() {
         var self = this;
@@ -83,6 +108,9 @@ var UserMenu = Widget.extend({
             ev.preventDefault();
             window.location.href = 'https://accounts.odoo.com/account';
         });
+    },
+    on_menu_logout: function() {
+        this.do_action('logout');
     },
 });
 

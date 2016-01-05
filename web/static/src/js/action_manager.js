@@ -344,7 +344,8 @@ var ActionManager = Widget.extend({
                 return action.title;
             }
         }
-        return _.pluck(this.get_breadcrumbs(), 'title').join(' / ');
+        var last_breadcrumb = _.last(this.get_breadcrumbs());
+        return last_breadcrumb ? last_breadcrumb.title : "";
     },
     get_action_stack: function () {
         return this.action_stack;

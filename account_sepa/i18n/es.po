@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Esteban Echeverry <tebanep@nubark.com>, 2015
+# Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>, 2015
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 10:15+0000\n"
-"PO-Revision-Date: 2015-09-26 22:32+0000\n"
-"Last-Translator: Esteban Echeverry <tebanep@nubark.com>\n"
+"PO-Revision-Date: 2015-11-26 22:26+0000\n"
+"Last-Translator: Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:39
+#: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
 msgstr "Una comunicación SEPA no puede exceder los 140 caracteres"
 
 #. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:50
+#, python-format
+msgid ""
+"The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
+"configure it first."
+msgstr "El diario '%s' requiere una cuenta IBAN para pagar via SEPA. Por favor configurela primero."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:52
+#, python-format
+msgid ""
+"The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
+"pay via SEPA. Please configure it first."
+msgstr "La cuenta '%s' (journal %s) requiere un Código de Identificación Bancario (BIC) para pagar via SEPA. Por favor configure primero."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:61
+#, python-format
+msgid ""
+"The partner account '%s' requires a Bank Identification Code (BIC) to pay "
+"via SEPA. Please configure it first."
+msgstr "La cuenta de empresa '%s' requiere un Código de Identificación Bancario (BIC) para pagar via SEPA. Por favor configure primero."
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Cuenta bancaria"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -82,7 +107,7 @@ msgstr "Descargar pago SEPA"
 msgid ""
 "Entity that assigns the identification (eg. KBE-BCO or Finanzamt Muenchen "
 "IV)."
-msgstr ""
+msgstr "Entidad que asigna la identificación (por ejemplo, BBVA o CaixaBank)."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
@@ -102,7 +127,7 @@ msgstr "Identificación"
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
-msgstr ""
+msgstr "Identificación asignada por una institución (por ejemplo, el NIF)"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:69

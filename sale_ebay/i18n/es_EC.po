@@ -3,13 +3,14 @@
 # * sale_ebay
 # 
 # Translators:
+# Rick Hunter <rick_hunter_ec@yahoo.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2016-01-04 08:02+0000\n"
+"Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,6 +26,22 @@ msgid ""
 "          ${object.ebay_description | safe}\n"
 "        \n"
 "      "
+msgstr "\n                  \n          ${object.ebay_description | safe}\n        \n      "
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:305
+#, python-format
+msgid ""
+" If you want to set quantity to 0, the Out Of Stock option should be enabled"
+" and the listing duration should set to Good 'Til Canceled"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:308
+#, python-format
+msgid ""
+" You need to have at least 2 variations selected for a multi-variations listing.\n"
+" Or if you try to delete a variation, you cannot do it by unselecting it. Setting the quantity to 0 is the safest method to make a variation unavailable."
 msgstr ""
 
 #. module: sale_ebay
@@ -53,7 +70,7 @@ msgid "7 Days"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:192
+#: code:addons/sale_ebay/product.py:193
 #, python-format
 msgid ""
 "All the quantities must be greater than 0 or you need to enable the Out Of "
@@ -126,7 +143,7 @@ msgid "Configuration"
 msgstr "Configuración"
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:273
+#: code:addons/sale_ebay/product.py:272
 #, python-format
 msgid "Configure The eBay Integrator Now"
 msgstr ""
@@ -198,7 +215,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_display_name
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre a Mostrar"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_listing_duration
@@ -217,7 +234,7 @@ msgid "End Items' Listings"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:228
+#: code:addons/sale_ebay/product.py:179
 #, python-format
 msgid ""
 "Error Encountered.\n"
@@ -225,7 +242,7 @@ msgid ""
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:607
+#: code:addons/sale_ebay/product.py:311
 #, python-format
 msgid ""
 "Error Encountered.\n"
@@ -236,7 +253,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_fixed_price
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_fixed_price
 msgid "Fixed Price"
-msgstr ""
+msgstr "Precios fijados"
 
 #. module: sale_ebay
 #: selection:product.template,ebay_listing_type:0
@@ -269,6 +286,14 @@ msgid ""
 msgstr ""
 
 #. module: sale_ebay
+#: code:addons/sale_ebay/product.py:301
+#, python-format
+msgid ""
+"Impossible to revise a listing into a multi-variations listing.\n"
+" Create a new listing."
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_item_condition_id
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_item_condition_id
 msgid "Item Condition"
@@ -281,7 +306,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy___last_update
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Fecha de modificación"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_write_uid
@@ -290,7 +315,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_write_uid
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima Actualización por"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_category_write_date
@@ -299,7 +324,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_write_date
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_site_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Actualizado en"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_last_sync
@@ -364,18 +389,12 @@ msgid "No Business Policies"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:178
-#, python-format
-msgid "No Variant Set To Be Published On eBay"
-msgstr ""
-
-#. module: sale_ebay
 #: selection:ebay.category,category_type:0
 msgid "Official eBay Category"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:272
+#: code:addons/sale_ebay/product.py:271
 #, python-format
 msgid "One parameter is missing."
 msgstr ""
@@ -383,6 +402,12 @@ msgstr ""
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_optional_product_ids
 msgid "Optional Products"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:297
+#, python-format
+msgid "Or the condition is not compatible with the category."
 msgstr ""
 
 #. module: sale_ebay
@@ -409,6 +434,7 @@ msgstr ""
 
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_product_product
+#: model:ir.ui.view,arch_db:sale_ebay.product_template_ebay_tree_view
 msgid "Product"
 msgstr "Producto"
 
@@ -420,7 +446,7 @@ msgstr "Plantilla de producto"
 #. module: sale_ebay
 #: selection:sale.config.settings,ebay_domain:0
 msgid "Production"
-msgstr "Produccíon"
+msgstr "Producción"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_sale_config_settings_ebay_prod_app_id
@@ -549,7 +575,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_subtitle
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_subtitle
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítulo"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_short_summary
@@ -577,15 +603,23 @@ msgid "Sync product status"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:546
+#: code:addons/sale_ebay/product.py:589
 #, python-format
 msgid "The Buyer Chose The Following Delivery Method :\n"
 msgstr ""
 
 #. module: sale_ebay
-#: code:addons/sale_ebay/product.py:542 code:addons/sale_ebay/product.py:543
+#: code:addons/sale_ebay/product.py:585 code:addons/sale_ebay/product.py:586
 #, python-format
 msgid "The Buyer Posted :\n"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:303
+#, python-format
+msgid ""
+"The UPC value (the barcode value of your product) is not valid by using the "
+"checksum."
 msgstr ""
 
 #. module: sale_ebay
@@ -625,7 +659,7 @@ msgstr "Título"
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transferencia"
 
 #. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_ebay_policy_policy_type
@@ -732,6 +766,28 @@ msgid "eBay Variant URL"
 msgstr ""
 
 #. module: sale_ebay
+#: code:addons/sale_ebay/res_config.py:160
+#, python-format
+msgid ""
+"eBay error: Impossible to synchronize the categories. \n"
+"'%s'"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:403 code:addons/sale_ebay/product.py:469
+#, python-format
+msgid ""
+"eBay error: Impossible to synchronize the products. \n"
+"'%s'"
+msgstr ""
+
+#. module: sale_ebay
+#: code:addons/sale_ebay/product.py:299
+#, python-format
+msgid "eBay is unreachable. Please try again later."
+msgstr ""
+
+#. module: sale_ebay
 #: model:ir.model.fields,field_description:sale_ebay.field_product_product_ebay_url
 #: model:ir.model.fields,field_description:sale_ebay.field_product_template_ebay_url
 msgid "eBay url"
@@ -770,4 +826,4 @@ msgstr "o"
 #. module: sale_ebay
 #: model:ir.model,name:sale_ebay.model_sale_config_settings
 msgid "sale.config.settings"
-msgstr ""
+msgstr "Configuración de Ventas"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2015-10-15 21:05+0000\n"
+"POT-Creation-Date: 2015-12-30 16:07+0000\n"
+"PO-Revision-Date: 2015-12-30 22:49+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -157,6 +157,11 @@ msgid "A progress bar for followup reports"
 msgstr "Egy haladást mutató grafikon az nyomkövető jelentésekhez"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_total_assets0
+msgid "ASSETS"
+msgstr "ESZKÖZÖK"
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_form
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
@@ -176,6 +181,8 @@ msgstr "Művelet id azonosító"
 
 #. module: account_reports
 #. openerp-web
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedpayable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedpayable_line0
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:103
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
@@ -190,6 +197,8 @@ msgstr "Korosított fizetendők"
 
 #. module: account_reports
 #. openerp-web
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedreceivable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedreceivable_line0
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:102
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
@@ -286,25 +295,41 @@ msgid "Available company ids"
 msgstr "Vállalati id azonosító elérhető"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_avgcre0
+msgid "Average creditors days"
+msgstr "Hitelezők átlagolt naptúllépései"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_avdebt0
+msgid "Average debtors days"
+msgstr "Adósok átlagolt naptúllépései"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_balancesheet0
+msgid "BALANCE SHEET"
+msgstr "EGYENLEG KIMUTATÁS"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #, python-format
 msgid "Balance"
 msgstr "Egyenleg"
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_balancesheet0
 #: model:ir.actions.client,name:account_reports.action_account_report_bs
 msgid "Balance Sheet"
 msgstr "Egyenleg kimutatatás"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:188
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journals
 #, python-format
 msgid "Bank Accounts"
 msgstr "Bankszámlák"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:163
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:164
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation_with_journal
 #, python-format
@@ -312,11 +337,16 @@ msgid "Bank Reconciliation"
 msgstr "Bank párosítás"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:186
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journal_id
 #, python-format
 msgid "Bank account"
 msgstr "Bankszámla"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_bank_view0
+msgid "Bank and Cash Accounts"
+msgstr "Bank és készpénz számlák"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_bank_reconciliation_report
@@ -350,6 +380,16 @@ msgid "Business Statements"
 msgstr "Üzleti kimutatások"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash0
+msgid "CASH"
+msgstr "KÉSZPÉNZ"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_current_year_earnings0
+msgid "CURRENT YEAR EARNINGS"
+msgstr "IDEI ÉVI NYERESÉGEK"
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:146
 #, python-format
@@ -357,9 +397,74 @@ msgid "Cash Basis Method"
 msgstr "Készpénz alap mód"
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
 #: model:ir.actions.client,name:account_reports.action_account_report_cs
 msgid "Cash Flow Statement"
 msgstr "Készpénz mozgás kivonat"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
+msgid "Cash and cash equivalents, beginning of year"
+msgstr "Készpénz és készpénzzel egyenértékű, év elején"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_closing_balance0
+msgid "Cash and cash equivalents, closing balance"
+msgstr "Készpénz és készpénzzel egyenértékű, záró egyenleg"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing0
+msgid "Cash flows from financing activities"
+msgstr "Készpénz mozgások a pénzügyi tevékenységekből"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing0
+msgid "Cash flows from investing & extraordinary activities"
+msgstr "Készpénz mozgások a befektetés & rendkívüli tevékenységekből"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_operating0
+msgid "Cash flows from operating activities"
+msgstr "Készpénz mozgások a működtetési tevékenységekből"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified0
+msgid "Cash flows from unclassified activities"
+msgstr "Készpénz mozgások a nem osztályozott tevékenységekből"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing_in0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_in0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_in0
+msgid "Cash in"
+msgstr "Bejövő készpénz"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing_out0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_out0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_out0
+msgid "Cash out"
+msgstr "Kimenő készpénz"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_received0
+msgid "Cash received"
+msgstr "Beérkezett készpénz"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_received0
+msgid "Cash received from customers"
+msgstr "Vásárlóktól beérkezett készpénz"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_spent0
+msgid "Cash spent"
+msgstr "Elköltött készpénz"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_surplus0
+msgid "Cash surplus"
+msgstr "Készpénz többlet"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_line
@@ -367,7 +472,7 @@ msgid "Change expected payment date/note"
 msgstr "Elvárt fizetési dátum/értesítés megváltoztatása"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:63
+#: code:addons/account_reports/models/account_report_coa.py:74
 #, python-format
 msgid "Chart of Account"
 msgstr "Számlatükör"
@@ -388,7 +493,7 @@ msgid "Children Lines"
 msgstr "Alárendelt tételsorok"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:42
+#: code:addons/account_reports/models/account_report_coa.py:52
 #, python-format
 msgid "Class %s"
 msgstr "Osztályok %s"
@@ -407,6 +512,11 @@ msgstr "Kattintson egy bemutatkozó leírás hozzáadásához"
 #, python-format
 msgid "Close"
 msgstr "Bezár"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_closing_bank_balance0
+msgid "Closing bank balance"
+msgstr "Banki záró egyenleg"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_code
@@ -484,6 +594,16 @@ msgid "Cosmetics"
 msgstr "Kozmetikázások"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cost_sales0
+msgid "Cost of Revenue"
+msgstr "Árbevételek költsége"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
+msgid "Cost of Sales"
+msgstr "Értékesítések költsége"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_create_uid
@@ -520,22 +640,45 @@ msgstr "Létrehozás dátuma"
 #. module: account_reports
 #: code:addons/account_reports/models/account_financial_report.py:508
 #: code:addons/account_reports/models/account_general_ledger.py:195
-#: code:addons/account_reports/models/account_report_coa.py:86
+#: code:addons/account_reports/models/account_report_coa.py:97
+#: code:addons/account_reports/models/account_report_coa.py:99
+#: code:addons/account_reports/models/account_report_coa.py:102
 #, python-format
 msgid "Credit"
 msgstr "Követel"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_creditors0
+msgid "Creditors"
+msgstr "Hitelezők"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #, python-format
 msgid "Currency"
 msgstr "Valuta"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:87
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets_view0
+msgid "Current Assets"
+msgstr "Forgóeszközök"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:88
 #, python-format
 msgid "Current Balance in Odoo"
 msgstr "Jelenlegi egyenleg"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
+msgid "Current Liabilities"
+msgstr "Rövid lejáratú kötelezettségek"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_ca_to_l0
+msgid "Current assets to liabilities"
+msgstr "Forgóeszközök kötelezettségekhez"
 
 #. module: account_reports
 #. openerp-web
@@ -546,17 +689,13 @@ msgid "Custom"
 msgstr "Egyéni"
 
 #. module: account_reports
-#: model:ir.actions.client,name:account_reports.action_account_followup
-#: model:ir.actions.client,name:account_reports.action_account_followup_all
-msgid "Customer Follow-ups"
-msgstr "Vásárlók követései"
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Customer Statement"
 msgstr "Vásárlói kivonat"
 
 #. module: account_reports
+#: model:ir.actions.client,name:account_reports.action_account_followup
+#: model:ir.actions.client,name:account_reports.action_account_followup_all
 #: model:ir.ui.menu,name:account_reports.menu_action_followups
 msgid "Customers Statement"
 msgstr "Vásárlói kivonat"
@@ -597,10 +736,22 @@ msgstr "Az esedékes, következő beérkező tételen végrehajtandó művelet d
 #. module: account_reports
 #: code:addons/account_reports/models/account_financial_report.py:508
 #: code:addons/account_reports/models/account_general_ledger.py:195
-#: code:addons/account_reports/models/account_report_coa.py:86
+#: code:addons/account_reports/models/account_report_coa.py:97
+#: code:addons/account_reports/models/account_report_coa.py:99
+#: code:addons/account_reports/models/account_report_coa.py:102
 #, python-format
 msgid "Debit"
 msgstr "Tartozik"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_debtors0
+msgid "Debtors"
+msgstr "Adósok"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_depreciation0
+msgid "Depreciation"
+msgstr "Értékcsökkenés"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_display_name
@@ -653,6 +804,11 @@ msgstr "Ne kövesse előbb mint:"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Done"
 msgstr "Kész"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_equity0
+msgid "EQUITY"
+msgstr "SAJÁT TŐKE"
 
 #. module: account_reports
 #. openerp-web
@@ -756,6 +912,11 @@ msgid "Error"
 msgstr "Hiba"
 
 #. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_executivesummary0
+msgid "Executive Summary"
+msgstr "Adminisztratív összegzés"
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:133
 #: model:ir.model.fields,field_description:account_reports.field_account_move_line_expected_pay_date
@@ -770,6 +931,13 @@ msgid ""
 "if you had the customer on the phone and want to remember the date he "
 "promised he would pay)"
 msgstr "Kifizetés várható dátuma kézzel beállított a vásárlók kivonatain (pl.: ha beszél egy vásárlóval telefonon és szeretné látni az általa megígért fizetési dátumot)"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_expenses0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_expense0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_less_expenses0
+msgid "Expenses"
+msgstr "Kiadások"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_financial_report_id
@@ -793,18 +961,13 @@ msgid "Foldable"
 msgstr "Hajtogatható"
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_followup_public_body
-msgid "Follow-ups"
-msgstr "Követések"
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:326
+#: code:addons/account_reports/models/account_followup_report.py:339
 #, python-format
 msgid "Followup "
 msgstr "Követés"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:84
+#: code:addons/account_reports/models/account_followup_report.py:87
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -854,8 +1017,13 @@ msgid "From the beginning"
 msgstr "Elejétől fogva"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_gross_profit0
+msgid "GROSS PROFIT"
+msgstr "BRUTTÓ NYERESÉG"
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_general_ledger.py:169
+#: code:addons/account_reports/models/account_general_ledger.py:173
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:101
 #: model:ir.actions.client,name:account_reports.action_account_general_ledger_force_account
 #: model:ir.actions.client,name:account_reports.action_account_report_general_ledger
@@ -875,6 +1043,16 @@ msgstr "Főkönyvi karton"
 #: model:ir.model,name:account_reports.model_account_generic_tax_report
 msgid "Generic Tax Report"
 msgstr "Általános adó kimutatás"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
+msgid "Gross profit"
+msgstr "Teljes nyereség"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gpmargin0
+msgid "Gross profit margin (gross profit / income)"
+msgstr "Teljes nyereség árrése (teljes nyereség / bevétel)"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
@@ -953,7 +1131,13 @@ msgid "Include unposted entries"
 msgstr "Nem könyvelt tételek beillesztése"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:141
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
+msgid "Income"
+msgstr "Bevétel"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_general_ledger.py:145
 #, python-format
 msgid "Initial Balance"
 msgstr "Nyitó egyenleg"
@@ -993,6 +1177,11 @@ msgstr "Ez jól növekszik, ha pozitív"
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
 msgstr "Könyvelési tételsor"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_liabilities_view0
+msgid "LIABILITIES"
+msgstr "KÖTELEZETTSÉGEK"
 
 #. module: account_reports
 #. openerp-web
@@ -1153,8 +1342,8 @@ msgstr "Kézi"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_menuitem_created
-msgid "Menuitem created"
-msgstr "Menütétel létrehozva"
+msgid "Menu Has Been Created"
+msgstr "Menü létrehozva"
 
 #. module: account_reports
 #: model:mail.message.subtype,description:account_reports.followup_logged_action
@@ -1173,17 +1362,48 @@ msgid "Multi-company Manager"
 msgstr "Multi-vállakozás kezelő"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_assets0
+msgid "NET ASSETS"
+msgstr "NET VAGYON"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_profit0
+msgid "NET PROFIT"
+msgstr "NET NYERESÉG"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_name
 msgid "Name"
 msgstr "Név"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:156
-#: code:addons/account_reports/models/account_generic_tax_report.py:158
-#: code:addons/account_reports/models/account_generic_tax_report.py:161
+#: code:addons/account_reports/models/account_generic_tax_report.py:157
+#: code:addons/account_reports/models/account_generic_tax_report.py:159
+#: code:addons/account_reports/models/account_generic_tax_report.py:162
 #, python-format
 msgid "Net"
 msgstr "Nettó"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#, python-format
+msgid "Net Tax Lines"
+msgstr "Net adóösszesítő"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_net_assets0
+msgid "Net assets"
+msgstr "Eszközök nettó"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_net_increase0
+msgid "Net increase in cash and cash equivalents"
+msgstr "Nettó készpénz és készpénzzel egyenértékűek növekménye"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_npmargin0
+msgid "Net profit margin (net profit / income)"
+msgstr "Nettó nyereség árrése (nettó nyereség / bevétel)"
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,show_domain:0
@@ -1248,7 +1468,12 @@ msgid "No followup to send !"
 msgstr "Nincs küldhető követés."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:506
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
+msgid "Non-current Liabilities"
+msgstr "Nem-Rövid lejáratú kötelezettségek"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:522
 #, python-format
 msgid "Non-issued"
 msgstr "Nem-bejelentett ügy"
@@ -1335,14 +1560,19 @@ msgid "Options:"
 msgstr "Lehetőségek:"
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.view_company_inherit_form
-msgid "Overdue Payments"
-msgstr "Késedelmes kifizetések"
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_other_income0
+msgid "Other Income"
+msgstr "Egyéb Bevétel"
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.view_company_inherit_form
-msgid "Overdue Payments Message"
-msgstr "Késedelmes fizetési üzenet"
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_performance0
+msgid "PERFORMANCE"
+msgstr "TELJESÍTMÉNY"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_position0
+msgid "POSITION"
+msgstr "POZÍCIÓ"
 
 #. module: account_reports
 #. openerp-web
@@ -1350,6 +1580,11 @@ msgstr "Késedelmes fizetési üzenet"
 #, python-format
 msgid "PRINT PREVIEW"
 msgstr "NYOMTATÁS ELŐNÉZET"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profitability0
+msgid "PROFITABILITY"
+msgstr "NYERESÉGESSÉG"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_parent_id
@@ -1392,22 +1627,37 @@ msgid "Percents"
 msgstr "Százalékok"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:127
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
+msgid "Plus Fixed Assets"
+msgstr "Plusz Befektetett eszközök"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_assets_view0
+msgid "Plus Non-current Assets"
+msgstr "Plusz nem-rövid lejáratú forgóeszközök"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
 #, python-format
 msgid "Plus Outstanding Payment"
 msgstr "Többlet követelés bizonylata"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:112
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
 #, python-format
 msgid "Plus Un-Reconciled Bank Statement Lines"
 msgstr "Többlet egyeztetetlen bank kivonat tételsorok"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:154
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
 #, python-format
 msgid "Plus Unencoded Statements"
 msgstr "Többlet berögzítetlen banki kivonat "
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
+msgid "Prepayments"
+msgstr "Előrefizetések"
 
 #. module: account_reports
 #. openerp-web
@@ -1422,10 +1672,20 @@ msgid "Print Letter"
 msgstr "Levél nyomtatás"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
+msgid "Profit"
+msgstr "Nyereség"
+
+#. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_pnl
 #: model:ir.actions.client,name:account_reports.action_account_report_pnl_fy
 msgid "Profit And Loss"
 msgstr "Eredménykimutatás (Nyereség és Veszteség)"
+
+#. module: account_reports
+#: model:account.financial.html.report,name:account_reports.account_financial_report_profitandloss0
+msgid "Profit and Loss"
+msgstr "Eredménykimutatás (Nyereség/Veszteség)"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:99
@@ -1439,12 +1699,22 @@ msgid "Put back in the list"
 msgstr "Tegye vissza a listára"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_retained_earnings0
+msgid "RETAINED EARNINGS"
+msgstr "VISSZATARTOTT NYERESÉGEK"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_receivable0
+msgid "Receivables"
+msgstr "Kintlévőség"
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Reconciliation Report"
 msgstr "Könyvelés egyeztetés jelentés"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
 #, python-format
 msgid "Reference"
 msgstr "Hivatkozás"
@@ -1468,6 +1738,11 @@ msgstr "Tételsorok jelentései"
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
 msgid "Report Type"
 msgstr "Kimutatás típus"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_return_investment0
+msgid "Return on investments (net profit / assets)"
+msgstr "Befektetéseken visszakapott (nettó nyereség / eszközök)"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:99
@@ -1520,6 +1795,11 @@ msgstr "Küldés Email-ben"
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
 msgid "Sequence"
 msgstr "Sorszám"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_st_cash_forecast0
+msgid "Short term cash forecast"
+msgstr "Rövid távú készpénz előrejelzés"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_debit_credit
@@ -1593,12 +1873,18 @@ msgid "Target id"
 msgstr "Cél id azonosító"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:156
-#: code:addons/account_reports/models/account_generic_tax_report.py:158
-#: code:addons/account_reports/models/account_generic_tax_report.py:161
+#: code:addons/account_reports/models/account_generic_tax_report.py:157
+#: code:addons/account_reports/models/account_generic_tax_report.py:159
+#: code:addons/account_reports/models/account_generic_tax_report.py:162
 #, python-format
 msgid "Tax"
 msgstr "ÁFA"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#, python-format
+msgid "Tax Lines"
+msgstr "Adó összesítő tételsorok"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:132
@@ -1746,7 +2032,6 @@ msgstr "Bankivonat megtekintése"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_move_line.py:40
-#: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
 msgid "View Invoice"
 msgstr "Számla megtekintése"
@@ -1755,6 +2040,7 @@ msgstr "Számla megtekintése"
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:105
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
+#: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
 msgid "View Journal Entry"
 msgstr "Napló tételek mutatása"
@@ -1789,6 +2075,16 @@ msgstr "Lejárt számlákkal"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "You have sent"
 msgstr "Elküldte"
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_followup_public_body
+msgid "Your Statement"
+msgstr "Kivonatai"
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
+msgid "cash paid for"
+msgstr "készpénz fizetve erre"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuenow
@@ -1830,14 +2126,14 @@ msgstr "bejövő kimutatások"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "s per report."
-msgstr ""
+msgstr "s jelentésekként."
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid ""
 "s<br/>\n"
 "                        That means you have spent on average"
-msgstr ""
+msgstr "s<br/>\n                        Azt jelenti átlagot költötte"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuemax

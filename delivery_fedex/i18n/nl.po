@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-09-18 11:06+0000\n"
+"POT-Creation-Date: 2015-12-28 10:46+0000\n"
+"PO-Revision-Date: 2015-12-29 14:51+0000\n"
 "Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,9 +20,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ", click on \"Get Production Key\" and follow all the steps."
+msgstr ", klik op \"Haal productiesleutel op\" en volg alle stappen."
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ""
+"<br/>According to your needs, you will need to contact different "
+"certifications :"
+msgstr "<br/>Afhankelijk van uw noden moet u verschillende certificeringen contacteren:"
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_account_number
 msgid "Account Number"
 msgstr "Rekeningnummer"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Advanced Services with Label Certification"
+msgstr "Geavanceerde diensten met label certificering"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Advanced Services without Label Certification"
+msgstr "Geavanceerde diensten zonder label certificering"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
@@ -33,6 +55,11 @@ msgstr "BUSINESS_SERVICE_CENTER"
 #: model:ir.model,name:delivery_fedex.model_delivery_carrier
 msgid "Carrier"
 msgstr "Vervoerder"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Certification Process"
+msgstr "Certificering proces"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
@@ -96,6 +123,11 @@ msgstr "FIRST_OVERNIGHT"
 
 #. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "FedEx Web Services \"Move to Production\""
+msgstr "FedEx Web Services *Verplaatsen naar productie*"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "Fedex Configuration"
 msgstr "Fedex configuratie"
 
@@ -106,10 +138,20 @@ msgid "Fedex International"
 msgstr "Fexed internationaal"
 
 #. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Fedex Tutorial"
+msgstr "Fedex Tutorial"
+
+#. module: delivery_fedex
 #: model:delivery.carrier,name:delivery_fedex.delivery_carrier_fedex_us
 #: model:product.product,name:delivery_fedex.delivery_carrier_fedex_us_product_product
 msgid "Fedex US"
 msgstr "Fedex VS"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Fedex Website"
+msgstr "Fedex Website"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_droppoff_type
@@ -137,9 +179,9 @@ msgid "Fedex weight unit"
 msgstr "Fedex eenheid van gewicht"
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_attachment_count
-msgid "File"
-msgstr "Bestand"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Go to"
+msgstr "Ga naar"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -150,12 +192,6 @@ msgstr "INTERNATIONAL_ECONOMY"
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "INTERNATIONAL_PRIORITY"
 msgstr "INTERNATIONAL_PRIORITY"
-
-#. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_recurring_invoice
-msgid ""
-"If set, confirming a sale order with this product will create a subscription"
-msgstr "Indien ingesteld zal er een abonnement worden aangemaakt wanneer een verkooporder met dit product wordt bevestigd"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_weight_unit:0
@@ -173,9 +209,9 @@ msgid "Meter Number"
 msgstr "Meternummer"
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_optional_product_ids
-msgid "Optional Products"
-msgstr "Optionele producten"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Once your account is created, go to"
+msgstr "eenmaal uw account is aangemaakt gaat u naar"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_label_stock_type:0
@@ -223,11 +259,6 @@ msgid "Password"
 msgstr "Wachtwoord"
 
 #. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_optional_product_ids
-msgid "Products to propose when add to cart."
-msgstr "Producten voorstellen bij toevoegen mandje."
-
-#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
 msgid "REGULAR_PICKUP"
 msgstr "REGULAR_PICKUP"
@@ -248,33 +279,45 @@ msgid "STATION"
 msgstr "STATION"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:296
+#: code:addons/delivery_fedex/models/delivery_fedex.py:309
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Levering n° %s werd geannuleerd"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:217
-#: code:addons/delivery_fedex/models/delivery_fedex.py:259
+#: code:addons/delivery_fedex/models/delivery_fedex.py:229
+#: code:addons/delivery_fedex/models/delivery_fedex.py:271
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "Levering aangemaakt in Fedex <br/> <b>Traceernummer : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:221
+#: code:addons/delivery_fedex/models/delivery_fedex.py:233
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "Verzendlabel voor pakje %s"
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_recurring_invoice
-msgid "Subscription Product"
-msgstr "Abonnering product"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Standard Services"
+msgstr "Standaard diensten"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_test_mode
 msgid "Test Mode"
 msgstr "Testmodus"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "The last step is the"
+msgstr "De laatste stap is de"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ""
+"These certifications usually require that you contact the FedEx support team"
+" by email."
+msgstr "Deze certificaties vragen meestal contact met het FedEx ondersteuningsteam via e-mail. "
 
 #. module: delivery_fedex
 #: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_fedex_test_mode
@@ -285,3 +328,8 @@ msgstr "Vink dit vakje uit om de Fedex Web Services in productie te nemen"
 #: selection:delivery.carrier,fedex_packaging_type:0
 msgid "YOUR_PACKAGING"
 msgstr "YOUR_PACKAGING"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "to create a FedEx account of the following type:"
+msgstr "om een FedEx account aan te maken van de volgende soort:"
