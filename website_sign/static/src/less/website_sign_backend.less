@@ -1,136 +1,33 @@
 .o_web_client {
-    .o_view_manager_content .favorite_sign_button {
-        color: @odoo-brand-secondary;
-        &:hover {
-            color: orange;
+    .o_view_manager_content {
+        .favorite_sign_button {
+            color: @odoo-brand-secondary;
+            &:hover {
+                color: orange;
+            }
+
+            &.favorite_sign_button_enabled {
+                color: orange;
+                &:hover {
+                    color: @brand-danger;
+                }
+            }
         }
 
-        &.favorite_sign_button_enabled {
-            color: orange;
-            &:hover {
+        .o_signers > span {
+            &.o_sign_waiting {
                 color: @brand-danger;
             }
-        }
-    }
-
-    /* Sign Home */
-    .o_sign_dashboard {
-        @media (min-width: @screen-sm-min) {
-            margin: 8px auto;
-        }
-        padding: 0 16px;
-        background-color: @odoo-view-background-color;
-
-        .row { // bootstrap is redefined by web module (padding/margin to 0)
-            margin: 0 -8px;
-            .col-md-2 {
-                padding: 16px 8px 0px;
-                @media (max-width: @screen-sm-max) {
-                    margin-bottom: 16px;
-                }
-            }
-        }
-
-        .o_sign_dashboard_row {
-            display: none;
-            margin: 24px 0;
-
-            .o_sign_dashboard_title {
-                font-weight: bold;
-                padding-bottom: 10px;
-                border-bottom: 1px solid @odoo-brand-lightsecondary;
-                margin-bottom: 0px;
+            &.o_sign_completed {
+                color: @brand-success;
             }
 
-            .o_sign_dashboard_item {
-                > .btn {
-                    .o-flex-display();
-                    .o-flex-flow(column, nowrap);
-                    .o-justify-content(center);
-                    position: relative;
-                    height: 130px;
-                    padding: 0 8px;
-
-                    font-size: 1.1em;
-                    
-                    background-color: @odoo-brand-lightsecondary;
-                    color: @odoo-main-text-color;
-                    &.o_sign_upload_template_button {
-                        background-color: @odoo-brand-optional;
-                        color: white;
-                    }
-
-                    > .o_sign_dashboard_item_icon {
-                        margin-bottom: 10px;
-                    }
-
-                    > .o_sign_dashboard_item_title {
-                        .o-text-overflow(block);
-                    }
-
-                    > .o_sign_dashboard_item_info {
-                        .o-text-overflow(block);
-                        font-size: 0.8em;
-
-                        > span {
-                            &.o_sign_waiting {
-                                color: @brand-danger;
-                            }
-                            &.o_sign_completed {
-                                color: @brand-success;
-                            }
-
-                            &:before {
-                                content: ', ';
-                                color: @odoo-main-text-color;
-                            }
-                            &:first-child:before {
-                                content: '';
-                            }
-                        }
-                    }
-                }
-
-                .o_sign_upload_template_input {
-                    display: none;
-                }
-
-                .o_sign_favorite_button {
-                    .o-position-absolute(3px, 3px);
-                    color: @odoo-brand-secondary;
-                    &:hover {
-                        color: orange;
-                    }
-                }
-
-                &.o_sign_favorited .o_sign_favorite_button {
-                    color: orange;
-                    &:hover {
-                        color: @brand-danger;
-                    }
-                }
-
-                .o_sign_archive_button {
-                    .o-position-absolute(@bottom: 3px, @right: 3px);
-                    padding: 0;
-                    font-size: 0.7em;
-                    
-                    opacity: 0;
-                    transition: opacity 300ms ease;
-                    &:after {
-                        content: "Archive";
-                    }
-                }
-
-                &.archived .o_sign_archive_button {
-                    &:after {
-                        content: "Unarchive";
-                    }
-                }
-
-                &:hover .o_sign_archive_button  {
-                    opacity: 1;
-                }
+            &:before {
+                content: ', ';
+                color: @odoo-main-text-color;
+            }
+            &:first-child:before {
+                content: '';
             }
         }
     }

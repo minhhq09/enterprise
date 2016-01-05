@@ -3,7 +3,6 @@
     <template id="website_sign.items_view" name="Digital Signatures - Items View">
         <iframe class="o_sign_pdf_iframe" t-att-readonly="'readonly' if readonly else None"/>
 
-        <input id="o_sign_input_signature_request_template_id" type="hidden" t-att-value="signature_request.template_id.id"/>
         <input id="o_sign_input_attachment_location" type="hidden" t-attf-value="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/origin"/>
         <input id="o_sign_input_current_role" type="hidden" t-att-value="role"/>
 

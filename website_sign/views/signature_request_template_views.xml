@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Signature Request Template Views -->
+    <record id="signature_request_template_view_kanban" model="ir.ui.view">
+        <field name="name">signature.request.template.kanban</field>
+        <field name="model">signature.request.template</field>
+        <field name="arch" type="xml">
+            <kanban quick_create="false">
+                <field name="archived"/>
+                <field name="attachment_id"/>
+                <field name="color"/>
+                <field name="create_date"/>
+                <field name="favorited_ids"/>
+
+                <templates>
+                    <div t-name="kanban-box" t-attf-class="oe_kanban_global_click {{kanban_color(record.color.raw_value)}}">
+                        <div class="o_kanban_title clearfix">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a type="open" groups="base.group_no_one">Open</a></li>
+                                    <li><a type="object" name="toggle_archived">
+                                        <t t-if="record.archived.value">Unarchive</t>
+                                        <t t-if="!record.archived.value">Archive</t>
+                                    </a></li>
+                                    <li><a type="delete" groups="base.group_no_one">Delete</a></li>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+
+                            <a type="object" name="toggle_favorited"
+                               t-attf-class="fa fa-lg fa-star#{(record.favorited_ids.raw_value.indexOf(user_context.uid) &lt; 0)? '-o' : ' favorite_sign_button_enabled'} favorite_sign_button"/>
+                            <span data-type="object" class="o_sign_action_link" data-name="go_to_custom_template"><field name="attachment_id"/></span>
+                        </div>
+                        <div class="oe_kanban_bottom_left">
+                            <em><field name="create_date"/></em>
+                        </div>
+                    </div>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="signature_request_template_view_tree" model="ir.ui.view">
         <field name="name">signature.request.template.tree</field>
         <field name="model">signature.request.template</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="attachment_id"/>
+                <field name="create_date"/>
                 <field name="signature_item_ids"/>
             </tree>
         </field>
@@ -16,9 +59,9 @@
         <field name="name">signature.request.template.form</field>
         <field name="model">signature.request.template</field>
         <field name="arch" type="xml">
-            <form>
+            <form create="false">
                 <sheet>
-                    <div class="oe_button_box">
+                    <div class="oe_button_box" name="button_box">
                         <button string="Edit fields" icon="fa-wrench" type="object" name="go_to_custom_template" class="oe_stat_button oe_read_only"/>
                     </div>
 
@@ -48,17 +91,37 @@
         <field name="arch" type="xml">
             <search>
                 <field name="attachment_id"/>
-                <filter name="no_archives" string="No archives" domain="[('archived', '=', False)]"/>
+                <filter name="no_archives" string="Active" domain="[('archived', '=', False)]"/>
+                <filter name="archive" string="Archived" domain="[('archived', '=', True)]"/>
+                <separator/>
+                <filter name="favorite" string="Favorites" domain="[('favorited_ids', '=', uid)]"/>
             </search>
         </field>
     </record>
 
     <record id="signature_request_template_action" model="ir.actions.act_window">
-        <field name="name">Signature Request Template</field>
+        <field name="name">Choose a Template</field>
         <field name="res_model">signature.request.template</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="signature_request_template_view_search"/>
         <field name="context" eval="{'search_default_no_archives': 1}"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Upload a PDF of contract to sign.</p>
+            <p>
+                Or, you can <a href="/web#action=website_sign.signature_request_template_with_archived_action">load our templates of contract</a>
+                to quickly evaluate this application.
+            </p>
+        </field>
+    </record>
+
+    <record id="signature_request_template_with_archived_action" model="ir.actions.act_window">
+        <field name="name">Choose a Template</field>
+        <field name="res_model">signature.request.template</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="signature_request_template_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Upload a PDF of contract to sign.</p>
+        </field>
     </record>
 
     <!-- Signature Item Views -->
@@ -195,7 +258,7 @@
     </record>
 
     <!-- Menus -->
-    <menuitem id="website_sign.signature_request_template_menu" name="Document Templates" parent="website_sign.digital_signatures_menu" action="signature_request_template_action" groups="base.group_no_one"/>
+    <menuitem id="website_sign.signature_request_template_menu" name="Document Templates" parent="website_sign.digital_signatures_menu" action="signature_request_template_action"/>
     <menuitem id="website_sign.signature_item_type_menu" name="Field Types" parent="website_sign.digital_signatures_menu" action="signature_item_type_action" groups="base.group_no_one"/>
     <menuitem id="website_sign.signature_item_party_menu" name="Parties" parent="website_sign.digital_signatures_menu" action="signature_item_party_action" groups="base.group_no_one"/>
 </odoo>

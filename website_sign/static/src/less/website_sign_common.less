@@ -10,7 +10,7 @@
 /* Sign page */
 .media, .media-body {
     overflow: auto;
-    background-color: #F7F5FA;
+    background-color: @odoo-brand-lightsecondary;
     padding: 5px;
 }
 
@@ -32,28 +32,27 @@
 .o_sign_document {
     .o-flex-display();
     .o-flex-flow(column, nowrap);
+    background-color: @odoo-view-background-color;
 
     > .container-fluid {
         .o-flex(0, 0, auto);
         margin: 0;
-        padding: 0 16px 10px; 
+        padding: 0 @odoo-horizontal-padding 10px;
     }
 
     > .container {
         .o-flex(0, 0, auto);
     }
 
-    .row { // in backend, bootstrap is redefined by web module (padding/margin to 0)
-        margin: 0 -8px;
-        > .col-md-4, > .col-md-6, > .col-md-12 {
-            padding: 0 8px;
+    .row {
+        > div {
             > .page-header, > .alert {
                 margin: 10px 0;
             }
         }
 
         > .o_sign_sign_document_button {
-            margin: 0 8px;
+            margin: 0 @odoo-horizontal-padding;
         }
     }
 
@@ -61,53 +60,72 @@
         width: 50px;
     }
 
-    .o_sign_chatter {
-        .media-object {
-            margin-right: 10px;
-        }
+    .o_sign_chatter .media-object {
+        margin-right: 10px;
     }
 
-    .o_sign_signer_status {
-        > img {
-            height: 64px;
-        }
+    .o_sign_signer_status > img {
+        height: 64px;
     }
 }
 
 .o_sign_image_document {
     display: inline-block;
     max-width: 100%;
-    margin-top: 16px;
+    margin-top: @odoo-horizontal-padding;
 
     > img {
-        display: block;
-        max-width: 100%;
         min-width: 100px;
     }
 }
 
-.o_sign_header_instruction {
-    margin-top: 16px;
-    font-size: 1.2em;
+/* Signature Dialog */
+.o_sign_font_dialog {
+    .o-position-absolute(0, 0);
+    display: none;
+    height: 100%;
 
-    @media (max-width: 767px) { // @screen-xs-max
-        margin-top: 0;
-        font-size: 0.7em;
+    .o_sign_font_selection {
+        overflow: auto;
+        height: 90%;
+        padding: 0;
+
+        > a {
+            height: 100px;
+            padding: 0;
+
+            > img {
+                height: 100%;
+            }
+        }
+    }
+
+    .o_sign_loading {
+        background-image: url(../../img/loading.gif);
+        width: 31px;
+        height: 31px;
+        margin: 35px auto 0;
+    }
+
+    .o_sign_load {
+        visibility: hidden;
     }
 }
 
-.o_sign_powered {
-    > img {
-        height: 36px;
-        margin-top: 8px;
-    }
+.o_sign_signature_draw .o_sign_signature {
+    padding: 0;
+}
 
-    @media (max-width: 767px) { // @screen-xs-max
-        position: absolute;
-        right: 8px;
-        top: 0;
-        > img {
-            height: 24px;
-        }
-    }
+.o_sign_validate_banner {
+    display: none;
+    opacity: 0;
+
+    .o-position-absolute(@bottom: 0, @left: 0);
+    width: 100%;
+    padding: 10px;
+
+    background-color: @odoo-brand-primary;
+    color: white;
+    font-size: 1.25em;
+    text-align: center;
 }

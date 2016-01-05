@@ -19,6 +19,8 @@ class SignatureRequestTemplate(models.Model):
 
     signature_request_ids = fields.One2many('signature.request', 'template_id', string="Signature Requests")
 
+    color = fields.Integer()
+
     @api.multi
     def go_to_custom_template(self):
         self.ensure_one()
@@ -30,9 +32,19 @@ class SignatureRequestTemplate(models.Model):
                 'id': self.id,
             },
         }
+        
+    @api.multi
+    def toggle_archived(self):
+        self.ensure_one()
+        self.archived = not self.archived
+
+    @api.multi
+    def toggle_favorited(self):
+        self.ensure_one()
+        self.write({'favorited_ids': [(3 if self.env.user in self[0].favorited_ids else 4, self.env.user.id)]})
 
     @api.model
-    def upload_from_dashboard(self, name=None, dataURL=None):
+    def upload_template(self, name=None, dataURL=None):
         mimetype = dataURL[dataURL.find(':')+1:dataURL.find(',')]
         datas = dataURL[dataURL.find(',')+1:]
         attachment = self.env['ir.attachment'].create({'name': name[:name.rfind('.')], 'datas_fname': name, 'datas': datas, 'mimetype': mimetype})

@@ -28,8 +28,8 @@ class SignatureRequest(models.Model):
     request_item_ids = fields.One2many('signature.request.item', 'signature_request_id', string="Signers")
     state = fields.Selection([
         ("draft", "Draft"),
-        ("sent", "Sent"),
-        ("signed", "Signed"),
+        ("sent", "Signatures in Progress"),
+        ("signed", "Fully Signed"),
         ("canceled", "Canceled")
     ], default='draft', track_visibility='onchange')
 
@@ -46,6 +46,8 @@ class SignatureRequest(models.Model):
     favorited_ids = fields.Many2many('res.users', string="Favorite of")
 
     color = fields.Integer()
+    request_item_infos = fields.Binary(compute="_compute_request_item_infos")
+    last_action_date = fields.Datetime(related="message_ids.create_date", readonly=True)
 
     @api.one
     @api.depends('request_item_ids.state')
@@ -68,6 +70,17 @@ class SignatureRequest(models.Model):
             self.progress = self.nb_closed*100 / (self.nb_wait + self.nb_closed)
 
     @api.one
+    @api.depends('request_item_ids.state', 'request_item_ids.partner_id.name')
+    def _compute_request_item_infos(self):
+        infos = []
+        for item in self.request_item_ids:
+            infos.append({
+                'partner_name': item.partner_id.name if item.partner_id else 'Public User',
+                'state': item.state,
+            })
+        self.request_item_infos = infos
+
+    @api.one
     def _check_after_compute(self):
         if self.state == 'draft' and self.nb_draft == 0 and len(self.request_item_ids) > 0: # When a draft partner is deleted
             self.action_sent()
@@ -84,8 +97,9 @@ class SignatureRequest(models.Model):
         self.action_sent()
 
     @api.multi
-    def go_to_sign_document(self):
+    def go_to_document(self):
         self.ensure_one()
+        request_item = self.request_item_ids.filtered(lambda r: r.partner_id and r.partner_id.id == self.env.user.partner_id.id)
         return {
             'name': "Document \"%(name)s\"" % {'name': self.reference},
             'type': 'ir.actions.client',
@@ -93,6 +107,7 @@ class SignatureRequest(models.Model):
             'context': {
                 'id': self.id,
                 'token': self.access_token,
+                'sign_token': request_item.access_token if request_item and request_item.state == "sent" else None,
                 'create_uid': self.create_uid.id,
                 'state': self.state,
             },
@@ -111,7 +126,12 @@ class SignatureRequest(models.Model):
         }
 
     @api.multi
-    def favorite_document(self):
+    def toggle_archived(self):
+        self.ensure_one()
+        self.archived = not self.archived
+
+    @api.multi
+    def toggle_favorited(self):
         self.ensure_one()
         self.write({'favorited_ids': [(3 if self.env.user in self[0].favorited_ids else 4, self.env.user.id)]})
 
@@ -128,7 +148,7 @@ class SignatureRequest(models.Model):
                 if request_item.state != 'draft':
                     ignored_partners.append(request_item.partner_id.id)
             included_request_items = signature_request.request_item_ids.filtered(lambda r: not r.partner_id or r.partner_id.id not in ignored_partners)
-            
+
             if signature_request.send_signature_accesses(subject, message, ignored_partners=ignored_partners):
                 signature_request.send_follower_accesses(self.follower_ids, subject, message)
                 included_request_items.action_sent()
@@ -298,8 +318,8 @@ class SignatureRequest(models.Model):
 
                 elif item.type_id.type == "signature" or item.type_id.type == "initial":
                     img = base64.b64decode(value[value.find(',')+1:])
-                    can.drawImage(ImageReader(StringIO.StringIO(img)), width*item.posX, height*(1-item.posY-item.height), width*item.width, height*item.height, 'auto', True) 
-            
+                    can.drawImage(ImageReader(StringIO.StringIO(img)), width*item.posX, height*(1-item.posY-item.height), width*item.width, height*item.height, 'auto', True)
+
             can.showPage()
 
         can.save()
@@ -333,25 +353,11 @@ class SignatureRequest(models.Model):
         if send:
             signature_request.action_sent(subject, message)
             signature_request._message_post(_('Waiting for signatures.'), type='comment', subtype='mt_comment')
-        return {'id': signature_request.id, 'token': signature_request.access_token}
-
-    @api.model
-    def get_dashboard_info(self):
-        recordset = self.search([])
-        requests = recordset.read(['reference', 'access_token', 'state', 'archived', 'favorited_ids'])
-
-        DateTimeConverter = self.env['ir.qweb.field.datetime']
-        i = 0
-        for r in recordset:
-            requests[i]['create_uid'] = r.create_uid.id
-            requests[i]['request_item_ids'] = r.request_item_ids.read(['state', 'signer_trigram'])
-            requests[i]['last_action_date'] = DateTimeConverter.value_to_html(r.message_ids[0].create_date, '')
-            j = 0
-            for item in r.request_item_ids:
-                requests[i]['request_item_ids'][j]['partner_id'] = {'name': item.partner_id.name if item.partner_id else 'Public User'}
-                j += 1
-            i += 1
-        return requests
+        return {
+            'id': signature_request.id,
+            'token': signature_request.access_token,
+            'sign_token': signature_request.request_item_ids.filtered(lambda r: r.partner_id == self.env.user.partner_id).access_token,
+        }
 
     @api.model
     def cancel(self, id):
@@ -366,7 +372,7 @@ class SignatureRequest(models.Model):
         signature_request.write({'follower_ids': [(6, 0, set(followers) | old_followers)]})
         signature_request.send_follower_accesses(self.env['res.partner'].browse(followers))
         return signature_request.id
-        
+
 class SignatureRequestItem(models.Model):
     _name = "signature.request.item"
     _description = "Signature Request"
@@ -391,24 +397,10 @@ class SignatureRequestItem(models.Model):
     ], readonly=True, default="draft")
 
     signer_email = fields.Char(related='partner_id.email')
-    signer_trigram = fields.Char(compute='_compute_trigram')
 
     latitude = fields.Float(digits=(10, 7))
     longitude = fields.Float(digits=(10, 7))
 
-    @api.one
-    @api.depends('partner_id.name')
-    def _compute_trigram(self):
-        if not self.partner_id:
-            self.signer_trigram = "?"
-            return
-        parts = self.partner_id.name.split(' ')
-        trigram = ""
-        for part in parts:
-            if len(part) > 0:
-                trigram += part[0]
-        self.signer_trigram = trigram
-    
     @api.multi
     def action_draft(self):
         self.write({

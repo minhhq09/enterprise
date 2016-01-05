@@ -5,48 +5,47 @@
         <field name="name">signature.request.kanban</field>
         <field name="model">signature.request</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="state" quick_create="0">
-                <field name="state"/>
+            <kanban default_group_by="state" quick_create="false">
+                <field name="archived"/>
                 <field name="color"/>
-                <field name="nb_draft"/>
-                <field name="nb_wait"/>
-                <field name="nb_closed"/>
                 <field name="create_uid"/>
                 <field name="favorited_ids"/>
+                <field name="last_action_date"/>
+                <field name="request_item_infos"/>
+                <field name="state"/>
 
                 <templates>
-                    <t t-name="kanban-box">
-                        <div t-attf-class="{{kanban_color(record.color.raw_value)}} oe_kanban_global_click oe_semantic_html_override oe_kanban_card">
-                            <div t-attf-class="oe_kanban_content clearfix">
-                                <t t-set="fav" t-value="record.favorited_ids.raw_value.indexOf(user_context.uid) &gt;= 0"/>
-                                <div class="o_kanban_title">
-                                    <a t-if="!fav" type="object" name="favorite_document" class="fa fa-star favorite_sign_button"/>
-                                    <a t-if="fav" type="object" name="favorite_document" class="fa fa-star favorite_sign_button favorite_sign_button_enabled"/>
-                                    <field name="reference"/>
-
-                                    <div class="pull-right">
-                                        <div class="oe_dropdown_toggle">
-                                            <span class="fa fa-cog"></span>
-                                            <ul class="oe_dropdown_menu">
-                                                <li><a type="delete">Delete</a></li>
-                                                <li class="clearfix"><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-                                                <li><a type="object" name="go_to_sign_document" class="fa fa-external-link-square"> View Signature Request</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="oe_clear"/>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    Completion: <field name="nb_closed"/>/<t t-esc="record.nb_draft.raw_value+record.nb_wait.raw_value+record.nb_closed.raw_value"/>
-                                </div>
-                                
-                                <div class="oe_kanban_bottom_right">
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.create_uid.raw_value)" t-att-data-member_id="record.create_uid.raw_value" width="32" height="32" class="oe_kanban_avatar pull-right"/>
-                                </div>
+                    <div t-name="kanban-box" t-attf-class="oe_kanban_global_click {{kanban_color(record.color.raw_value)}}">
+                        <div class="o_kanban_title clearfix">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a type="open" groups="base.group_no_one">Open</a></li>
+                                    <li><a type="object" name="toggle_archived">
+                                        <t t-if="record.archived.value">Unarchive</t>
+                                        <t t-if="!record.archived.value">Archive</t>
+                                    </a></li>
+                                    <li><a type="delete" groups="base.group_no_one">Delete</a></li>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
                             </div>
+
+                            <a type="object" name="toggle_favorited"
+                               t-attf-class="fa fa-lg fa-star#{(record.favorited_ids.raw_value.indexOf(user_context.uid) &lt; 0)? '-o' : ' favorite_sign_button_enabled'} favorite_sign_button"/>
+                            <span data-type="object" class="o_sign_action_link" data-name="go_to_document"><field name="reference"/></span>
                         </div>
-                    </t>
+                        <div class="o_signers">
+                            <span t-foreach="record.request_item_infos.raw_value" t-as="request_item_info" t-att-class="(request_item_info.state === 'completed')? 'o_sign_completed' : 'o_sign_waiting'"><t t-esc="request_item_info.partner_name"/></span>
+                        </div>
+                        <div class="oe_kanban_bottom_left">
+                            <em><field name="last_action_date"/></em>
+                        </div>
+                        <div class="oe_kanban_bottom_right">
+                            <img t-att-src="kanban_image('res.users', 'image_small', record.create_uid.raw_value)" t-att-data-member_id="record.create_uid.raw_value" width="32" height="32" class="oe_kanban_avatar"/>
+                        </div>
+                    </div>
                 </templates>
             </kanban>
         </field>
@@ -69,7 +68,7 @@
         <field name="name">signature.request.form</field>
         <field name="model">signature.request</field>
         <field name="arch" type="xml">
-            <form>
+            <form create="false" edit="false">
                 <header>
                     <button string="Send" type="object" states="draft" name="button_send" class="oe_highlight oe_read_only"/>
                     <button string="Draft" type="object" states="canceled" name="action_draft" class="oe_hightlight oe_read_only"/>
@@ -78,8 +77,8 @@
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <div class="oe_button_box">
-                        <button type="object" name="go_to_sign_document" class="oe_read_only oe_stat_button">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="go_to_document" class="oe_read_only oe_stat_button">
                             <field name="progress" widget="percentpie" string="View"/>
                         </button>
                     </div>
@@ -118,22 +117,32 @@
             <search>
                 <field name="reference"/>
                 <field name="template_id"/>
-                <filter name="no_archive" string="No archives" domain="[('archived', '=', False)]"/>
+                <filter name="no_archive" string="Active" domain="[('archived', '=', False)]"/>
+                <filter name="archive" string="Archived" domain="[('archived', '=', True)]"/>
+                <separator/>
+                <filter name="favorite" string="Favorites" domain="[('favorited_ids', '=', uid)]"/>
                 <separator/>
                 <filter name="my_docs" string="My documents" domain="[('create_uid', '=', uid)]"/>
                 <separator/>
-                <filter name="in_progress" string="In progress" domain="[('state', '=', 'sent')]"/>
+                <filter name="in_progress" string="To Sign" domain="[('state', '=', 'sent')]"/>
                 <filter name="signed" string="Signed" domain="[('state', '=', 'signed')]"/>
             </search>
         </field>
     </record>
 
     <record id="signature_request_action" model="ir.actions.act_window">
-        <field name="name">Signature Request</field>
+        <field name="name">Documents</field>
         <field name="res_model">signature.request</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="signature_request_view_search"/>
         <field name="context" eval="{'search_default_no_archive': 1}"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">You have no document to sign.</p>
+            <p>
+                Click on <em>Request a Signature</em> to upload a template (or use an existing one) to automate
+                your signature process for employment contracts, trade sale, NDA to sign, ...
+            </p>
+        </field>
     </record>
 
     <!-- Signature Request Item Views -->
@@ -181,14 +190,14 @@
     </record>
 
     <!-- Menus -->
-    <record id="digital_signatures_dashboard_action" model="ir.actions.client">
-        <field name="name">Digital Signatures Documents</field>
-        <field name="tag">website_sign.dashboard</field>
-    </record>
-
-    <menuitem id="menu_document" name="Documents" web_icon="website_sign,static/description/icon.png" groups="base.group_user"/> 
+    <menuitem id="menu_document" name="Documents" web_icon="website_sign,static/description/icon.png" groups="base.group_user"/>
 
     <menuitem id="digital_signatures_menu" sequence="-5" name="Digital Signatures" parent="menu_document"/>
-    <menuitem id="digital_signatures_dashboard_menu" name="Documents" parent="digital_signatures_menu" action="digital_signatures_dashboard_action"/>
-    <menuitem id="signature_request_menu" name="Signature Requests" parent="digital_signatures_menu" action="signature_request_action" groups="base.group_no_one"/>
+    <menuitem id="signature_request_menu" name="Signature Requests" parent="digital_signatures_menu" action="signature_request_action"/>
+
+    <!-- After installation of the module, open the related menu -->
+    <record id="base.open_menu" model="ir.actions.todo">
+        <field name="action_id" ref="base.action_open_website"/>
+        <field name="state">open</field>
+    </record>
 </odoo>

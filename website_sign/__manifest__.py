@@ -9,7 +9,7 @@ Sign and complete your documents easily. Customize your documents with text and 
 Let your customers follow the signature process easily.
     """,
     'website': 'http://www.odoo.com',
-    'depends': ['mail', 'document', 'website'],
+    'depends': ['mail', 'document'],
     'data': [
         'security/ir.model.access.csv',
 

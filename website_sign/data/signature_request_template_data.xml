@@ -71,4 +71,163 @@
     <record model="signature.item.party" id="signature_item_party_employee">
         <field name="name">Employee</field>
     </record>
+
+    <!-- Two documents as data -->
+    <record id="attachment_website_sign_1" model="ir.attachment">
+        <field name="name">Employment Contract</field>
+        <field name="datas_fname">Employment Contract.pdf</field>
+        <field name="datas" type="base64" file="website_sign/static/demo/employment.pdf"/>
+        <field name="mimetype">application/pdf;base64</field>
+    </record>
+
+    <record id="template_website_sign_1" model="signature.request.template">
+        <field name="attachment_id" ref="attachment_website_sign_1"/>
+        <field name="archived">True</field>
+        <field name="share_link">demo-template-1</field>
+    </record>
+
+    <record id="attachment_website_sign_3" model="ir.attachment">
+        <field name="name">Odoo CLA</field>
+        <field name="datas_fname">Odoo_Individual_Contributor_License_Agreement.pdf</field>
+        <field name="datas" type="base64" file="website_sign/static/demo/cla.pdf"/>
+        <field name="mimetype">application/pdf;base64</field>
+    </record>
+
+    <record id="template_website_sign_3" model="signature.request.template">
+        <field name="attachment_id" ref="attachment_website_sign_3"/>
+        <field name="archived">True</field>
+        <field name="share_link">demo-template-3</field>
+    </record>
+
+    <record model="signature.item" id="signature_item_1">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_name"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">1</field>
+        <field name="posX" type="float">0.265</field>
+        <field name="posY" type="float">0.160</field>
+        <field name="width" type="float">0.375</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_2">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_date"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">1</field>
+        <field name="posX" type="float">0.700</field>
+        <field name="posY" type="float">0.160</field>
+        <field name="width" type="float">0.170</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_3">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_text"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">1</field>
+        <field name="posX" type="float">0.190</field>
+        <field name="posY" type="float">0.185</field>
+        <field name="width" type="float">0.680</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_4">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_initial"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">1</field>
+        <field name="posX" type="float">0.915</field>
+        <field name="posY" type="float">0.970</field>
+        <field name="width" type="float">0.085</field>
+        <field name="height" type="float">0.030</field>
+    </record>
+    <record model="signature.item" id="signature_item_5">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_initial"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.915</field>
+        <field name="posY" type="float">0.970</field>
+        <field name="width" type="float">0.085</field>
+        <field name="height" type="float">0.030</field>
+    </record>
+    <record model="signature.item" id="signature_item_8">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_signature"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">3</field>
+        <field name="posX" type="float">0.325</field>
+        <field name="posY" type="float">0.670</field>
+        <field name="width" type="float">0.200</field>
+        <field name="height" type="float">0.050</field>
+    </record>
+    <record model="signature.item" id="signature_item_9">
+        <field name="template_id" ref="template_website_sign_1"/>
+        <field name="type_id" ref="signature_item_type_date"/>
+        <field name="responsible_id" ref="signature_item_party_employee"/>
+        <field name="page" type="int">3</field>
+        <field name="posX" type="float">0.655</field>
+        <field name="posY" type="float">0.695</field>
+        <field name="width" type="float">0.205</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+
+    <record model="signature.item" id="signature_item_20">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_initial"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">1</field>
+        <field name="posX" type="float">0.915</field>
+        <field name="posY" type="float">0.970</field>
+        <field name="width" type="float">0.085</field>
+        <field name="height" type="float">0.030</field>
+    </record>
+    <record model="signature.item" id="signature_item_21">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_name"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.290</field>
+        <field name="posY" type="float">0.600</field>
+        <field name="width" type="float">0.300</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_22">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_email"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.290</field>
+        <field name="posY" type="float">0.631</field>
+        <field name="width" type="float">0.300</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_23">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_text"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.290</field>
+        <field name="posY" type="float">0.662</field>
+        <field name="width" type="float">0.300</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_24">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_date"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.290</field>
+        <field name="posY" type="float">0.693</field>
+        <field name="width" type="float">0.300</field>
+        <field name="height" type="float">0.015</field>
+    </record>
+    <record model="signature.item" id="signature_item_25">
+        <field name="template_id" ref="template_website_sign_3"/>
+        <field name="type_id" ref="signature_item_type_signature"/>
+        <field name="responsible_id" ref="signature_item_party_customer"/>
+        <field name="page" type="int">2</field>
+        <field name="posX" type="float">0.290</field>
+        <field name="posY" type="float">0.725</field>
+        <field name="width" type="float">0.200</field>
+        <field name="height" type="float">0.050</field>
+    </record>
 </odoo>

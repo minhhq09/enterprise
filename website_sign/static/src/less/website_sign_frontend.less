@@ -1,68 +1,30 @@
 
-/* Signature Dialog */
-.o_sign_font_dialog {
-    .o-position-absolute(0, 0);
-    display: none;
+.o_sign_document {
     height: 100%;
-    
-    .o_sign_font_selection {
-        overflow: auto;
-        height: 90%;
-        padding: 0;
 
-        > a {
-            height: 100px;
-            padding: 0;
+    > header {
+        .o-flex(0, 0, auto);
+        height: @navbar-height;
+        background-color: @odoo-brand-lightsecondary;
+        > div {
+            height: 100%;
+            .o-flex-display();
+            .o-align-items(center);
+            a {
+                .o-flex(0, 0, auto);
+                > img {
+                    height: @navbar-height - 10;
+                }
+            }
 
-            > img {
-                height: 100%;
+            .o_sign_header_instruction {
+                font-size: 1.2em;
+                .o-flex(1, 1, auto);
             }
         }
     }
 
-    .o_sign_loading {
-        background-image: url(../../img/loading.gif);
-        width: 31px;
-        height: 31px;
-        margin: 35px auto 0;
-    }
-
-    .o_sign_load {
-        visibility: hidden;
-    }
-}
-
-.o_sign_signature_draw .o_sign_signature {
-    padding: 0;
-}
-
-.o_sign_validate_banner {
-    display: none;
-    opacity: 0;
-
-    .o-position-absolute(@bottom: 0, @left: 0);
-    width: 100%;
-    padding: 10px;
-
-    background-color: @odoo-brand-primary;
-    color: white;
-    font-size: 1.25em;
-    text-align: center;
-}
-
-.o_sign_body {
-    .o-flex-display();
-    .o-flex-flow(column, nowrap);
-    > header {
-        .o-flex(0, 0, auto);
-    }
-    > main {
-        height: 100%;
-        min-height: 0;
-        .o-flex(0, 1, 100%);
-    }
-    
-    .modal-content {
+    ~ .modal .modal-content {
         border-radius: 0;
         border: none;
 
@@ -83,7 +45,7 @@
                 line-height: 1;
             }
             .text-muted {
-                color: #fff;            
+                color: #fff;
             }
             .close {
                 color: #fff;

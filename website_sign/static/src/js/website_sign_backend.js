@@ -1,327 +1,119 @@
-odoo.define('website_sign.dashboard', function(require) {
+odoo.define('website_sign.views_custo', function(require) {
     'use strict';
 
-    var ControlPanelMixin = require('web.ControlPanelMixin');
     var core = require('web.core');
-    var formats = require('web.formats');
+    var KanbanView = require("web_kanban.KanbanView");
+    var KanbanColumn = require("web_kanban.Column");
+    var KanbanRecord = require("web_kanban.Record");
+    var ListView = require("web.ListView");
     var Model = require('web.Model');
-    var Pager = require('web.Pager');
-    var session = require('web.session');
-    var Widget = require('web.Widget');
 
     var _t = core._t;
-    
-    var DashboardRow = Widget.extend({
-        template: 'website_sign.dashboard_row',
-        events: {
-            'click .o_sign_dashboard_item .o_sign_toggle': function(e) {
-                var self = this;
-                var $toggle = $(e.target), $item = $toggle.closest('.o_sign_dashboard_item');
-                session.rpc("/sign/toggle/" + $toggle.data('type') + ((this.tCorrect)? '/template/' : '/document/') + $item.data('id'), {
-                    'value': !$item.data($toggle.data('type'))
-                }).then(function(value) {
-                    $item.data($toggle.data('type'), +value);
-                    self.refresh();
-                });
-                return false;
-            },
 
-            'click .o_sign_upload_template_button': function(e) {
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                this.$('.o_sign_upload_template_input').click();
-            },
+    KanbanView.include(_make_custo("button.o-kanban-button-new"));
+    ListView.include(_make_custo(".o_list_button_add"));
 
-            'change .o_sign_upload_template_input': function(e) {
-                var f = e.target.files[0], reader = new FileReader();
-
-                var self = this;
-                reader.onload = function(e) {
-                    var Template = new Model('signature.request.template');
-                    var input_field = self.$('.o_sign_upload_template_input');
-                    input_field.attr('disabled', 'disabled');
-                    Template.call('upload_from_dashboard', [f.name, e.target.result])
-                            .then(function(data) {
-                                self.do_action({
-                                    type: "ir.actions.client",
-                                    tag: 'website_sign.Template',
-                                    name: _t("New Template"),
-                                    context: {
-                                        id: data.template,
-                                    },
-                                });
-                            })
-                            .always(function() {
-                                input_field.removeAttr('disabled');
-                                input_field.val("");
-                            });
-                };
-                try {
-                    reader.readAsDataURL(f);
-                } catch (e) {
-                    console.warn(e);
-                }
-            },
-
-            'click .o_sign_dashboard_item > a': function(e) {
-                e.preventDefault();
-                var $item = $(e.target).closest('.o_sign_dashboard_item');
-                var type = ((this.tCorrect)? "Template" : "Document");
-                if(type) {
-                    this.do_action({
-                        type: "ir.actions.client",
-                        tag: 'website_sign.' + type,
-                        name: type + " \"" + $item.find('.o_sign_dashboard_item_title').html() + "\"",
-                        context: {
-                            id: $item.data('id'),
-                            token: $item.data('token'),
-                            create_uid: $item.data('create_uid'),
-                            state: $item.data('state'),
-                        },
-                    });
-                }
-            },
-        },
-
-        init: function(parent, title, items, tCorrect) {
-            this._super(parent);
-
-            this.showArchives = false;
-            this.showOnlyFavorites = false;
-
-            this.title = title;
-            this.items = items;
-            this.tCorrect = tCorrect;
-        },
-
-        willStart: function() {
-            for(var i = 0 ; i < this.items.length ; i++) {
-                this.items[i].title = (this.tCorrect)? this.items[i].attachment_id[1] : this.items[i].reference;
-                this.items[i].favorited = (this.items[i].favorited_ids.indexOf(session.uid) >= 0);
-                this.items[i].can_archive = (this.tCorrect || this.items[i].state !== 'sent');
-                this.items[i].icon = ((this.tCorrect)? "file" : "copy");
-                this.items[i].date = ((this.tCorrect)? this.items[i].create_date : ((this.items[i].state !== 'canceled')? this.items[i].last_action_date : false));
-            
-                if(!this.tCorrect && this.items[i].state !== 'signed') {
-                    var items = [];
-                    var request_items = this.items[i].request_item_ids;
-                    for(var j = 0 ; j < request_items.length ; j++) {
-                        items.push({
-                            completed: (request_items[j].state === 'completed'),
-                            name: (request_items.length > 1)? request_items[j].signer_trigram : request_items[j].partner_id.name,
-                        });
-                    }
-
-                    this.items[i].signers = {
-                        full: request_items.map(function(r) {
-                            return r.partner_id.name;
-                        }).join(', '),
-                        items: items,
-                    };
-                }
-            }
-
-            return this._super();
-        },
-
-        start: function() {
-            this.$items = this.$('.o_sign_dashboard_item');
-            if(this.tCorrect) {
-                this.$items = this.$items.not(this.$items.first());
-            }
-
-            this.pager = new Pager(this, this.$items.length, 1, 6-this.tCorrect);
-            this.pager.on('pager_changed', this, function(state) {
-                this.refresh();
-            });
-
-            this.$items.each(function(i, el) {
-                $(el).data('default_order', i);
-            });
+    KanbanColumn.include({
+        start: function () {
+            var def = this._super.apply(this, arguments);
+            var parent = this.getParent();
+            if (!parent || parent.model !== "signature.request") return def;
 
             var self = this;
-            return this._super.apply(this, arguments).then(function() {
-                return self.pager.appendTo(self.$('.o_sign_dashboard_title_nav'));
+            return $.when(def).done(function () {
+                self.$el.sortable("destroy");
             });
         },
+    });
 
-        refresh: function(showArchives, showOnlyFavorites, sort) {
-            var self = this;
-
-            this.showArchives = (showArchives === undefined)? this.showArchives : showArchives;
-            this.showOnlyFavorites = (showOnlyFavorites === undefined)? this.showOnlyFavorites : showOnlyFavorites;
-
-            var count = this.$items.filter(function(i, el) {
-                return (($(el).data('favorited') || !self.showOnlyFavorites) && (!$(el).data('archived') || self.showArchives));
-            }).length;
-
-            this.pager.update_state({size: count});
-
-            if(sort) {
-                this.$items = this.$items.sort(function(a, b) {
-                    var aFav = $(a).data('favorited'), bFav = $(b).data('favorited');
-                    if(aFav !== bFav) {
-                        return ((aFav)? -1 : 1);
-                    }
-
-                    var aArch = $(a).data('archived'), bArch = $(b).data('archived');
-                    if(aArch !== bArch) {
-                        return ((aArch)? 1 : -1);
-                    }
-                    
-                    return (parseInt($(a).data('default_order')) - parseInt($(b).data('default_order')));
-                });
-            }
-            this.$('h4').next().append(this.$items.detach());
-            this.$el.toggle(!!this.tCorrect);
-            
-            var nbHidden = 0;
-            this.$items.each(function(i) {
-                var $item = $(this);
-
-                $item.toggleClass('archived', !!$item.data('archived'));
-                if(!self.showArchives && $item.data('archived') || self.showOnlyFavorites && !$item.data('favorited')) {
-                    nbHidden++;
-                    $item.hide();
+    KanbanRecord.include({
+        on_card_clicked: function () {
+            if (this.model === "signature.request" || this.model === "signature.request.template") {
+                var $link = this.$el.find(".o_sign_action_link");
+                if ($link.length) {
+                    this.trigger_up('kanban_do_action', $link.data());
                     return;
                 }
-
-                self.$el.show();
-                $item.toggleClass('o_sign_favorited', !!$item.data('favorited'));
-                $item.find('.o_sign_favorite_button').toggleClass('fa-star-o', !$item.data('favorited')).toggleClass('fa-star', !!$item.data('favorited'))
-                     .prop('title', (($item.data('favorited'))? _t("Unmark") : _t("Mark")) + _t(" as Favorite"));
-
-                var nb = i - nbHidden + 1;
-                $item.toggle(nb >= self.pager.state.current_min && nb < self.pager.state.current_min + self.pager.state.limit);
-            });
+            }
+            return this._super.apply(this, arguments);
         },
     });
 
-    var Dashboard = Widget.extend(ControlPanelMixin, {
-        className: 'container o_sign_dashboard',
+    function _make_custo(selector_button) {
+        return {
+            render_buttons: function () {
+                this._super.apply(this, arguments);
 
-        init: function(parent) {
-            var self = this;
-
-            var $toggleGroup = $('<div/>').addClass("o_dropdown");
-
-            var $toggleDropdown = $('<a/>', {'data-toggle': 'dropdown'}).addClass("dropdown-toggle");
-            this.$dropdown = $('<ul/>', {'role': 'menu'}).addClass("dropdown-menu o_filters_menu");
-
-            $toggleGroup.append($toggleDropdown);
-            $toggleGroup.append(this.$dropdown);
-
-            $toggleDropdown.append($('<span/>').addClass("fa fa-filter"), _t(" Filters "), $('<span/>').addClass("caret"));
-            this.$favorite_li = $('<li/>').append($('<a/>', {html: _t("Favorites Only")})).appendTo(this.$dropdown)
-                .on('click', function(e) {
-                    $(e.currentTarget).toggleClass('selected');
-                    self.showOnlyFavorites = $(e.currentTarget).hasClass('selected');
-                    self.refresh(true);
-
-                    session.website_sign_favorite = self.showOnlyFavorites;
-                });
-            this.$dropdown.append($('<li/>').addClass("divider"));
-            this.$archive_li = $('<li/>').append($('<a/>', {html: _t("Show Archives")})).appendTo(this.$dropdown)
-                .on('click', function(e) {
-                    $(e.currentTarget).toggleClass('selected');
-                    self.showArchives = $(e.currentTarget).hasClass('selected');
-                    self.refresh(true);
-
-                    session.website_sign_archive = self.showArchives;
-                });
-
-            this.$favorite_li.toggleClass('selected', !!session.website_sign_favorite);
-            this.$archive_li.toggleClass('selected', !!session.website_sign_archive);
-
-            this.cp_content = {$searchview_buttons: $toggleGroup};
-
-            this._super.apply(this, arguments);
-        },
-
-        willStart: function() {
-            var self = this;
-
-            var Templates = new Model('signature.request.template');
-            var SignatureRequests = new Model('signature.request');
-
-            var defTemplates = Templates.query(['attachment_id', 'create_date', 'archived', 'favorited_ids'])
-                                        .all()
-                                        .then(prepare_templates);
-
-            var defSignatureRequests = SignatureRequests.call('get_dashboard_info')
-                                                        .then(prepare_requests);
-
-            return $.when(this._super.apply(this, arguments), defTemplates, defSignatureRequests);
-
-            function prepare_templates(templates) {
-                self.templates = templates;
-                for(var i = 0 ; i < templates.length ; i++) {
-                    templates[i].create_date = formats.format_value(templates[i].create_date, {type: 'datetime'}, '');
+                if (this.model === "signature.request.template") {
+                    this._website_sign_upload_file_button();
+                } else if (this.model === "signature.request") {
+                    this._website_sign_create_request_button();
                 }
+            },
+
+            _website_sign_upload_file_button: function () {
+                var self = this;
+                this.$buttons.find(selector_button).text(_t("Upload a PDF Template")).off("click").on("click", function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    _website_sign_upload_file.call(self);
+                });
+            },
+
+            _website_sign_create_request_button: function () {
+                var self = this;
+                this.$buttons.find(selector_button).text(_t("Request a Signature")).off("click").on("click", function (e) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    _website_sign_create_request.call(self);
+                });
+            },
+        };
+    }
+
+    function _website_sign_upload_file() {
+        var self = this;
+        var $upload_input = $('<input type="file" name="files[]"/>');
+        $upload_input.on('change', function (e) {
+            var f = e.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var Template = new Model('signature.request.template');
+                Template.call('upload_template', [f.name, e.target.result])
+                        .then(function(data) {
+                            self.do_action({
+                                type: "ir.actions.client",
+                                tag: 'website_sign.Template',
+                                name: _t("New Template"),
+                                context: {
+                                    id: data.template,
+                                },
+                            });
+                        })
+                        .always(function() {
+                            $upload_input.removeAttr('disabled');
+                            $upload_input.val("");
+                        });
+            };
+            try {
+                reader.readAsDataURL(f);
+            } catch (e) {
+                console.warn(e);
             }
+        });
 
-            function prepare_requests(requests) {
-                self.signature_requests = {
-                    draft: [],
-                    sent: [],
-                    signed: [],
-                    canceled: [],
-                };
-                for(var i = 0 ; i < requests.length ; i++) {
-                    self.signature_requests[requests[i].state].push(requests[i]);
-                }
-            }
-        },
+        $upload_input.click();
+    }
 
-        start: function(parent) {
-            var self = this;
-
-            this.showArchives = this.$archive_li.hasClass('selected');
-            this.showOnlyFavorites = this.$favorite_li.hasClass('selected');
-
-            this.dashboardRows = [];
-            this.dashboardRows.push(new DashboardRow(this, _t("Document Templates"), this.templates, true));
-            this.dashboardRows.push(new DashboardRow(this, _t("Signatures in Progress"), this.signature_requests.sent, false));
-            this.dashboardRows.push(new DashboardRow(this, _t("Fully Signed"), this.signature_requests.signed, false));
-            this.dashboardRows.push(new DashboardRow(this, _t("Canceled"), this.signature_requests.canceled, false));
-
-            var waitFor = [this._super.apply(this, arguments)];
-            waitFor.concat(this.dashboardRows.map(function(row) {
-                return row.appendTo(self.$el);
-            }));
-
-            return $.when.apply($, waitFor).then(function() {
-                self.refresh(true);
-                self.refresh_cp();
-            });
-        },
-
-        do_show: function() {
-            this._super.apply(this, arguments);
-            this.refresh_cp();
-        },
-
-        refresh: function(sort) {
-            for(var i = 0 ; i < this.dashboardRows.length ; i++) {
-                this.dashboardRows[i].refresh(this.showArchives, this.showOnlyFavorites, sort);
-            }
-        },
-
-        refresh_cp: function() {
-            this.update_control_panel({
-                breadcrumbs: this.getParent().get_breadcrumbs(),
-                cp_content: this.cp_content,
-            });
-        },
-    });
-
-    core.action_registry.add('website_sign.dashboard', Dashboard);
+    function _website_sign_create_request() {
+        this.do_action("website_sign.signature_request_template_action");
+    }
 });
 
-odoo.define('website_sign.backend', function(require) {
+odoo.define('website_sign.template', function(require) {
     'use strict';
 
-    var ajax = require('web.ajax');
     var ControlPanelMixin = require('web.ControlPanelMixin');
     var core = require('web.core');
     var Dialog = require('web.Dialog');
@@ -329,9 +121,9 @@ odoo.define('website_sign.backend', function(require) {
     var Model = require('web.Model');
     var session = require('web.session');
     var Widget = require('web.Widget');
-    var Document = require('website_sign.Document');
     var PDFIframe = require('website_sign.PDFIframe');
-    
+    var website_sign_utils = require('website_sign.utils');
+
     var _t = core._t;
 
     var SignatureItemCustomDialog = Dialog.extend({
@@ -368,7 +160,7 @@ odoo.define('website_sign.backend', function(require) {
 
             var self = this;
             return this._super().then(function() {
-                setAsResponsibleSelect(self.$responsibleSelect.find('select'), self.$currentTarget.data('responsible'), self.parties);
+                website_sign_utils.setAsResponsibleSelect(self.$responsibleSelect.find('select'), self.$currentTarget.data('responsible'), self.parties);
                 self.$('input[type="checkbox"]').prop('checked', self.$currentTarget.data('required'));
 
                 self.set_title(self.title, '<span class="fa fa-long-arrow-right"/> ' + self.$currentTarget.prop('title') + ' Field');
@@ -413,7 +205,7 @@ odoo.define('website_sign.backend', function(require) {
 
             var self = this;
             return this._super.apply(this, arguments).then(function() {
-                setAsResponsibleSelect(self.$responsibleSelect.find('select'), self.getParent().currentRole, self.parties);
+                website_sign_utils.setAsResponsibleSelect(self.$responsibleSelect.find('select'), self.getParent().currentRole, self.parties);
             });
         },
 
@@ -489,8 +281,8 @@ odoo.define('website_sign.backend', function(require) {
             this.$('.o_sign_warning_message_no_field').first().toggle($.isEmptyObject(this.rolesToChoose));
             this.$('.o_sign_request_signers .o_sign_new_signer').remove();
 
-            setAsPartnerSelect(this.$('.o_sign_request_signers .form-group select')); // Followers
-            
+            website_sign_utils.setAsPartnerSelect(this.$('.o_sign_request_signers .form-group select')); // Followers
+
             if($.isEmptyObject(this.rolesToChoose)) {
                 this.addSigner(0, _t("Signers"), true);
             } else {
@@ -509,7 +301,7 @@ odoo.define('website_sign.backend', function(require) {
             var $newSigner = $('<div/>').addClass('o_sign_new_signer form-group');
 
             $newSigner.append($('<label/>').addClass('col-md-3').text(roleName).data('role', roleID));
-            
+
             var $signerInfo = $('<select/>').attr('placeholder', _t("Write email or search contact..."));
             if(multiple) {
                 $signerInfo.attr('multiple', 'multiple');
@@ -520,7 +312,7 @@ odoo.define('website_sign.backend', function(require) {
 
             $newSigner.append($signerInfoDiv);
 
-            setAsPartnerSelect($signerInfo);
+            website_sign_utils.setAsPartnerSelect($signerInfo);
 
             this.$('.o_sign_request_signers').first().prepend($newSigner);
         },
@@ -549,7 +341,7 @@ odoo.define('website_sign.backend', function(require) {
             var signers = [];
             self.$('.o_sign_new_signer').each(function(i, el) {
                 var $elem = $(el);
-                var selectDef = processPartnersSelection($elem.find('select')).then(function(partners) {
+                var selectDef = website_sign_utils.processPartnersSelection($elem.find('select')).then(function(partners) {
                     for(var p = 0 ; p < partners.length ; p++) {
                         signers.push({
                             'partner_id': partners[p],
@@ -563,7 +355,7 @@ odoo.define('website_sign.backend', function(require) {
             });
 
             var followers = [];
-            var followerDef = processPartnersSelection(self.$('#o_sign_followers_select')).then(function(partners) {
+            var followerDef = website_sign_utils.processPartnersSelection(self.$('#o_sign_followers_select')).then(function(partners) {
                 followers = partners;
             });
             if(followerDef !== false) {
@@ -586,6 +378,7 @@ odoo.define('website_sign.backend', function(require) {
                         context: {
                             id: sr.id,
                             token: sr.token,
+                            sign_token: sr.sign_token || null,
                             create_uid: session.uid,
                             state: 'sent',
                         },
@@ -616,8 +409,6 @@ odoo.define('website_sign.backend', function(require) {
         },
 
         start: function() {
-            var self = this;
-
             var $linkInput = this.$('input').first();
             var linkStart = window.location.href.substr(0, window.location.href.indexOf('/web')) + '/sign/';
 
@@ -629,49 +420,7 @@ odoo.define('website_sign.backend', function(require) {
         },
     });
 
-    var AddFollowersDialog = Dialog.extend({
-        template: "website_sign.add_followers_dialog",
-
-        init: function(parent, requestID, options) {
-            options = (options || {});
-            options.title = options.title || _t("Send a copy to third parties");
-            options.size = options.size || "medium";
-
-            if(!options.buttons) {
-                options.buttons = [];
-
-                options.buttons.push({text: _t("Send"), classes: "btn-primary", click: function(e) {
-                    var $button = $(e.target);
-                    $button.prop('disabled', true);
-
-                    var self = this;
-                    processPartnersSelection(this.$select).then(function(partners) {
-                        (new Model('signature.request')).call('add_followers', [self.requestID, partners])
-                                                        .then(function() {
-                                                            self.do_notify(_t("Success"), _t("A copy has been sent to the new followers."));
-                                                        })
-                                                        .always(function() {
-                                                            self.close();
-                                                        });
-                    });
-                }});
-
-                options.buttons.push({text: _t("Discard"), close: true});
-            }
-
-            this._super(parent, options);
-
-            this.requestID = requestID;
-        },
-
-        start: function() {
-            this.$select = this.$('#o_sign_followers_select');
-            setAsPartnerSelect(this.$select);
-            return this._super.apply(this, arguments);
-        },
-    });
-
-    PDFIframe.include({
+    var EditablePDFIframe = PDFIframe.extend({
         init: function() {
             this._super.apply(this, arguments);
 
@@ -770,7 +519,7 @@ odoo.define('website_sign.backend', function(require) {
                                 self.updateSignatureItem($signatureItem);
                                 $signatureItem.css('width', $signatureItem.css('width')).css('height', $signatureItem.css('height')); // Convert % to px
                                 $signatureItem.detach();
-                                
+
                                 return $signatureItem;
                             }
                         });
@@ -812,7 +561,7 @@ odoo.define('website_sign.backend', function(require) {
                         });
 
                         self.$('#viewer').selectable({
-                            appendTo: self.$('body'), 
+                            appendTo: self.$('body'),
                             filter: '.o_sign_signature_item',
                         });
 
@@ -971,12 +720,8 @@ odoo.define('website_sign.backend', function(require) {
             },
         },
 
-        go_back_to_dashboard: function() {
-            return this.do_action({
-                type: "ir.actions.client",
-                tag: 'website_sign.dashboard',
-                name: _t("Digital Signatures Documents"),
-            }, {
+        go_back_to_kanban: function() {
+            return this.do_action("website_sign.signature_request_template_action", {
                 clear_breadcrumbs: true,
             });
         },
@@ -1060,7 +805,7 @@ odoo.define('website_sign.backend', function(require) {
 
         start: function() {
             if(this.templateID === undefined) {
-                return this.go_back_to_dashboard();
+                return this.go_back_to_kanban();
             }
             this.initialize_content();
             if(this.$('iframe').length) {
@@ -1072,14 +817,14 @@ odoo.define('website_sign.backend', function(require) {
                 if(this.$el.parents('html').length) {
                     var self = this;
                     framework.blockUI({overlayCSS: {opacity: 0}, blockMsgClass: 'o_hidden'});
-                    this.iframeWidget = new PDFIframe(this,
-                                                      '/web/image/' + this.signature_request_template.attachment_id.id,
-                                                      true,
-                                                      {
-                                                          parties: this.signature_item_parties,
-                                                          types: this.signature_item_types,
-                                                          signatureItems: this.signature_items,
-                                                      });
+                    this.iframeWidget = new EditablePDFIframe(this,
+                                                              '/web/image/' + this.signature_request_template.attachment_id.id,
+                                                              true,
+                                                              {
+                                                                  parties: this.signature_item_parties,
+                                                                  types: this.signature_item_types,
+                                                                  signatureItems: this.signature_items,
+                                                              });
                     return this.iframeWidget.attachTo(this.$('iframe')).then(function() {
                         framework.unblockUI();
                         self.iframeWidget.currentRole = self.signature_item_parties[0].id;
@@ -1159,7 +904,7 @@ odoo.define('website_sign.backend', function(require) {
                         if(!templateID) {
                             Dialog.alert(self, _t('Somebody is already filling a document which uses this template'), {
                                 confirm_callback: function() {
-                                    self.go_back_to_dashboard();
+                                    self.go_back_to_kanban();
                                 },
                             });
                         }
@@ -1180,28 +925,31 @@ odoo.define('website_sign.backend', function(require) {
         },
     });
 
+    core.action_registry.add('website_sign.Template', Template);
+});
+
+odoo.define('website_sign.DocumentBackend', function (require) {
+    'use strict';
+
+    var ajax = require('web.ajax');
+    var ControlPanelMixin = require('web.ControlPanelMixin');
+    var core = require('web.core');
+    var framework = require('web.framework');
+    var Widget = require('web.Widget');
+    var Document = require('website_sign.Document');
+
+    var _t = core._t;
+
     var DocumentBackend = Widget.extend(ControlPanelMixin, {
         className: 'o_sign_document',
-        events: {
-            'click .o_sign_resend_access_button.fa': function(e) {
-                var $envelope = $(e.target);
-                $envelope.removeClass('fa fa-envelope').html('...');
-                (new Model('signature.request.item')).call('resend_access', [parseInt($envelope.parent('.o_sign_signer_status').data('id'))])
-                                                     .then(function() { $envelope.html(_t("Resent !")); });
-            },
-        },
 
-        go_back_to_dashboard: function() {
-            return this.do_action({
-                type: "ir.actions.client",
-                tag: 'website_sign.dashboard',
-                name: _t("Digital Signatures Documents"),
-            }, {
+        go_back_to_kanban: function () {
+            return this.do_action("website_sign.signature_request_action", {
                 clear_breadcrumbs: true,
             });
         },
 
-        init: function(parent, options) {
+        init: function (parent, options) {
             this._super.apply(this, arguments);
 
             if(options.context.id === undefined) {
@@ -1215,35 +963,22 @@ odoo.define('website_sign.backend', function(require) {
 
             var self = this;
 
-            var $downloadButton = $('<a/>', {html: _t("Download Document")}).addClass('btn btn-sm btn-primary o_hidden');
-            var $historyButton = $('<button/>', {html: _t("View History"), type: "button"}).addClass('btn btn-sm btn-default')
-                .on('click', function() {
-                    if(self.documentPage) {
-                        self.documentPage.openChatter();
-                    }
-                });
-            var $addFollowersButton = $('<button/>', {html: _t("Send a copy"), type: "button"}).addClass('btn btn-sm btn-default o_hidden')
-                .on('click', function() {
-                    (new AddFollowersDialog(self, self.documentID)).open();
-                });
-            var $cancelButton = $('<button/>', {html: _t("Cancel Request"), type: "button"}).addClass('btn btn-sm btn-default o_hidden')
-                .on('click', function() {
-                    (new Model('signature.request')).call('cancel', [self.documentID]).then(function() {
-                        self.go_back_to_dashboard();
-                    });
-                });
-            this.cp_content = {$buttons: $downloadButton.add($historyButton).add($addFollowersButton).add($cancelButton)};
+            this.$downloadButton = $('<a/>', {html: _t("Download Document")}).addClass('btn btn-sm btn-primary o_hidden');
+            var $historyButton = $('<button/>', {html: _t("View History"), type: "button"}).addClass('btn btn-sm btn-default');
+            $historyButton.on('click', function() {
+                if(self.documentPage) {
+                    self.documentPage.openChatter();
+                }
+            });
+            this.cp_content = {$buttons: this.$downloadButton.add($historyButton)};
         },
 
-        start: function() {
+        start: function () {
             var self = this;
 
             if(this.documentID === undefined) {
-                return this.go_back_to_dashboard();
+                return this.go_back_to_kanban();
             }
-
-            this.is_author = (this.create_uid == session.uid);
-            this.is_sent = (this.state === 'sent');
 
             return $.when(this._super(), ajax.jsonRpc('/sign/get_document/' + this.documentID + '/' + this.token, 'call', {'message': this.message}).then(function(html) {
                 self.$el.append($(html.trim()));
@@ -1252,26 +987,15 @@ odoo.define('website_sign.backend', function(require) {
                 var $buttonsContainer = $cols.first().remove();
 
                 var url = $buttonsContainer.find('.o_sign_download_document_button').attr('href');
-                self.cp_content.$buttons.eq(0).attr('href', url).toggleClass('o_hidden', !url);
-                self.cp_content.$buttons.eq(2).toggleClass('o_hidden', !self.is_author);
-                self.cp_content.$buttons.eq(3).toggleClass('o_hidden', !self.is_author || !self.is_sent);
+                self.$downloadButton.attr('href', url).toggleClass('o_hidden', !url);
 
-                if(self.is_author && self.is_sent) {
-                    self.$('.o_sign_signer_status').each(function(i, el) {
-                        $(el).prepend($('<button/>', {
-                            type: 'button',
-                            title: _t("Resend the invitation"),
-                        }).addClass('o_sign_resend_access_button btn btn-link fa fa-envelope pull-right'));
-                    });
-                }
-                
                 var init_page = function() {
                     if(self.$el.parents('html').length) {
                         self.refresh_cp();
                         framework.blockUI({overlayCSS: {opacity: 0}, blockMsgClass: 'o_hidden'});
                         var def;
                         if(!self.documentPage) {
-                            self.documentPage = new Document(self);
+                            self.documentPage = new (self.get_document_class())(self);
                             def = self.documentPage.attachTo(self.$el);
                         } else {
                             def = self.documentPage.initialize_iframe();
@@ -1285,279 +1009,186 @@ odoo.define('website_sign.backend', function(require) {
             }));
         },
 
-        refresh_cp: function() {
+        get_document_class: function () {
+            return Document;
+        },
+
+        refresh_cp: function () {
             this.update_control_panel({
                 breadcrumbs: this.getParent().get_breadcrumbs(),
-                cp_content: this.cp_content
+                cp_content: this.cp_content,
             });
         },
     });
 
-    core.action_registry.add('website_sign.Template', Template);
-    core.action_registry.add('website_sign.Document', DocumentBackend);
+    return DocumentBackend;
+});
 
-    function getResponsibleSelectConfiguration(parties) {
-        if(getResponsibleSelectConfiguration.configuration === undefined) {
-            var select2Options = {
-                placeholder: _t("Select the responsible"),
-                allowClear: false,
-                minimumInputLength: 3,
+odoo.define('website_sign.document_edition', function(require) {
+    'use strict';
 
-                formatResult: function(data, resultElem, searchObj) {
-                    if(!data.text) {
-                        $(data.element[0]).data('create_name', searchObj.term);
-                        return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""});
-                    }
-                    return $("<div/>", {text: data.text});
-                },
+    var core = require('web.core');
+    var Dialog = require('web.Dialog');
+    var Model = require('web.Model');
+    var session = require('web.session');
+    var DocumentBackend = require('website_sign.DocumentBackend');
+    var website_sign_utils = require('website_sign.utils');
 
-                formatSelection: function(data) {
-                    if(!data.text) {
-                        return $("<div/>", {text: $(data.element[0]).data('create_name')}).html();
-                    }
-                    return $("<div/>", {text: data.text}).html();
-                },
+    var _t = core._t;
 
-                matcher: function(search, data) {
-                    if(!data) {
-                        return (search.length > 0);
-                    }
-                    return (data.toUpperCase().indexOf(search.toUpperCase()) > -1);
-                }
-            };
+    var AddFollowersDialog = Dialog.extend({
+        template: "website_sign.add_followers_dialog",
 
-            var selectChangeHandler = function(e) {
-                var $select = $(e.target), $option = $(e.added.element[0]);
+        init: function(parent, requestID, options) {
+            options = (options || {});
+            options.title = options.title || _t("Send a copy to third parties");
+            options.size = options.size || "medium";
 
-                var resp = parseInt($option.val());
-                var name = $option.text() || $option.data('create_name');
-                
-                if(resp >= 0 || !name) {
-                    return false;
-                }
+            if(!options.buttons) {
+                options.buttons = [];
 
-                (new Model('signature.item.party')).call('add', [name]).then(process_party);
+                options.buttons.push({text: _t("Send"), classes: "btn-primary", click: function(e) {
+                    var $button = $(e.target);
+                    $button.prop('disabled', true);
 
-                function process_party(partyID) {
-                    parties[partyID] = {id: partyID, name: name};
-                    getResponsibleSelectConfiguration.configuration = undefined;
-                    setAsResponsibleSelect($select, partyID, parties);
-                }
-            };
+                    var self = this;
+                    website_sign_utils.processPartnersSelection(this.$select).then(function(partners) {
+                        (new Model('signature.request')).call('add_followers', [self.requestID, partners])
+                                                        .then(function() {
+                                                            self.do_notify(_t("Success"), _t("A copy has been sent to the new followers."));
+                                                        })
+                                                        .always(function() {
+                                                            self.close();
+                                                        });
+                    });
+                }});
 
-            var $responsibleSelect = $('<select/>').append($('<option/>'));
-            for(var id in parties) {
-                $responsibleSelect.append($('<option/>', {
-                    value: parseInt(id),
-                    text: parties[id].name,
-                }));
+                options.buttons.push({text: _t("Discard"), close: true});
             }
-            $responsibleSelect.append($('<option/>', {value: -1}));
 
-            getResponsibleSelectConfiguration.configuration = {
-                html: $responsibleSelect.html(),
-                options: select2Options,
-                handler: selectChangeHandler,
-            };
-        }
+            this._super(parent, options);
 
-        return getResponsibleSelectConfiguration.configuration;
-    }
+            this.requestID = requestID;
+        },
 
-    function setAsResponsibleSelect($select, selected, parties) {
-        var configuration = getResponsibleSelectConfiguration(parties);
+        start: function() {
+            this.$select = this.$('#o_sign_followers_select');
+            website_sign_utils.setAsPartnerSelect(this.$select);
+            return this._super.apply(this, arguments);
+        },
+    });
 
-        $select.select2('destroy');
-        $select.html(configuration.html).addClass('form-control');
-        if(selected !== undefined) {
-            $select.val(selected);
-        }
-        $select.select2(configuration.options);
-        $select.off('change').on('change', configuration.handler);
-    }
+    var EditableDocumentBackend = DocumentBackend.extend({
+        events: {
+            'click .o_sign_resend_access_button.fa': function(e) {
+                var $envelope = $(e.target);
+                $envelope.removeClass('fa fa-envelope').html('...');
+                (new Model('signature.request.item')).call('resend_access', [parseInt($envelope.parent('.o_sign_signer_status').data('id'))])
+                                                     .then(function() { $envelope.html(_t("Resent !")); });
+            },
+        },
 
-    function getPartnerSelectConfiguration() {
-        if(getPartnerSelectConfiguration.def === undefined) {
-            getPartnerSelectConfiguration.def = new $.Deferred();
+        init: function(parent, options) {
+            this._super.apply(this, arguments);
 
-            var select2Options = {
-                allowClear: true,
-                minimumInputLength: 3,
+            var self = this;
 
-                formatResult: function(data, resultElem, searchObj) {
-                    var partner = $.parseJSON(data.text);
-                    if($.isEmptyObject(partner)) {
-                        var $elem = $(data.element[0]);
+            this.is_author = (this.create_uid === session.uid);
+            this.is_sent = (this.state === 'sent');
 
-                        var partnerMatch = searchObj.term.match(/(?:\s|\()*(((?:\w|-|\.)+)@(?:\w|-)+\.(?:\w|-)+)(?:\s|\))*/);
-                        if(!partnerMatch || partnerMatch[1] === undefined) {
-                            $elem.removeData('name mail');
-                            return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""})
-                                    .addClass('o_sign_create_partner')
-                                    .append($("<span/>").addClass('fa fa-exclamation-circle'))
-                                    .append($("<span/>", {text: _t("Enter email (and name if you want)")}).addClass('small'));
-                        } else {
-                            var index = searchObj.term.indexOf(partnerMatch[0]);
-                            var name = searchObj.term.substr(0, index) + " " + searchObj.term.substr(index + partnerMatch[0].length);
-                            if(name === " ") {
-                                name = partnerMatch[2];
-                            }
-
-                            $elem.data({name: name, mail: partnerMatch[1]});
-                            return $("<div/>", {text: _t("Create: \"") + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\""})
-                                .addClass('o_sign_create_partner')
-                                .append($("<span/>").addClass('fa fa-check-circle'));
-                        }
-                    }
-
-                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).addClass('o_sign_add_partner');
-                },
-
-                formatSelection: function(data) {
-                    var partner = $.parseJSON(data.text);
-                    if($.isEmptyObject(partner)) {
-                        return _t("Error");
-                    }
-
-                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).html();
-                },
-
-                matcher: function(search, data) {
-                    var partner = $.parseJSON(data);
-                    if($.isEmptyObject(partner)) {
-                        return (search.length > 0);
-                    }
-
-                    var searches = search.toUpperCase().split(/[ ()]/);
-                    for(var i = 0 ; i < searches.length ; i++) {
-                        if(partner['email'].toUpperCase().indexOf(searches[i]) < 0 && partner['name'].toUpperCase().indexOf(searches[i]) < 0) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            };
-
-            var selectChangeHandler = function(e) {
-                if(e.added && e.added.element.length > 0) {
-                    var $option = $(e.added.element[0]);
-                    var $select = $option.parent();
-                    if(parseInt($option.val()) !== 0) {
-                        return true;
-                    }
-
-                    setTimeout(function() {
-                        $select.select2("destroy");
-
-                        if(!$option.data('mail')) {
-                            $option.prop('selected', false);
-                        } else {
-                            if(!$select.data('newNumber')) {
-                                $select.data('newNumber', 0);
-                            }
-                            var newNumber = $select.data('newNumber') - 1;
-                            $select.data('newNumber', newNumber);
-
-                            $option.val(newNumber);
-                            $option.text('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
-
-                            var $newOption = $('<option/>', {
-                                value: 0,
-                                text: "{}",
-                            });
-                            $select.find('option').filter(':last').after($newOption);
-                        }
-
-                        $select.select2(select2Options);
-                    }, 0);
-                } else if(e.removed && e.removed.element.length > 0) {
-                    var $option = $(e.removed.element[0]);
-                    var $select = $option.parent();
-                    if(parseInt($option.val()) >= 0) {
-                        return true;
-                    }
-
-                    setTimeout(function() {
-                        $select.select2("destroy");
-                        $select.find('option[value=' + $option.val() + ']').remove();
-                        $select.select2(select2Options);
-                    }, 0);
-                }
-            };
-
-            (new Model('res.partner')).query(['name', 'email'])
-                                      .filter([['email', '!=', '']])
-                                      .all()
-                                      .then(process_partners);
-        }
-
-        return getPartnerSelectConfiguration.def;
-
-        function ensure_strings(partner) {
-            partner['name'] = partner['name'] || '';
-            partner['email'] = partner['email'] || '';
-        }
-
-        function process_partners(data) {
-            var $partnerSelect = $('<select><option/></select>');
-            for(var i = 0 ; i < data.length ; i++) {
-                ensure_strings(data[i]);
-                $partnerSelect.append($('<option/>', {
-                    value: data[i]['id'],
-                    text: JSON.stringify(data[i]),
-                }));
+            if (options && options.context && options.context.sign_token) {
+                var $signButton = $('<button/>', {html: _t("Sign Document"), type: "button", 'class': 'btn btn-sm btn-primary'});
+                $signButton.on('click', function () {
+                    self.do_action({
+                        type: "ir.actions.client",
+                        tag: 'website_sign.SignableDocument',
+                        name: _t('Sign'),
+                    }, {
+                        additional_context: _.extend({}, options.context, {
+                            token: options.context.sign_token,
+                        }),
+                    });
+                });
+                this.cp_content.$buttons = $signButton.add(this.cp_content.$buttons);
             }
-            $partnerSelect.append($('<option/>', {
-                value: 0,
-                text: "{}",
-            }));
 
-            getPartnerSelectConfiguration.def.resolve($partnerSelect.html(), select2Options, selectChangeHandler);
-        }
-    }
+            if (this.is_author) {
+                var $addFollowersButton = $('<button/>', {html: _t("Send a copy"), type: "button", 'class': 'btn btn-sm btn-default'});
+                $addFollowersButton.on('click', function () {
+                    (new AddFollowersDialog(self, self.documentID)).open();
+                });
+                this.cp_content.$buttons = this.cp_content.$buttons.add($addFollowersButton);
 
-    function setAsPartnerSelect($select) {
-        return getPartnerSelectConfiguration().then(function(selectHTML, select2Options, selectChangeHandler) {
-            $select.select2('destroy');
-            $select.html(selectHTML).addClass('form-control');
-            $select.select2(select2Options);
-            $select.off('change').on('change', selectChangeHandler);
-        });
-    }
-
-    function processPartnersSelection($select) {
-        var partnerIDs = $select.val();
-        if(!partnerIDs || partnerIDs.length <= 0) {
-            return $.Deferred().resolve([]);
-        }
-
-        if(typeof partnerIDs === 'string') {
-            partnerIDs = [parseInt(partnerIDs)];
-        }
-
-        var partners = [];
-        var partnersToCreate = [];
-        $(partnerIDs).each(function(i, partnerID) {
-            partnerID = parseInt(partnerID);
-            if(partnerID < 0) {
-                var partnerInfo = $.parseJSON($select.find('option[value=' + partnerID + ']').html());
-                partnersToCreate.push([partnerInfo.name.trim(), partnerInfo.email.trim()]);
-            } else if(partnerID > 0) {
-                partners.push(partnerID);
+                if(this.is_sent) {
+                    var $cancelButton = $('<button/>', {html: _t("Cancel Request"), type: "button", 'class': 'btn btn-sm btn-default'});
+                    $cancelButton.on('click', function() {
+                        (new Model('signature.request')).call('cancel', [self.documentID]).then(function() {
+                            self.go_back_to_kanban();
+                        });
+                    });
+                    this.cp_content.$buttons = this.cp_content.$buttons.add($cancelButton);
+                }
             }
-        });
+        },
 
-        var def = $.Deferred();
-        if(partnersToCreate.length > 0) {
-            ajax.jsonRpc("/sign/new_partners", 'call', {
-                'partners': partnersToCreate,
-            }).then(function(pIDs) {
-                def.resolve(partners.concat(pIDs));
+        start: function() {
+            var self = this;
+
+            return this._super.apply(this, arguments).then(function () {
+                if(self.is_author && self.is_sent) {
+                    self.$('.o_sign_signer_status').each(function(i, el) {
+                        $(el).prepend($('<button/>', {
+                            type: 'button',
+                            title: _t("Resend the invitation"),
+                        }).addClass('o_sign_resend_access_button btn btn-link fa fa-envelope pull-right'));
+                    });
+                }
             });
-        } else {
-            def.resolve(partners);
-        }
+        },
+    });
 
-        return def;
-    }
+    core.action_registry.add('website_sign.Document', EditableDocumentBackend);
+});
+
+odoo.define('website_sign.document_signing_backend', function(require) {
+    'use strict';
+
+    var core = require('web.core');
+    var DocumentBackend = require('website_sign.DocumentBackend');
+    var document_signing = require('website_sign.document_signing');
+
+    var _t = core._t;
+
+    var NoPubThankYouDialog = document_signing.ThankYouDialog.extend({
+        template: "website_sign.no_pub_thank_you_dialog",
+
+        init: function (parent, options) {
+            options = (options || {});
+            if (!options.buttons) {
+                options.buttons = [{text: _t("Ok"), close: true}];
+            }
+
+            this._super(parent, options);
+        },
+
+        on_closed: function () {
+            return this.do_action("website_sign.signature_request_action", {
+                clear_breadcrumbs: true,
+            });
+        },
+    });
+
+    var SignableDocument2 = document_signing.SignableDocument.extend({
+        get_thankyoudialog_class: function () {
+            return NoPubThankYouDialog;
+        },
+    });
+
+    var SignableDocumentBackend = DocumentBackend.extend({
+        get_document_class: function () {
+            return SignableDocument2;
+        },
+    });
+
+    core.action_registry.add('website_sign.SignableDocument', SignableDocumentBackend);
 });
