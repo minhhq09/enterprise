@@ -2,6 +2,7 @@
 
 import logging
 import StringIO
+from xml.etree import ElementTree
 
 from openerp import api, models, _
 from openerp.exceptions import UserError
@@ -9,31 +10,27 @@ try:
     from ofxparse import OfxParser
     from ofxparse.ofxparse import OfxParserException
 except ImportError:
+    logging.getLogger(__name__).warning("The ofxparse python library is not installed, ofx import will not work.")
     OfxParser = OfxParserException = None
-
-_logger = logging.getLogger(__name__)
 
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
-    def _check_ofx(self, file):
-        if OfxParser is None:
-            _logger.warning("ofxparse python library not available, unable to parse ofx files")
-            return False
+    def _check_ofx(self, data_file):
         try:
-            ofx = OfxParser.parse(file)
-            if not ofx.account:
-                return False
-        except Exception:
+            root = ElementTree.fromstring(data_file)
+            return root.tag.lower() == 'ofx'
+        except ElementTree.ParseError:
             return False
-        return ofx
 
     def _parse_file(self, data_file):
-        ofx = self._check_ofx(StringIO.StringIO(data_file))
-        if not ofx:
+        if not self._check_ofx(data_file):
             return super(AccountBankStatementImport, self)._parse_file(data_file)
+        if OfxParser is None:
+            raise UserError(_("The library 'ofxparse' is missing, OFX import cannot proceed."))
 
+        ofx = OfxParser.parse(StringIO.StringIO(data_file))
         transactions = []
         total_amt = 0.00
         for transaction in ofx.account.statement.transactions:
