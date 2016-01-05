@@ -646,4 +646,8 @@ odoo.define('website_sign.frontend', function(require) {
             });
         });
     }
+
+    return {
+        ThankYouDialog: ThankYouDialog,
+    };
 });
