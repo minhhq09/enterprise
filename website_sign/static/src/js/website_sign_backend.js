@@ -1073,7 +1073,7 @@ odoo.define('website_sign.backend', function(require) {
                     var self = this;
                     framework.blockUI({overlayCSS: {opacity: 0}, blockMsgClass: 'o_hidden'});
                     this.iframeWidget = new PDFIframe(this,
-                                                      '/web/binary/image?model=ir.attachment&field=datas&id=' + this.signature_request_template.attachment_id.id,
+                                                      '/web/image/' + this.signature_request_template.attachment_id.id,
                                                       true,
                                                       {
                                                           parties: this.signature_item_parties,

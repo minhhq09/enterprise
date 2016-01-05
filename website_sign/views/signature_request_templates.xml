@@ -163,7 +163,7 @@
                     <t t-if="signature_request.nb_closed > 0">
                         <h5 class="page-header">Signed (<t t-esc="str(signature_request.nb_closed) +'/'+ str(len(signature_request.request_item_ids))"/>)</h5>
                         <t t-foreach="signature_request.request_item_ids" t-as="sign">
-                            <div t-if="sign.state == 'completed'" class="o_sign_signer_status clearfix"><img t-if="sign.signature" class="pull-right" t-attf-src="/web/binary/image?model=signature.request.item&amp;field=signature&amp;id={{sign.id}}"/><b><t t-esc="sign.partner_id.name"/></b><t t-if="sign.role_id"><t t-esc="' - ' + sign.role_id.name"/></t><br/><em>Signed on <span t-field="sign.signing_date"></span></em></div>
+                            <div t-if="sign.state == 'completed'" class="o_sign_signer_status clearfix"><img t-if="sign.signature" class="pull-right" t-attf-src="/web/image/signature.request.item/{{sign.id}}/signature"/><b><t t-esc="sign.partner_id.name"/></b><t t-if="sign.role_id"><t t-esc="' - ' + sign.role_id.name"/></t><br/><em>Signed on <span t-field="sign.signing_date"></span></em></div>
                         </t>
                     </t>
                 </div>
