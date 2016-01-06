@@ -13,6 +13,7 @@
         <field name="level" eval="0"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_si"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_2" model="account.financial.html.report.line">
         <field name="name">Impuesto a las Transacciones IT (3%)</field>
@@ -22,6 +23,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_si"/>
         <field name="show_domain">never</field>
         <field name="formulas">balance=BOTAX_2_1.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_2_1" model="account.financial.html.report.line">
         <field name="name">Impuesto a las Transacciones IT (3%)</field>
@@ -32,6 +34,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_bo.tag_ITAX_03_OUT')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3" model="account.financial.html.report.line">
         <field name="name">Impuesto al Valor Agregado (IVA) Total a Pagar</field>
@@ -39,6 +42,7 @@
         <field name="sequence" eval="3"/>
         <field name="level" eval="0"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_si"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_1" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado</field>
@@ -47,6 +51,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_bo_3"/>
         <field name="formulas">balance=BOTAX_3_1_1.balance+BOTAX_3_1_2.balance+BOTAX_3_1_3.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_1_1" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado Fuera de Ámbito</field>
@@ -55,6 +60,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_3_1"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_1_2" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado de Exonerados al IVA</field>
@@ -63,6 +69,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_3_1"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_1_3" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado IVA</field>
@@ -73,6 +80,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_bo.tag_ITAX_21_OUT')])]" />
         <field name="formulas">balance=-sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_2" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado</field>
@@ -81,6 +89,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_bo_3"/>
         <field name="formulas">balance=BOTAX_3_2_1.balance+BOTAX_3_2_2.balance+BOTAX_3_2_3.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_2_1" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado Fuera de Ámbito</field>
@@ -89,6 +98,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_3_2"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_2_2" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado de Exonerados al IVA</field>
@@ -97,6 +107,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_3_2"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_3_2_3" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado IVA</field>
@@ -107,6 +118,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_bo.tag_OTAX_21_IN')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4" model="account.financial.html.report.line">
         <field name="name">Base Imponible</field>
@@ -114,6 +126,7 @@
         <field name="sequence" eval="4"/>
         <field name="level" eval="0"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_si"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_1" model="account.financial.html.report.line">
         <field name="name">Base Imponible - Compras</field>
@@ -122,6 +135,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_bo_4"/>
         <field name="formulas">balance=BOTAX_4_1_1.balance+BOTAX_4_1_2.balance+BOTAX_4_1_3.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_1_1" model="account.financial.html.report.line">
         <field name="name">Compras Gravadas Fuera de Ámbito</field>
@@ -130,6 +144,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_4_1"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_1_2" model="account.financial.html.report.line">
         <field name="name">Compras NO Gravadas (Exoneradas)</field>
@@ -138,6 +153,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_4_1"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_1_3" model="account.financial.html.report.line">
         <field name="name">Compras Gravadas con IVA</field>
@@ -148,6 +164,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_bo.tag_OTAX_21_IN')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_2" model="account.financial.html.report.line">
         <field name="name">Base Imponible - Ventas</field>
@@ -156,6 +173,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_bo_4"/>
         <field name="formulas">balance=BOTAX_4_2_1.balance+BOTAX_4_2_2.balance+BOTAX_4_2_3.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_2_1" model="account.financial.html.report.line">
         <field name="name">Ventas Gravadas Fuera de Ámbito</field>
@@ -164,6 +182,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_4_2"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_2_2" model="account.financial.html.report.line">
         <field name="name">Ventas NO Gravadas (Exoneradas)</field>
@@ -172,6 +191,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_bo_4_2"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_bo_4_2_3" model="account.financial.html.report.line">
         <field name="name">Impuesto al Valor Agregado con IVA</field>
@@ -182,6 +202,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_bo.tag_ITAX_03_OUT'), ref('l10n_bo.tag_ITAX_21_OUT')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>

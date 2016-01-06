@@ -15,6 +15,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX110.balance + ETTAX120.balance + ETTAX130.balance + ETTAX140.balance</field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_01_01_et" model="account.financial.html.report.line">
@@ -25,6 +26,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax09')])]" />
          <field name="formulas">balance = sum.balance</field>
+         <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_01_02_et" model="account.financial.html.report.line">
@@ -35,6 +37,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax10')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_01_03_et" model="account.financial.html.report.line">
@@ -45,6 +48,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax07')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_01_04_et" model="account.financial.html.report.line">
@@ -55,6 +59,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax08')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_02_et" model="account.financial.html.report.line">
@@ -64,6 +69,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX220.balance + ETTAX225.balance </field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 
@@ -75,6 +81,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax05')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_02_02_et" model="account.financial.html.report.line">
@@ -85,6 +92,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax12')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_03_et" model="account.financial.html.report.line">
@@ -94,6 +102,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX255.balance + ETTAX260.balance + ETTAX265.balance + ETTAX270.balance</field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_03_01_et" model="account.financial.html.report.line">
@@ -104,6 +113,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax11')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_03_02_et" model="account.financial.html.report.line">
@@ -114,6 +124,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax06')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_03_03_et" model="account.financial.html.report.line">
@@ -124,6 +135,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax04')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_03_04_et" model="account.financial.html.report.line">
@@ -134,6 +146,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax03')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 
@@ -144,6 +157,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX285.balance + ETTAX290.balance + ETTAX295.balance</field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_04_01_et" model="account.financial.html.report.line">
@@ -154,6 +168,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax02')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_04_02_et" model="account.financial.html.report.line">
@@ -164,6 +179,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax13')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_04_03_et" model="account.financial.html.report.line">
@@ -174,6 +190,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_et.tax_tax14')])]" />
         <field name="level" eval="1"/>
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_05_et" model="account.financial.html.report.line">
@@ -183,6 +200,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="level" eval="0"/>
         <field name="formulas">balance = ETTAX310.balance + ETTAX320.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_05_01_et" model="account.financial.html.report.line">
@@ -192,6 +210,7 @@
         <field name="parent_id" ref="account_financial_report_line_05_et"/>
         <field name="level" eval="1"/>
         <field name="formulas">balance = ETTAX311.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_05_01_01_et" model="account.financial.html.report.line">
@@ -202,6 +221,7 @@
         <field name="level" eval="2"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax08')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 
@@ -212,6 +232,7 @@
         <field name="parent_id" ref="account_financial_report_line_05_et"/>
         <field name="level" eval="1"/>
         <field name="formulas">balance = ETTAX321.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_05_02_01_et" model="account.financial.html.report.line">
@@ -222,6 +243,7 @@
         <field name="level" eval="2"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax03')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_06_et" model="account.financial.html.report.line">
@@ -231,6 +253,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX410.balance + ETTAX420.balance</field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_06_01_et" model="account.financial.html.report.line">
@@ -241,6 +264,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax05')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_06_02_et" model="account.financial.html.report.line">
@@ -251,6 +275,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax12')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_07_et" model="account.financial.html.report.line">
@@ -260,6 +285,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_et"/>
         <field name="formulas">balance = ETTAX510.balance + ETTAX520.balance + ETTAX530.balance</field>
         <field name="level" eval="0"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_07_01_et" model="account.financial.html.report.line">
@@ -270,6 +296,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax02')])]" />
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_07_02_et" model="account.financial.html.report.line">
@@ -280,6 +307,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax13')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_line_07_03_et" model="account.financial.html.report.line">
@@ -290,6 +318,7 @@
         <field name="level" eval="1"/>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_et.tax_tax14')])]" />
         <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>

@@ -14,6 +14,7 @@
         <field name="financial_report_id" ref="account_financial_report_l10n_th"/>
         <field name="show_domain">never</field>
         <field name="formulas">balance=THTAX_1_1.balance+THTAX_1_2.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_1_1" model="account.financial.html.report.line">
         <field name="name">Withholding Tax</field>
@@ -22,6 +23,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_th_1"/>
         <field name="formulas">balance=THTAX_Personal_Withholding_Tax.balance+THTAX_Company_Withholding_Tax.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_01" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax</field>
@@ -31,6 +33,7 @@
         <field name="show_domain">never</field>
         <field name="parent_id" ref="account_financial_report_l10n_th_1_1"/>
         <field name="formulas">balance=THTAX_50_PND3_5_TAX.balance+THTAX_50_PND3_6_TAX.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_01_1" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax (Service)</field>
@@ -41,6 +44,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_pers_tax_serv_3')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_01_2" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax (Other)</field>
@@ -51,6 +55,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_pers_tax_advt_2'), ref('l10n_th.tag_pers_tax_trans_1'), ref('l10n_th.tag_pers_tax_rent_5')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_02" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax</field>
@@ -60,6 +65,7 @@
         <field name="show_domain">never</field>
         <field name="parent_id" ref="account_financial_report_l10n_th_1_1"/>
         <field name="formulas">balance=THTAX_50_PND53_5_TAX.balance+THTAX_50_PND53_6_TAX.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_02_1" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax (Service)</field>
@@ -70,6 +76,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_comp_tax_serv_3')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_02_2" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax (Other)</field>
@@ -80,6 +87,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_comp_tax_rent_5'), ref('l10n_th.tag_comp_tax_advt_2'), ref('l10n_th.tag_comp_tax_trans_1')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_1_2" model="account.financial.html.report.line">
         <field name="name">Value Added Tax</field>
@@ -88,6 +96,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_th_1"/>
         <field name="formulas">balance=THTAX_PP30_5.balance+THTAX_PP30_7.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_03" model="account.financial.html.report.line">
         <field name="name">Output VAT</field>
@@ -98,6 +107,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_output_7')])]"/>
         <field name="formulas">balance=-sum.balance</field>
         <field name="parent_id" ref="account_financial_report_l10n_th_1_2"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_th_04" model="account.financial.html.report.line">
         <field name="name">Input VAT</field>
@@ -108,6 +118,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_th.tag_input_vat_7')])]"/>
         <field name="formulas">balance=sum.balance</field>
         <field name="parent_id" ref="account_financial_report_l10n_th_1_2"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_th_2" model="account.financial.html.report.line">
@@ -117,6 +128,7 @@
         <field name="level" eval="0"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_th"/>
         <field name="formulas">balance=THTAX_2_1.balance+THTAX_2_2.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1" model="account.financial.html.report.line">
         <field name="name">Withholding Tax</field>
@@ -125,6 +137,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_th_2"/>
         <field name="formulas">balance=THTAX_PND3_1.balance+THTAX_PND53_1.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_1" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax</field>
@@ -133,6 +146,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_th_2_1"/>
         <field name="formulas">balance=THTAX_50_PND3_5_BASE.balance+THTAX_50_PND3_6_BASE.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_1_1" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax (Service)</field>
@@ -143,6 +157,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_th.tag_pers_tax_serv_3')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_1_2" model="account.financial.html.report.line">
         <field name="name">Personal Withholding Tax (Other)</field>
@@ -152,6 +167,7 @@
         <field name="parent_id" ref="account_financial_report_th_2_1_1"/>
         <field name="show_domain">never</field>
         <field name="domain" eval=""/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_2" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax</field>
@@ -160,6 +176,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_th_2_1"/>
         <field name="formulas">balance=THTAX_50_PND53_5_BASE.balance+THTAX_50_PND53_6_BASE.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_2_1" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax (Service)</field>
@@ -170,6 +187,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_th.tag_comp_tax_serv_3')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_1_2_2" model="account.financial.html.report.line">
         <field name="name">Company Withholding Tax (Other)</field>
@@ -180,6 +198,7 @@
         <field name="formulas">balance=sum.balance</field>
         <field name="parent_id" ref="account_financial_report_th_2_1_2"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_2" model="account.financial.html.report.line">
         <field name="name">Value Added Tax</field>
@@ -188,6 +207,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_th_2"/>
         <field name="formulas">balance=THTAX_PP30_4.balance+THTAX_PP30_6.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_2_1" model="account.financial.html.report.line">
         <field name="name">Output VAT</field>
@@ -198,6 +218,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_th.tag_output_7')])]"/>
         <field name="formulas">balance=-sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_th_2_2_2" model="account.financial.html.report.line">
         <field name="name">Input VAT</field>
@@ -208,6 +229,7 @@
         <field name="show_domain">never</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_th.tag_input_vat_7')])]"/>
         <field name="formulas">balance=sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>
