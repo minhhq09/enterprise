@@ -363,6 +363,7 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def to_auto(self):
         self.partner_id.write({'payment_next_action_date': datetime.today().strftime('%Y-%m-%d')})
+        self.unlink()
 
     @api.multi
     def get_html(self, given_context=None):

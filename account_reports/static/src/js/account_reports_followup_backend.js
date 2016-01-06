@@ -38,7 +38,9 @@ var account_report_followup_generic = account_report_generic.extend({
     /* When the report has to be reloaded with a new context (the user has chosen new options).
        Fetches the html again with the new options then sets the report widget. */
     restart: function(given_context) {
-        given_context.page = this.page;
+        if (this.page) {
+            given_context.page = this.page;
+        }
         this._super.apply(this, arguments);
     },
     // Creates a new context
