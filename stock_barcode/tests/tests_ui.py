@@ -12,7 +12,8 @@ class TestUi(openerp.tests.HttpCase):
         self.env["stock.config.settings"].create({
             "group_stock_production_lot": 1,
             "group_stock_tracking_lot": 1,
-            "group_stock_multiple_locations": 1,
+            "group_stock_multi_locations": 1,
+            "group_stock_multi_warehouses": 1,
         }).execute()
         self.env['product.product'].search([("barcode", "=", "420196872340")]).write({
             "tracking": "lot"

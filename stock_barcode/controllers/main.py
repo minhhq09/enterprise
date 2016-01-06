@@ -12,12 +12,12 @@ class StockBarcodeController(http.Controller):
         if ret_open_picking:
             return ret_open_picking
 
-        if request.env.user.has_group('stock.group_locations'):
+        if request.env.user.has_group('stock.group_stock_multi_locations'):
             ret_new_internal_picking = try_new_internal_picking(barcode)
             if ret_new_internal_picking:
                 return ret_new_internal_picking
 
-        if request.env.user.has_group('stock.group_locations'):
+        if request.env.user.has_group('stock.group_stock_multi_locations'):
             return {'warning': _('No picking or location corresponding to barcode %(barcode)s') % {'barcode': barcode}}
         else:
             return {'warning': _('No picking corresponding to barcode %(barcode)s') % {'barcode': barcode}}

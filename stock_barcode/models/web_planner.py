@@ -13,5 +13,5 @@ class PlannerBarcode(models.Model):
 
     def _prepare_planner_barcode_data(self):
         return {
-            'is_multi_location': self.env.user.has_group('stock.group_locations'),
+            'is_multi_location': self.env.user.has_group('stock.group_stock_multi_locations'),
         }
