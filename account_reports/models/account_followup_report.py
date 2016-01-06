@@ -8,6 +8,7 @@ from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
 import time
 from openerp.tools.safe_eval import safe_eval
+from openerp.tools import append_content_to_html
 import math
 
 
@@ -335,23 +336,14 @@ class account_report_context_followup(models.TransientModel):
 
     @api.multi
     def send_email(self):
-        pdf = self.with_context(public=True).get_pdf().encode('base64')
-        name = self.partner_id.name + '_followup.pdf'
-        attachment = self.env['ir.attachment'].create({'name': name, 'datas_fname': name, 'datas': pdf, 'type': 'binary'})
         email = self.env['res.partner'].browse(self.partner_id.address_get(['invoice'])['invoice']).email
         if email and email.strip():
-            email_template = self.env['mail.template'].create({
-                'name': _('Followup ') + self.partner_id.name,
-                'email_from': self.env.user.email or '',
-                'model_id': self.env['ir.model'].search([('model', '=', 'account.report.context.followup')]).id,
+            email = self.env['mail.mail'].create({
                 'subject': _('%s Payment Reminder') % self.env.user.company_id.name,
+                'body_html': append_content_to_html(self.with_context(public=True, mode='print').get_html(), self.env.user.signature, plaintext=False),
+                'email_from': self.env.user.email or '',
                 'email_to': email,
-                'lang': self.partner_id.lang,
-                'auto_delete': True,
-                'body_html': self.summary,
-                'attachment_ids': [(6, 0, [attachment.id])],
             })
-            email_template.send_mail(self.id)
             msg = _(': Sent a followup email')
             self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
             return True
@@ -369,12 +361,12 @@ class account_report_context_followup(models.TransientModel):
     def get_html(self, given_context=None):
         if given_context is None:
             given_context = {}
-        lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self)
+        lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self, public=self.env.context.get('public', False))
         rcontext = {
             'context': self.with_context(lang=self.partner_id.lang),
             'report': self.env['account.followup.report'].with_context(lang=self.partner_id.lang),
             'lines': lines,
-            'mode': 'display',
+            'mode': self.env.context.get('mode', 'display'),
             'time': time,
             'today': datetime.today().strftime('%Y-%m-%d'),
             'res_company': self.env['res.users'].browse(self.env.uid).company_id,
