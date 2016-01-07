@@ -250,14 +250,12 @@ var WebClient = Widget.extend({
             // Here, we instanciate every menu widgets and we immediately append them into dummy
             // document fragments, so that their `start` method are executed before inserting them
             // into the DOM.
-            self.app_switcher = new AppSwitcher.AppSwitcher(self, menu_data.children);
-            self.app_switcher_navbar = new AppSwitcher.AppSwitcherNavbar(self);
+            self.app_switcher = new AppSwitcher(self, menu_data.children);
             self.menu = new Menu(self, menu_data);
 
             var defs = [];
             defs.push(self.app_switcher.appendTo(document.createDocumentFragment()));
-            defs.push(self.app_switcher_navbar.appendTo(document.createDocumentFragment()));
-            defs.push(self.menu.appendTo(document.createDocumentFragment()));
+            defs.push(self.menu.prependTo(self.$el));
             return $.when.apply($, defs);
         }).then(function () {
             $(window).bind('hashchange', self.on_hashchange);
@@ -412,25 +410,19 @@ var WebClient = Widget.extend({
                 // Save the current scroll position of the action_manager
                 self.action_manager.set_scrollTop(self.get_scrollTop());
 
-                // Detach the web_client contents and its navbar
+                // Detach the web_client contents
                 var $to_detach = self.$el.contents()
+                        .not(self.menu.$el)
                         .not('.o_loading')
                         .not('.o_chat_window')
                         .not('.o_notification_manager')
                         .not('.ui-autocomplete')
                         .not('.blockUI');
                 self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});
-                framework.detach([{widget: self.menu}]);
 
-                // Attach the app_switcher and its navbar
-                framework.prepend(self.$el, [self.app_switcher_navbar.$el, self.app_switcher.$el], {
+                // Attach the app_switcher
+                framework.append(self.$el, [self.app_switcher.$el], {
                     in_DOM: true,
-                    callbacks: [{
-                        widget: self.app_switcher_navbar,
-                        callback_args: {
-                            display_back_button: (self.action_manager.get_inner_action() !== null),
-                        }
-                    }],
                 });
 
                 // Save and clear the url
@@ -438,13 +430,15 @@ var WebClient = Widget.extend({
                 self._ignore_hashchange = true;
                 $.bbq.removeState();
             });
-        } else if (display === false) {
-            framework.detach([{widget: this.app_switcher_navbar}, {widget: this.app_switcher}]);
-            framework.prepend(this.$el, [this.menu.$el, this.$web_client_content], {
+        } else {
+            framework.detach([{widget: this.app_switcher}]);
+            framework.append(this.$el, [this.$web_client_content], {
                 in_DOM: true,
                 callbacks: [{widget: this.action_manager}],
             });
         }
+
+        this.menu.toggle_mode(display, this.action_manager.get_inner_action() !== null);
     },
     // --------------------------------------------------------------
     // Connection notification

@@ -3,13 +3,15 @@
 # * inter_company_rules
 # 
 # Translators:
+# Grazziano Duarte <g.negocios@outlook.com.br>, 2015
+# Mateus Cerqueira Lopes <mateus1@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-07 21:49+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2015-12-20 22:48+0000\n"
+"Last-Translator: Grazziano Duarte <g.negocios@outlook.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,22 +23,22 @@ msgstr ""
 #: code:addons/inter_company_rules/models/account_invoice.py:86
 #, python-format
 msgid " Invoice: "
-msgstr ""
+msgstr "Fatura:"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_generated
 msgid "Auto Generated Document"
-msgstr ""
+msgstr "Documento Gerado Automaticamente"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_generated
 msgid "Auto Generated Purchase Order"
-msgstr ""
+msgstr "Pedido de Compra Gerado Automaticamente"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_generated
 msgid "Auto Generated Sale Order"
-msgstr ""
+msgstr "Pedido de Venda Gerado Automaticamente"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_res_company
@@ -44,11 +46,12 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/sale_order.py:75
+#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
 "Configure correct warehouse for company(%s) from Menu: "
-"Settings/companies/companies"
+"Settings/Users/Companies"
 msgstr ""
 
 #. module: inter_company_rules
@@ -129,8 +132,8 @@ msgid "Inter Company User"
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:42
-#: code:addons/inter_company_rules/models/sale_order.py:45
+#: code:addons/inter_company_rules/models/purchase_order.py:43
+#: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
 msgstr ""
@@ -149,17 +152,17 @@ msgstr "Fatura"
 #: code:addons/inter_company_rules/models/account_invoice.py:77
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
-msgstr ""
+msgstr "Por favor defina o diário de vendas para esta empresa: \"%s\" (id:%d)."
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:39
+#: code:addons/inter_company_rules/models/purchase_order.py:40
 #, python-format
 msgid "Provide at least one user for inter company relation for % "
 msgstr ""
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/account_invoice.py:44
-#: code:addons/inter_company_rules/models/sale_order.py:42
+#: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
 msgstr ""
@@ -178,7 +181,7 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
 msgid "Rule type"
-msgstr ""
+msgstr "Tipo de Regra"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
@@ -214,17 +217,17 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
 msgid "Source Invoice"
-msgstr ""
+msgstr "Fonte da Fatura"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_purchase_order_id
 msgid "Source Purchase Order"
-msgstr ""
+msgstr "Fonte do Pedido de Compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_sale_order_id
 msgid "Source Sale Order"
-msgstr ""
+msgstr "Origem da Ordem de Venda"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
@@ -247,7 +250,7 @@ msgid ""
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:46
+#: code:addons/inter_company_rules/models/purchase_order.py:47
 #, python-format
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "

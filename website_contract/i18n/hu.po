@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
+"PO-Revision-Date: 2015-12-13 22:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n            A (${ctx.get('code')}) feliratkozását megújítottuk\n            %if ctx.get('total_amount') és ctx.get('payment_method'):\n                a kifizetett összeg ${ctx['total_amount']} ${ctx['currency']} terhelve erre ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Mellékelve megtalálja a számláját.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Következő számlájának várható dátuma ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>További felmerülő kérdésekben állunk szíves rendelkezésükre.</p>\n        <p>Köszönjük, hogy a  ${object.company_id.name or 'us'} választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
@@ -179,7 +179,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Utoljára megpróbáljuk az előfizetéséhez tartozó befizetést elvégezni a választott fizetési módjával\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Az előfizetéséhez tartozó befizetés utolsó próbája a következőt rögzítette.\n        % endif \n        </p>\n\n        <p>\n          Mivel a befizetést <strong>15 napja</strong> meg kellet volna tennie, ezért a feliratkozását szüneteltetjük.\n        </p>\n\n        <br/>\n        <p>Ha megoldást szeretne találni z ügyben, kéjük vegye fel velünk a kapcsolatot.</p>\n        <p>Köszönjük, hogy a ${object.company_id.name or 'us'} választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -237,7 +237,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Nem tudtuk végrehajtani a feliratkozásához tartozó befizetést a fizetési módjával\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről:  <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Feliratkozására nem tudjuk végrehajtani a befizetési műveletet, mivel nem került rögzítésre fizetési módo.\n        % endif \n        </p>\n\n        <p>\n          A feliratkozás ${ctx.get('code')} még érvényes, de időközben szüneteltetésre került <b>szüneteltetésre </b> került \n          ${ctx.get('date_close')} dátummal, hacsak, időközben sikerül a befizetés (minden nap egyszer kísérletet teszünk).\n          Kérem ellenőrizze, hogy megvan rá a fedezete.\n        </p>\n\n        <br/>\n        <p>További felmerülő kérdésekben, állunk szíves rendelkezésükre.</p>\n        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
@@ -295,7 +295,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.cart
 msgid "&amp;nbsp;"
-msgstr ""
+msgstr "&amp;nbsp;"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_change_contract
@@ -305,7 +305,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.so_quotation
 msgid "&amp;times;"
-msgstr ""
+msgstr "&amp;times;"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -374,7 +374,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "<strong>Total:</strong>"
-msgstr ""
+msgstr "<strong>Összesen:</strong>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.so_quotation
@@ -417,7 +417,7 @@ msgstr "Tevékenységek"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Actual Quantity"
-msgstr ""
+msgstr "Aktuális mennyiség"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -651,7 +651,7 @@ msgstr "Testreszabott nézetek"
 #. module: website_contract
 #: model:ir.ui.menu,name:website_contract.menu_sale_subscription_dashboard
 msgid "Dashboard"
-msgstr ""
+msgstr "Műszerfal"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -676,7 +676,7 @@ msgstr "Árengedmény (%)"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Név megjelenítése"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -768,12 +768,12 @@ msgstr "Számlázás"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Ennek a feliratkozásnak a számlája ${ctx.get('code')}"
 
 #. module: website_contract
 #: model:mail.template,report_name:website_contract.email_payment_success
 msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-msgstr ""
+msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
@@ -786,7 +786,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Utoljára frissítve ekkor"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
@@ -806,7 +806,7 @@ msgstr "Utoljára frissítve ekkor"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Az aktuális és az értékesített mennyiségek közti maximum; ez kerül számlázásra"
 
 #. module: website_contract
 #: model:product.uom,name:website_contract.contract_uom_month
@@ -926,7 +926,7 @@ msgstr "Fizetési tranzakció"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Fizetési emlékeztető ehhez a feliratkozáshoz ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -967,13 +967,13 @@ msgstr "Mennyiség"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "A vásárló részéről felhasznált aktuális mennyiség"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Quantity sold to the customer"
-msgstr ""
+msgstr "Vásárló részére értékesített mennyiség"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
@@ -1029,7 +1029,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_main
 msgid "Revenue KPIs"
-msgstr ""
+msgstr "Bevétel KPI - teljesítménymutató"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_quote_template
@@ -1039,7 +1039,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr ""
+msgstr "Értékesítés előjegyzés"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -1070,13 +1070,13 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_salesman
 msgid "Salesman Dashboard"
-msgstr ""
+msgstr "Értékesítő műszerfala"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Sold Quantity"
-msgstr ""
+msgstr "Értékesített mennyiség"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1120,7 +1120,7 @@ msgstr "Adók:"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Ennek a feliratkozásnak a megszüntetése ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1141,7 +1141,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
-msgstr ""
+msgstr "A teljes URL elérési út a weboldalon keresztüli belépéshez a szerver eléréséhez."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -1280,7 +1280,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contracts
 msgid "Your Contracts"
-msgstr ""
+msgstr "Szerződései"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1331,7 +1331,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
-msgstr ""
+msgstr "sale.subscription.line"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription_line_option

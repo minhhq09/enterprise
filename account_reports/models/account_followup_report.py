@@ -193,7 +193,9 @@ class account_report_context_followup_all(models.TransientModel):
         }
 
     @api.multi
-    def get_html(self, given_context={}):
+    def get_html(self, given_context=None):
+        if given_context is None:
+            given_context = {}
         context_obj = self.env['account.report.context.followup']
         report_obj = self.env['account.followup.report']
         reports = []
@@ -360,7 +362,9 @@ class account_report_context_followup(models.TransientModel):
         self.partner_id.write({'payment_next_action_date': datetime.today().strftime('%Y-%m-%d')})
 
     @api.multi
-    def get_html(self, given_context={}):
+    def get_html(self, given_context=None):
+        if given_context is None:
+            given_context = {}
         lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self)
         rcontext = {
             'context': self.with_context(lang=self.partner_id.lang),

@@ -3,13 +3,15 @@
 # * inter_company_rules
 # 
 # Translators:
+# Gary Wei <Gary.wei@elico-corp.com>, 2015
+# Wang Liping <lynn.config@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-07 21:47+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2015-12-29 02:40+0000\n"
+"Last-Translator: Gary Wei <Gary.wei@elico-corp.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,22 +23,22 @@ msgstr ""
 #: code:addons/inter_company_rules/models/account_invoice.py:86
 #, python-format
 msgid " Invoice: "
-msgstr ""
+msgstr "发票"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_generated
 msgid "Auto Generated Document"
-msgstr ""
+msgstr "自动生成的文档"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_generated
 msgid "Auto Generated Purchase Order"
-msgstr ""
+msgstr "自动生成的采购单"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_generated
 msgid "Auto Generated Sale Order"
-msgstr ""
+msgstr "自动生成的销售订单"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_res_company
@@ -44,29 +46,30 @@ msgid "Companies"
 msgstr "公司"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/sale_order.py:75
+#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
 "Configure correct warehouse for company(%s) from Menu: "
-"Settings/companies/companies"
-msgstr ""
+"Settings/Users/Companies"
+msgstr "在菜单:设置/用户/公司中,为公司(%s)配置正确的仓库"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "Create Invoice/Refunds when encoding invoice/refunds"
-msgstr ""
+msgstr "在编码发票/退款的时候创建发票/退款"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
 "Create Invoices/Refunds when encoding invoices/refunds made to this company"
-msgstr ""
+msgstr "在给该公司编码发票/退款的时候创建发票/退款"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_po_from_so
 msgid "Create Purchase Orders when selling to this company"
-msgstr ""
+msgstr "给该公司销售的时候创建采购订单"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_so_from_po
@@ -126,11 +129,11 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_intercompany_user_id
 msgid "Inter Company User"
-msgstr ""
+msgstr "内部公司用户"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:42
-#: code:addons/inter_company_rules/models/sale_order.py:45
+#: code:addons/inter_company_rules/models/purchase_order.py:43
+#: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
 msgstr ""
@@ -138,7 +141,7 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
 msgid "Inter-Company Rules"
-msgstr ""
+msgstr "内部公式规则"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_account_invoice
@@ -152,14 +155,14 @@ msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:39
+#: code:addons/inter_company_rules/models/purchase_order.py:40
 #, python-format
 msgid "Provide at least one user for inter company relation for % "
 msgstr ""
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/account_invoice.py:44
-#: code:addons/inter_company_rules/models/sale_order.py:42
+#: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
 msgstr ""
@@ -178,18 +181,18 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
 msgid "Rule type"
-msgstr ""
+msgstr "规则类型"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "SO and PO setting for inter company"
-msgstr ""
+msgstr "内部公司的销售和采购订单配置"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_auto_validation
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_validation
 msgid "Sale/Purchase Orders Auto Validation"
-msgstr ""
+msgstr "销售/采购订单自动确认"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_sale_order
@@ -204,33 +207,33 @@ msgstr "请选择公司"
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_company_id
 msgid "Select company to setup Inter company rules."
-msgstr ""
+msgstr "选择公司用了建立公司内部规则"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_rule_type
 msgid "Select the type to setup inter company rules in selected company."
-msgstr ""
+msgstr "在选择的公司中,选择类型用来建立内部公司规则"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
 msgid "Source Invoice"
-msgstr ""
+msgstr "原始发票"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_purchase_order_id
 msgid "Source Purchase Order"
-msgstr ""
+msgstr "原始采购订单"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_sale_order_id
 msgid "Source Sale Order"
-msgstr ""
+msgstr "原始销售订单"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
 msgid "Warehouse For Purchase Orders"
-msgstr ""
+msgstr "采购订单仓库"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_auto_validation
@@ -247,7 +250,7 @@ msgid ""
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:46
+#: code:addons/inter_company_rules/models/purchase_order.py:47
 #, python-format
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "

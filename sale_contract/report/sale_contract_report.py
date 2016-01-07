@@ -25,7 +25,7 @@ class sale_subscription_report(models.Model):
     template_id = fields.Many2one('sale.subscription', 'Subscription Template', readonly=True)
     product_tmpl_id = fields.Many2one('product.template', 'Product Template', readonly=True)
     country_id = fields.Many2one('res.country', 'Country', readonly=True)
-    commercial_partner_id = fields.Many2one('res.partner', 'Comercial Partner', readonly=True)
+    commercial_partner_id = fields.Many2one('res.partner', 'Commercial Partner', readonly=True)
     analytic_account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
     close_reason_id = fields.Many2one('sale.subscription.close.reason', 'Close Reason', readonly=True)
 

@@ -7,7 +7,6 @@ import xml.etree.ElementTree as etree
 import unicodedata
 
 from openerp import _
-from openerp.exceptions import UserError
 from openerp.exceptions import ValidationError
 
 
@@ -38,9 +37,16 @@ class DHLProvider():
         request_text = self._create_rate_xml(param)
         root = self._send_request(request_text)
         if root.tag == '{http://www.dhl.com}ErrorResponse':
-            condition = root.findall('Response/Status/Condition/ConditionData')
-            raise UserError(_(condition[0].text))
+            condition = root.findall('Response/Status/Condition')
+            error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+            raise ValidationError(_(error_msg))
+
         elif root.tag == '{http://www.dhl.com}DCTResponse':
+            condition = root.findall('GetQuoteResponse/Note/Condition')
+            if condition:
+                error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+                raise ValidationError(_(error_msg))
+
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
@@ -49,7 +55,7 @@ class DHLProvider():
                     dict_response['currency'] = product.findall('CurrencyCode')[0].text
                     found = True
             if not found:
-                raise UserError(_("No shipping available for the selected DHL product"))
+                raise ValidationError(_("No shipping available for the selected DHL product"))
         return dict_response
 
     def send_shipping(self, picking, carrier):
@@ -94,8 +100,9 @@ class DHLProvider():
 
         root = self._send_request(request_text)
         if root.tag == '{http://www.dhl.com}ErrorResponse':
-            condition = root.findall('Response/Status/Condition/ConditionData')
-            raise UserError(_(condition[0].text))
+            condition = root.findall('Response/Status/Condition/')
+            error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+            raise ValidationError(_(error_msg))
         elif root.tag == '{http://www.dhl.com}ShipmentResponse':
             label_image = root.findall('LabelImage')
             self.label = label_image[0].findall('OutputImage')[0].text
@@ -120,8 +127,9 @@ class DHLProvider():
         request_text = self._create_rate_xml(param_final_rating)
         root = self._send_request(request_text)
         if root.tag == '{http://www.dhl.com}ErrorResponse':
-            condition = root.findall('Response/Status/Condition/ConditionData')
-            raise UserError(_(condition[0].text))
+            condition = root.findall('Response/Status/Condition/')
+            error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+            raise ValidationError(_(error_msg))
         elif root.tag == '{http://www.dhl.com}DCTResponse':
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
@@ -131,7 +139,7 @@ class DHLProvider():
                     dict_response['currency'] = product.findall('CurrencyCode')[0].text
                     found = True
             if not found:
-                raise UserError(_("No service available for the selected product"))
+                raise ValidationError(_("No service available for the selected product"))
 
         return dict_response
 
@@ -150,7 +158,7 @@ class DHLProvider():
                           headers={'Content-Type': 'application/xml'})
             response_text = urlopen(req).read()
         except URLError:
-            raise UserError("DHL Server not found. Check your connectivity.")
+            raise ValidationError("DHL Server not found. Check your connectivity.")
         root = etree.fromstring(response_text)
         return root
 

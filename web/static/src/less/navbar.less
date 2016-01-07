@@ -2,20 +2,18 @@
 .o_web_client .navbar {
     .box-shadow(0px 0px 8px @odoo-main-text-color);
 
-    .o_menu_toggle, .o_back_button {
+    .o_menu_toggle {
         .user-select(none);
-        padding-left: 16px;
-        padding-right: 16px;
+        margin-right: 4px;
+        i {
+            width: 17px;
+        }
         &:hover {
             background-color: @navbar-inverse-link-hover-bg;
         }
         &:focus, &:active, &:focus:active {
             outline: none;
         }
-    }
-
-    .o_menu_toggle {
-        margin-right: 4px;
     }
 
     .o_menu_brand {
@@ -26,10 +24,17 @@
         font-weight: 500;
     }
 
-    .o_user_menu {
-        .oe_topbar_avatar {
-            height: 15px;
+    @media (min-width: @screen-sm-min) {
+        .oe_systray {
+            margin-right: -2 * @odoo-horizontal-padding;
+            .o_user_menu {
+                float: right;
+            }
         }
+    }
+
+    .o_user_menu .oe_topbar_avatar {
+        height: 15px;
     }
 
     .open .dropdown-menu {
