@@ -3,15 +3,18 @@
 # * print
 # 
 # Translators:
+# Clo <clo@odoo.com>, 2015
 # Lucas Deliege <lud@odoo.com>, 2015
+# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
 # Maxime Solinas <msolinas@t2o.ca>, 2015
+# Melanie Bernard <mbe@odoo.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 07:27+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2015-12-07 19:45+0000\n"
+"Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,20 +44,20 @@ msgid ""
 "                </body>\n"
 "              \n"
 "            "
-msgstr ""
+msgstr "\n                <body>\n                      <p>Cher(e) ${object.partner_id.name},</p>\n\n                      <p>Pendant le dernier processus d'\"impression et d'envoi\" de documents, quelques erreurs sont apparues. Voici la liste des échecs.</p>\n                      <p>SVP, quelques erreurs ont été détectées. Vous pouvez les trouver dans <i>Paramètres > Ordres d'impression</i>.</p>\n\n                      % if ctx.get('print_errors'):\n                            <p>\n                            Identifiant de l'ordre d'impression  |    Message d'erreur <br/>\n                            -------------------------------------- <br/>\n                                  % for print_order_id, error_text in ctx.get('print_errors'):\n                                        ${print_order_id}    |    ${error_text} <br/>\n                                  % endfor\n                            </p>\n                      % endif\n                </body>\n              \n            "
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
-msgstr ""
+msgstr "<b> Erreur de crédit :</b> Votre compte de crédit fournisseur est négatif. Veuillez ajouter des crédits sur votre compte fournisseur pour envoyer des documents."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:63
 #, python-format
 msgid "At least one of the document you want to send contains a mistake."
-msgstr ""
+msgstr "Au moins un des documents que vous voulez envoyer contient une erreur."
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_user_id
@@ -85,7 +88,7 @@ msgstr "couleur"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Compute price"
-msgstr ""
+msgstr "Calculer le prix"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_price
@@ -133,7 +136,7 @@ msgstr "Devise"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_base_config_settings_default_print_provider
 msgid "Default Print Provider"
-msgstr ""
+msgstr "Fournisseur d'imprimante par défaut"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_mixin_display_name
@@ -143,12 +146,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_display_name
 #: model:ir.model.fields,field_description:print.field_print_provider_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nom affiché"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Document Detail"
-msgstr ""
+msgstr "Détail du document"
 
 #. module: print
 #: selection:print.order,state:0
@@ -159,7 +162,7 @@ msgstr "Brouillon"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_provider_environment
 #: model:ir.model.fields,field_description:print.field_print_provider_environment
 msgid "Environment"
-msgstr ""
+msgstr "Environnement"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_error_message
@@ -179,7 +182,7 @@ msgstr "Échec"
 #. module: print
 #: model:mail.template,subject:print.print_user_notify_failed_email_template
 msgid "Failed Print Orders"
-msgstr ""
+msgstr "N'a pas réussi à imprimer les commandes"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
@@ -210,7 +213,7 @@ msgstr "Facture"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_res_partner_has_address
 msgid "Is address valid"
-msgstr ""
+msgstr "L'adresse est valide"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_mixin___last_update
@@ -220,18 +223,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard___last_update
 #: model:ir.model.fields,field_description:print.field_print_provider___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Dernière modification le"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
 #: model:ir.model.fields,field_description:print.field_print_mixin_print_sent_date
 msgid "Last Postal Sent Date"
-msgstr ""
+msgstr "Date du dernier message envoyé"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_last_send_date
 msgid "Last Send Date"
-msgstr ""
+msgstr "Dernière date d'envoi"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_write_uid
@@ -264,7 +267,7 @@ msgstr "Nom du modèle"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "My Print Orders"
-msgstr ""
+msgstr "Mes commandes imprimées"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_name
@@ -280,12 +283,12 @@ msgstr "nombre de pages"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_res_id
 msgid "Object ID"
-msgstr ""
+msgstr "Identifiant de l'objet"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Order Information"
-msgstr ""
+msgstr "Information de la commande"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
@@ -295,12 +298,12 @@ msgstr "Commandes"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "Orders Failed"
-msgstr ""
+msgstr "La commande n'a pas aboutie"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "Orders Waiting"
-msgstr ""
+msgstr "Commandes en attente"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_attachment_id
@@ -311,7 +314,7 @@ msgstr "PDF"
 #: model:ir.model.fields,field_description:print.field_print_order_paper_weight
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_paper_weight
 msgid "Paper Weight"
-msgstr ""
+msgstr "Poids du paiper"
 
 #. module: print
 #: model:ir.model,name:print.model_res_partner
@@ -322,50 +325,50 @@ msgstr "Partenaire"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Postal Order"
-msgstr ""
+msgstr "Commandes postales"
 
 #. module: print
 #: model:ir.ui.menu,name:print.root_print_menu
 msgid "Postal Printings"
-msgstr ""
+msgstr "Impressions postales"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
 #: model:ir.ui.view,arch_db:print.print_provider_view_tree
 msgid "Postal Provider"
-msgstr ""
+msgstr "Fournisseur postal"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid "Postal Wizard Order"
-msgstr ""
+msgstr "Wizard de Commande postale"
 
 #. module: print
 #: model:ir.model,name:print.model_print_mixin
 msgid "Print Mixin (Printable Object)"
-msgstr ""
+msgstr "Imprimer Mixin (Objet imprimable)"
 
 #. module: print
 #: model:ir.model,name:print.model_print_order
 msgid "Print Order"
-msgstr ""
+msgstr "Ordre d'impression"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_line_wizard_view_tree
 msgid "Print Order Lines"
-msgstr ""
+msgstr "Imprimer les lignes de commande"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_print_order_wizard_id
 msgid "Print Order Wizard"
-msgstr ""
+msgstr "Imprimer l'assistant de commande"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_action
 #: model:ir.ui.menu,name:print.print_order_menu
 #: model:ir.ui.view,arch_db:print.print_order_view_tree
 msgid "Print Orders"
-msgstr ""
+msgstr "Imprimer le bon de livraison"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_provider_action
@@ -374,17 +377,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_provider_id
 #: model:ir.ui.menu,name:print.print_provider_menu
 msgid "Print Provider"
-msgstr ""
+msgstr "Fournisseur d'impression"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_sendnow_wizard_print_order_ids
 msgid "Print order ids"
-msgstr ""
+msgstr "Imprimer les identifiants des commandes"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Printing Detail"
-msgstr ""
+msgstr "Imprimer les détails"
 
 #. module: print
 #: selection:print.provider,environment:0
@@ -395,17 +398,17 @@ msgstr "Production"
 #: model:ir.model.fields,field_description:print.field_print_provider_provider
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "Provider"
-msgstr ""
+msgstr "Fournisseur"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_provider_balance
 msgid "Provider Credit"
-msgstr ""
+msgstr "Fournisseur de crédit"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
 msgid "Provider Information"
-msgstr ""
+msgstr "Information sur le fournisseur"
 
 #. module: print
 #: selection:print.order,state:0
@@ -415,13 +418,13 @@ msgstr "Prêt"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Recipient Address"
-msgstr ""
+msgstr "Adresse du destinataire"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_partner_id
 #: model:ir.model.fields,field_description:print.field_print_order_partner_id
 msgid "Recipient partner"
-msgstr ""
+msgstr "Partenaire destinataire"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -431,12 +434,12 @@ msgstr "Revenir à l'état \"Brouillon\""
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
 msgid "Ressource ID"
-msgstr ""
+msgstr "Identifiant de la ressource"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
 msgid "Ressource Model"
-msgstr ""
+msgstr "Modèle de ressource"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
@@ -446,12 +449,12 @@ msgstr "Envoyer"
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_wizard_action_multi_print
 msgid "Send Invoices by post"
-msgstr ""
+msgstr "Envoyer les factures par la poste"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.account_invoice_view_form_inherit_print
 msgid "Send Letter"
-msgstr ""
+msgstr "Envoyer la lettre"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
@@ -462,22 +465,22 @@ msgstr "Envoyer maintenant"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
 msgid "Send Now Postal Wizard Order"
-msgstr ""
+msgstr "Envoyez maintenant la commande postale"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_sendnow_action_multi
 msgid "Send Now by post"
-msgstr ""
+msgstr "Envoyez maintenant par la poste"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_wizard_action
 msgid "Send by Post"
-msgstr ""
+msgstr "Envoyé par la poste"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_sent_date
 msgid "Sending Date"
-msgstr ""
+msgstr "Date d'envoi"
 
 #. module: print
 #: selection:print.order,state:0
@@ -509,7 +512,7 @@ msgstr "Rue (suite)"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Technical Informations"
-msgstr ""
+msgstr "Informations techniques"
 
 #. module: print
 #: selection:print.provider,environment:0
@@ -522,7 +525,7 @@ msgstr "Test"
 msgid ""
 "The document has no associated PDF : you have to give select an Attachment "
 "file, or set up the Object ID and Model Name fields."
-msgstr ""
+msgstr "Le document n'a pas de PDF associé; vous devez sélectionner une pièce jointe, ou configurer les champs Object ID et Model Name."
 
 #. module: print
 #: code:addons/print/models/print_provider.py:186
@@ -530,13 +533,13 @@ msgstr ""
 msgid ""
 "The document you want to print and send is not printable. There is no report"
 " action (ir.actions.report.xml) for the model %s."
-msgstr ""
+msgstr "Le document que vous voulez imprimer et envoyer n'est pas imprimable. Il n'y a pas d'action de rapport (ir.actions.report.xml) pour le modèle %s."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:61
 #, python-format
 msgid "The document you want to send contains the following mistake : %s"
-msgstr ""
+msgstr "Le document que vous voulez envoyer contiens les erreurs suivantes : %s"
 
 #. module: print
 #: code:addons/print/models/account_invoice.py:20
@@ -546,7 +549,7 @@ msgid ""
 "following address.                     <br/><br/> %(partner_name)s <br/> "
 "%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
 "                     <br/>%(partner_country)sprovider_name<i>%s</i>"
-msgstr ""
+msgstr "Cette facture a été envoyée par la poste avec le fournisseur %(provider_name)s à l'adresse suivante.                     <br/><br/> %(partner_name)s <br/> %(partner_street)s <br/> %(partner_city)s %(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
@@ -556,7 +559,7 @@ msgstr "Mettre à jour"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "When the error is resolved, please click on 'Reset to draft'."
-msgstr ""
+msgstr "Quand le problème est résolu, cliquez sur \"Remettre à l'état de brouillon\""
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_zip
@@ -577,14 +580,14 @@ msgstr "ou"
 #. module: print
 #: model:ir.model,name:print.model_print_order_line_wizard
 msgid "print.order.line.wizard"
-msgstr ""
+msgstr "print.order.line.wizard"
 
 #. module: print
 #: model:ir.model,name:print.model_print_order_sendnow_wizard
 msgid "print.order.sendnow.wizard"
-msgstr ""
+msgstr "print.order.sendnow.wizard"
 
 #. module: print
 #: model:ir.model,name:print.model_print_order_wizard
 msgid "print.order.wizard"
-msgstr ""
+msgstr "print.order.wizard"

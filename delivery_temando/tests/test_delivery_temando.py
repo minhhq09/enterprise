@@ -133,6 +133,15 @@ class TestDeliveryTemando(TransactionCase):
 
     @unittest.skip("Temando test disabled: We do not want to overload Temando with runbot's requests")
     def test_03_temando_basic_international_flow(self):
+        # Force use of TNT Australia for international shipping
+        tnt_international_australia = self.env.ref('delivery_temando.temando_60412')
+        tnt_international_australia.write({'active': True,
+                                           'temando_username': 'TEMANDOTEST',
+                                           'temando_password': 'temandopass1',
+                                           'temando_client_id': 20420,
+                                           'temando_delivery_nature': 'International',
+                                           'temando_hs_code': '123456789012'})
+
         SaleOrder = self.env['sale.order']
 
         sol_vals = {'product_id': self.iPadMini.id,
@@ -142,7 +151,7 @@ class TestDeliveryTemando(TransactionCase):
                     'price_unit': self.iPadMini.lst_price}
         self.pricelist.currency_id = self.aud.id
         so_vals = {'partner_id': self.odoo_usa.id,
-                   'carrier_id': self.env.ref('delivery_temando.delivery_carrier_temando_international').id,
+                   'carrier_id': tnt_international_australia.id,
                    'order_line': [(0, None, sol_vals)]}
         sale_order = SaleOrder.create(so_vals)
 

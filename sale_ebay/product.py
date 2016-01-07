@@ -407,6 +407,7 @@ class product_template(models.Model):
                 self.env.cr.rollback()
                 self.env.user.message_post(body=_("eBay error: Impossible to synchronize the products. \n'%s'") % e[0])
                 self.env.cr.commit()
+                return
             else:
                 raise e
         except RedirectWarning, e:

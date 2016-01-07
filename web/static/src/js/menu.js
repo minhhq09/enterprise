@@ -4,6 +4,9 @@ odoo.define('web.Menu', function (require) {
 var core = require('web.core');
 var Widget = require('web.Widget');
 var SystrayMenu = require('web.SystrayMenu');
+var UserMenu = require('web.UserMenu');
+
+SystrayMenu.Items.push(UserMenu);
 
 var QWeb = core.qweb;
 
@@ -12,7 +15,7 @@ var Menu = Widget.extend({
     events: {
         'click .o_menu_toggle': function (ev) {
             ev.preventDefault();
-            this.trigger_up('show_app_switcher');
+            this.trigger_up((this.appswitcher_displayed)? 'hide_app_switcher' : 'show_app_switcher');
         },
         'mouseover .o_menu_sections > li:not(.open)': function(e) {
             var $opened = this.$('.o_menu_sections > li.open');
@@ -20,11 +23,13 @@ var Menu = Widget.extend({
                 $opened.removeClass('open');
                 $(e.currentTarget).addClass('open').find('> a').focus();
             }
-        }
+        },
     },
     init: function (parent, menu_data) {
         var self = this;
         this._super.apply(this, arguments);
+        this.appswitcher_displayed = true;
+        this.backbutton_displayed = false;
 
         this.$menu_sections = {};
         this.menu_data = menu_data;
@@ -41,15 +46,13 @@ var Menu = Widget.extend({
     start: function () {
         var self = this;
 
-        // Systray Menu
-        this.systray_menu = new SystrayMenu(this);
-        this.systray_menu.setElement(this.$('.oe_systray'));
-        this.systray_menu.start();
-
-        // Navbar's menus event handlers
+        this.$menu_toggle = this.$('.o_menu_toggle');
         this.$menu_brand_placeholder = this.$('.o_menu_brand');
         this.$section_placeholder = this.$('.o_menu_sections');
 
+        core.bus.on('keyup', this, this._hide_app_switcher);
+
+        // Navbar's menus event handlers
         var menu_ids = _.keys(this.$menu_sections);
         var primary_menu_id, $section;
         for(var i = 0; i < menu_ids.length; i++) {
@@ -63,7 +66,31 @@ var Menu = Widget.extend({
             });
         };
 
+        // Systray Menu
+        this.systray_menu = new SystrayMenu(this);
+        this.systray_menu.attachTo(this.$('.oe_systray'));
+
         return this._super.apply(this, arguments);
+    },
+    destroy: function () {
+        this._super.apply(this, arguments);
+        core.bus.off('keyup', this, this._hide_app_switcher);
+    },
+    _hide_app_switcher: function (ev) {
+        if (ev.keyCode === $.ui.keyCode.ESCAPE && this.backbutton_displayed) {
+            this.trigger_up('hide_app_switcher');
+        }
+    },
+    toggle_mode: function (appswitcher, overapp) {
+        this.appswitcher_displayed = !!appswitcher;
+        this.backbutton_displayed = this.appswitcher_displayed && !!overapp;
+
+        this.$menu_toggle.find('i').toggleClass('fa-chevron-left', this.appswitcher_displayed)
+                                   .toggleClass('fa-th', !this.appswitcher_displayed);
+
+        this.$menu_toggle.toggleClass('hidden', this.appswitcher_displayed && !this.backbutton_displayed);
+        this.$menu_brand_placeholder.toggleClass('hidden', this.appswitcher_displayed);
+        this.$section_placeholder.toggleClass('hidden', this.appswitcher_displayed);
     },
     change_menu_section: function (primary_menu_id) {
         if (!this.$menu_sections[primary_menu_id]) {
@@ -142,5 +169,4 @@ var Menu = Widget.extend({
 });
 
 return Menu;
-
 });

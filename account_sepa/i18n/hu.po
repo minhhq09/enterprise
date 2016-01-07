@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 10:15+0000\n"
-"PO-Revision-Date: 2015-09-30 15:39+0000\n"
+"PO-Revision-Date: 2015-11-24 20:23+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -19,10 +19,34 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:39
+#: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
 msgstr "Egy SEPA kommunikáció nem lépheti túl a 140 karaktert"
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:50
+#, python-format
+msgid ""
+"The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
+"configure it first."
+msgstr "A '%s' naplóhoz szükséges egy megfelelő IBAN számlaszám a SEPA utaláshoz. Kérem, először állítsa be."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:52
+#, python-format
+msgid ""
+"The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
+"pay via SEPA. Please configure it first."
+msgstr "A '%s' számlához (%s naplóhoz) szükséges egy Bank azonosító kód (BIC) a SEPA utaláshoz. Kérem, először állítsa be."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:61
+#, python-format
+msgid ""
+"The partner account '%s' requires a Bank Identification Code (BIC) to pay "
+"via SEPA. Please configure it first."
+msgstr "A '%s' partner számlához szükséges egy Bank azonosító kód (BIC) a SEPA utaláshoz. Kérem, először állítsa be."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id

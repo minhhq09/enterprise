@@ -17,6 +17,7 @@ class TestDeliveryDHL(TransactionCase):
         self.your_company.write({'street': "44 Wall Street",
                                  'street2': "Suite 603",
                                  'city': "New York",
+                                 'zip': 10005,
                                  'state_id': self.env.ref('base.state_us_27').id,
                                  'country_id': self.env.ref('base.us').id})
         self.agrolait = self.env.ref('base.res_partner_2')
@@ -25,6 +26,7 @@ class TestDeliveryDHL(TransactionCase):
         self.delta_pc.write({'street': "51 Federal Street",
                              'street2': "Suite 401",
                              'city': "San Francisco",
+                             'zip': 94107,
                              'state_id': self.env.ref('base.state_us_5').id,
                              'country_id': self.env.ref('base.us').id})
 

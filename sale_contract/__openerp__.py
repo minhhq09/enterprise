@@ -7,9 +7,9 @@
     'version': '1.1',
     'category': 'Sales Management',
     'description': """
-This module allows you to manage susbcriptions.
+This module allows you to manage subscriptions.
 Features:
-    - Create & edit susbcriptions
+    - Create & edit subscriptions
     - Modify subscriptions with sales orders
     - Generate invoice automatically at fixed intervals
 """,

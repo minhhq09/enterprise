@@ -60,6 +60,12 @@ Tour.register({
             title:     "back to app switcher",
             element:   '.o_menu_toggle',
             next:      "check",
+            onend: function () {
+                var remaining_apps_to_test = $('.o_application_switcher a[data-menu]:not([data-action-model="ir.actions.act_url"]):not(.already_tested)').length;
+                if (remaining_apps_to_test === 0) {
+                    return "finish";
+                }
+            },
         },
         {
             title:    "check",
