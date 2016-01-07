@@ -23,6 +23,33 @@
                         <field name="fedex_label_stock_type" attrs="{'required': [('delivery_type', '=', 'fedex')]}"/>
                     </group>
                 </group>
+                <group string='Fedex Tutorial' attrs="{'invisible': [('delivery_type', '!=', 'fedex')]}">
+                    <ul>
+                        <li>
+                            <b>Go to <a href='https://www.fedex.com/' target='_blank'>Fedex Website</a> to create a FedEx account of the following type:</b>
+                            <br/><br/> <img src='/delivery_fedex/static/src/img/setup_01.png'/>
+                            <br/><br/> <img src='/delivery_fedex/static/src/img/setup_02.png'/>
+                            <br/><br/>
+                        </li>
+
+                        <li>
+                            <b>Once your account is created, go to <a href='https://www.fedex.com/us/developer/web-services/process.html?tab=tab4' target='_blank'>FedEx Web Services "Move to Production"</a>, click on "Get Production Key" and follow all the steps.</b>
+                            <br/> <img src='/delivery_fedex/static/src/img/setup_03.png'/>
+                            <br/><br/>
+                        </li>
+                        <li>
+                            <b>The last step is the <a href='https://www.fedex.com/us/developer/web-services/process.html?tab=tab3' target='_blank'>Certification Process</a></b>
+                            <br/> <img src='/delivery_fedex/static/src/img/setup_04.png'/>
+                            <br/>According to your needs, you will need to contact different certifications :
+                            <ul>
+                                <li>Standard Services</li>
+                                <li>Advanced Services without Label Certification</li>
+                                <li>Advanced Services with Label Certification</li>
+                            </ul>
+                            These certifications usually require that you contact the FedEx support team by email.
+                        </li>
+                    </ul>
+                </group>
             </xpath>
         </field>
     </record>

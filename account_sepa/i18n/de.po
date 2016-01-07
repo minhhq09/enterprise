@@ -3,13 +3,14 @@
 # * account_sepa
 # 
 # Translators:
+# Renko Spiekermann <renkosp@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 10:15+0000\n"
-"PO-Revision-Date: 2015-09-24 19:39+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2015-12-16 16:27+0000\n"
+"Last-Translator: Renko Spiekermann <renkosp@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,15 +19,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:39
+#: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
-msgstr ""
+msgstr "Eine SEPA-Mitteilung dar 140 Zeichen nicht überschreiten."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:50
+#, python-format
+msgid ""
+"The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
+"configure it first."
+msgstr "Das Journal '%s' benötigt ein korrektes IBAN-Konto, um über SEPA zu bezahlen. Bitte konfigurieren Sie es zuerst."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:52
+#, python-format
+msgid ""
+"The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
+"pay via SEPA. Please configure it first."
+msgstr "Das Konto '%s' (Journal %s) benötigt einen Bank Identification Code (BIC), um über SEPA zu bezahlen. Bitte konfigurieren Sie es zuerst."
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:61
+#, python-format
+msgid ""
+"The partner account '%s' requires a Bank Identification Code (BIC) to pay "
+"via SEPA. Please configure it first."
+msgstr "Das Partnerkonto '%s' benötigt einen Bank Identification Code (BIC), um über SEPA zu bezahlen. Bitte konfigurieren Sie es zuerst."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id
 msgid "Bank Account"
-msgstr ""
+msgstr "Bankkonto"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -38,7 +63,7 @@ msgstr "Abbrechen"
 msgid ""
 "Click on the file to save it somewhere on your computer. Then upload that "
 "file on your bank's homebanking website to order the credit transfer."
-msgstr ""
+msgstr "Klicken Sie auf die Datei, um es auf ihren Computer zu speichern. Laden Sie es dann auf die Onlinebankingseite ihrer Bank hoch, um die Kredittransaktion zu veranlassen."
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_res_company
@@ -48,7 +73,7 @@ msgstr "Unternehmen"
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_sepa_credit_transfer
 msgid "Create SEPA credit transfer files"
-msgstr ""
+msgstr "Erstelle SEPA Kreditübertragungdateien"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_create_uid
@@ -63,17 +88,17 @@ msgstr "Angelegt am"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Angezeigter Name"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "Download SEPA Credit Transfer File"
-msgstr ""
+msgstr "SEPA Kreditübertragungdateien herunterladen"
 
 #. module: account_sepa
 #: model:ir.actions.server,name:account_sepa.action_account_download_sepa_sct_file
 msgid "Download SEPA Payment"
-msgstr ""
+msgstr "SEPA-Zahlung herunterladen"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_issr
@@ -85,7 +110,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
-msgstr ""
+msgstr "Dateiname"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -95,12 +120,12 @@ msgstr "ID"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification"
-msgstr ""
+msgstr "Identifikation"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
-msgstr ""
+msgstr "Identifikation, die von einer Institution zugeordnet wurde (z.B. Umsatzsteuernummer)"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:69
@@ -108,17 +133,17 @@ msgstr ""
 msgid ""
 "In order to export a SEPA Credit Transfer file, please only select payments "
 "belonging to the same bank journal."
-msgstr ""
+msgstr "Um eine SEPA Kreditübertragungdatei zu exportieren, wählen Sie bitte nur Zahlungen, die zum selben Bankjournal gehören."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_is_generic
 msgid "Is generic"
-msgstr ""
+msgstr "Ist Allgemein"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
-msgstr ""
+msgstr "Veranlasser"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -149,7 +174,7 @@ msgstr "Ok"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.account_journal_dashboard_kanban_view_inherited
 msgid "Payment to send via SEPA"
-msgstr ""
+msgstr "Über SEPA zu sendende Zahlungen"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_payment
@@ -162,7 +187,7 @@ msgstr "Anzeige Zahlungen"
 msgid ""
 "Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' "
 "selected as payment method and be posted"
-msgstr ""
+msgstr "Zahlungen, die als SEPA Kreditübertragung exportiert werden, müssen 'SEPA Credit Transfer' als Zahlungsmethode ausgewählt haben und abgesendet werden."
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.account_journal_dashboard_kanban_view_inherited
@@ -178,7 +203,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_register_payments
 msgid "Register payments on multiple invoices"
-msgstr ""
+msgstr "Erfasse Zahlungen für mehrere Rechnungen"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited

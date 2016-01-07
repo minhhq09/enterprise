@@ -5692,5 +5692,15 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_lu.tag_IP_IC_8_n')])]" />
         <field name="formulas">balance=-sum.balance</field>
     </record>
+    <record id="account_financial_report_lu_SANS" model="account.financial.html.report.line">
+        <field name="name">Base - Sans Taxe</field>
+        <field name="code">b_SANS</field>
+        <field name="sequence" eval="100"/>
+        <field name="level" eval="1"/>
+        <field name="parent_id" ref="account_financial_report_lu_3"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_lu.tag_VP_PA_SANS')])]" />
+        <field name="formulas">balance=-sum.balance</field>
+    </record>
 
 </odoo>

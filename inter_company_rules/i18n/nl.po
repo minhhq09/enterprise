@@ -3,14 +3,15 @@
 # * inter_company_rules
 # 
 # Translators:
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2015
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-09-19 09:35+0000\n"
-"Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
+"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"PO-Revision-Date: 2015-12-16 13:50+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,11 +46,12 @@ msgid "Companies"
 msgstr "Bedrijven"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/sale_order.py:75
+#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
 "Configure correct warehouse for company(%s) from Menu: "
-"Settings/companies/companies"
+"Settings/Users/Companies"
 msgstr "Configureer een correct magazijn voor het bedrijf (%s) vanuit het menu: Instellingen/bedrijven/bedrijven"
 
 #. module: inter_company_rules
@@ -94,7 +96,7 @@ msgstr "Standaardwaarde om in te stellen op aankooporders die worden aangemaakt 
 msgid ""
 "Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
 " e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr "Genereer klant/fabrikant rekeningen (en credets) wanneer facturen (of terugbetalingen) worden gedecodeerd voor dit bedrijf.\nBv: Genereer een klantenfactuur wanneer een fabrikantsrekening met dit bedrijf als fabrikant is aangemaakt."
+msgstr "Genereer klant/leverancier facturen (en credits) wanneer facturen (of terugbetalingen) worden gedecodeerd voor dit bedrijf.\nBv: Genereer een klantenfactuur wanneer een leveranciersfactuur met dit bedrijf als leverancier is aangemaakt."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
@@ -130,8 +132,8 @@ msgid "Inter Company User"
 msgstr "Inter-bedrijf gebruiker"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:42
-#: code:addons/inter_company_rules/models/sale_order.py:45
+#: code:addons/inter_company_rules/models/purchase_order.py:43
+#: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
 msgstr "Inter-bedrijf gebruiker of bedrijf %s heeft niet genoeg toegangsrechten"
@@ -153,14 +155,14 @@ msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr "Definieer %s dagboek voor dit bedrijf; \"%s\" (id:%d) aub."
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:39
+#: code:addons/inter_company_rules/models/purchase_order.py:40
 #, python-format
 msgid "Provide at least one user for inter company relation for % "
 msgstr "Voorzie minimaal één gebruiker voor inter-bedrijf relatie voor %"
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/account_invoice.py:44
-#: code:addons/inter_company_rules/models/sale_order.py:42
+#: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
 msgstr "Voorzie een gebruiker voor inter-bedrijf relatie voor %"
@@ -248,7 +250,7 @@ msgid ""
 msgstr "Wanneer een verkooporder of inkooporder is aangemaakt door een multi-bedrijfsregel\nvoor dit bedrijf wordt het automatisch gevalideerd."
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:46
+#: code:addons/inter_company_rules/models/purchase_order.py:47
 #, python-format
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "

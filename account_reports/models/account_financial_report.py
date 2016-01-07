@@ -13,7 +13,7 @@ class ReportAccountFinancialReport(models.Model):
     _name = "account.financial.html.report"
     _description = "Account Report"
 
-    name = fields.Char()
+    name = fields.Char(translate=True)
     debit_credit = fields.Boolean('Show Credit and Debit Columns')
     line_ids = fields.One2many('account.financial.html.report.line', 'financial_report_id', string='Lines')
     report_type = fields.Selection([('date_range', 'Based on date ranges'),
@@ -97,7 +97,7 @@ class AccountFinancialReportLine(models.Model):
     _description = "Account Report Line"
     _order = "sequence"
 
-    name = fields.Char('Section Name')
+    name = fields.Char('Section Name', translate=True)
     code = fields.Char('Code')
     financial_report_id = fields.Many2one('account.financial.html.report', 'Financial Report')
     parent_id = fields.Many2one('account.financial.html.report.line', string='Parent')
@@ -429,7 +429,9 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
 
 class FormulaLine(object):
-    def __init__(self, obj, type='balance', linesDict={}):
+    def __init__(self, obj, type='balance', linesDict=None):
+        if linesDict is None:
+            linesDict = {}
         fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
         if type == 'balance':
             fields = obj.get_balance(linesDict)[0]

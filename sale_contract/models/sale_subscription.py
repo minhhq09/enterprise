@@ -169,7 +169,7 @@ class SaleSubscription(osv.osv):
         if not partner:
             raise UserError(_("You must first select a Customer for Subscription %s!") % contract.name)
 
-        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.company_id.id, partner.id, context=context)
+        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.id, context=context)
         journal_ids = journal_obj.search(cr, uid, [('type', '=', 'sale'), ('company_id', '=', contract.company_id.id or False)], limit=1)
         if not journal_ids:
             raise UserError(_('Please define a sale journal for the company "%s".') % (contract.company_id.name or '', ))
@@ -491,3 +491,36 @@ class res_partner(osv.osv):
         _columns = {
             'contract_ids': fields.one2many('sale.subscription', 'partner_id', 'Subscriptions', readonly=True),
         }
+
+
+class AccountAnalyticAccount(osv.osv):
+    _inherit = 'account.analytic.account'
+
+    def _compute_subscription_count(self, cr, uid, ids, fieldnames, args, context=None):
+        result = dict.fromkeys(ids, 0)
+        for account in self.browse(cr, uid, ids, context=context):
+            result[account.id] = len(account.subscription_ids)
+        return result
+
+    _columns = {
+        'subscription_ids': fields.one2many('sale.subscription', 'analytic_account_id', 'Subscriptions'),
+        'subscription_count': fields.function(_compute_subscription_count, 'Susbcription Count', type='integer')
+    }
+
+    def subscriptions_action(self, cr, uid, ids, context=None):
+        accounts = self.browse(cr, uid, ids, context=context)
+        subscription_ids = sum([account.subscription_ids.ids for account in accounts], [])
+        result = {
+            "type": "ir.actions.act_window",
+            "res_model": "sale.subscription",
+            "views": [[False, "tree"], [False, "form"]],
+            "domain": [["id", "in", subscription_ids]],
+            "context": {"create": False},
+            "name": "Subscriptions",
+        }
+        if len(subscription_ids) == 1:
+            result['views'] = [(False, "form")]
+            result['res_id'] = subscription_ids[0]
+        else:
+            result = {'type': 'ir.actions.act_window_close'}
+        return result
