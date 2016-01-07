@@ -127,7 +127,7 @@ class account_report_context_followup_all(models.TransientModel):
     last_page = fields.Integer('number of pages', compute='_compute_pages')
 
     def skip_partner(self, partners):
-        self.write({'skipped_partners_ids': [(4, partners.ids)]})
+        self.write({'skipped_partners_ids': [(6, 0, partners.ids + self.skipped_partners_ids.ids)]})
         self.write({'valuenow': self.valuenow + len(partners)})
 
     def get_total_time(self):
