@@ -81,7 +81,8 @@
 </div>
 
 <div t-name="WebClient.database_expiration_panel" class="database_expiration_panel" id="announcement_bar_table">
-    <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':(diffDays&lt;31?'info':''))}" role="alert">
+    <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':'info')}" role="alert">
+        <a href="#" class="oe_instance_hide_panel pull-right">&amp;times;</a>
         <span>
             <span class="oe_instance_expires"></span>
             <span class="oe_instance_register">

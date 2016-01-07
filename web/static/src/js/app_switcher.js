@@ -5,6 +5,7 @@ var core = require('web.core');
 var Widget = require('web.Widget');
 var Model = require('web.Model');
 var QWeb = core.qweb;
+var utils = require('web.utils');
 
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
@@ -15,6 +16,7 @@ var AppSwitcher = Widget.extend({
         'click .oe_instance_upsell': 'enterprise_upsell',
         'click a.oe_instance_register_show': function(ev) {$('.oe_instance_register_form').slideToggle();},
         'click #confirm_enterprise_code': 'enterprise_code_submit',
+        'click .oe_instance_hide_panel': 'enterprise_hide_panel',
     },
     init: function (parent, menu_data) {
         this._super.apply(this, arguments);
@@ -91,7 +93,8 @@ var AppSwitcher = Widget.extend({
     enterprise_show_panel: function(options) {
         //Show expiration panel 30 days before the expiry
         var self = this;
-        if (options.diffDays <= 30) {
+        var hide_cookie = utils.get_cookie('oe_instance_hide_panel');
+        if (options.diffDays <= 30 && !hide_cookie) {
 
             var expiration_panel = $(QWeb.render('WebClient.database_expiration_panel', {
                 diffDays: options.diffDays, dbenterprise_code:options.dbenterprise_code, dbexpiration_reason:options.dbexpiration_reason, warning: options.warning
@@ -107,6 +110,11 @@ var AppSwitcher = Widget.extend({
                 $.blockUI({ message: expiration_panel[0], css: { cursor : 'auto' }, overlayCSS: { cursor : 'auto' } });
             }
         }
+    },
+    enterprise_hide_panel: function(ev) {
+        ev.preventDefault();
+        utils.set_cookie('oe_instance_hide_panel', true, 24*60*60);
+        $('.database_expiration_panel').hide();
     },
     /** Save the registration code then triggers a ping to submit it*/
     enterprise_code_submit: function(ev) {
