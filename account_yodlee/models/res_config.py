@@ -9,7 +9,7 @@ from openerp.tools.translate import _
 class YodleeConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
-    yodlee_service_url = fields.Char("Yodlee Service URL", default=lambda self: self.env['ir.config_parameter'].get_param('yodlee_service_url') or 'https://rest.developer.yodlee.com/services/srest/restserver/v1.0')
+    yodlee_service_url = fields.Char("Yodlee Service URL", default=lambda self: self.env['ir.config_parameter'].get_param('yodlee_service_url'))
     yodlee_id = fields.Char("Yodlee ID", default=lambda self: self.env['ir.config_parameter'].get_param('yodlee_id'))
     yodlee_secret = fields.Char("yodlee Secret", default=lambda self: self.env['ir.config_parameter'].get_param('yodlee_secret'))
     yodlee_user_login = fields.Char('Yodlee User Login', related='company_id.yodlee_user_login')
