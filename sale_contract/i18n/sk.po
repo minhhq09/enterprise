@@ -3,13 +3,14 @@
 # * sale_contract
 # 
 # Translators:
+# Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-01-01 16:08+0000\n"
-"Last-Translator: Pavol Krnáč <pavol.krnac@ekoenergo.sk>\n"
+"PO-Revision-Date: 2016-01-07 20:07+0000\n"
+"Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +71,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\nVáš odber (${ctx.get('code')}) bol práve obnovený\n%if ctx.get('total_amount') and ctx.get('payment_method'):\nzaplatením ${ctx['total_amount']} ${ctx['currency']} účtované ${ctx['payment_method']}\n.\n%endif\n</p>\n\n<p>V prílohe nájdete Vašu faktúru.</p>\n\n%if ctx.get('next_date'):\n<p>\nVaša ďalšia faktúra bude k ${ctx.get('next_date')}.\n</p>\n%endif\n\n<br/>\n<p>Ak máte akúkoľvek otázku, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_close
@@ -126,7 +127,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\n% if ctx.get('payment_method') and ctx.get('total_amount'):\nNaše posledný pokus o spracovanie platby za odber pomocou platobnej metódy\n${ctx['payment_method']}\nfor ${ctx['total_amount']} ${ctx.get('currency')} zlyhal.\n% if ctx.get('error'):\nVaša banka alebo úverová inštitúcia poskytla nasledujúce podrobnosti o probléme: <pre>${ctx['error']}</pre>.\n%endif\n% else:\nNaše posledný pokus o spracovanie platby za predplatné zlyhala, pretože nemáme pre Vás zaznamenaný žiadny spôsob platby.\n% endif \n</p>\n\n<p>\nKeďže Vaša platba mala byť vykonaná <strong>15 dní dozadu</strong>, Váš odber bol ukončený.\n</p>\n\n<br/>\n<p>Ak si budete želať tento problém vyriešiť, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_reminder
@@ -184,7 +185,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\n% if ctx.get('payment_method') and ctx.get('total_amount'):\nNeboli sme schopní spracovať platbu za odber pomocou platobnej metódy\n${ctx['payment_method']}\nfor ${ctx['total_amount']} ${ctx.get('currency')}.\n% if ctx.get('error'):\nVaša banka alebo úverová inštitúcia poskytla nasledujúce podrobnosti o probléme: <pre>${ctx['error']}</pre>.\n%endif\n% else:\nNeboli sme schopní spracovať platbu za odber, pretože nemáme pre Vás zaznamennú žiadnu platobnú metódu.\n% endif \n</p>\n\n<p>\nVáš odber ${ctx.get('code')} je stále platný, ale bude <b>pozastavený</b>\nna ${ctx.get('date_close')} pokiaľ platba neuspeje v medziobdobí (budeme opakovať raz denne).\nProsím, skontrolujte, či máte dostatok finančných prostriedkov.\n</p>\n\n<br/>\n<p>Ak máte akúkoľvek otázku, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
@@ -250,12 +251,12 @@ msgid ""
 "</pre>\n"
 "\n"
 "            "
-msgstr ""
+msgstr "\nDobrý deň ${object.name},\n\n% macro account_table(values):\n<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n<tr>\n<th>Zákazník</th>\n<th>Zmluva</th>\n<th>Dátumy</th>\n<th>Predplatené jednotky</th>\n<th>Kontakt</th>\n</tr>\n% pre partnera, účty v hodnotách:\n% na účet v účtoch:\n<tr>\n<td>${partner.name}</td>\n<td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n<td>${account.date_start} to ${account.date and account.date or '???'}</td>\n<td>\n% if account.quantity_max != 0.0:\n${account.remaining_hours}/${account.quantity_max} units\n% endif\n</td>\n<td>${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n</tr>\n% endfor\n% endfor\n</table>\n% endmacro \n\n% if \"new\" in ctx[\"data\"]:\n<h2>Nasledujúce zmluvy práve vypršali: </h2>\n${account_table(ctx[\"data\"][\"new\"].iteritems())}\n% endif\n\n% if \"old\" in ctx[\"data\"]:\n<h2>Nasledujúce vypršané zmluvy ešte nie sú spracované: </h2>\n${account_table(ctx[\"data\"][\"old\"].iteritems())}\n% endif\n\n% if \"future\" in ctx[\"data\"]:\n<h2>Nasledujúce zmluvy vypršia za menej ako mesiac: </h2>\n${account_table(ctx[\"data\"][\"future\"].iteritems())}\n% endif\n\n<p>\nMôžete skontrolovať všetky zmluvy, ktoré majú byť obnovené pomocou menu:\n</p>\n<ul>\n<li>Predaj / Fakturácia / Zmluvy na obnovenie</li>\n</ul>\n<p>\nVďaka,\n</p>\n\n<pre>\n-- \nOdoo automatický email\n</pre>"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
-msgstr ""
+msgstr "Manažér účtu"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
@@ -270,17 +271,17 @@ msgstr "Aktívny"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Active templates"
-msgstr ""
+msgstr "Aktívne šablóny"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 msgid "Actual Quantity"
-msgstr ""
+msgstr "Skutočné množstvo"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
 msgid "Allow Online Order"
-msgstr ""
+msgstr "Povoliť online objednávku"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_analytic_account_id
@@ -307,7 +308,7 @@ msgstr "Rozpočtové riadky"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Cancel Subscription"
-msgstr ""
+msgstr "Zrušiť odber"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -319,7 +320,7 @@ msgstr "Zrušené"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
-msgstr ""
+msgstr "Zrušiť zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
@@ -339,40 +340,40 @@ msgstr "Zaškrtnite toto pole ak tento projekt riadi časové rozvrhy."
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
 msgid "Click here to create a template of subscription."
-msgstr ""
+msgstr "Kliknite sem pre vytvorenie šablóny odberu."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid "Click to create a new contract."
-msgstr ""
+msgstr "Kliknite pre vytvorenie novej zmluvy."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid "Click to define a new contract."
-msgstr ""
+msgstr "Kliknite pre definovanie novej zmluvy."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
 msgid "Click to define a new product."
-msgstr ""
+msgstr "Kliknite pre definovanie nového produktu."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
-msgstr ""
+msgstr "Dôvod zavretia"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
 msgid "Close Reasons"
-msgstr ""
+msgstr "Dôvody zavretia"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
-msgstr ""
+msgstr "Zavrieť odber"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -384,12 +385,12 @@ msgstr "Uzavreté"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Closed contracts"
-msgstr ""
+msgstr "Zavreté zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Comercial Partner"
-msgstr ""
+msgstr "Komerčný partner"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
@@ -417,7 +418,7 @@ msgstr "Contract "
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
 msgid "Contract expiration reminder ${user.company_id.name}"
-msgstr ""
+msgstr "Pripomienka vypršania zmluvy ${user.company_id.name}"
 
 #. module: sale_contract
 #: model:ir.module.category,name:sale_contract.module_category_contract_management
@@ -427,17 +428,17 @@ msgstr "Zmluvy"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts in progress"
-msgstr ""
+msgstr "Prebiehajúce zmluvy"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts not assigned"
-msgstr ""
+msgstr "Nepridelené zmluvy"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts that are not assigned to an account manager."
-msgstr ""
+msgstr "Zmluvy ktoré nie sú pridelené manažérovi účtu."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_country_id
@@ -449,7 +450,7 @@ msgstr "Krajina"
 msgid ""
 "Create a sale order that will overwrite this contract when confirmed "
 "(renewal quotation)"
-msgstr ""
+msgstr "Vytvorte objednávku predaja, ktorá prepíše túto zmluvu keď sa potvrdí (obnova cenovej ponuky)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
@@ -484,18 +485,18 @@ msgstr "Zákazník"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_end
 msgid "Date End"
-msgstr ""
+msgstr "Dátum ukončenia"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_start
 msgid "Date Start"
-msgstr ""
+msgstr "Dátum začatia"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_next_date
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Date of Next Invoice"
-msgstr ""
+msgstr "Dátum ďalšej faktúry"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_message_last_post
@@ -515,7 +516,7 @@ msgstr "Debet"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_plan_description
 msgid "Describe this contract in a few lines"
-msgstr ""
+msgstr "Popíšte túto zmluvu v niekoľkých riadkoch"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_description
@@ -544,17 +545,17 @@ msgstr "Dátum ukončenia"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End Month"
-msgstr ""
+msgstr "Mesiac ukončenia"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End date is in the next month"
-msgstr ""
+msgstr "Dátum ukončenia je budúci mesiac"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "End date passed"
-msgstr ""
+msgstr "Dátum ukončenia prešiel"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -564,7 +565,7 @@ msgstr "Vypršané"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Expiring soon"
-msgstr ""
+msgstr "Čoskoro vyprší"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_follower_ids
@@ -590,7 +591,7 @@ msgstr "Zoskupiť podľa"
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
 msgid "Helps you handle subscriptions and recurring invoicing."
-msgstr ""
+msgstr "Pomáha vám iadiť odbery a opakujúcu sa fakturáciu."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12136
@@ -614,7 +615,7 @@ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
-msgstr ""
+msgstr "Ak nastavené, potvrdenie objednávky predaja týmto produktom vytvorí odber"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
@@ -622,7 +623,7 @@ msgid ""
 "If set, the associated contract will be overwritten by this sale order "
 "(every recurring line of the contract not in this sale order will be "
 "deleted)."
-msgstr ""
+msgstr "Ak nastavené, bude spojená zmluva prepísaná touto objednávkou predaja (každý opakujúci sa riadok zmluvy ktorý nie je v tomto predaji bude vymazaný)."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -639,7 +640,7 @@ msgstr "Neaktívne"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Inactive templates"
-msgstr ""
+msgstr "Neaktívne šablóny"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -649,17 +650,17 @@ msgstr "Položky faktúry"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_rule_type
 msgid "Invoice automatically repeat at specified interval"
-msgstr ""
+msgstr "Faktúru automaticky opakovať v špecifikovanom intervale"
 
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Faktúra za odber ${ctx.get('code')}"
 
 #. module: sale_contract
 #: model:mail.template,report_name:sale_contract.email_payment_success
 msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-msgstr ""
+msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -708,17 +709,17 @@ msgstr "Naposledy upravované"
 msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
-msgstr ""
+msgstr "Nechajte nezaškrtnuté, ak nechcete, aby táto šablóna zmluvy bola dispozícii zákazníkovi na rozhraní (pre bezplatné vyskúšanie, napríklad)"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
 msgid "Manage Contracts"
-msgstr ""
+msgstr "Spravovať zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Max medzi skutočnými a predanými množstvami; toto množstvo bude fakturované"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_ids
@@ -733,7 +734,7 @@ msgstr "Správy a história komunikácie"
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Month(s)"
-msgstr ""
+msgstr "Mesiac(e)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_name
@@ -750,7 +751,7 @@ msgstr "Nové"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "New Contracts"
-msgstr ""
+msgstr "Nové zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction_counter
@@ -773,12 +774,12 @@ msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
 "            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
-msgstr ""
+msgstr "Odoo automaticky nastaví zmluvy, ktoré majú byť obnovené, na čakajúci\nstav. Po rokovaní, predajca by mal zatvoriť alebo obnoviť\nčakajúce zmluvy."
 
 #. module: sale_contract
 #: model:ir.actions.client,name:sale_contract.action_client_sale_subscription_menu
 msgid "Open Subscriptions Menu"
-msgstr ""
+msgstr "Otvoriť menu odberov"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_res_partner
@@ -789,23 +790,23 @@ msgstr "Partner"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Pripomienka platby za odber ${object.code}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Pending contracts"
-msgstr ""
+msgstr "Čakajúce zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
-msgstr ""
+msgstr "Popis plánu"
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:179
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
-msgstr ""
+msgstr "Prosím definujte predajnú účtovnú knihu pre spoločnosť \"%s\"."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_pricelist_id
@@ -839,28 +840,28 @@ msgstr "Množstvo"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "Množstvo skutočne použité zákazníkom"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Quantity sold to the customer"
-msgstr ""
+msgstr "Množstvo predané zákazníkovi"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
-msgstr ""
+msgstr "Opakovanie"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
 msgid "Recurring Price"
-msgstr ""
+msgstr "Opakovaná cena"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_recurring_price
 msgid "Recurring price(per period)"
-msgstr ""
+msgstr "Opakovaná cena (za obdobie)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_code
@@ -875,7 +876,7 @@ msgstr "Opakovať každé"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
-msgstr ""
+msgstr "Opakovať každý (deň/týždeň/mesiac/rok)"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
@@ -890,12 +891,12 @@ msgstr "Zodpovedná osoba"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr ""
+msgstr "Odber predaja"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
 msgid "Sale Subscriptions"
-msgstr ""
+msgstr "Odbery predaja"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
@@ -906,12 +907,12 @@ msgstr "Objednávka predaja"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_manager_id
 msgid "Sales Rep"
-msgstr ""
+msgstr "Obchodný zástupca"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
 msgid "See Contracts"
-msgstr ""
+msgstr "Pozrieť zmluvy"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
@@ -921,17 +922,17 @@ msgstr "Postupnosť"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Active"
-msgstr ""
+msgstr "Nastaviť na aktívne"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Inactive"
-msgstr ""
+msgstr "Nastaviť na neaktívne"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Open"
-msgstr ""
+msgstr "Nastaviť na otvorené"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -941,7 +942,7 @@ msgstr "Konfigurácia"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Sold Quantity"
-msgstr ""
+msgstr "Predané množstvo"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
@@ -967,7 +968,7 @@ msgstr "Stav"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_subtotal
 msgid "Sub Total"
-msgstr ""
+msgstr "Medzisúčet"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
@@ -981,28 +982,28 @@ msgstr "Predplatné"
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_graph
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_pivot
 msgid "Subscription Analysis"
-msgstr ""
+msgstr "Analýza odberu"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
-msgstr ""
+msgstr "Riadky odberu"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
 msgid "Subscription Product"
-msgstr ""
+msgstr "Produkt odberu"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.product_action_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_product
 msgid "Subscription Products"
-msgstr ""
+msgstr "Produkty odberu"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_report
 msgid "Subscription Statistics"
-msgstr ""
+msgstr "Štatistiky odberu"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
@@ -1010,17 +1011,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id
 #: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
 msgid "Subscription Template"
-msgstr ""
+msgstr "Šablóna odberu"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list_template
 msgid "Subscription Templates"
-msgstr ""
+msgstr "Šablóny odberu"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
 msgid "Subscription products"
-msgstr ""
+msgstr "Produkty odberu"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
@@ -1036,7 +1037,7 @@ msgstr "Predplatné"
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
 msgid "Susbcriptions to Renew"
-msgstr ""
+msgstr "Odbery na obnovenie"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -1053,7 +1054,7 @@ msgstr "Úlohy"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 #: selection:sale.subscription,type:0
 msgid "Template"
-msgstr ""
+msgstr "Šablóna"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
@@ -1061,12 +1062,12 @@ msgid ""
 "Templates are used to prefigure subscription that \n"
 "                can be selected by the salespeople to quickly configure the\n"
 "                terms and conditions of the subscription."
-msgstr ""
+msgstr "Šablóny sa používajú na predznamenanie odberu ktoré\nmôžu byť vybrané pomocou predajcov na rýchlu konfiguráciu\npodmienok odberu."
 
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Ukončenie odberu ${object.code}"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -1074,29 +1075,29 @@ msgid ""
 "The product form contains information to simplify the sale\n"
 "            process: price, notes in the quotation, accounting data,\n"
 "            procurement methods, etc."
-msgstr ""
+msgstr "Formulár produktu obsahuje informácie pre zjednodušenie predajného\nprocesu: ceny, poznámky v cenovej ponuke, účtovné údaje,\nmetódy obstáravania, atď."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_view
 msgid "The user will have read access to contracts."
-msgstr ""
+msgstr "Používateľ bude mať čítací prístup k zmluvám."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
 msgid "The user will have write access to contracts."
-msgstr ""
+msgstr "Používateľ bude mať zapisovací prístup k zmluvám."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:77
 #: code:addons/sale_contract/models/sale_subscription.py:207
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
-msgstr ""
+msgstr "Táto faktúra pokrýva následovné obdobie: %s - %s"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
 msgid "This order is linked to a subscription."
-msgstr ""
+msgstr "Táto objdnávka je prepojná k odberu."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_timesheets
@@ -1145,7 +1146,7 @@ msgstr "Počítadlo neprečítaných správ"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
 msgid "Update Contract"
-msgstr ""
+msgstr "Aktualizovať zmluvu"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
@@ -1153,7 +1154,7 @@ msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
 "                work done, expenses and/or sales orders. Odoo will automatically manage\n"
 "                the alerts for the renewal of the contracts to the right salesperson."
-msgstr ""
+msgstr "Použiťe zmluvy na sledovanie úloh, problémov, časových ozvrhov a fakturácie na základe\nvykonanej práce, výdavkov a / alebo objednávok predaja. Odoo bude automaticky spravovať\nupozorenia pre predĺženie zmlúv pre správneho predajcu."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_website_message_ids
@@ -1168,12 +1169,12 @@ msgstr "História komunikácie webovej stránky"
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Week(s)"
-msgstr ""
+msgstr "Týždeň(ne)"
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
-msgstr ""
+msgstr "Rok(y)"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -1181,13 +1182,13 @@ msgid ""
 "You must define a product for everything you sell, whether it's\n"
 "            a physical product, a consumable or a service you offer to\n"
 "            customers."
-msgstr ""
+msgstr "Musíte definovať produkt pre všetko čo predávate, či je to\nfyzický produkt, niečo spotrebné alebo služba čo ponúkate\nzákazníkom."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:174
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
-msgstr ""
+msgstr "Najskôr musíte zvoliť zákazníka pre odber %s!"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
@@ -1195,29 +1196,29 @@ msgid ""
 "You will find here the contracts to be renewed because the\n"
 "            end date is passed or the working effort is higher than the\n"
 "            maximum authorized one."
-msgstr ""
+msgstr "Nájdete tu zmluvy, ktoré majú byť obnovené, pretože\ndátum ukončenia vypršal alebo pracovné úsilie je väčšie ako\nmaximálne povolené."
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "sale.subscription.close.reason"
-msgstr ""
+msgstr "sale.subscription.close.reason"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
-msgstr ""
+msgstr "sale.subscription.lin"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "subscription Templates"
-msgstr ""
+msgstr "Šablóny odberu"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Generate Invoice"
-msgstr ""
+msgstr "⇒ Generovať faktúru"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
-msgstr ""
+msgstr "⇒ Obnovenie cenovej ponuky"
