@@ -25,6 +25,7 @@ var FollowupReportWidget = ReportWidget.extend({
     }, ReportWidget.prototype.events),
     enableAuto: function(e) { // Auto mode is enabled -> Next action is computed automatically when clicking on 'Done'
         var target_id;
+        var self = this;
         if ($(e.target).is('.btn-default')) { // If auto mode wasn't alreayd enabled
             target_id = $(e.target).parents("div.o_account_reports_page").data('context');
             // change which button is highlighted
@@ -41,7 +42,7 @@ var FollowupReportWidget = ReportWidget.extend({
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').removeClass('btn-info');
             $(e.target).parents('.o_account_reports_followup-no-action').remove(); // Remove the alert
         }
-        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]]); // Go to auto python-side
+        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]]).then(function () {self.getParent().restart();}); // Go to auto python-side
     },
     // Opens the modal to select a next action
     setNextAction: function(e) {

@@ -8,6 +8,7 @@ from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
 import time
 from openerp.tools.safe_eval import safe_eval
+from openerp.tools import append_content_to_html
 import math
 
 
@@ -125,9 +126,9 @@ class account_report_context_followup_all(models.TransientModel):
     skipped_partners_ids = fields.Many2many('res.partner', 'account_fup_report_skipped_partners', string='Skipped partners')
     last_page = fields.Integer('number of pages', compute='_compute_pages')
 
-    def skip_partner(self, partner):
-        self.write({'skipped_partners_ids': [(4, partner.id)]})
-        self.write({'valuenow': self.valuenow + 1})
+    def skip_partner(self, partners):
+        self.write({'skipped_partners_ids': [(6, 0, partners.ids + self.skipped_partners_ids.ids)]})
+        self.write({'valuenow': self.valuenow + len(partners)})
 
     def get_total_time(self):
         delta = fields.datetime.now() - datetime.strptime(self.started, tools.DEFAULT_SERVER_DATETIME_FORMAT)
@@ -254,7 +255,10 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def change_next_action(self, date, note):
         self.partner_id.write({'payment_next_action': note, 'payment_next_action_date': date})
-        msg = _('Next action date: ') + date + '.\n' + note
+        if self.partner_id.payment_next_action_date != fields.Date.context_today(self):
+            msg = _('Next action date: ') + self.partner_id.payment_next_action_date + '.\n' + note
+        else:
+            msg = note
         self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
     @api.multi
@@ -325,31 +329,22 @@ class account_report_context_followup(models.TransientModel):
             headers.append(header)
             footers.append(footer)
             if log:
-                msg = fields.Date.context_today(self) + _(': Sent a followup letter')
+                msg = _('Sent a followup letter')
                 context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
         return self.env['report']._run_wkhtmltopdf(headers, footers, bodies, False, self.env.user.company_id.paperformat_id)
 
     @api.multi
     def send_email(self):
-        pdf = self.with_context(public=True).get_pdf().encode('base64')
-        name = self.partner_id.name + '_followup.pdf'
-        attachment = self.env['ir.attachment'].create({'name': name, 'datas_fname': name, 'datas': pdf, 'type': 'binary'})
         email = self.env['res.partner'].browse(self.partner_id.address_get(['invoice'])['invoice']).email
         if email and email.strip():
-            email_template = self.env['mail.template'].create({
-                'name': _('Followup ') + self.partner_id.name,
-                'email_from': self.env.user.email or '',
-                'model_id': self.env['ir.model'].search([('model', '=', 'account.report.context.followup')]).id,
+            email = self.env['mail.mail'].create({
                 'subject': _('%s Payment Reminder') % self.env.user.company_id.name,
+                'body_html': append_content_to_html(self.with_context(public=True, mode='print').get_html(), self.env.user.signature, plaintext=False),
+                'email_from': self.env.user.email or '',
                 'email_to': email,
-                'lang': self.partner_id.lang,
-                'auto_delete': True,
-                'body_html': self.summary,
-                'attachment_ids': [(6, 0, [attachment.id])],
             })
-            email_template.send_mail(self.id)
-            msg = fields.Date.context_today(self) + _(': Sent a followup email')
+            msg = _(': Sent a followup email')
             self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
             return True
         return False
@@ -360,17 +355,18 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def to_auto(self):
         self.partner_id.write({'payment_next_action_date': datetime.today().strftime('%Y-%m-%d')})
+        self.unlink()
 
     @api.multi
     def get_html(self, given_context=None):
         if given_context is None:
             given_context = {}
-        lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self)
+        lines = self.env['account.followup.report'].with_context(lang=self.partner_id.lang).get_lines(self, public=self.env.context.get('public', False))
         rcontext = {
             'context': self.with_context(lang=self.partner_id.lang),
             'report': self.env['account.followup.report'].with_context(lang=self.partner_id.lang),
             'lines': lines,
-            'mode': 'display',
+            'mode': self.env.context.get('mode', 'display'),
             'time': time,
             'today': datetime.today().strftime('%Y-%m-%d'),
             'res_company': self.env['res.users'].browse(self.env.uid).company_id,

@@ -24,9 +24,9 @@
             </span>
         </div>
     </t>
-    <div class="progress" t-name="accountReports.followupProgressbar" t-if="context.partner_filter == 'action'">
+    <div class="progress" t-name="accountReports.followupProgressbar">
         <div class="progress-bar" role="context" t-att-aria-valuenow="context.valuenow" aria-valuemin="0" t-att-aria-valuemax="context.valuemax" t-att-style="'width: ' + context.percentage + '%;'">
-            <span class="show text-center"><t t-esc="context.valuenow + '/' + context.valuemax" /></span>
+            <span class="show text-center o_account-progress-bar-content"><t t-esc="context.valuenow + '/' + context.valuemax" /></span>
         </div>
     </div>
     <t t-name="accountReports.buttons">

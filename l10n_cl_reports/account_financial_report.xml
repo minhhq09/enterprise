@@ -12,6 +12,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = CLTAX_0101.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_cl"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_0101" model="account.financial.html.report.line">
         <field name="name">Impuesto a la Renta Primera Categoría a Pagar</field>
@@ -21,6 +22,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_02" model="account.financial.html.report.line">
         <field name="name">Impuesto General a las Ventas (IVA) Total a Pagar</field>
@@ -29,6 +31,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = CLTAX_0201.balance + CLTAX_0202.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_cl"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_0201" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado</field>
@@ -37,6 +40,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = CLTAX_020101.balance + CLTAX_020102.balance + CLTAX_020103.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020101" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado IVA</field>
@@ -47,6 +51,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020102" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado de Exonerados al IVA</field>
@@ -56,6 +61,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020103" model="account.financial.html.report.line">
         <field name="name">Impuesto Pagado Fuera de Ámbito</field>
@@ -65,6 +71,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_0202" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado</field>
@@ -73,6 +80,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = CLTAX_020201.balance + CLTAX_020202.balance + CLTAX_020203.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020201" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado IVA</field>
@@ -83,6 +91,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020202" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado de Exonerados al IVA</field>
@@ -92,6 +101,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_020203" model="account.financial.html.report.line">
         <field name="name">Impuesto Cobrado Fuera de Ámbito</field>
@@ -101,6 +111,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_03" model="account.financial.html.report.line">
         <field name="name">Base Imponible</field>
@@ -109,6 +120,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = CLTAX_0301.balance + CLTAX_0302.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_cl"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_0301" model="account.financial.html.report.line">
         <field name="name">Base Imponible - Ventas</field>
@@ -117,6 +129,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = CLTAX_030101.balance + CLTAX_030102.balance + CLTAX_030103.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_03"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030101" model="account.financial.html.report.line">
         <field name="name">Ventas Gravadas con IVA</field>
@@ -127,6 +140,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030102" model="account.financial.html.report.line">
         <field name="name">Ventas NO Gravadas (Exoneradas)</field>
@@ -136,6 +150,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030103" model="account.financial.html.report.line">
         <field name="name">Ventas Gravadas Fuera de Ámbito</field>
@@ -145,6 +160,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_0302" model="account.financial.html.report.line">
         <field name="name">Base Imponible - Compras</field>
@@ -153,6 +169,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = CLTAX_030201.balance + CLTAX_030202.balance + CLTAX_030203.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_03"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030201" model="account.financial.html.report.line">
         <field name="name">Compras Gravadas con IVA</field>
@@ -163,6 +180,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0302"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030202" model="account.financial.html.report.line">
         <field name="name">Compras NO Gravadas (Exoneradas)</field>
@@ -172,6 +190,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0302"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_cl_030203" model="account.financial.html.report.line">
         <field name="name">Compras Gravadas Fuera de Ámbito</field>
@@ -181,6 +200,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0302"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>
