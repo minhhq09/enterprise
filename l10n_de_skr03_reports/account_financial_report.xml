@@ -13,6 +13,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = DETAX03_39.balance + DETAX03_AST.balance + DETAX03_U.balance + DETAX03_VST.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_de_skr03"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0101" model="account.financial.html.report.line">
         <field name="name">Anrechn. (Abzug) d. festg. Sondervorausz. für Dauerfristverl. (nur auszuf. i. d. l. Voranm. d. Best. zeitr., i.d.R. Dezember)</field>
@@ -22,6 +23,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0102" model="account.financial.html.report.line">
         <field name="name">Andere Steuerbeträge</field>
@@ -30,6 +32,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = DETAX03_69.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010201" model="account.financial.html.report.line">
         <field name="name">In Rechn. unr. od. unber. ausg. (§14c) sow. Steuern, n. §4 Nr. 4a S. 1 B. a S. 2, §6a Ab. 4 S. 2, §17 Ab. 1 S. 6 o. §25b Ab. 2 gesch. werden</field>
@@ -39,6 +42,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0102"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103" model="account.financial.html.report.line">
         <field name="name">Umsatzsteuer</field>
@@ -47,6 +51,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = DETAX03_UZ19.balance + DETAX03_UZ33.balance + DETAX03_UZ39.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010301" model="account.financial.html.report.line">
         <field name="name">Lieferungen und sonst. Leistungen (einschl. unentgeltl. Wertabgaben)</field>
@@ -55,6 +60,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_UZ26.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0103"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_01030101" model="account.financial.html.report.line">
         <field name="name">Steuerpfl. Umsätze (Lief. u. sonst. Leist. einschl. unentgeltl. Wertabgaben)</field>
@@ -63,6 +69,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_36.balance + DETAX03_811.balance + DETAX03_861.balance + DETAX03_UZ30.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_010301"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103010101" model="account.financial.html.report.line">
         <field name="name">zu anderen Steuersätzen</field>
@@ -72,6 +79,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103010102" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 19 %</field>
@@ -82,6 +90,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103010103" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 7%</field>
@@ -92,6 +101,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103010104" model="account.financial.html.report.line">
         <field name="name">Umsätze land- und forstwirtschaftlicher Betrieb nach § 24 UStG</field>
@@ -100,6 +110,7 @@
         <field name="level" eval="4"/>
         <field name="formulas">balance = DETAX03_80.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030101"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010301010401" model="account.financial.html.report.line">
         <field name="name">Umsätze, f. d. e. Steuer n. § 24 UStG zu entrichten ist (Sägewerkserz., Getränke und alkohol. Flüssigk., z.B. Wein)</field>
@@ -109,6 +120,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0103010104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010302" model="account.financial.html.report.line">
         <field name="name">Innergemeinschaftliche Erwerbe</field>
@@ -117,6 +129,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_UZ35.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0103"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_01030201" model="account.financial.html.report.line">
         <field name="name">Steuerpflichtige innergemeinschaftliche Erwerbe</field>
@@ -125,6 +138,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_891.balance + DETAX03_931.balance + DETAX03_96.balance + DETAX03_98.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_010302"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103020101" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 19 %</field>
@@ -135,6 +149,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103020102" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 7%</field>
@@ -145,6 +160,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103020103" model="account.financial.html.report.line">
         <field name="name">neuer Fahrzeuge von Lieferern ohne USt-IdNr. zum allg. Steuersatz</field>
@@ -154,6 +170,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103020104" model="account.financial.html.report.line">
         <field name="name">zu anderen Steuersätzen</field>
@@ -163,6 +180,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010303" model="account.financial.html.report.line">
         <field name="name">Ergänzende Angaben zu Umsätzen</field>
@@ -171,6 +189,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_UZ46.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0103"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_01030301" model="account.financial.html.report.line">
         <field name="name">Umsätze, f. d. a. Leistungsempf. d. Steuer n. § 13b Abs. 2 UStG geschuldet wird</field>
@@ -179,6 +198,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_53.balance + DETAX03_65.balance + DETAX03_74.balance + DETAX03_85.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_010303"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103030101" model="account.financial.html.report.line">
         <field name="name">Leistungen eines im Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG)</field>
@@ -188,6 +208,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103030102" model="account.financial.html.report.line">
         <field name="name">Steuer inf. Wechsels d. Besteuerungsform sow. Nachsteuer a. verst. Anzahl. u. ä. wg. Steuersatzänderung</field>
@@ -197,6 +218,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103030103" model="account.financial.html.report.line">
         <field name="name">Lief. sicherungsüb. Gegenst. und Umsätze, d. u. d. GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG)</field>
@@ -206,6 +228,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0103030104" model="account.financial.html.report.line">
         <field name="name">Bauleistungen e. i. Inland ans. Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 4 UStG)</field>
@@ -215,6 +238,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01030301"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0104" model="account.financial.html.report.line">
         <field name="name">Abziehbare Vorsteuerbeträge</field>
@@ -223,6 +247,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = DETAX03_59.balance + DETAX03_61.balance + DETAX03_62.balance + DETAX03_63.balance + DETAX03_64.balance + DETAX03_66.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010401" model="account.financial.html.report.line">
         <field name="name">Vst. abz. f. i.g. Lief. neuer Fahrzeuge außerh. e. Unternehmens (§ 2a) sow. v. Kleinunt. i. S. d. § 19 Ab. 1 (§ 15 Abs. 4a)</field>
@@ -232,6 +257,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010402" model="account.financial.html.report.line">
         <field name="name">Vorsteuerbetr. a. d. innergem. von Gegenständen (§ 15 Abs. 1 Satz 1 Nr. 3 UStG)</field>
@@ -242,6 +268,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010403" model="account.financial.html.report.line">
         <field name="name">Entrichtete Einfuhrumsatzsteuer (§ 15 Abs. 1 Satz 1 Nr. 2 UStG)</field>
@@ -252,6 +279,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010404" model="account.financial.html.report.line">
         <field name="name">Vorsteuerbetr., die nach allgemeinen Durchschnittssätzen berechnet sind (§§ 23 und 23a UStG)</field>
@@ -261,6 +289,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010405" model="account.financial.html.report.line">
         <field name="name">Berichtigung des Vorsteuerabzugs (§ 15a UStG)</field>
@@ -270,6 +299,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_010406" model="account.financial.html.report.line">
         <field name="name">Vorsteuerb. a. Rechn. v. and. Untern. (§ 15 Abs. 1 S. 1 Nr. 1), a. Leist. i. S. d. § 13a Ab. 1 Nr. 6 (§ 15 Abs. 1 Satz 1 Nr. 5) u. a. i.g.Dreiecksgesch. (§ 25b Abs. 5 UStG)</field>
@@ -280,6 +310,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02" model="account.financial.html.report.line">
         <field name="name">Bemessungsgrundlage</field>
@@ -288,6 +319,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = DETAX03_BU.balance + DETAX03_BV.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_de_skr03"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201" model="account.financial.html.report.line">
         <field name="name">Umsatzsteuer</field>
@@ -296,6 +328,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = DETAX03_BZ19.balance + DETAX03_BZ33.balance + DETAX03_BZ39.balance + DETAX03_BZ46.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020101" model="account.financial.html.report.line">
         <field name="name">Lieferungen u. sonst. Leistungen (einschl. unentgeltl. Wertabgaben)</field>
@@ -304,6 +337,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_BZ20.balance + DETAX03_BZ24.balance + DETAX03_BZ26.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010101" model="account.financial.html.report.line">
         <field name="name">Steuerfreie Umsätze mit Vorsteuerabzug</field>
@@ -312,6 +346,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_41.balance + DETAX03_43.balance + DETAX03_44.balance + DETAX03_49.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020101"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010101" model="account.financial.html.report.line">
         <field name="name">Innergemeinsch. Lieferungen (§ 4 Nr. 1 Buchst. b UStG) an Abnehmer mit USt-IdNr</field>
@@ -322,6 +357,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010102" model="account.financial.html.report.line">
         <field name="name">Weitere steuerf. Umsätze m. Vorsteuerabz. (z.B. Ausfuhrlief., Umsätze nach § 4 Nr. 2 bis 7 UStG)</field>
@@ -332,6 +368,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010103" model="account.financial.html.report.line">
         <field name="name">neuer Fahrzeuge an Abnehmer ohne USt-IdNr</field>
@@ -341,6 +378,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010104" model="account.financial.html.report.line">
         <field name="name">neuer Fahrzeuge außerhalb eines Unternehmens (§ 2a UStG)</field>
@@ -350,6 +388,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010101"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010102" model="account.financial.html.report.line">
         <field name="name">Steuerfreie Umsätze ohne Vorsteuerabzug</field>
@@ -358,6 +397,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_48.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020101"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010201" model="account.financial.html.report.line">
         <field name="name">Umsätze nach § 4 Nr. 8 bis 28 UStG</field>
@@ -367,6 +407,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010102"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010103" model="account.financial.html.report.line">
         <field name="name">Steuerpflichtige Umsätze (Lief. u. sonst. Leist. einschl. unentgeltl. Wertabgaben)</field>
@@ -375,6 +416,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_35.balance + DETAX03_81.balance + DETAX03_86.balance + DETAX03_BZ30.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020101"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010301" model="account.financial.html.report.line">
         <field name="name">zu anderen Steuersätzen</field>
@@ -384,6 +426,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010302" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 19 %</field>
@@ -394,6 +437,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010303" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 7%</field>
@@ -404,6 +448,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201010304" model="account.financial.html.report.line">
         <field name="name">Umsätze land- und forstwirtschaftlicher Betrieb nach § 24 UStG</field>
@@ -412,6 +457,7 @@
         <field name="level" eval="4"/>
         <field name="formulas">balance = DETAX03_76.balance + DETAX03_77.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010103"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020101030401" model="account.financial.html.report.line">
         <field name="name">Umsätze, f. d. e. Steuer n. § 24 UStG zu entrichten ist (Sägewerkserz., Getränke und alkohol. Flüssigk., z.B. Wein)</field>
@@ -421,6 +467,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201010304"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020101030402" model="account.financial.html.report.line">
         <field name="name">Lieferungen in das übrige Gemeinschaftsgebiet an Abnehmer mit Ust-IdNr.</field>
@@ -430,6 +477,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201010304"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020102" model="account.financial.html.report.line">
         <field name="name">Innergemeinschaftliche Erwerbe</field>
@@ -438,6 +486,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_BZ34.balance + DETAX03_BZ35.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010201" model="account.financial.html.report.line">
         <field name="name">Steuerfreie innergemeinschaftliche Erwerbe</field>
@@ -446,6 +495,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_91.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020102"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201020101" model="account.financial.html.report.line">
         <field name="name">Erwerbe nach § 4b UStG</field>
@@ -455,6 +505,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010202" model="account.financial.html.report.line">
         <field name="name">Steuerpflichtige innergemeinschaftliche Erwerbe</field>
@@ -463,6 +514,7 @@
         <field name="level" eval="3"/>
         <field name="formulas">balance = DETAX03_89.balance + DETAX03_93.balance + DETAX03_94.balance + DETAX03_95.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020102"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201020201" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 19 %</field>
@@ -473,6 +525,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201020202" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 7%</field>
@@ -482,6 +535,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201020203" model="account.financial.html.report.line">
         <field name="name">neue Fahrzeuge v. Lieferern ohne USt-IdNr. z. allg. Steuersatz</field>
@@ -491,6 +545,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0201020204" model="account.financial.html.report.line">
         <field name="name">zu anderen Steuersätzen</field>
@@ -500,6 +555,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02010202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020103" model="account.financial.html.report.line">
         <field name="name">Ergänzende Angaben zu Umsätzen</field>
@@ -508,6 +564,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_42.balance + DETAX03_45.balance + DETAX03_60.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010301" model="account.financial.html.report.line">
         <field name="name">Lieferungen d. erst. Abnehmers b. innergemeinsch. Dreiecksgeschäften (§ 25b Abs. 2 UStG)</field>
@@ -517,6 +574,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010302" model="account.financial.html.report.line">
         <field name="name">Nicht steuerbare Umsätze (Leistungsort nicht im Inland)</field>
@@ -527,6 +585,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010303" model="account.financial.html.report.line">
         <field name="name">Steuerpfl. Umsätze i. S. d. § 13b Abs. 1 Satz 1 Nr. 1 bis 5 UStG, für d. der Leistungsempf. d. Steuer schuldet</field>
@@ -536,6 +595,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020103"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020104" model="account.financial.html.report.line">
         <field name="name">Umsätze, f. d. als Leistungsempf. die Steuer n. § 13b Abs. 2 UStG geschuld. wird</field>
@@ -544,6 +604,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_52.balance + DETAX03_73.balance + DETAX03_84.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0201"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010401" model="account.financial.html.report.line">
         <field name="name">Leistungen e. i. Ausland ansässigen Unternehmers (§ 13b Abs. 1 Satz 1 Nr. 1 und 5 UStG)</field>
@@ -553,6 +614,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010402" model="account.financial.html.report.line">
         <field name="name">Liefer. sicherungsübereig. Gegenst. u. Umsätze, d. u. d. GrEStG fallen (§ 13b Abs. 1 Satz 1 Nr. 2 und 3 UStG)</field>
@@ -562,6 +624,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02010403" model="account.financial.html.report.line">
         <field name="name">Bauleistung. e. i. Inland ans. Untern. (§ 13b Abs. 1 Satz 1 Nr. 4 UStG)</field>
@@ -571,6 +634,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020104"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_0202" model="account.financial.html.report.line">
         <field name="name">Vorsteuer (dient lediglich der Verprobung)</field>
@@ -579,6 +643,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = DETAX03_BAUS.balance + DETAX03_BRV.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020201" model="account.financial.html.report.line">
         <field name="name">Einfuhren</field>
@@ -587,6 +652,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_BAUS19.balance + DETAX03_BAUS7.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0202"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02020101" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 19 %</field>
@@ -597,6 +663,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02020102" model="account.financial.html.report.line">
         <field name="name">zum Steuersatz von 7 %</field>
@@ -607,6 +674,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020201"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_020202" model="account.financial.html.report.line">
         <field name="name">Rech. v.a. Unt. (§15 Ab.1 S.1 Nr.1), Leistg. i.S. §13a Ab.1 Nr.6 (§ 15 Ab.1 S.1 Nr.5) und i.g. Dreiecksgeschäfte (§25b Ab. 5)</field>
@@ -615,6 +683,7 @@
         <field name="level" eval="2"/>
         <field name="formulas">balance = DETAX03_BRV19.balance + DETAX03_BRV7.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_0202"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02020201" model="account.financial.html.report.line">
         <field name="name">L+L zum Steuersatz von 19 %</field>
@@ -625,6 +694,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_de_skr03_02020202" model="account.financial.html.report.line">
         <field name="name">L+L zum Steuersatz von 7 %</field>
@@ -635,6 +705,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_de_skr03_020202"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>

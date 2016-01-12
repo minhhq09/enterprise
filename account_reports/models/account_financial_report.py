@@ -111,7 +111,7 @@ class AccountFinancialReportLine(models.Model):
                                    'Type', default='float', required=True)
     green_on_positive = fields.Boolean('Is growth good when positive', default=True)
     level = fields.Integer(required=True)
-    special_date_changer = fields.Selection([('from_beginning', 'From the beginning'), ('to_beginning_of_period', 'At the beginning of the period'), ('normal', 'Use given dates')], default='normal')
+    special_date_changer = fields.Selection([('from_beginning', 'From the beginning'), ('to_beginning_of_period', 'At the beginning of the period'), ('normal', 'Use given dates'), ('strict_range', 'Force given dates for all accounts and account types')], default='normal')
     show_domain = fields.Selection([('always', 'Always'), ('never', 'Never'), ('foldable', 'Foldable')], default='foldable')
     hide_if_zero = fields.Boolean(default=False)
     action_id = fields.Many2one('ir.actions.actions')
@@ -324,13 +324,16 @@ class AccountFinancialReportLine(models.Model):
             for period in comparison_table:
                 period_from = period[0]
                 period_to = period[1]
+                strict_range = False
                 if line.special_date_changer == 'from_beginning':
                     period_from = False
                 if line.special_date_changer == 'to_beginning_of_period':
                     date_tmp = datetime.strptime(period[0], "%Y-%m-%d") - relativedelta(days=1)
                     period_to = date_tmp.strftime('%Y-%m-%d')
                     period_from = False
-                r = line.with_context(date_from=period_from, date_to=period_to)._eval_formula(financial_report, debit_credit, context, currency_table, linesDicts[k])
+                if line.special_date_changer == 'strict_range':
+                    strict_range = True
+                r = line.with_context(date_from=period_from, date_to=period_to, strict_range=strict_range)._eval_formula(financial_report, debit_credit, context, currency_table, linesDicts[k])
                 debit_credit = False
                 res.append(r)
                 domain_ids.update(set(r.keys()))

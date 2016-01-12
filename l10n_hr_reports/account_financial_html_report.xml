@@ -13,6 +13,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_POTROSNJA.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_hr_report"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_1" model="account.financial.html.report.line">
         <field name="name">Porez na potrošnju</field>
@@ -22,6 +23,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_0"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_2" model="account.financial.html.report.line">
         <field name="name">PDV</field>
@@ -30,6 +32,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_PDVOB.balance + HRTAX_zPDV.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_hr_report"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_3" model="account.financial.html.report.line">
         <field name="name">OBRAZAC PDV</field>
@@ -38,6 +41,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_oPDVOB.balance + HRTAX_pPDV.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_2"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_4" model="account.financial.html.report.line">
         <field name="name">O S N O V I C A</field>
@@ -46,6 +50,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o12.balance + HRTAX_o300.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_3"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_5" model="account.financial.html.report.line">
         <field name="name">Obračun isporuka (I+II)</field>
@@ -54,6 +59,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o100.balance + HRTAX_o200.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_4"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_6" model="account.financial.html.report.line">
         <field name="name">I. Isporuke ne podliježu / oslobođene</field>
@@ -62,6 +68,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o110.balance + HRTAX_o120.balance + HRTAX_o130.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_5"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_7" model="account.financial.html.report.line">
         <field name="name">I.1. Koje ne podliježu oporezivanju</field>
@@ -72,6 +79,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_6"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_8" model="account.financial.html.report.line">
         <field name="name">I.2. Oslobođene ukupno</field>
@@ -80,6 +88,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_o121.balance + HRTAX_o122.balance + HRTAX_o123.balance + HRTAX_o124.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_6"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_9" model="account.financial.html.report.line">
         <field name="name">I.2.1. Izvozne</field>
@@ -90,6 +99,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_8"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_10" model="account.financial.html.report.line">
         <field name="name">I.2.2. Isporuke dobara</field>
@@ -100,6 +110,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_8"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_11" model="account.financial.html.report.line">
         <field name="name">I.2.3. Tuzemne  - bez prava odbitka</field>
@@ -110,6 +121,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_8"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_12" model="account.financial.html.report.line">
         <field name="name">I.2.4. Ostale – s pravom odbitka</field>
@@ -120,6 +132,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_8"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_13" model="account.financial.html.report.line">
         <field name="name">I.3. Isporuke po stopi od 0%</field>
@@ -130,6 +143,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_6"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_14" model="account.financial.html.report.line">
         <field name="name">II. Oporezive isporuke</field>
@@ -138,6 +152,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_o210.balance + HRTAX_o220.balance + HRTAX_o230.balance + HRTAX_o240.balance + HRTAX_o250.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_5"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_15" model="account.financial.html.report.line">
         <field name="name">II.1 Izdani računi po stopi 10%</field>
@@ -148,6 +163,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_14"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_16" model="account.financial.html.report.line">
         <field name="name">II.2 Izdani računi po stopi 22% i 23%</field>
@@ -157,6 +173,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_14"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_17" model="account.financial.html.report.line">
         <field name="name">II.3 Izdani računi po stopi 25%</field>
@@ -167,6 +184,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_14"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_18" model="account.financial.html.report.line">
         <field name="name">II.4 Nenaplaćeni izvoz</field>
@@ -176,6 +194,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_14"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_19" model="account.financial.html.report.line">
         <field name="name">II.5 Oslobođenje izvoza – putnički promet</field>
@@ -185,6 +204,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_14"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_20" model="account.financial.html.report.line">
         <field name="name">III. OBRAČUNANI PRETPOREZ</field>
@@ -193,6 +213,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_o310.balance + HRTAX_o320.balance + HRTAX_o330.balance + HRTAX_o340.balance + HRTAX_o350.balance + HRTAX_o360.balance + HRTAX_o370.balance + HRTAX_o391.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_4"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_21" model="account.financial.html.report.line">
         <field name="name">III.1. Pretporez 10%</field>
@@ -203,6 +224,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_22" model="account.financial.html.report.line">
         <field name="name">III.2. Pretporez 22% i23%</field>
@@ -212,6 +234,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_23" model="account.financial.html.report.line">
         <field name="name">III.3. Pretporez 25%</field>
@@ -221,6 +244,7 @@
         <field name="formulas">balance = HRTAX_o330b.balance + HRTAX_o330t.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_23b" model="account.financial.html.report.line">
         <field name="name">III.3. Pretporez 25% bis</field>
@@ -230,6 +254,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_21'), ref('l10n_hr.tax_tag_30')])]"/>
         <field name="formulas">balance = 0.7 * sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_23t" model="account.financial.html.report.line">
         <field name="name">III.3. Pretporez 25% ter</field>
@@ -239,6 +264,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_20'), ref('l10n_hr.tax_tag_31')])]"/>
         <field name="formulas">balance = 0.3 * sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_24" model="account.financial.html.report.line">
         <field name="name">III.4. Plaćeni PP pri uvozu</field>
@@ -248,6 +274,7 @@
         <field name="domain" eval="['|', ('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_22'), ref('l10n_hr.tax_tag_23'), ref('l10n_hr.tax_tag_24')]), '&amp;', ('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_25'), ref('l10n_hr.tax_tag_26')]), ('credit', '>', 0)]"/>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_26" model="account.financial.html.report.line">
         <field name="name">III.5. Plaćeni PP na ino usluge 10%</field>
@@ -257,6 +284,7 @@
         <field name="domain" eval="['|', '&amp;', ('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_25')]), ('debit', '>', 0) , '&amp;', ('tax_line_id.tag_ids', 'in', [ref('l10n_hr.tax_tag_25')]), ('credit', '>', 0)]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_27" model="account.financial.html.report.line">
         <field name="name">III.6. Plaćeni PP na ino usluge 22% i 23%</field>
@@ -266,6 +294,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_28" model="account.financial.html.report.line">
         <field name="name">III.7. Plaćeni PP na ino usluge 25%</field>
@@ -275,6 +304,7 @@
         <field name="domain" eval="['|', '&amp;', ('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_26')]), ('debit', '>', 0), '&amp;', ('tax_line_id.tag_ids', 'in', [ref('l10n_hr.tax_tag_26')]), ('credit', '>', 0)]"/>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_29" model="account.financial.html.report.line">
         <field name="name">III.0. Pretporez 0%</field>
@@ -285,6 +315,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_20"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_30" model="account.financial.html.report.line">
         <field name="name">PDV – POREZ – razlika za uplatu/preplata</field>
@@ -293,6 +324,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_p400.balance + HRTAX_p500.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_3"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_31" model="account.financial.html.report.line">
         <field name="name">VI. POREZNA OBVEZA U RAZDOBLJU</field>
@@ -301,6 +333,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_p100.balance + HRTAX_p200.balance + HRTAX_p300.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_30"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_32" model="account.financial.html.report.line">
         <field name="name">I. Isporuke ne podliježu / oslobođene</field>
@@ -310,6 +343,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_31"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_33" model="account.financial.html.report.line">
         <field name="name">II. Oporezive isporuke</field>
@@ -318,6 +352,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_p210.balance + HRTAX_p220.balance + HRTAX_p230.balance + HRTAX_p240.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_31"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_34" model="account.financial.html.report.line">
         <field name="name">II.1 Izdani računi po stopi 10%</field>
@@ -328,6 +363,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_33"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_35" model="account.financial.html.report.line">
         <field name="name">II.2 Izdani računi po stopi 22% i 23%</field>
@@ -337,6 +373,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_33"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_36" model="account.financial.html.report.line">
         <field name="name">II.3 Izdani računi po stopi 25%</field>
@@ -347,6 +384,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_33"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_37" model="account.financial.html.report.line">
         <field name="name">II.4 Oslobođenje izvoza – putnički promet</field>
@@ -356,6 +394,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_33"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_38" model="account.financial.html.report.line">
         <field name="name">III. OBRAČUNANI PRETPOREZ</field>
@@ -364,6 +403,7 @@
         <field name="sequence" eval="3"/>
         <field name="formulas">balance = HRTAX_p310.balance + HRTAX_p320.balance + HRTAX_p330.balance + HRTAX_p340.balance + HRTAX_p350.balance + HRTAX_p360.balance + HRTAX_p370.balance + HRTAX_p380.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_31"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_40" model="account.financial.html.report.line">
         <field name="name">III.1. Pretporez 10%</field>
@@ -374,6 +414,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_41" model="account.financial.html.report.line">
         <field name="name">III.2. Pretporez 22% i 23%</field>
@@ -383,6 +424,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_42" model="account.financial.html.report.line">
         <field name="name">III.3. Pretporez 25%</field>
@@ -393,6 +435,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_43" model="account.financial.html.report.line">
         <field name="name">III.4. Plaćeni PP pri uvozu</field>
@@ -403,6 +446,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_44" model="account.financial.html.report.line">
         <field name="name">III.5. Plaćeni PP na ino usluge 10%</field>
@@ -413,6 +457,7 @@
         <field name="formulas">balance = sum.debit</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_45" model="account.financial.html.report.line">
         <field name="name">III.6. Plaćeni PP na ino usluge 22% i 23%</field>
@@ -422,6 +467,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_46" model="account.financial.html.report.line">
         <field name="name">III.7. Plaćeni PP na ino usluge 25%</field>
@@ -432,6 +478,7 @@
         <field name="formulas">balance = sum.debit</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_47" model="account.financial.html.report.line">
         <field name="name">III.8. Ispravci pretporeza</field>
@@ -441,6 +488,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_38"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_48" model="account.financial.html.report.line">
         <field name="name">Uplaćeno u razdoblju</field>
@@ -450,6 +498,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_30"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_49" model="account.financial.html.report.line">
         <field name="name">PDV - OSTALO</field>
@@ -458,6 +507,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_o700.balance + HRTAX_z900.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_2"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_50" model="account.financial.html.report.line">
         <field name="name">Ostali podaci</field>
@@ -466,6 +516,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o710.balance + HRTAX_o720.balance + HRTAX_o730.balance + HRTAX_o740.balance + HRTAX_o750.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_49"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_51" model="account.financial.html.report.line">
         <field name="name">1. ZA ISPRAVAK PRETPOREZA</field>
@@ -474,6 +525,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o711.balance + HRTAX_o712.balance + HRTAX_o713.balance + HRTAX_o714.balance + HRTAX_o715.balance + HRTAX_o716.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_50"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_52" model="account.financial.html.report.line">
         <field name="name">1.1. NABAVA NEKRETNINA</field>
@@ -483,6 +535,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_53" model="account.financial.html.report.line">
         <field name="name">1.2. PRODAJA NEKRETNINA</field>
@@ -492,6 +545,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_54" model="account.financial.html.report.line">
         <field name="name">1.3. NABAVA OSOBNIH VOZILA</field>
@@ -501,6 +555,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_55" model="account.financial.html.report.line">
         <field name="name">1.4. PRODAJA OSOBNIH VOZILA</field>
@@ -510,6 +565,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_56" model="account.financial.html.report.line">
         <field name="name">1.5. NABAVA DUGOTRAJNE IMOVINE</field>
@@ -519,6 +575,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_57" model="account.financial.html.report.line">
         <field name="name">1.6. PRODAJA DUGOTRAJNE IMOVINE</field>
@@ -528,6 +585,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_51"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_58" model="account.financial.html.report.line">
         <field name="name">2. OTUĐENJE/STJECANJE GOSPODARSKE CJELINE ILI POGONA</field>
@@ -537,6 +595,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_50"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_59" model="account.financial.html.report.line">
         <field name="name">3. NABAVA DOBARA I USLUGA ZA REPREZENTACIJU</field>
@@ -546,6 +605,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_50"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_60" model="account.financial.html.report.line">
         <field name="name">4. NABAVA OSOBNIH VOZILA I DRUGIH SREDSTAVA ZA OSOBNI PRIJEVOZ</field>
@@ -555,6 +615,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_50"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_61" model="account.financial.html.report.line">
         <field name="name">5. OSNOVICA ZA OBRAČUN VLASTITE POTROŠNJE ZA OSOBNA VOZILA NABAV</field>
@@ -564,6 +625,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_50"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_62" model="account.financial.html.report.line">
         <field name="name">NEPRIZNATI PRETPOREZ</field>
@@ -572,6 +634,7 @@
         <field name="sequence" eval="2"/>
         <field name="formulas">balance = HRTAX_o910.balance + HRTAX_o920.balance + HRTAX_p900.balance + HRTAX_p920.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_49"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_63" model="account.financial.html.report.line">
         <field name="name">NEPRIZNATI PRETPOREZ (osnovica 30 ili 70%)</field>
@@ -580,6 +643,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_o911.balance + HRTAX_o912.balance + HRTAX_o913.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_62"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_64" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 10% (o)</field>
@@ -589,6 +653,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_63"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_65" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 22% i 23% (o)</field>
@@ -598,6 +663,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_63"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_66" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 25% (o)</field>
@@ -608,6 +674,7 @@
         <field name="formulas">balance = sum.balance + HRTAX_o913b.balance + HRTAX_o913t.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_63"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_66b" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 25% (o) bis</field>
@@ -617,6 +684,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_21'), ref('l10n_hr.tax_tag_30')])]"/>
         <field name="formulas">balance = 0.3 * sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_66t" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 25% (o) ter</field>
@@ -626,6 +694,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hr.tax_tag_20'), ref('l10n_hr.tax_tag_31')])]"/>
         <field name="formulas">balance = 0.7 * sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_67" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (uključivo i neplaćeni R-2)</field>
@@ -636,6 +705,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_62"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_68" model="account.financial.html.report.line">
         <field name="name">NEPRIZNATI PRETPOREZ (porez)</field>
@@ -644,6 +714,7 @@
         <field name="sequence" eval="3"/>
         <field name="formulas">balance = HRTAX_p910.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_62"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_69" model="account.financial.html.report.line">
         <field name="name">NEPRIZNATI PRETPOREZ (30 ili 70%)</field>
@@ -652,6 +723,7 @@
         <field name="sequence" eval="1"/>
         <field name="formulas">balance = HRTAX_p911.balance + HRTAX_p912.balance + HRTAX_p913.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_68"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_70" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 10% (p)</field>
@@ -661,6 +733,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_69"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_71" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 22% i 23% (p)</field>
@@ -670,6 +743,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_69"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_72" model="account.financial.html.report.line">
         <field name="name">Nepriznati pretporez 25% (p)</field>
@@ -680,6 +754,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_69"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_73" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (ukupno)</field>
@@ -688,6 +763,7 @@
         <field name="sequence" eval="4"/>
         <field name="formulas">balance = HRTAX_p9201.balance + HRTAX_p9202.balance + HRTAX_p9203.balance + HRTAX_p9204.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_62"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_74" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (neplaćeni R2)</field>
@@ -698,6 +774,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_73"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_75" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (neplaćeni UVOZ dobara 25%)</field>
@@ -708,6 +785,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_73"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_76" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (neplaćene INO usluge 25%)</field>
@@ -718,6 +796,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_73"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_l10n_hr_line_77" model="account.financial.html.report.line">
         <field name="name">Pretporez koji još nije priznan (neplaćene INO usluge 10%)</field>
@@ -727,5 +806,6 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_l10n_hr_line_73"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 </odoo>

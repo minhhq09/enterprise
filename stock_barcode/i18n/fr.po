@@ -6,14 +6,15 @@
 # Clo <clo@odoo.com>, 2015
 # Fabien Pinckaers <fp@openerp.com>, 2015
 # Lucas Deliege <lud@odoo.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
+# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
+# Quentin THEURET <quentin@theuret.net>, 2016
 # Stéphane GUILLY <stephane.guilly@laposte.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-12-24 18:12+0000\n"
+"PO-Revision-Date: 2016-01-08 22:18+0000\n"
 "Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +49,7 @@ msgid ""
 "                            sequence (that's why no two products in a store will ever have the\n"
 "                            same EAN code). Still, as Odoo supports any string as a barcode, so\n"
 "                            you can always define your own barcode format for internal use."
-msgstr ""
+msgstr "<strong>Les code-barres EAN-13 :</strong> utilisés par la plupart des produits au détail, ils ne peuvent pas être créés sans une autorisation propre : vous devez payer une taxe à \nl'International Article Numbering Association en échange d'une séquence de codes \nEAN (c'est pourquoi deux produits dans la boutique ne peuvent avoir le même code EAN).\nMalgré cela, comme Odoo supporte n'importe quelle chaîne de caractère comme code-barre,\nvous pouvez toujours définir votre propre format de code-barres pour un usage interne."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -65,7 +66,7 @@ msgstr "<strong>Depuis l'application de code-barres :</strong>"
 msgid ""
 "<strong>Good location nomenclature:</strong> <i>warehouse short name - location short name - (Corridor X - Shelf Y - Height Z) </i><br/>\n"
 "                                Example: A032-025-133 (Note that you can use any string in the barcode field)"
-msgstr ""
+msgstr "<strong>Bonne nomenclature d'emplacement  :</strong><i>Un nom d'entrepôt court - Un nom d'emplacement court - (Couloir X - Étagère Y - Hauteur Z)</i></br>\nExemple : A032-025-133 (Notez que vous pouvez utiliser n'importe quelle chaîne de caractères dans le champ code-barre)"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -143,13 +144,13 @@ msgstr "<strong>Pour procéder au Commandes de livraisons imprimées </strong>"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "<strong>We've tested a few devices for you:</strong>"
-msgstr "<strong>Nous avons testé plusieurs appareil pour vous:</strong>"
+msgstr "<strong>Nous avons testé plusieurs appareil pour vous :</strong>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "<strong>What is the difference between Lots and Serial Numbers?</strong>"
-msgstr "<strong>Quelle est la différence entre les lots et les numéros de série? </strong>"
+msgstr "<strong>Quelle est la différence entre les lots et les numéros de série?</strong>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -159,7 +160,7 @@ msgstr "Retour à la ligne automatique"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Automatic carriage return: <span class=\"label\">OFF</span>"
-msgstr ""
+msgstr "Retour chariot automatique : <span class=\"label\">Désactivé</span>"
 
 #. module: stock_barcode
 #: model:ir.actions.client,name:stock_barcode.stock_barcode_action_main_menu
@@ -181,21 +182,21 @@ msgstr "Code barre scanné"
 #: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:8
 #, python-format
 msgid "Barcode Scanning"
-msgstr "Scan du code-barres"
+msgstr "Scan du code-barre"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "Before we start, you should choose your working process. There are three "
 "suitable approaches to work with barcodes:"
-msgstr "Avant de commencer, vous devez choisir votre procédure de travail. Ils y a trois approches adaptées pour travailler avec des codes-barres:"
+msgstr "Avant de commencer, vous devez choisir votre procédure de travail. Il y a trois approches adaptées pour travailler avec des codes-barres :"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "But better yet is to transform this naming into a barcode that can be "
 "scanned easily and without error."
-msgstr "Mais le mieux est de transformer cette appellation en un code-barres qui peut être scanné facilement et sans erreurs. "
+msgstr "Mais le mieux est de transformer cette appellation en un code-barres qui peut être scanné facilement et sans erreur. "
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -213,12 +214,12 @@ msgstr "Par défaut, Odoo a un retard de 50 millisecondes entre chaque scans suc
 msgid ""
 "Choose an USB barcode scanner if you plan to scan products at the computer "
 "station"
-msgstr "Choisissez un scanner de codes barres avec prise USB si vous comptez scanner des produits depuis un ordinateur fixe."
+msgstr "Choisissez un lecteur de code-barres avec prise USB si vous comptez scanner des produits depuis un ordinateur fixe."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Click on 'Inventory'"
-msgstr "Cliquez sur 'Inventaire'"
+msgstr "Cliquez sur \"Inventaire\""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.stock_config_view_form_inherit_stock_barcode

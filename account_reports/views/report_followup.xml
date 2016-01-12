@@ -69,22 +69,24 @@
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         History <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu dropdown-menu-right o_account_reports_history" role="menu">
                         <t t-foreach="context.get_history()" t-as='msg'>
-                            <li role="presentation" style='margin-left: 5px'><t t-raw='msg.body' /></li>
+                            <li role="presentation" style='margin-left: 5px'><t t-esc='msg.date' /> (<t t-esc='msg.author_id.name' />) : <t t-raw='msg.body' /></li>
                             <li role="presentation" class="divider"></li>
                         </t>
                     </ul>
                 </div>
             </div>
-            <t t-if='context.invoice_address_id.phone'><p><i class='fa fa-phone fa-fw' /><t t-esc="context.invoice_address_id.phone" /></p><br /></t>
-            <t t-if='context.invoice_address_id.mobile'><p><i class='fa fa-mobile fa-fw' /><t t-esc="context.invoice_address_id.mobile" /></p><br /></t>
-            <t t-if='context.invoice_address_id.fax'><p><i class='fa fa-fax fa-fw' /><t t-esc="context.invoice_address_id.fax" /></p><br /></t>
-            <t t-if='context.invoice_address_id.email'>
-                <a t-att-href="'mailto:' + context.invoice_address_id.email">
-                    <p class='fa fa-envelope' t-esc="' ' + context.invoice_address_id.email" />
-                </a><br />
-            </t>
+            <p class='o_account_reports_contact_info'>
+                <t t-if='context.invoice_address_id.phone'><i class='fa fa-phone fa-fw' /><t t-esc="context.invoice_address_id.phone" /><br /></t>
+                <t t-if='context.invoice_address_id.mobile'><i class='fa fa-mobile fa-fw' /><t t-esc="context.invoice_address_id.mobile" /><br /></t>
+                <t t-if='context.invoice_address_id.fax'><i class='fa fa-fax fa-fw' /><t t-esc="context.invoice_address_id.fax" /><br /></t>
+                <t t-if='context.invoice_address_id.email'>
+                    <a t-att-href="'mailto:' + context.invoice_address_id.email">
+                        <i class='fa fa-envelope' /><t t-esc="' ' + context.invoice_address_id.email" />
+                    </a>
+                </t>
+            </p>
         </div>
     </xpath>
     <xpath expr='//th' position='replace'>
@@ -94,9 +96,9 @@
         <attribute name="width"></attribute>
     </xpath>
     <xpath expr="//h2" position="replace">
-        <h2>
-            <span t-if="not context.env.context.get('public')">
-                <span t-if="not context.env.context.get('public')" class="dropdown" t-att-data-partner='context.partner_id.id'>
+       <h2 t-if="not context.env.context.get('public')">
+            <span>
+                <span class="dropdown" t-att-data-partner='context.partner_id.id'>
                     <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='trustDropdown'>
                         <i t-if="context.partner_id.trust == 'good'" class="fa fa-circle oe-account_followup-trust" style="color: green; font-size: 0.8em;"></i>
                         <i t-if="context.partner_id.trust == 'normal'" class="fa fa-circle oe-account_followup-trust" style="color: grey; font-size: 0.8em;"></i>
@@ -109,8 +111,8 @@
                     </ul>
                 </span>
                 <a t-att-data-active-id="context.partner_id.id" data-res-model="res.partner" class="o_account_reports_web_action"><t t-esc='context.partner_id.name' /></a>
-            </span>
-            <span t-if="context.env.context.get('public')"><t t-esc='context.partner_id.name' /></span>
+                <span t-if="context.partner_id.country_id"><small>(<t t-esc='context.partner_id.country_id.name' />)</small></span>
+            </span>            
         </h2>
     </xpath>
     <xpath expr="//h4" position="replace" />
@@ -138,9 +140,11 @@
 </template>
 <template id="report_followup" inherit_id="account_reports.report_financial" primary="True">
     <xpath expr="//t[@t-call='account_reports.report_financial_body']" position="replace">
-        <div class="alert alert-warning o_account_reports_followup-no-action" id='no-action' role="alert" t-if="context and context.partner_id not in context.env['res.partner'].get_partners_in_need_of_action()">
-            <p><strong>Warning!</strong> No action needs to be taken for this partner. <a t-if='context.partner_id.payment_next_action_date &gt; today' class='o_account_reports_followup-auto'>Put back in the list</a></p>
-        </div>
+        <t t-if="mode != 'print' and context and not context.env.context.get('public')">
+            <div class="alert alert-warning o_account_reports_followup-no-action" id='no-action' role="alert" t-if="context and context.partner_id not in context.env['res.partner'].get_partners_in_need_of_action()">
+                <p><strong>Warning!</strong> No action needs to be taken for this partner. <a t-if='context.partner_id.payment_next_action_date &gt; today' class='o_account_reports_followup-auto'>Put back in the list</a></p>
+            </div>
+        </t>
         <t t-call='account_reports.report_followup_body' />
     </xpath>
 </template>

@@ -4,7 +4,8 @@
 # 
 # Translators:
 # Clo <clo@odoo.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
+# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
+# Quentin THEURET <quentin@theuret.net>, 2016
 # Saad Thaifa <saad.thaifa@gmail.com>, 2015
 # Symons Xavier <xsy@openerp.com>, 2015
 msgid ""
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-12-22 17:39+0000\n"
+"PO-Revision-Date: 2016-01-08 22:18+0000\n"
 "Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +131,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Bonjour ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Notre dernière tentative pour procéder au paiement de votre souscription en utilisant la méthode de paiement\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} a échoué.\n          % if ctx.get('error'):\n            Votre banque ou votre institution de crédit nous a donné les détails suivants à propos du problème :\n<pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Notre dernière tentative pour procéder au paiement de votre souscription a échoué car nous n'avons pas de méthode de paiement enregistrée pour votre compte.\n        % endif \n        </p>\n\n        <p>\n          Comme votre paiement aurait du être effectué <strong>depuis 15 jours</strong>, votre souscription a été clôturée.\n        </p>\n\n        <br/>\n        <p>Si vous souhaitez résoudre ce problème, n'hésitez pas à nous contacter.</p>\n        <p>Merci ${object.company_id.name and 'd\\'avoir choisi %s' % object.company_id.name or 'de nous avoir choisi'} !</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Téléphone :&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_reminder
@@ -376,7 +377,7 @@ msgstr "Motifs de fermeture"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
-msgstr "Clôturer Abonnement"
+msgstr "Clôturer l'abonnement"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -393,7 +394,7 @@ msgstr "Contrats terminés"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Comercial Partner"
-msgstr "Partenaire Commercial"
+msgstr "Partenaire commercial"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id

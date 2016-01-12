@@ -6,6 +6,7 @@ var core = require('web.core');
 var crash_manager = require('web.crash_manager');
 var data = require('web.data');
 var datepicker = require('web.datepicker');
+var dom_utils = require('web.dom_utils');
 var Priority = require('web.Priority');
 var ProgressBar = require('web.ProgressBar');
 var Dialog = require('web.Dialog');
@@ -551,24 +552,8 @@ var FieldText = common.AbstractField.extend(common.ReinitializeFieldMixin, {
             this.$el.text(txt);
         } else {
             var show_value = formats.format_value(this.get('value'), this, '');
-
             this.$el.val(show_value);
-            if (!this.auto_sized) {
-                this.auto_sized = true;
-                this.$el.focus(function() {
-                    // Autosize on focus to prevent doing it while the textarea
-                    // in not into the DOM, as it is not supported by the library
-                    autosize($(this));
-                });
-            }
-
-            var nbLines = 1;
-            for(var i = 0 ; i < show_value.length && nbLines < 4 ; i++) {
-                if(show_value[i] === '\n') {
-                    nbLines++;
-                }
-            }
-            this.$el.css('height', 5 + 18 * nbLines);
+            dom_utils.autoresize(this.$el, {parent: this});
         }
     },
     is_syntax_valid: function() {

@@ -131,7 +131,13 @@ class ebay_category(models.Model):
 
     @api.model
     def sync_store_categories(self):
-        response = self.env['product.template'].ebay_execute('GetStore')
+        try:
+            response = self.env['product.template'].ebay_execute('GetStore')
+        except UserError as e:
+            # If the user is not using a store we don't fetch the store categories
+            if 'must have a store subscription' in e.name:
+                return
+            raise e
         categories = response.dict()['Store']['CustomCategories']['CustomCategory']
         if not isinstance(categories, list):
             categories = [categories]
