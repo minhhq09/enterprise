@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-01-01 16:08+0000\n"
+"PO-Revision-Date: 2016-01-09 20:54+0000\n"
 "Last-Translator: Pavol Krnáč <pavol.krnac@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -123,7 +123,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\nVáš odber (${ctx.get('code')}) bol práve obnovený\n%if ctx.get('total_amount') and ctx.get('payment_method'):\nzaplatením ${ctx['total_amount']} ${ctx['currency']} účtované ${ctx['payment_method']}\n.\n%endif\n</p>\n\n<p>V prílohe nájdete Vašu faktúru.</p>\n\n%if ctx.get('next_date'):\n<p>\nVaša ďalšia faktúra bude k ${ctx.get('next_date')}.\n</p>\n%endif\n\n<br/>\n<p>Ak máte akúkoľvek otázku, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
@@ -179,7 +179,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\n% if ctx.get('payment_method') and ctx.get('total_amount'):\nNaše posledný pokus o spracovanie platby za odber pomocou platobnej metódy\n${ctx['payment_method']}\nfor ${ctx['total_amount']} ${ctx.get('currency')} zlyhal.\n% if ctx.get('error'):\nVaša banka alebo úverová inštitúcia poskytla nasledujúce podrobnosti o probléme: <pre>${ctx['error']}</pre>.\n%endif\n% else:\nNaše posledný pokus o spracovanie platby za predplatné zlyhala, pretože nemáme pre Vás zaznamenaný žiadny spôsob platby.\n% endif \n</p>\n\n<p>\nKeďže Vaša platba mala byť vykonaná <strong>15 dní dozadu</strong>, Váš odber bol ukončený.\n</p>\n\n<br/>\n<p>Ak si budete želať tento problém vyriešiť, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -237,12 +237,12 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Dobrý deň ${object.partner_id.name},</p>\n\n<p>\n% if ctx.get('payment_method') and ctx.get('total_amount'):\nNeboli sme schopní spracovať platbu za odber pomocou platobnej metódy\n${ctx['payment_method']}\nfor ${ctx['total_amount']} ${ctx.get('currency')}.\n% if ctx.get('error'):\nVaša banka alebo úverová inštitúcia poskytla nasledujúce podrobnosti o probléme: <pre>${ctx['error']}</pre>.\n%endif\n% else:\nNeboli sme schopní spracovať platbu za odber, pretože nemáme pre Vás zaznamennú žiadnu platobnú metódu.\n% endif \n</p>\n\n<p>\nVáš odber ${ctx.get('code')} je stále platný, ale bude <b>pozastavený</b>\nna ${ctx.get('date_close')} pokiaľ platba neuspeje v medziobdobí (budeme opakovať raz denne).\nProsím, skontrolujte, či máte dostatok finančných prostriedkov.\n</p>\n\n<br/>\n<p>Ak máte akúkoľvek otázku, neváhajte nás kontaktovať.</p>\n<p>Ďakujeme, že ste si vybrali ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nPhone:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
 msgid "% discount"
-msgstr ""
+msgstr "% zľava"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_add_paid_option
@@ -417,7 +417,7 @@ msgstr "Aktivity"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Actual Quantity"
-msgstr ""
+msgstr "Skutočné množstvo"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -768,12 +768,12 @@ msgstr "Faktúra"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Faktúra za odber ${ctx.get('code')}"
 
 #. module: website_contract
 #: model:mail.template,report_name:website_contract.email_payment_success
 msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-msgstr ""
+msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
@@ -806,12 +806,12 @@ msgstr "Naposledy upravované"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Max medzi skutočnými a predanými množstvami; toto množstvo bude fakturované"
 
 #. module: website_contract
 #: model:product.uom,name:website_contract.contract_uom_month
 msgid "Month(s)"
-msgstr ""
+msgstr "Mesiac(e)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -926,7 +926,7 @@ msgstr ""
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Pripomienka platby za odber ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -967,13 +967,13 @@ msgstr "Množstvo"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "Množstvo skutočne použité zákazníkom"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Quantity sold to the customer"
-msgstr ""
+msgstr "Množstvo predané zákazníkovi"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
@@ -1039,7 +1039,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr ""
+msgstr "Odber predaja"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -1076,7 +1076,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Sold Quantity"
-msgstr ""
+msgstr "Predané množstvo"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1088,7 +1088,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_subtotal
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
-msgstr ""
+msgstr "Medzisúčet"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_analytic_account_id
@@ -1105,7 +1105,7 @@ msgstr "Medzisúčet"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Subtotal:"
-msgstr ""
+msgstr "Medzisúčet:"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_tax
@@ -1120,13 +1120,13 @@ msgstr "Dane :"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Ukončenie odberu ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Terms and conditions"
-msgstr ""
+msgstr "Pojmy a podmienky"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_add
@@ -1247,7 +1247,7 @@ msgstr ""
 #. module: website_contract
 #: model:product.uom,name:website_contract.contract_uom_year
 msgid "Year(s)"
-msgstr ""
+msgstr "Rok(y)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -1331,7 +1331,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
-msgstr ""
+msgstr "sale.subscription.lin"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription_line_option

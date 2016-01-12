@@ -79,7 +79,7 @@ class FinancialReportController(http.Controller):
                 context_ids.with_context(public=True).get_pdf(log=True),
                 headers=[
                     ('Content-Type', 'application/pdf'),
-                    ('Content-Disposition', 'attachment; filename=' + (len(partners) == 1 and partners.name or 'followups') + '.pdf;')
+                    ('Content-Disposition', 'attachment; filename=payment_reminder.pdf;')
                 ]
             )
             response.set_cookie('fileToken', token)

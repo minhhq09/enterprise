@@ -13,8 +13,8 @@ class ResPartner(models.Model):
                                       help="Note regarding the next action.")
     payment_next_action_date = fields.Date('Next Action Date', copy=False, company_dependent=True,
                                            help="The date before which no action should be taken.")
-    unreconciled_aml_ids = fields.One2many('account.move.line', 'partner_id', domain=['&', ('reconciled', '=', False), '&',
-                                           ('account_id.deprecated', '=', False), '&', ('account_id.internal_type', '=', 'receivable')])
+    unreconciled_aml_ids = fields.One2many('account.move.line', 'partner_id', domain=[('reconciled', '=', False),
+                                           ('account_id.deprecated', '=', False), ('account_id.internal_type', '=', 'receivable')])
 
     def get_partners_in_need_of_action(self, overdue_only=False):
         result = []
@@ -51,5 +51,4 @@ class ResPartner(models.Model):
         domain = self.get_followup_lines_domain(today)
         aml = self.env['account.move.line'].search(domain)
         aml.write({'next_action_date': next_action_date})
-
         return self.env['res.partner']

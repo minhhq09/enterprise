@@ -12,6 +12,7 @@
         <field name="sequence" eval="1"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line0_01" model="account.financial.html.report.line">
@@ -23,6 +24,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Subist_sale'), ref('l10n_br.tax_ICMS_Subist_purchase')])]" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line0_02" model="account.financial.html.report.line">
@@ -34,6 +36,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Subist_sale'), ref('l10n_br.tax_ICMS_Subist_purchase')])]" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line1" model="account.financial.html.report.line">
@@ -42,6 +45,7 @@
         <field name="sequence" eval="2"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line1_1" model="account.financial.html.report.line">
@@ -53,6 +57,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line1_2" model="account.financial.html.report.line">
@@ -64,6 +69,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line2" model="account.financial.html.report.line">
@@ -72,6 +78,7 @@
         <field name="sequence" eval="3"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line2_1" model="account.financial.html.report.line">
@@ -83,6 +90,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line2_2" model="account.financial.html.report.line">
@@ -94,6 +102,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line3" model="account.financial.html.report.line">
@@ -102,6 +111,7 @@
         <field name="sequence" eval="4"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line3_1" model="account.financial.html.report.line">
@@ -113,6 +123,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line3_2" model="account.financial.html.report.line">
@@ -124,6 +135,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 
@@ -133,6 +145,7 @@
         <field name="sequence" eval="5"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line4_1" model="account.financial.html.report.line">
@@ -144,6 +157,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_CSLL')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line4_2" model="account.financial.html.report.line">
@@ -155,6 +169,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_CSLL')])]" />
         <field name="formulas">balance = sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line5" model="account.financial.html.report.line">
@@ -163,6 +178,7 @@
         <field name="sequence" eval="6"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line5_1" model="account.financial.html.report.line">
@@ -174,6 +190,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_COFINS_sale'), ref('l10n_br.tax_COFINS_purchase'), ref('l10n_br.tax_COFINS_3%_sale'), ref('l10n_br.tax_COFINS_3%_purchase')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line5_2" model="account.financial.html.report.line">
@@ -185,6 +202,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_COFINS_sale'), ref('l10n_br.tax_COFINS_purchase'), ref('l10n_br.tax_COFINS_3%_sale'), ref('l10n_br.tax_COFINS_3%_purchase')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line6" model="account.financial.html.report.line">
@@ -193,6 +211,7 @@
         <field name="sequence" eval="7"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line6_1" model="account.financial.html.report.line">
@@ -204,6 +223,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line6_2" model="account.financial.html.report.line">
@@ -215,6 +235,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_PIS_sale'), ref('l10n_br.tax_PIS_purchase'), ref('l10n_br.tax_PIS_0_65%_sale'), ref('l10n_br.tax_PIS_0_65%_purchase')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line7" model="account.financial.html.report.line">
@@ -223,6 +244,7 @@
         <field name="sequence" eval="8"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line7_1" model="account.financial.html.report.line">
@@ -234,6 +256,7 @@
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_IPI_sale'), ref('l10n_br.tax_IPI_purchase'), ref('l10n_br.tax_IPI_2%_sale'), ref('l10n_br.tax_IPI_2%_purchase'), ref('l10n_br.tax_IPI_3%_sale'), ref('l10n_br.tax_IPI_3%_purchase'), ref('l10n_br.tax_IPI_4%_sale'), ref('l10n_br.tax_IPI_4%_purchase'), ref('l10n_br.tax_IPI_5%_sale'), ref('l10n_br.tax_IPI_5%_purchase'), ref('l10n_br.tax_IPI_7%_sale'), ref('l10n_br.tax_IPI_7%_purchase'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_sale'), ref('l10n_br.tax_IPI_10%_purchase'), ref('l10n_br.tax_IPI_12%_sale'), ref('l10n_br.tax_IPI_12%_purchase'), ref('l10n_br.tax_IPI_13%_sale'), ref('l10n_br.tax_IPI_13%_purchase'), ref('l10n_br.tax_IPI_15%_sale'), ref('l10n_br.tax_IPI_15%_purchase'), ref('l10n_br.tax_IPI_16%_sale'), ref('l10n_br.tax_IPI_16%_purchase'), ref('l10n_br.tax_IPI_18%_sale'), ref('l10n_br.tax_IPI_18%_purchase'), ref('l10n_br.tax_IPI_20%_sale'), ref('l10n_br.tax_IPI_20%_purchase'), ref('l10n_br.tax_IPI_22%_sale'), ref('l10n_br.tax_IPI_22%_purchase'), ref('l10n_br.tax_IPI_24%_sale'), ref('l10n_br.tax_IPI_24%_purchase'), ref('l10n_br.tax_IPI_25%_sale'), ref('l10n_br.tax_IPI_25%_purchase'), ref('l10n_br.tax_IPI_27%_sale'), ref('l10n_br.tax_IPI_27%_purchase'), ref('l10n_br.tax_IPI_30%_sale'), ref('l10n_br.tax_IPI_30%_purchase'), ref('l10n_br.tax_IPI_35%_sale'), ref('l10n_br.tax_IPI_35%_purchase'), ref('l10n_br.tax_IPI_40%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_sale'), ref('l10n_br.tax_IPI_42%_purchase'), ref('l10n_br.tax_IPI_45%_sale'), ref('l10n_br.tax_IPI_45%_purchase'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_sale'), ref('l10n_br.tax_IPI_60%_purchase'), ref('l10n_br.tax_IPI_300%_sale'), ref('l10n_br.tax_IPI_300%_purchase'), ref('l10n_br.tax_IPI_330%_sale'), ref('l10n_br.tax_IPI_330%_purchase')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line7_2" model="account.financial.html.report.line">
@@ -245,6 +268,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_IPI_sale'), ref('l10n_br.tax_IPI_purchase'),ref('l10n_br.tax_IPI_2%_sale'), ref('l10n_br.tax_IPI_2%_purchase'), ref('l10n_br.tax_IPI_3%_sale'), ref('l10n_br.tax_IPI_3%_purchase'),ref('l10n_br.tax_IPI_4%_sale'), ref('l10n_br.tax_IPI_4%_purchase'), ref('l10n_br.tax_IPI_5%_sale'), ref('l10n_br.tax_IPI_5%_purchase'), ref('l10n_br.tax_IPI_7%_sale'), ref('l10n_br.tax_IPI_7%_purchase'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_sale'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_purchase'), ref('l10n_br.tax_IPI_12%_sale'), ref('l10n_br.tax_IPI_12%_purchase'), ref('l10n_br.tax_IPI_13%_sale'), ref('l10n_br.tax_IPI_13%_purchase'), ref('l10n_br.tax_IPI_15%_sale'), ref('l10n_br.tax_IPI_15%_purchase'), ref('l10n_br.tax_IPI_16%_sale'), ref('l10n_br.tax_IPI_16%_purchase'), ref('l10n_br.tax_IPI_18%_sale'), ref('l10n_br.tax_IPI_18%_purchase'), ref('l10n_br.tax_IPI_20%_sale'), ref('l10n_br.tax_IPI_20%_purchase'), ref('l10n_br.tax_IPI_22%_sale'), ref('l10n_br.tax_IPI_22%_purchase'), ref('l10n_br.tax_IPI_24%_sale'), ref('l10n_br.tax_IPI_24%_purchase'), ref('l10n_br.tax_IPI_25%_sale'), ref('l10n_br.tax_IPI_25%_purchase'), ref('l10n_br.tax_IPI_27%_sale'), ref('l10n_br.tax_IPI_27%_purchase'), ref('l10n_br.tax_IPI_30%_sale'), ref('l10n_br.tax_IPI_30%_purchase'), ref('l10n_br.tax_IPI_35%_sale'), ref('l10n_br.tax_IPI_35%_purchase'), ref('l10n_br.tax_IPI_40%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_purchase'), ref('l10n_br.tax_IPI_45%_sale'), ref('l10n_br.tax_IPI_45%_purchase'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_sale'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_purchase'), ref('l10n_br.tax_IPI_300%_sale'), ref('l10n_br.tax_IPI_300%_purchase'), ref('l10n_br.tax_IPI_330%_sale'), ref('l10n_br.tax_IPI_330%_purchase')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line8" model="account.financial.html.report.line">
@@ -253,6 +277,7 @@
         <field name="sequence" eval="9"/>
         <field name="financial_report_id" ref="account_financial_report_l10n_br_tva0"/>
         <field name="level" eval="0" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line8_1" model="account.financial.html.report.line">
@@ -264,6 +289,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Interno_sale'), ref('l10n_br.tax_ICMS_Interno_purchase'),ref('l10n_br.tax_ICMS_Externo_sale'), ref('l10n_br.tax_ICMS_Externo_purchase'), ref('l10n_br.tax_ICMS_Externo_7%_sale'), ref('l10n_br.tax_ICMS_Externo_7%_purchase'), ref('l10n_br.tax_ICMS_Externo_12%_sale'), ref('l10n_br.tax_ICMS_Externo_12%_purchase'), ref('l10n_br.tax_ICMS_Interno_19%_sale'), ref('l10n_br.tax_ICMS_Interno_19%_purchase'), ref('l10n_br.tax_ICMS_Interno_26%_sale'), ref('l10n_br.tax_ICMS_Interno_26%_purchase')])]" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line8_2" model="account.financial.html.report.line">
@@ -275,6 +301,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Interno_sale'), ref('l10n_br.tax_ICMS_Interno_purchase'),ref('l10n_br.tax_ICMS_Externo_sale'), ref('l10n_br.tax_ICMS_Externo_purchase'), ref('l10n_br.tax_ICMS_Externo_7%_sale'), ref('l10n_br.tax_ICMS_Externo_7%_purchase'), ref('l10n_br.tax_ICMS_Externo_12%_sale'), ref('l10n_br.tax_ICMS_Externo_12%_purchase'), ref('l10n_br.tax_ICMS_Interno_19%_sale'), ref('l10n_br.tax_ICMS_Interno_19%_purchase'), ref('l10n_br.tax_ICMS_Interno_26%_sale'), ref('l10n_br.tax_ICMS_Interno_26%_purchase')])]" />
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line9" model="account.financial.html.report.line">
@@ -283,6 +310,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line10" model="account.financial.html.report.line">
@@ -291,6 +319,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line11" model="account.financial.html.report.line">
@@ -299,6 +328,7 @@
         <field name="sequence" eval="3"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line12" model="account.financial.html.report.line">
@@ -307,6 +337,7 @@
         <field name="sequence" eval="4"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line13" model="account.financial.html.report.line">
@@ -315,6 +346,7 @@
         <field name="sequence" eval="5"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line14" model="account.financial.html.report.line">
@@ -323,6 +355,7 @@
         <field name="sequence" eval="6"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line15" model="account.financial.html.report.line">
@@ -331,6 +364,7 @@
         <field name="sequence" eval="7"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line16" model="account.financial.html.report.line">
@@ -339,6 +373,7 @@
         <field name="sequence" eval="8"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line17" model="account.financial.html.report.line">
@@ -347,6 +382,7 @@
         <field name="sequence" eval="9"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line18" model="account.financial.html.report.line">
@@ -355,6 +391,7 @@
         <field name="sequence" eval="10"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line19" model="account.financial.html.report.line">
@@ -363,6 +400,7 @@
         <field name="sequence" eval="11"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line20" model="account.financial.html.report.line">
@@ -371,6 +409,7 @@
         <field name="sequence" eval="12"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line21" model="account.financial.html.report.line">
@@ -379,6 +418,7 @@
         <field name="sequence" eval="13"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line22" model="account.financial.html.report.line">
@@ -387,6 +427,7 @@
         <field name="sequence" eval="14"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line23" model="account.financial.html.report.line">
@@ -395,6 +436,7 @@
         <field name="sequence" eval="15"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line24" model="account.financial.html.report.line">
@@ -403,6 +445,7 @@
         <field name="sequence" eval="16"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line25" model="account.financial.html.report.line">
@@ -411,6 +454,7 @@
         <field name="sequence" eval="17"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line26" model="account.financial.html.report.line">
@@ -419,6 +463,7 @@
         <field name="sequence" eval="18"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line27" model="account.financial.html.report.line">
@@ -427,6 +472,7 @@
         <field name="sequence" eval="19"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line28" model="account.financial.html.report.line">
@@ -435,6 +481,7 @@
         <field name="sequence" eval="20"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line29" model="account.financial.html.report.line">
@@ -443,6 +490,7 @@
         <field name="sequence" eval="21"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line30" model="account.financial.html.report.line">
@@ -451,6 +499,7 @@
         <field name="sequence" eval="22"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line31" model="account.financial.html.report.line">
@@ -459,6 +508,7 @@
         <field name="sequence" eval="23"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line32" model="account.financial.html.report.line">
@@ -467,6 +517,7 @@
         <field name="sequence" eval="24"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line33" model="account.financial.html.report.line">
@@ -475,6 +526,7 @@
         <field name="sequence" eval="25"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line34" model="account.financial.html.report.line">
@@ -483,6 +535,7 @@
         <field name="sequence" eval="26"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line35" model="account.financial.html.report.line">
@@ -491,6 +544,7 @@
         <field name="sequence" eval="27"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line36" model="account.financial.html.report.line">
@@ -499,6 +553,7 @@
         <field name="sequence" eval="28"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line37" model="account.financial.html.report.line">
@@ -507,6 +562,7 @@
         <field name="sequence" eval="29"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line38" model="account.financial.html.report.line">
@@ -515,6 +571,7 @@
         <field name="sequence" eval="30"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line39" model="account.financial.html.report.line">
@@ -523,6 +580,7 @@
         <field name="sequence" eval="31"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line40" model="account.financial.html.report.line">
@@ -531,6 +589,7 @@
         <field name="sequence" eval="32"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line41" model="account.financial.html.report.line">
@@ -539,6 +598,7 @@
         <field name="sequence" eval="33"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line42" model="account.financial.html.report.line">
@@ -547,6 +607,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line43" model="account.financial.html.report.line">
@@ -555,6 +616,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line44" model="account.financial.html.report.line">
@@ -563,6 +625,7 @@
         <field name="sequence" eval="3"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line45" model="account.financial.html.report.line">
@@ -571,6 +634,7 @@
         <field name="sequence" eval="4"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line46" model="account.financial.html.report.line">
@@ -579,6 +643,7 @@
         <field name="sequence" eval="5"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line47" model="account.financial.html.report.line">
@@ -587,6 +652,7 @@
         <field name="sequence" eval="6"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line48" model="account.financial.html.report.line">
@@ -595,6 +661,7 @@
         <field name="sequence" eval="7"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line49" model="account.financial.html.report.line">
@@ -603,6 +670,7 @@
         <field name="sequence" eval="8"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line50" model="account.financial.html.report.line">
@@ -611,6 +679,7 @@
         <field name="sequence" eval="9"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line51" model="account.financial.html.report.line">
@@ -619,6 +688,7 @@
         <field name="sequence" eval="10"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line52" model="account.financial.html.report.line">
@@ -627,6 +697,7 @@
         <field name="sequence" eval="11"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line53" model="account.financial.html.report.line">
@@ -635,6 +706,7 @@
         <field name="sequence" eval="12"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line54" model="account.financial.html.report.line">
@@ -643,6 +715,7 @@
         <field name="sequence" eval="13"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line55" model="account.financial.html.report.line">
@@ -651,6 +724,7 @@
         <field name="sequence" eval="14"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line56" model="account.financial.html.report.line">
@@ -659,6 +733,7 @@
         <field name="sequence" eval="15"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line57" model="account.financial.html.report.line">
@@ -667,6 +742,7 @@
         <field name="sequence" eval="16"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line58" model="account.financial.html.report.line">
@@ -675,6 +751,7 @@
         <field name="sequence" eval="17"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line59" model="account.financial.html.report.line">
@@ -683,6 +760,7 @@
         <field name="sequence" eval="18"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line60" model="account.financial.html.report.line">
@@ -691,6 +769,7 @@
         <field name="sequence" eval="19"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line61" model="account.financial.html.report.line">
@@ -699,6 +778,7 @@
         <field name="sequence" eval="20"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line62" model="account.financial.html.report.line">
@@ -707,6 +787,7 @@
         <field name="sequence" eval="21"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line63" model="account.financial.html.report.line">
@@ -715,6 +796,7 @@
         <field name="sequence" eval="22"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line64" model="account.financial.html.report.line">
@@ -723,6 +805,7 @@
         <field name="sequence" eval="23"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line65" model="account.financial.html.report.line">
@@ -731,6 +814,7 @@
         <field name="sequence" eval="24"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line66" model="account.financial.html.report.line">
@@ -739,6 +823,7 @@
         <field name="sequence" eval="25"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line67" model="account.financial.html.report.line">
@@ -747,6 +832,7 @@
         <field name="sequence" eval="26"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line68" model="account.financial.html.report.line">
@@ -755,6 +841,7 @@
         <field name="sequence" eval="27"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line69" model="account.financial.html.report.line">
@@ -763,6 +850,7 @@
         <field name="sequence" eval="28"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line70" model="account.financial.html.report.line">
@@ -771,6 +859,7 @@
         <field name="sequence" eval="29"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line71" model="account.financial.html.report.line">
@@ -779,6 +868,7 @@
         <field name="sequence" eval="30"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line72" model="account.financial.html.report.line">
@@ -787,6 +877,7 @@
         <field name="sequence" eval="31"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line73" model="account.financial.html.report.line">
@@ -795,6 +886,7 @@
         <field name="sequence" eval="32"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line74" model="account.financial.html.report.line">
@@ -803,6 +895,7 @@
         <field name="sequence" eval="33"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line75" model="account.financial.html.report.line">
@@ -811,6 +904,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line76" model="account.financial.html.report.line">
@@ -819,6 +913,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line77" model="account.financial.html.report.line">
@@ -827,6 +922,7 @@
         <field name="sequence" eval="3"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line78" model="account.financial.html.report.line">
@@ -835,6 +931,7 @@
         <field name="sequence" eval="4"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line79" model="account.financial.html.report.line">
@@ -843,6 +940,7 @@
         <field name="sequence" eval="5"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line80" model="account.financial.html.report.line">
@@ -851,6 +949,7 @@
         <field name="sequence" eval="6"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line81" model="account.financial.html.report.line">
@@ -859,6 +958,7 @@
         <field name="sequence" eval="7"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line82" model="account.financial.html.report.line">
@@ -867,6 +967,7 @@
         <field name="sequence" eval="8"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line83" model="account.financial.html.report.line">
@@ -875,6 +976,7 @@
         <field name="sequence" eval="9"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line84" model="account.financial.html.report.line">
@@ -883,6 +985,7 @@
         <field name="sequence" eval="10"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line85" model="account.financial.html.report.line">
@@ -891,6 +994,7 @@
         <field name="sequence" eval="11"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line86" model="account.financial.html.report.line">
@@ -899,6 +1003,7 @@
         <field name="sequence" eval="12"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line87" model="account.financial.html.report.line">
@@ -907,6 +1012,7 @@
         <field name="sequence" eval="13"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line88" model="account.financial.html.report.line">
@@ -915,6 +1021,7 @@
         <field name="sequence" eval="14"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line89" model="account.financial.html.report.line">
@@ -923,6 +1030,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line90" model="account.financial.html.report.line">
@@ -931,6 +1039,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line91" model="account.financial.html.report.line">
@@ -939,6 +1048,7 @@
         <field name="sequence" eval="3"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line92" model="account.financial.html.report.line">
@@ -947,6 +1057,7 @@
         <field name="sequence" eval="4"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line93" model="account.financial.html.report.line">
@@ -955,6 +1066,7 @@
         <field name="sequence" eval="5"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
      <record id="account_financial_report_l10n_br_tva_line94" model="account.financial.html.report.line">
@@ -963,6 +1075,7 @@
         <field name="sequence" eval="6"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line95" model="account.financial.html.report.line">
@@ -971,6 +1084,7 @@
         <field name="sequence" eval="7"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
      <record id="account_financial_report_l10n_br_tva_line96" model="account.financial.html.report.line">
@@ -979,6 +1093,7 @@
         <field name="sequence" eval="8"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line97" model="account.financial.html.report.line">
@@ -987,6 +1102,7 @@
         <field name="sequence" eval="9"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line98" model="account.financial.html.report.line">
@@ -995,6 +1111,7 @@
         <field name="sequence" eval="10"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line99" model="account.financial.html.report.line">
@@ -1003,6 +1120,7 @@
         <field name="sequence" eval="11"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line100" model="account.financial.html.report.line">
@@ -1011,6 +1129,7 @@
         <field name="sequence" eval="12"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line101" model="account.financial.html.report.line">
@@ -1019,6 +1138,7 @@
         <field name="sequence" eval="13"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line102" model="account.financial.html.report.line">
@@ -1027,6 +1147,7 @@
         <field name="sequence" eval="14"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line103" model="account.financial.html.report.line">
@@ -1035,6 +1156,7 @@
         <field name="sequence" eval="15"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line104" model="account.financial.html.report.line">
@@ -1043,6 +1165,7 @@
         <field name="sequence" eval="16"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line105" model="account.financial.html.report.line">
@@ -1051,6 +1174,7 @@
         <field name="sequence" eval="17"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line106" model="account.financial.html.report.line">
@@ -1059,6 +1183,7 @@
         <field name="sequence" eval="18"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line107" model="account.financial.html.report.line">
@@ -1067,6 +1192,7 @@
         <field name="sequence" eval="19"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line108" model="account.financial.html.report.line">
@@ -1075,6 +1201,7 @@
         <field name="sequence" eval="20"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
     <record id="account_financial_report_l10n_br_tva_line109" model="account.financial.html.report.line">
@@ -1083,6 +1210,7 @@
         <field name="sequence" eval="21"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>

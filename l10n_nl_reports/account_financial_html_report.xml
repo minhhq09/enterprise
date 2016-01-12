@@ -13,6 +13,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = NLTAX_A1.balance + NLTAX_A2.balance + NLTAX_A3.balance + NLTAX_A4.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_nl"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1</field>
@@ -21,6 +22,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_A1a.balance + NLTAX_A1b.balance + NLTAX_A1c.balance + NLTAX_A1d.balance + NLTAX_A1e.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1a</field>
@@ -31,6 +33,7 @@
         <field name="formulas">balance = - sum.balance + NLTAX_A1aa.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_01_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1aa</field>
@@ -41,6 +44,7 @@
         <field name="formulas">balance = sum.credit</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1b</field>
@@ -51,6 +55,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1c</field>
@@ -61,6 +66,7 @@
         <field name="formulas">balance = - sum.debit</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_04" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1d</field>
@@ -70,6 +76,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_01_05" model="account.financial.html.report.line">
         <field name="code">NLTAX_A1e</field>
@@ -80,6 +87,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_A2</field>
@@ -88,6 +96,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_A2a.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_02_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A2a</field>
@@ -98,6 +107,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_02"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_A3</field>
@@ -106,6 +116,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_A3a.balance + NLTAX_A3b.balance + NLTAX_A3c.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_03_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A3a</field>
@@ -116,6 +127,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_03_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_A3b</field>
@@ -126,6 +138,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_03_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_A3c</field>
@@ -136,6 +149,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_04" model="account.financial.html.report.line">
         <field name="code">NLTAX_A4</field>
@@ -144,6 +158,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = - NLTAX_A4a.balance - NLTAX_A4b.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_04_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_A4a</field>
@@ -154,6 +169,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_01_04_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_A4b</field>
@@ -164,6 +180,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_B</field>
@@ -172,6 +189,7 @@
         <field name="level" eval="0"/>
         <field name="formulas">balance = NLTAX_B1.balance + NLTAX_B2.balance + NLTAX_B4.balance + NLTAX_B5.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_nl"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1</field>
@@ -180,6 +198,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_B1a.balance + NLTAX_B1b.balance + NLTAX_B1c.balance + NLTAX_B1d.balance + NLTAX_B1e.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1a</field>
@@ -190,6 +209,7 @@
         <field name="formulas">balance = - sum.balance + NLTAX_B1aa.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_01_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1aa</field>
@@ -200,6 +220,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1b</field>
@@ -210,6 +231,7 @@
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1c</field>
@@ -220,6 +242,7 @@
         <field name="formulas">balance = - sum.debit</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_04" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1d</field>
@@ -229,6 +252,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_01_05" model="account.financial.html.report.line">
         <field name="code">NLTAX_B1e</field>
@@ -238,6 +262,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_B2</field>
@@ -246,6 +271,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_B2a.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_02_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B2a</field>
@@ -256,6 +282,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_02"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_B4</field>
@@ -264,6 +291,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_B4a.balance + NLTAX_B4b.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_03_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B4a</field>
@@ -274,6 +302,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_03"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_03_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_B4b</field>
@@ -284,6 +313,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_03"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5</field>
@@ -292,6 +322,7 @@
         <field name="level" eval="1"/>
         <field name="formulas">balance = NLTAX_B5a.balance - NLTAX_B5b.balance + NLTAX_B5c.balance + NLTAX_B5d.balance + NLTAX_B5e.balance + NLTAX_B5f.balance + NLTAX_B5g.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_01" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5a</field>
@@ -301,6 +332,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_02" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5b</field>
@@ -311,6 +343,7 @@
         <field name="formulas">balance = sum.balance + NLTAX_B5bb.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_02b" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5bb</field>
@@ -320,6 +353,7 @@
         <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_27'), ref('l10n_nl.tax_tag_10')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_03" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5c</field>
@@ -329,6 +363,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_04" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5d</field>
@@ -338,6 +373,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_05" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5e</field>
@@ -347,6 +383,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_06" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5f</field>
@@ -356,6 +393,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
     <record id="financial_report_line_nl_02_04_07" model="account.financial.html.report.line">
         <field name="code">NLTAX_B5g</field>
@@ -365,6 +403,7 @@
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
+        <field name="special_date_changer">strict_range</field>
     </record>
 
 </odoo>
