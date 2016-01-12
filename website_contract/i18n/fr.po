@@ -7,14 +7,15 @@
 # Emmanuel <Manu1400@users.noreply.github.com>, 2015
 # Loic <loic.richard2@gmail.com>, 2015
 # Lucas Deliege <lud@odoo.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
+# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
 # Nancy Bolognesi <nb@microcom.ca>, 2015
+# Quentin THEURET <quentin@theuret.net>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-12-24 18:12+0000\n"
+"PO-Revision-Date: 2016-01-08 22:18+0000\n"
 "Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +75,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Bonjour ${object.partner_id.name},</p>\n        \n        <p>Votre nouvel abonnement à Odoo en ligne est prêt!</p>\n\n        <p>Vous pouvez voir votre abonnement en ligne en allant sur notre  <a href=\"/my/home\">Portail en ligne</a> ou en suivant ce lien :</p>\n        <a style=\"display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #a24689; border-radius: 5px 5px; background-repeat: repeat no-repeat;\"\n            href=\"/my/contract/${object.id}/${object.uuid}\">Voir l'abonnement</a>\n\n\n        <p>Depuis cette page, vous pouvez facilement gérer vos contrats :</p>\n        <ul>\n            <li>Ajouter ou supprimer des options</li>\n            <li>Changer la période de récurrence de mensuelle à annuelle</li>\n            <li>Contacter votre commercial</li>\n        </ul>\n        <p>Vous pouvez accéder à ce lien publiquement ou en le partageant avec quelqu'un qui a le droit de gérer cet abonnement.</p>\n        <br/>\n        <p>Si vous avez la moindre question, n'hésitez pas à nous contacter.</p>\n        <p>Merci ${object.company_id.name and 'd\\'avoir choisi %s' % object.company_id.name or 'de nous avoir choisi'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 347px; margin: 0px; padding: 0px; background-color: #a24689; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #fff;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #333; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Téléphone :&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
@@ -185,7 +186,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Bonjour ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Notre dernière tentative pour procéder au paiement de votre souscription en utilisant la méthode de paiement\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} a échoué.\n          % if ctx.get('error'):\n            Votre banque ou votre institution de crédit nous a donné les détails suivants à propos du problème :\n<pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Notre dernière tentative pour procéder au paiement de votre souscription a échoué car nous n'avons pas de méthode de paiement enregistrée pour votre compte.\n        % endif \n        </p>\n\n        <p>\n          Comme votre paiement aurait du être effectué <strong>depuis 15 jours</strong>, votre souscription a été clôturée.\n        </p>\n\n        <br/>\n        <p>Si vous souhaitez résoudre ce problème, n'hésitez pas à nous contacter.</p>\n        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n        <p>Merci ${object.company_id.name and 'd\\'avoir choisi %s' % object.company_id.name or 'de nous avoir choisi'} !</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Téléphone :&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -326,14 +327,14 @@ msgstr "(Mauvaise adresse?)"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "). After this date, you can reopen your account up to"
-msgstr "). Après cette fate, vous pouvez ré-ouvrir votre compte jusqu'à"
+msgstr "). Après cette date, vous pouvez ré-ouvrir votre compte jusqu'à"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
 "<abbr title=\"You need to be logged in as this contract's customer to change"
 " country\">Taxes</abbr>:"
-msgstr "<abbr title=\"You need to be logged in as this contract's customer to change country\">Taxes</abbr>:"
+msgstr "<abbr title=\"Vous devez être connecté(e) comme client de ce contrat pour changer le pays\">Taxes</abbr> :"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -370,12 +371,12 @@ msgstr "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> En 
 msgid ""
 "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> To "
 "Renew</span>"
-msgstr "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> A Renouveller </span>"
+msgstr "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> A Renouveler </span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "<strong>Prepaid units:</strong>"
-msgstr "<strong>Unités prépayées:</strong>"
+msgstr "<strong>Unités prépayées :</strong>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -385,12 +386,12 @@ msgstr "<strong>Total :</strong>"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.so_quotation
 msgid "A contract is linked to this quotation:"
-msgstr "Un contrat est lié à ce devis:"
+msgstr "Un contrat est lié à ce devis :"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Account Analytic Lines"
-msgstr "Lignes de compte analytique"
+msgstr "Lignes analytiques"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid

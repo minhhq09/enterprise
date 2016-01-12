@@ -20,6 +20,11 @@ class account_report_context_followup_all(models.TransientModel):
         if given_context['partner_done'] == 'all' and 'action_context_list' in given_context:
             action_context_list = given_context['action_context_list']
             self.action_contexts = self.env['account.report.context.followup'].browse(action_context_list)
+            action_partners = self.env['res.partner']
+            for context in self.action_contexts:
+                action_partners = action_partners | context.partner_id
+            partners = partners - action_partners
+            self.skip_partner(action_partners)
         return super(account_report_context_followup_all, self)._get_html_partner_done(given_context, partners)
 
     def _get_html_create_context(self, partner):
@@ -49,7 +54,7 @@ class account_report_context_followup(models.TransientModel):
     @api.multi
     def do_manual_action(self):
         for context in self:
-            msg = fields.Date.context_today(self) + _(': Manual action done\n') + context.level.manual_action_note
+            msg = _('Manual action done\n') + context.level.manual_action_note
             context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
 
     @api.model

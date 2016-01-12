@@ -3,13 +3,14 @@
 # * account_batch_deposit
 # 
 # Translators:
+# David Hernandez <davidhernandez.ctam@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:51+0000\n"
-"PO-Revision-Date: 2015-10-20 19:48+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2016-01-09 01:39+0000\n"
+"Last-Translator: David Hernandez <davidhernandez.ctam@gmail.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/odoo/odoo-9/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
-msgstr ""
+msgstr "Todos los pagos para imprimir como comprobante de depósito debe pertenecer al mismo diario."
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_amount
@@ -33,7 +34,7 @@ msgstr "Importe"
 #. module: account_batch_deposit
 #: model:ir.model.fields,help:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
 msgid "Automatically generates references for batch deposits."
-msgstr ""
+msgstr "Genera automáticamente las referencias de los depósitos por lotes."
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_journal_id
@@ -43,7 +44,7 @@ msgstr "Banco"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Bank Journal"
-msgstr ""
+msgstr "Diario de Banco"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_bank_statement
@@ -63,28 +64,28 @@ msgstr "Línea extracto bancario"
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Batch Deposit"
-msgstr ""
+msgstr "Depósito en Lotes"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
 msgid "Batch Deposit Sequence"
-msgstr ""
+msgstr "Secuencia de Depósito en Lotes"
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal.py:37
 #, python-format
 msgid "Batch Deposits Sequence"
-msgstr ""
+msgstr "Secuencia de Depósitos en Lotes"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_payment_batch_deposit_id
 msgid "Batch deposit id"
-msgstr ""
+msgstr "ID Depósito en Lotes"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_payment_method_selected
 msgid "Batch deposit payment method selected"
-msgstr ""
+msgstr "Método de pago de depósito de lotes seleccionado"
 
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
@@ -92,14 +93,14 @@ msgid ""
 "Batch deposits allows you to group received checks before you deposit them to the bank.\n"
 "                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
 "                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
-msgstr ""
+msgstr "Depósitos por lotes le permite agrupar recibieron cheques antes de que ellos depositan en el banco.\nLa cantidad depositada a su banco aparecerá entonces como una única transacción en su estado de cuenta del banco. \nAl continuar con la conciliación, sólo tiene que seleccionar el depósito de lote correspondiente de conciliar los pagos."
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal_dashboard.py:13
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
-msgstr ""
+msgstr "Crear Depósito por Lote"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_create_uid
@@ -114,7 +115,7 @@ msgstr "Creado en"
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_currency_id
 msgid "Currency id"
-msgstr ""
+msgstr "ID Moneda"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.print_batch_deposit
@@ -150,7 +151,7 @@ msgstr "ID"
 #: code:addons/account_batch_deposit/static/src/js/account_reconciliation_widgets.js:94
 #, python-format
 msgid "Incorrect Operation"
-msgstr ""
+msgstr "Operación Incorrecta"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_journal
@@ -197,7 +198,7 @@ msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
 "payment method, not be part of an existing batch deposit and not have "
 "already been reconciled"
-msgstr ""
+msgstr "Los pagos para imprimir como comprobante de depósito deben tener \"Depósito por lotes\" seleccionado como método de pago, que no sea parte de un depósito de lote existente y no se ha conciliado"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -207,22 +208,22 @@ msgstr "Imprimir"
 #. module: account_batch_deposit
 #: model:ir.actions.report.xml,name:account_batch_deposit.action_print_batch_deposit
 msgid "Print Batch Deposit"
-msgstr ""
+msgstr "Imprimir Depósito por Lotes"
 
 #. module: account_batch_deposit
 #: model:ir.actions.server,name:account_batch_deposit.action_account_print_batch_deposit
 msgid "Print Batch Deposits"
-msgstr ""
+msgstr "Imprimir Depósitos por Lotes"
 
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
 msgid "Printed"
-msgstr ""
+msgstr "Impreso"
 
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
 msgid "Reconciled"
-msgstr ""
+msgstr "Conciliado"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_name
@@ -232,14 +233,14 @@ msgstr "Referencia"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "Register Payment"
-msgstr ""
+msgstr "Pago registrado"
 
 #. module: account_batch_deposit
 #. openerp-web
 #: code:addons/account_batch_deposit/static/src/xml/account_reconciliation.xml:8
 #, python-format
 msgid "Select a Batch Deposit"
-msgstr ""
+msgstr "Seleccionar un Depósito por Lotes"
 
 #. module: account_batch_deposit
 #. openerp-web
@@ -248,7 +249,7 @@ msgstr ""
 msgid ""
 "Some journal items from the selected batch deposit are already selected in "
 "another reconciliation : "
-msgstr ""
+msgstr "Algunos artículos de diario desde el depósito por lote seleccionado ya están seleccionados en otra conciliación:"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_state
@@ -261,7 +262,7 @@ msgstr "Estado"
 msgid ""
 "Technical feature used to know whether batch deposit was enabled as payment "
 "method."
-msgstr ""
+msgstr "Ficha técnica utiliza para saber si el depósito por lote fue habilitado como método de pago."
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -271,14 +272,14 @@ msgstr "Total"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Unreconciled"
-msgstr ""
+msgstr "Sin conciliar"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "auto ..."
-msgstr ""
+msgstr "auto ..."
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_report_account_batch_deposit_print_batch_deposit
 msgid "report.account_batch_deposit.print_batch_deposit"
-msgstr ""
+msgstr "reporte.contabilidad_depósito_lotes.imprimir_depósito_lotes"

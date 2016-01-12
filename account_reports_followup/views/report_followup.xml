@@ -24,7 +24,7 @@
 </template>
 <template id='report_followup_body' inherit_id='account_reports.report_followup_body'>
     <xpath expr="//h2" position='inside'>
-        <div class='pull-right'><small><t t-esc="context.level.name"/></small></div>
+        <div class='pull-right' t-if="not context.env.context.get('public')"><small><t t-esc="context.level.name"/></small></div>
     </xpath>
     <xpath expr="//span[@id='action-buttons']" position='replace'>
         <span id='action-buttons' t-if="mode != 'print'" class='o_account_reports_followup_not_clicked'>
