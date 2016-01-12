@@ -25,6 +25,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/project_forecast_view.xml',
+        'views/project_forecast_security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
