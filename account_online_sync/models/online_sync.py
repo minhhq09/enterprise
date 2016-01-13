@@ -3,6 +3,7 @@ import datetime
 
 from openerp import api, fields, models
 from openerp.tools.translate import _
+from openerp.exceptions import UserError
 
 """
 This module manage an "online account" for a journal. It can't be used in standalone,
@@ -28,7 +29,7 @@ class OnlineAccount(models.Model):
     @api.multi
     def online_sync(self):
         # This method must be implemented by plaid and yodlee services
-        raise "Unimplemented"
+        raise UserError(_("Unimplemented"))
 
 
 class OnlineInstitution(models.Model):
@@ -110,7 +111,7 @@ class AccountJournal(models.Model):
     @api.multi
     def fetch(self, service, online_type, params, type_request="post"):
         # This method must be implemented by plaid and yodlee services
-        raise "Unimplemented"
+        raise UserError(_("Unimplemented"))
 
     @api.multi
     def fetch_all_institution(self):
@@ -136,6 +137,11 @@ class AccountJournal(models.Model):
     @api.multi
     def online_sync(self):
         return self.online_account_id.online_sync()
+
+    @api.multi
+    def launch_wizard(self):
+        if not self.online_id:
+            raise UserError(_('You must first choose an institution'))
 
 class AccountBankStatement(models.Model):
     _inherit = "account.bank.statement"
