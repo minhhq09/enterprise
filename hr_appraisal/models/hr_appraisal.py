@@ -209,7 +209,7 @@ class HrAppraisal(models.Model):
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
         """ Override read_group to always display all states and order them appropriatly. """
         if groupby and groupby[0] == "state":
-            states = [('new', 'To Start'), ('pending', 'Appraisal Sent'), ('done', 'Done'), ('cancel', 'Cancelled')]
+            states = [('new', _('To Start')), ('pending', _('Appraisal Sent')), ('done', _('Done')), ('cancel', _('Cancelled'))]
             read_group_all_states = [{
                 '__context': {'group_by': groupby[1:]},
                 '__domain': domain + [('state', '=', state_value)],
