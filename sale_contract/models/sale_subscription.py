@@ -84,6 +84,7 @@ class SaleSubscription(osv.osv):
         'date_start': fields.date('Start Date'),
         'date': fields.date('End Date', track_visibility='onchange'),
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist'),
+        'currency_id': fields.related('pricelist_id', 'currency_id', string='Currency', type='many2one', relation='res.currency', readonly=True),
         'recurring_invoice_line_ids': fields.one2many('sale.subscription.line', 'analytic_account_id', 'Invoice Lines', copy=True),
         'recurring_rule_type': fields.selection([('daily', 'Day(s)'), ('weekly', 'Week(s)'), ('monthly', 'Month(s)'), ('yearly', 'Year(s)'), ], 'Recurrency', help="Invoice automatically repeat at specified interval"),
         'recurring_interval': fields.integer('Repeat Every', help="Repeat every (Days/Week/Month/Year)"),
@@ -175,7 +176,7 @@ class SaleSubscription(osv.osv):
             raise UserError(_('Please define a sale journal for the company "%s".') % (contract.company_id.name or '', ))
 
         partner_payment_term = partner.property_payment_term_id and partner.property_payment_term_id.id or False
-        
+
         next_date = datetime.datetime.strptime(contract.recurring_next_date, "%Y-%m-%d")
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
         invoicing_period = relativedelta(**{periods[contract.recurring_rule_type]: contract.recurring_interval})
