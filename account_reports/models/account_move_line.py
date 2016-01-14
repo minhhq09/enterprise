@@ -39,3 +39,12 @@ class AccountMoveLine(models.Model):
         if self.invoice_id:
             return ['account.invoice', self.invoice_id.id, _('View Invoice')]
         return ['account.move', self.move_id.id, _('View Move')]
+
+    @api.multi
+    def write_blocked(self, blocked):
+        """ This function is used to change the 'blocked' status of an aml.
+            You need to be able to change it even if you're an account user and the aml is locked by the lock date
+            (this function is used in the customer statements) """
+        if self.env.user in self.env.ref('account.group_account_user').users:
+            return self.sudo().write({'blocked': blocked})
+        return self.write({'blocked': blocked})
