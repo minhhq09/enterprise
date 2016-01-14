@@ -38,7 +38,7 @@ class SaleSubscription(models.Model):
         ('uuid_uniq', 'unique (uuid)', """UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be unique!"""),
     ]
 
-    def _set_default_value_on_column(self, cr, column_name, context=None):
+    def _init_colmun(self, cr, column_name, context=None):
         # to avoid generating a single default uuid when installing the module,
         # we need to set the default row by row for this column
         if column_name == "uuid":
