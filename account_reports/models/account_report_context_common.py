@@ -129,7 +129,7 @@ class AccountReportContextCommon(models.TransientModel):
     fold_field = ''
     date_from = fields.Date("Start date")
     date_to = fields.Date("End date")
-    all_entries = fields.Boolean('Use all entries (not only posted ones)', default=False, required=True)
+    all_entries = fields.Boolean('Use all entries (not only posted ones)', default=False)
     date_filter = fields.Char('Date filter used', default=None)
     next_footnote_number = fields.Integer(default=1, required=True)
     summary = fields.Char(default='')
