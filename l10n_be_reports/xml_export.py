@@ -373,7 +373,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         for item in cases_list:
             grid_amount_data = {
                     'code': str(int(item[0])),
-                    'amount': formatLang(self.env, abs(item[1]))
+                    'amount': '%.2f' % abs(item[1]),
                     }
             data_of_file += '\n\t\t\t<ns2:Amount GridNumber="%(code)s">%(amount)s</ns2:Amount''>' % (grid_amount_data)
 
