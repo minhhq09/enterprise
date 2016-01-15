@@ -230,9 +230,9 @@ var ActionManager = Widget.extend({
         this.main_control_panel = new ControlPanel(this);
         // Listen to event "on_breadcrumb_click" trigerred on the control panel when
         // clicking on a part of the breadcrumbs. Call select_action for this breadcrumb.
-        this.main_control_panel.on("on_breadcrumb_click", this, function(action, index) {
+        this.main_control_panel.on("on_breadcrumb_click", this, _.debounce(function(action, index) {
             this.select_action(action, index);
-        });
+        }, 200, true));
 
         // Listen to event "DOM_updated" to restore the scroll position
         core.bus.on('DOM_updated', this, function() {
