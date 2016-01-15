@@ -811,11 +811,16 @@ var ActionManager = Widget.extend({
         });
     },
     ir_actions_act_url: function (action) {
+        var url = action.url;
+        if (session.debug && url && url.length && url[0] === '/') {
+            url = $.param.querystring(url, 'debug');
+        }
+
         if (action.target === 'self') {
-            framework.redirect(action.url);
+            framework.redirect(url);
             return $.Deferred(); // The action is finished only when the redirection is done
         } else {
-            window.open(action.url, '_blank');
+            window.open(url, '_blank');
         }
         return $.when();
     },
