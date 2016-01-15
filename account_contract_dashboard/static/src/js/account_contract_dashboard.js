@@ -504,27 +504,27 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         var data_chart = [
             {
                 values: result.new_mrr,
-                key: 'New MRR',
+                key: _t('New MRR'),
                 color: '#26b548',
             },
             {
                 values: result.churned_mrr,
-                key: 'Churned MRR',
+                key: _t('Churned MRR'),
                 color: '#df2e28',
             },
             {
                 values: result.expansion_mrr,
-                key: 'Expansion MRR',
+                key: _t('Expansion MRR'),
                 color: '#fed049',
             },
             {
                 values: result.down_mrr,
-                key: 'Down MRR',
+                key: _t('Down MRR'),
                 color: '#ffa500',
             },
             {
                 values: result.net_new_mrr,
-                key: 'Net New MRR',
+                key: _t('Net New MRR'),
                 color: '#2693d5',
             }
         ];
