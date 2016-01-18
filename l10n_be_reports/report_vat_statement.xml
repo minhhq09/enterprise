@@ -302,6 +302,8 @@
         <record id="account_financial_report_l10n_be_tva_taxes_dues0" model="account.financial.html.report.line">
             <field name="name">IV Dues</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes0'/>
+            <field name="formulas">balance = BETAX54.balance + BETAX55.balance + BETAX56.balance + BETAX57.balance + BETAX61.balance + BETAX63.balance</field>
+            <field name="code">BETAXIV</field>
             <field name="sequence" eval="3"/>
             <field name="level" eval="2" />
             <field name="special_date_changer">strict_range</field>
@@ -375,8 +377,10 @@
 
         <record id="account_financial_report_l10n_be_tva_taxes_deductibles0" model="account.financial.html.report.line">
             <field name="name">V Déductibles</field>
+            <field name="code">BETAXV</field>
+            <field name="formulas">balance = BETAX59.balance + BETAX64.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes0'/>
-            <field name="sequence" eval="3"/>
+            <field name="sequence" eval="4"/>
             <field name="level" eval="2" />
             <field name="special_date_changer">strict_range</field>
         </record>
@@ -398,6 +402,33 @@
             <field name="formulas">balance = sum.debit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_base_02'), ref('l10n_be.tax_tag_base_01'), ref('l10n_be.tax_tag_base_03')]), ('debit', '>', 0)]" />
+            <field name="sequence" eval="3"/>
+            <field name="show_domain">never</field>
+            <field name="level" eval="3" />
+            <field name="special_date_changer">strict_range</field>
+        </record>
+        <record id="account_financial_report_l10n_be_tva_taxes_soldes0" model="account.financial.html.report.line">
+            <field name="name">VI Soldes</field>
+            <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes0'/>
+            <field name="sequence" eval="5"/>
+            <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
+        </record>
+        <record id="account_financial_report_l10n_be_tva_71_0" model="account.financial.html.report.line">
+            <field name="name">71 - Taxes dues à l'état</field>
+            <field name="code">BETAX71</field>
+            <field name="formulas">balance = (BETAXIV.balance > BETAXV.balance) and (BETAXIV.balance - BETAXV.balance) or 0.0</field>
+            <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_soldes0'/>
+            <field name="sequence" eval="1"/>
+            <field name="show_domain">never</field>
+            <field name="level" eval="3" />
+            <field name="special_date_changer">strict_range</field>
+        </record>
+        <record id="account_financial_report_l10n_be_tva_72_0" model="account.financial.html.report.line">
+            <field name="name">72 - Somme due par l'état</field>
+            <field name="code">BETAX72</field>
+            <field name="formulas">balance = (BETAXV.balance > BETAXIV.balance) and (BETAXV.balance - BETAXIV.balance) or 0.0</field>
+            <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_soldes0'/>
             <field name="sequence" eval="3"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
