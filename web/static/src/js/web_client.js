@@ -29,7 +29,7 @@ var WebClient = Widget.extend({
         },
         'hide_app_switcher': function () {
             // Restore the url
-            $.bbq.pushState(this.url);
+            $.bbq.pushState(this.url, 2); // merge_mode 2 to replace the current state
             this.toggle_app_switcher(false);
         },
         'notification': function (e) {
@@ -260,15 +260,16 @@ var WebClient = Widget.extend({
         }).then(function () {
             $(window).bind('hashchange', self.on_hashchange);
 
-            // Unclean: if the url's state is empty we display the app switcher, if not we trigger
-            // a dummy haschange event so that `self.on_hashchange` will take care of toggling the
-            // app switcher and load the action.
+            // If the url's state is empty, we execute the user's home action if there is one (we
+            // show the app switcher if not)
+            // If it is not empty, we trigger a dummy hashchange event so that `self.on_hashchange`
+            // will take care of toggling the app switcher and loading the action.
             if (_.isEmpty($.bbq.getState(true))) {
-                // Check if the user has a defined home action and do it if any (otherwise, show appswitcher)
                 return new Model("res.users").call("read", [session.uid, ["action_id"]]).then(function(data) {
                     if(data.action_id) {
                         return self.do_action(data.action_id[0]).then(function() {
                             self.toggle_app_switcher(false);
+                            self.menu.change_menu_section(self.menu.action_id_to_primary_menu_id(data.action_id[0]));
                         });
                     } else {
                         self.toggle_app_switcher(true);
@@ -428,7 +429,7 @@ var WebClient = Widget.extend({
                 // Save and clear the url
                 self.url = $.bbq.getState();
                 self._ignore_hashchange = true;
-                $.bbq.removeState();
+                $.bbq.pushState('#home', 2); // merge_mode 2 to replace the current state
             });
         } else {
             framework.detach([{widget: this.app_switcher}]);
