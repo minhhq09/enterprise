@@ -303,8 +303,10 @@ var WebClient = Widget.extend({
                 self.menu.proxy('do_reload')); });
     },
     do_push_state: function(state) {
-        this.set_title(state.title);
-        delete state.title;
+        if ('title' in state) {
+            this.set_title(state.title);
+            delete state.title;
+        }
         if (!state.menu_id && this.menu) {
             state.menu_id = this.menu.current_primary_menu;
         }
