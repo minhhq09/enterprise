@@ -9,8 +9,6 @@
         Use Plaid.com to retrieve bank statements.
     """,
 
-    'author': "OpenERP s.a.",
-    'website': "http://www.odoo.com",
 
     'category': 'Uncategorized',
     'version': '0.1',

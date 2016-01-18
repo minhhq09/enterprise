@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name' : 'Accounting Reports',
-    'author' : 'Odoo SA',
     'summary': 'View and create reports',
     'description': """
 Accounting Reports

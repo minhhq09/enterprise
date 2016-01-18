@@ -3,7 +3,6 @@
 {
     'name': "UPS Shipping",
     'description': "Send your shippings through UPS and track them online",
-    'author': "Odoo S.A.",
     'website': "https://www.odoo.com",
     'category': 'Technical Settings',
     'version': '1.0',

@@ -10,7 +10,6 @@
         Contains the library needed in order to make the VOIP usable by other modules.
     """,
 
-    'author': "Odoo S.A.",
     'website': "https://www.odoo.com",
 
     'price': 399,

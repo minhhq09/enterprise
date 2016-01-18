@@ -2,7 +2,6 @@
 {
     'name': 'US Check Printing',
     'version': '1.0',
-    'author': 'Odoo SA',
     'category': 'Localization/Checks Printing',
     'summary': 'Print US Checks',
     'description': """

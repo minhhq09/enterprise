@@ -11,7 +11,6 @@ Accounting reports for Luxembourg
 ================================
     """,
     'author': ['OpenERP SA, ADN, ACSONE SA/NV'],
-    'website': 'https://www.odoo.com',
     'category': 'Localization/Account Charts',
     'depends': ['l10n_lu'],
     'data': [

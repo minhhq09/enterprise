@@ -6,7 +6,6 @@
 
         This module will be auto installed if account module and enterprise edition are present
     """,
-    'author': "Odoo SA",
     'category': 'Hidden',
     'version': '1.0',
     'depends': ['account'],

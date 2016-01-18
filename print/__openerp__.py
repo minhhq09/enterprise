@@ -5,7 +5,6 @@
     'category': 'Tools',
     'version': '1.0',
     'description': """Print and Send Provider Base Module. Print and send your invoice with a Postal Provider. This required to install a module implementing a provider.""",
-    'author': 'Odoo SA',
     'depends': ['base_setup', 'account'],
     'data': [
         'wizard/print_order_wizard_views.xml',

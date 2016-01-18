@@ -6,7 +6,6 @@
     'description': """
 Override community website features
     """,
-    'author': 'Odoo SA',
     'depends': ['website'],
     'data': [
         'views/website_enterprise_templates.xml'

@@ -17,7 +17,6 @@ More info:
   * http://www.systemedecaisseenregistreuse.be/
   * http://www.geregistreerdkassasysteem.be/
     """,
-    'author': 'Odoo SA',
     'depends': ['web', 'point_of_sale', 'pos_restaurant', 'l10n_be'],
     'website': '',
     'data': [

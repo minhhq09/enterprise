@@ -2,7 +2,6 @@
 {
     'name': "Yodlee",
     'summary': "Yodlee Finance",
-    'author': "Odoo S.A.",
     'website': "https://www.odoo.com",
     'category': 'Accounting &amp; Finance',
     'version': '1.0',

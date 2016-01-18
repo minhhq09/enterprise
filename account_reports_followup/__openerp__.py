@@ -25,7 +25,6 @@ Note that if you want to check the follow-up level for a given partner/account e
     Reporting / Accounting / **Follow-ups Analysis
 
 """,
-    'author': 'OpenERP SA',
     'website': 'https://www.odoo.com/page/billing',
     'depends': ['account_accountant', 'mail', 'account_reports', 'account_extension'],
     'data': [
