@@ -8,17 +8,9 @@
             <field name='parent_id' ref='l10n_be.account_reports_be_statements_menu'/>
         </record>
 
-        <record id="account_financial_report_l10n_be_tva_line0" model="account.financial.html.report.line">
-            <field name="name">Total de contrôle</field>
-            <field name="sequence" eval="1"/>
-            <field name="financial_report_id" ref="account_financial_report_l10n_be_tva0"/>
-            <field name="level" eval="0" />
-            <field name="special_date_changer">strict_range</field>
-        </record>
-
         <record id="account_financial_report_l10n_be_tva_operations0" model="account.financial.html.report.line">
             <field name="name">Opérations</field>
-            <field name="parent_id" ref='account_financial_report_l10n_be_tva_line0'/>
+            <field name="financial_report_id" ref="account_financial_report_l10n_be_tva0"/>
             <field name="sequence" eval="1"/>
             <field name="level" eval="1" />
             <field name="special_date_changer">strict_range</field>
@@ -293,7 +285,7 @@
         
         <record id="account_financial_report_l10n_be_tva_taxes0" model="account.financial.html.report.line">
             <field name="name">Taxes</field>
-            <field name="parent_id" ref='account_financial_report_l10n_be_tva_line0'/>
+            <field name="financial_report_id" ref="account_financial_report_l10n_be_tva0"/>
             <field name="sequence" eval="2"/>
             <field name="level" eval="1" />
             <field name="special_date_changer">strict_range</field>
