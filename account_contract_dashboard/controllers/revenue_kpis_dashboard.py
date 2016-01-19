@@ -3,7 +3,7 @@ from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 from math import floor
-from openerp import http
+from openerp import http, _
 from openerp.http import request
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from stat_types import STAT_TYPES, FORECAST_STAT_TYPES, compute_mrr_growth_values
@@ -13,10 +13,28 @@ class RevenueKPIsDashboard(http.Controller):
 
     @http.route('/account_contract_dashboard/fetch_data', type='json', auth='user')
     def fetch_data(self):
-
+        # context is necessary so _(...) can translate in the appropriate language
+        context = request.env.context
         return {
-            'stat_types': {stat: {k: STAT_TYPES[stat][k] for k in ('name', 'dir', 'code', 'prior', 'add_symbol')} for stat in STAT_TYPES},
-            'forecast_stat_types': FORECAST_STAT_TYPES,
+            'stat_types': {
+                key: {
+                    'name': _(stat['name']),
+                    'dir': stat['dir'],
+                    'code': stat['code'],
+                    'prior': stat['prior'],
+                    'add_symbol': stat['add_symbol'],
+                }
+                for key, stat in STAT_TYPES.iteritems()
+            },
+            'forecast_stat_types': {
+                key: {
+                    'name': _(stat['name']),
+                    'code': stat['code'],
+                    'prior': stat['prior'],
+                    'add_symbol': stat['add_symbol'],
+                }
+                for key, stat in FORECAST_STAT_TYPES.iteritems()
+            },
             'currency_symbol': request.env.user.company_id.currency_id.symbol,
             'currency_id': request.env.user.company_id.currency_id.id,
             'show_demo': request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)]) == 0,
