@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 09:09+0000\n"
-"PO-Revision-Date: 2016-01-13 09:15+0000\n"
+"POT-Creation-Date: 2016-01-15 13:37+0000\n"
+"PO-Revision-Date: 2016-01-15 14:23+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Catalan (http://www.transifex.com/odoo/odoo-9/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -65,6 +65,12 @@ msgid "Active invoices"
 msgstr ""
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:375
+#, python-format
+msgid "Annual Run-Rate"
+msgstr ""
+
+#. module: account_contract_dashboard
 #: model:ir.ui.view,arch_db:account_contract_dashboard.invoice_line_entries_report_search
 msgid "Asset End Date"
 msgstr ""
@@ -72,6 +78,13 @@ msgstr ""
 #. module: account_contract_dashboard
 #: model:ir.ui.view,arch_db:account_contract_dashboard.invoice_line_entries_report_search
 msgid "Asset Start Date"
+msgstr ""
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:512
+#, python-format
+msgid "Churned MRR"
 msgstr ""
 
 #. module: account_contract_dashboard
@@ -84,6 +97,7 @@ msgstr "Contracte"
 
 #. module: account_contract_dashboard
 #. openerp-web
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:411
 #: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:134
 #: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:143
 #, python-format
@@ -121,7 +135,7 @@ msgstr ""
 #. module: account_contract_dashboard
 #: model:ir.ui.menu,name:account_contract_dashboard.menu_sale_subscription_dashboard
 msgid "Dashboard"
-msgstr ""
+msgstr "Taulell"
 
 #. module: account_contract_dashboard
 #. openerp-web
@@ -137,17 +151,43 @@ msgstr ""
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:68
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:125
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:522
+#, python-format
+msgid "Down MRR"
+msgstr ""
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:517
+#, python-format
+msgid "Expansion MRR"
+msgstr ""
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:70
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:127
 #, python-format
 msgid "Exponential"
 msgstr ""
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:235
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:237
 #, python-format
 msgid "Filter on contracts"
+msgstr ""
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:429
+#, python-format
+msgid "Forecasted Annual Contracts Growth"
+msgstr ""
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:423
+#, python-format
+msgid "Forecasted Annual MRR Growth"
 msgstr ""
 
 #. module: account_contract_dashboard
@@ -197,61 +237,105 @@ msgid "Invoice Line Entries Analysis"
 msgstr ""
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:384
+#, python-format
+msgid "Lifetime Value"
+msgstr ""
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:67
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:123
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:69
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:125
 #, python-format
 msgid "Linear"
 msgstr "Lineal"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:210
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:212
 #, python-format
 msgid "List of NRR invoices"
 msgstr ""
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:206
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:208
 #, python-format
 msgid "List of contract modifications"
 msgstr ""
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:393
+#, python-format
+msgid "Logo Churn"
+msgstr ""
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:337
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:339
 #, python-format
 msgid "MRR :"
 msgstr ""
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:339
+#, python-format
+msgid "Monthly Recurring Revenue"
+msgstr ""
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:50
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:52
 #, python-format
 msgid "Monthly Recurring Revenue Growth"
 msgstr ""
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:106
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:163
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:108
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:165
 #, python-format
 msgid "Months"
 msgstr "Mesos"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:383
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:385
 #, python-format
 msgid "NRR"
 msgstr ""
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:341
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:343
 #, python-format
 msgid "NRR :"
+msgstr ""
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:527
+#, python-format
+msgid "Net New MRR"
+msgstr ""
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:348
+#, python-format
+msgid "Net Revenue"
+msgstr ""
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:507
+#, python-format
+msgid "New MRR"
+msgstr ""
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:357
+#, python-format
+msgid "Non-Recurring Revenue"
 msgstr ""
 
 #. module: account_contract_dashboard
@@ -304,6 +388,12 @@ msgid "Recurring Revenue Dashboard for"
 msgstr ""
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:402
+#, python-format
+msgid "Revenue Churn"
+msgstr ""
+
+#. module: account_contract_dashboard
 #. openerp-web
 #: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:95
 #, python-format
@@ -321,6 +411,12 @@ msgstr ""
 #: model:ir.actions.client,name:account_contract_dashboard.action_contract_dashboard_report_main
 #: model:ir.ui.menu,name:account_contract_dashboard.menu_action_contract_dashboard_report_main
 msgid "Revenue KPIs"
+msgstr ""
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:366
+#, python-format
+msgid "Revenue per Contract"
 msgstr ""
 
 #. module: account_contract_dashboard

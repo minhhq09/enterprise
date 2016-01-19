@@ -41,8 +41,8 @@ class Lead(models.Model):
     def decode(self, request):
         # opens the cookie, verifies the signature of the lead_id
         # returns lead_id if the verification passes and None otherwise
-        cookie_content = request.httprequest.cookies.get('lead_id')
-        if cookie_content:
+        cookie_content = request.httprequest.cookies.get('lead_id') or ''
+        if cookie_content and '-' in cookie_content:
             lead_id, md5_lead_id = cookie_content.split('-', 1)
             expected_encryped_lead_id = md5.new("%s%s" % (lead_id, self.get_key())).hexdigest()
             if md5_lead_id == expected_encryped_lead_id:
