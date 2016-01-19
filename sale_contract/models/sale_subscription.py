@@ -147,9 +147,9 @@ class SaleSubscription(osv.osv):
                     'price_unit': x.price_unit,
                     'analytic_account_id': x.analytic_account_id and x.analytic_account_id.id or False,
                 }))
-            res['value']['recurring_interval'] = template.recurring_interval
-            res['value']['recurring_rule_type'] = template.recurring_rule_type
             res['value']['recurring_invoice_line_ids'] = invoice_line_ids
+        res['value']['recurring_interval'] = template.recurring_interval
+        res['value']['recurring_rule_type'] = template.recurring_rule_type
         return res
 
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
