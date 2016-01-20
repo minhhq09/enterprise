@@ -293,11 +293,11 @@ class SaleSubscription(osv.osv):
             order_lines = []
             order_seq_id = self.pool['ir.sequence'].search(cr, uid, [('code', '=', 'sale.order')], context=context)
             order_seq = self.pool['ir.sequence'].browse(cr, uid, order_seq_id, context=context)
+            fpos_id = self.pool['account.fiscal.position'].get_fiscal_position(cr, uid, contract.partner_id.id, context=context)
             for line in contract.recurring_invoice_line_ids:
                 order_lines.append((0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.product_id.name_template,
-                    'description': line.name,
                     'product_uom': line.uom_id.id,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
@@ -315,6 +315,7 @@ class SaleSubscription(osv.osv):
                 'update_contract': True,
                 'note': contract.description,
                 'user_id': contract.manager_id.id,
+                'fiscal_position_id': fpos_id,
             }
         return res
 
@@ -322,6 +323,8 @@ class SaleSubscription(osv.osv):
         values = self._prepare_renewal_order_values(cr, uid, ids, context=context)
         for contract in self.browse(cr, uid, ids, context=context):
             order_id = self.pool['sale.order'].create(cr, uid, values[contract.id], context=context)
+            order = self.pool['sale.order'].browse(cr, uid, order_id, context=context)
+            self.pool['sale.order.line']._compute_tax_id(cr, uid, order.order_line.ids, context=context)
         return {
             "type": "ir.actions.act_window",
             "res_model": "sale.order",
