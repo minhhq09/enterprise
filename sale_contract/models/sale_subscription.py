@@ -341,7 +341,9 @@ class SaleSubscription(osv.osv):
     def action_subscription_invoice(self, cr, uid, ids, context=None):
         subs = self.browse(cr, uid, ids, context=context)
         analytic_ids = [sub.analytic_account_id.id for sub in subs]
-        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs])], context=context)
+        orders = self.pool['sale.order'].search_read(cr, uid, domain=[('subscription_id', 'in', ids)], fields=['name'], context=context)
+        order_names = [order['name'] for order in orders]
+        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs] + order_names)], context=context)
         imd = self.pool['ir.model.data']
         list_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_tree')
         form_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_form')
