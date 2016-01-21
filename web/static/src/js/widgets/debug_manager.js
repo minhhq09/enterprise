@@ -283,15 +283,9 @@ DebugManager.include({
     },
     translate: function() {
         var model = this._action.res_model;
-        this.do_action({
-            name: _t("Technical Translation"),
-            res_model : 'ir.translation',
-            domain : [['type', '!=', 'object'],
-                      '|', ['name', '=', model],
-                           ['name', 'ilike', model + ',']],
-            views: [[false, 'list'], [false, 'form']],
-            type : 'ir.actions.act_window'
-        });
+        new Model("ir.translation")
+                .call('get_technical_translations', [model])
+                .then(this.do_action);
     }
 });
 
