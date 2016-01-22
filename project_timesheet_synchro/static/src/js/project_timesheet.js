@@ -21,6 +21,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             "You can do anything, but not everything.",
     ];
     var SANITIZERREGEX = /\./g; // Since it will be used in a loop, we don't want to compile the regex at each iteration.
+    var MODULE_KEY = '__export__.'; // Xml_id prefix.
 
     //Main widget to instantiate the app
     var ProjectTimesheet = Widget.extend({
@@ -195,7 +196,6 @@ odoo.define('project_timeshee.ui', function (require ) {
                         'next_aal_id': 1,
                         'next_project_id': 1,
                         'next_task_id': 1,
-                        'module_key': '__export__.',
                         'original_timestamp': timestamp,
                         'settings': {
                             'default_project_id': undefined,
@@ -249,179 +249,185 @@ odoo.define('project_timeshee.ui', function (require ) {
             var self = this;
             self.$('.pt_nav_sync a').addClass('pt_sync_in_progress');
 
-            var account_analytic_line_model = new Model("account.analytic.line");
-            account_analytic_line_model.call("export_data_for_ui" , []).then(function(sv_data) {
-                // SV => LS sync
-                var sv_aals = sv_data.aals.datas;
-                var sv_tasks = sv_data.tasks.datas;
-                var sv_projects = sv_data.projects.datas;
+            // Before syncing, we must ensure that the xml_ids on the server and in the app are appropriate.
+            // If they are not, we try to clean them on the server and locally.
+            //
+            self.clean_xml_ids().always(function() {
 
-                _.each(sv_projects, function(sv_project) {
-                    // Check if the project exists in LS.
-                    // If it does we simply update the name, otherwise we copy the project in LS.
-                    var ls_project = _.findWhere(self.data.projects, {id : sv_project[0]});
-                    if (_.isUndefined(ls_project)) {
-                        self.data.projects.push({
-                            id : sv_project[0],
-                            name : sv_project[1]
-                        });
-                    }
-                    else {
-                        ls_project.name = sv_project[1];
-                    }
-                    self.save_user_data();
-                });
+                var account_analytic_line_model = new Model("account.analytic.line");
+                account_analytic_line_model.call("export_data_for_ui" , []).then(function(sv_data) {
+                    // SV => LS sync
+                    var sv_aals = sv_data.aals.datas;
+                    var sv_tasks = sv_data.tasks.datas;
+                    var sv_projects = sv_data.projects.datas;
 
-                _.each(sv_tasks, function(sv_task) {
-                    var ls_task = _.findWhere(self.data.tasks, {id : sv_task[0]});
-                    if (_.isUndefined(ls_task)) {
-                        self.data.tasks.push({
-                            id : sv_task[0],
-                            project_id : sv_task[1],
-                            name : sv_task[3]
-                        });
-                    }
-                    else {
-                        ls_task.name = sv_task[3];
-                    }
-                    self.save_user_data();
-                });
-
-                _.each(sv_aals, function(sv_aal) {
-                    // First, check that the aal is related to a project. If not we don't import it.
-                    if (!_.isUndefined(sv_aal[8])) {
-                        var ls_aal = _.findWhere(self.data.account_analytic_lines, {id : sv_aal[0]});
-                        // When unit amount is empty on the server it defaults to false. We want it to default to 0 :
-                        if (!sv_aal[6]) {
-                            sv_aal[6] = 0;
-                        }
-
-                        // Create case
-                        if (_.isUndefined(ls_aal)) {
-                            self.data.account_analytic_lines.push({
-                                id : sv_aal[0],
-                                task_id : sv_aal[1],
-                                desc : sv_aal[3],
-                                date : sv_aal[5],
-                                unit_amount : sv_aal[6],
-                                write_date : sv_aal[7],
-                                sheet_state: sv_aal[8],
-                                project_id : sv_aal[9],
+                    _.each(sv_projects, function(sv_project) {
+                        // Check if the project exists in LS.
+                        // If it does we simply update the name, otherwise we copy the project in LS.
+                        var ls_project = _.findWhere(self.data.projects, {id : sv_project[0]});
+                        if (_.isUndefined(ls_project)) {
+                            self.data.projects.push({
+                                id : sv_project[0],
+                                name : sv_project[1]
                             });
                         }
                         else {
-                            //Update case
-                            if (time_module.str_to_datetime(ls_aal.write_date) < time_module.str_to_datetime(sv_aal[7])) {
-                                ls_aal.project_id = sv_aal[9];
-                                ls_aal.task_id = sv_aal[1];
-                                ls_aal.desc = sv_aal[3];
-                                ls_aal.date = sv_aal[5];
-                                ls_aal.unit_amount = sv_aal[6];
-                                ls_aal.write_date = sv_aal[7];
+                            ls_project.name = sv_project[1];
+                        }
+                        self.save_user_data();
+                    });
+
+                    _.each(sv_tasks, function(sv_task) {
+                        var ls_task = _.findWhere(self.data.tasks, {id : sv_task[0]});
+                        if (_.isUndefined(ls_task)) {
+                            self.data.tasks.push({
+                                id : sv_task[0],
+                                project_id : sv_task[1],
+                                name : sv_task[3]
+                            });
+                        }
+                        else {
+                            ls_task.name = sv_task[3];
+                        }
+                        self.save_user_data();
+                    });
+
+                    _.each(sv_aals, function(sv_aal) {
+                        // First, check that the aal is related to a project. If not we don't import it.
+                        if (!_.isUndefined(sv_aal[8])) {
+                            var ls_aal = _.findWhere(self.data.account_analytic_lines, {id : sv_aal[0]});
+                            // When unit amount is empty on the server it defaults to false. We want it to default to 0 :
+                            if (!sv_aal[6]) {
+                                sv_aal[6] = 0;
                             }
-                            // Always update the sheet state as a blocked timesheet should not be editable in the UI.
-                            ls_aal.sheet_state =  sv_aal[8];
+
+                            // Create case
+                            if (_.isUndefined(ls_aal)) {
+                                self.data.account_analytic_lines.push({
+                                    id : sv_aal[0],
+                                    task_id : sv_aal[1],
+                                    desc : sv_aal[3],
+                                    date : sv_aal[5],
+                                    unit_amount : sv_aal[6],
+                                    write_date : sv_aal[7],
+                                    sheet_state: sv_aal[8],
+                                    project_id : sv_aal[9],
+                                });
+                            }
+                            else {
+                                //Update case
+                                if (time_module.str_to_datetime(ls_aal.write_date) < time_module.str_to_datetime(sv_aal[7])) {
+                                    ls_aal.project_id = sv_aal[9];
+                                    ls_aal.task_id = sv_aal[1];
+                                    ls_aal.desc = sv_aal[3];
+                                    ls_aal.date = sv_aal[5];
+                                    ls_aal.unit_amount = sv_aal[6];
+                                    ls_aal.write_date = sv_aal[7];
+                                }
+                                // Always update the sheet state as a blocked timesheet should not be editable in the UI.
+                                ls_aal.sheet_state =  sv_aal[8];
+                            }
                         }
-                    }
-                    self.save_user_data();
-                });
-                //LS => SV sync
-                var context = new web_data.CompoundContext({default_is_timesheet : true});
-                // For the aals that need to be synced, update unit_amount with minimal duration or round with time_unit.
-                //This feature is currently enabled. It might need to be moved to the backend.
-                _.each(self.data.account_analytic_lines, function(aal) {
-                    if (aal.to_sync) {
-                        //
-                        if (aal.unit_amount < self.data.settings.minimal_duration) {
-                            aal.unit_amount = self.data.settings.minimal_duration;
-                        }
-                        else if (self.data.settings.time_unit > 0) {
-                            var round_to = 1 / self.data.settings.time_unit;
-                            aal.unit_amount = (Math.ceil(aal.unit_amount * round_to) / round_to).toFixed(2);
-                        }
-                    }
-                });
-                account_analytic_line_model.call("import_ui_data" , [self.data.account_analytic_lines , self.data.tasks, self.data.projects], {context : context}).then(function(sv_response) {
-                    // The entries that have been removed in the backend must be removed from the LS
-                    if (sv_response.projects_to_remove.length) {
-                        _.each(sv_response.projects_to_remove, function(project_to_remove_id) {
-                            self.data.projects = _.filter(self.data.projects, function(project) {
-                                return project.id != project_to_remove_id;
-                            });
-                        });
-                    }
-                    if (sv_response.tasks_to_remove.length) {
-                        _.each(sv_response.tasks_to_remove, function(task_to_remove_id) {
-                            self.data.tasks = _.filter(self.data.tasks, function(task) {
-                                return task.id != task_to_remove_id;
-                            });
-                        });
-                    }
-                    if (sv_response.aals_to_remove.length) {
-                        _.each(sv_response.aals_to_remove, function(aal_to_remove_id) {
-                            self.data.account_analytic_lines = _.filter(self.data.account_analytic_lines, function(aal) {
-                                return aal.id != aal_to_remove_id;
-                            });
-                        });
-                    }
-                    // Set to_sync to false for further syncs, except if womething went wrong, in which case we handle the error.
-                    // Also marks aals as problematic if the project or task related has been removed or could not be imported
+                        self.save_user_data();
+                    });
+                    //LS => SV sync
+                    var context = new web_data.CompoundContext({default_is_timesheet : true});
+                    // For the aals that need to be synced, update unit_amount with minimal duration or round with time_unit.
+                    //This feature is currently enabled. It might need to be moved to the backend.
                     _.each(self.data.account_analytic_lines, function(aal) {
-                        var aal_project = _.findWhere(self.data.projects, { id : aal.project_id});
-                        var aal_task = undefined;
-                        if (aal.task_id) {
-                            aal_task = _.findWhere(self.data.tasks, { id : aal.task_id});
-                        }
-                        if (_.isUndefined(aal_project) || (aal.task_id && _.isUndefined(aal_task))) {
-                            aal.to_sync = true;
-                            aal.sync_problem = true;
-                        }
-                        else if(sv_response.aals_errors.failed_records.indexOf(aal.id) < 0 ) {
-                            aal.to_sync = false;
-                            aal.sync_problem = false;
-                        }
-                        else {
-                            aal.to_sync = true;
-                            aal.sync_problem = true;
+                        if (aal.to_sync) {
+                            //
+                            if (aal.unit_amount < self.data.settings.minimal_duration) {
+                                aal.unit_amount = self.data.settings.minimal_duration;
+                            }
+                            else if (self.data.settings.time_unit > 0) {
+                                var round_to = 1 / self.data.settings.time_unit;
+                                aal.unit_amount = (Math.ceil(aal.unit_amount * round_to) / round_to).toFixed(2);
+                            }
                         }
                     });
-                    _.each(self.data.tasks, function(task) {
-                        if (sv_response.task_errors.failed_records.indexOf(task.id) < 0) {
-                            task.to_sync = false;
-                            task.sync_problem = false;
+                    account_analytic_line_model.call("import_ui_data" , [self.data.account_analytic_lines , self.data.tasks, self.data.projects], {context : context}).then(function(sv_response) {
+                        // The entries that have been removed in the backend must be removed from the LS
+                        if (sv_response.projects_to_remove.length) {
+                            _.each(sv_response.projects_to_remove, function(project_to_remove_id) {
+                                self.data.projects = _.filter(self.data.projects, function(project) {
+                                    return project.id != project_to_remove_id;
+                                });
+                            });
                         }
-                        else {
-                            task.sync_problem = true;
-                            task.to_sync = true;
-                            self.flush_task(task.id);
+                        if (sv_response.tasks_to_remove.length) {
+                            _.each(sv_response.tasks_to_remove, function(task_to_remove_id) {
+                                self.data.tasks = _.filter(self.data.tasks, function(task) {
+                                    return task.id != task_to_remove_id;
+                                });
+                            });
+                        }
+                        if (sv_response.aals_to_remove.length) {
+                            _.each(sv_response.aals_to_remove, function(aal_to_remove_id) {
+                                self.data.account_analytic_lines = _.filter(self.data.account_analytic_lines, function(aal) {
+                                    return aal.id != aal_to_remove_id;
+                                });
+                            });
+                        }
+                        // Set to_sync to false for further syncs, except if womething went wrong, in which case we handle the error.
+                        // Also marks aals as problematic if the project or task related has been removed or could not be imported
+                        _.each(self.data.account_analytic_lines, function(aal) {
+                            var aal_project = _.findWhere(self.data.projects, { id : aal.project_id});
+                            var aal_task = undefined;
+                            if (aal.task_id) {
+                                aal_task = _.findWhere(self.data.tasks, { id : aal.task_id});
+                            }
+                            if (_.isUndefined(aal_project) || (aal.task_id && _.isUndefined(aal_task))) {
+                                aal.to_sync = true;
+                                aal.sync_problem = true;
+                            }
+                            else if(sv_response.aals_errors.failed_records.indexOf(aal.id) < 0 ) {
+                                aal.to_sync = false;
+                                aal.sync_problem = false;
+                            }
+                            else {
+                                aal.to_sync = true;
+                                aal.sync_problem = true;
+                            }
+                        });
+                        _.each(self.data.tasks, function(task) {
+                            if (sv_response.task_errors.failed_records.indexOf(task.id) < 0) {
+                                task.to_sync = false;
+                                task.sync_problem = false;
+                            }
+                            else {
+                                task.sync_problem = true;
+                                task.to_sync = true;
+                                self.flush_task(task.id);
+                            }
+                        });
+                        _.each(self.data.projects, function(project) {
+                            if (sv_response.project_errors.failed_records.indexOf(project.id) < 0) {
+                                project.to_sync = false;
+                                project.sync_problem = false;
+                            }
+                            else {
+                                project.sync_problem = true;
+                                project.to_sync = true;
+                                self.flush_project(project.id);
+                            }
+                        });
+                        self.sync_time = new Date();
+                        self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
+                        self.flush_activities(MAX_AGE);
+                        self.save_user_data();
+                        defer.resolve();
+                        if (options && options.callback) {
+                            options.callback();
                         }
                     });
-                    _.each(self.data.projects, function(project) {
-                        if (sv_response.project_errors.failed_records.indexOf(project.id) < 0) {
-                            project.to_sync = false;
-                            project.sync_problem = false;
-                        }
-                        else {
-                            project.sync_problem = true;
-                            project.to_sync = true;
-                            self.flush_project(project.id);
-                        }
-                    });
-                    self.sync_time = new Date();
+                }).fail(function() {
                     self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
-                    self.flush_activities(MAX_AGE);
-                    self.save_user_data();
                     defer.resolve();
                     if (options && options.callback) {
                         options.callback();
                     }
                 });
-            }).fail(function() {
-                self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
-                defer.resolve();
-                if (options && options.callback) {
-                    options.callback();
-                }
             });
             return defer;
         },
@@ -468,8 +474,6 @@ odoo.define('project_timeshee.ui', function (require ) {
             if(id && id.indexOf('Project_timesheet_UI') >= 0) {
                 id = id.replace(SANITIZERREGEX, '');
                 id = '__export__.' + id.replace(/Project_timesheet_UI/, '');
-            } else if (id && id.indexOf('project_timesheet_synchro.') >= 0) {
-                id = '__export__.' + id.replace(/project_timesheet_synchro./, '');
             }
             return id;
         },
@@ -490,6 +494,73 @@ odoo.define('project_timeshee.ui', function (require ) {
                 aal.project_id = self.fix_id(aal.project_id);
             });
             self.save_user_data();
+        },
+        process_all_ids: function(process_function) {
+            var self = this;
+            _.each(self.data.projects, function(project) {
+                project.id = process_function(project.id);
+            });
+            _.each(self.data.tasks, function(task) {
+                task.id = process_function(task.id);
+                task.project_id = process_function(task.project_id);
+            });
+            _.each(self.data.account_analytic_lines, function(aal) {
+                aal.id = process_function(aal.id);
+                aal.task_id = process_function(aal.task_id);
+                aal.project_id = process_function(aal.project_id);
+            });
+            self.save_user_data();
+        },
+        convert_module_to_export: function(id) {
+            if (id && id.indexOf('project_timesheet_synchro') >= 0) {
+                id = id.replace('project_timesheet_synchro', '__export__');
+            }
+            return id;
+        },
+        clean_xml_ids: function() {
+            var self = this;
+            var def = $.Deferred();
+            if(this.data.data_version === 1) {
+                def.resolve(); // Cleanup has already been performed.
+            } else {
+                var account_analytic_line_model = new Model("account.analytic.line");
+                account_analytic_line_model.call("clean_xml_ids" , []).always(function(res) {
+                    if (res === true) {
+                        // Everything went fine, any local xml_ids with project_timesheet_synchro can be converted
+                        self.process_all_ids(self.convert_module_to_export);
+                        self.data.data_version = 1;
+                        def.resolve();
+                    } else {
+                        var ir_model_data_model = new Model("ir.model.data");
+                        ir_model_data_model.query(['id']).filter([
+                            ['module', '=', 'project_timesheet_synchro'],
+                            ['model', 'in', [
+                                'mail.alias',
+                                'account.analytic.account',
+                                'project.project',
+                                'project.task',
+                                'account.analytic.line'
+                            ]]
+                        ]).all().then(function (imds) {
+                            if (imds.length === 0) { // there are no dirty ids on the server
+                                self.process_all_ids(self.convert_module_to_export);
+                                self.data.data_version = 1;
+                                def.resolve();
+                            } else {
+                                // Show a warning to the user, once a day
+                                if (!self.data.warning_date || (self.data.warning_date && moment(self.data.warning_date).diff(new Date(), 'days') !== 0)) {
+                                    alert('The code on your Odoo server is not up to date and an important update has been released. You or your system administrator should consider retrieving it as soon as possible.');
+                                    self.data.warning_date = new Date();
+                                }
+                                def.resolve();
+                            }
+                        }).fail(function (err) {
+                            def.resolve();
+                        });
+                    }
+                });
+            }
+            return def;
         },
     });
 
@@ -977,7 +1048,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
 
             var activity = {
-                id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id),
+                id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id),
                 project_id : event.currentTarget.dataset.project_id,
                 task_id : task_id,
                 date : time_module.date_to_str(new Date()),
@@ -1052,7 +1123,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
+                        id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1183,7 +1254,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
+                        id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_project_" + self.getParent().data.next_project_id),
                         name : user_input.trim(),
                         isNew: true,
                     };
@@ -1225,7 +1296,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         return undefined;
                     }
                     var res = {
-                        id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_task_" + self.getParent().data.next_task_id),
+                        id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_task_" + self.getParent().data.next_task_id),
                         name : user_input.trim(),
                         isNew: true,
                         project_id: self.activity.project_id
@@ -1341,7 +1412,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             // Create operations
             if (_.isUndefined(stored_activity)) {
                 this.getParent().data.account_analytic_lines.unshift({
-                    id : self.getParent().data.module_key + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id)
+                    id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id)
                 });
                 stored_activity = this.getParent().data.account_analytic_lines[0];
                 stored_activity.date = this.activity.date;
