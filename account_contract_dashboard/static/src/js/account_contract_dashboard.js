@@ -978,30 +978,30 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
         function load_chart_mrr_salesman(div_to_display, result) {
             var data_chart = [{
-                key: "MRR Growth",
+                key: _t("MRR Growth"),
                 values: [
                     { 
-                        "label" : "New MRR" ,
+                        "label" : _t("New MRR"),
                         "value" : result.new
                     } , 
                     { 
-                        "label" : "Churned MRR" , 
+                        "label" : _t("Churned MRR"),
                         "value" : result.churn
                     } , 
                     { 
-                        "label" : "Expansion MRR" , 
+                        "label" : _t("Expansion MRR"),
                         "value" : result.up
                     } , 
                     { 
-                        "label" : "Down MRR" , 
+                        "label" : _t("Down MRR"),
                         "value" : result.down
                     } , 
                     { 
-                        "label" : "Net New MRR" ,
+                        "label" : _t("Net New MRR"),
                         "value" : result.net_new
                     } , 
                     { 
-                        "label" : "NRR" ,
+                        "label" : _t("NRR"),
                         "value" : result.nrr
                     } ,
                 ]
