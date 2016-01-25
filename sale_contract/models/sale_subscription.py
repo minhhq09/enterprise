@@ -147,9 +147,9 @@ class SaleSubscription(osv.osv):
                     'price_unit': x.price_unit,
                     'analytic_account_id': x.analytic_account_id and x.analytic_account_id.id or False,
                 }))
-            res['value']['recurring_interval'] = template.recurring_interval
-            res['value']['recurring_rule_type'] = template.recurring_rule_type
             res['value']['recurring_invoice_line_ids'] = invoice_line_ids
+        res['value']['recurring_interval'] = template.recurring_interval
+        res['value']['recurring_rule_type'] = template.recurring_rule_type
         return res
 
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
@@ -341,7 +341,9 @@ class SaleSubscription(osv.osv):
     def action_subscription_invoice(self, cr, uid, ids, context=None):
         subs = self.browse(cr, uid, ids, context=context)
         analytic_ids = [sub.analytic_account_id.id for sub in subs]
-        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs])], context=context)
+        orders = self.pool['sale.order'].search_read(cr, uid, domain=[('subscription_id', 'in', ids)], fields=['name'], context=context)
+        order_names = [order['name'] for order in orders]
+        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs] + order_names)], context=context)
         imd = self.pool['ir.model.data']
         list_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_tree')
         form_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_form')
