@@ -179,7 +179,7 @@ var PivotView = View.extend({
                 }
             }
         });
-        this.measures.__count__ = {string: "Quantity", type: "integer"};
+        this.measures.__count__ = {string: _t("Quantity"), type: "integer"};
     },
     do_search: function (domain, context, group_by) {
         if (!this.ready) {
@@ -841,4 +841,3 @@ core.view_registry.add('pivot', PivotView);
 return PivotView;
 
 });
-
