@@ -252,12 +252,14 @@ class TemandoRequest():
         try:
             dict_response = {'tracking_number': 0.0,
                              'carrier_name': False,
+                             'delivery_method': False,
                              'price': 0.0,
                              'currency': False}
             self.book_response = self.client.service.makeBooking(anythings=self.Anything, anywhere=self.Anywhere, general=self.General, origin=self.LocationOrigin, destination=self.LocationDestination, quoteFilter=self.QuoteFilter, payment=self.Payment, reference=self.Reference, labelPrinterType=self.LabelPrinter.labelPrinterType)
 
             dict_response['tracking_number'] = self.book_response.requestId
             dict_response['carrier_name'] = self.book_response.quote.carrier.companyName
+            dict_response['delivery_method'] = self.book_response.quote.deliveryMethod
             dict_response['price'] = float(self.book_response.quote.totalPrice)
             dict_response['currency'] = self.book_response.quote.currency
 

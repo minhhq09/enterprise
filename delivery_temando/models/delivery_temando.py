@@ -127,6 +127,10 @@ class ProviderTemando(models.Model):
 
             shipping_data = {'exact_price': carrier_price,
                              'tracking_number': carrier_tracking_ref}
+
+            picking.write({'temando_carrier_name': booking['carrier_name'],
+                           'temando_delivery_method': booking['delivery_method']})
+
             res = res + [shipping_data]
 
         return res
