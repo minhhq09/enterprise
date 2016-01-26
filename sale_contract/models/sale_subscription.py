@@ -244,7 +244,8 @@ class SaleSubscription(osv.osv):
         return invoice
 
     def recurring_invoice(self, cr, uid, ids, context=None):
-        return self._recurring_create_invoice(cr, uid, ids, context=context)
+        self._recurring_create_invoice(cr, uid, ids, context=context)
+        return self.action_subscription_invoice(cr, uid, ids, context=context)
 
     def _cron_recurring_create_invoice(self, cr, uid, context=None):
         return self._recurring_create_invoice(cr, uid, [], automatic=True, context=context)

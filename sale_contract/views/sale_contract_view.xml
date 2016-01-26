@@ -47,7 +47,7 @@
         <field name="res_model">sale.subscription</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_open':1, 'search_default_pending':1, 'search_default_manager_id':uid}</field>
+        <field name="context">{}</field>
         <field name="domain">[('type','=','contract')]</field>
         <field name="search_view_id" ref="sale_subscription_view_search"/>
         <field name="help" type="html">
@@ -98,8 +98,8 @@
                         <group>
                             <field name="type" widget="radio" invisible="1"/>
                             <field name="partner_id" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }" on_change="on_change_partner(partner_id)"/>
-                            <field name="code"/>
                             <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}"/>
+                            <field name="code"/>
                             <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
                             <div attrs="{'invisible': ['|',('type','=','template')]}">
                                 <field name="recurring_next_date"/>
@@ -176,15 +176,14 @@
         <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
         <field name="arch" type="xml">
             <tree string="Sale Subscriptions" decoration-info="state=='draft'" decoration-danger="state=='pending'" decoration-muted="state in ('cancel','close')">
-                <field name="display_name"/>
-                <field name="state" invisible="1"/>
                 <field name="code"/>
                 <field name="partner_id"/>
                 <field name="recurring_next_date"/>
-                <field name="recurring_total"/>
                 <field name="pricelist_id" invisible="1"/>
                 <field name="manager_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
+                <field name="recurring_total"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
