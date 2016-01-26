@@ -70,7 +70,7 @@
                 <header>
                     <button name="set_close" string="Set to Inactive" type="object" attrs="{'invisible': ['|',('type','!=','template'),('state','=','close')]}"/>
                     <button name="set_open" string="Set to Active" type="object" attrs="{'invisible': ['|',('type','!=','template'),('state','=','open')]}"/>
-                    <button name="set_open" string="Set to Open" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','=','open')]}"/>
+                    <button name="set_open" string="Start Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','=','open')]}" class="oe_highlight"/>
                     <button name="set_pending" string="To Renew" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','in',['pending','draft','close','cancel'])]}"/>
                     <button name="set_close" string="Close Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','in',['draft','close'])]}"/>
                     <button name="set_cancel" string="Cancel Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','=','cancel')]}"/>
@@ -113,7 +113,7 @@
                                 <field name="recurring_interval" class="oe_inline"/>
                                 <field name="recurring_rule_type" class="oe_inline"/>
                             </div>
-                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" on_change="on_change_template(template_id)" context="{'default_type': 'template'}" domain="[('type', '=', 'template'), ('state', '=', 'open')]"/>
+                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" on_change="on_change_template(template_id)" context="{'default_type': 'template', 'default_code': False}" domain="[('type', '=', 'template'), ('state', '=', 'open')]"/>
                             <field name="manager_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>

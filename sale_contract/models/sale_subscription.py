@@ -354,7 +354,10 @@ class SaleSubscription(osv.osv):
         }
 
     def create(self, cr, uid, vals, context=None):
-        if not vals.get('code', False):
+        context = context or {}
+        if 'default_code' in context:
+            vals['code'] = context.get('default_code')
+        elif not vals.get('code', False):
             vals['code'] = self.pool['ir.sequence'].next_by_code(cr, uid, 'sale.subscription', context=context) or 'New'
         if vals.get('name', 'New') == 'New':
             vals['name'] = vals['code']
