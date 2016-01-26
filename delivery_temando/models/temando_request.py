@@ -106,7 +106,7 @@ class TemandoRequest():
         elif carrier.temando_package_height and carrier.temando_package_width and carrier.temando_package_length:
             res = {'height': carrier.temando_package_height, 'width': carrier.temando_package_width, 'length': carrier.temando_package_length}
         else:
-            raise ValidationError('Please provide Height, Width and Length on product packaging or delivery method.')
+            raise ValidationError(_('Please provide Height, Width and Length on product packaging or delivery method.'))
         return res
 
     # Rating
@@ -157,7 +157,7 @@ class TemandoRequest():
         except suds.WebFault as fault:
             dict_response['error_message'] = fault
         except URLError:
-            dict_response['error_message'] = 'Temando Server Not Found'
+            dict_response['error_message'] = _('Temando Server Not Found')
 
         return dict_response
 
@@ -268,7 +268,7 @@ class TemandoRequest():
                 string = fault.fault.faultstring
                 dict_response['error_message'] = string[string.index('with message') + 14:string.index(':')]
         except URLError:
-            dict_response['error_message'] = 'Temando Server Not Found'
+            dict_response['error_message'] = _('Temando Server Not Found')
 
         return dict_response
 
@@ -301,7 +301,7 @@ class TemandoRequest():
         except suds.WebFault as fault:
             dict_response['error_message'] = fault
         except URLError:
-            dict_response['error_message'] = 'Temando Server Not Found'
+            dict_response['error_message'] = _('Temando Server Not Found')
         return dict_response
 
     # Manifest stuff
