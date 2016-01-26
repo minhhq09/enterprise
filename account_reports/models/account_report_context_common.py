@@ -139,6 +139,7 @@ class AccountReportContextCommon(models.TransientModel):
     date_to_cmp = fields.Date("End date for comparison",
                               default=lambda s: datetime.today() + timedelta(days=-365))
     cash_basis = fields.Boolean('Enable cash basis columns', default=False)
+    hierarchy_3 = fields.Integer('Show hierarchies', default=False)
     date_filter_cmp = fields.Char('Comparison date filter used', default='no_comparison')
     periods_number = fields.Integer('Number of periods', default=1)
     footnotes_manager_id = fields.Many2one('account.report.footnotes.manager', string='Footnotes Manager', required=True, ondelete='cascade')
@@ -422,11 +423,12 @@ class AccountReportContextCommon(models.TransientModel):
         }
         result['html'] = self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
         result['report_type'] = self.get_report_obj().get_report_type()
-        select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company']
+        select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company', 'hierarchy_3']
         if self.get_report_obj().get_name() == 'general_ledger':
             select += ['journal_ids']
             result['available_journals'] = self.get_available_journal_ids_and_names()
         result['report_context'] = self.read(select)[0]
+        result['report_context'].update(self._context_add())
         result['xml_export'] = self.env['account.financial.html.report.xml.export'].is_xml_export_available(self.get_report_obj())
         result['fy'] = {
             'fiscalyear_last_day': self.env.user.company_id.fiscalyear_last_day,
@@ -434,6 +436,10 @@ class AccountReportContextCommon(models.TransientModel):
         }
         result['available_companies'] = self.multicompany_manager_id.get_available_company_ids_and_names()
         return result
+
+    @api.model
+    def _context_add(self):
+        return {}
 
     def get_xlsx(self, response):
         output = StringIO.StringIO()

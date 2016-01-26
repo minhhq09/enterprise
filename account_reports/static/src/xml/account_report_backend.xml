@@ -145,6 +145,7 @@
             <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li t-if="report_type != 'date_range_cash'" title="Cash Basis Method" data-value="cash_basis" t-att-class="'o_account_reports_one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
                 <li title="Include unposted entries" data-value="all_entries" t-att-class="'o_account_reports_one-filter-bool ' + (context.all_entries and 'selected' or '')"><a>Include Unposted Entries</a></li>
+                <li t-if="context.has_hierarchy" title="Hierarchy" data-value="hierarchy_3" t-att-class="'o_account_reports_one-filter-bool ' + (context.hierarchy_3 and 'selected' or '')"><a>Hierarchy and Subtotals</a></li>
             </ul>
         </div>
         <div class="o_dropdown o_account_reports_date-filter-multi-company" t-if="context.multi_company">

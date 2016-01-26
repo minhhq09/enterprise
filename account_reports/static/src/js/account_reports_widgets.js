@@ -77,6 +77,7 @@ var ReportWidget = Widget.extend({
                 date_from_cmp: this.context.date_from_cmp,
                 date_to_cmp: this.context.date_to_cmp,
                 cash_basis: this.context.cash_basis,
+                hierarchy_3: this.context.hierarchy_3,
                 all_entries: this.context.all_entries,
                 company_ids: this.context.company_ids,
             };

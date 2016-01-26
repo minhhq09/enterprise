@@ -20,6 +20,7 @@ class report_account_coa(models.AbstractModel):
             'date_to': context_id.date_to,
             'state': context_id.all_entries and 'all' or 'posted',
             'cash_basis': context_id.cash_basis,
+            'hierarchy_3': context_id.hierarchy_3,
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
             'periods_number': context_id.periods_number,
@@ -31,6 +32,7 @@ class report_account_coa(models.AbstractModel):
     def _lines(self, line_id=None):
         lines = []
         context = self.env.context
+        maxlevel = context['context_id'].hierarchy_3 and 3 or 1
         company_id = context.get('company_id') or self.env.user.company_id
         grouped_accounts = {}
         period_number = 0
@@ -42,20 +44,36 @@ class report_account_coa(models.AbstractModel):
                 grouped_accounts[account][period_number] = res[account]
             period_number += 1
         sorted_accounts = sorted(grouped_accounts, key=lambda a: a.code)
-        title_index = '0'
+        title_index = ''
         for account in sorted_accounts:
-            if account.code[0] > title_index:
-                title_index = account.code[0]
-                lines.append({
-                    'id': title_index,
-                    'type': 'line',
-                    'name': _("Class %s" % (title_index)),
-                    'footnotes': [],
-                    'columns': sum([['', ''] for p in xrange(len(context['periods']))], []),
-                    'level': 1,
-                    'unfoldable': False,
-                    'unfolded': True,
-                })
+            for level in range(maxlevel):
+                if (account.code[:level+1] > title_index[:level+1]):
+                    title_index = account.code[:level+1]
+                    total = map(lambda x: 0.00, xrange(len(context['periods'])))
+                    if maxlevel>1:
+                        for account_sum in sorted_accounts:
+                            if account_sum.code[:level+1] == title_index:
+                                for p in xrange(len(context['periods'])):
+                                    total[p] += grouped_accounts[account_sum][p]['balance']
+                            if account_sum.code[:level+1] > title_index:
+                                break
+                        total2 = []
+                        for p in total:
+                            total2.append(p >= 0 and self._format(p) or '')
+                            total2.append(p < 0 and self._format(-p) or '')
+                    else:
+                        total2 = ['' for p in xrange(len(context['periods']))]*2
+
+                    lines.append({
+                        'id': title_index,
+                        'type': 'line',
+                        'name': level and title_index or (_("Class %s") % title_index),
+                        'footnotes': [],
+                        'columns': total2,
+                        'level': level+1,
+                        'unfoldable': False,
+                        'unfolded': True,
+                    })
             lines.append({
                 'id': account.id,
                 'type': 'account_id',
@@ -89,6 +107,10 @@ class account_context_coa(models.TransientModel):
 
     fold_field = 'unfolded_accounts'
     unfolded_accounts = fields.Many2many('account.account', 'context_to_account_coa', string='Unfolded lines')
+
+    @api.model
+    def _context_add(self):
+        return {'has_hierarchy': True}
 
     def get_report_obj(self):
         return self.env['account.coa.report']
