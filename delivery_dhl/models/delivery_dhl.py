@@ -22,14 +22,7 @@ class Providerdhl(models.Model):
                                                 ('KG', 'Kilograms')],
                                                default='KG',
                                                string="Package Weight Unit")
-    dhl_package_type = fields.Selection([('FLY', 'Flyer/Smalls'),
-                                         ('COY', 'Parcels/Conveyables'),
-                                         ('NCY', 'Non-conveyables'),
-                                         ('PAL', 'Pallets'),
-                                         ('DBL', 'Double Pallets'),
-                                         ('BOX', 'Box')],
-                                        default='BOX',
-                                        string='Package Type')
+    dhl_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
     dhl_region_code = fields.Selection([('AP', 'Asia Pacific'),
                                         ('AM', 'America'),
                                         ('EU', 'Europe')],
@@ -43,9 +36,6 @@ class Providerdhl(models.Model):
                                          ],
                                         default='D',
                                         string='Product')
-    dhl_package_height = fields.Integer(string="Package Height")
-    dhl_package_width = fields.Integer(string="Package Width")
-    dhl_package_depth = fields.Integer(string="Package Depth")
     dhl_dutiable = fields.Boolean(string="Dutiable Material", help="Check this if your package is dutiable.")
     dhl_label_image_format = fields.Selection([
         ('EPL2', 'EPL2'),

@@ -2,6 +2,44 @@
 <odoo>
 <data noupdate="1">
 
+    <!-- DHL Product Packagings -->
+    <record id="dhl_packaging_FLY" model="product.packaging">
+        <field name="name">DHL Flyer/Smalls</field>
+        <field name="shipper_package_code">FLY</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+    <record id="dhl_packaging_COY" model="product.packaging">
+        <field name="name">DHL Parcels/Conveyables</field>
+        <field name="shipper_package_code">COY</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+    <record id="dhl_packaging_NCY" model="product.packaging">
+        <field name="name">DHL Non-conveyables</field>
+        <field name="shipper_package_code">NCY</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+    <record id="dhl_packaging_PAL" model="product.packaging">
+        <field name="name">DHL Pallets</field>
+        <field name="shipper_package_code">PAL</field>
+        <field name="height">10</field>
+        <field name="width">10</field>
+        <field name="length">10</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+    <record id="dhl_packaging_DBL" model="product.packaging">
+        <field name="name">DHL Double Pallets</field>
+        <field name="shipper_package_code">DBL</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+    <record id="dhl_packaging_BOX" model="product.packaging">
+        <field name="name">DHL Box</field>
+        <field name="shipper_package_code">BOX</field>
+        <field name="height">10</field>
+        <field name="width">10</field>
+        <field name="length">10</field>
+        <field name="package_carrier_type">dhl</field>
+    </record>
+
     <record id="dhl_partner" model="res.partner">
         <field name="name">DHL</field>
         <field name="is_company" eval="True"/>
@@ -22,13 +60,11 @@
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
         <field name="delivery_type">dhl</field>
-        <field name="dhl_package_height">10</field>
-        <field name="dhl_package_width">10</field>
-        <field name="dhl_package_depth">10</field>
         <field name="dhl_product_code">N</field>
         <field name="dhl_SiteID">CustomerTest</field>
         <field name="dhl_password">alkd89nBV</field>
         <field name="dhl_account_number">803921577</field>
+        <field name="dhl_default_packaging_id" ref="dhl_packaging_BOX"/>
     </record>
 
     <record id="delivery_carrier_dhl_intl" model="delivery.carrier">
@@ -37,13 +73,11 @@
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
         <field name="delivery_type">dhl</field>
-        <field name="dhl_package_height">10</field>
-        <field name="dhl_package_width">10</field>
-        <field name="dhl_package_depth">10</field>
         <field name="dhl_product_code">D</field>
         <field name="dhl_SiteID">CustomerTest</field>
         <field name="dhl_password">alkd89nBV</field>
         <field name="dhl_account_number">803921577</field>
+        <field name="dhl_default_packaging_id" ref="dhl_packaging_BOX"/>
     </record>
 
 </data>

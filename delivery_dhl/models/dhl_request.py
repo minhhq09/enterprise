@@ -85,7 +85,7 @@ class DHLProvider():
             'NumberOfPieces': len(picking.package_ids) or 1,
             'weight_bulk': self._convert_weight(picking.weight_bulk, carrier.dhl_package_weight_unit),
             'package_ids': picking.package_ids,
-            'total_weight': self._convert_weight(picking.weight, carrier.dhl_package_weight_unit),
+            'total_weight': self._convert_weight(picking.shipping_weight, carrier.dhl_package_weight_unit),
             'weight_unit': carrier.dhl_package_weight_unit[:1],
             'dimension_unit': carrier.dhl_package_dimension_unit[0],
             # For the rating API waits for CM and IN here for C and I...
@@ -207,18 +207,20 @@ class DHLProvider():
             for index, package in enumerate(param["package_ids"], start=1):
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(index)
-                etree.SubElement(piece_node, "PackageTypeCode").text = carrier.dhl_package_type
-                etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
-                etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
-                etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
-                etree.SubElement(piece_node, "Weight").text = str(package.weight)
+                packaging = package.packaging_id or carrier.dhl_default_packaging_id
+                etree.SubElement(piece_node, "PackageTypeCode").text = packaging.shipper_package_code
+                etree.SubElement(piece_node, "Height").text = str(packaging.height)
+                etree.SubElement(piece_node, "Depth").text = str(packaging.length)
+                etree.SubElement(piece_node, "Width").text = str(packaging.width)
+                etree.SubElement(piece_node, "Weight").text = str(package.shipping_weight)
         else:
             piece_node = etree.SubElement(pieces_node, "Piece")
             etree.SubElement(piece_node, "PieceID").text = str(1)
-            etree.SubElement(piece_node, "PackageTypeCode").text = carrier.dhl_package_type
-            etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
-            etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
-            etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
+            packaging = carrier.dhl_default_packaging_id
+            etree.SubElement(piece_node, "PackageTypeCode").text = packaging.shipper_package_code
+            etree.SubElement(piece_node, "Height").text = str(packaging.height)
+            etree.SubElement(piece_node, "Depth").text = str(packaging.length)
+            etree.SubElement(piece_node, "Width").text = str(packaging.width)
             etree.SubElement(piece_node, "Weight").text = str(param["total_weight"])
 
         etree.SubElement(bkg_details_node, "PaymentAccountNumber").text = carrier.dhl_account_number
@@ -292,17 +294,19 @@ class DHLProvider():
             for package in param["package_ids"]:
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(package.name)   # need to be removed
-                etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
-                etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
-                etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
+                packaging = package.packaging_id or carrier.dhl_default_packaging_id
+                etree.SubElement(piece_node, "Width").text = str(packaging.width)
+                etree.SubElement(piece_node, "Height").text = str(packaging.height)
+                etree.SubElement(piece_node, "Depth").text = str(packaging.length)
                 etree.SubElement(piece_node, "PieceContents").text = str(package.name)
         if param["weight_bulk"]:
             # Monopackage
+            packaging = carrier.dhl_default_packaging_id
             piece_node = etree.SubElement(pieces_node, "Piece")
             etree.SubElement(piece_node, "PieceID").text = str(1)   # need to be removed
-            etree.SubElement(piece_node, "Width").text = str(carrier.dhl_package_width)
-            etree.SubElement(piece_node, "Height").text = str(carrier.dhl_package_height)
-            etree.SubElement(piece_node, "Depth").text = str(carrier.dhl_package_depth)
+            etree.SubElement(piece_node, "Width").text = str(packaging.width)
+            etree.SubElement(piece_node, "Height").text = str(packaging.height)
+            etree.SubElement(piece_node, "Depth").text = str(packaging.length)
         etree.SubElement(shipment_details_node, "Weight").text = str(param["total_weight"])
         etree.SubElement(shipment_details_node, "WeightUnit").text = param["weight_unit"]
         etree.SubElement(shipment_details_node, "GlobalProductCode").text = param["GlobalProductCode"]
