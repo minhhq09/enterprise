@@ -2,6 +2,44 @@
 <odoo>
 <data noupdate="1">
 
+    <!-- Fedex Product Packagings -->
+    <record id="fedex_packaging_FEDEX_BOX" model="product.packaging">
+        <field name="name">FEDEX_BOX</field>
+        <field name="shipper_package_code">FEDEX_BOX</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_FEDEX_10KG_BOX" model="product.packaging">
+        <field name="name">FEDEX_10KG_BOX</field>
+        <field name="shipper_package_code">FEDEX_10KG_BOX</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_FEDEX_25KG_BOX" model="product.packaging">
+        <field name="name">FEDEX_25KG_BOX</field>
+        <field name="shipper_package_code">FEDEX_25KG_BOX</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_FEDEX_ENVELOPE" model="product.packaging">
+        <field name="name">FEDEX_ENVELOPE</field>
+        <field name="shipper_package_code">FEDEX_ENVELOPE</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_FEDEX_PAK" model="product.packaging">
+        <field name="name">FEDEX_PAK</field>
+        <field name="shipper_package_code">FEDEX_PAK</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_FEDEX_TUBE" model="product.packaging">
+        <field name="name">FEDEX_TUBE</field>
+        <field name="shipper_package_code">FEDEX_TUBE</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+    <record id="fedex_packaging_YOUR_PACKAGING" model="product.packaging">
+        <field name="name">FEDEX_YOUR_PACKAGING</field>
+        <field name="shipper_package_code">YOUR_PACKAGING</field>
+        <field name="package_carrier_type">fedex</field>
+    </record>
+
+    <!-- Fedex Partner -->
     <record id="fedex_partner" model="res.partner">
         <field name="name">FedEx</field>
         <field name="is_company" eval="True"/>
@@ -16,6 +54,7 @@
         <field name="phone">+1 800 4633339</field>
     </record>
 
+    <!-- Fedex Delivery Carriers -->
     <record id="delivery_carrier_fedex_inter" model="delivery.carrier">
         <field name="name">Fedex International</field>
         <field name="fixed_price">0</field>
@@ -28,6 +67,7 @@
         <field name="fedex_developer_password">ZLMVRmbxHE0UnRmjRtQuPnkOM</field>
         <field name="fedex_account_number">601356805</field>
         <field name="fedex_meter_number">118679685</field>
+        <field name="fedex_default_packaging_id" ref="fedex_packaging_FEDEX_BOX"/>
     </record>
 
     <record id="delivery_carrier_fedex_us" model="delivery.carrier">
@@ -43,6 +83,7 @@
         <field name="fedex_developer_password">ZLMVRmbxHE0UnRmjRtQuPnkOM</field>
         <field name="fedex_account_number">601356805</field>
         <field name="fedex_meter_number">118679685</field>
+        <field name="fedex_default_packaging_id" ref="fedex_packaging_FEDEX_BOX"/>
     </record>
 
 </data>

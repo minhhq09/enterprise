@@ -33,14 +33,7 @@ class ProviderFedex(models.Model):
                                             ('STATION', 'STATION')],
                                            string="Fedex drop-off type",
                                            default='REGULAR_PICKUP')
-    fedex_packaging_type = fields.Selection([('FEDEX_BOX', 'FEDEX_BOX'),
-                                             ('FEDEX_10KG_BOX', 'FEDEX_10KG_BOX'),
-                                             ('FEDEX_25KG_BOX', 'FEDEX_25KG_BOX'),
-                                             ('FEDEX_ENVELOPE', 'FEDEX_ENVELOPE'),
-                                             ('FEDEX_PAK', 'FEDEX_PAK'),
-                                             ('FEDEX_TUBE', 'FEDEX_TUBE'),
-                                             ('YOUR_PACKAGING', 'YOUR_PACKAGING')],
-                                            default='FEDEX_BOX')
+    fedex_default_packaging_id = fields.Many2one('product.packaging', string="Default Package Type")
     fedex_service_type = fields.Selection([('INTERNATIONAL_ECONOMY', 'INTERNATIONAL_ECONOMY'),
                                            ('INTERNATIONAL_PRIORITY', 'INTERNATIONAL_PRIORITY'),
                                            ('FEDEX_GROUND', 'FEDEX_GROUND'),
@@ -83,7 +76,7 @@ class ProviderFedex(models.Model):
 
             # Build basic rating request and set addresses
             srm.transaction_detail(order.name)
-            srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, self.fedex_packaging_type, self.fedex_weight_unit)
+            srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, self.fedex_default_packaging_id.shipper_package_code, self.fedex_weight_unit)
             order_currency = order.currency_id
             srm.set_currency(order_currency.name)
             srm.set_shipper(order.company_id.partner_id, order.warehouse_id.partner_id)
@@ -124,7 +117,12 @@ class ProviderFedex(models.Model):
             srm.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
 
             srm.transaction_detail(picking.id)
-            srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, self.fedex_packaging_type, self.fedex_weight_unit)
+
+            # FedEx forbids the use of different packagings in the same shippign
+            picking.check_packages_are_identical()
+
+            package_type = picking.package_ids and picking.package_ids[0].packaging_id.shipper_package_code or self.fedex_default_packaging_id.shipper_package_code
+            srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, package_type, self.fedex_weight_unit)
             srm.set_currency(picking.company_id.currency_id.name)
             srm.set_shipper(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id)
             srm.set_recipient(picking.partner_id)
@@ -135,7 +133,7 @@ class ProviderFedex(models.Model):
 
             order_currency = picking.sale_id.currency_id or picking.company_id.currency_id
 
-            net_weight = _convert_weight(picking.weight, self.fedex_weight_unit)
+            net_weight = _convert_weight(picking.shipping_weight, self.fedex_weight_unit)
 
             # Commodities for customs declaration (international shipping)
             if self.fedex_service_type in ['INTERNATIONAL_ECONOMY', 'INTERNATIONAL_PRIORITY']:
@@ -185,7 +183,7 @@ class ProviderFedex(models.Model):
 
                 for sequence, package in enumerate(picking.package_ids, start=1):
 
-                    package_weight = _convert_weight(package.weight, self.fedex_weight_unit)
+                    package_weight = _convert_weight(package.shipping_weight, self.fedex_weight_unit)
                     srm.add_package(package_weight, sequence_number=sequence)
                     srm.set_master_package(net_weight, package_count, master_tracking_id=master_tracking_id)
                     request = srm.process_shipment()
