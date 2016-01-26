@@ -38,12 +38,12 @@ class TestDeliveryUPS(TransactionCase):
 
         # Set service type = 'UPS Worldwide Expedited', which is available between US to BE
         carrier = self.env.ref('delivery_ups.delivery_carrier_ups_us')
-        carrier.write({'ups_default_packaging_type': '02',
-                       'ups_default_service_type': '08',
-                       'ups_package_dimension_unit': 'IN',
-                       'ups_package_height': '3',
-                       'ups_package_width': '3',
-                       'ups_package_length': '3'})
+        carrier.write({'ups_default_service_type': '08',
+                       'ups_package_dimension_unit': 'IN'})
+        carrier.ups_default_packaging_id.write({
+                       'height': '3',
+                       'width': '3',
+                       'length': '3'})
 
         so_vals = {'partner_id': self.agrolait.id,
                    'carrier_id': carrier.id,
@@ -80,12 +80,13 @@ class TestDeliveryUPS(TransactionCase):
         # Set packaging type = 'Pallet' and service type = 'UPS Worldwide Express Freight'
         # so in this case height, width and length required.
         carrier = self.env.ref('delivery_ups.delivery_carrier_ups_us')
-        carrier.write({'ups_default_packaging_type': '30',
+        carrier.write({'ups_default_packaging_id': self.env.ref('delivery_ups.ups_packaging_30').id,
                        'ups_default_service_type': '96',
-                       'ups_package_dimension_unit': 'IN',
-                       'ups_package_height': '3',
-                       'ups_package_width': '3',
-                       'ups_package_length': '3'})
+                       'ups_package_dimension_unit': 'IN'})
+        carrier.ups_default_packaging_id.write({
+                       'height': '3',
+                       'width': '3',
+                       'length': '3'})
 
         sol_1_vals = {'product_id': self.iPadMini.id,
                       'name': "[A1232] iPad Mini",

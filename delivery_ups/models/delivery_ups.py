@@ -16,18 +16,7 @@ class ProviderUPS(models.Model):
     ups_shipper_number = fields.Char(string='UPS Shipper Number', groups="base.group_system")
     ups_access_number = fields.Char(string='UPS AccessLicenseNumber', groups="base.group_system")
     ups_test_mode = fields.Boolean(default=True, string="Test Mode", help="Uncheck this box to use production UPS Web Services")
-    ups_default_packaging_type = fields.Selection([('01', 'UPS Letter'),
-                                                   ('02', 'Package/customer supplied'),
-                                                   ('03', 'UPS Tube'),
-                                                   ('04', 'UPS Pak'),
-                                                   ('21', 'Express Box'),
-                                                   ('24', '25KG Box'),
-                                                   ('25', '10KG Box'),
-                                                   ('30', 'Pallet'),
-                                                   ('2a', 'Small Express Box'),
-                                                   ('2b', 'Medium Express Box'),
-                                                   ('2c', 'Flat Pack')],
-                                                  string="UPS Packaging Type", default='02')
+    ups_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
     ups_default_service_type = fields.Selection([('03', 'UPS Ground'),
                                                  ('11', 'UPS Standard'),
                                                  ('01', 'UPS Next Day'),
@@ -44,9 +33,6 @@ class ProviderUPS(models.Model):
                                                string="UPS Service Type", default='03')
     ups_package_weight_unit = fields.Selection([('LBS', 'Pounds'), ('KGS', 'Kilograms')], default='LBS')
     ups_package_dimension_unit = fields.Selection([('IN', 'Inches'), ('CM', 'Centimeters')], string="Units for UPS Package Size", default='IN')
-    ups_package_height = fields.Integer(string='Package Height', help="Fixed height if not provided on the product packaging.")
-    ups_package_width = fields.Integer(string='Package Width', help="Fixed width if not provided on the product packaging.")
-    ups_package_length = fields.Integer(string='Package Length', help="Fixed length if not provided on the product packaging.")
 
     def _convert_weight(self, weight):
         if self.ups_package_weight_unit == "LBS":
@@ -75,7 +61,7 @@ class ProviderUPS(models.Model):
             srm.check_required_value(order.company_id.partner_id, order.warehouse_id.partner_id, order.partner_shipping_id, order=order)
             result = srm.get_shipping_price(
                 shipment_info=shipment_info, packages=packages, shipper=order.company_id.partner_id, ship_from=order.warehouse_id.partner_id,
-                ship_to=order.partner_shipping_id, packaging_type=self.ups_default_packaging_type, service_type=self.ups_default_service_type)
+                ship_to=order.partner_shipping_id, packaging_type=self.ups_default_packaging_id.shipper_package_code, service_type=self.ups_default_service_type)
 
             if result.get('error_message'):
                 raise ValidationError(result['error_message'])
@@ -102,9 +88,8 @@ class ProviderUPS(models.Model):
                 # Create all packages
                 for package in picking.package_ids:
                     total_qty += sum(quant.qty for quant in package.quant_ids)
-                    packages.append(Package(self, package.weight, quant_pack=package.packaging_id, name=package.name))
-
-            # Create one package with the rest (the content that is no in a package)
+                    packages.append(Package(self, package.shipping_weight, quant_pack=package.packaging_id, name=package.name))
+            # Create one package with the rest (the content that is not in a package)
             if picking.weight_bulk:
                 weight_bulk = self._convert_weight(picking.weight_bulk)
                 packages.append(Package(self, weight_bulk))
@@ -114,9 +99,13 @@ class ProviderUPS(models.Model):
                 'total_qty': total_qty
             }
             srm.check_required_value(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id, picking=picking)
+
+            # UPS doesn't seem to accept different types of packages in the same shipping
+            picking.check_packages_are_identical()
+            package_type = picking.package_ids and picking.package_ids[0].packaging_id.shipper_package_code or self.ups_default_packaging_id.shipper_package_code
             result = srm.send_shipping(
                 shipment_info=shipment_info, packages=packages, shipper=picking.company_id.partner_id, ship_from=picking.picking_type_id.warehouse_id.partner_id,
-                ship_to=picking.partner_id, packaging_type=self.ups_default_packaging_type, service_type=self.ups_default_service_type)
+                ship_to=picking.partner_id, packaging_type=package_type, service_type=self.ups_default_service_type)
 
             if result.get('error_message'):
                 raise ValidationError(result['error_message'])
