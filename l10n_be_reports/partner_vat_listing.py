@@ -23,7 +23,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
         tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_00', 'l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03', 'l10n_be.tax_tag_base_45']]
         tag_ids_2 = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03']]
         self.env.cr.execute("""SELECT sub1.partner_id, sub1.name, sub1.vat, sub1.turnover, sub2.vat_amount
-            FROM (SELECT l.partner_id, p.name, p.vat, SUM(l.balance) as turnover
+            FROM (SELECT l.partner_id, p.name, p.vat, SUM(l.credit - l.debit) as turnover
                   FROM account_move_line l
                   LEFT JOIN res_partner p ON l.partner_id = p.id
                   LEFT JOIN account_move_line_account_tax_rel amlt ON l.id = amlt.account_move_line_id
@@ -34,7 +34,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   AND l.date <= '%s'
                   %s
                   GROUP BY l.partner_id, p.name, p.vat) AS sub1
-            LEFT JOIN (SELECT l2.partner_id, SUM(l2.balance) as vat_amount
+            LEFT JOIN (SELECT l2.partner_id, SUM(l2.credit - l2.debit) as vat_amount
                   FROM account_move_line l2
                   LEFT JOIN account_tax_account_tag tt2 on l2.tax_line_id = tt2.account_tax_id
                   WHERE tt2.account_account_tag_id IN %s
@@ -48,8 +48,8 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
             columns = [record['vat'].replace(' ', '').upper(), record['turnover'], record['vat_amount']]
             if not self.env.context.get('no_format', False):
                 currency_id = self.env.user.company_id.currency_id
-                columns[1] = formatLang(self.env, columns[1], currency_obj=currency_id)
-                columns[2] = formatLang(self.env, columns[2], currency_obj=currency_id)
+                columns[1] = formatLang(self.env, columns[1] or 0.0, currency_obj=currency_id)
+                columns[2] = formatLang(self.env, columns[2] or 0.0, currency_obj=currency_id)
             lines.append({
                 'id': record['partner_id'],
                 'type': 'partner_id',
