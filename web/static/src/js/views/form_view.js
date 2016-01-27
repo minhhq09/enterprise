@@ -708,10 +708,11 @@ var FormView = View.extend(common.FieldManagerMixin, {
     },
     on_button_new: function() {
         var self = this;
-        this.to_edit_mode();
         return $.when(this.has_been_loaded).then(function() {
             return self.can_be_discarded().then(function() {
-                return self.load_defaults();
+                return self.load_defaults().then(function() {
+                    self.to_edit_mode();
+                });
             });
         });
     },
