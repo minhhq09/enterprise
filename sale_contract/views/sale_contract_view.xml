@@ -7,7 +7,7 @@
             <search string="Subscriptions">
                 <field name="name" string="Contract"/>
                 <field name="date"/>
-                <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                <field name="partner_id" operator="child_of"/>
                 <field name="manager_id"/>
                 <field name="template_id"/>
                 <field name="code"/>
@@ -125,8 +125,8 @@
                     <notebook>
                         <page string="Subscription Lines" id="lines">
                             <div>
-                                <button string="&#8658; Renewal Quotation" class="oe_link oe_right" 
-                                        help="Create a sale order that will overwrite this contract when confirmed (renewal quotation)" 
+                                <button string="&#8658; Renewal Quotation" class="oe_link oe_right"
+                                        help="Create a sale order that will overwrite this contract when confirmed (renewal quotation)"
                                         name="prepare_renewal_order" type="object" attrs="{'invisible': [('type','!=','contract')]}" />
                                 <field name="recurring_invoice_line_ids">
                                     <tree editable="bottom">
@@ -268,7 +268,7 @@
             <p class="oe_view_nocontent_create">
                 Click here to create a template of subscription.
             </p><p>
-                Templates are used to prefigure subscription that 
+                Templates are used to prefigure subscription that
                 can be selected by the salespeople to quickly configure the
                 terms and conditions of the subscription.
             </p>
@@ -337,7 +337,7 @@
         <field name="groups_id" eval="[(4, ref('sale_contract.group_sale_contract_view'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button class="oe_stat_button" type="action" name="%(sale_contract.sale_subscription_action_res_partner)d" 
+                <button class="oe_stat_button" type="action" name="%(sale_contract.sale_subscription_action_res_partner)d"
                     icon="fa-book">
                     <field string="Subscriptions" name="subscription_count" widget="statinfo"/>
                 </button>
@@ -354,7 +354,7 @@
         <field name="groups_id" eval="[(4, ref('sale_contract.group_sale_contract_view'))]"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button class="oe_stat_button" type="object" name="subscriptions_action" 
+                <button class="oe_stat_button" type="object" name="subscriptions_action"
                     icon="fa-book" attrs="{'invisible': [('subscription_count', '=', 0)]}">
                     <field string="Subscriptions" name="subscription_count" widget="statinfo"/>
                 </button>

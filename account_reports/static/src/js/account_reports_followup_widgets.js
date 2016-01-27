@@ -119,7 +119,7 @@ var FollowupReportWidget = ReportWidget.extend({
         else {
             $(e.target).parents('tr').attr('bgcolor', 'white');
         }
-        return new Model('account.move.line').call('write', [[parseInt(target_id)], {'blocked': checkbox}]); // Write the change in db
+        return new Model('account.move.line').call('write_blocked', [[parseInt(target_id)], checkbox]); // Write the change in db
     },
     onKeyPress: function(e) {
         var self = this;

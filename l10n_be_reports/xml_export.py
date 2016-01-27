@@ -4,7 +4,6 @@ from openerp import models, api, _
 from openerp.exceptions import UserError
 import calendar
 import time
-from openerp.tools.misc import formatLang
 
 
 class AccountFinancialReportXMLExport(models.AbstractModel):
@@ -104,7 +103,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         xml_data.update({
             'company_name': company.name,
             'company_vat': company_vat,
-            'vatnum':  company_vat[2:],
+            'vatnum': company_vat[2:],
             'sender_date': str(time.strftime('%Y-%m-%d')),
             'street': street,
             'city': city,
@@ -145,7 +144,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
                 'vatnum': vat[2:].replace(' ', '').upper(),
                 'vat': vat,
                 'country': vat[:2],
-                'amount': formatLang(self.env, line['columns'][3]),
+                'amount': '%2.f' % (line['columns'][3] or 0.0),
                 'intra_code': line['columns'][2],
                 'code': line['columns'][1],
                 'seq': seq,
@@ -243,8 +242,8 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
             amount_data = {
                 'seq': str(seq),
                 'only_vat': line['columns'][0][2:],
-                'turnover': formatLang(self.env, line['columns'][1]),
-                'vat_amount': formatLang(self.env, line['columns'][2]),
+                'turnover': '%2.f' % (line['columns'][1] or 0.0),
+                'vat_amount': '%2.f' % (line['columns'][2] or 0.0),
             }
             data_client_info += """
         <ns2:Client SequenceNumber="%(seq)s">
@@ -256,8 +255,8 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         amount_data_begin = {
             'seq': str(seq),
             'dnum': dnum,
-            'sum_turnover': formatLang(self.env, sum_turnover),
-            'sum_tax': formatLang(self.env, sum_tax),
+            'sum_turnover': '%2.f' % sum_turnover,
+            'sum_tax': '%2.f' % sum_tax,
         }
         data_begin = """
     <ns2:ClientListing SequenceNumber="1" ClientsNbr="%(seq)s" DeclarantReference="%(dnum)s"
@@ -373,7 +372,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         for item in cases_list:
             grid_amount_data = {
                     'code': str(int(item[0])),
-                    'amount': formatLang(self.env, abs(item[1]))
+                    'amount': '%.2f' % abs(item[1]),
                     }
             data_of_file += '\n\t\t\t<ns2:Amount GridNumber="%(code)s">%(amount)s</ns2:Amount''>' % (grid_amount_data)
 

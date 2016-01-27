@@ -52,7 +52,7 @@ class DHLProvider():
             for product in products:
                 if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
-                    dict_response['currency'] = product.findall('CurrencyCode')[0].text
+                    dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
             if not found:
                 raise ValidationError(_("No shipping available for the selected DHL product"))
@@ -98,7 +98,11 @@ class DHLProvider():
         request_text = self._create_shipping_xml(param)
 
         root = self._send_request(request_text)
-        if root.tag == '{http://www.dhl.com}ErrorResponse':
+        if root.tag == '{http://www.dhl.com}ShipmentValidateErrorResponse':
+            condition = root.findall('Response/Status/Condition/')
+            error_msg = "%s: %s" % (condition[1].text, condition[0].text)
+            raise ValidationError(_(error_msg))
+        elif root.tag == '{http://www.dhl.com}ErrorResponse':
             condition = root.findall('Response/Status/Condition/')
             error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
             raise ValidationError(_(error_msg))
@@ -135,7 +139,7 @@ class DHLProvider():
             for product in products:
                 if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
-                    dict_response['currency'] = product.findall('CurrencyCode')[0].text
+                    dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
             if not found:
                 raise ValidationError(_("No service available for the selected product"))
