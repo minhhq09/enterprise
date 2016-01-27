@@ -52,7 +52,7 @@ class DHLProvider():
             for product in products:
                 if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
-                    dict_response['currency'] = product.findall('CurrencyCode')[0].text
+                    dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
             if not found:
                 raise ValidationError(_("No shipping available for the selected DHL product"))
@@ -139,7 +139,7 @@ class DHLProvider():
             for product in products:
                 if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
-                    dict_response['currency'] = product.findall('CurrencyCode')[0].text
+                    dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
             if not found:
                 raise ValidationError(_("No service available for the selected product"))

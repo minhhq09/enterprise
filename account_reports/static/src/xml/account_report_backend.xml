@@ -50,8 +50,16 @@
     <t t-name="accountReports.searchView">
         <div class="o_dropdown o_account_reports_date-filter">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-calendar"/> <t t-esc="report_type == 'no_date_range' and 'Date' or 'Period'"/>:
-                <t t-esc="context.date_filter == 'today' and 'Today' or context.date_filter == 'last_month' and 'Last Month' or context.date_filter == 'last_quarter' and 'Last Quarter' or context.date_filter == 'last_year' and 'Last Year' or context.date_filter == 'this_year' and 'This Year' or context.date_filter == 'this_month' and 'This Month' or context.date_filter == 'custom' and 'Custom'"/>
+                <span class="fa fa-calendar"/> 
+                <t t-if="report_type == 'no_date_range'">Date:</t>
+                <t t-if="report_type != 'no_date_range'">Period:</t>
+                <t t-if="context.date_filter == 'today'">Today</t>
+                <t t-if="context.date_filter == 'last_month'">Last Month</t>
+                <t t-if="context.date_filter == 'last_quarter'">Last Quarter</t>
+                <t t-if="context.date_filter == 'last_year'">Last Year</t>
+                <t t-if="context.date_filter == 'this_year'">This Year</t>
+                <t t-if="context.date_filter == 'this_month'">This Month</t>
+                <t t-if="context.date_filter == 'custom'">Custom</t>
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
@@ -94,7 +102,10 @@
         <div class="o_dropdown o_account_reports_date-filter-cmp" t-if="report_type != 'no_comparison' and report_type != 'bank_reconciliation'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-bar-chart"/> Comparison:
-                <t t-esc="context.date_filter_cmp == 'no_comparison' and 'None' or context.date_filter_cmp == 'previous_period' and 'Previous Periods' or context.date_filter_cmp == 'same_last_year' and 'Same Last Year' or context.date_filter_cmp == 'custom' and 'Custom' or ''" />
+                <t t-if="context.date_filter_cmp == 'no_comparison'">None</t>
+                <t t-if="context.date_filter_cmp == 'previous_period'">Previous Periods</t>
+                <t t-if="context.date_filter_cmp == 'same_last_year'">Same Last Year</t>
+                <t t-if="context.date_filter_cmp == 'custom'">Custom</t>
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
@@ -138,8 +149,12 @@
         <div class="o_dropdown o_account_reports_date-filter-bool" t-if="report_type != 'bank_reconciliation'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-filter"/> Options:
-                <t t-if="report_type != 'date_range_cash'" t-esc="context.cash_basis and 'Cash Basis,' or 'Accrual Basis,'"/>
-                <t t-esc="context.all_entries and 'With Draft Entries' or 'Posted Entries Only'"/>
+                <t t-if="report_type != 'date_range_cash'"> 
+                    <t t-if="context.cash_basis">Cash Basis,</t> 
+                    <t t-if="!context.cash_basis">Accrual Basis,</t> 
+                </t>
+                <t t-if="context.all_entries">With Draft Entries</t> 
+                <t t-if="!context.all_entries">Posted Entries Only</t> 
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">

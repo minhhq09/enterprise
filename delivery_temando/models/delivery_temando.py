@@ -159,7 +159,7 @@ class ProviderTemando(models.Model):
             # custom field called x_temando_location on a stock.warehouse, manifesting
             # system is enabled
             location_name = getattr(picking.picking_type_id.warehouse_id, 'x_temando_location', False)
-            today = fields.Date.context_today()
+            today = fields.Date.context_today(picking)
 
             if not location_name:
                 raise ValidationError(_("No Temando location is associated to this warehouse, Manifest collection is not available"))

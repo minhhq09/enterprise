@@ -302,7 +302,7 @@ class crm_lead(models.Model):
             'in_queue': False,
         })
         return {
-            'name': 'Log a call',
+            'name': _('Log a call'),
             'type': 'ir.actions.act_window',
             'key2': 'client_action_multi',
             'src_model': "crm.phonecall",

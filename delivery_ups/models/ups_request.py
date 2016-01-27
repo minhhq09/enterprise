@@ -311,7 +311,7 @@ class UPSRequest():
         if service_type == "96":
             shipment.NumOfPieces = int(shipment_info.get('total_qty'))
         shipment.ShipmentServiceOptions = ''
-        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = ''
+        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = suds.null()
 
         try:
             # Get rate using for provided detail
@@ -323,7 +323,11 @@ class UPSRequest():
 
             result = {}
             result['currency_code'] = response.RatedShipment[0].TotalCharges.CurrencyCode
-            result['price'] = response.RatedShipment[0].TotalCharges.MonetaryValue
+
+            # Some users are qualified to receive negotiated rates
+            negotiated_rate = 'NegotiatedRateCharges' in response.RatedShipment[0] and response.RatedShipment[0].NegotiatedRateCharges.TotalCharge.MonetaryValue or None
+
+            result['price'] = negotiated_rate or response.RatedShipment[0].TotalCharges.MonetaryValue
             return result
 
         except suds.WebFault as e:
@@ -390,7 +394,7 @@ class UPSRequest():
         if service_type == "96":
             shipment.NumOfPiecesInShipment = int(shipment_info.get('total_qty'))
         shipment.ShipmentServiceOptions = ''
-        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = ''
+        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = suds.null()
 
         # set the default method for payment using shipper account
         payment_info = client.factory.create('ns3:PaymentInformation')
@@ -415,7 +419,11 @@ class UPSRequest():
                 result['label_binary_data'][package.TrackingNumber] = self.save_label(package.ShippingLabel.GraphicImage)
             result['tracking_ref'] = response.ShipmentResults.ShipmentIdentificationNumber
             result['currency_code'] = response.ShipmentResults.ShipmentCharges.TotalCharges.CurrencyCode
-            result['price'] = response.ShipmentResults.ShipmentCharges.TotalCharges.MonetaryValue
+
+            # Some users are qualified to receive negotiated rates
+            negotiated_rate = 'NegotiatedRateCharges' in response.ShipmentResults and response.ShipmentResults.NegotiatedRateCharges.TotalCharge.MonetaryValue or None
+
+            result['price'] = negotiated_rate or response.ShipmentResults.ShipmentCharges.TotalCharges.MonetaryValue
             return result
 
         except suds.WebFault as e:
