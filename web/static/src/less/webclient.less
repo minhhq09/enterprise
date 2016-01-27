@@ -39,7 +39,12 @@ div.o_checkbox {
         }
 
         &:disabled + span {
+            opacity: 0.7;
             border: 1px solid @odoo-brand-lightsecondary;
+        }
+
+        &:focus + span {
+            outline: 1px solid @odoo-brand-optional;
         }
     }
 }
