@@ -388,9 +388,7 @@ var FieldFloat = FieldChar.extend({
     },
     initialize_content: function() {
         this._super();
-        if(this.$input) {
-            this.$input.addClass('o_form_field_number');
-        }
+        this.$el.addClass('o_form_field_number');
     },
     set_value: function(value_) {
         if (value_ === false || value_ === undefined) {
