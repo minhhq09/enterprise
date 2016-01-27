@@ -13,9 +13,15 @@
     border-bottom: 1px solid @odoo-brand-secondary;
 
     .o_searchview_facet {
+        @o-searchview-facet-remove-width: 18px;
+
         .o-flex(0, 0, auto);
+        max-width: 100%;
         .o-flex-display();
-        .o-align-items(center);
+        @media (max-width: @screen-xs-max) {
+            .o-flex-flow(row, wrap);
+        }
+        position: relative;
         margin: 1px 3px 0 0;
 
         border: 1px solid @odoo-brand-secondary;
@@ -24,7 +30,7 @@
 
         .o_searchview_facet_label {
             .o-flex(0, 0, auto);
-            .o-align-self(stretch);
+            .o-text-overflow();
             padding: 0 3px;
             background-color: @odoo-brand-primary;
             color: white;
@@ -34,15 +40,18 @@
         }
             
         .o_facet_values {
-            .o-flex(1, 0, auto);
-            padding: 0 5px;
+            padding: 0 @o-searchview-facet-remove-width 0 5px;
             .o_facet_values_sep {
                 font-style: italic;
             }
         }
         .o_facet_remove {
             .o-flex(0, 0, auto);
-            padding-right: 5px;
+            .o-flex-display();
+            .o-justify-content(center);
+            .o-align-items(center);
+            .o-position-absolute(0, 0, 0);
+            width: @o-searchview-facet-remove-width;
             cursor: pointer;
             &:hover {
                 color: darken(@odoo-brand-secondary, 20%);

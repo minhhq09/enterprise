@@ -222,7 +222,8 @@ class AccountBankStatementImport(models.TransientModel):
                         'sequence': line['sequence'],
                         'unique_import_id': str(statement['codaSeqNumber']) + '-' + str(statement['date']) + '-' + str(line['ref']),
                     }
-                    statement_line.append(line_data)
+                    if line_data['amount'] != 0:
+                        statement_line.append(line_data)
             if statement['coda_note'] != '':
                 statement_data.update({'coda_note': statement['coda_note']})
             statement_data.update({'transactions': statement_line})

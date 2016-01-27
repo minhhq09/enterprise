@@ -84,6 +84,7 @@ class SaleSubscription(osv.osv):
         'date_start': fields.date('Start Date'),
         'date': fields.date('End Date', track_visibility='onchange'),
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist'),
+        'currency_id': fields.related('pricelist_id', 'currency_id', string='Currency', type='many2one', relation='res.currency', readonly=True),
         'recurring_invoice_line_ids': fields.one2many('sale.subscription.line', 'analytic_account_id', 'Invoice Lines', copy=True),
         'recurring_rule_type': fields.selection([('daily', 'Day(s)'), ('weekly', 'Week(s)'), ('monthly', 'Month(s)'), ('yearly', 'Year(s)'), ], 'Recurrency', help="Invoice automatically repeat at specified interval"),
         'recurring_interval': fields.integer('Repeat Every', help="Repeat every (Days/Week/Month/Year)"),
@@ -146,9 +147,9 @@ class SaleSubscription(osv.osv):
                     'price_unit': x.price_unit,
                     'analytic_account_id': x.analytic_account_id and x.analytic_account_id.id or False,
                 }))
-            res['value']['recurring_interval'] = template.recurring_interval
-            res['value']['recurring_rule_type'] = template.recurring_rule_type
             res['value']['recurring_invoice_line_ids'] = invoice_line_ids
+        res['value']['recurring_interval'] = template.recurring_interval
+        res['value']['recurring_rule_type'] = template.recurring_rule_type
         return res
 
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
@@ -175,7 +176,7 @@ class SaleSubscription(osv.osv):
             raise UserError(_('Please define a sale journal for the company "%s".') % (contract.company_id.name or '', ))
 
         partner_payment_term = partner.property_payment_term_id and partner.property_payment_term_id.id or False
-        
+
         next_date = datetime.datetime.strptime(contract.recurring_next_date, "%Y-%m-%d")
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
         invoicing_period = relativedelta(**{periods[contract.recurring_rule_type]: contract.recurring_interval})
@@ -293,11 +294,11 @@ class SaleSubscription(osv.osv):
             order_lines = []
             order_seq_id = self.pool['ir.sequence'].search(cr, uid, [('code', '=', 'sale.order')], context=context)
             order_seq = self.pool['ir.sequence'].browse(cr, uid, order_seq_id, context=context)
+            fpos_id = self.pool['account.fiscal.position'].get_fiscal_position(cr, uid, contract.partner_id.id, context=context)
             for line in contract.recurring_invoice_line_ids:
                 order_lines.append((0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.product_id.name_template,
-                    'description': line.name,
                     'product_uom': line.uom_id.id,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
@@ -315,6 +316,7 @@ class SaleSubscription(osv.osv):
                 'update_contract': True,
                 'note': contract.description,
                 'user_id': contract.manager_id.id,
+                'fiscal_position_id': fpos_id,
             }
         return res
 
@@ -322,6 +324,8 @@ class SaleSubscription(osv.osv):
         values = self._prepare_renewal_order_values(cr, uid, ids, context=context)
         for contract in self.browse(cr, uid, ids, context=context):
             order_id = self.pool['sale.order'].create(cr, uid, values[contract.id], context=context)
+            order = self.pool['sale.order'].browse(cr, uid, order_id, context=context)
+            self.pool['sale.order.line']._compute_tax_id(cr, uid, order.order_line.ids, context=context)
         return {
             "type": "ir.actions.act_window",
             "res_model": "sale.order",
@@ -341,7 +345,9 @@ class SaleSubscription(osv.osv):
     def action_subscription_invoice(self, cr, uid, ids, context=None):
         subs = self.browse(cr, uid, ids, context=context)
         analytic_ids = [sub.analytic_account_id.id for sub in subs]
-        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs])], context=context)
+        orders = self.pool['sale.order'].search_read(cr, uid, domain=[('subscription_id', 'in', ids)], fields=['name'], context=context)
+        order_names = [order['name'] for order in orders]
+        invoice_ids = self.pool['account.invoice'].search(cr, uid, [('invoice_line_ids.account_analytic_id', 'in', analytic_ids), ('origin', 'in', [sub.code for sub in subs] + order_names)], context=context)
         imd = self.pool['ir.model.data']
         list_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_tree')
         form_view_id = imd.xmlid_to_res_id(cr, uid, 'account.invoice_form')

@@ -162,7 +162,7 @@ class ProviderTemando(models.Model):
         for picking in pickings:
             carrier_id = picking.sale_id.temando_carrier_id or picking.carrier_id.temando_carrier_id
             location_name = picking.picking_type_id.warehouse_id.temando_location
-            today = fields.Date.context_today()
+            today = fields.Date.context_today(picking)
 
             if not location_name:
                 raise ValidationError(_("No Temando location is associated to this warehouse, Manifest collection is not available"))

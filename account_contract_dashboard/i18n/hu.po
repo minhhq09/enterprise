@@ -3,13 +3,13 @@
 # * account_contract_dashboard
 # 
 # Translators:
-# Kris Krnacs, 2015
+# Kris Krnacs, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-12-30 21:37+0000\n"
+"POT-Creation-Date: 2016-01-15 13:37+0000\n"
+"PO-Revision-Date: 2016-01-15 17:03+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -66,6 +66,12 @@ msgid "Active invoices"
 msgstr "Aktív számlák"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:375
+#, python-format
+msgid "Annual Run-Rate"
+msgstr "Éves futtatási-arány"
+
+#. module: account_contract_dashboard
 #: model:ir.ui.view,arch_db:account_contract_dashboard.invoice_line_entries_report_search
 msgid "Asset End Date"
 msgstr "Vagyoni eszköz befejezés dátum"
@@ -77,56 +83,64 @@ msgstr "Vagyoni eszköz kezdő dátum"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:355
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:381
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:512
+#, python-format
+msgid "Churned MRR"
+msgstr "Forgó havi ismétlődő bevétel"
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:357
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:383
 #, python-format
 msgid "Contract"
 msgstr "Szerződés"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:132
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:141
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:411
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:134
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:143
 #, python-format
 msgid "Contracts"
 msgstr "Szerződések"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:150
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:152
 #, python-format
 msgid "Contracts Churn:"
 msgstr "Forgó szerződések:"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:137
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:139
 #, python-format
 msgid "Contracts Growth:"
 msgstr "Szerződések növekedése:"
 
 #. module: account_contract_dashboard
-#: model:ir.ui.view,arch_db:account_contract_dashboard.invoice_line_entries_report_search
-msgid "Currency"
-msgstr "Pénznem"
-
-#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:270
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:272
 #, python-format
 msgid "Current"
 msgstr "Jelenleg"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:358
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:360
 #, python-format
 msgid "Current MRR"
 msgstr "Jelenlegi havi ismétlődő bevétel"
 
 #. module: account_contract_dashboard
+#: model:ir.ui.menu,name:account_contract_dashboard.menu_sale_subscription_dashboard
+msgid "Dashboard"
+msgstr "Műszerfal"
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:37
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:39
 #, python-format
 msgid "Detailed Analysis"
 msgstr "Részletes elemzések"
@@ -138,18 +152,44 @@ msgstr "Részletes KPI - teljesítménymutató"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:68
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:125
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:522
+#, python-format
+msgid "Down MRR"
+msgstr "Havi ismétlődő bevétel csökkenés"
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:517
+#, python-format
+msgid "Expansion MRR"
+msgstr "Havi ismétlődő bevétel növekedés"
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:70
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:127
 #, python-format
 msgid "Exponential"
 msgstr "Exponenciális"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:235
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:237
 #, python-format
 msgid "Filter on contracts"
 msgstr "Szűrő a szerződésekben"
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:429
+#, python-format
+msgid "Forecasted Annual Contracts Growth"
+msgstr "Éves Szerződések növekedésének előrejelzése"
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:423
+#, python-format
+msgid "Forecasted Annual MRR Growth"
+msgstr "Éves havi ismétlődő bevétel Szerződések növekedésének előrejelzése"
 
 #. module: account_contract_dashboard
 #: model:ir.actions.client,name:account_contract_dashboard.action_contract_dashboard_report_forecast
@@ -198,62 +238,106 @@ msgid "Invoice Line Entries Analysis"
 msgstr "Számla tétel sor elemzések"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:384
+#, python-format
+msgid "Lifetime Value"
+msgstr "Élettartam érték"
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:67
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:123
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:69
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:125
 #, python-format
 msgid "Linear"
 msgstr "Lineáris"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:210
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:212
 #, python-format
 msgid "List of NRR invoices"
 msgstr "Nettó ismétlődő bevétel számlák listája"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:206
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:208
 #, python-format
 msgid "List of contract modifications"
 msgstr "Kapcsolat módosítások listája"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:393
+#, python-format
+msgid "Logo Churn"
+msgstr "Forgó bevétel jel"
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:337
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:339
 #, python-format
 msgid "MRR :"
 msgstr "HIB - Havi Ismétlődő Bevétel :"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:339
+#, python-format
+msgid "Monthly Recurring Revenue"
+msgstr "Havi ismétlődő bevétel"
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:50
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:52
 #, python-format
 msgid "Monthly Recurring Revenue Growth"
 msgstr "Havi ismétlődő bevétel növekedés"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:106
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:163
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:108
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:165
 #, python-format
 msgid "Months"
 msgstr "Hónapok"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:383
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:385
 #, python-format
 msgid "NRR"
 msgstr "NIB - Nettó Ismétlődő Bevétel"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:341
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:343
 #, python-format
 msgid "NRR :"
 msgstr "NIB - Nettó Ismétlődő Bevétel :"
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:527
+#, python-format
+msgid "Net New MRR"
+msgstr "Nettó új havi ismétlődő bevétel"
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:348
+#, python-format
+msgid "Net Revenue"
+msgstr "Nettó Árbevétel"
+
+#. module: account_contract_dashboard
+#. openerp-web
+#: code:addons/account_contract_dashboard/static/src/js/account_contract_dashboard.js:507
+#, python-format
+msgid "New MRR"
+msgstr "Új havi ismétlődő bevétel"
+
+#. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:357
+#, python-format
+msgid "Non-Recurring Revenue"
+msgstr "Nem-ismétlődő árbevétel"
 
 #. module: account_contract_dashboard
 #: model:ir.ui.view,arch_db:account_contract_dashboard.invoice_line_entries_report_search
@@ -262,112 +346,126 @@ msgstr "Számlák KI"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:354
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:380
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:356
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:382
 #, python-format
 msgid "Partner"
 msgstr "Partner"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:198
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:200
 #, python-format
 msgid "Pick a salesman and a period"
 msgstr "Válassza ki az értékesítőt és az időszakot"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:248
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:250
 #, python-format
 msgid "Plan"
 msgstr "Terv"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:357
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:359
 #, python-format
 msgid "Previous MRR"
 msgstr "Előző Havi Ismétlődő Bevétel"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:102
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:159
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:104
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:161
 #, python-format
 msgid "Projection Time:"
 msgstr "Tervezési idő:"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:199
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:201
 #, python-format
 msgid "Recurring Revenue Dashboard for"
 msgstr "Ismétlődő bevétel növekedés műszerfal ehhez"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:402
+#, python-format
+msgid "Revenue Churn"
+msgstr "Forgó árbevétel"
+
+#. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:93
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:95
 #, python-format
 msgid "Revenue Churn:"
 msgstr "Forgó bevétel:"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:80
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:82
 #, python-format
 msgid "Revenue Growth:"
 msgstr "Bevétel növekedés:"
 
 #. module: account_contract_dashboard
 #: model:ir.actions.client,name:account_contract_dashboard.action_contract_dashboard_report_main
+#: model:ir.ui.menu,name:account_contract_dashboard.menu_action_contract_dashboard_report_main
 msgid "Revenue KPIs"
 msgstr "Bevétel KPI - teljesítménymutató"
 
 #. module: account_contract_dashboard
+#: code:addons/account_contract_dashboard/controllers/stat_types.py:366
+#, python-format
+msgid "Revenue per Contract"
+msgstr "Bevétel szerződésenként"
+
+#. module: account_contract_dashboard
 #: model:ir.actions.client,name:account_contract_dashboard.action_contract_dashboard_report_salesman
+#: model:ir.ui.menu,name:account_contract_dashboard.menu_action_contract_dashboard_report_salesman
 msgid "Salesman Dashboard"
 msgstr "Értékesítő műszerfala"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:315
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:331
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:317
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:333
 #, python-format
 msgid "Sample data"
 msgstr "Példa adat"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:128
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:130
 #, python-format
 msgid "Starting Contract:"
 msgstr "Szerződés nyitás: "
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:71
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:73
 #, python-format
 msgid "Starting MRR:"
 msgstr "Nyitó HIB - Havi Ismétlődő Bevétel :"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:356
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:382
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:358
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:384
 #, python-format
 msgid "Template"
 msgstr "Sablon"
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:374
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:376
 #, python-format
 msgid "There is no NRR invoice during this period."
 msgstr "Nincs  Nettó ismétlődő bevétel számla ebben az időszakban."
 
 #. module: account_contract_dashboard
 #. openerp-web
-#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:347
+#: code:addons/account_contract_dashboard/static/src/xml/account_contract_dashboard.xml:349
 #, python-format
 msgid "There is no contract modification during this period."
 msgstr "Nincs szerződés módosítás ebben az időszakban."

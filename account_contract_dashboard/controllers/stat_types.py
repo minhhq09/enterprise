@@ -3,6 +3,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime, date
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.http import request
+from openerp import _
 
 
 def _build_sql_query(fields, tables, conditions, query_args):
@@ -335,7 +336,7 @@ def compute_mrr_growth_values(start_date, end_date, contract_ids=None):
 
 STAT_TYPES = {
     'mrr': {
-        'name': 'Monthly Recurring Revenue',
+        'name': _('Monthly Recurring Revenue'),
         'code': 'mrr',
         'dir': 'up',
         'prior': 1,
@@ -344,7 +345,7 @@ STAT_TYPES = {
         'compute': compute_mrr
     },
     'net_revenue': {
-        'name': 'Net Revenue',
+        'name': _('Net Revenue'),
         'code': 'net_revenue',
         'dir': 'up',
         'prior': 2,
@@ -353,7 +354,7 @@ STAT_TYPES = {
         'compute': compute_net_revenue
     },
     'nrr': {
-        'name': 'Non-Recurring Revenue',
+        'name': _('Non-Recurring Revenue'),
         'code': 'nrr',
         'dir': 'up',  # 'down' if fees ?
         'prior': 3,
@@ -362,7 +363,7 @@ STAT_TYPES = {
         'compute': compute_nrr
     },
     'arpu': {
-        'name': 'Revenue per Contract',
+        'name': _('Revenue per Contract'),
         'code': 'arpu',
         'dir': 'up',
         'prior': 4,
@@ -371,7 +372,7 @@ STAT_TYPES = {
         'compute': compute_arpu
     },
     'arr': {
-        'name': 'Annual Run-Rate',
+        'name': _('Annual Run-Rate'),
         'code': 'arr',
         'dir': 'up',
         'prior': 5,
@@ -380,7 +381,7 @@ STAT_TYPES = {
         'compute': compute_arr
     },
     'ltv': {
-        'name': 'Lifetime Value',
+        'name': _('Lifetime Value'),
         'code': 'ltv',
         'dir': 'up',
         'prior': 6,
@@ -389,7 +390,7 @@ STAT_TYPES = {
         'compute': compute_ltv
     },
     'logo_churn': {
-        'name': 'Logo Churn',
+        'name': _('Logo Churn'),
         'code': 'logo_churn',
         'dir': 'down',
         'prior': 7,
@@ -398,7 +399,7 @@ STAT_TYPES = {
         'compute': compute_logo_churn
     },
     'revenue_churn': {
-        'name': 'Revenue Churn',
+        'name': _('Revenue Churn'),
         'code': 'revenue_churn',
         'dir': 'down',
         'prior': 8,
@@ -407,7 +408,7 @@ STAT_TYPES = {
         'compute': compute_revenue_churn
     },
     'nb_contracts': {
-        'name': 'Contracts',
+        'name': _('Contracts'),
         'code': 'nb_contracts',
         'dir': 'up',
         'prior': 9,
@@ -419,13 +420,13 @@ STAT_TYPES = {
 
 FORECAST_STAT_TYPES = {
     'mrr_forecast': {
-        'name': 'Forecasted Annual MRR Growth',
+        'name': _('Forecasted Annual MRR Growth'),
         'code': 'mrr_forecast',
         'prior': 1,
         'add_symbol': 'currency',
     },
     'contracts_forecast': {
-        'name': 'Forecasted Annual Contracts Growth',
+        'name': _('Forecasted Annual Contracts Growth'),
         'code': 'contracts_forecast',
         'prior': 2,
         'add_symbol': '',

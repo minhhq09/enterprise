@@ -6,6 +6,7 @@
 # Clo <clo@odoo.com>, 2015
 # Loic <loic.richard2@gmail.com>, 2015
 # Lucas Deliege <lud@odoo.com>, 2015
+# Lu Lu, 2016
 # Martin Malorni <mmalorni@gmail.com>, 2015
 # Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
 # Melanie Bernard <mbe@odoo.com>, 2015
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 08:15+0000\n"
-"PO-Revision-Date: 2016-01-08 22:15+0000\n"
-"Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
+"POT-Creation-Date: 2016-01-13 08:43+0000\n"
+"PO-Revision-Date: 2016-01-16 12:24+0000\n"
+"Last-Translator: Lu Lu\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,6 +55,13 @@ msgstr "\"API analytique\""
 
 #. module: website_version
 #. openerp-web
+#: code:addons/website_version/static/src/xml/version_templates.xml:210
+#, python-format
+msgid "\"Authorized redirect URIs\""
+msgstr "\"URLs de redirection autorisés»"
+
+#. module: website_version
+#. openerp-web
 #: code:addons/website_version/static/src/xml/version_templates.xml:194
 #, python-format
 msgid "\"Calendar API\""
@@ -65,13 +73,6 @@ msgstr "\"Calendrier API\""
 #, python-format
 msgid "\"Create Project\""
 msgstr "\"Créer un projet\""
-
-#. module: website_version
-#. openerp-web
-#: code:addons/website_version/static/src/xml/version_templates.xml:210
-#, python-format
-msgid "\"Redirect RI\""
-msgstr "\"Redirect RI\""
 
 #. module: website_version
 #. openerp-web
@@ -948,11 +949,6 @@ msgid "Messages"
 msgstr "Messages"
 
 #. module: website_version
-#: model:ir.model.fields,help:website_version.field_website_version_experiment_message_ids
-msgid "Messages and communication history"
-msgstr "Historique des messages et communications"
-
-#. module: website_version
 #: selection:website_version.experiment.version,frequency:0
 msgid "More"
 msgstr "Autres options"
@@ -1194,6 +1190,7 @@ msgstr "État"
 #. module: website_version
 #. openerp-web
 #: code:addons/website_version/static/src/xml/version_templates.xml:43
+#: model:ir.ui.view,arch_db:website_version.experiment_form_view
 #: model:ir.ui.view,arch_db:website_version.view_website_form_extend
 #, python-format
 msgid "Statistics"

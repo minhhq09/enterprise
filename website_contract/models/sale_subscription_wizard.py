@@ -18,18 +18,21 @@ class SaleSubscriptionWizard(models.TransientModel):
     @api.multi
     def create_sale_order(self):
         template_id = self.env['sale.subscription'].browse(self.env.context.get('active_id')).template_id
+        fpos_id = self.env['account.fiscal.position'].get_fiscal_position(self.subscription_id.partner_id.id)
         sale_order_obj = self.env['sale.order']
         order = sale_order_obj.create({
             'partner_id': self.subscription_id.partner_id.id,
             'project_id': self.account_id.id,
             'team_id': self.env['crm.team']._get_default_team_id(user_id=self.subscription_id.manager_id and self.subscription_id.manager_id.id),
             'pricelist_id': self.subscription_id.pricelist_id.id,
+            'fiscal_position_id': fpos_id,
         })
         for line in self.option_lines:
             for option in template_id.option_invoice_line_ids:
                 if line.product_id == option.product_id:
                     line.name = option.name
             self.subscription_id.partial_invoice_line(order, line)
+        order.order_line._compute_tax_id()
         return {
             "type": "ir.actions.act_window",
             "res_model": "sale.order",
