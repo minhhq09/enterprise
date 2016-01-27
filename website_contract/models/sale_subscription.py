@@ -242,6 +242,7 @@ class SaleSubscription(models.Model):
     def reconcile_pending_transaction(self, contract_id, tx, invoice):
         contract = self.browse(contract_id)
         if tx.state == 'done':
+            invoice.write({'reference': tx.reference, 'name': tx.reference})
             if tx.acquirer_id.journal_id:
                 invoice.signal_workflow('invoice_open')
                 journal = tx.acquirer_id.journal_id
