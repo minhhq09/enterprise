@@ -80,44 +80,65 @@
     </div>
 </div>
 
-<div t-name="WebClient.database_expiration_panel" class="database_expiration_panel" id="announcement_bar_table">
-    <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':(diffDays&lt;31?'info':''))}" role="alert">
-        <span>
-            <span class="oe_instance_expires"></span>
-            <span class="oe_instance_register">
-                <strong>Warning!</strong>
-                <t t-if="diffDays &gt; 0">
-                    Your database will expire in <span t-esc="diffDays"/> days.
-                </t>
-                <t t-if="diffDays &lt; 1">
-                    Your database has expired.
-                </t>
-                <!-- only show corrective actions to an admin (group_system) -->
-                <t t-if="warning=='admin'">
-                    <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason === false">
-                        <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy</a> one.
+<div t-name="WebClient.database_expiration_panel">
+    <div class="database_expiration_panel" id="announcement_bar_table">
+        <div t-attf-class="alert alert-#{diffDays&lt;6?'danger':(diffDays&lt;16?'warning':'info')}" role="alert">
+            <a href="#" class="oe_instance_hide_panel pull-right" t-translation="off">&amp;times;</a>
+            <span>
+                <span class="oe_instance_expires"></span>
+                <span class="oe_instance_register">
+                    <t t-if="diffDays == 30">
+                        <t t-set="delay">1 month</t>
                     </t>
-                    <t t-if="dbexpiration_reason == 'renewal'">
-                        <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                    <t t-if="diffDays != 30">
+                        <t t-set="delay"><t t-esc="diffDays"/> days</t>
                     </t>
-                    <t t-if="dbexpiration_reason == 'upsell'">
-                        You are using more users than specified in your subscription. 
-                        <a class="oe_instance_upsell" href="#">Add more users</a>.
+                    <t t-if="diffDays &gt; 0">
+                        <t t-if="dbexpiration_reason == 'demo'">
+                            This demo database will expire in <span t-esc="delay"/>.
+                        </t>
+                        <t t-if="dbexpiration_reason != 'demo'">
+                            This database will expire in <span t-esc="delay"/>.
+                        </t>
                     </t>
-                </t>
-                <t t-if="warning=='user'">
-                    Log in as an administrator to correct the issue.
-                </t>
+                    <t t-if="diffDays &lt; 1">
+                        This database has expired.
+                    </t>
+                    <!-- only show corrective actions to an admin (group_system) -->
+                    <t t-if="warning=='admin'">
+                        <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason == 'demo' or dbexpiration_reason === false">
+                            <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy a subscription</a>.
+                        </t>
+                        <t t-if="dbexpiration_reason == 'renewal'">
+                            <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                        </t>
+                        <t t-if="dbexpiration_reason == 'upsell'">
+                            You have more users than your subscription allows.<br/>
+                            <a class="oe_instance_upsell" href="#">Add more users</a>
+                        </t>
+                    </t>
+                    <t t-if="warning=='user'">
+                        Log in as an administrator to correct the issue.
+                    </t>
+                </span>
             </span>
-        </span>
-        <form class="form-inline oe_instance_register_form">
-            <br/>
-            <div class="form-group">
-                <label for="enterprise_code">Enterprise Code: </label>
-                <input type="text" class="form-control" id="enterprise_code" placeholder="Paste code here" t-att-value="dbenterprise_code or ''"/>
-            </div>
-            <button class="btn btn-sm btn-primary" id="confirm_enterprise_code">Register</button>
-        </form>
+            <span class="oe_instance_register oe_instance_success">
+                Thank you, your registration was successful! Your database is valid until <span class="valid_date"/>.
+            </span>
+            <span class="oe_instance_register oe_instance_error">
+                Something went wrong while registering your database. You can try again or contact our support at <a href='mailto:help@odoo.com' t-translation="off">help@odoo.com</a>.
+            </span>
+            <form class="form-inline oe_instance_register oe_instance_register_form">
+                <br/>
+                <div class="form-group">
+                    <label for="enterprise_code">Subscription Code: </label>
+                    <input type="text" class="form-control" id="enterprise_code"
+                           placeholder="Paste code here"
+                           title="Your subscription code"/>
+                </div>
+                <button class="btn btn-sm btn-primary" id="confirm_enterprise_code">Register</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -836,13 +857,11 @@
     <img t-attf-src="#{prefix}/web/static/src/img/icons/#{widget.icon}.png" t-att-alt="widget.string" width="16" height="16"/>
 </t>
 <t t-name="FieldMany2ManyTag">
-    <t t-set="i" t-value="0"/>
     <t t-foreach="elements" t-as="el">
-        <span t-attf-class="badge dropdown #{'o_tag_color_' + (el['color'] || 0)}" t-att-data-color="(el['color'] || 0)" t-att-data-index="i" t-att-data-id="el['id']">
-            <t t-esc="el['display_name']"/>
+        <span t-attf-class="badge dropdown #{'o_tag_color_' + (el['color'] || 0)}" t-att-data-color="(el['color'] || 0)" t-att-data-index="el_index" t-att-data-id="el['id']">
+            <span class="o_badge_text"><t t-esc="el['display_name']"/></span>
             <span t-if="!readonly" class="fa fa-times o_delete"/>
         </span>
-        <t t-set="i" t-value="i + 1"/>
     </t>
 </t>
 <t t-name="FieldMany2ManyTag.colorpicker">

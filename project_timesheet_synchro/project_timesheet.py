@@ -14,6 +14,24 @@ class account_analytic_line(models.Model):
     _inherit = "account.analytic.line"
 
     @api.model
+    def clean_xml_ids(self):
+        """
+        Cleanup in case some xml_ids were created with the wrong module prefix
+        """
+        dirty_xml_ids = self.env['ir.model.data'].search([
+            ('module', '=', 'project_timesheet_synchro'),
+            ('model', 'in', [
+                'mail.alias',
+                'account.analytic.account',
+                'project.project',
+                'project.task',
+                'account.analytic.line'
+            ])
+        ])
+        dirty_xml_ids.sudo().write({'module': '__export__'})
+        return True
+
+    @api.model
     def export_data_for_ui(self):
         """
         Exports analytic lines (timesheet entries), tasks and projects for the UI during sync.

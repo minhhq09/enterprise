@@ -3,13 +3,18 @@
 # * inter_company_rules
 # 
 # Translators:
-# Rick Hunter <rick_hunter_ec@yahoo.com>, 2015
+# Alejandro Die Sanchis <marketing@domatix.com>, 2015
+# Ana Juaristi <ajuaristio@gmail.com>, 2015
+# Antonio Trueba, 2016
+# Laura Moreno <morenolauraalejandra@gmail.com>, 2016
+# Oihane Crucelaegui <oihanecruce@gmail.com>, 2015
+# Rick Hunter <rick_hunter_ec@yahoo.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2015-12-28 05:01+0000\n"
+"PO-Revision-Date: 2016-01-23 05:06+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +32,17 @@ msgstr "Factura:"
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_generated
 msgid "Auto Generated Document"
-msgstr ""
+msgstr "Auto creación de documentos"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_generated
 msgid "Auto Generated Purchase Order"
-msgstr ""
+msgstr "Auto creación de pedido de compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_generated
 msgid "Auto Generated Sale Order"
-msgstr ""
+msgstr "Auto creación de pedidos de venta"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_res_company
@@ -51,12 +56,12 @@ msgstr "Compañías"
 msgid ""
 "Configure correct warehouse for company(%s) from Menu: "
 "Settings/Users/Companies"
-msgstr ""
+msgstr "Configure la bodega correcta para la compañia (%s) en el Menú: Ajustes/Usuarios/Compañías"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "Create Invoice/Refunds when encoding invoice/refunds"
-msgstr ""
+msgstr "Crear Factura / Notas de Crédito al codificar factura / devoluciones"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_generate_invoices
@@ -68,67 +73,67 @@ msgstr ""
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_po_from_so
 msgid "Create Purchase Orders when selling to this company"
-msgstr ""
+msgstr "Crear órdenes de compra al vender a esta compañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_so_from_po
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_so_from_po
 msgid "Create Sale Orders when buying to this company"
-msgstr ""
+msgstr "Crear órdenes de venta al vender a esta compañía "
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
 msgid ""
 "Default value to set on Purchase Orders that will be created based on Sale "
 "Orders made to this company"
-msgstr ""
+msgstr "Valor por defecto para ser establecido en pedidos de compra que serán creados basados en los pedidos de venta hechos a esta compañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
 msgid ""
 "Default value to set on Purchase Orders that will be created based on Sale "
 "Orders made to this company."
-msgstr ""
+msgstr "Valor por defecto para ser establecido en los pedidos de compra que serán creados basados en los pedidos de venta realizados en esta compañía."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
 "Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
 " e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr ""
+msgstr "Genere facturas (y devoluciones) para el cliente y para el proveedor al generar facturas  (o devoluciones) de esta compañía. \ne.g: Genere una factura de cliente cuando una factura de proveedor de esta compañía cuando sea creada."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
 msgid ""
 "Generate a Purchase Order when a Sale Order with this company as customer is"
 " created."
-msgstr ""
+msgstr "Genere un pedido de compra cuando se crea un pedido de venta con esta compañía como cliente"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_po_from_so
 msgid ""
 "Generate a Purchase Order when a Sale Order with this company as customer is created.\n"
 " The intercompany user must at least be Purchase User."
-msgstr ""
+msgstr "Genere una orden de compra cuando se cree un pedido de venta con esta compañía como vendedor "
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_so_from_po
 msgid ""
 "Generate a Sale Order when a Purchase Order with this company as vendor is "
 "created."
-msgstr ""
+msgstr "Generar un pedido de venta cuando se crea un pedido de compra con esta compañía como proveedor"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_so_from_po
 msgid ""
 "Generate a Sale Order when a Purchase Order with this company as vendor is created.\n"
 " The intercompany user must at least be Sale User."
-msgstr ""
+msgstr "Generar un pedido de venta cuando se cree un pedido de compra con esta compañía como proveedor.\nEl usuario intra-compañías debe ser al menos Usuario de Ventas."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_intercompany_user_id
 msgid "Inter Company User"
-msgstr ""
+msgstr "Usuario inter-compañía"
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/purchase_order.py:43
@@ -140,7 +145,7 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
 msgid "Inter-Company Rules"
-msgstr ""
+msgstr "Reglas inter-compañía"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_account_invoice
@@ -169,7 +174,7 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_purchase_order
 msgid "Purchase Order"
-msgstr "Orden de compra"
+msgstr "Pedido de compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_intercompany_user_id
@@ -180,7 +185,7 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
 msgid "Rule type"
-msgstr ""
+msgstr "Tipo de regla"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
@@ -196,17 +201,17 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de Venta"
+msgstr "Aviso para pedido de venta"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_company_id
 msgid "Select Company"
-msgstr ""
+msgstr "Seleccione compañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_company_id
 msgid "Select company to setup Inter company rules."
-msgstr ""
+msgstr "Elija compañia para establecer reglas inter-compañía."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_rule_type
@@ -216,23 +221,23 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
 msgid "Source Invoice"
-msgstr ""
+msgstr "Origen de la factura"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_sale_order_auto_purchase_order_id
 msgid "Source Purchase Order"
-msgstr ""
+msgstr "Origen del pedido de compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_purchase_order_auto_sale_order_id
 msgid "Source Sale Order"
-msgstr ""
+msgstr "Origen del pedido de venta"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
 msgid "Warehouse For Purchase Orders"
-msgstr ""
+msgstr "Bodega para pedidos de compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_auto_validation
@@ -268,4 +273,4 @@ msgstr ""
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_base_config_settings
 msgid "base.config.settings"
-msgstr "Configuración Básica"
+msgstr "base.config.settings"

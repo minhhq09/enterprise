@@ -129,7 +129,7 @@ class ProviderFedex(models.Model):
             srm.set_shipper(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id)
             srm.set_recipient(picking.partner_id)
 
-            srm.shipping_charges_payment(self.fedex_account_number)
+            srm.shipping_charges_payment(superself.fedex_account_number)
 
             srm.shipment_label('COMMON2D', 'PDF', self.fedex_label_stock_type, 'TOP_EDGE_OF_TEXT_FIRST', 'SHIPPING_LABEL_FIRST')
 
@@ -159,7 +159,7 @@ class ProviderFedex(models.Model):
                     commodity_quantity_units = 'EA'
                     srm.commodities(commodity_currency.name, commodity_amount, commodity_number_of_piece, commodity_weight_units, commodity_weight_value, commodity_description, commodity_country_of_manufacture, commodity_quantity, commodity_quantity_units)
                 srm.customs_value(commodity_currency.name, total_commodities_amount, "NON_DOCUMENTS")
-                srm.duties_payment(picking.picking_type_id.warehouse_id.partner_id.country_id.code, self.fedex_account_number)
+                srm.duties_payment(picking.picking_type_id.warehouse_id.partner_id.country_id.code, superself.fedex_account_number)
 
             package_count = len(picking.package_ids) or 1
 
@@ -181,6 +181,7 @@ class ProviderFedex(models.Model):
 
                 master_tracking_id = False
                 package_labels = []
+                carrier_tracking_ref = ""
 
                 for sequence, package in enumerate(picking.package_ids, start=1):
 
@@ -199,6 +200,7 @@ class ProviderFedex(models.Model):
                         if not request.get('errors_message'):
                             master_tracking_id = request['master_tracking_id']
                             package_labels.append((package_name, srm.get_label()))
+                            carrier_tracking_ref = request['tracking_number']
                         else:
                             raise ValidationError(request['errors_message'])
 
@@ -206,6 +208,7 @@ class ProviderFedex(models.Model):
                     elif sequence > 1 and sequence < package_count:
                         if not request.get('errors_message'):
                             package_labels.append((package_name, srm.get_label()))
+                            carrier_tracking_ref = carrier_tracking_ref + "," + request['tracking_number']
                         else:
                             raise ValidationError(request['errors_message'])
 
@@ -225,7 +228,7 @@ class ProviderFedex(models.Model):
                                 else:
                                     carrier_price = company_currency.compute(request['price']['USD'], order_currency)
 
-                            carrier_tracking_ref = request['tracking_number']
+                            carrier_tracking_ref = carrier_tracking_ref + "," + request['tracking_number']
                             logmessage = (_("Shipment created into Fedex <br/> <b>Tracking Number : </b>%s") % (carrier_tracking_ref))
                             picking.message_post(body=logmessage)
 
@@ -298,7 +301,8 @@ class ProviderFedex(models.Model):
         request.client_detail(superself.fedex_account_number, superself.fedex_meter_number)
         request.transaction_detail(picking.id)
 
-        request.set_deletion_details(picking.carrier_tracking_ref)
+        master_tracking_id = picking.carrier_tracking_ref.split(',')[0]
+        request.set_deletion_details(master_tracking_id)
         result = request.delete_shipment()
 
         warnings = result.get('warnings_message')
@@ -306,7 +310,7 @@ class ProviderFedex(models.Model):
             _logger.info(warnings)
 
         if result.get('delete_success') and not result.get('errors_message'):
-            picking.message_post(body=_(u'Shipment N° %s has been cancelled' % picking.carrier_tracking_ref))
+            picking.message_post(body=_(u'Shipment N° %s has been cancelled' % master_tracking_id))
             picking.write({'carrier_tracking_ref': '',
                            'carrier_price': 0.0})
         else:

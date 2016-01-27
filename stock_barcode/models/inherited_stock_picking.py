@@ -244,7 +244,7 @@ class StockPicking(models.Model):
                     qty = 1.0
                 product = self.env['product.product'].search(['|', ('barcode', '=', product_barcode), ('default_code', '=', product_barcode)], limit=1)
                 if product:
-                    if self._check_product(product, product_barcode):
+                    if self._check_product(product, qty):
                         return
 
             if parsed_result['type'] == 'package':

@@ -432,7 +432,7 @@ var DialingPanel = Widget.extend({
         }
         this.widgets[this.current_phonecall].duration = _.str.sprintf(pattern, min, sec);
         web_client.action_manager.do_action({
-                name: 'Log a call',
+                name: _t('Log a call'),
                 type: 'ir.actions.act_window',
                 key2: 'client_action_multi',
                 src_model: "crm.phonecall",

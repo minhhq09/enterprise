@@ -24,6 +24,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'security/project_forecast_security.xml',
         'views/project_forecast_view.xml',
     ],
     # only loaded in demonstration mode

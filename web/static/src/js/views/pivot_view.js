@@ -17,7 +17,6 @@ var View = require('web.View');
 var _lt = core._lt;
 var _t = core._t;
 var QWeb = core.qweb;
-var total = _t("Total");
 
 var PivotView = View.extend({
     template: 'PivotView',
@@ -179,7 +178,7 @@ var PivotView = View.extend({
                 }
             }
         });
-        this.measures.__count__ = {string: "Quantity", type: "integer"};
+        this.measures.__count__ = {string: _t("Quantity"), type: "integer"};
     },
     do_search: function (domain, context, group_by) {
         if (!this.ready) {
@@ -504,6 +503,7 @@ var PivotView = View.extend({
         return name + (numbers[id] > 1 ? "  (" + numbers[id] + ")" : "");
     },
     make_header: function (data_pt, root, i, j, parent_header) {
+        var total = _t("Total");
         var attrs = data_pt.attributes,
             value = attrs.value,
             title = value.length ? value[value.length - 1] : total;
@@ -532,6 +532,7 @@ var PivotView = View.extend({
     },
     get_header: function (data_pt, root, i, j, parent) {
         var path;
+        var total = _t("Total");
         if (parent) {
             path = parent.path.concat(data_pt.attributes.value.slice(i,j));
         } else {
@@ -841,4 +842,3 @@ core.view_registry.add('pivot', PivotView);
 return PivotView;
 
 });
-

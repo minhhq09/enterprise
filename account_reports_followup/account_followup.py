@@ -167,7 +167,7 @@ class res_partner(models.Model):
         to_delete = self.env['res.partner']
 
         for partner in self:
-            self.payment_next_action_date = current_date + datetime.timedelta(days=6)
+            partner.payment_next_action_date = current_date + datetime.timedelta(days=6)
             for aml in partner.unreconciled_aml_ids:
                 followup_line_id = aml.followup_line_id.id or None
                 if aml.date_maturity:

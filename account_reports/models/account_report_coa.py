@@ -44,6 +44,12 @@ class report_account_coa(models.AbstractModel):
         sorted_accounts = sorted(grouped_accounts, key=lambda a: a.code)
         title_index = '0'
         for account in sorted_accounts:
+            non_zero = False
+            for p in xrange(len(context['periods'])):
+                if not company_id.currency_id.is_zero(grouped_accounts[account][p]['balance']):
+                    non_zero = True
+            if not non_zero:
+                continue
             if account.code[0] > title_index:
                 title_index = account.code[0]
                 lines.append({

@@ -553,3 +553,52 @@ class AccountFinancialReportContext(models.TransientModel):
         if self.report_id.report_type == 'date_range_extended':
             types += ['number', 'number']
         return types
+
+
+class IrModuleModule(models.Model):
+    _inherit = "ir.module.module"
+
+    @api.multi
+    def update_translations(self, filter_lang=None):
+        """ Create missing translations after loading the one of account.financial.html.report
+
+        Use the translations of the account.financial.html.report to translate the linked
+        ir.actions.client and ir.ui.menu generated at the creation of the report
+        """
+        res = super(IrModuleModule, self).update_translations(filter_lang=filter_lang)
+
+        # generated missing action translations for translated reports
+        self.env.cr.execute("""
+           INSERT INTO ir_translation (lang, type, name, res_id, src, value, module, state)
+           SELECT l.code, 'model', 'ir.actions.client,name', a.id, t.src, t.value, t.module, t.state
+             FROM account_financial_html_report r
+             JOIN ir_act_client a ON (r.name = a.name)
+             JOIN ir_translation t ON (t.res_id = r.id AND t.name = 'account.financial.html.report,name')
+             JOIN res_lang l on  (l.code = t.lang)
+            WHERE NOT EXISTS (
+                  SELECT 1 FROM ir_translation tt
+                  WHERE (tt.name = 'ir.actions.client,name'
+                    AND tt.lang = l.code
+                    AND type='model'
+                    AND tt.res_id = a.id)
+                  )
+        """)
+
+        # generated missing menu translations for translated reports
+        self.env.cr.execute("""
+           INSERT INTO ir_translation (lang, type, name, res_id, src, value, module, state)
+           SELECT l.code, 'model', 'ir.ui.menu,name', m.id, t.src, t.value, t.module, t.state
+             FROM account_financial_html_report r
+             JOIN ir_ui_menu m ON (r.name = m.name)
+             JOIN ir_translation t ON (t.res_id = r.id AND t.name = 'account.financial.html.report,name')
+             JOIN res_lang l on  (l.code = t.lang)
+            WHERE NOT EXISTS (
+                  SELECT 1 FROM ir_translation tt
+                  WHERE (tt.name = 'ir.ui.menu,name'
+                    AND tt.lang = l.code
+                    AND type='model'
+                    AND tt.res_id = m.id)
+                  )
+        """)
+
+        return res
