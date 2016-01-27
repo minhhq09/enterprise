@@ -274,8 +274,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                         else {
                             ls_project.name = sv_project[1];
                         }
-                        self.save_user_data();
                     });
+                    self.save_user_data();
 
                     _.each(sv_tasks, function(sv_task) {
                         var ls_task = _.findWhere(self.data.tasks, {id : sv_task[0]});
@@ -289,8 +289,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                         else {
                             ls_task.name = sv_task[3];
                         }
-                        self.save_user_data();
                     });
+                    self.save_user_data();
 
                     _.each(sv_aals, function(sv_aal) {
                         // First, check that the aal is related to a project. If not we don't import it.
@@ -328,8 +328,9 @@ odoo.define('project_timeshee.ui', function (require ) {
                                 ls_aal.sheet_state =  sv_aal[8];
                             }
                         }
-                        self.save_user_data();
                     });
+                    self.save_user_data();
+
                     //LS => SV sync
                     var context = new web_data.CompoundContext({default_is_timesheet : true});
                     // For the aals that need to be synced, update unit_amount with minimal duration or round with time_unit.
@@ -1712,8 +1713,16 @@ odoo.define('project_timeshee.ui', function (require ) {
                     self.$('.pt_keep_guest_data').modal();
                 } else {
                     self.getParent().syncable = false;
-                    alert("The server you connected to doest not support timesheet synchronization. You should contact your administrator if you would like tu use it.");
-                    self.on_keep_data(); // We automatically keep the data, as there won't be any sync anyway.
+                    session.rpc('/jsonrpc',  { method : 'server_version' , service : 'db', args : []}).then(function(result) {
+                        if (result && result.endsWith('e')) {
+                            alert("The server does not support timesheet synchronization. You should contact your administrator in order to install the module \"Synchronization with the external timesheet application\"");
+                        } else if (result && result.endsWith('c')) {
+                            alert("Timesheet Synchronization is available in Odoo Enterprise Edition. You should consider upgrading your Odoo version if you would like to use it.");
+                        } else {
+                            alert("The server does not support timesheet synchronization. It requires Odoo Enterprise Edition version 9 or newer.");
+                        }
+                    })
+                    self.on_keep_data();
                 }
             });
         },
@@ -1888,7 +1897,6 @@ odoo.define('project_timeshee.ui', function (require ) {
             var protocol = this.$(".pt_premise_protocol").val();
             session._session_authenticate(db_name, login, password).then(function() {
                 localStorage.setItem('pt_current_server', session.origin);
-                self.renderElement();
                 self.getParent().on_successful_login();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
