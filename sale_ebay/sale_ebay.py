@@ -245,11 +245,11 @@ class ebay_link_listing(models.TransientModel):
             'ebay_store_category_id': self.env['ebay.category'].search([
                 ('category_id', '=', item['Storefront']['StoreCategoryID']),
                 ('category_type', '=', 'store')
-            ]).id,
+            ]).id if 'Storefront' in item else False,
             'ebay_store_category_2_id': self.env['ebay.category'].search([
                 ('category_id', '=', item['Storefront']['StoreCategory2ID']),
                 ('category_type', '=', 'store')
-            ]).id,
+            ]).id if 'Storefront' in item else False,
             'ebay_price': currency.compute(
                 float(item['StartPrice']['value']),
                 self.env.user.company_id.currency_id
