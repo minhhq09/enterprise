@@ -67,6 +67,7 @@ class AccountBankStatementImport(models.TransientModel):
                 line = line.strip()
                 if not line:
                     continue
+                vals_line['sequence'] = len(transactions) + 1
                 if line[0] == 'D':  # date of transaction
                     dayfirst = self.env.context.get('qif_date_format') == 'day_first'
                     vals_line['date'] = dateutil.parser.parse(line[1:], fuzzy=True, dayfirst=dayfirst).date()
