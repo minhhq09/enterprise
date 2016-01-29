@@ -27,16 +27,13 @@ class ProviderTemando(models.Model):
 
     # Required based on condition
     temando_subclass = fields.Selection([('Household Goods', 'Household Goods'), ('Furniture', 'Furniture'), ('Other (Etc.)', 'Other (Etc.)')], default='Other (Etc.)')
-    temando_default_packaging_type = fields.Selection([('Box', 'Box'), ('Carton', 'Carton'), ('Document Envelope', 'Document Envelope'), ('Letter', 'Letter'), ('Pallet', 'Pallet'), ('Parcel', 'Parcel'), ('Unpackage or N/A', 'Unpackage or N/A')], default='Box')
+    temando_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
     temando_pallet_type = fields.Selection([('Chep', 'chep'), ('Loscam', 'Loscam'), ('Plain', 'Plain'), ('Not Required', 'Not Required')])
     temando_pallet_nature = fields.Selection([('Exchange', 'Exchange'), ('Transfer', 'Transfer'), ('Not Required', 'Not Required')])
     temando_distance_measurement_type = fields.Selection([('Centimetres', 'Centimetres'), ('Metres', 'Metres'), ('Inches', 'Inches'), ('Feet', 'Feet')], default='Centimetres')
     temando_weight_measurement_type = fields.Selection([('Grams', 'Grams'), ('Kilograms', 'Kilograms'), ('Ounces', 'Ounces'), ('Pounds', 'Pounds')], default='Kilograms')
     temando_location_selection = fields.Selection([('Priority', 'Priority'), ('Nearest', 'Nearest'), ('Nearest by Priority', 'Nearest by Priority'), ('Most Stock', 'Most Stock')], default='Nearest')
     temando_hs_code = fields.Char(string='Default HS Code', help="Used only if a HS code is not set on the product.")
-    temando_package_height = fields.Integer(string='Package Height', help="Fix Height if not provided on the product packaging.")
-    temando_package_width = fields.Integer(string='Package Width', help="Fix Width if not provided on the product packaging.")
-    temando_package_length = fields.Integer(string='Package Length', help="Fix Length if not provided on the product packaging.")
 
     temando_label_printer_type = fields.Selection([('Standard', 'Standard'), ('Thermal', 'Thermal'), ('ZPL', 'ZPL')], default='Thermal')
 

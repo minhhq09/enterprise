@@ -103,8 +103,8 @@ class TemandoRequest():
         res = {}
         if package:
             res = {'height': package.height, 'width': package.width, 'length': package.length}
-        elif carrier.temando_package_height and carrier.temando_package_width and carrier.temando_package_length:
-            res = {'height': carrier.temando_package_height, 'width': carrier.temando_package_width, 'length': carrier.temando_package_length}
+        elif carrier.temando_default_packaging_id.height and carrier.temando_default_packaging_id.width and carrier.temando_default_packaging_id.length:
+            res = {'height': carrier.temando_default_packaging_id.height, 'width': carrier.temando_default_packaging_id.width, 'length': carrier.temando_default_packaging_id.length}
         else:
             raise ValidationError(_('Please provide Height, Width and Length on product packaging or delivery method.'))
         return res
@@ -120,7 +120,7 @@ class TemandoRequest():
             # always now it's for General Goods
             self.Anything['class'] = 'General Goods'
             self.Anything.subclass = carrier.temando_subclass
-            self.Anything.packaging = carrier.temando_default_packaging_type
+            self.Anything.packaging = carrier.temando_default_packaging_id.shipper_package_code
             self.Anything.palletType = carrier.temando_pallet_type or ''
             self.Anything.palletNature = carrier.temando_pallet_nature or ''
             # Packaging optimization will try to pack the Anythings together into larger boxes or packages which have been set up. Setting 'N' for packaging optimization tells our system that each Anything will be packed into a separate package
@@ -172,7 +172,7 @@ class TemandoRequest():
             self.Anything = self.client.factory.create('com:anything')
             self.Anything['class'] = 'General Goods'
             self.Anything.subclass = carrier.temando_subclass
-            self.Anything.packaging = carrier.temando_default_packaging_type
+            self.Anything.packaging = package.packaging_id.shipper_package_code or carrier.temando_default_packaging_id.shipper_package_code
             self.Anything.palletType = carrier.temando_pallet_type or ''
             self.Anything.palletNature = carrier.temando_pallet_nature or ''
             self.Anything.packagingOptimisation = 'Y'
@@ -182,12 +182,12 @@ class TemandoRequest():
             self.Anything.length = result['length']
             self.Anything.width = result['width']
             self.Anything.height = result['height']
-            self.Anything.weight = self._convert_weight(package.weight, carrier.temando_weight_measurement_type)
+            self.Anything.weight = self._convert_weight(package.shipping_weight, carrier.temando_weight_measurement_type)
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
             articles_list = []
             for po in picking.pack_operation_ids.filtered(lambda po: po.result_package_id.id == package.id):
                 product_hs_code = po.product_id.hs_code or carrier.temando_hs_code
-                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code=product_hs_code, product_description=po.product_id.name)
+                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code, po.product_id.name)
                 articles_list = articles_list + [article]
             self.Anything.articles = articles_list
             self.Anything.quantity = len(self.Anything.articles[0]['article'])
@@ -199,7 +199,7 @@ class TemandoRequest():
             self.Anything = self.client.factory.create('com:anything')
             self.Anything['class'] = 'General Goods'
             self.Anything.subclass = carrier.temando_subclass
-            self.Anything.packaging = carrier.temando_default_packaging_type
+            self.Anything.packaging = carrier.temando_default_packaging_id.shipper_package_code
             self.Anything.palletType = carrier.temando_pallet_type or ''
             self.Anything.palletNature = carrier.temando_pallet_nature or ''
             self.Anything.packagingOptimisation = 'Y'
@@ -213,12 +213,8 @@ class TemandoRequest():
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
             articles_list = []
             for po in picking.pack_operation_ids:
-                # RIM: Dirty hack to have this behavior in stable: if there is a
-                # custom field called x_hs_code on a product.template, then it is
-                # used, else we take the default on delivery.carrier
-                # TODO in master: create and use a real field
-                product_hs_code = getattr(po.product_id, 'x_hs_code', None) or carrier.temando_hs_code
-                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code=product_hs_code, product_description=po.product_id.name)
+                product_hs_code = po.product_id.hs_code or carrier.temando_hs_code
+                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code, po.product_id.name)
                 articles_list = articles_list + [article]
             self.Anything.articles = articles_list
             self.Anything.quantity = 1
@@ -226,7 +222,7 @@ class TemandoRequest():
 
         self.Anything = {'anything': anythings_list}
 
-    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code=None, product_description=None):
+    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code, product_description):
         res = []
         while (quantity):
             self.Article = self.client.factory.create('com:Article')
