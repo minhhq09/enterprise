@@ -305,6 +305,8 @@ class UPSRequest():
         if ship_to.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipTo.Address.StateProvinceCode = ship_to.state_id.code or ''
         # shipment.ShipTo.Phone.Number = ship_to.phone or ''
+        if not ship_to.commercial_partner_id.is_company:
+            shipment.ShipTo.Address.ResidentialAddressIndicator = suds.null()
 
         shipment.Service.Code = service_type or ''
         shipment.Service.Description = 'Service Code'
@@ -388,6 +390,8 @@ class UPSRequest():
         if ship_to.country_id.code in ('US', 'CA', 'IE'):
             shipment.ShipTo.Address.StateProvinceCode = ship_to.state_id.code or ''
         shipment.ShipTo.Phone.Number = self._clean_phone_number(ship_to.phone)
+        if not ship_to.commercial_partner_id.is_company:
+            shipment.ShipTo.Address.ResidentialAddressIndicator = suds.null()
 
         shipment.Service.Code = service_type or ''
         shipment.Service.Description = 'Service Code'
