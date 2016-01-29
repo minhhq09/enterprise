@@ -96,13 +96,10 @@ class ProviderUPS(models.Model):
                 for package in picking.package_ids:
                     total_qty += sum(quant.qty for quant in package.quant_ids)
                     packages.append(Package(self, package.weight, quant_pack=package.packaging_id, name=package.name))
-                # Create one package with the rest (the content that is no in a package)
-                if picking.weight_bulk:
-                    packages.append(Package(self, picking.weight_bulk))
-            else:
-                for operation in picking.pack_operation_ids:
-                    total_qty += operation.product_qty
-                    packages.append(Package(self, operation.product_id.weight * operation.product_qty, operation.package_id.packaging_id))
+
+            # Create one package with the rest (the content that is no in a package)
+            if picking.weight_bulk:
+                packages.append(Package(self, picking.weight_bulk))
 
             shipment_info = {
                 'description': picking.origin,
