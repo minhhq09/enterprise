@@ -51,6 +51,7 @@ class AccountBankStatementImport(models.TransientModel):
                 'unique_import_id': transaction.id,
                 'bank_account_id': bank_account_id,
                 'partner_id': partner_id,
+                'sequence': len(transactions) + 1,
             }
             total_amt += float(transaction.amount)
             transactions.append(vals_line)
