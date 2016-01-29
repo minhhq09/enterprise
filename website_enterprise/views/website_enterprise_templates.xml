@@ -5,8 +5,6 @@
             <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
             <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
             <link rel="stylesheet" href="/web/static/src/less/navbar.less"/>
-            <link rel="stylesheet" href="/web/static/src/less/app_switcher.less"/>
-            <link rel="stylesheet" href="/web/static/src/less/app_switcher_layout.less"/>
             
             <link rel="stylesheet" href="/website_enterprise/static/src/less/website_enterprise.less"/>
             <script type="text/javascript" src="/website_enterprise/static/src/js/website_enterprise.js"></script>
@@ -15,7 +13,7 @@
 
     <template id="user_navbar" inherit_id="website.user_navbar" groups="base.group_user">
         <xpath expr="//ul['id=oe_applications']" position="replace">
-            <a class="o_menu_toggle" href="#"><span class="fa fa-th fa-fw"/></a>
+            <button type="button" class="fa fa-th o_menu_toggle"/>
         </xpath>
     </template>
 </odoo>

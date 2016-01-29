@@ -10,7 +10,7 @@ odoo.define('website.app_switcher', function(require) {
                 e.preventDefault();
 
                 // We add a spinner for the user to understand the loading.
-                $(e.currentTarget).find('span.fa').removeClass('fa-th').addClass('fa-spin fa-spinner');
+                $(e.currentTarget).removeClass('fa fa-th').append($('<span/>', {'class': 'fa fa-spin fa-spinner'}));
                 window.location.href = "/web" + ((session.debug)? '?debug' : '') + '#home';
             });
 
