@@ -1261,8 +1261,8 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             this.blackbox_terminal_id = this.get_blackbox_terminal_id();
 
             this.chrome.ready.then(function () {
-                var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(current + ' TID: ' + self.blackbox_terminal_id);
+                var current = $(self.chrome.$el).find('.placeholder-terminalID').text();
+                $(self.chrome.$el).find('.placeholder-terminalID').text(' TID: ' + self.blackbox_terminal_id);
             });
 
             return posmodel_super.after_load_server_data.apply(this, arguments);
@@ -1426,7 +1426,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
 
             self.chrome.ready.then(function () {
                 var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(current + ' ID: ' + self.blackbox_pos_production_id);
+                $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.blackbox_pos_production_id);
             });
         }
     }, {
