@@ -17,7 +17,7 @@ class ReportL10nBePartnerVatIntra(models.AbstractModel):
         if context_id.company_ids.ids:
             company_ids = '(' + ','.join(map(str, context_id.company_ids.ids)) + ')'
             company_clause = 'AND l.company_id IN ' + company_ids
-        tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_44', 'l10n_be.tax_tag_base_46L', 'l10n_be.tax_tag_base_46T']]
+        tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_44', 'l10n_be.tax_tag_46L', 'l10n_be.tax_tag_46T']]
         self.env.cr.execute('''SELECT p.name As partner_name, l.partner_id AS partner_id, p.vat AS vat,
                       tt.account_account_tag_id AS intra_code, SUM(-l.balance) AS amount
                       FROM account_move_line l

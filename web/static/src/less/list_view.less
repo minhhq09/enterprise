@@ -119,8 +119,13 @@
     .o_list_view {
         .o_row_edition > td {
             visibility: hidden;  // Hide row's content during edition
-            &.o_list_record_selector, &.o_list_record_delete {
+            &.o_list_record_selector, &.o_list_record_delete, &.o_list_button {
                 visibility: visible;
+            }
+
+            &.o_readonly {
+                visibility: visible;
+                color: transparent;
             }
         }
     }
@@ -134,16 +139,17 @@
             &.o_form_textarea {
                 white-space: pre-wrap;
             }
-            &.oe_read_only {
-                visibility: hidden; // Read-only fields can't be edited
-            }
             .o_form_field, .badge { // Many2Many tags
                 display: block;
                 float: left;
                 white-space: normal;
                 max-width: 100%; // Fix a chrome bug where badge would not break on multiple lines
             }
-            background-color: @odoo-view-background-color;
+
+            &.o_readonly {
+                background-color: transparent;
+                padding: 5px;
+            }
         }
         > .o_field_translate {
             position: absolute;

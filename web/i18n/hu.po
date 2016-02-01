@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-15 13:32+0000\n"
-"PO-Revision-Date: 2016-01-16 10:56+0000\n"
+"POT-Creation-Date: 2016-01-25 14:32+0000\n"
+"PO-Revision-Date: 2016-01-30 22:32+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -1036,8 +1036,8 @@ msgstr "Oktatás befejezése"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:116
 #, python-format
-msgid "Enterprise Code:"
-msgstr "Vállalati kód:"
+msgid "Subscription Code:"
+msgstr "Előfizetés kódja:"
 
 #. module: web
 #. openerp-web
@@ -2451,6 +2451,21 @@ msgid "Size:"
 msgstr "Méret:"
 
 #. module: web
+#: code:addons/web/controllers/main.py:1067
+#, python-format
+msgid "Something horrible happened"
+msgstr "Valami szörnyű történt"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/xml/base.xml:128
+#, python-format
+msgid ""
+"Something went wrong while registering your database. You can try again or "
+"contact our support at"
+msgstr "Valami nem sikerült az adatbázisa rögzítésekor. Megpróbálhatja újra vagy vegye fel a kapcsolatot a támogatáshoz "
+
+#. module: web
 #. openerp-web
 #: code:addons/web/static/src/xml/base_common.xml:107
 #, python-format
@@ -2610,6 +2625,27 @@ msgstr "A '%s' mező típusnak many2many mezőnek kell lennie az 'ir.attachment'
 #, python-format
 msgid "There was a problem while uploading your file"
 msgstr "Probléma merült fel a fájl feltöltése közben"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/xml/base.xml:104
+#, python-format
+msgid "This database has expired."
+msgstr "Ez az adatbázis lejárt."
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/xml/base.xml:100
+#, python-format
+msgid "This database will expire in"
+msgstr "Az adatbázis ekkor fog lejárni"
+
+#. module: web
+#. openerp-web
+#: code:addons/web/static/src/xml/base.xml:97
+#, python-format
+msgid "This demo database will expire in"
+msgstr "A demó adatbázis ekkor fog lejárni"
 
 #. module: web
 #. openerp-web
@@ -2944,13 +2980,6 @@ msgstr "Figyelem"
 
 #. module: web
 #. openerp-web
-#: code:addons/web/static/src/xml/base.xml:88
-#, python-format
-msgid "Warning!"
-msgstr "Figyelem!"
-
-#. module: web
-#. openerp-web
 #: code:addons/web/static/src/xml/base.xml:676
 #: code:addons/web/static/src/xml/base.xml:704
 #, python-format
@@ -3022,8 +3051,8 @@ msgstr "Egy új %s hoz létre, biztos benne, hogy még nem létezik?"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:103
 #, python-format
-msgid "You are using more users than specified in your subscription."
-msgstr "Több felhasználót használ annál amit a feliratkozásán meghatározott."
+msgid "You have more users than your subscription allows."
+msgstr "Több felhasználója van, mint amennyit az előfizetése megenged."
 
 #. module: web
 #: code:addons/web/controllers/main.py:753
@@ -3066,17 +3095,10 @@ msgstr "Az Odoo rendszer munkafázisa letelt. Kérem frissítse a jelenlegi webo
 
 #. module: web
 #. openerp-web
-#: code:addons/web/static/src/xml/base.xml:92
+#: code:addons/web/static/src/xml/base.xml:118
 #, python-format
-msgid "Your database has expired."
-msgstr "Az adatbázisa lejárt."
-
-#. module: web
-#. openerp-web
-#: code:addons/web/static/src/xml/base.xml:89
-#, python-format
-msgid "Your database will expire in"
-msgstr "Az adatbázisa le fog járni ekkor"
+msgid "Your subscription code"
+msgstr "Előfizetésének kódja"
 
 #. module: web
 #. openerp-web
@@ -3117,8 +3139,8 @@ msgstr "körülbelül egy órája"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:98
 #, python-format
-msgid "buy"
-msgstr "vásárlás"
+msgid "buy a subscription"
+msgstr "vásároljon előfizetést"
 
 #. module: web
 #. openerp-web
@@ -3132,8 +3154,8 @@ msgstr "tartalmazza"
 #. openerp-web
 #: code:addons/web/static/src/xml/base.xml:90
 #, python-format
-msgid "days."
-msgstr "nap múlva."
+msgid "days"
+msgstr "napok"
 
 #. module: web
 #. openerp-web
@@ -3305,13 +3327,6 @@ msgstr "Nem létező egyész szám"
 #, python-format
 msgid "not a valid number"
 msgstr "nem érvényes szám"
-
-#. module: web
-#. openerp-web
-#: code:addons/web/static/src/xml/base.xml:98
-#, python-format
-msgid "one."
-msgstr "egy."
 
 #. module: web
 #. openerp-web
