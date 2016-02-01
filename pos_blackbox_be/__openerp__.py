@@ -33,6 +33,6 @@ More info:
     'qweb': [
         'static/src/xml/pos_blackbox_be.xml'
     ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

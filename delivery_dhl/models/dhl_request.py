@@ -18,22 +18,32 @@ class DHLProvider():
         else:
             self.url = 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
 
-    def rate_request(self, order, carrier):
-        dict_response = {'price': 0.0,
-                         'currency': False,
-                         'error_found': False}
-        param = {
+    def _convert_weight(self, weight, weight_unit):
+        if weight_unit == "LB":
+            return round(weight * 2.20462, 3)
+        else:
+            return round(weight, 3)
+
+    def _get_rate_param(self, order, carrier):
+        return {
             'carrier': carrier,
             'shipper_partner': order.warehouse_id.partner_id,
             'Date': time.strftime('%Y-%m-%d'),
             'ReadyTime': time.strftime('PT%HH%MM'),
             'recipient_partner': order.partner_shipping_id,
-            'total_weight': sum([(line.product_id.weight * line.product_uom_qty) for line in order.order_line]),
+            'total_weight': self._convert_weight(sum([(line.product_id.weight * line.product_qty) for line in order.order_line]), carrier.dhl_package_weight_unit),
             'currency_name': order.currency_id.name,
             'total_value': sum([(line.price_unit * line.product_uom_qty) for line in order.order_line.filtered(lambda line: not line.is_delivery)]) or 0,
             'is_dutiable': carrier.dhl_dutiable,
             'package_ids': False,
         }
+
+    def rate_request(self, order, carrier):
+        dict_response = {'price': 0.0,
+                         'currency': False,
+                         'error_found': False}
+
+        param = self._get_rate_param(order, carrier)
         request_text = self._create_rate_xml(param)
         root = self._send_request(request_text)
         if root.tag == '{http://www.dhl.com}ErrorResponse':
@@ -58,12 +68,8 @@ class DHLProvider():
                 raise ValidationError(_("No shipping available for the selected DHL product"))
         return dict_response
 
-    def send_shipping(self, picking, carrier):
-        dict_response = {'tracking_number': 0.0,
-                         'price': 0.0,
-                         'currency': False}
-
-        param = {
+    def _get_send_param(self, picking, carrier):
+        return {
             # it's if you want to track the message numbers
             'MessageTime': '2001-12-17T09:30:47-05:00',
             'MessageReference': '1234567890123456789012345678901',
@@ -77,11 +83,10 @@ class DHLProvider():
             'recipient_streetLines': ('%s%s') % (picking.partner_id.street or '',
                                                  picking.partner_id.street2 or ''),
             'NumberOfPieces': len(picking.package_ids) or 1,
-            'weight_bulk': picking.weight_bulk,
+            'weight_bulk': self._convert_weight(picking.weight_bulk, carrier.dhl_package_weight_unit),
             'package_ids': picking.package_ids,
-            'total_weight': picking.weight,
-            # Odoo is working in KG
-            'weight_unit': "K",
+            'total_weight': self._convert_weight(picking.weight, carrier.dhl_package_weight_unit),
+            'weight_unit': carrier.dhl_package_weight_unit[:1],
             'dimension_unit': carrier.dhl_package_dimension_unit[0],
             # For the rating API waits for CM and IN here for C and I...
             'GlobalProductCode': carrier.dhl_product_code,
@@ -95,6 +100,27 @@ class DHLProvider():
             'currency_name': picking.sale_id.currency_id.name or picking.company_id.currency_id.name,
             'total_value': str(sum([line.product_id.lst_price * int(line.product_uom_qty) for line in picking.move_lines]))
         }
+
+    def _get_send_param_final_rating(self, picking, carrier):
+        return {
+            'carrier': carrier,
+            'shipper_partner': picking.picking_type_id.warehouse_id.partner_id,
+            'Date': time.strftime('%Y-%m-%d'),
+            'ReadyTime': time.strftime('PT%HH%MM'),
+            'recipient_partner': picking.partner_id,
+            'currency_name': picking.sale_id.currency_id.name or picking.company_id.currency_id.name,
+            'total_value': str(sum([line.product_id.lst_price * int(line.product_uom_qty) for line in picking.move_lines])),
+            'is_dutiable': carrier.dhl_dutiable,
+            'package_ids': picking.package_ids,
+            'total_weight': self._convert_weight(picking.weight_bulk, carrier.dhl_package_weight_unit),
+        }
+
+    def send_shipping(self, picking, carrier):
+        dict_response = {'tracking_number': 0.0,
+                         'price': 0.0,
+                         'currency': False}
+
+        param = self._get_send_param(picking, carrier)
         request_text = self._create_shipping_xml(param)
 
         root = self._send_request(request_text)
@@ -115,18 +141,7 @@ class DHLProvider():
         # After discussing by mail with the DHL Help Desk, they said that the correct rate
         # is given by the DCTRequest GetQuote.
 
-        param_final_rating = {
-            'carrier': carrier,
-            'shipper_partner': picking.picking_type_id.warehouse_id.partner_id,
-            'Date': time.strftime('%Y-%m-%d'),
-            'ReadyTime': time.strftime('PT%HH%MM'),
-            'recipient_partner': picking.partner_id,
-            'currency_name': picking.sale_id.currency_id.name or picking.company_id.currency_id.name,
-            'total_value': str(sum([line.product_id.lst_price * int(line.product_uom_qty) for line in picking.move_lines])),
-            'is_dutiable': carrier.dhl_dutiable,
-            'package_ids': picking.package_ids,
-            'total_weight': picking.weight_bulk,
-        }
+        param_final_rating = self._get_send_param_final_rating(picking, carrier)
         request_text = self._create_rate_xml(param_final_rating)
         root = self._send_request(request_text)
         if root.tag == '{http://www.dhl.com}ErrorResponse':

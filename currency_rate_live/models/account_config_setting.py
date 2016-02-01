@@ -37,6 +37,7 @@ class ResCompany(models.Model):
             if not res:
                 raise UserError(_('Unable to connect to the online exchange rate platform. The web service may be temporary down. Please try again in a moment.'))
 
+
     def _update_currency_ecb(self):
         ''' This method is used to update the currencies by using ECB service provider.
             Rates are given against EURO
@@ -106,6 +107,8 @@ class ResCompany(models.Model):
                     currency = Currency.search([('name', '=', currency_code)], limit=1)
                     if currency:
                         CurrencyRate.create({'currency_id': currency.id, 'rate': rate['Rate'], 'name': fields.Datetime.now(), 'company_id': company.id})
+            if company.currency_id.rate != 1.0:
+                CurrencyRate.create({'currency_id': company.currency_id.id, 'rate': 1.0, 'name': fields.Datetime.now(), 'company_id': company.id})
         return True
 
     @api.model
