@@ -61,7 +61,7 @@ class USPSRequest():
         if order:
             if not order.order_line:
                 raise ValidationError(_("Please provide at least one item to ship."))
-            tot_weight = sum([(line.product_id.weight * line.product_uom_qty) for line in order.order_line]) or 0
+            tot_weight = sum([(line.product_id.weight * line.product_qty) for line in order.order_line]) or 0
             for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery):
                 raise ValidationError(_('The estimated price cannot be computed because the weight of your product is missing.'))
             if tot_weight > 1.81437 and order.carrier_id.usps_service == 'First Class':     # max weight of FirstClass Service
@@ -70,7 +70,7 @@ class USPSRequest():
 
     def _usps_request_data(self, carrier, order):
         currency = carrier.env['res.currency'].search([('name', '=', 'USD')], limit=1)  # USPS Works in USDollars
-        tot_weight = sum([(line.product_id.weight * line.product_uom_qty) for line in order.order_line]) or 0.0
+        tot_weight = sum([(line.product_id.weight * line.product_qty) for line in order.order_line]) or 0.0
         total_weight = self._convert_weight(tot_weight)
         total_value = sum([(line.price_unit * line.product_uom_qty) for line in order.order_line.filtered(lambda line: not line.is_delivery)]) or 0.0
 
