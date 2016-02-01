@@ -102,7 +102,7 @@ class TemandoRequest():
     def _check_measurement_detail(self, package, carrier):
         res = {}
         if package:
-            res = {'height': package.ul.height, 'width': package.ul.width, 'length': package.ul.length}
+            res = {'height': package.height, 'width': package.width, 'length': package.length}
         elif carrier.temando_package_height and carrier.temando_package_width and carrier.temando_package_length:
             res = {'height': carrier.temando_package_height, 'width': carrier.temando_package_width, 'length': carrier.temando_package_length}
         else:
@@ -164,40 +164,73 @@ class TemandoRequest():
     # Shipping
 
     def set_shipping_anything_detail(self, carrier, picking):
-        res = []
-        # Set Individual Product As Items
-        for line in picking.pack_operation_ids:
-            result = self._check_measurement_detail(line.linked_move_operation_ids[0].move_id.product_packaging, carrier)
+        anythings_list = []
+
+        # Multiples packages in the picking
+        for package in picking.package_ids:
+            result = self._check_measurement_detail(package.packaging_id, carrier)
             self.Anything = self.client.factory.create('com:anything')
-            # always now it's for General Goods
             self.Anything['class'] = 'General Goods'
             self.Anything.subclass = carrier.temando_subclass
             self.Anything.packaging = carrier.temando_default_packaging_type
-            self.Anything.palletType = carrier.temando_pallet_type
-            self.Anything.palletNature = carrier.temando_pallet_nature
-            # Packaging optimization will try to pack the Anythings together into larger boxes or packages which have been set up. Setting 'N' for packaging optimization tells our system that each Anything will be packed into a separate package
+            self.Anything.palletType = carrier.temando_pallet_type or ''
+            self.Anything.palletNature = carrier.temando_pallet_nature or ''
             self.Anything.packagingOptimisation = 'Y'
-            # is mandatory only if:class is: Freight, General Goods or Refrigerated.
             self.Anything.qualifierFreightGeneralFragile = 'N'
             self.Anything.distanceMeasurementType = carrier.temando_distance_measurement_type
             self.Anything.weightMeasurementType = carrier.temando_weight_measurement_type
             self.Anything.length = result['length']
             self.Anything.width = result['width']
             self.Anything.height = result['height']
-            self.Anything.weight = self._convert_weight(line.product_id.weight, carrier.temando_weight_measurement_type)
-            self.Anything.quantity = line.product_qty
-            self.Anything.description = line.product_id.name
+            self.Anything.weight = self._convert_weight(package.weight, carrier.temando_weight_measurement_type)
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
-            # RIM: Dirty hack to have this behavior in stable: if there is a
-            # custom field called x_hs_code on a product.template, then it is
-            # used, else we take the default on delivery.carrier
-            # TODO in master: create and use a real field
-            product_hs_code = getattr(line.product_id, 'x_hs_code', None) or carrier.temando_hs_code
-            self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, line.product_qty, shipper_currency.name, product_hs_code=product_hs_code)
-            res.append(self.Anything)
-        self.Anything = {'anything': res}
+            articles_list = []
+            for po in picking.pack_operation_ids.filtered(lambda po: po.result_package_id.id == package.id):
+                # RIM: Dirty hack to have this behavior in stable: if there is a
+                # custom field called x_hs_code on a product.template, then it is
+                # used, else we take the default on delivery.carrier
+                # TODO in master: create and use a real field
+                product_hs_code = getattr(po.product_id, 'x_hs_code', None) or carrier.temando_hs_code
+                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code=product_hs_code, product_description=po.product_id.name)
+                articles_list = articles_list + [article]
+            self.Anything.articles = articles_list
+            self.Anything.quantity = len(self.Anything.articles[0]['article'])
+            anythings_list = anythings_list + [self.Anything]
 
-    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code=None):
+        # If some bulk content exists or user does not use packaging features
+        if picking.weight_bulk:
+            result = self._check_measurement_detail(False, carrier)
+            self.Anything = self.client.factory.create('com:anything')
+            self.Anything['class'] = 'General Goods'
+            self.Anything.subclass = carrier.temando_subclass
+            self.Anything.packaging = carrier.temando_default_packaging_type
+            self.Anything.palletType = carrier.temando_pallet_type or ''
+            self.Anything.palletNature = carrier.temando_pallet_nature or ''
+            self.Anything.packagingOptimisation = 'Y'
+            self.Anything.qualifierFreightGeneralFragile = 'N'
+            self.Anything.distanceMeasurementType = carrier.temando_distance_measurement_type
+            self.Anything.weightMeasurementType = carrier.temando_weight_measurement_type
+            self.Anything.length = result['length']
+            self.Anything.width = result['width']
+            self.Anything.height = result['height']
+            self.Anything.weight = self._convert_weight(picking.weight_bulk, carrier.temando_weight_measurement_type)
+            shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
+            articles_list = []
+            for po in picking.pack_operation_ids:
+                # RIM: Dirty hack to have this behavior in stable: if there is a
+                # custom field called x_hs_code on a product.template, then it is
+                # used, else we take the default on delivery.carrier
+                # TODO in master: create and use a real field
+                product_hs_code = getattr(po.product_id, 'x_hs_code', None) or carrier.temando_hs_code
+                article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code=product_hs_code, product_description=po.product_id.name)
+                articles_list = articles_list + [article]
+            self.Anything.articles = articles_list
+            self.Anything.quantity = 1
+            anythings_list = anythings_list + [self.Anything]
+
+        self.Anything = {'anything': anythings_list}
+
+    def _set_article_detail(self, carrier, shipper_partner, quantity, shipper_currency, product_hs_code=None, product_description=None):
         res = []
         while (quantity):
             self.Article = self.client.factory.create('com:Article')
@@ -205,11 +238,12 @@ class TemandoRequest():
             self.Article.countryOfOrigin = shipper_partner.country_id.code
             self.Article.countryOfManufacture = shipper_partner.country_id.code
             self.Article.goodsCurrency = shipper_currency
+            self.Article.description = product_description
             if carrier.temando_delivery_nature == 'International':
                 self.Article.hs = product_hs_code
             res.append(self.Article)
             quantity = quantity - 1
-        self.Anything.articles = {'article': res}
+        return {'article': res}
 
     def set_location_origin_detail(self, shipper_company_partner, shipper_warehouse_partner, shipper_warehouse=None):
         # RIM: Dirty hack to have this behavior in stable: if there is a
