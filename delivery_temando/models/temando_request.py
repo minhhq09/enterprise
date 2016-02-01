@@ -69,14 +69,14 @@ class TemandoRequest():
         self.Anywhere.originSuburb = shipper_partner.city
         self.Anywhere.originCity = shipper_partner.city
         self.Anywhere.originState = shipper_partner.state_id.code or ''
-        self.Anywhere.originIs = 'Business' if shipper_partner.is_company else 'Residence'
+        self.Anywhere.originIs = 'Business' if shipper_partner.commercial_partner_id.is_company else 'Residence'
         # Recipient
         self.Anywhere.destinationCountry = recipient_partner.country_id.code
         self.Anywhere.destinationCode = recipient_partner.zip
         self.Anywhere.destinationSuburb = recipient_partner.city
         self.Anywhere.destinationCity = recipient_partner.city
         self.Anywhere.destinationState = recipient_partner.state_id.code
-        self.Anywhere.destinationIs = 'Business' if recipient_partner.is_company else 'Residence'
+        self.Anywhere.destinationIs = 'Business' if recipient_partner.commercial_partner_id.is_company else 'Residence'
 
     def set_general_detail(self, currency, total_price, delivery_nature):
         self.General = self.client.factory.create('com:General')
