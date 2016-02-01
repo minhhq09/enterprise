@@ -6,7 +6,6 @@ import logging
 import time
 
 from openerp.osv import osv, fields
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 from openerp.exceptions import UserError
 
@@ -77,6 +76,7 @@ class SaleSubscription(osv.osv):
         return result
 
     _columns = {
+        'active': fields.boolean('Active'),
         'state': fields.selection([('draft', 'New'), ('open', 'In Progress'), ('pending', 'To Renew'),
                                    ('close', 'Closed'), ('cancel', 'Cancelled')],
                                   'Status', required=True, track_visibility='onchange', copy=False),
@@ -93,7 +93,7 @@ class SaleSubscription(osv.osv):
             'account.analytic.account': (lambda s, cr, uid, ids, c={}: ids, ['recurring_invoice_line_ids'], 5),
             'sale.subscription.line': (_get_recurring_line_ids, ['product_id', 'quantity', 'actual_quantity', 'sold_quantity', 'uom_id', 'price_unit', 'discount', 'price_subtotal'], 5),
         }, track_visibility='onchange'),
-        'close_reason_id': fields.many2one("sale.subscription.close.reason", "Close Reason", track_visibility='onchange'),
+        'close_reason_id': fields.many2one("sale.subscription.close.reason", "Close/Cancel Reason", track_visibility='onchange'),
         'type': fields.selection([('contract', 'Contract'), ('template', 'Template')], 'Type'),
         'template_id': fields.many2one('sale.subscription', 'Subscription Template', domain=[('type', '=', 'template')], track_visibility='onchange'),
         'description': fields.text('Description'),
@@ -105,6 +105,7 @@ class SaleSubscription(osv.osv):
     }
 
     _defaults = {
+        'active': True,
         'recurring_interval': 1,
         'recurring_next_date': lambda self, cr, uid, context: fields.date.context_today(self, cr, uid, context=context),
         'recurring_rule_type': 'monthly',
@@ -126,7 +127,7 @@ class SaleSubscription(osv.osv):
         return self.write(cr, uid, ids, {'state': 'cancel'}, context=context)
 
     def set_close(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state': 'close', 'date': datetime.date.today().strftime(DEFAULT_SERVER_DATE_FORMAT)}, context=context)
+        return self.write(cr, uid, ids, {'state': 'close', 'date': fields.date.today()}, context=context)
 
     def on_change_template(self, cr, uid, ids, template_id, context=None):
         res = {'value': {}}

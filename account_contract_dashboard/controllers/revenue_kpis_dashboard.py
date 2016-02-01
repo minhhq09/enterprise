@@ -109,7 +109,7 @@ class RevenueKPIsDashboard(http.Controller):
             })
 
         return {
-            'contract_templates': request.env['sale.subscription'].search_read([('state', '=', 'open'), ('type', '=', 'template')], ['name']),
+            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], ['name']),
             'companies': request.env['res.company'].search_read([], ['name']),
             'cohort_report': cohort_report,
             'currency_id': company_currency_id.id,
@@ -140,9 +140,10 @@ class RevenueKPIsDashboard(http.Controller):
                 for key, stat in FORECAST_STAT_TYPES.iteritems()
             },
             'currency_id': request.env.user.company_id.currency_id.id,
-            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template'), ('state', '=', 'open')], fields=['name']),
+            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], fields=['name']),
             'companies': request.env['res.company'].search_read([], fields=['name']),
-            'show_demo': request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)]) == 0,
+            'has_template': bool(request.env['sale.subscription'].search_count([('active', '=', True), ('type', '=', 'template')])),
+            'has_mrr': bool(request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)])),
         }
 
     @http.route('/account_contract_dashboard/companies_check', type='json', auth='user')
@@ -220,7 +221,7 @@ class RevenueKPIsDashboard(http.Controller):
 
         results = []
 
-        domain = [('type', '=', 'template'), ('state', '=', 'open')]
+        domain = [('type', '=', 'template')]
         if contract_ids:
             domain += [('id', 'in', contract_ids)]
 

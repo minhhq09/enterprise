@@ -5,12 +5,17 @@
 
     <!-- 1. Main dashboard -->
     <div t-name="account_contract_dashboard.dashboard" class="container o_account_contract_dashboard">
-        <div t-if="show_demo" class="o_welcome_message box">
+        <div t-if="!has_mrr" class="o_welcome_message box">
             <div class="o_welcome_image"><span class="fa fa-smile-o fa-5x"/></div>
-            <div class="o_welcome_content">
+            <div t-if="has_template" class="o_welcome_content">
                 <h2>Hi there!</h2>
-                <p class="mt0">This is a sample dashboard. Your actual dashboard will be<br/>activated once your have invoiced your first subscription.</p>
+                <p class="mt0">Now that you have defined a subscription template, invoice your first subscription<br/>to activate your dashboard.</p>
                 <a class="btn btn-primary on_demo_contracts">Your Subscriptions</a>
+            </div>
+            <div t-if="!has_template" class="o_welcome_content">
+                <h2>Hi there!</h2>
+                <p class="mt0">This is a sample dashboard. Your actual dashboard will be activated after<br/>having defined a subscription template and invoiced your first subscription.</p>
+                <a class="btn btn-primary on_demo_templates">Create a Template</a>
             </div>
         </div>
 
@@ -363,8 +368,8 @@
     <div t-name="account_contract_dashboard.stat_box_content" class="box o_stat_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
             <h2 style="color: #2693d5;">
-                <t t-if="!widget.show_demo" t-esc="widget.format_number(widget.value)"/>
-                <t t-if="widget.show_demo" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
+                <t t-if="widget.has_mrr" t-esc="widget.format_number(widget.value)"/>
+                <t t-if="!widget.has_mrr" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>
             <div class="o_trend">
                 <h4 t-attf-class="o_percentage #{widget.color}"><t t-esc="widget.perc"/>%</h4>
@@ -375,7 +380,7 @@
         <div>
             <h4 class="text-center"><t t-esc="widget.box_name"/></h4>
         </div>
-        <div t-if="widget.show_demo">
+        <div t-if="!widget.has_mrr">
             <span class="label label-warning o_demo_label">Sample data</span>
         </div>
     </div>
@@ -383,15 +388,15 @@
     <div t-name="account_contract_dashboard.forecast_stat_box_content" class="box o_forecast_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
             <h2 style="color: #2693d5;">
-                <t t-if="!widget.show_demo" t-esc="widget.format_number(widget.value)"/>
-                <t t-if="widget.show_demo" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
+                <t t-if="widget.has_mrr" t-esc="widget.format_number(widget.value)"/>
+                <t t-if="!widget.has_mrr" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>
         </div>
         <div class="o_graph" t-att-id="widget.chart_div_id"/>
         <div>
             <h4 class="text-center"><t t-esc="widget.box_name"/></h4>
         </div>
-        <div t-if="widget.show_demo">
+        <div t-if="!widget.has_mrr">
             <span class="label label-warning o_demo_label">Sample data</span>
         </div>
     </div>

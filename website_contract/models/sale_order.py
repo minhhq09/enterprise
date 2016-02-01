@@ -9,13 +9,48 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     _name = "sale.order"
 
+    contract_template = fields.Many2one('sale.subscription', 'Contract Template', domain="[('type', '=', 'template')]",
+        help="If set, all recurring products in this Sales Order will be included in a new Subscription with the selected template")
+
+    @api.v7
+    def onchange_template_id(self, cr, uid, ids, template_id, partner=False, fiscal_position_id=False, pricelist_id=False, context=None):
+        res = super(SaleOrder, self).onchange_template_id(cr, uid, ids, template_id, partner=partner, fiscal_position_id=fiscal_position_id, pricelist_id=pricelist_id, context=context)
+        contract_template = self.pool['sale.quote.template'].browse(cr, uid, template_id, context=context).contract_template
+        if contract_template:
+            res['value']['contract_template'] = contract_template
+        return res
+
+    @api.onchange('contract_template')
+    def onchange_contract_template(self):
+        if not self.template_id.contract_template:
+            subscription_lines = [(0, 0, {
+                'product_id': mand_line.product_id.id,
+                'uom_id': mand_line.uom_id.id,
+                'name': mand_line.name,
+                'product_uom_qty': mand_line.quantity,
+                'product_uom': mand_line.uom_id.id,
+                'discount': mand_line.discount,
+                'price_unit': mand_line.price_unit,
+            }) for mand_line in self.contract_template.recurring_invoice_line_ids]
+            options = [(0, 0, {
+                'product_id': opt_line.product_id.id,
+                'uom_id': opt_line.uom_id.id,
+                'name': opt_line.name,
+                'quantity': opt_line.quantity,
+                'discount': opt_line.discount,
+                'price_unit': opt_line.price_unit,
+            }) for opt_line in self.contract_template.option_invoice_line_ids]
+            self.order_line = subscription_lines
+            self.options = options
+            self.note = self.contract_template.description
+
     def create_contract(self):
         """ Create a contract based on the order's quote template's contract template """
         self.ensure_one()
         if self.require_payment:
             tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
             payment_method = tx.payment_method_id
-        if self.template_id and self.template_id.contract_template and not self.subscription_id \
+        if (self.template_id and self.template_id.contract_template or self.contract_template) and not self.subscription_id \
                 and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
             values = self._prepare_contract_data(payment_method_id=payment_method.id if self.require_payment else False)
             subscription = self.env['sale.subscription'].sudo().create(values)
@@ -42,7 +77,10 @@ class SaleOrder(models.Model):
         return False
 
     def _prepare_contract_data(self, payment_method_id=False):
-        contract_tmp = self.template_id.contract_template
+        if self.template_id and self.template_id.contract_template:
+            contract_tmp = self.template_id.contract_template
+        else:
+            contract_tmp = self.contract_template
         values = {
             'name': contract_tmp.name,
             'state': 'open',

@@ -68,12 +68,15 @@
         <field name="arch" type="xml">
             <form string="Subscription">
                 <header>
-                    <button name="set_close" string="Set to Inactive" type="object" attrs="{'invisible': ['|',('type','!=','template'),('state','=','close')]}"/>
-                    <button name="set_open" string="Set to Active" type="object" attrs="{'invisible': ['|',('type','!=','template'),('state','=','open')]}"/>
-                    <button name="set_open" string="Start Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','=','open')]}" class="oe_highlight"/>
-                    <button name="set_pending" string="To Renew" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','in',['pending','draft','close','cancel'])]}"/>
-                    <button name="set_close" string="Close Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','in',['draft','close'])]}"/>
-                    <button name="set_cancel" string="Cancel Subscription" type="object" attrs="{'invisible': ['|',('type','=','template'),('state','=','cancel')]}"/>
+                    <button name="set_open" string="Start Subscription" type="object"
+                            attrs="{'invisible': ['|',('type','=','template'),('state','=','open')]}" class="oe_highlight"/>
+                    <button name="set_pending" string="To Renew" type="object"
+                            attrs="{'invisible': ['|',('type','=','template'),('state','in',['pending','draft','close','cancel'])]}"/>
+                    <button name="%(sale_contract.sale_subscription_close_reason_wizard_action)d" string="Close Subscription"
+                            type="action" attrs="{'invisible': ['|',('type','=','template'),('state','in',['draft','close','cancel'])]}"/>
+                    <button name="%(sale_contract.sale_subscription_close_reason_wizard_action)d" string="Cancel Subscription"
+                            type="action" context="{'cancel':1}"
+                            attrs="{'invisible': ['|',('type','=','template'),('state','in',['cancel','close'])]}"/>
                     <field name="state" widget="statusbar" attrs="{'invisible': [('type','=','template')]}"/>
                 </header>
                 <sheet string="Subscription">
@@ -87,6 +90,9 @@
                             name="%(sale_subscription_action)d"
                             context="{'search_default_template_id': [active_id], 'default_template_id': active_id}"
                             type="action" attrs="{'invisible': [('type','!=','template')]}"/>
+                        <button name="toggle_active" type="object" attrs="{'invisible': [('type','!=','template')]}" groups="base.group_user" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <h1>
@@ -98,7 +104,7 @@
                         <group>
                             <field name="type" widget="radio" invisible="1"/>
                             <field name="partner_id" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }" on_change="on_change_partner(partner_id)"/>
-                            <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}"/>
+                            <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}" groups="product.group_sale_pricelist"/>
                             <field name="code"/>
                             <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
                             <div attrs="{'invisible': ['|',('type','=','template')]}">
@@ -117,8 +123,8 @@
                             <field name="manager_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>
-                            <field name="date_start"/>
-                            <field name="date" state="close"/>
+                            <field name="date_start" attrs="{'invisible': [('type','=','template')]}"/>
+                            <field name="date" state="close" attrs="{'invisible': [('type','=','template')]}"/>
                             <field name="close_reason_id" attrs="{'invisible': ['|',('type','!=','contract'),('state','in',['draft','open','pending'])]}"/>
                         </group>
                     </group>
@@ -130,12 +136,14 @@
                                         name="prepare_renewal_order" type="object" attrs="{'invisible': [('type','!=','contract')]}" />
                                 <field name="recurring_invoice_line_ids">
                                     <tree editable="bottom">
-                                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)" context="{'default_recurring_invoice': True}"/>
+                                        <field name="product_id" domain="[('recurring_invoice','=',True)]"
+                                               on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"
+                                               context="{'default_recurring_invoice': True}"/>
                                         <field name="name"/>
                                         <field name="quantity" readonly="1" groups="base.group_no_one"/>
                                         <field name="actual_quantity"/>
                                         <field name="sold_quantity"/>
-                                        <field name="uom_id" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)"/>
+                                        <field name="uom_id" groups="product.group_uom" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)"/>
                                         <field name="price_unit"/>
                                         <field name="discount" groups="sale.group_discount_per_so_line"/>
                                         <field name="price_subtotal"/>
@@ -151,7 +159,8 @@
                         </page>
                         <page string="Settings" id="settings">
                             <group>
-                                <field name="tag_ids" widget="many2many_tags" attrs="{'invisible': [('type','!=','template')]}"/>
+                                <field name="tag_ids" string="Plan Change Tags" widget="many2many_tags"
+                                       help="When a customer wants to change his subscription plan, he has the choice between all the recurring contracts with the same tags."/>
                                 <field name="analytic_account_id" readonly="1" required="0" attrs="{'invisible': [('type','=','template')]}"/>
                             </group>
                             <group>
@@ -243,8 +252,7 @@
         <field name="arch" type="xml">
             <search string="subscription Templates">
                 <field name="name" filter_domain="['|', ('name','ilike',self),('code','ilike',self)]" string="Template"/>
-                <filter name="open" string="Active" domain="[('state','=','open')]" help="Active templates"/>
-                <filter name="closed" string="Inactive" domain="[('state','=','close')]" help="Inactive templates"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Company" domain="[]" context="{'group_by':'company_id'}"/>
                 </group>
@@ -303,7 +311,7 @@
                     This order is linked to a subscription.
                 </div>
             </xpath>
-            <xpath expr="//field[@name='project_id']" position="after">
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
                 <field name="subscription_id" attrs="{'invisible': [('subscription_id', '=', False)]}"/>
             </xpath>
         </field>
@@ -394,7 +402,7 @@
     <menuitem action="product_action_subscription" id="menu_sale_subscription_product" sequence="3" parent="menu_sale_subscription"/>
 
     <menuitem id="menu_sale_subscription_config" name="Configuration" sequence="10" parent="menu_sale_subscription_root"/>
-    <menuitem action="sale_subscription_action_template" id="menu_template_of_subscription" parent="menu_sale_subscription_config" sequence="3"/>
+    <menuitem action="sale_subscription_action_template" id="menu_template_of_subscription" parent="menu_sale_subscription" sequence="4" groups="sale_contract.group_sale_contract_manager"/>
     <menuitem action="sale_subscription_close_reason_action" id="menu_sale_subscription_lost_reason_action" parent="menu_sale_subscription_config" sequence="10"/>
 
 </odoo>

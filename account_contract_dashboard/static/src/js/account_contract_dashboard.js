@@ -183,6 +183,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         'click .on_stat_box': 'on_stat_box',
         'click .on_forecast_box': 'on_forecast_box',
         'click .on_demo_contracts': 'on_demo_contracts',
+        'click .on_demo_templates': 'on_demo_templates',
     },
 
     init: function(parent, context) {
@@ -227,7 +228,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                         self.stat_types,
                         stat_boxes[v].getAttribute("name"),
                         stat_boxes[v].getAttribute("code"),
-                        self.show_demo
+                        self.has_mrr
                     ).replace($(stat_boxes[v])));
                 });
             }
@@ -245,13 +246,15 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             self.currency_id = result.currency_id;
             self.contract_templates = result.contract_templates;
             self.companies = result.companies;
-            self.show_demo = result.show_demo;
+            self.has_mrr = result.has_mrr;
+            self.has_template = result.has_template;
         });
     },
 
     render_dashboard: function() {
         this.$main_dashboard = $(QWeb.render("account_contract_dashboard.dashboard", {
-            show_demo: this.show_demo,
+            has_mrr: this.has_mrr,
+            has_template: this.has_template,
             stat_types: _.sortBy(_.values(this.stat_types), 'prior'),
             forecast_stat_types:  _.sortBy(_.values(this.forecast_stat_types), 'prior'),
             start_date: this.start_date,
@@ -273,7 +276,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 this.stat_types,
                 stat_boxes[i].getAttribute("name"),
                 stat_boxes[i].getAttribute("code"),
-                this.show_demo
+                this.has_mrr
             ).replace($(stat_boxes[i])));
         }
 
@@ -287,7 +290,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 forecast_boxes[j].getAttribute("name"),
                 forecast_boxes[j].getAttribute("code"),
                 this.currency_id,
-                this.show_demo
+                this.has_mrr
             ).replace($(forecast_boxes[j]));
         }
 
@@ -344,8 +347,12 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 
     on_demo_contracts: function(ev) {
         ev.preventDefault();
-
         this.load_action("sale_contract.sale_subscription_action", {});
+    },
+
+    on_demo_templates: function(ev) {
+        ev.preventDefault();
+        this.load_action("sale_contract.sale_subscription_action_template", {});
     },
 });
 
@@ -773,7 +780,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
 var AccountContractDashboardStatBox = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
-    init: function(parent, start_date, end_date, contract_ids, company_ids, currency_id, stat_types, box_name, stat_type, show_demo) {
+    init: function(parent, start_date, end_date, contract_ids, company_ids, currency_id, stat_types, box_name, stat_type, has_mrr) {
         this._super(parent);
 
         this.start_date = start_date;
@@ -785,7 +792,7 @@ var AccountContractDashboardStatBox = Widget.extend({
         this.stat_types = stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
-        this.show_demo = show_demo;
+        this.has_mrr = has_mrr;
 
         this.chart_div_id = 'chart_div_' + this.stat_type;
         this.added_symbol = this.stat_types[this.stat_type].add_symbol;
@@ -814,8 +821,10 @@ var AccountContractDashboardStatBox = Widget.extend({
 
     start: function() {
         var self = this;
+        var display_tooltip = '<b>' + this.box_name + '</b><br/>' + _t('Current Value: ') + this.value;
+        this.$el.tooltip({title: display_tooltip, trigger: 'hover'});
         return this._super().then(function() {
-            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
+            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, !self.has_mrr);
         });
     },
 
@@ -849,7 +858,7 @@ var AccountContractDashboardStatBox = Widget.extend({
 var AccountContractDashboardForecastBox = Widget.extend({
     template: 'account_contract_dashboard.forecast_stat_box_content',
 
-    init: function(parent, end_date, contract_ids, company_ids, forecast_stat_types, box_name, stat_type, currency_id, show_demo) {
+    init: function(parent, end_date, contract_ids, company_ids, forecast_stat_types, box_name, stat_type, currency_id, has_mrr) {
         this._super(parent);
         this.end_date = end_date;
         this.contract_ids = contract_ids;
@@ -859,7 +868,7 @@ var AccountContractDashboardForecastBox = Widget.extend({
         this.forecast_stat_types = forecast_stat_types;
         this.box_name = box_name;
         this.stat_type = stat_type;
-        this.show_demo = show_demo;
+        this.has_mrr = has_mrr;
 
         this.added_symbol = this.forecast_stat_types[this.stat_type].add_symbol;
         this.is_monetary = this.added_symbol === 'currency';
@@ -883,8 +892,10 @@ var AccountContractDashboardForecastBox = Widget.extend({
 
     start: function() {
         var self = this;
+        var display_tooltip = '<b>' + this.box_name + '</b><br/>' + _t('Current Value: ') + this.value;
+        this.$el.tooltip({title: display_tooltip, trigger: 'hover'});
         return this._super().then(function() {
-            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, self.show_demo);
+            load_chart('#'+self.chart_div_id, false, self.computed_graph, false, !self.has_mrr);
         });
     },
 

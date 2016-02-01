@@ -73,7 +73,6 @@ Access your Odoo Instance using your own domain.</field>
     <record id="odoo_monthly" model="sale.subscription">
         <field name="type">template</field>
         <field name="name">Odoo Monthly</field>
-        <field name="state">open</field>
         <field name="user_closable">True</field>
         <field name="payment_mandatory">True</field>
         <field name="tag_ids" eval="[(6,0, (ref('odoo_online_tag'),))]"/>
@@ -157,7 +156,6 @@ Access your Odoo Instance using your own domain.</field>
     <record id="odoo_yearly" model="sale.subscription">
         <field name="type">template</field>
         <field name="name">Odoo Yearly</field>
-        <field name="state">open</field>
         <field name="user_closable">True</field>
         <field name="partial_invoice">True</field>
         <field name="tag_ids" eval="[(6,0, (ref('odoo_online_tag'),))]"/>

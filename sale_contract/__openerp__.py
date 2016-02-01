@@ -18,6 +18,7 @@ Features:
     'data': [
         'security/sale_contract_security.xml',
         'security/ir.model.access.csv',
+        'wizard/sale_contract_close_reason_view.xml',
         'views/sale_contract_view.xml',
         'data/sale_contract_cron.xml',
         'data/sale_contract_data.xml',
