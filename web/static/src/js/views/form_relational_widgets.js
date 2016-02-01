@@ -1320,9 +1320,6 @@ var Many2ManyListView = X2ManyListView.extend(/** @lends instance.web.form.Many2
                     self.x2m.view.reload();
                 });
             });
-            this.many2one.get_search_blacklist = function () {
-                return self.get('value');
-            };
         }
     },
 });
