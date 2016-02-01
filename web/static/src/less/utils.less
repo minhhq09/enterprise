@@ -1,17 +1,4 @@
 // ------------------------------------------------------------------
-// Margin
-// ------------------------------------------------------------------
-.utils-margin-loop(@index) when (@index < 256) {
-    .o-mt@{index} {margin-top: @index px;}
-    .o-mb@{index} {margin-bottom: @index px;}
-    .o-mr@{index} {margin-right: @index px;}
-    .o-ml@{index} {margin-left: @index px;}
-
-    .utils-margin-loop(@index * 2);
-}
-.utils-margin-loop(2);
-
-// ------------------------------------------------------------------
 // Padding
 // ------------------------------------------------------------------
 .o-webclient-padding(@top: 0px, @right: @odoo-horizontal-padding, @bottom: 0px, @left: @odoo-horizontal-padding) {
