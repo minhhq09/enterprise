@@ -3,7 +3,7 @@
 # * inter_company_rules
 # 
 # Translators:
-# Alejandro Die Sanchis <marketing@domatix.com>, 2015
+# Alejandro Die Sanchis <marketing@domatix.com>, 2015-2016
 # Ana Juaristi <ajuaristio@gmail.com>, 2015
 # Antonio Trueba, 2016
 # Laura Moreno <morenolauraalejandra@gmail.com>, 2016
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-01-23 05:06+0000\n"
+"PO-Revision-Date: 2016-01-30 05:46+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
@@ -56,18 +56,18 @@ msgstr "Compañías"
 msgid ""
 "Configure correct warehouse for company(%s) from Menu: "
 "Settings/Users/Companies"
-msgstr "Configure la bodega correcta para la compañia (%s) en el Menú: Ajustes/Usuarios/Compañías"
+msgstr "Configure el almacén correcto para la compañia (%s) en el Menú: Ajustes/Usuarios/Compañías"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "Create Invoice/Refunds when encoding invoice/refunds"
-msgstr "Crear Factura / Notas de Crédito al codificar factura / devoluciones"
+msgstr "Crear Factura / Reembolsos al codificar factura / reembolsos"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
 "Create Invoices/Refunds when encoding invoices/refunds made to this company"
-msgstr ""
+msgstr "Crear Facturas / Notas de Crédito al codificar facturas/devoluciones realizados a esta compañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
@@ -100,7 +100,7 @@ msgstr "Valor por defecto para ser establecido en los pedidos de compra que ser�
 msgid ""
 "Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
 " e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr "Genere facturas (y devoluciones) para el cliente y para el proveedor al generar facturas  (o devoluciones) de esta compañía. \ne.g: Genere una factura de cliente cuando una factura de proveedor de esta compañía cuando sea creada."
+msgstr "Genere facturas (y reembolsos) para el cliente y para el vendedor al generar facturas de esta compañía. \ne.g: Genere una factura de cliente cuando una factura de vendedor de esta compañía sea generada para el vendedor"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
@@ -140,7 +140,7 @@ msgstr "Usuario inter-compañía"
 #: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
-msgstr ""
+msgstr "Usuario multicompañía para la compañía %s no tiene suficientes derecho de acceso"
 
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
@@ -156,7 +156,7 @@ msgstr "Factura"
 #: code:addons/inter_company_rules/models/account_invoice.py:77
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
-msgstr ""
+msgstr "Por favor defina el diario %s  para esta compañía: \"%s\" (id:%d)."
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/purchase_order.py:40
@@ -237,7 +237,7 @@ msgstr "Origen del pedido de venta"
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
 msgid "Warehouse For Purchase Orders"
-msgstr "Bodega para pedidos de compra"
+msgstr "Almacén para pedidos de compra"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_auto_validation
@@ -251,7 +251,7 @@ msgstr ""
 msgid ""
 "When a Sale Order or a Purchase Order is created by a multi company rule for"
 " this company, it will automatically validate it"
-msgstr ""
+msgstr "Cuando un pedido de venta o pedido de compra es creado por la regla multicompañía para esta compañía, se validará automáticamente"
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/purchase_order.py:47
@@ -259,7 +259,7 @@ msgstr ""
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "
 "than purchase price list currency."
-msgstr ""
+msgstr "No puedes crear Pedido de ventas desde Pedido de compra porque el precio de compra y de venta es distinto."
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/res_company.py:32

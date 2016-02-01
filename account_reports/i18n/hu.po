@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Kovács Tibor <kovika@gmail.com>, 2015
-# Kris Krnacs, 2015
+# Kris Krnacs, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2015-12-30 22:49+0000\n"
+"PO-Revision-Date: 2016-01-30 22:32+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -173,6 +173,13 @@ msgstr "Folyószámlajelentés"
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
 msgid "Account Report Line"
 msgstr "Folyószámla-jelentés tételsor"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:154
+#, python-format
+msgid "Accrual Basis,"
+msgstr "Növekmény alap,"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_action_id
@@ -395,6 +402,13 @@ msgstr "IDEI ÉVI NYERESÉGEK"
 #, python-format
 msgid "Cash Basis Method"
 msgstr "Készpénz alap mód"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:153
+#, python-format
+msgid "Cash Basis,"
+msgstr "Készpénz alap,"
 
 #. module: account_reports
 #: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
@@ -682,8 +696,10 @@ msgstr "Forgóeszközök kötelezettségekhez"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:73
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:117
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:108
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:128
 #, python-format
 msgid "Custom"
 msgstr "Egyéni"
@@ -734,8 +750,15 @@ msgid ""
 msgstr "Az esedékes, következő beérkező tételen végrehajtandó művelet dátuma. Általában, automatikusan beállított amint a vásárlói kivonattal kiküld egy emlékeztetőt."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:54
+#, python-format
+msgid "Date:"
+msgstr "Dátum:"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:529
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #: code:addons/account_reports/models/account_report_coa.py:97
 #: code:addons/account_reports/models/account_report_coa.py:99
 #: code:addons/account_reports/models/account_report_coa.py:102
@@ -1007,6 +1030,11 @@ msgid "For report like the balance sheet that do not work with date ranges"
 msgstr "Jelentésekhez, mint az egyenlegközlők melyek nem működnek a dátum időtartamokkal"
 
 #. module: account_reports
+#: selection:account.financial.html.report.line,special_date_changer:0
+msgid "Force given dates for all accounts and account types"
+msgstr "Erőltesse a dátumot az összes főkönyvi számlára és könyvelési típusokra"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_formulas
 msgid "Formulas"
 msgstr "Űrlapok"
@@ -1215,14 +1243,16 @@ msgstr "Utoljára frissítve ekkor"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:68
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:57
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:76
 #, python-format
 msgid "Last Month"
 msgstr "Utolsó hónap"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:69
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:58
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:77
 #, python-format
 msgid "Last Quarter"
 msgstr "Utolsó negyedév"
@@ -1266,6 +1296,13 @@ msgstr "Utoljára frissítve, által"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
 msgid "Last Updated on"
 msgstr "Utoljára frissítve ekkor"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#, python-format
+msgid "Last Year"
+msgstr "Utolsó év"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
@@ -1349,6 +1386,11 @@ msgstr "Menü létrehozva"
 #: model:mail.message.subtype,description:account_reports.followup_logged_action
 msgid "Messages created after a followup action has been executed"
 msgstr "Üzenetek létrehozva miután végrehajtotta a követési műveletet"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_ir_module_module
+msgid "Module"
+msgstr "Modul"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_multicompany_manager_id
@@ -1477,6 +1519,13 @@ msgstr "Nem-Rövid lejáratú kötelezettségek"
 #, python-format
 msgid "Non-issued"
 msgstr "Nem-bejelentett ügy"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#, python-format
+msgid "None"
+msgstr "Semmi"
 
 #. module: account_reports
 #. openerp-web
@@ -1627,6 +1676,13 @@ msgid "Percents"
 msgstr "Százalékok"
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:55
+#, python-format
+msgid "Period:"
+msgstr "Időszak:"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
 msgid "Plus Fixed Assets"
 msgstr "Plusz Befektetett eszközök"
@@ -1655,6 +1711,13 @@ msgid "Plus Unencoded Statements"
 msgstr "Többlet berögzítetlen banki kivonat "
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
+#, python-format
+msgid "Posted Entries Only"
+msgstr "Kizárólag könyvelésre feladott tételek"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
 msgid "Prepayments"
 msgstr "Előrefizetések"
@@ -1665,6 +1728,13 @@ msgstr "Előrefizetések"
 #, python-format
 msgid "Previous Period"
 msgstr "Előző időszak"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:106
+#, python-format
+msgid "Previous Periods"
+msgstr "Előző időszakok"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -1752,7 +1822,14 @@ msgstr "Értékesítés"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:107
+#, python-format
+msgid "Same Last Year"
+msgstr "Ugyanúgy mint az előző év"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:121
 #, python-format
 msgid "Same Period Last Year"
 msgstr "Előző év ugyanolyan periódusa"
@@ -1790,6 +1867,12 @@ msgstr "Adó tételsor mozgások megtekintése"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Send by email"
 msgstr "Küldés Email-ben"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:332
+#, python-format
+msgid "Sent a followup letter"
+msgstr "Nyomkövető levél elküldve"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
@@ -1939,7 +2022,15 @@ msgstr "Ebben a hónapban"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
+#, python-format
+msgid "This Year"
+msgstr "Tárgyév"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:56
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
 #, python-format
 msgid "Today"
 msgstr "Ma"
@@ -2063,6 +2154,13 @@ msgstr "Kifizetés nézet"
 #, python-format
 msgid "Warning!"
 msgstr "Figyelem!"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
+#, python-format
+msgid "With Draft Entries"
+msgstr "Könyveletlen /Tervezet/ tételekkel"
 
 #. module: account_reports
 #. openerp-web

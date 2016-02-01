@@ -125,6 +125,9 @@ var WidgetAction = Action.extend({
      * @return the widget's $el
      */
     detach: function() {
+        // Hack to remove badly inserted nvd3 tooltips ; should be removed when upgrading nvd3 lib
+        $('body > .nvtooltip').remove();
+
         return framework.detach([{widget: this.widget}]);
     },
     /**

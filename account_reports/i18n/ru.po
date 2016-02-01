@@ -3,14 +3,15 @@
 # * account_reports
 # 
 # Translators:
-# SV <svilij@yahoo.com>, 2015
+# Sergey Vilizhanin <sv@grimmette.ru>, 2016
+# Sergey Vilizhanin <sv@grimmette.ru>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2015-12-31 15:09+0000\n"
-"Last-Translator: SV <svilij@yahoo.com>\n"
+"PO-Revision-Date: 2016-01-28 15:43+0000\n"
+"Last-Translator: Sergey Vilizhanin <sv@grimmette.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -172,6 +173,13 @@ msgstr "Отчет по счету"
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
 msgid "Account Report Line"
 msgstr "Строка Отчета по Счету"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:154
+#, python-format
+msgid "Accrual Basis,"
+msgstr "Метод Начисления,"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_action_id
@@ -394,6 +402,13 @@ msgstr "ДОХОД ТЕКУЩЕГО ГОДА"
 #, python-format
 msgid "Cash Basis Method"
 msgstr "Метод Наличной Основы"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:153
+#, python-format
+msgid "Cash Basis,"
+msgstr "Наличная Основа,"
 
 #. module: account_reports
 #: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
@@ -681,8 +696,10 @@ msgstr "Оборотные активы к обязательствам"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:73
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:117
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:108
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:128
 #, python-format
 msgid "Custom"
 msgstr "Пользовательский"
@@ -733,8 +750,15 @@ msgid ""
 msgstr "Дата совершения следующего действия которое должно быть предпринято для дебиторской задолженности. Как правило, автоматически устанавливается после отправки напоминания через ведомость покупателя."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:54
+#, python-format
+msgid "Date:"
+msgstr "Дата:"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:529
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #: code:addons/account_reports/models/account_report_coa.py:97
 #: code:addons/account_reports/models/account_report_coa.py:99
 #: code:addons/account_reports/models/account_report_coa.py:102
@@ -1006,6 +1030,11 @@ msgid "For report like the balance sheet that do not work with date ranges"
 msgstr "Для отчета, как в бухгалтерском балансе, которые не работают с диапазонами дат"
 
 #. module: account_reports
+#: selection:account.financial.html.report.line,special_date_changer:0
+msgid "Force given dates for all accounts and account types"
+msgstr "Форсировать данные даты для всех счетов и типов счета"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_formulas
 msgid "Formulas"
 msgstr "Формулы"
@@ -1214,14 +1243,16 @@ msgstr "Последний раз изменено"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:68
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:57
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:76
 #, python-format
 msgid "Last Month"
 msgstr "Прошлый Месяц"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:69
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:58
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:77
 #, python-format
 msgid "Last Quarter"
 msgstr "Последний Квартал"
@@ -1265,6 +1296,13 @@ msgstr "Последний раз обновлено"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
 msgid "Last Updated on"
 msgstr "Последний раз обновлено"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#, python-format
+msgid "Last Year"
+msgstr "Прошлый Год"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
@@ -1348,6 +1386,11 @@ msgstr "Меню Было Создано"
 #: model:mail.message.subtype,description:account_reports.followup_logged_action
 msgid "Messages created after a followup action has been executed"
 msgstr "Сообщения, созданные после последующего действия было выполнено"
+
+#. module: account_reports
+#: model:ir.model,name:account_reports.model_ir_module_module
+msgid "Module"
+msgstr "Модуль"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_multicompany_manager_id
@@ -1476,6 +1519,13 @@ msgstr "Долгосрочные Обязательства"
 #, python-format
 msgid "Non-issued"
 msgstr "Non-issued"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#, python-format
+msgid "None"
+msgstr "Ничего"
 
 #. module: account_reports
 #. openerp-web
@@ -1626,6 +1676,13 @@ msgid "Percents"
 msgstr "Проценты"
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:55
+#, python-format
+msgid "Period:"
+msgstr "Период:"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
 msgid "Plus Fixed Assets"
 msgstr "Плюс Основные Активы"
@@ -1654,6 +1711,13 @@ msgid "Plus Unencoded Statements"
 msgstr "Плюс Незакодированная Отчетность"
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
+#, python-format
+msgid "Posted Entries Only"
+msgstr "Только Проведенные Проводки"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
 msgid "Prepayments"
 msgstr "Авансовые платежи"
@@ -1664,6 +1728,13 @@ msgstr "Авансовые платежи"
 #, python-format
 msgid "Previous Period"
 msgstr "Предыдущий Период"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:106
+#, python-format
+msgid "Previous Periods"
+msgstr "Предыдущие Периоды"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -1751,7 +1822,14 @@ msgstr "Продажа"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:107
+#, python-format
+msgid "Same Last Year"
+msgstr "Аналогичный Прошлого Года"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:121
 #, python-format
 msgid "Same Period Last Year"
 msgstr "За Аналогичный Период Прошлого Года"
@@ -1789,6 +1867,12 @@ msgstr "Смотреть строки перемещения налога"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Send by email"
 msgstr "Отправить по эл.почте"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:332
+#, python-format
+msgid "Sent a followup letter"
+msgstr "Отправленно письмо-напоминание"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
@@ -1938,7 +2022,15 @@ msgstr "Данный месяц"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
+#, python-format
+msgid "This Year"
+msgstr "Этот Год"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:56
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
 #, python-format
 msgid "Today"
 msgstr "Cегодня"
@@ -2062,6 +2154,13 @@ msgstr "Посмотреть Платежи"
 #, python-format
 msgid "Warning!"
 msgstr "Внимание!"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
+#, python-format
+msgid "With Draft Entries"
+msgstr "С Черновыми Проводками"
 
 #. module: account_reports
 #. openerp-web
