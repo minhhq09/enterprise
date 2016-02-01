@@ -472,6 +472,7 @@ class product_template(models.Model):
                             if transaction['Status']['CheckoutStatus'] == 'CheckoutComplete':
                                 self.create_sale_order(transaction)
             self.sync_available_qty()
+            self.env.cr.commit()
         except UserError, e:
             if auto_commit:
                 self.env.cr.rollback()

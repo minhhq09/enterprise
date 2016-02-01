@@ -48,6 +48,12 @@ class ProviderUPS(models.Model):
     ups_package_width = fields.Integer(string='Package Width', help="Fixed width if not provided on the product packaging.")
     ups_package_length = fields.Integer(string='Package Length', help="Fixed length if not provided on the product packaging.")
 
+    def _convert_weight(self, weight):
+        if self.ups_package_weight_unit == "LBS":
+            return round(weight * 2.20462, 3)
+        else:
+            return round(weight, 3)
+
     def ups_get_shipping_price_from_so(self, orders):
         res = []
         superself = self.sudo()
@@ -59,7 +65,8 @@ class ProviderUPS(models.Model):
             total_weight = 0
             for line in order.order_line.filtered(lambda line: not line.is_delivery):
                 total_qty += line.product_uom_qty
-                total_weight += line.product_id.weight * line.product_uom_qty
+                total_weight += line.product_id.weight * line.product_qty
+            total_weight = self._convert_weight(total_weight)
             packages.append(Package(self, total_weight))
 
             shipment_info = {
@@ -99,7 +106,8 @@ class ProviderUPS(models.Model):
 
             # Create one package with the rest (the content that is no in a package)
             if picking.weight_bulk:
-                packages.append(Package(self, picking.weight_bulk))
+                weight_bulk = self._convert_weight(picking.weight_bulk)
+                packages.append(Package(self, weight_bulk))
 
             shipment_info = {
                 'description': picking.origin,

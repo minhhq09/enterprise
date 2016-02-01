@@ -5,13 +5,14 @@
 # Translators:
 # Davor Bojkić <bole@dajmi5.com>, 2015
 # Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2015
+# Matija Pildek <matija.pildek@storm.hr>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2015-12-30 16:40+0000\n"
-"Last-Translator: Martin Trigaux\n"
+"PO-Revision-Date: 2016-01-26 14:49+0000\n"
+"Last-Translator: Matija Pildek <matija.pildek@storm.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,7 +84,7 @@ msgstr ""
 #: code:addons/account_reports/models/account_followup_report.py:313
 #, python-format
 msgid ": Sent a followup letter"
-msgstr ""
+msgstr ":Poslano pismo obavijesti"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_letter_body
@@ -118,7 +119,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid ""
 "<strong>Warning!</strong> The following emails have not been sent :<br/>"
-msgstr ""
+msgstr "<strong>Upozorenje!</strong> Sljedeći email nije bio poslan :<br/>"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_context
@@ -159,7 +160,7 @@ msgstr ""
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_total_assets0
 msgid "ASSETS"
-msgstr ""
+msgstr "IMOVINA"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report
@@ -172,6 +173,13 @@ msgstr "Izvještaj konta"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
 msgid "Account Report Line"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:154
+#, python-format
+msgid "Accrual Basis,"
 msgstr ""
 
 #. module: account_reports
@@ -252,7 +260,7 @@ msgstr "Iznos"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_report_type
 msgid "Analysis Periods"
-msgstr ""
+msgstr "Analiza Razdoblja"
 
 #. module: account_reports
 #. openerp-web
@@ -260,7 +268,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Annotate"
-msgstr ""
+msgstr "Predbilježiti"
 
 #. module: account_reports
 #. openerp-web
@@ -307,7 +315,7 @@ msgstr ""
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_balancesheet0
 msgid "BALANCE SHEET"
-msgstr ""
+msgstr "BILANCA"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_general_ledger.py:199
@@ -346,7 +354,7 @@ msgstr "Bankovni račun"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_bank_view0
 msgid "Bank and Cash Accounts"
-msgstr ""
+msgstr "Bankovni i Gotovinski Račun"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_bank_reconciliation_report
@@ -377,17 +385,17 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.menu,name:account_reports.account_reports_business_statements_menu
 msgid "Business Statements"
-msgstr ""
+msgstr "Poslovni Izvještaji"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash0
 msgid "CASH"
-msgstr ""
+msgstr "NOVAC"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_current_year_earnings0
 msgid "CURRENT YEAR EARNINGS"
-msgstr ""
+msgstr "TEKUĆA GODIŠNJA ZARADA"
 
 #. module: account_reports
 #. openerp-web
@@ -397,10 +405,17 @@ msgid "Cash Basis Method"
 msgstr ""
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:153
+#, python-format
+msgid "Cash Basis,"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
 #: model:ir.actions.client,name:account_reports.action_account_report_cs
 msgid "Cash Flow Statement"
-msgstr ""
+msgstr "Izvješće o  protoku novca"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
@@ -437,19 +452,19 @@ msgstr ""
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_in0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_in0
 msgid "Cash in"
-msgstr ""
+msgstr "Polog u blagajnu"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_financing_out0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_out0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_out0
 msgid "Cash out"
-msgstr ""
+msgstr "Isplata iz blagajne"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_received0
 msgid "Cash received"
-msgstr ""
+msgstr "Uplata u gotovini"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_received0
@@ -682,8 +697,10 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:73
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:117
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:108
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:128
 #, python-format
 msgid "Custom"
 msgstr "Prilagođen"
@@ -734,8 +751,15 @@ msgid ""
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:54
+#, python-format
+msgid "Date:"
+msgstr "Datum:"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:529
+#: code:addons/account_reports/models/account_general_ledger.py:199
 #: code:addons/account_reports/models/account_report_coa.py:97
 #: code:addons/account_reports/models/account_report_coa.py:99
 #: code:addons/account_reports/models/account_report_coa.py:102
@@ -808,7 +832,7 @@ msgstr "Završeno"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_equity0
 msgid "EQUITY"
-msgstr ""
+msgstr "KAPITAL"
 
 #. module: account_reports
 #. openerp-web
@@ -1007,6 +1031,11 @@ msgid "For report like the balance sheet that do not work with date ranges"
 msgstr ""
 
 #. module: account_reports
+#: selection:account.financial.html.report.line,special_date_changer:0
+msgid "Force given dates for all accounts and account types"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_formulas
 msgid "Formulas"
 msgstr "Formule"
@@ -1047,12 +1076,12 @@ msgstr "Generički porezni izvještaj"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
 msgid "Gross profit"
-msgstr ""
+msgstr "Ukupan profit"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gpmargin0
 msgid "Gross profit margin (gross profit / income)"
-msgstr ""
+msgstr "ruto profitna marža (ukupan profit / prihod)"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
@@ -1215,14 +1244,16 @@ msgstr "Zadnja promjena"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:68
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:57
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:76
 #, python-format
 msgid "Last Month"
 msgstr "Prošli mjesec"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:69
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:58
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:77
 #, python-format
 msgid "Last Quarter"
 msgstr "Prošli kvartal"
@@ -1266,6 +1297,13 @@ msgstr "Promijenio"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
 msgid "Last Updated on"
 msgstr "Vrijeme promjene"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#, python-format
+msgid "Last Year"
+msgstr ""
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
@@ -1351,6 +1389,11 @@ msgid "Messages created after a followup action has been executed"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.model,name:account_reports.model_ir_module_module
+msgid "Module"
+msgstr "Modul"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_multicompany_manager_id
@@ -1364,12 +1407,12 @@ msgstr ""
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_assets0
 msgid "NET ASSETS"
-msgstr ""
+msgstr "NETO IMOVINA"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_profit0
 msgid "NET PROFIT"
-msgstr ""
+msgstr "NETO DOBIT"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_name
@@ -1480,6 +1523,13 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#, python-format
+msgid "None"
+msgstr "Ništa"
+
+#. module: account_reports
+#. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:135
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:150
 #, python-format
@@ -1538,14 +1588,14 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:144
 #, python-format
 msgid "One month"
-msgstr ""
+msgstr "Jedan mjesec"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:142
 #, python-format
 msgid "One week"
-msgstr ""
+msgstr "Jedan tjedan"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_financial_html_report_context_report_id
@@ -1557,7 +1607,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:140
 #, python-format
 msgid "Options:"
-msgstr ""
+msgstr "Mogućnosti:"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_other_income0
@@ -1567,24 +1617,24 @@ msgstr "Ostali prihodi"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_performance0
 msgid "PERFORMANCE"
-msgstr ""
+msgstr "UČINAK"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_position0
 msgid "POSITION"
-msgstr ""
+msgstr "POLOŽAJ"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:33
 #, python-format
 msgid "PRINT PREVIEW"
-msgstr ""
+msgstr "PREGLED PRIJE ISPISA"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profitability0
 msgid "PROFITABILITY"
-msgstr ""
+msgstr "ISPLATIVOST"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_parent_id
@@ -1627,6 +1677,13 @@ msgid "Percents"
 msgstr ""
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:55
+#, python-format
+msgid "Period:"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
 msgid "Plus Fixed Assets"
 msgstr ""
@@ -1655,6 +1712,13 @@ msgid "Plus Unencoded Statements"
 msgstr ""
 
 #. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
+#, python-format
+msgid "Posted Entries Only"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
 msgid "Prepayments"
 msgstr "Avansi"
@@ -1664,6 +1728,13 @@ msgstr "Avansi"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:103
 #, python-format
 msgid "Previous Period"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:106
+#, python-format
+msgid "Previous Periods"
 msgstr ""
 
 #. module: account_reports
@@ -1752,7 +1823,14 @@ msgstr "Prodaja"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:107
+#, python-format
+msgid "Same Last Year"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:121
 #, python-format
 msgid "Same Period Last Year"
 msgstr ""
@@ -1774,7 +1852,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "See bank statement"
-msgstr ""
+msgstr "Pogledajte bankovni izvještaj"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
@@ -1789,6 +1867,12 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Send by email"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:332
+#, python-format
+msgid "Sent a followup letter"
 msgstr ""
 
 #. module: account_reports
@@ -1891,7 +1975,7 @@ msgstr "Retci poreza"
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
-msgstr ""
+msgstr "Porezni izvještaj"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_text
@@ -1939,7 +2023,15 @@ msgstr "Ovaj mjesec"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
+#, python-format
+msgid "This Year"
+msgstr "Ova godina"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:56
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
 #, python-format
 msgid "Today"
 msgstr "Danas"
@@ -1956,7 +2048,7 @@ msgstr "Ukupno"
 #: code:addons/account_reports/models/account_general_ledger.py:149
 #, python-format
 msgid "Total "
-msgstr ""
+msgstr "Ukupno"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:66
@@ -1981,14 +2073,14 @@ msgstr "Bilanca"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:145
 #, python-format
 msgid "Two months"
-msgstr ""
+msgstr "Dva mjeseca"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:143
 #, python-format
 msgid "Two weeks"
-msgstr ""
+msgstr "Dva tjedna"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_figure_type
@@ -2066,6 +2158,13 @@ msgstr "Upozorenje!"
 
 #. module: account_reports
 #. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
+#, python-format
+msgid "With Draft Entries"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:13
 #, python-format
 msgid "With Overdue Invoices"
@@ -2116,7 +2215,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_last_page
 msgid "number of pages"
-msgstr ""
+msgstr "broj stranica"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
