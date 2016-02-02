@@ -4,7 +4,7 @@ import logging
 import StringIO
 from xml.etree import ElementTree
 
-from openerp import api, models, _
+from openerp import models, _
 from openerp.exceptions import UserError
 try:
     from ofxparse import OfxParser
@@ -12,6 +12,50 @@ try:
 except ImportError:
     logging.getLogger(__name__).warning("The ofxparse python library is not installed, ofx import will not work.")
     OfxParser = OfxParserException = None
+
+class PatchedOfxParser(OfxParser):
+    """ This class monkey-patches the ofxparse library in order to fix the following known bug: ',' is a valid
+        decimal separator for amounts, as we can encounter in ofx files made by european banks.
+    """
+
+    @classmethod
+    def decimal_separator_cleanup(cls_, tag):
+        if hasattr(tag, "contents"):
+            tag.string = tag.contents[0].replace(',', '.')
+
+    @classmethod
+    def parseStatement(cls_, stmt_ofx):
+        ledger_bal_tag = stmt_ofx.find('ledgerbal')
+        if hasattr(ledger_bal_tag, "contents"):
+            balamt_tag = ledger_bal_tag.find('balamt')
+            cls_.decimal_separator_cleanup(balamt_tag)
+        avail_bal_tag = stmt_ofx.find('availbal')
+        if hasattr(avail_bal_tag, "contents"):
+            balamt_tag = avail_bal_tag.find('balamt')
+            cls_.decimal_separator_cleanup(balamt_tag)
+        return super(PatchedOfxParser, cls_).parseStatement(stmt_ofx)
+
+    @classmethod
+    def parseTransaction(cls_, txn_ofx):
+        amt_tag = txn_ofx.find('trnamt')
+        cls_.decimal_separator_cleanup(amt_tag)
+        return super(PatchedOfxParser, cls_).parseTransaction(txn_ofx)
+
+    @classmethod
+    def parseInvestmentPosition(cls_, ofx):
+        tag = ofx.find('units')
+        cls_.decimal_separator_cleanup(tag)
+        tag = ofx.find('unitprice')
+        cls_.decimal_separator_cleanup(tag)
+        return super(PatchedOfxParser, cls_).parseInvestmentPosition(ofx)
+
+    @classmethod
+    def parseInvestmentTransaction(cls_, ofx):
+        tag = ofx.find('units')
+        cls_.decimal_separator_cleanup(tag)
+        tag = ofx.find('unitprice')
+        cls_.decimal_separator_cleanup(tag)
+        return super(PatchedOfxParser, cls_).parseInvestmentTransaction(ofx)
 
 
 class AccountBankStatementImport(models.TransientModel):
@@ -34,7 +78,7 @@ class AccountBankStatementImport(models.TransientModel):
         if OfxParser is None:
             raise UserError(_("The library 'ofxparse' is missing, OFX import cannot proceed."))
 
-        ofx = OfxParser.parse(StringIO.StringIO(data_file))
+        ofx = PatchedOfxParser.parse(StringIO.StringIO(data_file))
         transactions = []
         total_amt = 0.00
         for transaction in ofx.account.statement.transactions:
