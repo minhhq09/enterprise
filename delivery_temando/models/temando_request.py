@@ -213,11 +213,7 @@ class TemandoRequest():
             shipper_currency = picking.sale_id.currency_id or picking.company_id.currency_id
             articles_list = []
             for po in picking.pack_operation_ids:
-                # RIM: Dirty hack to have this behavior in stable: if there is a
-                # custom field called x_hs_code on a product.template, then it is
-                # used, else we take the default on delivery.carrier
-                # TODO in master: create and use a real field
-                product_hs_code = getattr(po.product_id, 'x_hs_code', None) or carrier.temando_hs_code
+                product_hs_code = po.product_id.hs_code or carrier.temando_hs_code
                 article = self._set_article_detail(carrier, picking.picking_type_id.warehouse_id.partner_id, po.product_qty, shipper_currency.name, product_hs_code=product_hs_code, product_description=po.product_id.name)
                 articles_list = articles_list + [article]
             self.Anything.articles = articles_list
