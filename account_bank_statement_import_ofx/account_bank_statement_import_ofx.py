@@ -19,8 +19,10 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _check_ofx(self, data_file):
         if data_file.startswith("OFXHEADER"):
-            raise UserError(_("This file is using OFX v1, which is not supported. Only OFX 2.0 and later is."))
+            #v1 OFX
+            return True
         try:
+            #v2 OFX
             root = ElementTree.fromstring(data_file)
             return root.tag.lower() == 'ofx'
         except ElementTree.ParseError:
