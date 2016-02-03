@@ -356,7 +356,7 @@ class SaleSubscription(osv.osv):
             "views": [[list_view_id, "tree"], [form_view_id, "form"]],
             "domain": [["id", "in", invoice_ids]],
             "context": {"create": False},
-            "name": "Invoices",
+            "name": _("Invoices"),
         }
 
     def create(self, cr, uid, vals, context=None):
