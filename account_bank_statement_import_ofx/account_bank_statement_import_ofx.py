@@ -9,11 +9,13 @@ from openerp.exceptions import UserError
 try:
     from ofxparse import OfxParser
     from ofxparse.ofxparse import OfxParserException
+    OfxParserClass = OfxParser
 except ImportError:
     logging.getLogger(__name__).warning("The ofxparse python library is not installed, ofx import will not work.")
     OfxParser = OfxParserException = None
+    OfxParserClass = object
 
-class PatchedOfxParser(OfxParser):
+class PatchedOfxParser(OfxParserClass):
     """ This class monkey-patches the ofxparse library in order to fix the following known bug: ',' is a valid
         decimal separator for amounts, as we can encounter in ofx files made by european banks.
     """
