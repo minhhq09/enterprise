@@ -250,7 +250,7 @@ class YodleeAccount(models.Model):
     account_id = fields.Char("Account")
 
     @api.multi
-    def yodlee_refresh(self, depth=30):
+    def yodlee_refresh(self, depth=90):
         # Ask yodlee to refresh the account
         if depth <= 0:
             return False
@@ -269,7 +269,8 @@ class YodleeAccount(models.Model):
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
              resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_TIMED_OUT' and \
-             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED':
+             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED' and \
+             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_WITH_UNCERTAIN_ACCOUNT':
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0:
             return True
@@ -288,6 +289,8 @@ class YodleeAccount(models.Model):
                     amount = -1 * transaction['amount']['amount']
                 else:
                     amount = transaction['amount']['amount']
+                if amount == 0:
+                    continue
                 transactions.append({
                     'id': transaction['viewKey']['transactionId'],
                     'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
