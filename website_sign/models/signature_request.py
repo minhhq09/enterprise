@@ -8,7 +8,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
 from openerp import api, fields, models, _
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, html_sanitize
 
 class SignatureRequest(models.Model):
     _name = "signature.request"
@@ -475,7 +475,8 @@ class SignatureRequestItem(models.Model):
             for itemId in signature:
                 item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', request.id)])
                 if not item_value:
-                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': signature[itemId]})
+                    value = html_sanitize(signature[itemId], strip_style=True, strip_classes=True)
+                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': value})
                     if item_value.signature_item_id.type_id.type == 'signature':
                         self.signature = signature[itemId][signature[itemId].find(',')+1:]
         return True
