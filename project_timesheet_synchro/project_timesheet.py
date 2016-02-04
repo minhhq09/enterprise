@@ -39,7 +39,7 @@ class account_analytic_line(models.Model):
         # AALS
         aal_ids = self.search([
             ("user_id", "=", self.env.uid),
-            ("is_timesheet", "=", True),
+            ("project_id", "!=", False),
             ("date", ">", (datetime.datetime.today() - datetime.timedelta(days=21)).strftime('%Y-%m-%d'))
             # The 21 days limit for data retrieval is arbitrary.
         ])
@@ -49,18 +49,19 @@ class account_analytic_line(models.Model):
             "task_id/id",  # external id, to send to the UI
             "task_id.id",  # internal id, for data manipulation here
             "name",
-            "account_id.id",
+            "project_id.id",
             "date",
             "unit_amount",
             "__last_update",
             "sheet_id/state",
+            "project_id/id",
         ]
 
         aals = aal_ids.export_data(aals_fields)
 
-        # List comprehension to find the task and account ids used in aals.
+        # List comprehension to find the task and project ids used in aals.
         task_ids_list = list(set([int(aals['datas'][x][2]) for x in range(len(aals['datas'])) if len(aals['datas'][x][2]) > 0]))
-        account_ids_list = list(set([int(aals['datas'][x][4]) for x in range(len(aals['datas'])) if len(aals['datas'][x][4]) > 0]))
+        project_ids_list = list(set([int(aals['datas'][x][4]) for x in range(len(aals['datas'])) if len(aals['datas'][x][4]) > 0]))
 
         # Tasks
         task_ids = self.env["project.task"].search([
@@ -83,43 +84,33 @@ class account_analytic_line(models.Model):
         ]
         tasks = task_ids.export_data(tasks_fields)
 
-        project_ids_list = list(set([int(tasks['datas'][x][2]) for x in range(len(tasks['datas'])) if len(tasks['datas'][x][2]) > 0]))
-
+        project_ids_from_tasks_list = list(set([int(tasks['datas'][x][2]) for x in range(len(tasks['datas'])) if len(tasks['datas'][x][2]) > 0]))
+        project_ids_list = list(set(project_ids_from_tasks_list + project_ids_list))
         # Projects
         projects_ids = self.env["project.project"].search([
             '&',
                 '|',
-                    '|',
-                    ("id", "in", project_ids_list),
-                    ("user_id", '=', self.env.uid),  # User is the manager of the project
-                ("analytic_account_id", "in", account_ids_list),
+                ("id", "in", project_ids_list),
+                ("user_id", '=', self.env.uid),  # User is the manager of the project
             ('active', '=', True),
         ])
 
         projects_fields = [
             "id",
             "name",
-            "analytic_account_id.id",
         ]
         projects = projects_ids.export_data(projects_fields)
 
-        # Sets the appropriate project to aal, using the account_id
         # Reduces the sheet_id/state to open or closed.
-        # If an aal is not linked to a project, it won't be imported
-        aals_to_return = {'datas': []}
+        # If an aal is not linked to a project, it won't be exported
         index = 0
         for aal in aals['datas']:
-            for project in projects['datas']:
-                if aal[4] == project[2]:
-                    aal.append(project[0])
             if aal[8] == 'Approved' or aal[8] == 'Waiting Approval':
                 aal[8] = 'closed'
             else:
                 aal[8] = 'open'
-            if len(aal) > (9):
-                aals_to_return['datas'].append(aal)
         return {
-            'aals': aals_to_return,
+            'aals': aals,
             'tasks': tasks,
             'projects': projects,
         }
@@ -208,8 +199,6 @@ class account_analytic_line(models.Model):
                 ls_aals_to_remove.append(str(ls_aal['id']))
 
         for new_ls_aal in new_ls_aals:
-            sv_project = self.env["ir.model.data"].xmlid_to_object(str(new_ls_aal['project_id']))
-            new_ls_aal['account_id'] = str(sv_project['analytic_account_id']['id'])
             if not new_ls_aal.get('task_id'):
                 new_ls_aal['task_id'] = ""
 
@@ -219,23 +208,21 @@ class account_analytic_line(models.Model):
                 ls_aals_to_import.append([
                     str(new_ls_aal['id']),
                     new_ls_aal['desc'],
-                    new_ls_aal['account_id'],
+                    new_ls_aal['project_id'],
                     new_ls_aal['date'],
                     new_ls_aal['unit_amount'],
                     str(new_ls_aal.get('task_id')),
                     self.env.uid,
-                    'True',
                 ])
 
         aals_fields = [
             'id',
             'name',
-            'account_id/.id',
+            'project_id/id',
             'date',
             'unit_amount',
             'task_id/id',
             'user_id/.id',
-            'is_timesheet',
         ]
 
         aals_errors = self.load_wrapper(self, aals_fields, ls_aals_to_import)

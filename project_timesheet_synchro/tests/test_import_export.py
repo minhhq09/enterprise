@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-from openerp.exceptions import AccessError, ValidationError, UserError
 from openerp.tests import common
 
 
@@ -11,10 +10,10 @@ class TestImportExport(common.TransactionCase):
     def test_import_export_general(self):
         test_analytic_lines = [
             {
-                "id": "Project_timesheet_UI_admin1433780253119_aal.1",
+                "id": "__export__.admin1433780253119_aal1",
                 "date": "2015-06-08",
-                "project_id": "Project_timesheet_UI_admin1433780253119_project.1",
-                "task_id": "Project_timesheet_UI_admin1433780253119_task.1",
+                "project_id": "__export__.admin1433780253119_project1",
+                "task_id": "__export__.admin1433780253119_task1",
                 "desc": "description",
                 "unit_amount": "2.00",
                 "write_date": "2015-06-08 16:17:59",
@@ -26,22 +25,22 @@ class TestImportExport(common.TransactionCase):
         test_tasks = [
             {
                 "name": "task",
-                "id": "Project_timesheet_UI_admin1433780253119_task.1",
-                "project_id": "Project_timesheet_UI_admin1433780253119_project.1",
+                "id": "__export__.admin1433780253119_task1",
+                "project_id": "__export__.admin1433780253119_project1",
                 "to_sync": True,
                 "sync_problem": False,
             }
         ]
         test_projects = [{
             "name": "project",
-            "id": "Project_timesheet_UI_admin1433780253119_project.1",
+            "id": "__export__.admin1433780253119_project1",
             "to_sync": True,
             "sync_problem": False,
         }]
 
         AAL = self.env['account.analytic.line']
 
-        context = {'lang': "en_US", 'tz': "Europe/Brussels", 'uid': 1, 'default_is_timesheet': True}
+        context = {'lang': "en_US", 'tz': "Europe/Brussels", 'uid': 1}
 
         AAL.with_context(context).import_ui_data(test_analytic_lines, test_tasks, test_projects)
 
@@ -54,67 +53,6 @@ class TestImportExport(common.TransactionCase):
             self.assertEqual(line["date"], aal.date)
             self.assertEqual(float(line["unit_amount"]), aal.unit_amount)
 
-    # Creates a project and sets the related contract to allow invoicing based on timesheet
-    # Then create import a analytic line on htis contract and make sure to_invoice is properly set.
-    def test_import_line_on_invoiced_contract(self):
-        test_analytic_lines = [
-            {
-                "id": "Project_timesheet_UI_admin1433780253119_aal.1",
-                "date": "2015-06-08",
-                "project_id": "Project_timesheet_UI_admin1433780253119_project.1",
-                "desc": "description",
-                "unit_amount": "2.00",
-                "write_date": "2015-06-08 16:17:59",
-                "to_sync": True,
-                "sync_problem": False,
-                "sheet_state": "open",
-            },
-            {
-                "id": "Project_timesheet_UI_admin1433780253115_aal.2",
-                "date": "2015-06-08",
-                "project_id": "Project_timesheet_UI_admin1433780253119_project.2",
-                "desc": "description",
-                "unit_amount": "2.00",
-                "write_date": "2015-06-08 16:17:59",
-                "to_sync": True,
-                "sync_problem": False,
-                "sheet_state": "open",
-            },
-          ]
-        test_projects = [
-            {
-                "name": "project",
-                "id": "Project_timesheet_UI_admin1433780253119_project.1",
-                "to_sync": True,
-                "sync_problem": False
-            },
-            {
-                "name": "project2",
-                "id": "Project_timesheet_UI_admin1433780253119_project.2",
-                "to_sync": True,
-                "sync_problem": False,
-            },
-        ]
-
-        context = {'lang': "en_US", 'tz': "Europe/Brussels", 'uid': 1, 'default_is_timesheet': True}
-        AAL = self.env['account.analytic.line']
-        AAL.with_context(context).import_ui_data([], [], test_projects)
-
-        project = self.env["ir.model.data"].xmlid_to_object(test_projects[0]['id'])
-        contract = project.analytic_account_id
-
-        AAL.with_context(context).import_ui_data(test_analytic_lines, [], [])
-
-        for line in test_analytic_lines:
-            line_ext_id = line["id"]
-            aal = self.env["ir.model.data"].xmlid_to_object(line_ext_id)
-            self.assertEqual(line["desc"], aal.name)
-            self.assertEqual(line["date"], aal.date)
-            self.assertEqual(float(line["unit_amount"]), aal.unit_amount)
-
-            project = self.env["ir.model.data"].xmlid_to_object(line['project_id'])
-            contract = project.analytic_account_id
-
     # Creates a timesheet_sheet and sets it in a confirmed state.
     # Then exports data and makes sure that the analytic lines of the sheet are exported with sheet_state closed
     def test_closed_sheet_sync(self):
@@ -122,23 +60,21 @@ class TestImportExport(common.TransactionCase):
         test_projects = [
             {
                 "name": "project",
-                "id": "Project_timesheet_UI_admin1433780253119_project.1",
+                "id": "__export__.admin1433780253119_project1",
                 "to_sync": True,
                 "sync_problem": False,
             }
         ]
 
-        context = {'lang': "en_US", 'tz': "Europe/Brussels", 'uid': 1, 'default_is_timesheet': True, }
+        context = {'lang': "en_US", 'tz': "Europe/Brussels", 'uid': 1}
         AAL = self.env['account.analytic.line']
         AAL.with_context(context).import_ui_data([], [], test_projects)
 
         project = self.env["ir.model.data"].xmlid_to_object(test_projects[0]['id'])
-        contract = project.analytic_account_id
 
         AAL = self.env['account.analytic.line']
         aal = AAL.with_context(context).create({
-            'account_id': contract.id,
-            'is_timesheet': True,
+            'project_id': project.id,
             'user_id': 1,
             'name': 'activity description',
         })

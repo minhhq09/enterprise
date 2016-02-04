@@ -13,7 +13,7 @@ If you use the external timesheet application, this module alows you to synchron
     """,
     'website': 'https://www.odoo.com/page/project-management',
     'images': ['images/invoice_task_work.jpeg', 'images/my_timesheet.jpeg', 'images/working_hour.jpeg'],
-    'depends': ['project_timesheet', 'hr_timesheet_sheet'],
+    'depends': ['hr_timesheet_sheet'],
     'data': [
         'views/templates.xml',
         'views/timesheet_views.xml',
