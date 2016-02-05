@@ -12,6 +12,9 @@
             <xpath expr="//field[@name='line_ids']/tree" position="inside">
                 <field name="product_barcode" invisible="1"/>
             </xpath>
+            <xpath expr="//field[@name='line_ids']/kanban" position="inside">
+                <field name="product_barcode" invisible="1"/>
+            </xpath>
             <xpath expr="//field[@name='line_ids']//field[@name='product_qty']" position="attributes">
                 <attribute name="options">{'barcode_events': True}</attribute>
                 <attribute name="widget">field_float_scannable</attribute>
