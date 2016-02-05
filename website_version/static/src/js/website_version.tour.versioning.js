@@ -58,7 +58,7 @@ Tour.register({
             waitNot:   '.modal button.o_confirm',
         },
         {
-            snippet:   '#snippet_structure .oe_snippet:first',
+            snippet:   '#snippet_structure .oe_snippet:eq(1)',
             placement: 'bottom',
             title:     _t("Drag & Drop a Banner"),
             content:   _t("Drag the Banner block and drop it in your page."),
@@ -90,7 +90,7 @@ Tour.register({
             popover:   { next: _t("Continue") },
         },
         {
-            snippet:   '#snippet_structure .oe_snippet:eq(7)',
+            snippet:   '#snippet_structure .oe_snippet:eq(6)',
             placement: 'bottom',
             title:     _t("Drag & Drop This Block"),
             content:   _t("Drag the <em>'Features'</em> block and drop it below the banner."),
@@ -99,7 +99,7 @@ Tour.register({
         {
             waitFor:   '.oe_overlay_options .oe_options:visible',
             element:   'button[data-action=save]',
-            placement: 'right',
+            placement: 'bottom',
             title:     _t("Save your modifications"),
             content:   _t("Publish your page by clicking on the <em>'Save'</em> button."),
             popover:   { fixed: true },
@@ -150,7 +150,7 @@ Tour.register({
         {
             title:     _t("Delete the version"),
             content:   _t("Now we will delete the version you have just published."),
-            waitNot:   '.modal button.o_confirm[data-dismiss]',
+            waitNot:   'a[data-action="publish_version"]:first',
             popover:   { next: _t("Start Tutorial"), end: _t("Skip It") },
         },
 
