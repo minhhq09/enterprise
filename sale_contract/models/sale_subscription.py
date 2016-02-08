@@ -413,7 +413,7 @@ class SaleSubscriptionLine(osv.osv):
 
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', required=True),
-        'analytic_account_id': fields.many2one('sale.subscription', 'Subscription'),
+        'analytic_account_id': fields.many2one('sale.subscription', 'Subscription', ondelete='cascade'),
         'name': fields.text('Description', required=True),
         'quantity': fields.function(_compute_quantity, string='Quantity',
                                     store=True,
