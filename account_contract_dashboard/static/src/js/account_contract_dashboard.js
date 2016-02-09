@@ -1,7 +1,6 @@
 odoo.define('account_contract_dashboard.dashboard', function (require) {
 'use strict';
 
-var ActionManager = require('web.ActionManager');
 var ajax = require('web.ajax');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var core = require('web.core');
@@ -45,23 +44,19 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     },
 
     load_action: function(view_xmlid, options) {
-        options.on_reverse_breadcrumb = this.on_reverse_breadcrumb;
         var self = this;
-        new Model("ir.model.data")
-            .call("xmlid_to_res_id", [view_xmlid])
-            .then(function(data) {
-                self.do_action(data, options).then(function() {
-                    // This detailed dashboard can only be loaded from the main dashboard.
-                    // If the user refreshs the page or uses an URL and is direclty redirected to this page,
-                    // we redirect him to the main dashboard to avoid any error.
-                    if (options.push_main_state && self.main_dashboard_action_id){
-                        web_client.do_push_state({action: self.main_dashboard_action_id});
-                    }
-                });
-            });
+        options.on_reverse_breadcrumb = this.on_reverse_breadcrumb;
+        return this.do_action(view_xmlid, options).then(function() {
+            // This detailed dashboard can only be loaded from the main dashboard.
+            // If the user refreshs the page or uses an URL and is direclty redirected to this page,
+            // we redirect him to the main dashboard to avoid any error.
+            if (options.push_main_state && self.main_dashboard_action_id){
+                web_client.do_push_state({action: self.main_dashboard_action_id});
+            }
+        });
     },
 
-    on_update_options: function(ev) {
+    on_update_options: function() {
         this.start_date = this.start_picker.get_value() || '0001-02-01';
         this.end_date = this.end_picker.get_value()  || '9999-12-31';
         this.contract_ids = this.get_filtered_contract_ids();
@@ -188,7 +183,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             // If there is unresolved defs, we need to replace the uncompleted boxes
             if (this.unresolved_defs_vals.length){
                 var stat_boxes = this.$main_dashboard.find('.o_stat_box');
-                _.each(this.unresolved_defs_vals, function(v, k){
+                _.each(this.unresolved_defs_vals, function(v){
                     self.defs.push(new AccountContractDashboardStatBox(
                         self,
                         self.start_date,
@@ -273,7 +268,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.unresolved_defs_vals = [];
         var self = this;
         _.each(this.defs, function(v, k){
-            if (v && v.state() != "resolved"){
+            if (v && v.state() !== "resolved"){
                 self.unresolved_defs_vals.push(k);
             }
         });
@@ -285,7 +280,6 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 
         this.store_unresolved_defs();
 
-        var self = this;
         var options = {
             'stat_types': this.stat_types,
             'selected_stat': this.selected_stat,
@@ -477,7 +471,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         });
     },
 
-    on_detailed_analysis: function(ev) {
+    on_detailed_analysis: function() {
 
         var additional_context = {};
         var view_xmlid = '';
@@ -528,8 +522,6 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
                 color: '#2693d5',
             }
         ];
-
-        var self = this;
 
         nv.addGraph(function() {
             var chart = nv.models.lineChart()
@@ -893,7 +885,7 @@ var AccountContractDashboardForecastBox = Widget.extend({
 
 var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
-    init: function(parent, context) {
+    init: function(parent) {
         this._super(parent);
         this.period = moment().format('YYYY-MM');
 
@@ -946,7 +938,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
                 'up': 'o_green fa fa-arrow-up',
             };
 
-            _.each(result.contract_modifications, function(v, k, list){
+            _.each(result.contract_modifications, function(v) {
                 v.class_type = ICON_BY_TYPE[v.type];
             });
 
@@ -1036,7 +1028,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
         return render_monetary_field(value, this.currency_id);
     },
 
-    on_update_options: function(ev) {
+    on_update_options: function() {
         this.period = this.$searchview.find('input[name="period"]').val();
         var selected_salesman_id = Number(this.$searchview.find('option[name="salesman"]:selected').val());
         this.salesman = _.findWhere(this.salesman_ids, {id: selected_salesman_id});
@@ -1242,7 +1234,6 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
 
 function render_monetary_field(value, currency_id) {
     var currency = session.get_currency(currency_id);
-    var digits_precision = currency && currency.digits;
     if (currency) {
         if (currency.position === "after") {
             value += currency.symbol;
@@ -1259,7 +1250,7 @@ function get_color_class(value, direction) {
     if (value !== 0 && direction === 'up') {
         color = (value > 0) && 'o_green' || 'o_red';
     }
-    if (value !== 0 && direction != 'up') {
+    if (value !== 0 && direction !== 'up') {
         color = (value < 0) && 'o_green' || 'o_red';
     }
 
