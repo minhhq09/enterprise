@@ -30,7 +30,7 @@
         <field name="level" eval="2"/>
         <field name="parent_id" ref="account_financial_report_si_1_1"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tax_tag_ivat23'), ref('l10n_gr.tax_tag_ivat21'), ref('l10n_gr.tax_tag_ivat19')]), ('credit', '>', 0)]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tag_ivat_03')]), ('credit', '>', 0)]" />
         <field name="formulas">balance=sum.credit</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -49,7 +49,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_si_2"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tax_tag_pvat23'), ref('l10n_gr.tax_tag_pvat21'), ref('l10n_gr.tax_tag_pvat19')]), ('debit', '>', 0)]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tag_ivat_05')]), ('debit', '>', 0)]" />
         <field name="formulas">balance=sum.debit</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -60,7 +60,7 @@
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_si_2"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tax_tag_evat21'), ref('l10n_gr.tax_tag_evat23'), ref('l10n_gr.tax_tag_evat19')]), ('debit', '>', 0)]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_gr.tag_ivat_06')]), ('debit', '>', 0)]" />
         <field name="formulas">balance=sum.debit</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -89,7 +89,7 @@
         <field name="parent_id" ref="account_financial_report_si_3_1"/>
         <field name="show_domain">never</field>
         <field name="formulas">balance=sum.credit</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tax_tag_ivat19'), ref('l10n_gr.tax_tag_ivat21'), ref('l10n_gr.tax_tag_ivat23')]), ('credit', '>', 0)]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tag_ivat_09')]), ('credit', '>', 0)]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_si_3_2" model="account.financial.html.report.line">
@@ -117,7 +117,7 @@
         <field name="level" eval="3"/>
         <field name="parent_id" ref="account_financial_report_si_3_2_1"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tax_tag_pvat23'), ref('l10n_gr.tax_tag_pvat21'), ref('l10n_gr.tax_tag_pvat19')]), ('debit', '>', 0)]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tag_ivat_12')]), ('debit', '>', 0)]" />
         <field name="formulas">balance=sum.debit</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -128,7 +128,7 @@
         <field name="level" eval="3"/>
         <field name="parent_id" ref="account_financial_report_si_3_2_1"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tax_tag_evat21'), ref('l10n_gr.tax_tag_evat23'), ref('l10n_gr.tax_tag_evat19')]), ('debit', '>', 0)]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_gr.tag_ivat_13')]), ('debit', '>', 0)]" />
         <field name="formulas">balance=sum.debit</field>
         <field name="special_date_changer">strict_range</field>
     </record>
