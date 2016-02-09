@@ -79,7 +79,7 @@ var GanttView = View.extend({
 
         // dnd by date
         if (fields_view_get.arch.attrs.round_dnd_dates) {
-            gantt.config.round_dnd_dates = fields_view_get.arch.attrs.round_dnd_dates;
+            gantt.config.round_dnd_dates = true;
         }
 
         // Configure the duration_unit
