@@ -818,6 +818,11 @@ var GanttView = View.extend({
             Dialog.alert(this, _t('You are trying to write on a read-only field!'));
             return $.Deferred().reject();
         }
+        if (this.fields_view.arch.attrs.date_stop === undefined) {
+            // Using a duration field instead of date_stop
+            Dialog.alert(this, _t('You have no date_stop field defined!'));
+            return $.Deferred().reject();
+        }
 
         // Now we try to write the new values in the dataset. Note that it may fail
         // if the constraints defined on the model aren't met.
