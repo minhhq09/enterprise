@@ -189,8 +189,6 @@ class HrAppraisal(models.Model):
             if vals['state'] == 'cancel':
                 self.cancel_appraisal()
             if vals['state'] == 'pending':
-                if self.date_close <= fields.Date.today():
-                    raise UserError(_("The appraisal deadline must be in the future to allow employees to answer the survey."))
                 self.send_appraisal()
         result = super(HrAppraisal, self).write(vals)
         date_final_interview = vals.get('date_final_interview')
