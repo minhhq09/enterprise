@@ -2,6 +2,7 @@
 <templates xml:space="preserve">
 
   <t t-name="YodleeMFAResponse">
+    <div>
       <t t-if="question.fieldType == 'image'">
         <div class="form-group">
             <label class="col-sm-12"><t t-esc="question.name"/></label>
@@ -31,5 +32,10 @@
           </div>
         </t>
       </t>
+      <div class="footer col-sm-12">
+        <button class="js_process_mfa_step btn btn-primary" type="button">Continue</button>
+        <button class="js_process_cancel btn btn-default" type="button">Cancel</button>
+      </div>
+    </div>
   </t>
 </templates>

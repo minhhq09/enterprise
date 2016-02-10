@@ -371,13 +371,15 @@ odoo.define('website_sign.frontend', function(require) {
 
             if(!options.buttons) {
                 options.buttons = [];
-                options.buttons.push({text: _t("Start Using Odoo Sign Now"), close: true});
+                options.buttons.push({text: _t("Start Using Odoo Sign Now"), click: function(e) {
+                    window.location.href = "https://www.odoo.com/page/sign";
+                }});
             }
 
             this._super(parent, options);
 
             this.on('closed', this, function() {
-                window.location.href = "https://www.odoo.com/page/sign";
+                location.reload();
             });
         },
     });

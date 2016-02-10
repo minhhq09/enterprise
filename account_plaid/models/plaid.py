@@ -32,6 +32,21 @@ class PlaidAccountJournal(models.Model):
         return {'login': login, 'secret': secret, 'url': url,}
 
     @api.multi
+    def launch_wizard(self):
+        if self.online_institution_id.type == 'plaid':
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'plaid_online_sync_widget',
+                'target': 'new',
+                'context': {'journal_id': self.id, 
+                            'online_id': self.online_id,
+                            'online_institution_id': self.online_institution_id.id, 
+                            },
+            }
+        else:
+            return super(PlaidAccountJournal, self).launch_wizard()
+
+    @api.multi
     def fetch(self, service, online_type, params, type_request="post"):
         if online_type != 'plaid':
             return super(PlaidAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
