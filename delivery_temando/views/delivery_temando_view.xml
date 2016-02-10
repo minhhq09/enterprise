@@ -6,28 +6,30 @@
     <field name="model">delivery.carrier</field>
     <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
     <field name="arch" type="xml">
-        <xpath expr="//group[@name='general']" position='after'>
-            <group string='Temando Configuration' attrs="{'invisible': [('delivery_type', '!=', 'temando')]}">
+        <xpath expr="//page[@name='destination']" position='before'>
+            <page string="Temando Configuration" attrs="{'invisible': [('delivery_type', '!=', 'temando')]}">
                 <group>
-                    <field name="temando_client_id" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
-                    <field name="temando_username" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
-                    <field name="temando_password" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
-                    <field name="temando_delivery_nature" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
-                    <field name="temando_delivery_type" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
-                    <field name="temando_preferred_carrier"/>
-                    <field name="temando_subclass"/>
-                    <field name="temando_default_packaging_id" attrs="{'required': [('delivery_type', '=', 'temando')]}" domain="[('package_carrier_type', '=', 'temando')]"/>
-                    <field name="temando_location_selection"/>
-                    <field name="temando_pallet_type"/>
-                    <field name="temando_pallet_nature"/>
+                    <group>
+                        <field name="temando_client_id" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
+                        <field name="temando_username" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
+                        <field name="temando_password" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
+                        <field name="temando_delivery_nature" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
+                        <field name="temando_delivery_type" attrs="{'required': [('delivery_type', '=', 'temando')]}"/>
+                        <field name="temando_preferred_carrier"/>
+                        <field name="temando_subclass"/>
+                        <field name="temando_default_packaging_id" attrs="{'required': [('delivery_type', '=', 'temando')]}" domain="[('package_carrier_type', '=', 'temando')]"/>
+                        <field name="temando_location_selection"/>
+                        <field name="temando_pallet_type"/>
+                        <field name="temando_pallet_nature"/>
+                    </group>
+                    <group>
+                        <field name="temando_distance_measurement_type"/>
+                        <field name="temando_weight_measurement_type"/>
+                        <field name="temando_hs_code"/>
+                        <field name="temando_label_printer_type"/>
+                    </group>
                 </group>
-                <group>
-                    <field name="temando_distance_measurement_type"/>
-                    <field name="temando_weight_measurement_type"/>
-                    <field name="temando_hs_code"/>
-                    <field name="temando_label_printer_type"/>
-                </group>
-            </group>
+            </page>
         </xpath>
     </field>
 </record>
