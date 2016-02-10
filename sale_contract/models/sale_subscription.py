@@ -357,7 +357,7 @@ class SaleSubscription(osv.osv):
             "views": [[list_view_id, "tree"], [form_view_id, "form"]],
             "domain": [["id", "in", invoice_ids]],
             "context": {"create": False},
-            "name": "Invoices",
+            "name": _("Invoices"),
         }
 
     def create(self, cr, uid, vals, context=None):
@@ -417,7 +417,7 @@ class SaleSubscriptionLine(osv.osv):
 
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', required=True),
-        'analytic_account_id': fields.many2one('sale.subscription', 'Subscription'),
+        'analytic_account_id': fields.many2one('sale.subscription', 'Subscription', ondelete='cascade'),
         'name': fields.text('Description', required=True),
         'quantity': fields.function(_compute_quantity, string='Quantity',
                                     store=True,

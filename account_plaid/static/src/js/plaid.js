@@ -99,9 +99,8 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
             qdict['name'] = resp_json.mfa.message + " (Enter code in area below)";
         }
         qdict['choices'] = choices;
-        this.configurator_wizard.$footer.find('.js_process_next_step').hide();
-        this.configurator_wizard.$footer.find('.js_process_mfa_step').removeClass('hide');
-        this.configurator_wizard.$el.find('.js_online_sync_form').html(QWeb.render('PlaidMFAConfigurator', qdict));
+        this.replaceElement($(QWeb.render('PlaidMFAConfigurator', qdict)));
+        this.bind_button();
     },
 
     process_mfa_step: function() {
@@ -147,10 +146,8 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
             selected = false;
         });
         this.token = resp_json.access_token
-        this.configurator_wizard.$footer.find('.js_process_next_step').hide();
-        this.configurator_wizard.$footer.find('.js_process_mfa_step').hide();
-        this.configurator_wizard.$footer.find('.js_conclude_configuration').removeClass('hide');
-        this.configurator_wizard.$el.find('.js_online_sync_form').html(QWeb.render('OnlineSynchAccountSelector', {accounts: data}));
+        this.replaceElement($(QWeb.render('OnlineSynchAccountSelector', {accounts: data})));
+        this.bind_button();
         this.attach_datepicker();
     },
 
@@ -159,12 +156,14 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
         var self = this;
         if (this._super()) {
             var sync_date = this.datepicker.get_value();
-            var option_selected = this.configurator_wizard.$el.find('input[name="account-selection"]:checked');
+            var option_selected = this.$el.find('input[name="account-selection"]:checked');
             var account_name = option_selected.attr('value');
             var account_id = option_selected.attr('account');
             var rpc = new Model('account.journal').call('save_online_account', [[this.id], {'last_sync': sync_date, 'token': this.token, 'plaid_id': account_id, 'name': account_name, 'journal_id': this.id}, this.online_institution_id])
                 .then(function(result) {
-                    self.configurator_wizard.close();
+                    if (self.is_modal){
+                        self.$el.parents('.modal').modal('hide');
+                    }
                     self.do_action(result);
                 });
         }
@@ -177,9 +176,6 @@ var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfiguratio
     },
 });
 
-/**
- * Registry of form fields
- */
-core.form_widget_registry
-    .add('plaidAccountConfiguration', PlaidAccountConfigurationWidget);
+core.action_registry.add('plaid_online_sync_widget', PlaidAccountConfigurationWidget);
+
 });

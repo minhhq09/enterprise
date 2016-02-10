@@ -76,6 +76,11 @@ class SaleOrder(models.Model):
 
     @api.one
     def action_confirm(self):
+        if self.subscription_id and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
+            lines = self.order_line.filtered(lambda s: s.product_id.recurring_invoice)
+            msg_body = self.env.ref('website_contract.chatter_add_paid_option').render(values={'lines': lines})
+            # done as sudo since salesman may not have write rights on subscriptions
+            self.subscription_id.sudo().message_post(body=msg_body, author_id=self.env.user.partner_id.id)
         self.create_contract()
         return super(SaleOrder, self).action_confirm()
 
@@ -107,21 +112,6 @@ class sale_order_line(models.Model):
     _name = "sale.order.line"
 
     force_price = fields.Boolean('Force price', help='Force a specific price, regardless of any coupons or pricelist change', default=False)
-
-    @api.multi
-    def button_confirm(self):
-        lines = []
-        account = False
-        for line in self:
-            account = line.order_id.project_id
-            if line.order_id.project_id and line.product_id.recurring_invoice:
-                lines.append(line)
-        cr, uid, context = self.env.cr, self.env.uid, self.env.context
-        msg_body = self.pool['ir.ui.view'].render(cr, uid, ['website_contract.chatter_add_paid_option'],
-                                                  values={'lines': lines},
-                                                  context=context)
-        account and account.message_post(body=msg_body)
-        return super(sale_order_line, self).button_confirm()
 
     @api.model
     def _prepare_order_line_invoice_line(self, line, account_id=False):

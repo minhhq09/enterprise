@@ -9,6 +9,7 @@ var Model = require('web.Model');
 var framework = require('web.framework');
 var time = require('web.time');
 var datepicker = require('web.datepicker');
+var Widget = require('web.Widget');
 var QWeb = core.qweb;
 var _t = core._t;
 
@@ -16,32 +17,42 @@ var _t = core._t;
  * Widget that will serve as base for plaid and yodlee widget, this widget can not work alone!
  * This widget create a dialog to allow user to configure an online account with yodlee or plaid interface
  */
-var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend({
+// var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend({
+var OnlineSynchAccountConfigurationWidget = Widget.extend({
 
     post_process_connection_result: function(resp_json) {
         var self = this;
         this.config_template = 'OnlineSynchLoginTemplate';
-        this.config_template_buttons = [
-                { text: _t("Continue"), click: function() { self.hide_error(); self.process_next_step(); },
-                 classes: 'js_process_next_step btn-primary'},
-                { text: _t("Continue"), click: function() { self.hide_error(); self.process_mfa_step(); },
-                 classes: 'js_process_mfa_step hide btn-primary'},
-                { text: _t("Finish"), click: function() { self.hide_error(); self.complete_process(); },
-                 classes: 'js_conclude_configuration hide btn-primary'},
-                { text: _t("Cancel"), click: function() { self.configurator_wizard.close(); }}
-            ];
         //Must be implemented by children widget
         this.config_template_data = {}
     },
 
+    bind_button: function() {
+        var self = this;
+        this.$('.js_process_next_step').click(function(){
+            self.hide_error(); self.process_next_step();
+        });
+        this.$('.js_process_mfa_step').click(function(){
+            self.hide_error(); self.process_mfa_step();
+        });
+        this.$('.js_conclude_configuration').click(function(){
+            self.hide_error(); self.complete_process();
+        });
+        this.$('.js_process_cancel').click(function(){
+            if (self.is_modal){
+                self.$el.parents('.modal').modal('hide');
+            }
+        });
+    },
+
     check_empty_field: function() {
         var self = this;
-        var $inputs = this.configurator_wizard.$el.find('input[optional="false"]:not([type="radio"])');
-        var $radios = this.configurator_wizard.$el.find('input[type="radio"]');
-        var $selects = this.configurator_wizard.$el.find('select');
+        var $inputs = this.$el.find('input[optional="false"]:not([type="radio"])');
+        var $radios = this.$el.find('input[type="radio"]');
+        var $selects = this.$el.find('select');
         var hasError = false;
         if ($radios.length > 0) {
-            if (this.configurator_wizard.$el.find('input[type="radio"]:checked').length === 0) {
+            if (this.$el.find('input[type="radio"]:checked').length === 0) {
                 hasError = true;
             }
         }
@@ -96,46 +107,73 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
 
     show_error: function(message, errorCode) {
         framework.unblockUI();
-        this.configurator_wizard.$el.find('.js_online_sync_wait').hide();
+        this.$el.find('.js_online_sync_wait').hide();
         if (message === false) {
             message = "An error occured!";
         }
         if (errorCode != undefined) {
             message = message + " (error Code: "+errorCode+")";
         }
-        $(this.configurator_wizard.$el).find('.error_msg').text(message)
-        $(this.configurator_wizard.$el).find('.error').removeClass('hide');
+        $(this.$el).find('.error_msg').text(message)
+        $(this.$el).find('.error').removeClass('hide');
     },
 
     hide_error: function() {
-        $(this.configurator_wizard.$el).find('.error').addClass('hide');
+        this.$el.find('.error').addClass('hide');
     },
 
     launch_configurator_wizard: function(result) {
         var self = this;
         //Process json_result and open dialog
         this.post_process_connection_result(result);
-        this.configurator_wizard = new Dialog(this, {
-              title: _t("Configure Online Account"),
-              $content: QWeb.render(self.config_template, self.config_template_data),
-              buttons: self.config_template_buttons,
-              size: 'medium',
-            });
-        this.configurator_wizard.open();
+        this.replaceElement($(QWeb.render(self.config_template, self.config_template_data)));
+        this.bind_button();
     },
 
     fetch_site_info: function() {
-        //Store journal_id and online_id globally since we will need them in most request
-        this.online_institution_id = this.view.fields.online_institution_id.get("value");
-        this.id = this.view.fields.journal_id.get("value");
-        this.online_id = this.view.fields.online_id.get("value");
         //Call to server must be implemented by children widget
     },
+
+
+    init: function(parent, context) {
+        // Note: context should always be present in the action and it should always contain
+        // the following keys: 'journal_id' and 'online_id' for this widget to work correctly
+        this._super(parent, context);
+        if (context.context !== undefined) {
+            this.id = context.context.journal_id;
+            this.online_id = context.context.online_id;
+            this.online_institution_id = context.context.online_institution_id;
+        }
+        this.is_modal = true;
+        if (context.target !== 'new'){
+            this.is_modal = false;
+        }
+    },
+
+
+    renderElement: function() {
+        var self = this;
+        var fetch_site_info = this.fetch_site_info()
+                        .then(function(result){
+                            self.launch_configurator_wizard(JSON.parse(result));
+                        });
+    },
+
+    attach_datepicker: function() {
+        var current_date = new moment();
+        var dp = new datepicker.DateWidget(this);
+        dp.appendTo(this.$el.find('.js_online_sync_date'));
+        dp.set_value(current_date.subtract(15, 'days'));
+        this.datepicker = dp;
+    },
+});
+
+//Old plaid-yodlee compatibility widget for v9 -> to be remove in v10
+var OnlineSynchAccountConfigurationWidgetOld = form_relational.FieldMany2One.extend({
 
     is_false: function() {
         return false;
     },
-
     render_value: function() {
         var self = this;
         var res = this._super();
@@ -149,24 +187,21 @@ var OnlineSynchAccountConfigurationWidget = form_relational.FieldMany2One.extend
                 self.view.save().then(function(result){
                     self.view.to_view_mode();
                     
-                    var fetch_site_info = self.fetch_site_info()
-                        .then(function(result){
-                            self.launch_configurator_wizard(JSON.parse(result));
-                        });
+                    var journal_id = self.view.fields.journal_id.get("value");
+                    return new Model('account.journal').call('launch_wizard', [[journal_id]]).then(function(result){
+                        self.do_action(result);
+                    });
                 });
             });
         }
         return res;
     },
 
-    attach_datepicker: function() {
-        var current_date = new moment();
-        var dp = new datepicker.DateWidget(this);
-        dp.appendTo(this.configurator_wizard.$el.find('.js_online_sync_date'));
-        dp.set_value(current_date.subtract(15, 'days'));
-        this.datepicker = dp;
-    },
 });
+
+//Old widgets compatibility for v9 
+core.form_widget_registry.add('yodleeAccountConfiguration', OnlineSynchAccountConfigurationWidgetOld);
+core.form_widget_registry.add('plaidAccountConfiguration', OnlineSynchAccountConfigurationWidgetOld);
 
 return {
     OnlineSynchAccountConfigurationWidget: OnlineSynchAccountConfigurationWidget,

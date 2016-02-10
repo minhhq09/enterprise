@@ -252,6 +252,7 @@ odoo.define('website_sign.dashboard', function(require) {
 
             function prepare_requests(requests) {
                 self.signature_requests = {
+                    draft: [],
                     sent: [],
                     signed: [],
                     canceled: [],
