@@ -110,7 +110,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
 
         //process login form
         var inputs_vals = []
-        this.response = {'siteId': this.view.fields.online_id.get("value"),
+        this.response = {'siteId': this.online_id,
                          'credentialFields.enclosedType': 'com.yodlee.common.FieldInfoSingle'}
         var index = 0;
         $.each(resp_json.componentList, function(k,v) {
@@ -149,7 +149,6 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
     process_next_step: function() {
         var self = this;
         if (this._super()){
-            self.display_wait();
             var inputs = $(".js_online_sync_input");
             _.each(inputs, function(input){
                 var value = input.value;
@@ -166,6 +165,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 }
                 self.response['credentialFields[' + input.id + '].values[' + $(input).attr("subid") + ']'] = value;
             });
+            self.display_wait();
             framework.blockUI();
             var request = new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/SiteAccountManagement/addSiteAccount1', this.online_type, this.response])
                 .then(function(result){
@@ -198,12 +198,14 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         if (this._super()){
             //Get back sync date information and selected account_id and create online.account object with those information
             var sync_date = this.datepicker.get_value();
-            var option_selected = this.configurator_wizard.$el.find('input[name="account-selection"]:checked');
+            var option_selected = this.$el.find('input[name="account-selection"]:checked');
             var account_name = option_selected.attr('value');
             var account_id = option_selected.attr('account');
             var rpc = new Model('account.journal').call('save_online_account', [[this.id], {'last_sync': sync_date, 'site_account_id': this.siteAccountId, 'account_id': account_id, 'name': account_name, 'journal_id': this.id}, this.online_institution_id])
                 .then(function(result) {
-                    self.configurator_wizard.close();
+                    if (self.is_modal){
+                        self.$el.parents('.modal').modal('hide');
+                    }
                     self.do_action(result);
                 });
         }
@@ -215,7 +217,6 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         var data = [];
         var selected = true;
         $.each(resp_json, function(k,v){
-            // if (v.contentServiceInfo.containerInfo.containerName === 'credits' || v.contentServiceInfo.containerInfo.containerName === 'bank') {
                 $.each(v.itemData.accounts, function(index, value){
                     var account_name = value.accountName;
                     if (value.accountDisplayName !== undefined && value.accountDisplayName.defaultNormalAccountName !== undefined) {
@@ -232,14 +233,9 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     });
                     selected = false;
                 });
-            // }
         });
-        this.configurator_wizard.$footer.find('.js_process_next_step').hide();
-        this.configurator_wizard.$footer.find('.js_process_mfa_step').hide();
-        this.configurator_wizard.$footer.find('.js_conclude_configuration').toggleClass('hide');
-        this.configurator_wizard.$el.find('.js_online_sync_form').html(QWeb.render('OnlineSynchAccountSelector', {accounts: data}));
-        this.configurator_wizard.$el.find('.js_online_sync_form').show();
-        this.configurator_wizard.$el.find('.js_online_sync_wait').hide();
+        this.replaceElement($(QWeb.render('OnlineSynchAccountSelector', {accounts: data})));
+        this.bind_button();
         this.attach_datepicker();
     },
 
@@ -289,13 +285,13 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
     get_mfa_process: function(siteAccountId) {
         var self = this;
         //Call getMFAResponseForSite to check if we have some MFA to complete
-        var request = new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/Refresh/getMFAResponseForSite', this.online_type, {memSiteAccId: siteAccountId}])
+        return new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/Refresh/getMFAResponseForSite', this.online_type, {memSiteAccId: siteAccountId}])
             .then(function(result){
                 var resp_json = JSON.parse(result);
                 if (resp_json.errorOccurred === 'true') {
-                    self.show_error("ERROR: "+resp_json.detailedMessage);
+                    self.show_error("ERROR: "+(resp_json.detailedMessage || resp_json.message));
                 }
-                if (resp_json.errorCode === undefined) {
+                else if (resp_json.errorCode === undefined) {
                     if (resp_json.isMessageAvailable === true) {
                         //Present MFA to user
                         
@@ -309,6 +305,15 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     // framework.unblockUI();
                     if (resp_json.errorCode === 0) {
                         // framework.blockUI();
+                        if (self.start_mfa === true) {
+                            return new Model('account.journal').call('online_sync_refresh', [[self.id]])
+                                .then(function(result) {
+                                    if (self.is_modal){
+                                        self.$el.parents('.modal').modal('hide');
+                                    }
+                                    self.do_action(result);
+                                }); 
+                        }
                         self.refresh_process(siteAccountId, 90);
                     }
                     else {
@@ -323,7 +328,6 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         framework.unblockUI();
         var self = this;
         var v = resp_json.fieldInfo;
-        // $.each(resp_json.fieldInfo, function(k, v){
 
         var qaquestions = [];
         self.qaResponse = {'memSiteAccId': siteAccountId};
@@ -345,18 +349,14 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
             maxlength: v.maximumLength,
             questions: qaquestions,
         };
-        // });
-        this.configurator_wizard.$footer.find('.js_process_next_step').hide();
-        this.configurator_wizard.$footer.find('.js_process_mfa_step').removeClass('hide');
-        this.configurator_wizard.$el.find('.js_online_sync_form').html(QWeb.render('YodleeMFAResponse', {question: qdict}));
-        this.configurator_wizard.$el.find('.js_online_sync_form').show();
-        this.configurator_wizard.$el.find('.js_online_sync_wait').addClass('hide');
+
+        this.replaceElement($(QWeb.render('YodleeMFAResponse', {question: qdict})));
+        this.bind_button();
     },
 
     process_mfa_step: function() {
         var self = this;
         if (this._super()){
-            self.display_wait();
             if ($('.js_yodlee_captcha').length > 0){
                 self.qaResponse['userResponse.objectInstanceType'] = 'com.yodlee.core.mfarefresh.MFAImageResponse';
                 self.qaResponse['userResponse.imageString'] = $('.js_yodlee_captcha').val();
@@ -371,6 +371,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 self.qaResponse['userResponse.objectInstanceType'] = 'com.yodlee.core.mfarefresh.MFATokenResponse';
                 self.qaResponse['userResponse.token'] = $('.js_yodlee_token').val();
             }
+            self.display_wait();
             var sent_request = new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/Refresh/putMFARequestForSite', this.online_type, self.qaResponse])
                 .then(function(result){
                     var resp_json = JSON.parse(result);
@@ -392,17 +393,35 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
 
     fetch_site_info: function() {
         this._super();
-        this.online_type = 'yodlee';
         var param = {'siteId': this.online_id};
         return new Model('account.journal').call('fetch', [[this.id], '/jsonsdk/SiteAccountManagement/getSiteLoginForm', this.online_type, param]);
     },
 
     display_wait: function() {
-        this.configurator_wizard.$footer.find('.js_process_next_step').addClass('hide');
-        this.configurator_wizard.$footer.find('.js_process_mfa_step').addClass('hide');
-        this.configurator_wizard.$footer.find('.js_conclude_configuration').addClass('hide');
-        this.configurator_wizard.$el.find('.js_online_sync_form').hide();
-        this.configurator_wizard.$el.find('.js_online_sync_wait').removeClass('hide');
+        this.replaceElement($(QWeb.render('OnlineSyncWaitTemplate', {})));
+    },
+
+    init: function(parent, context) {
+        this._super(parent, context);
+        if (context.context.step === 'mfa'){
+            this.start_mfa = true;
+            this.siteAccountId = context.context.site_account_id;
+        }
+        this.online_type = 'yodlee';
+    },
+
+    renderElement: function() {
+        var self = this;
+        // start at mfa step
+        if (this.start_mfa){
+            // show loading screen while mfa process
+            this.display_wait();
+            return this.get_mfa_process(this.siteAccountId);
+        }
+        // normal configuration display
+        else{
+            return this._super();
+        }
     },
 
     map_error_code: function(errorCode) {
@@ -516,6 +535,6 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
 
 });
 
-core.form_widget_registry.add('yodleeAccountConfiguration', YodleeAccountConfigurationWidget);
+core.action_registry.add('yodlee_online_sync_widget', YodleeAccountConfigurationWidget);
     
 });

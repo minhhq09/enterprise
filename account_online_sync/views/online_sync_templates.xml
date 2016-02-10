@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
+  <t t-name="OnlineSyncWaitTemplate">
+    <div>
+    <div class="js_online_sync_wait">
+      <h1 class="h1">Please Wait</h1>
+    </div>
+    <div class="alert alert-danger hide error" role="alert">
+        <strong class="error_msg"></strong>
+      </div>
+    </div>
+  </t>
+
   <t t-name="OnlineSynchLoginTemplate">
     <div>
       <div class="alert alert-danger hide error" role="alert">
@@ -57,16 +68,20 @@
           </div>
       </t>
       </form>
+      <div class="footer">
+        <button class="js_process_next_step btn btn-primary" type="button">Continue</button>
+        <button class="js_process_cancel btn btn-default" type="button">Cancel</button>
+      </div>
     </div>
   </t>
 
   <t t-name="OnlineSynchAccountSelector">
-      <div class="form-group" help="The maximum date you can set is 90 days before today">
+      <div class="form-group col-sm-12" help="The maximum date you can set is 90 days before today">
         <label class="col-sm-2">Retrieve transactions from</label>
         <div class="col-sm-4 js_online_sync_date">
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-sm-12">
         <label class="col-sm-6">Choose the account to synchronize with</label>
         <t t-foreach="accounts" t-as="account">
           <div class="radio col-sm-12">
@@ -80,6 +95,10 @@
             </label>
           </div>
         </t>
+      </div>
+      <div class="footer col-sm-12">
+        <button class="js_conclude_configuration btn btn-primary" type="button">Finish</button>
+        <button class="js_process_cancel btn btn-default" type="button">Cancel</button>
       </div>
   </t>
 

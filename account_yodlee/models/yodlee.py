@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import math
 import requests
 import json
 import datetime
@@ -40,6 +41,57 @@ class YodleeAccountJournal(models.Model):
             msg = " (%s)" % (e.response.status_code)
         _logger.exception('An error has occurred while trying to connect to yodlee service')
         raise UserError(_('An error has occurred while trying to connect to yodlee service') + msg)
+
+    @api.multi
+    def launch_wizard(self):
+        if self.online_institution_id.type == 'yodlee':
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'yodlee_online_sync_widget',
+                'target': 'new',
+                'context': {'journal_id': self.id, 
+                            'online_id': self.online_id,
+                            'online_institution_id': self.online_institution_id.id, 
+                            },
+            }
+        else:
+            return super(YodleeAccountJournal, self).launch_wizard()
+
+    @api.multi
+    def online_sync(self):
+        if not self.online_account_id:
+            raise UserError(_('You must first link your bank account to this journal before attempting a refresh'))
+        
+        if self.online_institution_id.type != 'yodlee':
+            return super(YodleeAccountJournal, self).online_sync()
+
+        params = {
+            'memSiteAccId': self.online_account_id.site_account_id,
+            'refreshParameters.refreshPriority': 1,
+        }
+        resp_json = json.loads(self.fetch('/jsonsdk/Refresh/startSiteRefresh', 'yodlee', params))
+        if resp_json.get('errorCode'):
+            raise UserError(_('An error has occured while trying to refresh the site.\nError code: %s\nError message: %s')\
+                % (resp_json.get('errorCode'), resp_json.get('errorDetail')))
+        if not resp_json.get('siteRefreshStatus', False) or resp_json.get('errorOccurred', False):
+            raise UserError(_('An error has occured while trying to refresh the site.\nMessage: %s') % (resp_json.get('message', 'Error')))
+        if resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'REFRESH_TRIGGERED':
+            if resp_json['siteRefreshMode']['refreshMode'] == 'MFA':
+                # open widget at second step
+                action = self.launch_wizard()
+                action['context'].update({'step': 'mfa', 'site_account_id': self.online_account_id.site_account_id})
+                return action
+            else:
+                #perform sync
+                return self.online_account_id.online_sync()
+        elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'SITE_CANNOT_BE_REFRESHED':
+            raise UserError(_('Please execute manual synchronization every few minutes'))
+        else:
+            raise UserError(_('Incorrect Refresh status received: %s (expected REFRESH_TRIGGERED)') % (resp_json['siteRefreshStatus']['siteRefreshStatus']))
+
+    @api.multi
+    def online_sync_refresh(self):
+        return self.online_account_id.online_sync()
 
     @api.one
     def _register_new_yodlee_user(self):
@@ -198,7 +250,7 @@ class YodleeAccount(models.Model):
     account_id = fields.Char("Account")
 
     @api.multi
-    def yodlee_refresh(self, depth=30):
+    def yodlee_refresh(self, depth=90):
         # Ask yodlee to refresh the account
         if depth <= 0:
             return False
@@ -217,12 +269,36 @@ class YodleeAccount(models.Model):
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
              resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_TIMED_OUT' and \
-             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED':
+             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED' and \
+             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_WITH_UNCERTAIN_ACCOUNT':
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0:
             return True
         else:
             return False
+
+    def get_transactions(self, resp_json):
+        transactions = []
+        if resp_json.get('numberOfHits', 0) > 0:
+            if type(resp_json['searchResult']['transactions']) != list:
+                _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
+            for transaction in resp_json['searchResult']['transactions']:
+                tr_date = transaction.get('postDate', transaction.get('transactionDate', fields.Date.today()))
+                transaction_date = datetime.datetime.strptime(tr_date.split("T")[0], '%Y-%m-%d')
+                if transaction.get('transactionBaseType') == 'debit':
+                    amount = -1 * transaction['amount']['amount']
+                else:
+                    amount = transaction['amount']['amount']
+                if amount == 0:
+                    continue
+                transactions.append({
+                    'id': transaction['viewKey']['transactionId'],
+                    'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
+                    'description': transaction['description']['description'],
+                    'amount': amount,
+                    'end_amount': transaction['account']['accountBalance']['amount'],
+                })
+        return transactions
 
     @api.multi
     def online_sync(self):
@@ -256,27 +332,24 @@ class YodleeAccount(models.Model):
             'transactionSearchRequest.searchFilter.postDateRange.toDate': to_date,
             'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
             'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
+            # 'transactionSearchRequest.searchFilter.setFirstCall': True,
         }
         resp_json = json.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
-        # Prepare the transaction
-        if resp_json.get('numberOfHits', 0) > 0:
-            transactions = []
-            if type(resp_json['searchResult']['transactions']) != list:
-                _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
-            for transaction in resp_json['searchResult']['transactions']:
-                tr_date = transaction.get('postDate', transaction.get('transactionDate', fields.Date.today()))
-                transaction_date = datetime.datetime.strptime(tr_date.split("T")[0], '%Y-%m-%d')
-                if transaction.get('transactionBaseType') == 'debit':
-                    amount = -1 * transaction['amount']['amount']
-                else:
-                    amount = transaction['amount']['amount']
-                transactions.append({
-                    'id': transaction['viewKey']['transactionId'],
-                    'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
-                    'description': transaction['description']['description'],
-                    'amount': amount,
-                    'end_amount': transaction['account']['accountBalance']['amount'],
-                })
+        # get the transactions
+        transactions = self.get_transactions(resp_json)
+        # If we have more than 500 transactions, keep requesting yodlee for the next transactions (by batch of 500)
+        # see: https://developer.yodlee.com/Knowledge_Base/Transactions
+        perform_call = math.ceil(resp_json.get('countOfAllTransaction', 0)/500.0) - 1
+        while perform_call > 0:
+            params['transactionSearchRequest.searchFilter.setFirstCall'] = False
+            params['transactionSearchRequest.resultRange.startNumber'] += 500
+            params['transactionSearchRequest.resultRange.endNumber'] += 500
+            params['transactionSearchRequest.lowerFetchLimit'] += 500
+            params['transactionSearchRequest.higherFetchLimit'] += 500
+            resp_json = json.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
+            transactions.extend(self.get_transactions(resp_json))
+            perform_call -= 1
 
+        if len(transactions) > 0:
             return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
         return action
