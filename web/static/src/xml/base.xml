@@ -87,38 +87,43 @@
             <span>
                 <span class="oe_instance_expires"></span>
                 <span class="oe_instance_register">
-                    <t t-if="diffDays == 30">
-                        <t t-set="delay">1 month</t>
+                    <t t-if="!has_mail">
+                        You will be able to register your database once you have installed your first app.
                     </t>
-                    <t t-if="diffDays != 30">
-                        <t t-set="delay"><t t-esc="diffDays"/> days</t>
-                    </t>
-                    <t t-if="diffDays &gt; 0">
-                        <t t-if="dbexpiration_reason == 'demo'">
-                            This demo database will expire in <span t-esc="delay"/>.
+                    <t t-if="has_mail">
+                        <t t-if="diffDays == 30">
+                            <t t-set="delay">1 month</t>
                         </t>
-                        <t t-if="dbexpiration_reason != 'demo'">
-                            This database will expire in <span t-esc="delay"/>.
+                        <t t-if="diffDays != 30">
+                            <t t-set="delay"><t t-esc="diffDays"/> days</t>
                         </t>
-                    </t>
-                    <t t-if="diffDays &lt; 1">
-                        This database has expired.
-                    </t>
-                    <!-- only show corrective actions to an admin (group_system) -->
-                    <t t-if="warning=='admin'">
-                        <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason == 'demo' or dbexpiration_reason === false">
-                            <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy a subscription</a>.
+                        <t t-if="diffDays &gt; 0">
+                            <t t-if="dbexpiration_reason == 'demo'">
+                                This demo database will expire in <span t-esc="delay"/>.
+                            </t>
+                            <t t-if="dbexpiration_reason != 'demo'">
+                                This database will expire in <span t-esc="delay"/>.
+                            </t>
                         </t>
-                        <t t-if="dbexpiration_reason == 'renewal'">
-                            <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                        <t t-if="diffDays &lt; 1">
+                            This database has expired.
                         </t>
-                        <t t-if="dbexpiration_reason == 'upsell'">
-                            You have more users than your subscription allows.<br/>
-                            <a class="oe_instance_upsell" href="#">Add more users</a>
+                        <!-- only show corrective actions to an admin (group_system) -->
+                        <t t-if="warning=='admin'">
+                            <t t-if="dbexpiration_reason == 'trial' or dbexpiration_reason == 'demo' or dbexpiration_reason === false">
+                                <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy a subscription</a>.
+                            </t>
+                            <t t-if="dbexpiration_reason == 'renewal'">
+                                <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                            </t>
+                            <t t-if="dbexpiration_reason == 'upsell'">
+                                You have more users than your subscription allows.<br/>
+                                <a class="oe_instance_upsell" href="#">Add more users</a>
+                            </t>
                         </t>
-                    </t>
-                    <t t-if="warning=='user'">
-                        Log in as an administrator to correct the issue.
+                        <t t-if="warning=='user'">
+                            Log in as an administrator to correct the issue.
+                        </t>
                     </t>
                 </span>
             </span>
