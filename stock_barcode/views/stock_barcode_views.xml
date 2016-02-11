@@ -60,7 +60,7 @@
         <field name="priority">20</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" create="0">
-                <field name="complete_name"/>
+                <field name="display_name"/>
                 <field name="color"/>
                 <field name="count_picking_ready"/>
                 <field name="code"/>
@@ -69,7 +69,7 @@
                         <div t-attf-class="oe_kanban_card #{kanban_color(record.color.raw_value)}">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <strong><span><t t-esc="record.complete_name.value"/></span></strong>
+                                    <strong><span><t t-esc="record.display_name"/></span></strong>
                                 </div>
                             </div>
                             <div class="row text-muted">

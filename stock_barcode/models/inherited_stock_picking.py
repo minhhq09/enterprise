@@ -94,6 +94,7 @@ class StockPicking(models.Model):
                 'location_dest_id': self.location_dest_id.id,
                 'qty_done': (product.tracking == 'none' and picking_type_lots) and qty or 0.0,
                 'product_qty': 0.0,
+                # TDE FIXME: those fields are compute without inverse: unnecessary ?
                 'from_loc': self.location_id.name,
                 'to_loc': self.location_dest_id.name,
                 'fresh_record': False,
@@ -106,7 +107,7 @@ class StockPicking(models.Model):
         corresponding_po = self.pack_operation_pack_ids.filtered(lambda r: r.package_id.id == package.id)
         if corresponding_po:
             corresponding_po[0].qty_done = 1.0
-            corresponding_po[0].processed_boolean = True
+            corresponding_po[0].is_done = True
             return True
         return False
 
@@ -127,6 +128,7 @@ class StockPicking(models.Model):
                         'location_dest_id': packop.location_dest_id.id,
                         'qty_done': qty_done,
                         'product_qty': qty_done,
+                        # TDE FIXME: those fields are compute without inverse: unnecessary ?
                         'from_loc': packop.location_id.name + (packop.package_id and (' : ' + packop.package_id.name) or ''),
                         'to_loc': packop.location_dest_id.name + ' : ' + package.name,
                         'result_package_id': package.id,
@@ -141,6 +143,7 @@ class StockPicking(models.Model):
                         'location_dest_id': packop.location_dest_id.id,
                         'qty_done': 0.0,
                         'product_qty': packop.product_qty - qty_done,
+                        # TDE FIXME: those fields are compute without inverse: unnecessary ?
                         'from_loc': packop.from_loc,
                         'to_loc': packop.to_loc,
                         'lots_visible': packop.product_id.tracking != 'none',
@@ -151,7 +154,7 @@ class StockPicking(models.Model):
             else:
                 packop.result_package_id = package
                 packop.to_loc = packop.location_dest_id.name + ' : ' + package.name
-        corresponding_pack_po = self.pack_operation_pack_ids.filtered(lambda r: not r.result_package_id and (r.qty_done > 0 or r.processed_boolean == True))
+        corresponding_pack_po = self.pack_operation_pack_ids.filtered(lambda r: not r.result_package_id and (r.qty_done > 0 or r.is_done == True))
         for packop in corresponding_pack_po:
             packop.to_loc = packop.location_dest_id.name + ' : ' + package.name
             packop.result_package_id = package.id
@@ -173,6 +176,7 @@ class StockPicking(models.Model):
                         'location_dest_id': location.id,
                         'qty_done': qty_done,
                         'product_qty': qty_done,
+                        # TDE FIXME: those fields are compute without inverse: unnecessary ?
                         'from_loc': packop.location_id.name + (packop.package_id and (' : ' + packop.package_id.name) or ''),
                         'to_loc': location.name + (packop.result_package_id and (' : '  + packop.result_package_id.name) or ''),
                         'location_processed': True,
@@ -188,6 +192,7 @@ class StockPicking(models.Model):
                         'location_dest_id': packop.location_dest_id.id,
                         'qty_done': 0.0,
                         'product_qty': packop.product_qty - qty_done,
+                        # TDE FIXME: those fields are compute without inverse: unnecessary ?
                         'from_loc': packop.from_loc,
                         'to_loc': packop.to_loc,
                         'lots_visible': packop.product_id.tracking != 'none',
@@ -200,7 +205,7 @@ class StockPicking(models.Model):
                 packop.location_dest_id = location.id
                 packop.to_loc = packop.location_dest_id.name + (packop.result_package_id and (' : '  + packop.result_package_id.name) or '')
                 packop.location_processed = True
-        corresponding_pack_po = self.pack_operation_pack_ids.filtered(lambda r: not r.location_processed and (r.qty_done > 0 or r.processed_boolean == True))
+        corresponding_pack_po = self.pack_operation_pack_ids.filtered(lambda r: not r.location_processed and (r.qty_done > 0 or r.is_done == True))
         for packop in corresponding_pack_po:
             packop.location_dest_id = location.id
             packop.to_loc = packop.location_dest_id.name + (packop.result_package_id and (' : '  + packop.result_package_id.name) or '')
