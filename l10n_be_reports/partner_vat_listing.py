@@ -20,8 +20,8 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
         if context_id.company_ids.ids:
             company_ids = '(' + ','.join(map(str, context_id.company_ids.ids)) + ')'
             company_clauses = ['AND l.company_id IN ' + company_ids, 'AND l2.company_id IN ' + company_ids]
-        tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_00', 'l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03', 'l10n_be.tax_tag_base_45']]
-        tag_ids_2 = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_base_01', 'l10n_be.tax_tag_base_02', 'l10n_be.tax_tag_base_03']]
+        tag_ids = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_00', 'l10n_be.tax_tag_01', 'l10n_be.tax_tag_02', 'l10n_be.tax_tag_03', 'l10n_be.tax_tag_45']]
+        tag_ids_2 = [self.env['ir.model.data'].xmlid_to_res_id(k) for k in ['l10n_be.tax_tag_01', 'l10n_be.tax_tag_02', 'l10n_be.tax_tag_03']]
         self.env.cr.execute("""SELECT sub1.partner_id, sub1.name, sub1.vat, sub1.turnover, sub2.vat_amount
             FROM (SELECT l.partner_id, p.name, p.vat, SUM(l.credit - l.debit) as turnover
                   FROM account_move_line l
