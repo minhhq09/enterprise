@@ -167,10 +167,6 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     render_searchview_buttons: function() {
         var self = this;
-        if (this.report_type === 'date_range_extended') {
-            this.$searchview_buttons = '';
-            return this.$searchview_buttons;
-        }
         // Render the searchview buttons and bind them to the correct actions
         this.$searchview_buttons = $(QWeb.render("accountReports.searchView", {report_type: this.report_type, context: this.report_context}));
         var $dateFilter = this.$searchview_buttons.siblings('.o_account_reports_date-filter');
