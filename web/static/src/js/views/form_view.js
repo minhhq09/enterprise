@@ -190,9 +190,6 @@ var FormView = View.extend(common.FieldManagerMixin, {
 
         $node = $node || this.options.$buttons;
         this.$buttons.appendTo($node);
-        // for drawing issue on IE Edge, setting the flex attribute
-        // allow the element to be drawn again
-        $node.css('flex', function(_, val){ return val; });
     },
     /**
      * Instantiate and render the sidebar if a sidebar is requested
