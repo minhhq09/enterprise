@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import base64
+import re
 import StringIO
 import time
 import uuid
@@ -476,6 +477,8 @@ class SignatureRequestItem(models.Model):
                 item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', request.id)])
                 if not item_value:
                     value = html_sanitize(signature[itemId], strip_style=True, strip_classes=True)
+                    if len(re.findall('<p>', value)) == 1 and len(re.findall('</p>', value)) == 1:
+                        value = re.sub(r'^<p>|</p>$', r'', value)
                     item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': value})
                     if item_value.signature_item_id.type_id.type == 'signature':
                         self.signature = signature[itemId][signature[itemId].find(',')+1:]
