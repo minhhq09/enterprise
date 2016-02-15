@@ -498,7 +498,11 @@ var ActionManager = Widget.extend({
                     if (warm) {
                         this.null_action();
                     }
-                    action_loaded = this.do_action(state.action, {additional_context: add_context,  state: state});
+                    action_loaded = this.do_action(state.action, {
+                        additional_context: add_context,
+                        res_id: state.id,
+                        view_type: state.view_type,
+                    });
                 }
             }
         } else if (state.model && state.id) {
@@ -594,6 +598,7 @@ var ActionManager = Widget.extend({
 
         var type = action.type.replace(/\./g,'_');
         action.menu_id = options.action_menu_id;
+        action.res_id = options.res_id || action.res_id;
         action.context.params = _.extend({ 'action' : action.id }, action.context.params);
         if (!(type in this)) {
             console.error("Action manager can't handle action of type " + action.type, action);
