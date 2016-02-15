@@ -191,10 +191,4 @@
     <menuitem id="website_sign.digital_signatures_menu" sequence="-5" name="Digital Signatures" parent="document.menu_document"/>
     <menuitem id="website_sign.digital_signatures_dashboard_menu" name="Documents" parent="website_sign.digital_signatures_menu" action="digital_signatures_dashboard_action"/>
     <menuitem id="website_sign.signature_request_menu" name="Signature Requests" parent="website_sign.digital_signatures_menu" action="signature_request_action" groups="base.group_no_one"/>
-
-    <!-- After installation of the module, open the related menu -->
-    <record id="base.open_menu" model="ir.actions.todo">
-        <field name="action_id" ref="base.action_open_website"/>
-        <field name="state">open</field>
-    </record>
 </odoo>
