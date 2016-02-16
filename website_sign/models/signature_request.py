@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import base64
-import re
 import StringIO
 import time
 import uuid
@@ -9,7 +8,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
 from openerp import api, fields, models, _
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, html_sanitize
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 class SignatureRequest(models.Model):
     _name = "signature.request"
@@ -476,10 +475,7 @@ class SignatureRequestItem(models.Model):
             for itemId in signature:
                 item_value = SignatureItemValue.search([('signature_item_id', '=', int(itemId)), ('signature_request_id', '=', request.id)])
                 if not item_value:
-                    value = html_sanitize(signature[itemId], strip_style=True, strip_classes=True)
-                    if len(re.findall('<p>', value)) == 1 and len(re.findall('</p>', value)) == 1:
-                        value = re.sub(r'^<p>|</p>$', r'', value)
-                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': value})
+                    item_value = SignatureItemValue.create({'signature_item_id': int(itemId), 'signature_request_id': request.id, 'value': signature[itemId]})
                     if item_value.signature_item_id.type_id.type == 'signature':
                         self.signature = signature[itemId][signature[itemId].find(',')+1:]
         return True
