@@ -8,8 +8,112 @@ from openerp.http import request
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from stat_types import STAT_TYPES, FORECAST_STAT_TYPES, compute_mrr_growth_values
 
+# We need to use the same formatting as the one in read_group (see models.py)
+DISPLAY_FORMATS = {
+    'day': '%d %b %Y',
+    'week': 'W%W %Y',
+    'week_special': '%w W%W %Y',
+    'month': '%B %Y',
+}
+
 
 class RevenueKPIsDashboard(http.Controller):
+
+    @http.route('/account_contract_dashboard/fetch_cohort_report', type='json', auth='user')
+    def cohort(self, date_start, cohort_period, cohort_interest, contract_template_ids=None, company_ids=None):
+        """
+        Get a Cohort Analysis report
+
+        :param date_start: date of the first contract to take into account
+        :param cohort_period: cohort period. Between 'day','week','month'
+        :param cohort_interest: cohort interest. Could be 'value' or 'number'
+        :param contract_template_ids: filtering on specific contract templates
+        :param company_ids: filtering on specific companies
+        """
+        cohort_report = []
+        company_currency_id = request.env.user.company_id.currency_id
+
+        subs_fields = ['date_start', 'recurring_total']
+        subs_domain = [
+            ('type', '=', 'contract'),
+            ('date_start', '>=', date_start),
+            ('date_start', '<', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
+        if contract_template_ids:
+            subs_domain.append(('template_id', 'in', contract_template_ids))
+        if company_ids:
+            subs_domain.append(('company_id', 'in', company_ids))
+
+        for cohort_group in request.env['sale.subscription'].read_group(domain=subs_domain, fields=['date_start'], groupby='date_start:' + cohort_period):
+            tf = cohort_group['date_start:' + cohort_period]
+            cohort_subs = request.env['sale.subscription'].search(cohort_group['__domain'])
+            cohort_date = datetime.strptime(tf, DISPLAY_FORMATS[cohort_period])
+            if cohort_period == 'week':
+                # When used with the strptime() method, %W is only used in calculations when the day of the week and the year are specified.
+                # See https://docs.python.org/2/library/datetime.html
+                # We need to use 1 (Monday) because %W consider Monday as the first day of the week
+                cohort_date = datetime.strptime('1 ' + tf, DISPLAY_FORMATS['week_special'])
+
+            if cohort_interest == 'value':
+                starting_value = float(sum([x.currency_id.compute(x.recurring_total, company_currency_id) if x.currency_id else x.recurring_total for x in cohort_subs]))
+            else:
+                starting_value = float(len(cohort_subs))
+            cohort_line = []
+            cohort_line.append({
+                'value': starting_value,
+                'percentage': 100,
+                'domain': cohort_group['__domain'],
+            })
+
+            for ij in range(1, 16):
+                ij_start_date = cohort_date
+                if cohort_period == 'day':
+                    ij_start_date += relativedelta(days=ij)
+                    ij_end_date = ij_start_date + relativedelta(days=1)
+                elif cohort_period == 'week':
+                    ij_start_date += relativedelta(days=7*ij)
+                    ij_end_date = ij_start_date + relativedelta(days=7)
+                else:
+                    ij_start_date += relativedelta(months=ij)
+                    ij_end_date = ij_start_date + relativedelta(months=1)
+
+                if ij_start_date > datetime.today():
+                    # Who can predict the future, right ?
+                    cohort_line.append({
+                        'value': '-',
+                        'percentage': '-',
+                        'domain': '',
+                    })
+                    continue
+
+                significative_period = ij_start_date.strftime(DISPLAY_FORMATS[cohort_period])
+                churned_subs = [x for x in cohort_subs if x.date and datetime.strptime(x.date, DEFAULT_SERVER_DATE_FORMAT).strftime(DISPLAY_FORMATS[cohort_period]) == significative_period]
+
+                if cohort_interest == 'value':
+                    churned_value = sum([x.currency_id.compute(x.recurring_total, company_currency_id) if x.currency_id else x.recurring_total for x in churned_subs])
+                else:
+                    churned_value = len(churned_subs)
+
+                cohort_remaining = cohort_line[-1]['value'] - churned_value
+                cohort_line_ij = {
+                    'value': cohort_remaining,
+                    'percentage': starting_value and round(100*(cohort_remaining)/starting_value, 1) or 0,
+                    'domain': cohort_group['__domain'] + [
+                        ("date", ">=", ij_start_date.strftime(DEFAULT_SERVER_DATE_FORMAT)),
+                        ("date", "<", ij_end_date.strftime(DEFAULT_SERVER_DATE_FORMAT))]
+                }
+                cohort_line.append(cohort_line_ij)
+
+            cohort_report.append({
+                'period': tf,
+                'values': cohort_line,
+            })
+
+        return {
+            'contract_templates': request.env['sale.subscription'].search_read([('state', '=', 'open'), ('type', '=', 'template')], ['name']),
+            'companies': request.env['res.company'].search_read([], ['name']),
+            'cohort_report': cohort_report,
+            'currency_id': company_currency_id.id,
+        }
 
     @http.route('/account_contract_dashboard/fetch_data', type='json', auth='user')
     def fetch_data(self):

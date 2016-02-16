@@ -34,6 +34,10 @@
         <field name="name">Revenue KPIs</field>
         <field name="tag">account_contract_dashboard_main</field>
     </record>
+    <record id="action_contract_dashboard_report_cohort" model="ir.actions.client">
+        <field name="name">Cohort Analysis</field>
+        <field name="tag">account_contract_dashboard_cohort</field>
+    </record>
     <record id="action_contract_dashboard_report_detailed" model="ir.actions.client">
         <field name="name">Detailed KPI</field>
         <field name="tag">account_contract_dashboard_detailed</field>
@@ -61,4 +65,5 @@
     <menuitem id="menu_sale_subscription_dashboard" name="Dashboard" sequence="1" parent="sale_contract.menu_sale_subscription_root"/>
     <menuitem action="account_contract_dashboard.action_contract_dashboard_report_main" id="menu_action_contract_dashboard_report_main" parent="menu_sale_subscription_dashboard" name="Revenue KPIs" groups="sale_contract.group_sale_contract_manager"/>
     <menuitem action="account_contract_dashboard.action_contract_dashboard_report_salesman" id="menu_action_contract_dashboard_report_salesman" parent="menu_sale_subscription_dashboard" name="Salesperson Dashboard"/>
+    <menuitem action="account_contract_dashboard.action_contract_dashboard_report_cohort" id="menu_action_contract_dashboard_report_cohort" parent="menu_sale_subscription_dashboard" name="Cohort Analysis" groups="sale_contract.group_sale_contract_manager"/>
 </odoo>

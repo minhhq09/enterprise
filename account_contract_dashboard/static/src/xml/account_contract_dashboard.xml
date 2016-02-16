@@ -228,6 +228,56 @@
         </div>
     </div>
 
+    <!-- 5. Cohort Analysis -->
+    <div t-name="account_contract_dashboard.cohort_report" class="container o_account_contract_dashboard o_cohort_dashboard">
+        <div class="box">
+            <h1 class="page-header">Cohort Analysis</h1>
+            <table t-if="cohort_report.length" border="1" class="table table-hover o_cohort_analysis">
+                <tr>
+                    <th>Cohort</th>
+                    <th>Contracts</th>
+                    <th t-foreach="_.range(cohort_report[0].values.length)" t-as="period"><t t-esc="period"/></th>
+                </tr>
+                <tr t-foreach="cohort_report" t-as="cohort_row">
+                    <td><t t-esc="cohort_row.period"/></td>
+                    <t t-foreach="cohort_row.values" t-as="value">
+                        <td t-if="value_first">
+                            <t t-if="cohort_interest === 'number'"><t t-esc="value.value"/></t>
+                            <t t-if="cohort_interest === 'value'"><t t-esc="format_number(value.value)"/></t>
+                        </td>
+                        <td t-att-data-value="value.percentage" t-att-data-row="cohort_row_index" t-att-data-line="value_index" class="js_heat"><t t-esc="value.percentage"/><t t-if="value.percentage !== '-'">%</t></td>
+                    </t>
+                </tr>
+            </table>
+            <p t-if="!cohort_report.length">
+                There is no subscription for this period.
+            </p>
+        </div>
+    </div>
+
+    <div t-name="account_contract_dashboard.cohort_searchview" class="row">
+        <div class="col-xs-4">
+            <b>Start date:</b>
+            <input class="datetime_picker" type="text" name="date_start" t-att-value="widget.date_start"/>
+        </div>
+        <div class="col-xs-4">
+            <b>Cohort Period:</b>
+            <select name="period">
+                <t t-foreach="widget.cohort_periods" t-as="period">
+                    <option name="period" t-att-selected="widget.cohort_period &amp;&amp; widget.cohort_period === period[0] ? 'selected' : undefined" t-att-value="period[0]"><t t-esc="period[1]"/></option>
+                </t>
+            </select>
+        </div>
+        <div class="col-xs-4">
+            <b>Cohort Interest:</b>
+            <select name="interest">
+                <t t-foreach="widget.cohort_interests" t-as="interest">
+                    <option name="interest" t-att-selected="widget.cohort_interest &amp;&amp; widget.cohort_interest === interest[0] ? 'selected' : undefined" t-att-value="interest[0]"><t t-esc="interest[1]"/></option>
+                </t>
+            </select>
+        </div>
+    </div>
+
     <!-- Common top bar -->
     <div t-name="account_contract_dashboard.dashboard_option_pickers" class="o_datepickers_searchview">
         <span class="o_datepicker_separator"> to </span><button class="btn btn-sm btn-primary o_update_options">Update</button>

@@ -343,6 +343,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     },
 });
 
+
 // 2. Detailed dashboard
 var account_contract_dashboard_detailed = account_contract_dashboard_abstract.extend({
 
@@ -1108,6 +1109,182 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 });
 
 
+// Cohort Analysis
+var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
+
+    events: {
+        'click .js_heat': 'on_cohort_table',
+    },
+
+    init: function(parent, context) {
+        this._super(parent, context);
+
+        this.action_id = context.id;
+        this.date_start = moment().startOf('year').format('YYYY-MM-DD');
+        this.cohort_period = 'month';
+        this.cohort_periods = [['day', _t('By Day')], ['week', _t('By Week')], ['month', _t('By Month')]];
+        this.cohort_interest = 'number';
+        this.cohort_interests = [['number', _t('Number of Contracts')], ['value', _t('Value of Contracts')]];
+        this.contract_ids = [];
+        this.company_ids = [session.company_id];
+
+        var self = this;
+        this.fetch_cohort_report().done(function() {
+            self.render_dashboard();
+        });
+    },
+
+    fetch_cohort_report: function() {
+        var self = this;
+        return ajax.jsonRpc('/account_contract_dashboard/fetch_cohort_report', 'call', {
+            'date_start': this.date_start,
+            'cohort_period': this.cohort_period,
+            'cohort_interest': this.cohort_interest,
+            'contract_template_ids': this.contract_ids,
+            'company_ids': this.company_ids,
+        }).then(function (result) {
+            self.cohort_report = result.cohort_report;
+            self.contract_templates = result.contract_templates;
+            self.companies = result.companies;
+            self.currency_id = result.currency_id;
+        });
+    },
+
+    render_dashboard: function() {
+        this.$el.empty().append(QWeb.render("account_contract_dashboard.cohort_report", {
+            cohort_report: this.cohort_report,
+            cohort_interest: this.cohort_interest,
+            currency_id: this.currency_id,
+            format_number: this.format_number,
+        }));
+
+        this.update_cp();
+
+        var self = this;
+        _.each(this.$('.js_heat'), function(el) {
+            var perc = 1 - $(el).data('value')/100;
+            el.style.backgroundColor = self.shadeRGB_color("rbg(63,131,163)", perc);
+            if (perc < 0.4) {
+                el.style.color = "white";
+            }
+        });
+    },
+
+    on_cohort_table: function(ev) {
+
+        var row = $(ev.currentTarget).data().row;
+        var line = $(ev.currentTarget).data().line;
+
+        var cell_content = this.cohort_report[row].values[line];
+        var subs_domain = cell_content && cell_content.domain || [];
+
+        if (!subs_domain.length) {
+            return;
+        }
+
+        var options = {
+            on_reverse_breadcrumb: this.on_reverse_breadcrumb,
+        };
+
+        this.do_action({
+            type: 'ir.actions.act_window',
+            res_model: 'sale.subscription',
+            views: [[false, 'list'], [false, 'form']],
+            name: 'Churned Subscriptions',
+            domain: subs_domain,
+        }, options);
+    },
+
+    on_reverse_breadcrumb: function() {
+        this.update_cp();
+        web_client.do_push_state({action: this.action_id});
+    },
+
+    on_update_options: function(ev) {
+        this.date_start = this.$searchview.find('input[name="date_start"]').val();
+        this.cohort_period = this.$searchview.find('option[name="period"]:selected').val();
+        this.cohort_interest = this.$searchview.find('option[name="interest"]:selected').val();
+        this.contract_ids = this.get_filtered_contract_ids();
+        this.company_ids = this.get_filtered_company_ids();
+
+        var self = this;
+        addLoader(this.$('.o_cohort_analysis').empty());
+        this.fetch_cohort_report().done(function() {
+            self.render_dashboard();
+        });
+    },
+
+    get_filtered_contract_ids: function() {
+        var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
+        return _.map($contract_inputs, function(el) { return $(el).data('id'); });
+    },
+
+    get_filtered_company_ids: function() {
+        var $company_inputs = this.$searchview_buttons.find(".selected > .o_companies_filter");
+        return _.map($company_inputs, function(el) { return $(el).data('id'); });
+    },
+
+    set_up_datetimepickers: function() {
+        this.$searchview.find('.datetime_picker').datetimepicker({
+            format: 'YYYY-MM-DD',
+            viewMode: 'years',
+            pickTime: false,
+            minViewMode: 'months',
+        }).on('dp.change', this.on_update_options);
+    },
+
+    update_cp: function() {
+
+        this.$searchview = $(QWeb.render("account_contract_dashboard.cohort_searchview", {widget: this}));
+
+        this.$searchview.find('select').on('change', this.on_update_options);
+        this.set_up_datetimepickers();
+
+        this.$searchview_buttons = $();
+        if(this.contract_templates.length) {
+            this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {
+                contract_templates: this.contract_templates,
+                contract_ids: this.contract_ids,
+                companies: this.companies,
+                company_ids: this.company_ids,
+            }));
+        }
+        var self = this;
+        // Check the box if it was already checked before the update
+        this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter', function(e) {
+            e.preventDefault();
+            $(e.target).parent().toggleClass('selected');
+            self.on_update_options();
+        });
+        _.each(this.contract_ids, function(id) {
+            self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+        _.each(this.company_ids, function(id) {
+            self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+
+        this.update_control_panel({
+            cp_content: {
+                $searchview: this.$searchview,
+                $searchview_buttons: this.$searchview_buttons,
+            },
+            breadcrumbs: this.getParent().get_breadcrumbs(),
+        });
+
+    },
+
+    shadeRGB_color: function(color, percent) {
+        var f = color.split(","), t = percent<0?0:255 , p = percent < 0 ? percent * -1: percent, R = parseInt(f[0].slice(4)), G=parseInt(f[1]), B=parseInt(f[2]);
+        return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
+    },
+
+    format_number: function(value) {
+        value = utils.human_number(value);
+        return render_monetary_field(value, this.currency_id);
+    },
+
+});
+
 // Utility functions
 
 function addLoader(selector) {
@@ -1304,6 +1481,7 @@ function get_color_class(value, direction) {
 // Add client actions
 
 core.action_registry.add('account_contract_dashboard_main', account_contract_dashboard_main);
+core.action_registry.add('account_contract_dashboard_cohort', account_contract_dashboard_cohort);
 core.action_registry.add('account_contract_dashboard_detailed', account_contract_dashboard_detailed);
 core.action_registry.add('account_contract_dashboard_forecast', account_contract_dashboard_forecast);
 core.action_registry.add('account_contract_dashboard_salesman', account_contract_dashboard_salesman);

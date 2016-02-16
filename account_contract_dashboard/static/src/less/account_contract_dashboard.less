@@ -134,6 +134,38 @@
         }
     }
 
+    &.o_cohort_dashboard {
+        table tr {
+            @media (max-width: @screen-xs-max) {
+                td:nth-child(n+5), th:nth-child(n+5) {
+                    display: none;
+                }
+                td:last-child, th:last-child {
+                    display: table-cell;
+                }
+            }
+            @media (max-width: @screen-sm-max) {
+                td:nth-child(n+8), th:nth-child(n+8) {
+                    display: none;
+                }
+                td:last-child, th:last-child {
+                    display: table-cell;
+                }
+            }
+            @media (max-width: @screen-md-max) {
+                td:nth-child(n+12), th:nth-child(n+12) {
+                    display: none;
+                }
+                td:last-child, th:last-child {
+                    display: table-cell;
+                }
+            }
+            td.js_heat {
+                cursor: pointer;
+            }
+        }
+    }
+
     .o_loader {
         text-align: center;
         width: 100%;
