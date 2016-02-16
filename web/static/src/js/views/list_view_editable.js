@@ -421,16 +421,21 @@ ListView.include(/** @lends instance.web.ListView# */{
     resize_field: function (field, cell) {
         var $cell = $(cell);
         field.set_dimensions($cell.outerHeight(), $cell.outerWidth());
-        field.$el.add(field.$translate).addClass('o_temp_visible').css({top: 0, left: 0}).position({
-            my: 'right top',
-            at: 'right top',
-            of: $cell,
-        }).removeClass('o_temp_visible');
+        position_element(field.$el, 'left top');
+        position_element(field.$translate, 'right top');
         if(field.get('effective_readonly')) {
             field.$el.addClass('o_readonly');
         }
         if(field.widget == "handle") {
             field.$el.addClass('o_row_handle');
+        }
+
+        function position_element($el, pos) {
+            $el.addClass('o_temp_visible').css({top: 0, left: 0}).position({
+                my: pos,
+                at: pos,
+                of: $cell,
+            }).removeClass('o_temp_visible');
         }
     },
     /**
