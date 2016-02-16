@@ -144,7 +144,10 @@ class ebay_category(models.Model):
             })
             new_categories.append(category['CategoryID'])
             if 'ChildCategory' in category:
-                cat._create_store_categories(category['ChildCategory'], cat.category_id, new_categories)
+                childs = category['ChildCategory']
+                if not isinstance(childs, list):
+                    childs = [childs]
+                cat._create_store_categories(childs, cat.category_id, new_categories)
             else:
                 cat.leaf_category = True
 
