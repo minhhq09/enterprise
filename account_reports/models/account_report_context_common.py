@@ -187,7 +187,7 @@ class AccountReportContextCommon(models.TransientModel):
                 return str(dt_to.year - 1) + ' - ' + str(dt_to.year)
         if not dt_from:
             return _('(As of %s)') % (date_to,)
-        return _('(From %s <br />to  %s)') % (date_from, date_to)
+        return _('(From %s <br/> to  %s)') % (date_from, date_to)
 
     def get_cmp_date(self):
         if self.get_report_obj().get_report_type() == 'no_date_range':
