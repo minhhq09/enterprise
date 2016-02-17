@@ -59,6 +59,7 @@ class ProviderFedex(models.Model):
 
     def fedex_get_shipping_price_from_so(self, orders):
         res = []
+        max_weight = _convert_weight(self.fedex_default_packaging_id.max_weight, self.fedex_weight_unit)
         for order in orders:
             price = 0.0
 
@@ -79,8 +80,20 @@ class ProviderFedex(models.Model):
             srm.set_currency(order_currency.name)
             srm.set_shipper(order.company_id.partner_id, order.warehouse_id.partner_id)
             srm.set_recipient(order.partner_id)
-            srm.add_package(weight_value, mode='rating')
-            srm.set_master_package(weight_value, 1)
+
+            if max_weight and weight_value > max_weight:
+                total_package = int(weight_value / max_weight)
+                last_package_weight = weight_value % max_weight
+
+                for sequence in range(1, total_package + 1):
+                    srm.add_package(max_weight, sequence_number=sequence, mode='rating')
+                if last_package_weight:
+                    total_package = total_package + 1
+                    srm.add_package(last_package_weight, sequence_number=total_package, mode='rating')
+                srm.set_master_package(weight_value, total_package)
+            else:
+                srm.add_package(weight_value, mode='rating')
+                srm.set_master_package(weight_value, 1)
 
             request = srm.rate()
 

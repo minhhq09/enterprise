@@ -133,7 +133,10 @@ class FedexRequest():
         else:
             self.hasOnePackage = True
 
-        self.RequestedShipment.RequestedPackageLineItems = package
+        if mode == 'rating':
+            self.RequestedShipment.RequestedPackageLineItems.append(package)
+        else:
+            self.RequestedShipment.RequestedPackageLineItems = package
 
     # Rating stuff
 
