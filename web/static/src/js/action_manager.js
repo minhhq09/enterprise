@@ -694,9 +694,10 @@ var ActionManager = Widget.extend({
                 this.dialog_widget.set_cp_bus(new core.Bus());
             }
             this.dialog_widget.setParent(this.dialog);
-            this.dialog.open();
-            
-            return this.dialog_widget.appendTo(this.dialog.$el).then(function() {
+
+            var fragment = document.createDocumentFragment();
+            return this.dialog_widget.appendTo(fragment).then(function() {
+                self.dialog.open().$el.append(fragment);
                 if(options.state && self.dialog_widget.do_load_state) {
                     return self.dialog_widget.do_load_state(options.state);
                 }
