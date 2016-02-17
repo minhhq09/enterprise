@@ -3,14 +3,15 @@
 # * website_contract
 # 
 # Translators:
+# ANDRES FELIPE NEGRETE GOMEZ <psi@nubark.com>, 2016
 # Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-11-28 07:49+0000\n"
-"Last-Translator: Mateo Tibaquirá <nestormateo@gmail.com>\n"
+"PO-Revision-Date: 2016-02-11 22:57+0000\n"
+"Last-Translator: ANDRES FELIPE NEGRETE GOMEZ <psi@nubark.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/odoo/odoo-9/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +70,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Saludos ${object.partner_id.name},</p>\n\n<p>Su nueva suscripción Odoo se encuentra lista.</p>\n\n<p>Puede ver su suscripción en línea visitando nuestro <a href=\"/my/home\">Portal Online</a> o en el siguiente vínculo:</p>\n<a style=\"display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #a24689; border-radius: 5px 5px; background-repeat: repeat no-repeat;\"\nhref=\"/my/contract/${object.id}/${object.uuid}\">Ver Suscripción</a>\n\n\n<p>Desde esta página, puede manejar fácilmente sus contratos:</p>\n<ul>\n<li>Añadir o remover opciones</li>\n<li>Cambiar su período de facturación mensual o anualmente</li>\n<li>Contactar su asesor de ventas</li>\n</ul>\n<p> Puede acceder a este enlace o compartirlo con alguien más para dar él / ella el derecho de administrar esta suscripción. </p>\n<br/>\n<p>Si usted tiene cualquier pregunta, no dude en ponerse en contacto con nosotros.</p>\n<p>Gracias por elegirnos,  ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 347px; margin: 0px; padding: 0px; background-color: #a24689; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #fff;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #333; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nTeléfono:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
@@ -124,7 +125,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Saludos, ${object.partner_id.name},</p>\n\n<p>\nSu suscripción (${ctx.get('code')}) ha sido renovada\n%if ctx.get('total_amount') and ctx.get('payment_method'):\nvia un pago de ${ctx['total_amount']} ${ctx['currency']} cargado en ${ctx['payment_method']}\n.\n%endif\n</p>\n\n<p>Usted puede encontrar su factura adjunta</p>\n\n%if ctx.get('next_date'):\n<p>\nLa próxima factura será el ${ctx.get('next_date')}.\n</p>\n%endif\n\n<br/>\n<p>Si usted tiene cualquier pregunta, no dude en ponerse en contacto con nosotros.</p>\n<p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nTeléfono:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
@@ -180,7 +181,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Saludos ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n\t\t  Nuestro último intento de procesar un pago para su suscripción utilizando el método de pago\n          ${ctx['payment_method']}\n          para ${ctx['total_amount']} ${ctx.get('currency')} ha fallado.\n          % if ctx.get('error'):\n            \n            Su banco o institución crediticia nos ha proporcionado los siguientes detalles sobre la novedad: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n\t\t  Nuestro intento final para procesar un pago para su suscripción fallo porque no existe otro método de pago definido para usted.\n        % endif \n        </p>\n\n        <p>\n\t\t  Si su suscripción no ha sido realizada <strong>15 días atrás</strong>, su suscripción ha terminado.\n        </p>\n\n        <br/>\n\t\t<p>Si desea resolver este problema, no dude en ponerse en contacto con nosotros.</p>\n        <p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -238,7 +239,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Saludos ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n\t\t  Nuestro último intento de procesar un pago para su suscripción utilizando el método de pago\n          ${ctx['payment_method']}\n          para ${ctx['total_amount']} ${ctx.get('currency')} ha fallado.\n          % if ctx.get('error'):\n            \n            Su banco o institución crediticia nos ha proporcionado los siguientes detalles sobre la novedad: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n\t\t  Nuestro intento final para procesar un pago para su suscripción fallo porque no existe otro método de pago definido para usted.\n        % endif \n        </p>\n\n        <p>\n\t\t  Si su suscripción no ha sido realizada <strong>15 días atrás</strong>, su suscripción ha terminado.\n        </p>\n\n        <br/>\n\t\t<p>Si desea resolver este problema, no dude en ponerse en contacto con nosotros.</p>\n        <p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
@@ -311,24 +312,24 @@ msgstr "&amp;times;"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "(Not in"
-msgstr ""
+msgstr "(No en"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "(Wrong address?)"
-msgstr ""
+msgstr "(¿Dirección equivocada?)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "). After this date, you can reopen your account up to"
-msgstr ""
+msgstr "). Después de esta fecha, usted puede reabrir su cuenta hasta"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
 "<abbr title=\"You need to be logged in as this contract's customer to change"
 " country\">Taxes</abbr>:"
-msgstr ""
+msgstr "<abbr title=\"Tienes que estar conectado como este cliente contrato para cambiar el país\">Impuestos</abbr>:"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -347,7 +348,7 @@ msgstr "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> Ce
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 msgid "<span class=\"label label-default\">Current Plan</span>"
-msgstr ""
+msgstr "<span class=\"label label-default\">Plan actual</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -370,7 +371,7 @@ msgstr "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> A
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "<strong>Prepaid units:</strong>"
-msgstr ""
+msgstr "<strong>Preparar unidades:</strong>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -385,19 +386,19 @@ msgstr "Un contrato está enlazado a esta cotización:"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Account Analytic Lines"
-msgstr ""
+msgstr "Líneas Contables Analíticas"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
 msgid "Account UUID"
-msgstr ""
+msgstr "Cuenta UUID"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_payment_acquirer_journal_id
 msgid ""
 "Account journal used for automatic payment reconciliation if you use "
 "automatic payment."
-msgstr ""
+msgstr "Diario contable utilizado para la reconciliación de pago automático si se utiliza este tipo de pago."
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_payment_acquirer_journal_id
@@ -429,19 +430,19 @@ msgstr "Añadir"
 #: model:ir.actions.act_window,name:website_contract.wizard_action
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid "Add Options"
-msgstr ""
+msgstr "Añadir Opciones"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid ""
 "Add an option directly or create a sale order with prorated discount for the"
 " current invoicing period (options are added on confirmation)"
-msgstr ""
+msgstr "Añadir una opción directa o crear una orden de venta con descuento prorrateado por el período de facturación actual (se añaden opciones de confirmación)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid "Add in Subscription"
-msgstr ""
+msgstr "Añadir una Suscripción"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
@@ -457,7 +458,7 @@ msgstr "Pago Automático"
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
-msgstr ""
+msgstr "Plan Básico"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -470,7 +471,7 @@ msgstr "Periodo Facturado:"
 msgid ""
 "Billing:\n"
 "                                    Every"
-msgstr ""
+msgstr "Pagos:\nCada"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -484,22 +485,22 @@ msgstr "Cancelar"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Change Contract"
-msgstr ""
+msgstr "Cambiar Contrato"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
 msgid "Change Your Plan"
-msgstr ""
+msgstr "Cambiar Su Plan"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Change plan"
-msgstr ""
+msgstr "Cambiar plan"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
 msgid "Closable by customer"
-msgstr ""
+msgstr "Cerrado por cliente"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -509,19 +510,19 @@ msgstr "Cerrar"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Close your account"
-msgstr ""
+msgstr "Cierra su cuenta"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Close your contract"
-msgstr ""
+msgstr "Cerrar su contrato"
 
 #. module: website_contract
 #: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
-msgstr ""
+msgstr "Texto de cierre:"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -535,12 +536,12 @@ msgstr "Confirmar"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_add
 msgid "Confirm Option"
-msgstr ""
+msgstr "Opción de Confirmación"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_remove
 msgid "Confirm Option Removal"
-msgstr ""
+msgstr "Confirmar Opción de Renovación"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_subscription_id
@@ -553,12 +554,12 @@ msgstr "Contrato"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Contract Details"
-msgstr ""
+msgstr "Detalles del Contrato"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
-msgstr ""
+msgstr "Plantilla de Contrato"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -583,23 +584,23 @@ msgstr "Creado"
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Current Plan"
-msgstr ""
+msgstr "Actual Plan"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Current plan:"
-msgstr ""
+msgstr "Plan actual:"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Current:"
-msgstr ""
+msgstr "Actual:"
 
 #. module: website_contract
 #: model:product.product,name:website_contract.odoo_custom_domain
 #: model:product.template,name:website_contract.odoo_custom_domain_product_template
 msgid "Custom Domain"
-msgstr ""
+msgstr "Dominio Personalizado"
 
 #. module: website_contract
 #: model:product.product,description_sale:website_contract.odoo_custom_domain
@@ -609,7 +610,7 @@ msgstr ""
 msgid ""
 "Custom Domain\n"
 "Access your Odoo Instance using your own domain."
-msgstr ""
+msgstr "Dominio personalizado\nAcceda a su instancia Odoo desde su propio dominio."
 
 #. module: website_contract
 #: model:sale.quote.option,name:website_contract.sugg_line_12
@@ -617,7 +618,7 @@ msgstr ""
 msgid ""
 "Customize View\n"
 "Customize one or more views (in a single module) to better suit your needs."
-msgstr ""
+msgstr "Personalizar Vista\nPersonalizar una o más vistas (en un solo módulo) para que se adapte mejor a sus necesidades."
 
 #. module: website_contract
 #: model:product.product,name:website_contract.odoo_custom_module
@@ -633,7 +634,7 @@ msgstr "Módulo Personalizado"
 msgid ""
 "Customized Module\n"
 "Customize a module to better match your business process."
-msgstr ""
+msgstr "Módulo Personalizado\nPersonalizar un módulo para adaptarse mejor a sus procesos de negocio."
 
 #. module: website_contract
 #: model:product.product,description_sale:website_contract.odoo_custom_view
@@ -641,7 +642,7 @@ msgstr ""
 msgid ""
 "Customized View\n"
 "Customize one or more views (in a single module) to better suit your needs."
-msgstr ""
+msgstr "Vista Personalizada\nPersonalizar una o más vistas (en un solo módulo) para que se adapte mejor a sus necesidades."
 
 #. module: website_contract
 #: model:product.product,name:website_contract.odoo_custom_view
@@ -682,17 +683,17 @@ msgstr "Nombre Público"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Extra Options"
-msgstr ""
+msgstr "Opciones Extras"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_order_line_force_price
 msgid "Force a specific price, regardless of any coupons or pricelist change"
-msgstr ""
+msgstr "Forzar un precio específico, independientemente de cualquier cupones o cambio de lista de precios"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_force_price
 msgid "Force price"
-msgstr ""
+msgstr "Forzar precio"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_id
@@ -705,12 +706,12 @@ msgstr "ID"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_user_closable
 msgid ""
 "If checked, the user will be able to close his account from the frontend"
-msgstr ""
+msgstr "Si está marcada, el usuario será capaz de cerrar su cuenta desde la interfaz"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
-msgstr ""
+msgstr "Si no se establece, se utilizará el método de pago por defecto de el socio."
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -759,7 +760,7 @@ msgstr ""
 #: selection:sale.subscription.line.option,portal_access:0
 #: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Invisible"
-msgstr ""
+msgstr "Invisible"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_payment_transaction_invoice_id
@@ -780,7 +781,7 @@ msgstr "Factura_${ctx.get('code')}_${ctx.get('previous_date')}"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_is_authorized
 msgid "Is authorized"
-msgstr ""
+msgstr "¿Es autorizado?"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option___last_update
@@ -835,12 +836,12 @@ msgstr "Nuevo"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_add_paid_option
 msgid "New Option added by Sale Order confirmation"
-msgstr ""
+msgstr "Nueva Opción Añadida por la Confirmación de Pedido de Venta"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Next invoice:"
-msgstr ""
+msgstr "Siguiente factura:"
 
 #. module: website_contract
 #: model:product.product,name:website_contract.odoo_saas
@@ -868,22 +869,22 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Option Lines"
-msgstr ""
+msgstr "Líneas de Opción"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_add_option
 msgid "Option added by customer"
-msgstr ""
+msgstr "Opción Añadida por Cliente"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_remove_option
 msgid "Option removed by customer"
-msgstr ""
+msgstr "Opción removida por el cliente"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_option_invoice_line_ids
 msgid "Optional Lines"
-msgstr ""
+msgstr "Líneas Ppcionales"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_lines
@@ -896,7 +897,7 @@ msgstr "Opciones"
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
 msgid "Partial Invoice"
-msgstr ""
+msgstr "Factura Parcial"
 
 #. module: website_contract
 #: code:addons/website_contract/controllers/main.py:290
@@ -937,7 +938,7 @@ msgstr "Plan:"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Please ensure that you have selected the correct plan:"
-msgstr ""
+msgstr "Acceso a Portal"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_portal_access
@@ -979,7 +980,7 @@ msgstr "Cantidad vendida al cliente"
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
 msgid "Recurring Product"
-msgstr ""
+msgstr "Producto Recurrente"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_custom_lines
@@ -989,17 +990,17 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_inactive_lines
 msgid "Recurring inactive lines"
-msgstr ""
+msgstr "Líneas inactivas recurrentes"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_mandatory_lines
 msgid "Recurring mandatory lines"
-msgstr ""
+msgstr "Líneas mandatorias recurrentes"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_option_lines
 msgid "Recurring option lines"
-msgstr ""
+msgstr "Líneas de opción recurrentes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1050,7 +1051,7 @@ msgstr "Ventas"
 #. module: website_contract
 #: model:ir.actions.act_window,name:website_contract.action_contract_sales_all
 msgid "Sales Documents"
-msgstr ""
+msgstr "Documentos de Ventas"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_order
@@ -1066,7 +1067,7 @@ msgstr "Línea de Pedido de Venta"
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Sales Representative"
-msgstr ""
+msgstr "Asesor de Ventas"
 
 #. module: website_contract
 #: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_salesman
@@ -1083,7 +1084,7 @@ msgstr "Cantidad Vendida"
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Start date:"
-msgstr ""
+msgstr "Fecha Inicial:"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_subtotal
@@ -1106,7 +1107,7 @@ msgstr "Subtotal"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Subtotal:"
-msgstr ""
+msgstr "Subtotal:"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_tax
@@ -1189,12 +1190,12 @@ msgstr "Unidades"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Units Remaining"
-msgstr ""
+msgstr "Unidades Remanentes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Units Used"
-msgstr ""
+msgstr "Unidades Usadas"
 
 #. module: website_contract
 #: selection:sale.subscription.line.option,portal_access:0
