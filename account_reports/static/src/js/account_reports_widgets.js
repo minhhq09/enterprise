@@ -35,6 +35,9 @@ var ReportWidget = Widget.extend({
         core.bus.on("keydown", this, this.onKeyPress); // Bind key press to the right function
         return res;
     },
+    update_context: function(update) {
+        $.extend(this.context, update)
+    },
     // Used to trigger actions
     outboundLink: function(e) {
         var self = this;
