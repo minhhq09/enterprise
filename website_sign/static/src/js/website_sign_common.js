@@ -189,7 +189,7 @@ odoo.define('website_sign.PDFIframe', function(require) {
                 editMode: this.editMode,
                 readonly: readonly,
                 type: type['type'],
-                value: (value)? ("" + value).split('\n').join('<br/>') : "",
+                value: value || "",
                 placeholder: type['placeholder']
             }));
 

@@ -64,14 +64,15 @@ class ebay_category(models.Model):
     def sync_categories(self):
         self.sync_store_categories()
 
-        domain = self.env['ir.config_parameter'].get_param('ebay_domain')
+        domain = self.env['ir.config_parameter'].sudo().get_param('ebay_domain')
         prod = self.env['product.template']
         # First call to 'GetCategories' to only get the categories' version
         categories = prod.ebay_execute('GetCategories')
         ebay_version = categories.dict()['Version']
-        version = self.env['ir.config_parameter'].get_param('ebay_sandbox_category_version'
-                                                            if domain == 'sand'
-                                                            else 'ebay_prod_category_version')
+        version = self.env['ir.config_parameter'].sudo().get_param(
+            'ebay_sandbox_category_version'
+            if domain == 'sand'
+            else 'ebay_prod_category_version')
         if version != ebay_version:
             # If the version returned by eBay is different than the one in Odoo
             # Another call to 'GetCategories' with all the information (ReturnAll) is done
@@ -167,7 +168,10 @@ class ebay_category(models.Model):
             })
             new_categories.append(category['CategoryID'])
             if 'ChildCategory' in category:
-                cat._create_store_categories(category['ChildCategory'], cat.category_id, new_categories)
+                childs = category['ChildCategory']
+                if not isinstance(childs, list):
+                    childs = [childs]
+                cat._create_store_categories(childs, cat.category_id, new_categories)
             else:
                 cat.leaf_category = True
 

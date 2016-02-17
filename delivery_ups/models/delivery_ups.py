@@ -81,7 +81,7 @@ class ProviderUPS(models.Model):
                 raise ValidationError(result['error_message'])
 
             if order.currency_id.name == result['currency_code']:
-                price = result['price']
+                price = float(result['price'])
             else:
                 quote_currency = ResCurrency.search([('name', '=', result['currency_code'])], limit=1)
                 price = quote_currency.compute(float(result['price']), order.currency_id)
@@ -126,7 +126,7 @@ class ProviderUPS(models.Model):
                 currency_order = picking.company_id.currency_id
 
             if currency_order.name == result['currency_code']:
-                price = result['price']
+                price = float(result['price'])
             else:
                 quote_currency = ResCurrency.search([('name', '=', result['currency_code'])], limit=1)
                 price = quote_currency.compute(float(result['price']), currency_order)

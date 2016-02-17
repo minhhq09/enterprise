@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-02-01 03:38+0000\n"
+"PO-Revision-Date: 2016-02-10 17:31+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n<p>Saludos, ${object.partner_id.name},</p>\n\n<p>\nSu suscripción (${ctx.get('code')}) ha sido renovada\n%if ctx.get('total_amount') and ctx.get('payment_method'):\nvia un pago de ${ctx['total_amount']} ${ctx['currency']} cargado en ${ctx['payment_method']}\n.\n%endif\n</p>\n\n<p>Usted puede encontrar su factura adjunta</p>\n\n%if ctx.get('next_date'):\n<p>\nLa próxima factura será el ${ctx.get('next_date')}.\n</p>\n%endif\n\n<br/>\n<p>Si usted tiene cualquier pregunta, no dude en ponerse en contacto con nosotros.</p>\n<p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n<br/>\n<br/>\n<div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n<h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n<strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n</div>\n<div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n<span style=\"color: #222; margin-bottom: 5px; display: block; \">\n${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n</span>\n% if object.company_id.phone:\n<div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\nTeléfono:&nbsp; ${object.company_id.phone}\n</div>\n% endif\n% if object.company_id.website:\n<div>\nWeb :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n</div>\n% endif\n<p></p>\n</div>\n</div>"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_close
@@ -130,7 +130,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Saludos ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n\t\t  Nuestro último intento de procesar un pago para su suscripción utilizando el método de pago\n          ${ctx['payment_method']}\n          para ${ctx['total_amount']} ${ctx.get('currency')} ha fallado.\n          % if ctx.get('error'):\n            \n            Su banco o institución crediticia nos ha proporcionado los siguientes detalles sobre la novedad: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n         Nuestro intento final para procesar un pago para su suscripción fallo porque no existe otro método de pago definido para usted.\n        % endif \n        </p>\n\n        <p>\n          Ya que  su pago no ha sido realizado desde hace <strong>15 días atrás</strong>, su suscripción ha terminado.\n        </p>\n\n        <br/>\n\t\t<p>Si desea resolver este problema, no dude en ponerse en contacto con nosotros.</p>\n        <p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Teléfono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_reminder
@@ -188,7 +188,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Saludos ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n\t\t  Nuestro último intento de procesar un pago para su suscripción utilizando el método de pago\n          ${ctx['payment_method']}\n          para ${ctx['total_amount']} ${ctx.get('currency')} ha fallado.\n          % if ctx.get('error'):\n            \n            Su banco o institución crediticia nos ha proporcionado los siguientes detalles sobre la novedad: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n\t\t  Nuestro intento final para procesar un pago para su suscripción fallo porque no existe otro método de pago definido para usted.\n        % endif \n        </p>\n\t\t<p>\n\t\tSu suscripción ${ctx.get('code')} sigue vigente pero será <b>suspendida</b>\n\t\tel ${ctx.get('date_close')} a menos que el pago tiene éxito en el ínterin (vamos a volver a intentar una vez al día).\n\t\tPor favor, compruebe que tiene suficiente fondos.\n\t\t</p>\n        <br/>\n\t\t<p>Si desea resolver este problema, no dude en ponerse en contacto con nosotros.</p>\n        <p>Gracias por elegirnos, ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Teléfono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
@@ -259,7 +259,7 @@ msgstr "\nHola ${object.name},\n\n% macro account_table(values):\n<table cellspa
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
-msgstr "Gestor contable"
+msgstr "Gerente de Contabilidad"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_needaction
@@ -453,7 +453,7 @@ msgstr "País"
 msgid ""
 "Create a sale order that will overwrite this contract when confirmed "
 "(renewal quotation)"
-msgstr ""
+msgstr "Crear una orden de venta que se sobrescribe a este contrato cuando está confirmada (cotización de renovación)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
@@ -626,7 +626,7 @@ msgid ""
 "If set, the associated contract will be overwritten by this sale order "
 "(every recurring line of the contract not in this sale order will be "
 "deleted)."
-msgstr ""
+msgstr "Si se establece, el contrato asociado será sobrescrito por esta orden de venta (cada línea recurrente del contrato que no en este en la orden de venta será suprimida)."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -712,17 +712,17 @@ msgstr "Última actualización en"
 msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
-msgstr ""
+msgstr "Deje esta casilla sin marcar si no desea que este modelo de contrato este a disposición del cliente en la interfaz (para una prueba gratuita, por ejemplo)"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
 msgid "Manage Contracts"
-msgstr ""
+msgstr "Administrar Contratos"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Máximo entre las cantidades actuales y las vendidas; estas cantidades serán facturadas"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_ids
@@ -777,7 +777,7 @@ msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
 "            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
-msgstr ""
+msgstr "Odoo establece automáticamente los contratos con renovación en estado pendiente. Después de la negociación, el vendedor debe cerrar o renovar los contratos pendientes."
 
 #. module: sale_contract
 #: model:ir.actions.client,name:sale_contract.action_client_sale_subscription_menu
@@ -843,12 +843,12 @@ msgstr "Cantidad"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "Cantidad actual usada por el cliente"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Quantity sold to the customer"
-msgstr ""
+msgstr "Cantidad vendida al cliente"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
@@ -859,12 +859,12 @@ msgstr "Recurrencia"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
 msgid "Recurring Price"
-msgstr ""
+msgstr "Precio recurrente"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_recurring_price
 msgid "Recurring price(per period)"
-msgstr ""
+msgstr "Precio recurrente (por período)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_code
@@ -899,7 +899,7 @@ msgstr "Venta periódica"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
 msgid "Sale Subscriptions"
-msgstr ""
+msgstr "Suscripción de Ofertas"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
@@ -935,7 +935,7 @@ msgstr "Establecer a interino"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Open"
-msgstr ""
+msgstr "Configurarlo como Abierto"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -985,7 +985,7 @@ msgstr "Suscripción"
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_graph
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_pivot
 msgid "Subscription Analysis"
-msgstr ""
+msgstr "Análisis de suscripciones"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -1001,12 +1001,12 @@ msgstr "Producto Suscripción"
 #: model:ir.actions.act_window,name:sale_contract.product_action_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_product
 msgid "Subscription Products"
-msgstr ""
+msgstr "Productos de suscripción"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_report
 msgid "Subscription Statistics"
-msgstr ""
+msgstr "Estadística de suscripción"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
@@ -1014,12 +1014,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id
 #: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
 msgid "Subscription Template"
-msgstr ""
+msgstr "Plantilla de suscripción"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list_template
 msgid "Subscription Templates"
-msgstr ""
+msgstr "Plantillas de suscripción"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
@@ -1065,7 +1065,7 @@ msgid ""
 "Templates are used to prefigure subscription that \n"
 "                can be selected by the salespeople to quickly configure the\n"
 "                terms and conditions of the subscription."
-msgstr ""
+msgstr "Las plantillas se utilizan para pre-configurar las suscripciones \nque pueden ser seleccionadas por los vendedores para configurar\nrápidamente los términos y condiciones de la suscripción."
 
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.email_payment_close
@@ -1078,7 +1078,7 @@ msgid ""
 "The product form contains information to simplify the sale\n"
 "            process: price, notes in the quotation, accounting data,\n"
 "            procurement methods, etc."
-msgstr ""
+msgstr "El formulario del producto contiene información para simplificar el \nproceso de venta: precios, notas en la cotización, datos contables, \nmétodos de abastecimientos, etc."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_view
@@ -1157,7 +1157,7 @@ msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
 "                work done, expenses and/or sales orders. Odoo will automatically manage\n"
 "                the alerts for the renewal of the contracts to the right salesperson."
-msgstr ""
+msgstr "Utilice contratos para seguir las tareas, temas, hojas de registro y facturación basados en los gastos de trabajo realizados y/o las órdenes de venta. Odoo gestionará automáticamente las alertas para la renovación de los contratos  de acuerdo al vendedor."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_website_message_ids
@@ -1185,7 +1185,7 @@ msgid ""
 "You must define a product for everything you sell, whether it's\n"
 "            a physical product, a consumable or a service you offer to\n"
 "            customers."
-msgstr ""
+msgstr "Debe definir un producto para todo lo que vende, si se trata de un \nproducto físico, un producto consumible o un servicio que ofrece \na los clientes."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:174
@@ -1199,17 +1199,17 @@ msgid ""
 "You will find here the contracts to be renewed because the\n"
 "            end date is passed or the working effort is higher than the\n"
 "            maximum authorized one."
-msgstr ""
+msgstr "Aquí encontrará los contratos que se renovaron debido a que la \nfecha de finalización expiró o el esfuerzo de trabajo es superior al máximo autorizado."
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "sale.subscription.close.reason"
-msgstr ""
+msgstr "sale.subscription.close.reason"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
-msgstr ""
+msgstr "sale.subscription.line"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
@@ -1224,4 +1224,4 @@ msgstr "⇒ Generar factura"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
-msgstr ""
+msgstr "⇒ Cotización de renovación"

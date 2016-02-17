@@ -257,18 +257,19 @@ class product_template(models.Model):
 
     @api.model
     def get_ebay_api(self, domain):
-        dev_id = self.env['ir.config_parameter'].get_param('ebay_dev_id')
-        site_id = self.env['ir.config_parameter'].get_param('ebay_site')
+        params = self.env['ir.config_parameter'].sudo()
+        dev_id = params.get_param('ebay_dev_id')
+        site_id = params.get_param('ebay_site')
         site = self.env['ebay.site'].browse(int(site_id))
         if domain == 'sand':
-            app_id = self.env['ir.config_parameter'].get_param('ebay_sandbox_app_id')
-            cert_id = self.env['ir.config_parameter'].get_param('ebay_sandbox_cert_id')
-            token = self.env['ir.config_parameter'].get_param('ebay_sandbox_token')
+            app_id = params.get_param('ebay_sandbox_app_id')
+            cert_id = params.get_param('ebay_sandbox_cert_id')
+            token = params.get_param('ebay_sandbox_token')
             domain = 'api.sandbox.ebay.com'
         else:
-            app_id = self.env['ir.config_parameter'].get_param('ebay_prod_app_id')
-            cert_id = self.env['ir.config_parameter'].get_param('ebay_prod_cert_id')
-            token = self.env['ir.config_parameter'].get_param('ebay_prod_token')
+            app_id = params.get_param('ebay_prod_app_id')
+            cert_id = params.get_param('ebay_prod_cert_id')
+            token = params.get_param('ebay_prod_token')
             domain = 'api.ebay.com'
 
         if not app_id or not cert_id or not token:
