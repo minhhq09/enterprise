@@ -44,6 +44,7 @@ class ProviderUPS(models.Model):
         superself = self.sudo()
         srm = UPSRequest(superself.ups_username, superself.ups_passwd, superself.ups_shipper_number, superself.ups_access_number, self.prod_environment)
         ResCurrency = self.env['res.currency']
+        max_weight = self.ups_default_packaging_id.max_weight
         for order in orders:
             packages = []
             total_qty = 0
@@ -51,8 +52,17 @@ class ProviderUPS(models.Model):
             for line in order.order_line.filtered(lambda line: not line.is_delivery):
                 total_qty += line.product_uom_qty
                 total_weight += line.product_id.weight * line.product_qty
-            total_weight = self._convert_weight(total_weight)
-            packages.append(Package(self, total_weight))
+
+            if max_weight and total_weight > max_weight:
+                total_package = int(total_weight / max_weight)
+                last_package_weight = total_weight % max_weight
+
+                for seq in range(total_package):
+                    packages.append(Package(self, max_weight))
+                if last_package_weight:
+                    packages.append(Package(self, last_package_weight))
+            else:
+                packages.append(Package(self, total_weight))
 
             shipment_info = {
                 'total_qty': total_qty  # required when service type = 'UPS Worldwide Express Freight'
