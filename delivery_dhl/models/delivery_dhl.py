@@ -61,7 +61,7 @@ class Providerdhl(models.Model):
             srm.check_required_value(self, order.partner_shipping_id, order.warehouse_id.partner_id, order=order)
             result = srm.rate_request(order, self)
             if order.currency_id.name == result['currency']:
-                price = result['price']
+                price = float(result['price'])
             else:
                 quote_currency = self.env['res.currency'].search([('name', '=', result['currency'])], limit=1)
                 price = quote_currency.compute(float(result['price']), order.currency_id)
@@ -76,7 +76,7 @@ class Providerdhl(models.Model):
             shipping = srm.send_shipping(picking, self)
             order_currency = picking.sale_id.currency_id or picking.company_id.currency_id
             if order_currency.name == shipping['currency']:
-                carrier_price = shipping['price']
+                carrier_price = float(shipping['price'])
             else:
                 quote_currency = self.env['res.currency'].search([('name', '=', shipping['currency'])], limit=1)
                 carrier_price = quote_currency.compute(float(shipping['price']), order_currency)

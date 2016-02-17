@@ -188,8 +188,8 @@ class AccountReportContextCommon(models.TransientModel):
             else:
                 return str(dt_to.year - 1) + ' - ' + str(dt_to.year)
         if not dt_from:
-            return '(As of %s)' % (date_to,)
-        return '(From %s <br />to  %s)' % (date_from, date_to)
+            return _('(As of %s)') % (date_to,)
+        return _('(From %s <br/> to  %s)') % (date_from, date_to)
 
     def get_cmp_date(self):
         if self.get_report_obj().get_report_type() == 'no_date_range':
@@ -535,7 +535,11 @@ class AccountReportContextCommon(models.TransientModel):
         domain = [('create_uid', '=', self.env.user.id)]
         if report_id:
             domain.append(('report_id', '=', int(report_id)))
-        context = self.env[context_model].search(domain, limit=1)
+        context = False
+        for c in self.env[context_model].search(domain):
+            if set(c.available_company_ids.ids) == set(self.env.user.company_ids.ids):
+                context = c
+                break
         if context and (given_context.get('force_fy') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
             context.unlink()
             context = self.env[context_model].browse([]) # set it to an empty set to indicate the contexts have been removed

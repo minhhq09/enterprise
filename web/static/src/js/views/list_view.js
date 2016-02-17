@@ -142,6 +142,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
      */
     view_loading: function(fvg) {
         this.fields_view = fvg;
+        this.options.deletable = this.options.deletable && this.is_action_enabled('delete');
         this.name = "" + this.fields_view.arch.attrs.string;
         // the view's number of records per page (|| section)
         this._limit = (this.options.limit ||

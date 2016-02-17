@@ -48,7 +48,7 @@
         </div>
     </div>
     <t t-name="accountReports.searchView">
-        <div class="o_dropdown o_account_reports_date-filter">
+        <div class="o_dropdown o_account_reports_date-filter" t-if="report_type != 'date_range_extended'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-calendar"/> 
                 <t t-if="report_type == 'no_date_range'">Date:</t>
@@ -99,7 +99,7 @@
                 </li>
             </ul>
         </div>
-        <div class="o_dropdown o_account_reports_date-filter-cmp" t-if="report_type != 'no_comparison' and report_type != 'bank_reconciliation'">
+        <div class="o_dropdown o_account_reports_date-filter-cmp" t-if="report_type != 'no_comparison' and report_type != 'bank_reconciliation' and report_type != 'date_range_extended'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-bar-chart"/> Comparison:
                 <t t-if="context.date_filter_cmp == 'no_comparison'">None</t>
@@ -146,7 +146,7 @@
                 </li>
             </ul>
         </div>
-        <div class="o_dropdown o_account_reports_date-filter-bool" t-if="report_type != 'bank_reconciliation'">
+        <div class="o_dropdown o_account_reports_date-filter-bool" t-if="report_type != 'bank_reconciliation' and report_type != 'date_range_extended'">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-filter"/> Options:
                 <t t-if="report_type != 'date_range_cash'"> 
