@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import binascii
 import time
+from math import ceil
 from urllib2 import Request, urlopen, URLError
 import xml.etree.ElementTree as etree
 import unicodedata
@@ -25,18 +26,29 @@ class DHLProvider():
             return round(weight, 3)
 
     def _get_rate_param(self, order, carrier):
-        return {
+        res = {}
+        total_weight = self._convert_weight(sum([(line.product_id.weight * line.product_qty) for line in order.order_line]), carrier.dhl_package_weight_unit)
+        max_weight = self._convert_weight(carrier.dhl_default_packaging_id.max_weight, carrier.dhl_package_weight_unit)
+
+        res = {
             'carrier': carrier,
             'shipper_partner': order.warehouse_id.partner_id,
             'Date': time.strftime('%Y-%m-%d'),
             'ReadyTime': time.strftime('PT%HH%MM'),
             'recipient_partner': order.partner_shipping_id,
-            'total_weight': self._convert_weight(sum([(line.product_id.weight * line.product_qty) for line in order.order_line]), carrier.dhl_package_weight_unit),
+            'total_weight': total_weight,
             'currency_name': order.currency_id.name,
             'total_value': sum([(line.price_unit * line.product_uom_qty) for line in order.order_line.filtered(lambda line: not line.is_delivery)]) or 0,
             'is_dutiable': carrier.dhl_dutiable,
             'package_ids': False,
         }
+        if max_weight and total_weight > max_weight:
+            total_package = int(ceil(total_weight / max_weight))
+            last_package_weight = total_weight % max_weight
+            res['total_packages'] = total_package
+            res['last_package_weight'] = last_package_weight
+            res['package_ids'] = carrier.dhl_default_packaging_id
+        return res
 
     def rate_request(self, order, carrier):
         dict_response = {'price': 0.0,
@@ -203,7 +215,7 @@ class DHLProvider():
         etree.SubElement(bkg_details_node, "DimensionUnit").text = carrier.dhl_package_dimension_unit
         etree.SubElement(bkg_details_node, "WeightUnit").text = carrier.dhl_package_weight_unit
         pieces_node = etree.SubElement(bkg_details_node, "Pieces")
-        if param["package_ids"]:
+        if param["package_ids"] and not param['total_packages']:
             for index, package in enumerate(param["package_ids"], start=1):
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(index)
@@ -213,6 +225,19 @@ class DHLProvider():
                 etree.SubElement(piece_node, "Depth").text = str(packaging.length)
                 etree.SubElement(piece_node, "Width").text = str(packaging.width)
                 etree.SubElement(piece_node, "Weight").text = str(package.shipping_weight)
+        elif param['package_ids'] and param['total_packages']:
+            package = param['package_ids']
+            for seq in range(1, param['total_packages'] + 1):
+                piece_node = etree.SubElement(pieces_node, "Piece")
+                etree.SubElement(piece_node, "PieceID").text = str(seq)
+                etree.SubElement(piece_node, "PackageTypeCode").text = package.shipper_package_code
+                etree.SubElement(piece_node, "Height").text = str(package.height)
+                etree.SubElement(piece_node, "Depth").text = str(package.length)
+                etree.SubElement(piece_node, "Width").text = str(package.width)
+                if seq == param['total_packages'] and param['last_package_weight']:
+                    etree.SubElement(piece_node, "Weight").text = str(param['last_package_weight'])
+                else:
+                    etree.SubElement(piece_node, "Weight").text = str(package.max_weight)
         else:
             piece_node = etree.SubElement(pieces_node, "Piece")
             etree.SubElement(piece_node, "PieceID").text = str(1)
