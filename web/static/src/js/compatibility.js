@@ -186,9 +186,7 @@ function start_modules (modules) {
 // Monkey-patching of the ListView for backward compatibiliy of the colors and
 // fonts row's attributes, as they are deprecated in 9.0.
 ListView.include({
-    view_loading: function(fvg) {
-        this._super(fvg);
-
+    willStart: function() {
         if (this.fields_view.arch.attrs.colors) {
             this.colors = _(this.fields_view.arch.attrs.colors.split(';')).chain()
                 .compact()
@@ -209,6 +207,8 @@ ListView.include({
                     return [font, py.parse(py.tokenize(expr)), expr];
                 }).value();
         }
+
+        return this._super();
     },
     /**
      * Returns the style for the provided record in the current view (from the

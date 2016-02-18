@@ -6,13 +6,11 @@ var core = require('web.core');
 var data = require('web.data');
 var Dialog = require('web.Dialog');
 var common = require('web.form_common');
-var FormView = require('web.FormView');
 var ListView = require('web.ListView');
 var Model = require('web.DataModel');
 var session = require('web.session');
 var utils = require('web.utils');
 var ViewManager = require('web.ViewManager');
-var formats = require('web.formats');
 
 var _t = core._t;
 var QWeb = core.qweb;
@@ -734,11 +732,9 @@ var FieldX2Many = AbstractManyField.extend({
             var view = {
                 view_id: false,
                 view_type: view_type === "tree" ? "list" : view_type,
-                options: {}
+                fields_view: self.field.views && self.field.views[view_type],
+                options: {},
             };
-            if (self.field.views && self.field.views[view_type]) {
-                view.embedded_view = self.field.views[view_type];
-            }
             if(view.view_type === "list") {
                 _.extend(view.options, {
                     action_buttons: false, // to avoid 'Save' and 'Discard' buttons to appear in X2M fields
@@ -807,11 +803,8 @@ var FieldX2Many = AbstractManyField.extend({
             });
         });
         $.async_when().done(function () {
-            if (!self.isDestroyed()) {
-                self.viewmanager.setElement(self.$el);
-                self.$el.addClass('o_view_manager_content');
-                self.viewmanager.start();
-            }
+            self.$el.addClass('o_view_manager_content');
+            self.alive(self.viewmanager.attachTo(self.$el));
         });
         return def;
     },
@@ -892,7 +885,7 @@ var X2ManyViewManager = ViewManager.extend({
     },
     init: function(parent, dataset, views, flags, x2many_views) {
         // By default, render buttons and pager in X2M fields, but no sidebar
-        var flags = _.extend({}, flags, {
+        flags = _.extend({}, flags, {
             headless: false,
             search_view: false,
             action_buttons: true,
@@ -918,7 +911,6 @@ var X2ManyViewManager = ViewManager.extend({
             res_model: self.x2m.field.relation,
             res_id: id,
             context: self.x2m.build_context(),
-
             title: _t("Open: ") + self.x2m.string,
             create_function: function(data, options) {
                 return self.x2m.data_create(data, options);
@@ -945,7 +937,6 @@ var X2ManyViewManager = ViewManager.extend({
 
 var X2ManyListView = ListView.extend({
     is_valid: function () {
-        var self = this;
         if (!this.fields_view || !this.editable()){
             return true;
         }
@@ -960,7 +951,7 @@ var X2ManyListView = ListView.extend({
             field.no_rerender = true;
             current_values[field.name] = field.get('value');
         });
-        var cached_records = _.filter(this.dataset.cache, function(item){return !_.isEmpty(item.values)});
+        var cached_records = _.filter(this.dataset.cache, function(item){return !_.isEmpty(item.values);});
         var valid = _.every(cached_records, function(record){
             _.each(fields, function(field){
                 var value = record.values[field.name];
@@ -1018,14 +1009,16 @@ var X2ManyList = ListView.List.extend({
                 .click(function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    // FIXME: there should also be an API for that one
-                    if (self.view.editor.form.__blur_timeout) {
-                        clearTimeout(self.view.editor.form.__blur_timeout);
-                        self.view.editor.form.__blur_timeout = false;
+                    var def;
+                    if (self.view.editable()) {
+                        // FIXME: there should also be an API for that one
+                        if (self.view.editor.form.__blur_timeout) {
+                            clearTimeout(self.view.editor.form.__blur_timeout);
+                            self.view.editor.form.__blur_timeout = false;
+                        }
+                        def = self.view.save_edition();
                     }
-                    self.view.save_edition().done(function () {
-                        self.view.do_add_record();
-                    });
+                    $.when(def).done(self.view.do_add_record.bind(self));
                 }));
 
         var $padding = this.$current.find('tr:not([data-id]):first');
@@ -1039,11 +1032,12 @@ var X2ManyList = ListView.List.extend({
 });
 
 var One2ManyListView = X2ManyListView.extend({
-    init: function (parent, dataset, view_id, options) {
-        this._super(parent, dataset, view_id, _.extend(options || {}, {
+    init: function () {
+        this._super.apply(this, arguments);
+        this.options = _.extend(this.options, {
             GroupsType: One2ManyGroups,
             ListType: X2ManyList
-        }));
+        });
         this.on('edit:after', this, this.proxy('_after_edit'));
         this.on('save:before cancel:before', this, this.proxy('_before_unedit'));
 
@@ -1271,15 +1265,12 @@ var FieldOne2Many = FieldX2Many.extend({
     },
 });
 
-/**
- * @class
- * @extends instance.web.ListView
- */
-var Many2ManyListView = X2ManyListView.extend(/** @lends instance.web.form.Many2ManyListView# */{
-    init: function (parent, dataset, view_id, options) {
-        this._super(parent, dataset, view_id, _.extend(options || {}, {
+var Many2ManyListView = X2ManyListView.extend({
+    init: function () {
+        this._super.apply(this, arguments);
+        this.options = _.extend(this.options, {
             ListType: X2ManyList,
-        }));
+        });
     },
     do_add_record: function () {
         var self = this;
@@ -1301,7 +1292,7 @@ var Many2ManyListView = X2ManyListView.extend(/** @lends instance.web.form.Many2
     do_activate_record: function(index, id) {
         var self = this;
         var pop = new common.FormViewDialog(this, {
-            res_model: this.dataset.model, 
+            res_model: this.model,
             res_id: id,
             context: this.x2m.build_context(),
             title: _t("Open: ") + this.x2m.string,
