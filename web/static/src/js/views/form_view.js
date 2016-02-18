@@ -390,7 +390,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
                 self.trigger('load_record', _.clone(r));
             });
         }
-        return self.trigger('load_record', {});
+        return $.when().then(this.trigger.bind(this, 'load_record', {}));
     },
     on_form_changed: function() {
         this.trigger("view_content_has_changed");
