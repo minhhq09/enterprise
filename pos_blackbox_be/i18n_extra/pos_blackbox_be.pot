@@ -141,6 +141,12 @@ msgid "Action"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:403
+#, python-format
+msgid "Adding additional payments to registered orders is not allowed."
+msgstr ""
+
+#. module: pos_blackbox_be
 #. openerp-web
 #: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:51
 #, python-format
@@ -239,14 +245,8 @@ msgid "Can't modify fields related to the Fiscal Data Module."
 msgstr ""
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:327
-#, python-format
-msgid "Can't modify saved orders."
-msgstr ""
-
-#. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:491
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:494
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:532
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:535
 #, python-format
 msgid "Can't modify the log book."
 msgstr ""
@@ -367,7 +367,7 @@ msgstr ""
 #. module: pos_blackbox_be
 #: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:318
 #, python-format
-msgid "Deleting of point of sale orders is not allowed."
+msgid "Deleting of registered orders is not allowed."
 msgstr ""
 
 #. module: pos_blackbox_be
@@ -661,12 +661,24 @@ msgid "Logs"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:324
+#, python-format
+msgid "Manually creating registered orders is not allowed."
+msgstr ""
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log_model_name
 msgid "Model name"
 msgstr ""
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:516
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:345
+#, python-format
+msgid "Modifying registered orders is not allowed."
+msgstr ""
+
+#. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:557
 #, python-format
 msgid "Modifying this product is not allowed."
 msgstr ""
@@ -698,9 +710,9 @@ msgid "Not allowed to take back more than was ordered."
 msgstr ""
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:47
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:49
 #, python-format
-msgid "Only one Point of Sale allowed per proxy."
+msgid "Only one Point of Sale allowed per registered POSBox."
 msgstr ""
 
 #. module: pos_blackbox_be
@@ -814,6 +826,11 @@ msgid "Point of Sale Orders Pro Forma (PS)"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: model:ir.model,name:pos_blackbox_be.model_pos_make_payment
+msgid "Point of Sale Payment"
+msgstr ""
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
 msgid "Pos production id"
@@ -898,6 +915,17 @@ msgid "Record name"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:353
+#, python-format
+msgid "Refunding registered orders is not allowed."
+msgstr ""
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_blackbox_pos_production_id
+msgid "Registered POSBox serial number"
+msgstr ""
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_report_sequence_number
 msgid "Report sequence number"
 msgstr ""
@@ -932,6 +960,12 @@ msgstr ""
 #: model:product.product,name:pos_blackbox_be.product_season
 #: model:product.template,name:pos_blackbox_be.product_season_product_template
 msgid "Seizoensuggestie"
+msgstr ""
+
+#. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:45
+#, python-format
+msgid "Serial number must consist of 14 characters."
 msgstr ""
 
 #. module: pos_blackbox_be
@@ -1117,6 +1151,11 @@ msgstr ""
 #. module: pos_blackbox_be
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
+msgid "Unique ID of Odoo that created this order"
+msgstr ""
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_terminal_id
 msgid "Unique ID of the POS that created this order"
 msgstr ""
 
@@ -1130,6 +1169,11 @@ msgstr ""
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_blackbox_unique_fdm_production_number
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_blackbox_unique_fdm_production_number
 msgid "Unique ID of the blackbox that handled this order"
+msgstr ""
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_terminal_id
+msgid "Unique ID of the terminal that created this order"
 msgstr ""
 
 #. module: pos_blackbox_be

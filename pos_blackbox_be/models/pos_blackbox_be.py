@@ -33,18 +33,20 @@ class pos_config(models.Model):
     _inherit = 'pos.config'
 
     report_sequence_number = fields.Integer()
+    blackbox_pos_production_id = fields.Char("Registered POSBox serial number")
 
-    @api.constrains('proxy_ip')
+    @api.constrains('blackbox_pos_production_id')
     def _check_one_posbox_per_config(self):
         # we need to iterate over all the config records
         pos_config = self.env['pos.config']
-        proxy_ips = set()
 
-        for config in pos_config.search([]):
-            if config.proxy_ip not in proxy_ips:
-                proxy_ips.add(config.proxy_ip)
-            else:
-                raise ValidationError(_("Only one Point of Sale allowed per proxy."))
+        if self.blackbox_pos_production_id:
+            if len(self.blackbox_pos_production_id) != 14:
+                raise ValidationError(_("Serial number must consist of 14 characters."))
+
+            if pos_config.search([('id', '!=', self.id),
+                                  ('blackbox_pos_production_id', '=', self.blackbox_pos_production_id)]):
+                raise ValidationError(_("Only one Point of Sale allowed per registered POSBox."))
 
     def get_next_report_sequence_number(self):
         to_return = self.report_sequence_number
@@ -314,20 +316,43 @@ class pos_order(models.Model):
     pos_production_id = fields.Char(help="Unique ID of Odoo that created this order")
     terminal_id = fields.Char(help="Unique ID of the terminal that created this order")
 
+    @api.model
+    def create(self, values):
+        pos_session = self.env['pos.session'].browse(values.get('session_id'))
+
+        if pos_session.config_id.blackbox_pos_production_id and not values.get('blackbox_signature'):
+            raise UserError(_('Manually creating registered orders is not allowed.'))
+
+        return super(pos_order, self).create(values)
+
     @api.multi
     def unlink(self):
-        raise UserError(_('Deleting of point of sale orders is not allowed.'))
+        for order in self:
+            if order.config_id.blackbox_pos_production_id:
+                raise UserError(_('Deleting of registered orders is not allowed.'))
+
+        return super(pos_order, self).unlink()
 
     @api.multi
     def write(self, values):
-        white_listed_fields = ['state', 'account_move', 'picking_id',
-                               'invoice_id']
+        for order in self:
+            if order.config_id.blackbox_pos_production_id:
+                white_listed_fields = ['state', 'account_move', 'picking_id',
+                                       'invoice_id']
 
-        for field in values.keys():
-            if field not in white_listed_fields:
-                raise UserError(_("Can't modify saved orders."))
+                for field in values.keys():
+                    if field not in white_listed_fields:
+                        raise UserError(_("Modifying registered orders is not allowed."))
 
         return super(pos_order, self).write(values)
+
+    @api.multi
+    def refund(self):
+        for order in self:
+            if order.config_id.blackbox_pos_production_id:
+                raise UserError(_("Refunding registered orders is not allowed."))
+
+        return super(pos_order, self).refund()
 
     @api.model
     def _order_fields(self, ui_order):
@@ -356,16 +381,28 @@ class pos_order(models.Model):
     @api.model
     def create_from_ui(self, orders):
         # this will call pos_order_pro_forma.create_from_ui when required
-        pro_forma_orders = [order['data'] for order in orders if order['data']['blackbox_pro_forma']]
+        pro_forma_orders = [order['data'] for order in orders if order['data'].get('blackbox_pro_forma')]
 
         # filter the pro_forma orders out of the orders list
-        regular_orders = [order for order in orders if not order['data']['blackbox_pro_forma']]
+        regular_orders = [order for order in orders if not order['data'].get('blackbox_pro_forma')]
 
         # deal with the pro forma orders
         self.env['pos.order_pro_forma'].create_from_ui(pro_forma_orders)
 
         # only return regular order ids, shouldn't care about pro forma in the POS anyway
         return super(pos_order, self).create_from_ui(regular_orders)
+
+class pos_make_payment(models.TransientModel):
+    _inherit = 'pos.make.payment'
+
+    @api.multi
+    def check(self):
+        order = self.env['pos.order'].browse(self.env.context.get('active_id'))
+
+        if order.config_id.blackbox_pos_production_id:
+            raise UserError(_("Adding additional payments to registered orders is not allowed."))
+
+        return super(pos_make_payment, self).check()
 
 class pos_order_line(models.Model):
     _inherit = 'pos.order.line'

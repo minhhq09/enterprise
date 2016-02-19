@@ -789,7 +789,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             packet.add_field(new FDMPacketField("ticket date", 8, order.blackbox_pos_receipt_time.format("YYYYMMDD")));
             packet.add_field(new FDMPacketField("ticket time", 6, order.blackbox_pos_receipt_time.format("HHmmss")));
             packet.add_field(new FDMPacketField("insz or bis number", 11, insz_or_bis_number));
-            packet.add_field(new FDMPacketField("production number POS", 14, this.pos.blackbox_pos_production_id));
+            packet.add_field(new FDMPacketField("production number POS", 14, this.pos.config.blackbox_pos_production_id));
             packet.add_field(new FDMPacketField("ticket number", 6, (++this.pos.config.backend_sequence_number).toString(), " "));
 
             if (order.blackbox_pro_forma) {
@@ -1050,6 +1050,22 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             return true;
         },
 
+        connect_to_proxy: function () {
+            var self = this;
+            return posmodel_super.connect_to_proxy.apply(this, arguments).then(function () {
+                self.proxy.message('request_serial', {}, {timeout: 5000}).then(function (response) {
+                    if (! response || "BODO001" + response != self.config.blackbox_pos_production_id) {
+                        self.proxy._show_could_not_connect_error();
+                    } else {
+                        self.chrome.ready.then(function () {
+                            var current = $(self.chrome.$el).find('.placeholder-posID').text();
+                            $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.config.blackbox_pos_production_id);
+                        });
+                    }
+                });
+            });
+        },
+
         push_order_to_blackbox: function (order) {
             var self = this;
 
@@ -1079,7 +1095,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                     order.blackbox_unique_fdm_production_number = parsed_response.fdm_unique_production_number;
                     order.blackbox_plu_hash = self._prepare_plu_hash_for_ticket(packet.fields[packet.fields.length - 1].content);
                     order.blackbox_pos_version = "Odoo " + self.version.server_version + "BE_FDM";
-                    order.blackbox_pos_production_id = self.blackbox_pos_production_id;
+                    order.blackbox_pos_production_id = self.config.blackbox_pos_production_id;
                     order.blackbox_terminal_id = self.blackbox_terminal_id;
 
                     if (! order.blackbox_pro_forma) {
@@ -1429,29 +1445,6 @@ can no longer be modified. Please create a new line with eg. a negative quantity
     screens.define_action_button({
         'name': 'work_in',
         'widget': work_in_button,
-    });
-
-    models.load_models({
-        'model': "ir.config_parameter",
-        'fields': ['key', 'value'],
-        'domain': [['key', '=', 'database.uuid']],
-        'loaded': function (self, params) {
-            // 12 lsB of db uid + 2 bytes pos config
-            var config_id = self.config.id.toString();
-
-            if (config_id.length < 2) {
-                config_id = "0" + config_id;
-            }
-
-            self.blackbox_pos_production_id = "BODO001" + params[0].value.substr(-5) + config_id;
-
-            self.chrome.ready.then(function () {
-                var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.blackbox_pos_production_id);
-            });
-        }
-    }, {
-        'after': "pos.config"
     });
 
     models.load_models({

@@ -141,6 +141,12 @@ msgid "Action"
 msgstr "Actie"
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:403
+#, python-format
+msgid "Adding additional payments to registered orders is not allowed."
+msgstr "Extra betalingen toevoegen aan geregistreerde orders is niet toegestaan."
+
+#. module: pos_blackbox_be
 #. openerp-web
 #: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:51
 #, python-format
@@ -239,14 +245,8 @@ msgid "Can't modify fields related to the Fiscal Data Module."
 msgstr "Velden in verband met de Fiscal Data Module kunnen niet worden aangepast."
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:327
-#, python-format
-msgid "Can't modify saved orders."
-msgstr "Opgeslagen orders wijzigen is niet toegestaan."
-
-#. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:491
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:494
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:532
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:535
 #, python-format
 msgid "Can't modify the log book."
 msgstr "Het logboek wijzigen is niet toegestaan."
@@ -367,8 +367,8 @@ msgstr "Point of sale orders verwijderen is niet toegestaan."
 #. module: pos_blackbox_be
 #: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:318
 #, python-format
-msgid "Deleting of point of sale orders is not allowed."
-msgstr "Point of sale orders verwijderen is niet toegestaan."
+msgid "Deleting of registered orders is not allowed."
+msgstr "Geregistreerde orders verwijderen is niet toegestaan."
 
 #. module: pos_blackbox_be
 #: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:532
@@ -661,12 +661,24 @@ msgid "Logs"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:324
+#, python-format
+msgid "Manually creating registered orders is not allowed."
+msgstr "Geregistreerde orders manueel aanmaken is niet toegestaan."
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log_model_name
 msgid "Model name"
 msgstr "Model naam"
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:516
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:345
+#, python-format
+msgid "Modifying registered orders is not allowed."
+msgstr "Geregistreerde orders aanpassen is niet toegestaan."
+
+#. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:557
 #, python-format
 msgid "Modifying this product is not allowed."
 msgstr "Dit product aanpassen is niet toegestaan."
@@ -698,10 +710,10 @@ msgid "Not allowed to take back more than was ordered."
 msgstr "Verboden om meer te retourneren dan dat was besteld."
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:47
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:49
 #, python-format
-msgid "Only one Point of Sale allowed per proxy."
-msgstr "Er is slechts één Point of Sale per proxy toegestaan."
+msgid "Only one Point of Sale allowed per registered POSBox."
+msgstr "Er is slechts één Point of Sale per geregistreerde POSBox toegestaan."
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_date_order
@@ -814,6 +826,11 @@ msgid "Point of Sale Orders Pro Forma (PS)"
 msgstr "Kassa Orders Pro Forma (PS)"
 
 #. module: pos_blackbox_be
+#: model:ir.model,name:pos_blackbox_be.model_pos_make_payment
+msgid "Point of Sale Payment"
+msgstr "Kassa betaling"
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
 msgid "Pos production id"
@@ -898,6 +915,17 @@ msgid "Record name"
 msgstr "Record naam"
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:353
+#, python-format
+msgid "Refunding registered orders is not allowed."
+msgstr "Point of sale orders terugbetalen is niet toegestaan."
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_blackbox_pos_production_id
+msgid "Registered POSBox serial number"
+msgstr "Serienummer geregistreerde POSBox"
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_report_sequence_number
 msgid "Report sequence number"
 msgstr "Rapport volgnummer"
@@ -933,6 +961,12 @@ msgstr "Zoek pro forma orders"
 #: model:product.template,name:pos_blackbox_be.product_season_product_template
 msgid "Seizoensuggestie"
 msgstr ""
+
+#. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:45
+#, python-format
+msgid "Serial number must consist of 14 characters."
+msgstr "Serienummer moet bestaan uit 14 karakters."
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_session_id
@@ -1118,6 +1152,11 @@ msgstr "Totale maatstaf van heffing BTW-tarief D"
 #. module: pos_blackbox_be
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
+msgid "Unique ID of Odoo that created this order"
+msgstr "Unieke ID van Odoo die deze order heeft aangemaakt"
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_terminal_id
 msgid "Unique ID of the POS that created this order"
 msgstr "Unieke ID van de kassa die deze order heeft aangemaakt"
 
@@ -1132,6 +1171,11 @@ msgstr "Unieke ID van de Vat Signing Card gebruikt voor deze order"
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_blackbox_unique_fdm_production_number
 msgid "Unique ID of the blackbox that handled this order"
 msgstr "Unieke ID van de blackbox gebruikt voor deze order"
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_terminal_id
+msgid "Unique ID of the terminal that created this order"
+msgstr "Unieke ID van de terminal die deze order heeft aangemaakt"
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_line_pro_forma_price_unit
