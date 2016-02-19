@@ -104,6 +104,9 @@ class res_partner(models.Model):
         fups = {}
         fup_id = 'followup_id' in context and context['followup_id'] or self.env['account_followup.followup'].search([('company_id', '=', company_id.id)]).id
 
+        if not fup_id:
+            return {}
+
         current_date = datetime.date(*time.strptime(date, '%Y-%m-%d')[:3])
         cr.execute(
             "SELECT * "\
