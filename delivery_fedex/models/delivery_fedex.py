@@ -49,7 +49,7 @@ class ProviderFedex(models.Model):
                                            ('FIRST_OVERNIGHT', 'FIRST_OVERNIGHT'),
                                            ('PRIORITY_OVERNIGHT', 'PRIORITY_OVERNIGHT'),
                                            ('STANDARD_OVERNIGHT', 'STANDARD_OVERNIGHT')],
-                                          default='INTERNATIONAL_ECONOMY')
+                                          default='INTERNATIONAL_PRIORITY')
     fedex_weight_unit = fields.Selection([('LB', 'LB'),
                                           ('KG', 'KG')],
                                          default='LB')
