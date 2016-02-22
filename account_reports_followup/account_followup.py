@@ -104,7 +104,7 @@ class res_partner(models.Model):
         fups = {}
         fup_id = 'followup_id' in context and context['followup_id'] or self.env['account_followup.followup'].search([('company_id', '=', company_id.id)]).id
         if not fup_id:
-            raise Warning(_('No follow-up is defined for the company "%s".\n Please define one. ' % company_id.name))
+            raise Warning(_('No follow-up is defined for the company "%s".\n Please define one.') % company_id.name)
 
         if not fup_id:
             return {}
