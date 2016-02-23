@@ -86,6 +86,11 @@ class YodleeAccountJournal(models.Model):
                 return self.online_account_id.online_sync()
         elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'SITE_CANNOT_BE_REFRESHED':
             raise UserError(_('Please execute manual synchronization every few minutes'))
+        elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'REFRESH_ALREADY_IN_PROGRESS':
+            # In this case an old refresh request has been triggered but not completed and we must first 
+            # complete that old refresh then we can ask yodlee for a new refresh
+            self.online_account_id.online_sync()
+            return self.online_sync()
         else:
             raise UserError(_('Incorrect Refresh status received: %s (expected REFRESH_TRIGGERED)') % (resp_json['siteRefreshStatus']['siteRefreshStatus']))
 
@@ -266,15 +271,20 @@ class YodleeAccount(models.Model):
                 % (resp_json.get('errorCode'), resp_json.get('errorDetail'))
             )
         if resp_json['code'] == 801:
+            if depth == 1:
+                _logger.warning('Max depth reached when trying to refresh account site, last json is: %s' % (resp_json))
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
              resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_TIMED_OUT' and \
              resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED' and \
              resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_WITH_UNCERTAIN_ACCOUNT':
+            if depth == 1:
+                _logger.warning('Max depth reached when trying to refresh account site, last json is: %s' % (resp_json))
             return self.yodlee_refresh(depth - 1)
         elif resp_json['code'] == 0:
             return True
         else:
+            _logger.warning('A problem occurred while refreshing account site, json is: %s' % (resp_json))
             return False
 
     def get_transactions(self, resp_json):
