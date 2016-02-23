@@ -53,6 +53,7 @@ odoo.define('website_sign.dashboard', function(require) {
                             })
                             .always(function() {
                                 input_field.removeAttr('disabled');
+                                input_field.val("");
                             });
                 };
                 reader.readAsDataURL(f);
