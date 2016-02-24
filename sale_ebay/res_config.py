@@ -106,8 +106,8 @@ class ebay_configuration(models.TransientModel):
                     except ConnectionError:
                         pass
 
-    @api.multi
-    def get_default_ebay(self):
+    @api.model
+    def get_default_ebay(self, fields):
         params = self.env['ir.config_parameter'].sudo()
         ebay_dev_id = params.get_param('ebay_dev_id', default='')
         ebay_sandbox_token = params.get_param('ebay_sandbox_token', default='')

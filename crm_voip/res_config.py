@@ -26,21 +26,20 @@ class crm_configuration(models.TransientModel):
     def set_mode(self):
         self.env['ir.config_parameter'].set_param('crm.voip.mode', self[0].mode)
 
-    @api.multi
-    def get_default_pbx_ip(self):
+    @api.model
+    def get_default_pbx_ip(self, fields):
         params = self.env['ir.config_parameter']
-
         pbx_ip = params.get_param('crm.voip.pbx_ip', default='localhost')
         return {'pbx_ip': pbx_ip}
 
-    @api.multi
-    def get_default_wsServer(self):
+    @api.model
+    def get_default_wsServer(self, fields):
         params = self.env['ir.config_parameter']
         wsServer = params.get_param('crm.voip.wsServer', default='ws://localhost')
         return {'wsServer': wsServer}
 
-    @api.multi
-    def get_default_mode(self):
+    @api.model
+    def get_default_mode(self, fields):
         params = self.env['ir.config_parameter']
         mode = params.get_param('crm.voip.mode', default="demo")
         return {'mode': mode}
