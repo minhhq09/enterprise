@@ -1,6 +1,7 @@
 odoo.define('web.Menu', function (require) {
 "use strict";
 
+var config = require('web.config');
 var core = require('web.core');
 var Widget = require('web.Widget');
 var SystrayMenu = require('web.SystrayMenu');
@@ -14,14 +15,19 @@ var Menu = Widget.extend({
     template: 'Menu',
     events: {
         'click .o_menu_toggle': function (ev) {
-            ev.preventDefault();
             this.trigger_up((this.appswitcher_displayed)? 'hide_app_switcher' : 'show_app_switcher');
+            this.$el.parent().removeClass('o_mobile_menu_opened');
+        },
+        'click .o_mobile_menu_toggle': function (ev) {
+            this.$el.parent().toggleClass('o_mobile_menu_opened');
         },
         'mouseover .o_menu_sections > li:not(.open)': function(e) {
-            var $opened = this.$('.o_menu_sections > li.open');
-            if($opened.length) {
-                $opened.removeClass('open');
-                $(e.currentTarget).addClass('open').find('> a').focus();
+            if (config.device.size_class >= config.device.SIZES.SM) {
+                var $opened = this.$('.o_menu_sections > li.open');
+                if($opened.length) {
+                    $opened.removeClass('open');
+                    $(e.currentTarget).addClass('open').find('> a').focus();
+                }
             }
         },
     },
@@ -64,11 +70,11 @@ var Menu = Widget.extend({
                 var action_id = $(ev.currentTarget).data('action-id');
                 self._on_secondary_menu_click(menu_id, action_id);
             });
-        };
+        }
 
         // Systray Menu
         this.systray_menu = new SystrayMenu(this);
-        this.systray_menu.attachTo(this.$('.oe_systray'));
+        this.systray_menu.attachTo(this.$('.o_menu_systray'));
 
         return this._super.apply(this, arguments);
     },
@@ -85,8 +91,8 @@ var Menu = Widget.extend({
         this.appswitcher_displayed = !!appswitcher;
         this.backbutton_displayed = this.appswitcher_displayed && !!overapp;
 
-        this.$menu_toggle.find('i').toggleClass('fa-chevron-left', this.appswitcher_displayed)
-                                   .toggleClass('fa-th', !this.appswitcher_displayed);
+        this.$menu_toggle.toggleClass('fa-chevron-left', this.appswitcher_displayed)
+                         .toggleClass('fa-th', !this.appswitcher_displayed);
 
         this.$menu_toggle.toggleClass('hidden', this.appswitcher_displayed && !this.backbutton_displayed);
         this.$menu_brand_placeholder.toggleClass('hidden', this.appswitcher_displayed);

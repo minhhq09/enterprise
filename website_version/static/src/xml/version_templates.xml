@@ -14,7 +14,7 @@
     </t>
 
     <t t-extend="web_editor.editorbar">
-        <t t-jquery=".navbar form button" t-operation="replace">
+        <t t-jquery="form button:last" t-operation="replace">
             <div class="btn-group">
                 <button type="button" data-action="save" class="btn btn-primary btn-xs">Save</button>
                 <button type="button" class="btn btn-primary btn-xs dropdown-toggle option_choice" data-toggle="dropdown">
@@ -27,7 +27,6 @@
                     </li>
                 </ul>
             </div>
-            
         </t>
     </t>
 

@@ -14,7 +14,7 @@ ajax.loadXML('/website_crm_score/static/src/xml/track_page.xml', qweb);
 seo.Configurator.include({
     track: null,
     start: function() {
-        this._super.apply(this, arguments);
+        var def = this._super.apply(this, arguments);
         var self = this;
         var obj = seo.Configurator.prototype.getMainObject();
         // only display checkbox for website page
@@ -28,9 +28,10 @@ seo.Configurator.include({
                 else {
                     self.track = false;
                 }
-                self.$el.find('h3[class="track-page"]').append(add);
+                self.$('h3[class="track-page"]').append(add);
             });
         }
+        return def;
     },
     is_tracked: function(val) {
         var obj = seo.Configurator.prototype.getMainObject();
@@ -43,7 +44,7 @@ seo.Configurator.include({
     update: function () {
         var self = this;
         var mysuper = this._super;
-        var checkbox_value = this.$el.find('input[type="checkbox"]').is(':checked');
+        var checkbox_value = this.$('input[type="checkbox"]').is(':checked');
         if (checkbox_value != self.track) {
             this.trackPage(checkbox_value).then(function() {
                 mysuper.call(self);

@@ -404,6 +404,8 @@ var WebClient = Widget.extend({
 
                     return completed;
                 });
+            }).always(function () {
+                self.$el.removeClass('o_mobile_menu_opened');
             });
     },
     toggle_app_switcher: function (display) {
