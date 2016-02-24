@@ -32,6 +32,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         this.given_context.force_account = action.context.force_account;
         this.given_context.force_fy = action.context.force_fy;
         this.given_context.active_id = action.context.active_id;
+        this.odoo_context = action.context;
         return this._super.apply(this, arguments);
     },
     willStart: function() {
@@ -42,7 +43,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         var self = this;
         var def = $.when();
         if (!this.report_widget) {
-            this.report_widget = new ReportWidget(this, this.report_context, this.context_model);
+            this.report_widget = new ReportWidget(this, this.report_context, this.context_model, this.odoo_context);
             def = this.report_widget.appendTo(this.$el);
         }
         else {

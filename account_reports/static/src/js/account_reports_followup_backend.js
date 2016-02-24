@@ -17,6 +17,7 @@ var account_report_followup_generic = account_report_generic.extend({
         this.partner_done = action.context.partner_done ? parseInt(action.context.partner_done, 10) : false;
         this.partner_id = action.context.active_id;
         this.followup_all = action.context.followup_all;
+        this.odoo_context = action.context;
         // set the pager if necessary
         if (this.followup_all && !this.given_context.page) {
             this.given_context.page = 1;
@@ -28,7 +29,7 @@ var account_report_followup_generic = account_report_generic.extend({
         var self = this;
         var def = $.when();
         if (!this.followup_report_widget) {
-            this.followup_report_widget = new FollowupReportWidget(this, this.report_context, new Model('account.report.context.followup'));
+            this.followup_report_widget = new FollowupReportWidget(this, this.report_context, new Model('account.report.context.followup'), this.odoo_context);
             def = this.followup_report_widget.appendTo(this.$el);
         }
         def.then(function () {
