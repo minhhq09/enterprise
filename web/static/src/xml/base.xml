@@ -530,30 +530,28 @@
     </t>
 </t>
 
-<div t-name="FormView.buttons">
-    <t t-if="widget.options.action_buttons !== false">
-        <div class="o_form_buttons_view">
-            <button t-if="widget.is_action_enabled('edit')" type="button"
-                    class="btn btn-primary btn-sm o_form_button_edit" accesskey="E">
-                Edit
-            </button>
-            <button t-if="widget.is_action_enabled('create')" type="button" 
-                    class="btn btn-default btn-sm o_form_button_create" accesskey="C">
-                Create
-            </button>
-        </div>
-        <div class="o_form_buttons_edit">
-            <button type="button"
-                    class="btn btn-primary btn-sm o_form_button_save" accesskey="S">
-                Save
-            </button>
-            <button type="button"
-                    class="btn btn-default btn-sm o_form_button_cancel" accesskey="D">
-                Discard
-            </button>
-        </div>
-    </t>
-</div>
+<t t-name="FormView.buttons">
+    <div class="o_form_buttons_view">
+        <button t-if="widget.is_action_enabled('edit')" type="button"
+                class="btn btn-primary btn-sm o_form_button_edit" accesskey="E">
+            Edit
+        </button>
+        <button t-if="widget.is_action_enabled('create')" type="button"
+                class="btn btn-default btn-sm o_form_button_create" accesskey="C">
+            Create
+        </button>
+    </div>
+    <div class="o_form_buttons_edit">
+        <button type="button"
+                class="btn btn-primary btn-sm o_form_button_save" accesskey="S">
+            Save
+        </button>
+        <button type="button"
+                class="btn btn-default btn-sm o_form_button_cancel" accesskey="D">
+            Discard
+        </button>
+    </div>
+</t>
 <form t-name="FormView.set_default">
     <t t-set="args" t-value="widget.args"/>
     <table style="width: 100%">
