@@ -271,6 +271,17 @@
             </field>
         </record>
 
+        <record id="view_pos_order_filter_registered_transactions" model="ir.ui.view">
+            <field name="name">pos.order.list.select</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <search position="inside">
+                    <filter string="FDM transactions" domain="[('blackbox_signature','!=','')]"/>
+                </search>
+            </field>
+        </record>
+
         <template id="financial_report_template">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
