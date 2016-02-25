@@ -514,7 +514,8 @@
                 <strong><br/>Your Odoo Server Address <br/></strong>
                 <select class="pt_premise_protocol form-control">
                     <option value="http://">http://</option>
-                    <option value="https://">https://</option>
+                    <option t-if="widget.use_https" value="https://" t-att-selected="true">https://</option>
+                    <option t-if="!widget.use_https" value="https://">https://</option>
                 </select>
                 <input type="text" class="pt_premise_url form-control" autocapitalize="off" t-att-value="widget.url || ''"></input>
             </div>

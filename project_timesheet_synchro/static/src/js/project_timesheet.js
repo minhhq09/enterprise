@@ -1904,6 +1904,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     alert("Could not find server. Please check that the url you entered is correct.");
                 } else {
                     // Re render the form with a field allowing to enter a database name. Useful for servers that don't allow listing databases.
+                    self.use_https = (protocol === 'https://');
                     self.url = server_address;
                     self.show_db_field = true;
                     self.renderElement();
