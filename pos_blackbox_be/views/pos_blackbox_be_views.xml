@@ -255,6 +255,22 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="view_pos_config_kanban_serial_id">
+            <field name="name">pos.config.kanban.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="blackbox_pos_production_id"/>
+                </field>
+                <t t-esc="record.name.value" position="after">
+                    <t t-if="record.blackbox_pos_production_id.value">
+                        <t t-esc=" '(' + record.blackbox_pos_production_id.value + ')'"/>
+                    </t>
+                </t>
+            </field>
+        </record>
+
         <template id="financial_report_template">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
