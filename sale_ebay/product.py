@@ -526,6 +526,9 @@ class product_template(models.Model):
                     ])
                 partner_data['state_id'] = state.id
 
+            fp_id = self.env['account.fiscal.position'].get_fiscal_position(partner.id)
+            if fp_id:
+                partner_data['property_account_position_id'] = fp_id
             partner.write(partner_data)
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
@@ -573,7 +576,7 @@ class product_template(models.Model):
                 taxes_id = variant.taxes_id.mapped('id')
             else:
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
-            self.env['sale.order.line'].create({
+            sol = self.env['sale.order.line'].create({
                 'product_id': variant.id,
                 'order_id': sale_order.id,
                 'name': self.name,
@@ -584,6 +587,8 @@ class product_template(models.Model):
                     self.env.user.company_id.currency_id),
                 'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
             })
+            sol._compute_tax_id()
+
             # create a sale order line if a shipping service is selected
             if 'ShippingServiceSelected' in transaction:
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
