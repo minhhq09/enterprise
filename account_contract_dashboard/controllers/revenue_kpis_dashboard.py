@@ -41,15 +41,15 @@ class RevenueKPIsDashboard(http.Controller):
         }
 
     @http.route('/account_contract_dashboard/get_default_values_forecast', type='json', auth='user')
-    def get_default_values_forecast(self, forecast_type, end_date=None):
+    def get_default_values_forecast(self, forecast_type, end_date=None, contract_ids=None, company_ids=None):
 
         if not end_date:
             end_date = date.today()
         else:
             end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
 
-        net_new_mrr = compute_mrr_growth_values(end_date, end_date)['net_new_mrr']
-        revenue_churn = self.compute_stat('revenue_churn', end_date, end_date)
+        net_new_mrr = compute_mrr_growth_values(end_date, end_date, contract_ids=contract_ids, company_ids=company_ids)['net_new_mrr']
+        revenue_churn = self.compute_stat('revenue_churn', end_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
 
         result = {
             'expon_growth': 15,
@@ -58,20 +58,20 @@ class RevenueKPIsDashboard(http.Controller):
         }
 
         if 'mrr' in forecast_type:
-            mrr = self.compute_stat('mrr', end_date, end_date)
+            mrr = self.compute_stat('mrr', end_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
 
             result['starting_value'] = mrr
             result['linear_growth'] = net_new_mrr
         else:
-            arpu = self.compute_stat('arpu', end_date, end_date)
-            nb_contracts = self.compute_stat('nb_contracts', end_date, end_date)
+            arpu = self.compute_stat('arpu', end_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+            nb_contracts = self.compute_stat('nb_contracts', end_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
 
             result['starting_value'] = nb_contracts
             result['linear_growth'] = 0 if arpu == 0 else net_new_mrr/arpu
         return result
 
     @http.route('/account_contract_dashboard/get_stats_history', type='json', auth='user')
-    def get_stats_history(self, stat_type, start_date, end_date, contract_ids=None):
+    def get_stats_history(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
 
         start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
         end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
@@ -83,12 +83,13 @@ class RevenueKPIsDashboard(http.Controller):
                 stat_type,
                 start_date - relativedelta(months=+delta),
                 end_date - relativedelta(months=+delta),
-                contract_ids=contract_ids)
+                contract_ids=contract_ids,
+                company_ids=company_ids)
 
         return results
 
     @http.route('/account_contract_dashboard/get_stats_by_plan', type='json', auth='user')
-    def get_stats_by_plan(self, stat_type, start_date, end_date, contract_ids=None):
+    def get_stats_by_plan(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
 
         results = []
 
@@ -101,11 +102,15 @@ class RevenueKPIsDashboard(http.Controller):
         for contract in contract_ids:
             sale_subscriptions = request.env['sale.subscription'].search([('template_id', '=', contract.id)])
             analytic_account_ids = [sub.analytic_account_id.id for sub in sale_subscriptions]
-            recurring_invoice_line_ids = request.env['account.invoice.line'].search([
+
+            lines_domain = [
                 ('asset_start_date', '<=', end_date),
                 ('asset_end_date', '>=', end_date),
                 ('account_analytic_id', 'in', analytic_account_ids),
-            ])
+            ]
+            if company_ids:
+                lines_domain.append(('company_id', 'in', company_ids))
+            recurring_invoice_line_ids = request.env['account.invoice.line'].search(lines_domain)
             value = self.compute_stat(stat_type, start_date, end_date, contract_ids=[contract.id])
             results.append({
                 'name': contract.name,
@@ -118,7 +123,7 @@ class RevenueKPIsDashboard(http.Controller):
         return results
 
     @http.route('/account_contract_dashboard/compute_graph_stat', type='json', auth='user')
-    def compute_graph_stat(self, stat_type, start_date, end_date, contract_ids=None, points_limit=30):
+    def compute_graph_stat(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None, points_limit=30):
 
         start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
         end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
@@ -131,7 +136,7 @@ class RevenueKPIsDashboard(http.Controller):
         for i in ticks:
             # METHOD NON-OPTIMIZED (could optimize it using SQL with generate_series)
             date = start_date + timedelta(days=i)
-            value = self.compute_stat(stat_type, date, date, contract_ids=contract_ids)
+            value = self.compute_stat(stat_type, date, date, contract_ids=contract_ids, company_ids=company_ids)
 
             # '0' and '1' are the keys for nvd3 to render the graph
             results.append({
@@ -142,7 +147,7 @@ class RevenueKPIsDashboard(http.Controller):
         return results
 
     @http.route('/account_contract_dashboard/compute_graph_mrr_growth', type='json', auth='user')
-    def compute_graph_mrr_growth(self, start_date, end_date, contract_ids=None, points_limit=0):
+    def compute_graph_mrr_growth(self, start_date, end_date, contract_ids=None, company_ids=None, points_limit=0):
 
         # By default, points_limit = 0 mean every points
 
@@ -159,7 +164,7 @@ class RevenueKPIsDashboard(http.Controller):
             date = start_date + timedelta(days=i)
             date_splitted = str(date).split(' ')[0]
 
-            computed_values = compute_mrr_growth_values(date, date, contract_ids=contract_ids)
+            computed_values = compute_mrr_growth_values(date, date, contract_ids=contract_ids, company_ids=company_ids)
 
             for k in ['new_mrr', 'churned_mrr', 'expansion_mrr', 'down_mrr', 'net_new_mrr']:
                 results[k].append({
@@ -170,15 +175,15 @@ class RevenueKPIsDashboard(http.Controller):
         return results
 
     @http.route('/account_contract_dashboard/compute_stat_trend', type='json', auth='user')
-    def compute_stat_trend(self, stat_type, start_date, end_date, contract_ids=None):
+    def compute_stat_trend(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
 
         start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
         end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
         start_date_delta = start_date - relativedelta(months=+1)
         end_date_delta = end_date - relativedelta(months=+1)
 
-        value_1 = self.compute_stat(stat_type, start_date_delta, end_date_delta, contract_ids=contract_ids)
-        value_2 = self.compute_stat(stat_type, start_date, end_date, contract_ids=contract_ids)
+        value_1 = self.compute_stat(stat_type, start_date_delta, end_date_delta, contract_ids=contract_ids, company_ids=company_ids)
+        value_2 = self.compute_stat(stat_type, start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
 
         perc = 0 if value_1 == 0 else round(100*(value_2 - value_1)/float(value_1), 1)
 
@@ -190,14 +195,14 @@ class RevenueKPIsDashboard(http.Controller):
         return result
 
     @http.route('/account_contract_dashboard/compute_stat', type='json', auth='user')
-    def compute_stat(self, stat_type, start_date, end_date, contract_ids=None):
+    def compute_stat(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
 
         if isinstance(start_date, (str, unicode)):
             start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
         if isinstance(end_date, (str, unicode)):
             end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
 
-        return STAT_TYPES[stat_type]['compute'](start_date, end_date, contract_ids=contract_ids)
+        return STAT_TYPES[stat_type]['compute'](start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
 
     def _get_pruned_tick_values(self, ticks, nb_desired_ticks):
         if nb_desired_ticks == 0:
