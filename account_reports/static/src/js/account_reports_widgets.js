@@ -23,9 +23,10 @@ var ReportWidget = Widget.extend({
         'click .o_account_reports_web_action': 'outboundLink',
         'click .o_account_reports_footnote_sup': 'goToFootNote',
     },
-    init: function(parent, context, context_model) {
+    init: function(parent, context, context_model, odoo_context) {
         this.context = context;
         this.context_model = context_model;
+        this.odoo_context = odoo_context;
         this._super.apply(this, arguments);
     },
     start: function() {
@@ -34,6 +35,9 @@ var ReportWidget = Widget.extend({
         var res = this._super.apply(this, arguments);
         core.bus.on("keydown", this, this.onKeyPress); // Bind key press to the right function
         return res;
+    },
+    update_context: function(update) {
+        $.extend(this.context, update)
     },
     // Used to trigger actions
     outboundLink: function(e) {
@@ -256,11 +260,11 @@ var ReportWidget = Widget.extend({
                     if (report_name === 'financial_report') { // Fetch the report_id first if needed
                         self.context_model.query(['report_id'])
                         .filter([['id', '=', context_id]]).first().then(function (context) {
-                            reportObj.call('get_lines', [[parseInt(context.report_id[0], 10)], parseInt(context_id, 10), parseInt(active_id, 10)]).then(f);
+                            reportObj.call('get_lines', [[parseInt(context.report_id[0], 10)], parseInt(context_id, 10), parseInt(active_id, 10)], {context : self.odoo_context}).then(f);
                         });
                     }
                     else {
-                        reportObj.call('get_lines', [parseInt(context_id, 10), parseInt(active_id, 10)]).then(f);
+                        reportObj.call('get_lines', [parseInt(context_id, 10), parseInt(active_id, 10)], {context : self.odoo_context}).then(f);
                     }
                 });
             }

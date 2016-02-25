@@ -100,7 +100,11 @@ var AppSwitcher = Widget.extend({
         if ((options.diffDays <= 30 && !hide_cookie) || options.diffDays <= 0) {
 
             var expiration_panel = $(QWeb.render('WebClient.database_expiration_panel', {
-                diffDays: options.diffDays, dbenterprise_code:options.dbenterprise_code, dbexpiration_reason:options.dbexpiration_reason, warning: options.warning
+                has_mail: _.includes(odoo._modules, 'mail'),
+                diffDays: options.diffDays,
+                dbenterprise_code:options.dbenterprise_code,
+                dbexpiration_reason:options.dbexpiration_reason,
+                warning: options.warning
             })).prependTo(self.$('.o_apps'));
 
             if (options.diffDays <= 0) {

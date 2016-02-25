@@ -32,6 +32,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         this.given_context.force_account = action.context.force_account;
         this.given_context.force_fy = action.context.force_fy;
         this.given_context.active_id = action.context.active_id;
+        this.odoo_context = action.context;
         return this._super.apply(this, arguments);
     },
     willStart: function() {
@@ -42,8 +43,11 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         var self = this;
         var def = $.when();
         if (!this.report_widget) {
-            this.report_widget = new ReportWidget(this, this.report_context, this.context_model);
+            this.report_widget = new ReportWidget(this, this.report_context, this.context_model, this.odoo_context);
             def = this.report_widget.appendTo(this.$el);
+        }
+        else {
+            this.report_widget.update_context(this.given_context)
         }
         def.then(function () {
             self.report_widget.$el.html(self.html);
@@ -70,7 +74,9 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             self.context_model = new Model(result[0]);
             self.context_id = result[1];
             if (self.given_context.force_fy) { // Force the financial year in the new context
-                self.given_context = {};
+                delete self.given_context.date_to;
+                delete self.given_context.date_from;
+                delete self.given_context.date_filter;
             }
             // Finally, actually get the html and various data
             return self.context_model.call('get_html_and_data', [self.context_id, self.given_context], {context: session.user_context}).then(function (result) {
