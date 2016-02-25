@@ -606,6 +606,7 @@ class product_template(models.Model):
                             float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
+                    'is_delivery': True,
                 })
                 so_line._compute_tax_id()
             sale_order.action_confirm()
