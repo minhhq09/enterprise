@@ -203,8 +203,8 @@ class product_template(models.Model):
                 if len(attr_line.value_ids) > 1:
                     if spec.attribute_id.name not in name_values:
                         name_values[spec.attribute_id.name] = []
-                    if spec.name not in name_values[spec.attribute_id.name]:
-                        name_values[spec.attribute_id.name].append(spec.name)
+                    if spec not in name_values[spec.attribute_id.name]:
+                        name_values[spec.attribute_id.name].append(spec)
                     variant_name_values.append({
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
@@ -221,7 +221,7 @@ class product_template(models.Model):
         for key in name_values:
             possible_name_values.append({
                 'Name': self._ebay_encode(key),
-                'Value': map(lambda n: self._ebay_encode(n), sorted(name_values[key]))
+                'Value': map(lambda n: self._ebay_encode(n.name), sorted(name_values[key], key=lambda v: v.sequence))
             })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
