@@ -192,7 +192,7 @@ var FormView = View.extend(common.FieldManagerMixin, {
         this.$buttons.on('click', '.o_form_button_cancel',
                          this.guard_active(this.on_button_cancel));
 
-        this.$buttons.appendTo($node || this.options.$buttons.empty());
+        this.$buttons.appendTo($node);
     },
     /**
      * Instantiate and render the sidebar if a sidebar is requested

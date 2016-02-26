@@ -276,10 +276,7 @@ var ListView = View.extend( /** @lends instance.web.ListView# */ {
     render_buttons: function($node) {
         if (!this.$buttons) {
             this.$buttons = $(QWeb.render("ListView.buttons", {'widget': this}));
-
             this.$buttons.find('.o_list_button_add').click(this.proxy('do_add_record'));
-
-            $node = $node || this.options.$buttons;
             this.$buttons.appendTo($node);
         }
     },
