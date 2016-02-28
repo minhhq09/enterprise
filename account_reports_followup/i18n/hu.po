@@ -3,13 +3,13 @@
 # * account_reports_followup
 # 
 # Translators:
-# Kris Krnacs, 2015
+# Kris Krnacs, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2015-10-15 20:27+0000\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 18:52+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -84,12 +84,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\nTisztelt %(partner_name)s,\n\nCsalódottan vettük tudomásul, és ezért fizetési-emlékeztetőt vagyunk kénytelenek küldeni, mivel a számlája már régebben esedékessé vált.\n\nFontos, hogy azonnal fizessenek, egyéb esetben kénytelenek vagyunk elbírálni a számlájuk lezárását, ami azzal jár, hogy nem leszünk képesek időben szállítani az Önök vállalakozásának (termékeket/szolgáltatásokat).\nKérjük Önöket a fizetés 8 napon belüli pontos teljesítésére.\n\nHa a fizetéssel kapcsolatban probléma merült fel, amit mi nem vettünk figyelembe, akkor kérjük vegyék fel a könyvelési csoportunkkal a kapcsolatot, hogy elháríthassuk azt amilyen gyorsan csak lehet.\n\nA lejárt számlák részleteit lentebb találják.\n\nÜdvözlettel,\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ": Kézzel elvégzett művelet befejezve\n"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -333,6 +327,20 @@ msgstr "Naplózzon egy jegyzetet"
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "Kézi művelet"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr "Kézzel elvégzett művelet befejezve\n"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr "Nincs meghatározva követés a %s vállalathoz.\nKérem hozzon létre egyet."
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0
