@@ -126,28 +126,36 @@ class product_template(models.Model):
             item['Item']['BuyItNowPrice'] = comp_currency.compute(self.ebay_buy_it_now_price, currency)
         NameValueList = []
         variant = self.product_variant_ids.filtered('ebay_use')
+        # We set by default the brand and the MPN because of the new eBay policy
+        # That make them mandatory in most category
+        item['Item']['ProductListingDetails'] = {'BrandMPN': {'Brand': 'Unbranded'}}
+        item['Item']['ProductListingDetails']['BrandMPN']['MPN'] = 'Does not Apply'
         # If only one variant selected to be published, we don't create variant
         # but set the variant's value has an item specific on eBay
         if len(variant) == 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
-            for spec in variant.attribute_value_ids:
-                NameValueList.append({
-                    'Name': self._ebay_encode(spec.attribute_id.name),
-                    'Value': self._ebay_encode(spec.name),
-                })
             if self.ebay_sync_stock:
                 variant.ebay_quantity = max(int(variant.virtual_available), 0)
             item['Item']['Quantity'] = variant.ebay_quantity
             item['Item']['StartPrice'] = variant.ebay_fixed_price
         # If one attribute has only one value, we don't create variant
         # but set the value has an item specific on eBay
-        elif self.attribute_line_ids:
+        if self.attribute_line_ids:
             for attribute in self.attribute_line_ids:
                 if len(attribute.value_ids) == 1:
-                    NameValueList.append({
-                        'Name': self._ebay_encode(attribute.attribute_id.name),
-                        'Value': self._ebay_encode(attribute.value_ids.name),
-                    })
+                    attr_name = attribute.attribute_id.name
+                    attr_value = attribute.value_ids.name
+                    # We used the attributes in Odoo to match the Brand and MPN attributes
+                    # But since 1st March 2016, eBay separated them from the other attributes
+                    if attr_name == 'Brand':
+                        item['Item']['ProductListingDetails']['BrandMPN']['Brand'] = self._ebay_encode(attr_value)
+                    elif attr_name == 'MPN':
+                        item['Item']['ProductListingDetails']['BrandMPN']['MPN'] = self._ebay_encode(attr_value)
+                    else:
+                        NameValueList.append({
+                            'Name': self._ebay_encode(attr_name),
+                            'Value': self._ebay_encode(attr_value),
+                        })
 
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
@@ -170,7 +178,11 @@ class product_template(models.Model):
     @api.multi
     def _prepare_non_variant_dict(self):
         item = self._prepare_item_dict()
+        # Set default value to UPC
         item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
+        # Check the length of the barcode field to guess its type.
+        # Since eBay only use barcode on templates and Odoo sets it on the variant,
+        # we don't know which one to use if there are multiple variants.
         if self.barcode:
             if len(self.barcode) == 12:
                 item['Item']['ProductListingDetails']['UPC'] = self.barcode
