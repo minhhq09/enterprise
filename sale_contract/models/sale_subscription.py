@@ -83,7 +83,7 @@ class SaleSubscription(osv.osv):
         'analytic_account_id': fields.many2one('account.analytic.account', 'Analytic Account', required=True, ondelete="cascade", auto_join=True),
         'date_start': fields.date('Start Date'),
         'date': fields.date('End Date', track_visibility='onchange'),
-        'pricelist_id': fields.many2one('product.pricelist', 'Pricelist'),
+        'pricelist_id': fields.many2one('product.pricelist', 'Pricelist', track_visibility='onchange'),
         'currency_id': fields.related('pricelist_id', 'currency_id', string='Currency', type='many2one', relation='res.currency', readonly=True),
         'recurring_invoice_line_ids': fields.one2many('sale.subscription.line', 'analytic_account_id', 'Invoice Lines', copy=True),
         'recurring_rule_type': fields.selection([('daily', 'Day(s)'), ('weekly', 'Week(s)'), ('monthly', 'Month(s)'), ('yearly', 'Year(s)'), ], 'Recurrency', help="Invoice automatically repeat at specified interval"),
