@@ -206,9 +206,10 @@ class pos_session(models.Model):
         # we can link pro forma orders to regular orders using their pos_reference
         pro_forma_orders = {order.pos_reference for order in pro_forma_orders}
         regular_orders = {order.pos_reference for order in regular_orders}
+        non_finalized_orders = pro_forma_orders.difference(regular_orders)
 
-        if not regular_orders.issuperset(pro_forma_orders):
-            raise UserError(_("Your session still contains open orders. Please close all of them first."))
+        if non_finalized_orders:
+            raise UserError(_("Your session still contains open orders (%s). Please close all of them first.") % ', '.join(non_finalized_orders))
 
         return super(pos_session, self).wkf_action_closing_control()
 
