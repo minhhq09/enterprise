@@ -316,6 +316,7 @@ class pos_order(models.Model):
     pos_version = fields.Char(help="Version of Odoo that created the order")
     pos_production_id = fields.Char(help="Unique ID of Odoo that created this order")
     terminal_id = fields.Char(help="Unique ID of the terminal that created this order")
+    hash_chain = fields.Char()
 
     @api.model
     def create(self, values):
@@ -375,6 +376,7 @@ class pos_order(models.Model):
             'pos_version': ui_order.get('blackbox_pos_version'),
             'pos_production_id': ui_order.get('blackbox_pos_production_id'),
             'terminal_id': ui_order.get('blackbox_terminal_id'),
+            'hash_chain': ui_order.get('blackbox_hash_chain'),
         })
 
         return fields
@@ -468,6 +470,7 @@ class pos_order_pro_forma(models.Model):
     pos_version = fields.Char(help="Version of Odoo that created the order", readonly=True)
     pos_production_id = fields.Char(help="Unique ID of Odoo that created this order", readonly=True)
     terminal_id = fields.Char(help="Unique ID of the POS that created this order", readonly=True)
+    hash_chain = fields.Char()
 
     @api.model
     def create_from_ui(self, orders):
@@ -497,6 +500,7 @@ class pos_order_pro_forma(models.Model):
                 'pos_production_id': ui_order.get('blackbox_pos_production_id'),
                 'terminal_id': ui_order.get('blackbox_terminal_id'),
                 'table_id': ui_order.get('table_id'),
+                'hash_chain': ui_order.get('blackbox_hash_chain'),
             }
 
             # set name based on the sequence specified on the config

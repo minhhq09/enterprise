@@ -359,6 +359,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                 'blackbox_pos_production_id': this.blackbox_pos_production_id,
                 'blackbox_terminal_id': this.blackbox_terminal_id,
                 'blackbox_pro_forma': this.blackbox_pro_forma,
+                'blackbox_hash_chain': this.blackbox_hash_chain,
             });
 
             if (this.blackbox_base_price_in_euro_per_tax_letter) {
@@ -996,6 +997,14 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             }
         },
 
+        _get_hash_chain: function (records) {
+            if (records.length) {
+                return records[0]['hash_chain'];
+            } else {
+                return "";
+            }
+        },
+
         _prepare_date_for_ticket: function (date) {
             // format of date coming from blackbox is YYYYMMDD
             var year = date.substr(0, 4);
@@ -1018,7 +1027,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             return counter + "/" + total_counter + " " + event_type;
         },
 
-        _prepare_plu_hash_for_ticket: function (hash) {
+        _prepare_hash_for_ticket: function (hash) {
             var amount_of_least_significant_characters = 8;
 
             return hash.substr(-amount_of_least_significant_characters);
@@ -1094,10 +1103,13 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                     order.blackbox_signature = parsed_response.signature;
                     order.blackbox_vsc_identification_number = parsed_response.vsc_identification_number;
                     order.blackbox_unique_fdm_production_number = parsed_response.fdm_unique_production_number;
-                    order.blackbox_plu_hash = self._prepare_plu_hash_for_ticket(packet.fields[packet.fields.length - 1].content);
+                    order.blackbox_plu_hash = self._prepare_hash_for_ticket(packet.fields[packet.fields.length - 1].content);
                     order.blackbox_pos_version = "Odoo " + self.version.server_version + "BE_FDM";
                     order.blackbox_pos_production_id = self.config.blackbox_pos_production_id;
                     order.blackbox_terminal_id = self.blackbox_terminal_id;
+
+                    self.config.blackbox_most_recent_hash = self._prepare_hash_for_ticket(Sha1.hash(self.config.blackbox_most_recent_hash + order.blackbox_plu_hash));
+                    order.blackbox_hash_chain = self.config.blackbox_most_recent_hash;
 
                     if (! order.blackbox_pro_forma) {
                         self.gui.show_screen('receipt');
@@ -1451,9 +1463,11 @@ can no longer be modified. Please create a new line with eg. a negative quantity
     models.load_models({
         'model': "pos.order",
         'domain': function (self) { return [['config_id', '=', self.config.id]]; },
+        'fields': ['name', 'hash_chain'],
         'order': "-date_order",
         'loaded': function (self, params) {
             self.config.backend_sequence_number = self._extract_order_number(params);
+            self.config.blackbox_most_recent_hash = self._get_hash_chain(params);
         }
     }, {
         'after': "pos.config"
@@ -1463,10 +1477,15 @@ can no longer be modified. Please create a new line with eg. a negative quantity
     models.load_models({
         'model': "pos.order_pro_forma",
         'domain': function (self) { return [['config_id', '=', self.config.id]]; },
+        'fields': ['name', 'hash_chain'],
         'order': "-date_order",
         'loaded': function (self, params) {
             var pro_forma_number = self._extract_order_number(params);
-            self.config.backend_sequence_number = Math.max(self.config.backend_sequence_number, pro_forma_number);
+
+            if (pro_forma_number > self.config.backend_sequence_number) {
+                self.config.backend_sequence_number = pro_forma_number;
+                self.config.most_recent_hash = self._get_hash_chain(params);
+            }
         }
     }, {
         'after': "pos.order"
