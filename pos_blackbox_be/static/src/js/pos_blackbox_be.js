@@ -330,7 +330,8 @@ can no longer be modified. Please create a new line with eg. a negative quantity
         },
 
         orderline_change: function(line) {
-            if (this.pos.get_order()) {
+            // don't try to rerender non-visible lines
+            if (this.pos.get_order() && line.node.parentNode) {
                 return this._super(line);
             } else {
                 return undefined;
