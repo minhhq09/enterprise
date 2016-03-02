@@ -156,7 +156,18 @@ class product_template(models.Model):
                             'Name': self._ebay_encode(attr_name),
                             'Value': self._ebay_encode(attr_value),
                         })
-
+        # We add the Brand and the MPN at the end of the loop
+        # because these attributes are mandatory since 1st March 2016
+        # but some eBay site are not taking into account the ProductListingDetails.
+        # This avoid to loop in the NameValueList array to ensure that it contains
+        # Brand and MPN attributes
+        brand_mpn = [
+            {'Name': 'Brand',
+             'Value': item['Item']['ProductListingDetails']['BrandMPN']['Brand']},
+            {'Name': 'MPN',
+             'Value': item['Item']['ProductListingDetails']['BrandMPN']['MPN']}
+        ]
+        NameValueList += brand_mpn
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
         if self.ebay_category_2_id:
