@@ -54,7 +54,7 @@ class website_crm_score(models.Model):
 
     # the default [] is needed for the function to be usable by the cron
     @api.model
-    def assign_scores_to_leads(self, ids=[]):
+    def assign_scores_to_leads(self, ids=[], lead_ids=[]):
         domain = [('running', '=', True)]
         if ids:
             domain.append(('id', 'in', ids))
@@ -72,7 +72,7 @@ class website_crm_score(models.Model):
             where_clause += """ AND (id NOT IN (SELECT lead_id FROM crm_lead_score_rel WHERE score_id = %s)) """
             where_params.append(score['id'])
 
-            if not self.event_based:
+            if not self.event_based and not lead_ids:
                 self._cr.execute('SELECT max(lead_id) FROM crm_lead_score_rel WHERE score_id = %s', (score['id'],))
                 last_id = self._cr.fetchone()[0]
                 if last_id:
@@ -81,13 +81,17 @@ class website_crm_score(models.Model):
                     where_clause += """ AND (id > %s) """
                     where_params.append(last_id)
 
+            if lead_ids:
+                where_clause += """ AND (id in %s) """
+                where_params.append(tuple(lead_ids))
+
             self._cr.execute("""INSERT INTO crm_lead_score_rel
                                     SELECT crm_lead.id as lead_id, %s as score_id
                                     FROM crm_lead
                                     WHERE %s RETURNING lead_id""" % (score['id'], where_clause), where_params)
 
             # Force recompute of fields that depends on score_ids
-            lead_ids = [resp[0] for resp in self._cr.fetchall()]
-            leads = self.env["crm.lead"].browse(lead_ids)
+            returning_ids = [resp[0] for resp in self._cr.fetchall()]
+            leads = self.env["crm.lead"].browse(returning_ids)
             leads.modified(['score_ids'])
             leads.recompute()
