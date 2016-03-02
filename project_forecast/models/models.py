@@ -24,6 +24,10 @@ class ProjectForecast(models.Model):
     project_id = fields.Many2one('project.project', string="Project")
     task_id = fields.Many2one('project.task', string="Task", domain="[('project_id', '=', project_id)]")
 
+    # used in custom filter
+    stage_id = fields.Many2one(related='task_id.stage_id', string="Task stage")
+    tag_ids = fields.Many2many(related='task_id.tag_ids', string="Task tags")
+
     time = fields.Integer(string="%", default=100.0, help="Percentage of working time")
 
     start_date = fields.Datetime(default=fields.Date.today, required="True")
