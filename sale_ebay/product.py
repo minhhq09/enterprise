@@ -179,7 +179,7 @@ class product_template(models.Model):
     def _prepare_non_variant_dict(self):
         item = self._prepare_item_dict()
         # Set default value to UPC
-        item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
+        item['Item']['ProductListingDetails']['UPC'] = 'Does not Apply'
         # Check the length of the barcode field to guess its type.
         # Since eBay only use barcode on templates and Odoo sets it on the variant,
         # we don't know which one to use if there are multiple variants.
