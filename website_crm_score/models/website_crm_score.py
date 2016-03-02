@@ -73,11 +73,13 @@ class website_crm_score(models.Model):
             where_params.append(score['id'])
 
             if not self.event_based:
-                # Only check leads that are newer than the last matching lead.
-                # Could be based on a "last run date" for a more precise optimization
-                where_clause += """ AND (id > (SELECT COALESCE(max(lead_id), 0)
-                                               FROM crm_lead_score_rel WHERE score_id = %s)) """
-                where_params.append(score['id'])
+                self._cr.execute('SELECT max(lead_id) FROM crm_lead_score_rel WHERE score_id = %s', (score['id'],))
+                last_id = self._cr.fetchone()[0]
+                if last_id:
+                    # Only check leads that are newer than the last matching lead.
+                    # Could be based on a "last run date" for a more precise optimization
+                    where_clause += """ AND (id > %s) """
+                    where_params.append(last_id)
 
             self._cr.execute("""INSERT INTO crm_lead_score_rel
                                     SELECT crm_lead.id as lead_id, %s as score_id
