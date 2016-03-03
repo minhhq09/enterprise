@@ -192,8 +192,6 @@ class product_template(models.Model):
         # Set default value to UPC
         item['Item']['ProductListingDetails']['UPC'] = 'Does not Apply'
         # Check the length of the barcode field to guess its type.
-        # Since eBay only use barcode on templates and Odoo sets it on the variant,
-        # we don't know which one to use if there are multiple variants.
         if self.barcode:
             if len(self.barcode) == 12:
                 item['Item']['ProductListingDetails']['UPC'] = self.barcode
@@ -232,11 +230,24 @@ class product_template(models.Model):
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
                         })
+            # Since 1st March 2016, identifiers are mandatory
+            # We set default values in case none is set by the user
+            # Check the length of the barcode field to guess its type.
+            upc = 'Does not apply'
+            ean = 'Does not apply'
+            if variant.barcode:
+                if len(variant.barcode) == 12:
+                    upc = variant.barcode
+                elif len(variant.barcode) == 13:
+                    ean = variant.barcode
             variations.append({
                 'Quantity': variant.ebay_quantity,
                 'StartPrice': comp_currency.compute(variant.ebay_fixed_price, currency),
                 'VariationSpecifics': {'NameValueList': variant_name_values},
                 'Delete': False if variant.ebay_use else True,
+                'VariationProductListingDetails': {
+                    'UPC': upc,
+                    'EAN': ean}
                 })
         # example of a valid name value list array
         # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
