@@ -56,7 +56,7 @@ var account_report_followup_generic = account_report_generic.extend({
     // Does the actual rpc call to get the html
     _do_fetch_html: function() {
         var self = this;
-        return self.context_model.call('get_html', [self.context_id, self.given_context]).then(function (result) {
+        return self.context_model.call('get_html', [self.context_id, self.given_context], {context : self.odoo_context}).then(function (result) {
             self.html = result;
             return self.post_load();
         });
