@@ -1,0 +1,197 @@
+<openerp>
+    <data>
+        <record id="view_timesheet_form" model="ir.ui.view">
+            <field name="name">Line creation and edition from grid</field>
+            <field name="model">account.analytic.line</field>
+            <field name="priority">4567</field>
+            <field name="arch" type="xml">
+                <form string="Line edition and creation from grid">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_id" required="1"/>
+                                <field name="task_id" domain="[['project_id', '=', project_id]]"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="unit_amount"/>
+                            </group>
+                        </group>
+                        <field name="name" nolabel="1" widget="text"
+                               colspan="4"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_timesheet_grid" model="ir.ui.view">
+            <field name="name">Timesheet grid</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <grid string="Timesheet">
+                    <field name="project_id" type="row"/>
+                    <field name="task_id" type="row"/>
+                    <field name="date" type="col">
+                        <range name="week" string="Week" span="week" step="day"/>
+                        <range name="month" string="Month" span="month" step="day"/>
+                    </field>
+                    <field name="unit_amount" type="measure"
+                           widget="float_time"/>
+                </grid>
+            </field>
+        </record>
+        <record id="view_timesheet_grid_readonly" model="ir.ui.view">
+            <field name="name">Readonly timesheet grid</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="view_timesheet_grid"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="/grid" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_timesheet_list" model="ir.ui.view">
+            <field name="name">Timesheet lines for grid</field>
+            <field name="model">account.analytic.line</field>
+            <field name="arch" type="xml">
+                <tree string="Timesheet Lines" editable="bottom">
+                    <field name="date"/>
+                    <field name="project_id"/>
+                    <field name="task_id" domain="[['project_id', '=', project_id]]"/>
+                    <field name="unit_amount"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_timesheet_grid_validate" model="ir.ui.view">
+            <field name="name">Validatable timesheet grid</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="view_timesheet_grid_readonly"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="/grid">
+                    <button type="object" name="validate" string="Validate"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_timesheet_grid_search" model="ir.ui.view">
+            <field name="name">timesheet grid search</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <xpath expr="//search">
+                    <filter name="my_team"
+                            string="My Team"
+                            domain="[('user_id.employee_ids.parent_id.user_id', '=', uid)]"
+                            groups="base.group_hr_manager"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_timesheet_current" model="ir.actions.act_window">
+            <field name="name">My Timesheet</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">grid,tree</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
+            ]"/>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="context">{'user_id': uid, 'default_name': '/'}</field>
+        </record>
+        <record id="action_timesheet_all" model="ir.actions.act_window">
+            <field name="name">All Timesheets</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">grid,tree</field>
+            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
+            ]"/>
+        </record>
+        <record id="action_timesheet_previous_week" model="ir.actions.act_window">
+            <field name="name">Last Week's Timesheets</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">grid,tree</field>
+            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
+            ]"/>
+            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d')}</field>
+        </record>
+        <record id="action_timesheet_previous_month" model="ir.actions.act_window">
+            <field name="name">Last Month's Timesheets</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">grid,tree</field>
+            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
+            ]"/>
+            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-%d'), 'grid_range': 'month'}</field>
+        </record>
+
+        <!-- rename My Timesheet menu -->
+        <record id="hr_timesheet.menu_hr_time_tracking" model="ir.ui.menu">
+            <field name="name">Timesheets</field>
+        </record>
+        <menuitem name="My Timesheet" id="menu_timesheet_grid_my"
+                  parent="hr_timesheet.menu_hr_time_tracking"
+                  action="action_timesheet_current"
+                  sequence="0"/>
+        <menuitem name="All Timesheets" id="menu_timesheet_grid_all"
+                  parent="hr_timesheet.menu_hr_time_tracking"
+                  groups="base.group_hr_user"
+                  action="action_timesheet_all"
+                  sequence="2"/>
+        <menuitem name="To Validate" id="menu_timesheet_grid_validate"
+                  parent="hr_timesheet.menu_hr_time_tracking"
+                  groups="base.group_hr_user"
+                  sequence="4"/>
+        <menuitem name="Previous Week" id="menu_timesheet_grid_validate_previous_week"
+                  parent="menu_timesheet_grid_validate"
+                  action="action_timesheet_previous_week"/>
+        <menuitem name="Previous Month" id="menu_timesheet_grid_validate_previous_month"
+                  parent="menu_timesheet_grid_validate"
+                  action="action_timesheet_previous_month"/>
+
+        <!-- reporting -->
+        <record id="action_timesheet_report" model="ir.actions.act_window">
+            <field name="name">Timesheets</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">grid,pivot,graph</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')}),
+            ]"/>
+            <field name="context">{"search_default_groupby_user": 1}</field>
+        </record>
+        <record id="view_timesheet_seach" model="ir.ui.view">
+            <field name="name">Add name to user_id group</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[1]" position="attributes">
+                    <attribute name="name">groupby_user</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem name="Grid" id="menu_timesheet_grid_report"
+                  parent="hr_timesheet.menu_timesheets_reports"
+                  action="action_timesheet_report"/>
+    </data>
+</openerp>

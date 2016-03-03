@@ -1,0 +1,89 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+         datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+    <start>
+        <ref name="grid"/>
+    </start>
+    <define name="grid">
+        <element name="grid">
+            <ref name="acl"/>
+            <attribute name="string"/>
+            <interleave>
+                <oneOrMore><ref name="field"/></oneOrMore>
+                <zeroOrMore><ref name="button"/></zeroOrMore>
+            </interleave>
+
+        </element>
+    </define>
+    <define name="field">
+        <element name="field">
+            <attribute name="name"/>
+            <choice>
+                <attribute name="type"><value>row</value></attribute>
+                <!-- TODO: column anchor, range & prev/next? -->
+                <group>
+                    <attribute name="type"><value>col</value></attribute>
+                    <zeroOrMore>
+                        <element name="range">
+                            <attribute name="name"/>
+                            <attribute name="string"/>
+                            <attribute name="span"/>
+                            <attribute name="step"/>
+                        </element>
+                    </zeroOrMore>
+                </group>
+                <group>
+                    <attribute name="type"><value>measure</value></attribute>
+                    <optional>
+                        <attribute name="widget"/>
+                    </optional>
+                </group>
+            </choice>
+            <!-- other garbage -->
+            <optional><attribute name="on_change"/></optional>
+            <optional><attribute name="modifiers"/></optional>
+            <optional><attribute name="can_create"/></optional>
+            <optional><attribute name="can_write"/></optional>
+        </element>
+    </define>
+    <define name="button">
+        <element name="button">
+            <attribute name="string"/>
+            <attribute name="type">
+                <choice>
+                    <value>object</value>
+                    <value>action</value>
+                </choice>
+            </attribute>
+            <!-- method name or action id -->
+            <attribute name="name"/>
+            <!-- Python dict literal -->
+            <optional><attribute name="context"/></optional>
+        </element>
+    </define>
+    <define name="acl">
+        <optional>
+            <attribute name="create">
+                <choice>
+                    <value>true</value>
+                    <value>false</value>
+                </choice>
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="edit">
+                <choice>
+                    <value>true</value>
+                    <value>false</value>
+                </choice>
+            </attribute>
+        </optional>
+        <optional>
+            <attribute name="delete">
+                <choice>
+                    <value>true</value>
+                    <value>false</value>
+                </choice>
+            </attribute>
+        </optional>
+    </define>
+</grammar>

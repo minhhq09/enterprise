@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="grid.Grid">
+        <div class="o_view_grid">
+            <table class="table table-condensed table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th class="o_grid_title_header"/>
+                        <th class="o_grid_title_header"/>
+                        <t t-foreach="columns" t-as="column">
+                            <th t-att-class="column.is_current ? ' o_grid_current' : ''"
+                            ><t t-esc="column.values[widget._col_field][1]"/></th>
+                        </t>
+                        <th class="o_grid_total">Total</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td class="o_grid_add_line">
+                        <button t-if="widget._can_create"
+                            type="button"
+                            class="btn btn-sm btn-primary o_grid_button_add">
+                            <t t-esc="widget.add_label"/>
+                        </button>
+                    </td>
+                    <td class="o_grid_total">
+                        Total
+                    </td>
+                    <td t-foreach="columns" t-as="column" t-att-class="'o_grid_total' + (column.is_current ? ' o_grid_current' : '')">
+                        <span>
+                            <t t-esc="widget._cell_field.format(column_totals[column_index])"/>
+                        </span>
+                    </td>
+                    <td class="o_grid_total">
+                        <t t-esc="widget._cell_field.format(super_total)"/>
+                    </td>
+                </tr>
+                </tfoot>
+                <tbody>
+                    <tr t-foreach="grid" t-as="row">
+                        <th colspan="2">
+                            <div>
+                                <t t-foreach="widget.get('row_fields')" t-as="row_field"
+                                    t-if="rows[row_index].values[row_field]">
+                                    <t t-set="label" t-value="rows[row_index].values[row_field][1]"/>
+                                    <div t-att-title="label">
+                                        <t t-esc="label"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </th>
+                        <t t-foreach="row" t-as="cell">
+                            <td t-att-class="cell.is_current ? 'o_grid_current': ''">
+                                <div t-attf-class="o_grid_cell_container {{cell.size ? '' : ' o_grid_cell_empty'}}"
+                                     t-att-data-row="row_index"
+                                     t-att-data-column="cell_index">
+                                    <i class="fa fa-info-circle o_grid_cell_information"/>
+                                    <div t-if="widget.getParent().is_action_enabled('edit')"
+                                        class="o_grid_input" contenteditable="true"
+                                    ><t t-esc="widget._cell_field.format(cell.value)"/></div>
+
+                                    <div t-if="!widget.getParent().is_action_enabled('edit')"
+                                        class="o_grid_show">
+                                        <t t-esc="widget._cell_field.format(cell.value)"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </t>
+                        <td class="o_grid_total">
+                            <t t-esc="widget._cell_field.format(row_totals[row_index])"/>
+                        </td>
+                    </tr>
+                    <!--
+                        padd table to 5 rows so it doesn't look too weird if
+                        everything's filtered out or something
+                    -->
+                    <tr t-foreach="Math.max(5 - rows.length, 0)" t-as="fakerow" class="o_grid_padding">
+                        <th colspan="2">&#160;</th>
+                        <td t-foreach="columns" t-as="column"
+                            t-att-class="column.is_current ? ' o_grid_current' : ''"/>
+                        <td class="o_grid_total"/>
+                    </tr>
+                </tbody>
+            </table>
+            <div t-if="!grid.length" class="o_grid_nocontent_container">
+                <div class="oe_view_nocontent oe_edit_only">
+                    <p class="oe_view_nocontent_create">Click to add projects and tasks.</p>
+                    <p>You will be able to register your working hours on the given task.</p>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="grid.GridArrows">
+        <div>
+            <button class="grid_arrow_previous btn btn-sm btn-primary hidden"
+                    type="button">
+                <span class="fa fa-arrow-left"/>
+            </button>
+            <button class="grid_arrow_next btn btn-sm btn-primary hidden"
+                    type="button">
+                <span class="fa fa-arrow-right"/>
+            </button>
+            <div t-if="widget._ranges.length" class="btn-group btn-group-sm">
+                <button t-foreach="widget._ranges" t-as="range"
+                        class="grid_arrow_range btn btn-sm btn-default"
+                        type="button" t-att-data-name="range.name">
+                    <t t-esc="range.string"/>
+                </button>
+            </div>
+            <div t-if="widget._buttons.length" class="btn-group btn-group-sm">
+                <button t-foreach="widget._buttons" t-as="btn"
+                        class="grid_arrow_button btn btn-sm btn-default"
+                        type="button" t-att-data-index="btn_index">
+                    <t t-esc="btn.string"/>
+                </button>
+
+            </div>
+        </div>
+    </t>
+</templates>
