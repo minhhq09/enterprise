@@ -177,7 +177,7 @@ class AccountBankStatementImport(models.TransientModel):
             statement['coda_note'] = ''
             statement_line = []
             statement_data = {
-                'name': statement['paperSeqNumber'],
+                'number': int(statement['paperSeqNumber']),
                 'date': statement['date'],
                 'balance_start': statement['balance_start'],
                 'balance_end_real': statement['balance_end_real'],
