@@ -38,6 +38,8 @@ odoo.define('website_sign.dashboard', function(require) {
                 var self = this;
                 reader.onload = function(e) {
                     var Template = new Model('signature.request.template');
+                    var input_field = self.$('.o_sign_upload_template_input');
+                    input_field.attr('disabled', 'disabled');
                     Template.call('upload_from_dashboard', [f.name, e.target.result])
                             .then(function(data) {
                                 self.do_action({
@@ -48,6 +50,10 @@ odoo.define('website_sign.dashboard', function(require) {
                                         id: data.template,
                                     },
                                 });
+                            })
+                            .always(function() {
+                                input_field.removeAttr('disabled');
+                                input_field.val("");
                             });
                 };
                 reader.readAsDataURL(f);

@@ -209,8 +209,8 @@ odoo.define('pos_blackbox_be.pos_blackbox_be', function (require) {
             return amount + description + price_in_eurocent + vat_letter;
         },
 
-        can_be_merged_with: function (orderline) {
-            if (this.blackbox_pro_forma_finalized || orderline.blackbox_pro_forma_finalized) {
+        can_be_merged_with: function (orderline, ignore_blackbox_finalized) {
+            if (! ignore_blackbox_finalized && (this.blackbox_pro_forma_finalized || orderline.blackbox_pro_forma_finalized)) {
                 return false;
             } else {
                 return orderline_super.can_be_merged_with.apply(this, arguments);
@@ -1261,8 +1261,8 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             this.blackbox_terminal_id = this.get_blackbox_terminal_id();
 
             this.chrome.ready.then(function () {
-                var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(current + ' TID: ' + self.blackbox_terminal_id);
+                var current = $(self.chrome.$el).find('.placeholder-terminalID').text();
+                $(self.chrome.$el).find('.placeholder-terminalID').text(' TID: ' + self.blackbox_terminal_id);
             });
 
             return posmodel_super.after_load_server_data.apply(this, arguments);
@@ -1307,6 +1307,27 @@ can no longer be modified. Please create a new line with eg. a negative quantity
 
                         this.pos._push_pro_forma().then(function () {
                             print_bill_super.bind(self)();
+
+                            var order = self.pos.get_order();
+                            var to_delete = [];
+                            // after we push the order to EJ and FDM we are
+                            // allowed to consolidate all the orderlines
+                            order.get_orderlines().forEach(function (current, index) {
+                                order.get_orderlines().forEach(function (other, other_index) {
+                                    if (index != other_index && to_delete.indexOf(current) == -1 && current.can_be_merged_with(other, "ignore blackbox finalized")) {
+                                        current.merge(other);
+                                        to_delete.push(other);
+
+                                        if (current.get_quantity() === 0) {
+                                            to_delete.push(current);
+                                        }
+                                    }
+                                });
+                            });
+
+                            to_delete.forEach(function (current) {
+                                order.remove_orderline(current);
+                            });
                         });
                     }
                 };
@@ -1426,7 +1447,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
 
             self.chrome.ready.then(function () {
                 var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(current + ' ID: ' + self.blackbox_pos_production_id);
+                $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.blackbox_pos_production_id);
             });
         }
     }, {

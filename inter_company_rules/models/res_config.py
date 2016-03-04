@@ -22,12 +22,7 @@ class inter_company_rules_configuration(models.TransientModel):
 
     @api.onchange('rule_type')
     def onchange_rule_type(self):
-        if self.rule_type == 'invoice_and_refunds':
-            self.so_from_po = False
-            self.po_from_so = False
-            self.auto_validation = False
-
-        elif self.rule_type == 'so_and_po':
+        if self.rule_type == 'so_and_po':
             self.invoice_and_refunds = False
 
     @api.onchange('company_id')
@@ -49,9 +44,9 @@ class inter_company_rules_configuration(models.TransientModel):
     def set_inter_company_configuration(self):
         if self.company_id:
             vals = {
-                'so_from_po': self.so_from_po,
-                'po_from_so': self.po_from_so,
-                'auto_validation': self.auto_validation,
+                'so_from_po': self.so_from_po if self.rule_type == 'so_and_po' else False,
+                'po_from_so': self.po_from_so if self.rule_type == 'so_and_po' else False,
+                'auto_validation': self.auto_validation if self.rule_type == 'so_and_po' else False,
                 'auto_generate_invoices': True if self.rule_type == 'invoice_and_refunds' else False,
                 'warehouse_id': self.warehouse_id.id
             }

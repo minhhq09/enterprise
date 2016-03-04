@@ -3,13 +3,14 @@
 # * crm_voip
 # 
 # Translators:
+# ANDRES FELIPE NEGRETE GOMEZ <psi@nubark.com>, 2016
 # Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-13 14:10+0000\n"
-"PO-Revision-Date: 2016-01-26 12:16+0000\n"
+"PO-Revision-Date: 2016-02-19 14:21+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/odoo/odoo-9/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +34,7 @@ msgid ""
 "\n"
 "                </div>\n"
 "            "
-msgstr ""
+msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \"><p>Hola ${object.name},</p><p>He intentado llamarle. ¿Puede enviarme su disponibilidad para planificar una nueva llamada?</p><p>Saludos,</p><p>${user.name}</p></div>"
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_interrupted
@@ -49,7 +50,7 @@ msgid ""
 "\n"
 "                </div>\n"
 "            "
-msgstr ""
+msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \"><p>Hola ${object.name},</p><p>Parece que nos han interrumpido durante nuestra conversación. ¿Puede enviarme su disponibilidad para planificar una nueva llamada? </p> <p>Saludos,</p><p>${user.name}</p></div>"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_nbr
@@ -146,7 +147,7 @@ msgstr "Llamando..."
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 msgid "Calls Date by Month"
-msgstr ""
+msgstr "Fecha de llamada por Mes"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
@@ -178,6 +179,13 @@ msgstr "Categoría"
 #: model:ir.model,name:crm_voip.model_crm_phonecall_category
 msgid "Category of phone call"
 msgstr "Categoría de llamada telefónica"
+
+#. module: crm_voip
+#: model:web.tip,description:crm_voip.voip_tip_2
+msgid ""
+"Changing the phone number will not change the phone numbers already in the "
+"call queue"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -340,7 +348,7 @@ msgstr "Duración"
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_crm_phonecall_duration
 msgid "Duration in minutes and seconds."
-msgstr ""
+msgstr "Duración en minutos y segundos."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -366,12 +374,12 @@ msgid ""
 "on their phone calls. You can group or filter the information according to "
 "several criteria and drill down the information, by adding more groups in "
 "the report."
-msgstr ""
+msgstr "Desde este informe, puede analizar el rendimiento de su equipo de ventas basándose en sus llamadas telefónicas. Puede agrupar o filtrar la información de acuerdo a varios criterios y profundizar en la información añadiendo más grupos al informe."
 
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_crm_phonecall_sequence
 msgid "Gives the sequence order when displaying a list of Phonecalls."
-msgstr ""
+msgstr "Indica el orden de secuencia cuando se muestra una lista de Llamadas Telefónicas."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
@@ -494,7 +502,7 @@ msgstr "Iniciativa/Oportunidad"
 #: code:addons/crm_voip/static/src/js/crm_voip.js:435
 #, python-format
 msgid "Log a call"
-msgstr ""
+msgstr "Registrar una llamada"
 
 #. module: crm_voip
 #: selection:crm.phonecall,priority:0
@@ -519,7 +527,7 @@ msgstr "Mes"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Month of call"
-msgstr ""
+msgstr "Mes de la llamada"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
@@ -545,7 +553,7 @@ msgstr "Nombre"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_new_date_action
 msgid "New date action"
-msgstr ""
+msgstr "Nueva fecha de acción"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_new_title_action
@@ -575,7 +583,7 @@ msgstr "Próxima Actividad"
 #: code:addons/crm_voip/static/src/js/crm_voip.js:48
 #, python-format
 msgid "No opportunity linked"
-msgstr ""
+msgstr "No hay oportunidad enlazada"
 
 #. module: crm_voip
 #: selection:crm.phonecall,priority:0
@@ -621,7 +629,7 @@ msgstr "Nombre de la oportunidad"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_planned_revenue
 msgid "Opportunity planned revenue"
-msgstr ""
+msgstr "Ingreso planificado de la oportunidad"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_probability
@@ -631,7 +639,7 @@ msgstr "Probabilidad de la oportunidad"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_pbx_ip
 msgid "PBX Server IP"
-msgstr ""
+msgstr "IP Servidor PBX "
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_res_partner
@@ -686,7 +694,7 @@ msgstr "Llamadas Telefónicas"
 #. module: crm_voip
 #: model:ir.filters,name:crm_voip.filter_crm_phonecall_phone_call_to_do
 msgid "Phone Calls To Do"
-msgstr ""
+msgstr "Llamadas Telefónicas a Realizar"
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_crm_phonecall_report
@@ -697,23 +705,23 @@ msgstr "Llamadas Telefónicas por usuario y equipo"
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_graph
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_pivot
 msgid "Phone calls"
-msgstr ""
+msgstr "Llamadas telefónicas"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Phone calls that are assigned to one of the sale teams I manage"
-msgstr ""
+msgstr "Las llamadas de teléfono están asignadas a uno de los equipos que yo gestiono"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Phone calls which are in closed state"
-msgstr ""
+msgstr "Llamadas en estado cerrado"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid ""
 "Phone calls which are in to do state and Phone calls which receive no answer"
-msgstr ""
+msgstr "Llamadas que están en estado \"para hacer\" y llamadas que no reciban respuesta"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
@@ -727,7 +735,7 @@ msgstr "Llamadas telefónicas que no fueron contestadas"
 #: model:ir.ui.view,arch_db:crm_voip.crm_phonecall_tree_view
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 msgid "Phonecalls"
-msgstr ""
+msgstr "Llamadas telefónicas"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,name:crm_voip.action_report_crm_phonecall
@@ -738,14 +746,14 @@ msgstr "Análisis de las Llamadas Telefónicas"
 #: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
 #: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
 msgid "Planned Date"
-msgstr ""
+msgstr "Fecha Planificada"
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/js/crm_voip.js:469
 #, python-format
 msgid "Please check if a phone number is given for the current phonecall"
-msgstr ""
+msgstr "Por favor, compruebe si tiene el número de teléfono para la llamada actual"
 
 #. module: crm_voip
 #: selection:sale.config.settings,mode:0
@@ -758,7 +766,7 @@ msgstr "Producción"
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:70
 #, python-format
 msgid "Refresh the Panel"
-msgstr ""
+msgstr "Actualizar el Panel"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_call_kanban_view
@@ -826,13 +834,13 @@ msgstr "Programar Una Nueva Llamada"
 #: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
 #: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
 msgid "Schedule Call"
-msgstr ""
+msgstr "Planificar Llamada"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,name:crm_voip.phonecall_to_phonecall_act
 #: model:ir.ui.view,arch_db:crm_voip.crm_phonecall_tree_view
 msgid "Schedule Other Call"
-msgstr ""
+msgstr "Planificar Otra Llamada"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
@@ -849,7 +857,7 @@ msgstr "Programar una Llamada Telefónica"
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:119
 #, python-format
 msgid "Scheduled Date:"
-msgstr ""
+msgstr "Fecha Planificada:"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
@@ -861,12 +869,12 @@ msgstr "Buscar"
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:64
 #, python-format
 msgid "Search Phone Calls..."
-msgstr ""
+msgstr "Buscar Llamadas Teléfonicas..."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 msgid "Search Phonecalls"
-msgstr ""
+msgstr "Buscar Llamadas"
 
 #. module: crm_voip
 #. openerp-web
@@ -896,12 +904,12 @@ msgstr "Fecha Específica"
 #: code:addons/crm_voip/static/src/js/crm_voip.js:802
 #, python-format
 msgid "Start Calling"
-msgstr ""
+msgstr "Iniciar Llamadas"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_start_time
 msgid "Start time"
-msgstr ""
+msgstr "Iniciar tiempo"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_state
@@ -920,26 +928,26 @@ msgstr "Detener Llamada Automática"
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_sale_config_settings_pbx_ip
 msgid "The IP adress of your PBX Server"
-msgstr ""
+msgstr "La dirección IP de su servidor PBX"
 
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_sale_config_settings_wsServer
 msgid "The URL of your WebSocket"
-msgstr ""
+msgstr "El URL del Socket Web"
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/js/crm_voip.js:356
 #, python-format
 msgid "The customer is temporary unavailable. Please try later."
-msgstr ""
+msgstr "El cliente no está disponible temporalmente. Por favor intenta más tarde."
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/js/crm_voip.js:469
 #, python-format
 msgid "The phonecall has no number"
-msgstr ""
+msgstr "La llamada no tiene número"
 
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_crm_phonecall_state
@@ -947,7 +955,7 @@ msgid ""
 "The status is set to To Do, when a case is created.\n"
 "When the call is over, the status is set to Held.\n"
 "If the call is not applicable anymore, the status can be set to Cancelled."
-msgstr ""
+msgstr "El estado se establece \"Para Realizar\", cuando se crea un caso.\nCuando la llamada termina, el estado se establece en Pendiente.\nSi la llamada no es aplicable más, el estado se puede configurar para Cancelado."
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -987,7 +995,7 @@ msgstr "Transferir"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_transfer_choice
 msgid "Transfer choice"
-msgstr ""
+msgstr "Elegir transferencia"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
@@ -1015,7 +1023,7 @@ msgstr "Advertencia"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_wsServer
 msgid "WebSocket"
-msgstr ""
+msgstr "Socket Web"
 
 #. module: crm_voip
 #: code:addons/crm_voip/crm_voip.py:500
@@ -1088,24 +1096,24 @@ msgstr "sale.config.settings"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
 msgid "transfer Option"
-msgstr ""
+msgstr "Opciones de Transferencia"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_transfer_number
 msgid "transfer To"
-msgstr ""
+msgstr "transferir a"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
 msgid "transfer the Call"
-msgstr ""
+msgstr "transferir la llamada"
 
 #. module: crm_voip
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to another External Phone"
-msgstr ""
+msgstr "transferir a otro Teléfono Externo"
 
 #. module: crm_voip
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
-msgstr ""
+msgstr "transferir a tu teléfono externo"

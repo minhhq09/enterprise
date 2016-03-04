@@ -26,7 +26,7 @@ class followup_line(models.Model):
     _description = 'Follow-up Criteria'
     _order = 'delay'
 
-    name = fields.Char('Follow-Up Action', required=True)
+    name = fields.Char('Follow-Up Action', required=True, translate=True)
     sequence = fields.Integer(help="Gives the sequence order when displaying a list of follow-up lines.")
     delay = fields.Integer('Due Days', required=True,
                            help="The number of days after the due date of the invoice to wait before sending the reminder.  Could be negative if you want to send a polite alert beforehand.")
@@ -103,6 +103,11 @@ class res_partner(models.Model):
         old = None
         fups = {}
         fup_id = 'followup_id' in context and context['followup_id'] or self.env['account_followup.followup'].search([('company_id', '=', company_id.id)]).id
+        if not fup_id:
+            raise Warning(_('No follow-up is defined for the company "%s".\n Please define one.') % company_id.name)
+
+        if not fup_id:
+            return {}
 
         current_date = datetime.date(*time.strptime(date, '%Y-%m-%d')[:3])
         cr.execute(

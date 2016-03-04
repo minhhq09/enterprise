@@ -106,7 +106,7 @@ class website_contract(http.Controller):
             account = account_res.browse(account_id)
 
         # no change
-        if int(kw.get('pay_meth'), 0) > 0:
+        if int(kw.get('pay_meth', 0)) > 0:
             account.payment_method_id = int(kw['pay_meth'])
 
         # we can't call _recurring_invoice because we'd miss 3DS, redoing the whole payment here

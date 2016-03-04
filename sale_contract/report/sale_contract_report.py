@@ -35,7 +35,7 @@ class sale_subscription_report(models.Model):
                     l.product_id as product_id,
                     l.uom_id as product_uom,
                     sub.analytic_account_id as analytic_account_id,
-                    (l.price_unit * l.quantity) as recurring_price,
+                    (l.price_unit * l.quantity) - (0.01 * l.discount)*(l.price_unit * l.quantity) as recurring_price,
                     sub.date_start as date_start,
                     sub.date as date_end,
                     a.partner_id as partner_id,

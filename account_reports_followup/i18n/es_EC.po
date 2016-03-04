@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2016-01-15 05:50+0000\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 13:48+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/language/es_EC/)\n"
 "MIME-Version: 1.0\n"
@@ -86,12 +86,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\nEstimado %(partner_name)s,\n\nEstamos decepcionados de ver que a pesar de enviarle un recordatorio, su cuenta está ahora seriamente atrasada.\n\nEs esencial que realice el pago inmediatamente, o de lo contrario tendremos que considerar parar su cuenta, lo que significa que no podremos suministrarle más bienes/servicios a su empresa.\n\nPor favor, tome las medidas adecuadas para realizar el pago en los próximos 8 días.\n\nSi hay algún problema con el pago de la factura del que no tenemos conocimiento, no dude en contactar con nuestro departamento de contabilidad, para que podamos resolver el asunto rápidamente.\n\nSe acompañan los detalles de los pagos vencidos a continuación.\n\nSaludos cordiales,\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ":Acción manual realizada\n"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -335,6 +329,20 @@ msgstr "Registar una nota"
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "Acción manual"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr "Acción manual realizada\n"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr "Sin seguimiento definido para la compañía \"%s\".\nPor favor, defina uno."
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0

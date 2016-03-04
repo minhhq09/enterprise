@@ -30,7 +30,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
             password: result.password,
             hackIpInContact: true,
             log: {level: "debug"},
-            traceSip: false,
+            traceSip: true,
         };
         this.always_transfer = result.always_transfer;
         this.external_phone = result.external_phone;
@@ -111,11 +111,13 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     rejected: function(response){
         this.sip_session = false;
         clearTimeout(this.timer);
+        this.timer = null;
         this.trigger('sip_rejected');
+        this.sip_session = false;
         this.ringbacktone.pause();
         if(response.status_code == 404 || response.status_code == 488){
             this.trigger_error(
-                _.str(_t('The user credentials could be wrong or the connection cannot be made. Please check your configuration.</br> (Reason receives :%d',
+                _.str.sprintf(_t('The user credentials could be wrong or the connection cannot be made. Please check your configuration.</br> (Reason receives :%s',
                     response.reason_phrase)),
                 true);
         }
@@ -123,6 +125,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
 
     bye: function(){
         clearTimeout(this.timer);
+        this.timer = null;
         this.sip_session = false;
         this.onCall = false;
         this.trigger('sip_bye');
@@ -133,8 +136,8 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
 
     cancel: function(){
         this.sip_session = false;
-        this.onCall = false;
         clearTimeout(this.timer);
+        this.timer = null;
         this.ringbacktone.pause();
         this.trigger('sip_cancel');
         if(this.mode == "demo"){
@@ -144,20 +147,24 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
 
     progress: function(response){
         var self = this;
-        if(response.reason_phrase == "Ringing"){
+        // some version of asterisk don't send ringing but only trying
+        if(response.reason_phrase == "Ringing" || response.reason_phrase == "Trying"){
             this.trigger('sip_ringing');
             this.ringbacktone.play();
             //set the timer to stop the call if ringing too long
-            this.timer = setTimeout(function(){
-                self.trigger('sip_customer_unavailable');
-                self.sip_session.cancel();
-            },4000*self.ring_number);
+            if(!this.timer){
+                this.timer = setTimeout(function(){
+                    self.trigger('sip_customer_unavailable');
+                    self.sip_session.cancel();
+                },4000*self.ring_number);
+            }
         }
     },
 
     accepted: function(result){
         this.onCall = true;
         clearTimeout(this.timer);
+        this.timer = null;
         this.ringbacktone.pause();
         this.trigger('sip_accepted');
         if(this.always_transfer){

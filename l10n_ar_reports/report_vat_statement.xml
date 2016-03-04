@@ -32,7 +32,7 @@
         <field name="parent_id" ref='account_financial_report_l10n_ar_tva_line1'/>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2" />
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_ar.tag_itax_105_out'),ref('l10n_ar.tag_itax_27_out'),ref('l10n_ar.tag_itax_21_out')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_ar.tag_ar_03')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -72,7 +72,7 @@
         <field name="parent_id" ref='account_financial_report_l10n_ar_tva_line5'/>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2" />
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_ar.tag_otax_105_in'),ref('l10n_ar.tag_otax_27_in'),ref('l10n_ar.tag_otax_21_in')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_ar.tag_ar_07')])]" />
         <field name="formulas">balance = sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -123,7 +123,7 @@
         <field name="sequence" eval="1"/>
         <field name="level" eval="2" />
         <field name="formulas">balance = sum.balance</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_ar.tag_otax_02_in'),ref('l10n_ar.tag_otax_105_in'),ref('l10n_ar.tag_otax_27_in'),ref('l10n_ar.tag_otax_21_in')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_ar.tag_ar_12')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -162,7 +162,7 @@
         <field name="sequence" eval="1"/>
         <field name="level" eval="2" />
         <field name="formulas">balance = - sum.balance</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_ar.tag_itax_105_out'),ref('l10n_ar.tag_itax_27_out'),ref('l10n_ar.tag_itax_21_out')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_ar.tag_ar_12')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>
