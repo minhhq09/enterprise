@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2016-01-25 08:56+0000\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 13:09+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Korean (http://www.transifex.com/odoo/odoo-9/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -83,12 +83,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\n친애하는 %(partner_name)s님\n\n우리의 여러 번에 걸친 알림에도 불구하고 귀하가 심각하게 연체 상태에 있는 것에 실망을 금치 못합니다.\n\n즉시 결제가 이루어지지 않을 경우 당사가 제공하는 제품/서비스를 제공할 수 없게 됩니다.\n다음 8일 이내에 지불을 수행하기 위한 적절한 조치를 취해 주시기 바랍니다.\n\n위 내용이 잘못되었거나 문의사항이 있을 경우 당사 회계 부서에 문의하여 주시기 바랍니다.\n\n연체 세부 사항은 아래에 인쇄됩니다.\n\n감사합니다.\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -332,6 +326,20 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "수동 조치"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr ""
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr ""
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0

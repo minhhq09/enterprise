@@ -1381,7 +1381,7 @@ class CSVExport(ExportFormat, http.Controller):
         for data in rows:
             row = []
             for d in data:
-                if isinstance(d, basestring):
+                if isinstance(d, unicode):
                     d = d.replace('\n',' ').replace('\t',' ')
                     try:
                         d = d.encode('utf-8')

@@ -27,3 +27,17 @@ class SaleSubscription(models.Model):
             line[2]['asset_category_id'] = contract.asset_category_id and contract.asset_category_id.id
 
         return inv_lines
+
+
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    @api.multi
+    def _prepare_invoice_line(self, qty):
+        """
+            For recurring products, add the deferred revenue category on the invoice line
+        """
+        res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+        if self.product_id.recurring_invoice and self.order_id.subscription_id.asset_category_id:
+            res['asset_category_id'] = self.order_id.subscription_id.asset_category_id.id
+        return res

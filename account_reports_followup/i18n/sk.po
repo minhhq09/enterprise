@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2016-02-04 20:05+0000\n"
-"Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 13:09+0000\n"
+"Last-Translator: Martin Trigaux\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,12 +84,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\nVážený %(partner_name)s,\n\nSme sklamaní že aj napriek zaslaniu upomienky je Váš účet teraz v serióznom omeškaní splatnosti.\n\nJe nevyhnutné, aby bola vykonaná okamžitá platba, v opačnom prípade budeme musieť uvažovať o zastavení Vášho účtu, čo znamená že už nebudeme schopný zásobovať Vašu firmu s (tovarom / službami).\nProsíme Vás o vykonanie patričných opatrení pre vykonanie tejto platby počas najbližších 8 dní.\n\nAk je problém so zaplatením faktúry ktorého si nie sme vedomí, neváhajte kontaktovať naše účtovné oddelenie pre rýchle vyriešenie tejto záležitosti.\n\nPodrobnosti o omeškaných platbách sú vytlačené nižšie.\n\nS pozdravom,\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ": Manuálna akcia vykonaná\n"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -333,6 +327,20 @@ msgstr "Zápis poznámky"
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "Manuálna akcia"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr ""
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr ""
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0

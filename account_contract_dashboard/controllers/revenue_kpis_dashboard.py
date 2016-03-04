@@ -92,7 +92,7 @@ class RevenueKPIsDashboard(http.Controller):
 
         results = []
 
-        domain = [('type', '=', 'template')]
+        domain = [('type', '=', 'template'), ('state', '=', 'open')]
         if contract_ids:
             domain += [('id', 'in', contract_ids)]
 

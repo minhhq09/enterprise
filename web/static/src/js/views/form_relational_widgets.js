@@ -618,6 +618,7 @@ var AbstractManyField = common.AbstractField.extend({
     get_value: function() {
         var self = this,
             is_one2many = this.field.type === "one2many",
+            not_delete = this.options.not_delete,
             starting_ids = this.starting_ids.slice(),
             replace_with_ids = [],
             add_ids = [],
@@ -645,13 +646,13 @@ var AbstractManyField = common.AbstractField.extend({
                 }
                 return;
             }
-            if (!is_one2many || self.dataset.delete_all) {
+            if (!is_one2many || not_delete || self.dataset.delete_all) {
                 replace_with_ids.push(id);
             } else {
                 command_list.push(COMMANDS.link_to(id));
             }
         });
-        if ((!is_one2many || self.dataset.delete_all) && (replace_with_ids.length || starting_ids.length)) {
+        if ((!is_one2many || not_delete || self.dataset.delete_all) && (replace_with_ids.length || starting_ids.length)) {
             _.each(command_list, function (command) {
                 if (command[0] === COMMANDS.UPDATE) {
                     replace_with_ids.push(command[1]);
@@ -661,7 +662,7 @@ var AbstractManyField = common.AbstractField.extend({
         }
 
         _.each(starting_ids, function(id) {
-            if (is_one2many) {
+            if (is_one2many && !not_delete) {
                 command_list.push(COMMANDS.delete(id));
             } else if (is_one2many && !self.dataset.delete_all) {
                 command_list.push(COMMANDS.forget(id));
@@ -954,6 +955,7 @@ var X2ManyListView = ListView.extend({
         var current_values = {};
         _.each(fields, function(field){
             field._inhibit_on_change_flag = true;
+            field.__no_rerender = field.no_rerender;
             field.no_rerender = true;
             current_values[field.name] = field.get('value');
         });
@@ -972,7 +974,7 @@ var X2ManyListView = ListView.extend({
         _.each(fields, function(field){
             field.set('value', current_values[field.name], {silent: true});
             field._inhibit_on_change_flag = false;
-            field.no_rerender = false;
+            field.no_rerender = field.__no_rerender;
         });
         return valid;
     },

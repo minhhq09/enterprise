@@ -17,6 +17,7 @@ var Model = require('web.DataModel');
 var pyeval = require('web.pyeval');
 var session = require('web.session');
 var utils = require('web.utils');
+var dom_utils = require('web.dom_utils');
 
 var _t = core._t;
 var QWeb = core.qweb;
@@ -82,7 +83,6 @@ var WidgetButton = common.FormWidget.extend({
     },
     on_confirmed: function() {
         var self = this;
-
         var context = this.build_context();
         return this.view.do_execute_action(
             _.extend({}, this.node.attrs, {context: context}),
@@ -90,6 +90,8 @@ var WidgetButton = common.FormWidget.extend({
                 if (!_.isObject(reason)) {
                     self.view.recursive_reload();
                 }
+            }).fail(function () {
+                self.view.recursive_reload();
             });
     },
     check_disable: function() {

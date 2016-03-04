@@ -126,29 +126,48 @@ class product_template(models.Model):
             item['Item']['BuyItNowPrice'] = comp_currency.compute(self.ebay_buy_it_now_price, currency)
         NameValueList = []
         variant = self.product_variant_ids.filtered('ebay_use')
+        # We set by default the brand and the MPN because of the new eBay policy
+        # That make them mandatory in most category
+        item['Item']['ProductListingDetails'] = {'BrandMPN': {'Brand': 'Unbranded'}}
+        item['Item']['ProductListingDetails']['BrandMPN']['MPN'] = 'Does not Apply'
         # If only one variant selected to be published, we don't create variant
         # but set the variant's value has an item specific on eBay
         if len(variant) == 1 \
            and self.ebay_listing_type == 'FixedPriceItem':
-            for spec in variant.attribute_value_ids:
-                NameValueList.append({
-                    'Name': self._ebay_encode(spec.attribute_id.name),
-                    'Value': self._ebay_encode(spec.name),
-                })
             if self.ebay_sync_stock:
                 variant.ebay_quantity = max(int(variant.virtual_available), 0)
             item['Item']['Quantity'] = variant.ebay_quantity
             item['Item']['StartPrice'] = variant.ebay_fixed_price
         # If one attribute has only one value, we don't create variant
         # but set the value has an item specific on eBay
-        elif self.attribute_line_ids:
+        if self.attribute_line_ids:
             for attribute in self.attribute_line_ids:
                 if len(attribute.value_ids) == 1:
-                    NameValueList.append({
-                        'Name': self._ebay_encode(attribute.attribute_id.name),
-                        'Value': self._ebay_encode(attribute.value_ids.name),
-                    })
-
+                    attr_name = attribute.attribute_id.name
+                    attr_value = attribute.value_ids.name
+                    # We used the attributes in Odoo to match the Brand and MPN attributes
+                    # But since 1st March 2016, eBay separated them from the other attributes
+                    if attr_name == 'Brand':
+                        item['Item']['ProductListingDetails']['BrandMPN']['Brand'] = self._ebay_encode(attr_value)
+                    elif attr_name == 'MPN':
+                        item['Item']['ProductListingDetails']['BrandMPN']['MPN'] = self._ebay_encode(attr_value)
+                    else:
+                        NameValueList.append({
+                            'Name': self._ebay_encode(attr_name),
+                            'Value': self._ebay_encode(attr_value),
+                        })
+        # We add the Brand and the MPN at the end of the loop
+        # because these attributes are mandatory since 1st March 2016
+        # but some eBay site are not taking into account the ProductListingDetails.
+        # This avoid to loop in the NameValueList array to ensure that it contains
+        # Brand and MPN attributes
+        brand_mpn = [
+            {'Name': 'Brand',
+             'Value': item['Item']['ProductListingDetails']['BrandMPN']['Brand']},
+            {'Name': 'MPN',
+             'Value': item['Item']['ProductListingDetails']['BrandMPN']['MPN']}
+        ]
+        NameValueList += brand_mpn
         if NameValueList:
             item['Item']['ItemSpecifics'] = {'NameValueList': NameValueList}
         if self.ebay_category_2_id:
@@ -170,7 +189,9 @@ class product_template(models.Model):
     @api.multi
     def _prepare_non_variant_dict(self):
         item = self._prepare_item_dict()
-        item['Item']['ProductListingDetails'] = {'UPC': 'Does not Apply'}
+        # Set default value to UPC
+        item['Item']['ProductListingDetails']['UPC'] = 'Does not Apply'
+        # Check the length of the barcode field to guess its type.
         if self.barcode:
             if len(self.barcode) == 12:
                 item['Item']['ProductListingDetails']['UPC'] = self.barcode
@@ -203,17 +224,30 @@ class product_template(models.Model):
                 if len(attr_line.value_ids) > 1:
                     if spec.attribute_id.name not in name_values:
                         name_values[spec.attribute_id.name] = []
-                    if spec.name not in name_values[spec.attribute_id.name]:
-                        name_values[spec.attribute_id.name].append(spec.name)
+                    if spec not in name_values[spec.attribute_id.name]:
+                        name_values[spec.attribute_id.name].append(spec)
                     variant_name_values.append({
                         'Name': self._ebay_encode(spec.attribute_id.name),
                         'Value': self._ebay_encode(spec.name),
                         })
+            # Since 1st March 2016, identifiers are mandatory
+            # We set default values in case none is set by the user
+            # Check the length of the barcode field to guess its type.
+            upc = 'Does not apply'
+            ean = 'Does not apply'
+            if variant.barcode:
+                if len(variant.barcode) == 12:
+                    upc = variant.barcode
+                elif len(variant.barcode) == 13:
+                    ean = variant.barcode
             variations.append({
                 'Quantity': variant.ebay_quantity,
                 'StartPrice': comp_currency.compute(variant.ebay_fixed_price, currency),
                 'VariationSpecifics': {'NameValueList': variant_name_values},
                 'Delete': False if variant.ebay_use else True,
+                'VariationProductListingDetails': {
+                    'UPC': upc,
+                    'EAN': ean}
                 })
         # example of a valid name value list array
         # possible_name_values = [{'Name':'size','Value':['16gb','32gb']},{'Name':'color', 'Value':['red','blue']}]
@@ -221,7 +255,7 @@ class product_template(models.Model):
         for key in name_values:
             possible_name_values.append({
                 'Name': self._ebay_encode(key),
-                'Value': map(lambda n: self._ebay_encode(n), sorted(name_values[key]))
+                'Value': map(lambda n: self._ebay_encode(n.name), sorted(name_values[key], key=lambda v: v.sequence))
             })
         items['Item']['Variations']['VariationSpecificsSet'] = {
             'NameValueList': possible_name_values
@@ -526,6 +560,9 @@ class product_template(models.Model):
                     ])
                 partner_data['state_id'] = state.id
 
+            fp_id = self.env['account.fiscal.position'].get_fiscal_position(partner.id)
+            if fp_id:
+                partner_data['property_account_position_id'] = fp_id
             partner.write(partner_data)
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
@@ -573,7 +610,7 @@ class product_template(models.Model):
                 taxes_id = variant.taxes_id.mapped('id')
             else:
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
-            self.env['sale.order.line'].create({
+            sol = self.env['sale.order.line'].create({
                 'product_id': variant.id,
                 'order_id': sale_order.id,
                 'name': self.name,
@@ -584,6 +621,8 @@ class product_template(models.Model):
                     self.env.user.company_id.currency_id),
                 'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
             })
+            sol._compute_tax_id()
+
             # create a sale order line if a shipping service is selected
             if 'ShippingServiceSelected' in transaction:
                 taxes_id = ir_values.get_default('product.template', 'taxes_id', company_id=company_id.id)
@@ -606,6 +645,7 @@ class product_template(models.Model):
                             float(transaction['ShippingServiceSelected']['ShippingServiceCost']['value']),
                             company_id.currency_id),
                     'tax_id': [(6, 0, taxes_id)] if taxes_id else False,
+                    'is_delivery': True,
                 })
                 so_line._compute_tax_id()
             sale_order.action_confirm()

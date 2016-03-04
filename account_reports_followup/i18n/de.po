@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2016-01-16 19:24+0000\n"
-"Last-Translator: Ralf Hilgenstock <rh@dialoge.info>\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 13:09+0000\n"
+"Last-Translator: Martin Trigaux\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,12 +84,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\nSehr geehrte(r) %(partner_name)s,\n\nleider mussten wir feststellen, dass Sie trotz unserer Zahlungserinnerung bis heute die Zahlung des ausstehenden Betrages nicht veranlasst haben.\n\nWenn Sie die Einstellung der Lieferung von Waren, bzw. unserer Dienstleistungen vermeiden wollen, ist es unumgänglich, dass die Zahlung innerhalb der nächsten 7 Tage unserem Konto gutgeschrieben wird.\n\nWenn Sie Liquiditätsprobleme haben, kontaktieren Sie bitte unsere Buchhaltung, um eine für beide Seiten verbindliche Lösung zu finden.\n\nEine Aufstellung der offenen Positionen finden Sie weiter unten.\n\nMit freundlichen Grüßen,\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -333,6 +327,20 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "Manuelle Folgeaktion"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr ""
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr ""
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0
