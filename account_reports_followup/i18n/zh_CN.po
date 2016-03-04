@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
-"PO-Revision-Date: 2016-01-04 03:45+0000\n"
-"Last-Translator: fausthuang\n"
+"POT-Creation-Date: 2016-02-22 13:06+0000\n"
+"PO-Revision-Date: 2016-02-22 13:09+0000\n"
+"Last-Translator: Martin Trigaux\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,12 +86,6 @@ msgid ""
 "\n"
 "Best Regards,\n"
 msgstr "\n亲爱的 %(partner_name),\n\n我们失望的发现尽管我们发了提醒给您,不过您的应付款依然超过了额度。\n\n请立即付款, 不然我们会考虑停止与您的账目往来,这意味着贵公司将不再得到我们的良好的技术支持。\n\n在接下来的8天里，请采取适当的措施来落实这次付款。\n\n如果是因为我们未注意到的发票问题影响支付, 请毫不犹豫的联系我们的会计部门, 我们会快速解决这个问题。\n\n下面是超期超额的应付款。\n\n致以诚挚的问候，\n"
-
-#. module: account_reports_followup
-#: code:addons/account_reports_followup/account_followup_report.py:46
-#, python-format
-msgid ": Manual action done\n"
-msgstr ": 手动完成\n"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -335,6 +329,20 @@ msgstr "记录一个笔记"
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
 msgstr "手动操作"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:57
+#, python-format
+msgid "Manual action done\n"
+msgstr ""
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup.py:107
+#, python-format
+msgid ""
+"No follow-up is defined for the company \"%s\".\n"
+" Please define one."
+msgstr ""
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0

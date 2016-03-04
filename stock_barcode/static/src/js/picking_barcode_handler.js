@@ -9,7 +9,11 @@ var _t = core._t;
 
 var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
     init: function(parent, context) {
-        this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode;
+        if (parent.ViewManager.action) {
+            this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode;
+        } else if (parent.ViewManager.view_form) {
+            this.form_view_initial_mode = parent.ViewManager.view_form.options.initial_mode;
+        }
         return this._super.apply(this, arguments);
     },
 

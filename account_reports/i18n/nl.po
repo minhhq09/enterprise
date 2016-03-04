@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2016-02-08 10:33+0000\n"
+"PO-Revision-Date: 2016-02-27 16:58+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Datum verwacht"
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Total Due "
-msgstr "Totaal vervallen"
+msgstr "Totaal verschuldigd"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:329
@@ -196,13 +196,13 @@ msgstr "Actie ID"
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Aged Payable"
-msgstr "Vervallen leveranciersfactuur"
+msgstr "Ouderdomsanalyse leveranciersfacturen"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_ap
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Payables"
-msgstr "Vervallen leveranciersfacturen"
+msgstr "Ouderdomsanalyse leveranciersfacturen"
 
 #. module: account_reports
 #. openerp-web
@@ -212,13 +212,13 @@ msgstr "Vervallen leveranciersfacturen"
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Aged Receivable"
-msgstr "Vervallen factuur"
+msgstr "Ouderdomsanalyse klantfacturen"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_ar
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Receivables"
-msgstr "Vervallen facturen"
+msgstr "Ouderdomsanalyse klantfacturen"
 
 #. module: account_reports
 #: selection:account.report.context.followup.all,partner_filter:0
@@ -416,7 +416,7 @@ msgstr "Kasbasis,"
 #: model:account.financial.html.report,name:account_reports.account_financial_report_cashsummary0
 #: model:ir.actions.client,name:account_reports.action_account_report_cs
 msgid "Cash Flow Statement"
-msgstr "Kasstroomoverzicht"
+msgstr "Cashflow"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
@@ -709,7 +709,7 @@ msgstr "Aangepast"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Customer Statement"
-msgstr "Klantoverzicht"
+msgstr "Rekeningoverzicht"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_followup
@@ -749,7 +749,7 @@ msgstr "Datumfilter in gebruik"
 msgid ""
 "Date where the next action should be taken for a receivable item. Usually, "
 "automatically set when sending reminders through the customer statement."
-msgstr "Datum wanneer de volgende actie ondernomen moet worden. Meestal wordt dit automatisch bepaald bij het zenden van de betalingsherinnering via het klantoverzicht."
+msgstr "Datum wanneer de volgende actie ondernomen moet worden. Meestal wordt dit automatisch bepaald bij het zenden van de betalingsherinnering via het rekeningoverzicht."
 
 #. module: account_reports
 #. openerp-web
@@ -955,7 +955,7 @@ msgid ""
 "Expected payment date as manually set through the customer statement (e.g: "
 "if you had the customer on the phone and want to remember the date he "
 "promised he would pay)"
-msgstr "Verwachte betaaldatum zoals handmatig in het klantoverzicht ingesteld (bijv. indien u de klant aan de lijn hebt gehad, en u wil zich de datum van de betalingsbelofte herinneren) "
+msgstr "Verwachte betaaldatum zoals handmatig in het rekeningoverzicht ingesteld (bijv. indien u de klant aan de lijn hebt gehad, en u wil zich de datum van de betalingsbelofte herinneren) "
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_expenses0
@@ -978,7 +978,7 @@ msgstr "Financiële rapportages"
 #. module: account_reports
 #: selection:account.financial.html.report.line,figure_type:0
 msgid "Float"
-msgstr "Drijvende komma"
+msgstr "Getal"
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,show_domain:0
@@ -1547,7 +1547,7 @@ msgstr "Opmerking in verband met de volgende actie."
 msgid ""
 "Note you can set through the customer statement about a receivable journal "
 "item"
-msgstr "Notitie die u kunt ingeven in het klantoverzicht ivm een betaling"
+msgstr "Notitie die u kunt ingeven in het rekeningoverzicht ivm een betaling"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_number
@@ -1884,7 +1884,7 @@ msgstr "Reeks"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_st_cash_forecast0
 msgid "Short term cash forecast"
-msgstr "Korte termijn kas voorspelling"
+msgstr "Korte termijn kasprognose"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_debit_credit
@@ -2202,6 +2202,18 @@ msgstr "get_columns_names is niet geïmplementeerd"
 #, python-format
 msgid "get_report_obj not implemented"
 msgstr "get_report_obj is niet geïmplementeerd"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:189
+#, python-format
+msgid "(As of %s)"
+msgstr "(Vanaf %s)"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:189
+#, python-format
+msgid "(From %s <br/> to  %s)"
+msgstr "(Van %s <br/> tot %s)"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnotes_manager

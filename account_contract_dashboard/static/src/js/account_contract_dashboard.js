@@ -204,7 +204,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 
     fetch_contract_templates: function() {
         var self = this;
-        return new Model('sale.subscription').query(['name']).filter([['type', '=', 'template']]).all()
+        return new Model('sale.subscription').query(['name']).filter([['type', '=', 'template'], ['state', '=', 'open']]).all()
             .done(function(result){
                 self.contract_templates = result;
             });

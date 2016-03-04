@@ -5,7 +5,12 @@
         <div class="o_dropdown o_account_reports_followup-filter">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-filter"/> Partners:
-                <t t-esc="context.partner_filter == 'action' and 'In Need of Action' or 'With Overdue Invoices'"/>
+                <t t-if="context.partner_filter == 'action'">
+                    In Need of Action
+                </t>
+                <t t-if="context.partner_filter != 'action'">
+                    With Overdue Invoices
+                </t>
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">

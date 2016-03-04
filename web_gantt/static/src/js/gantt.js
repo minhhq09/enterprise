@@ -824,7 +824,7 @@ var GanttView = View.extend({
 
     on_task_changed: function (task_obj) {
         // We first check that the fields aren't defined as readonly.
-        if (this.fields[this.fields_view.arch.attrs.date_start].readonly === true || this.fields[this.fields_view.arch.attrs.date_stop].readonly === true) {
+        if (this.fields[this.fields_view.arch.attrs.date_start].readonly || this.fields[this.fields_view.arch.attrs.date_stop].readonly) {
             Dialog.alert(this, _t('You are trying to write on a read-only field!'));
             return $.Deferred().reject();
         }

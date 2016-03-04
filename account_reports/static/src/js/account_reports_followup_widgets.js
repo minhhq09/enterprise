@@ -62,7 +62,7 @@ var FollowupReportWidget = ReportWidget.extend({
             this.$("div.o_account_reports_page").find('div#followup-mode .o_account_reports_followup-manual').removeClass('btn-info');
             $(e.target).parents('.o_account_reports_followup-no-action').remove(); // Remove the alert
         }
-        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]]).then(function () {self.getParent().restart();}); // Go to auto python-side
+        return new Model('account.report.context.followup').call('to_auto', [[parseInt(target_id)]]).then(function () {self.getParent().restart({});}); // Go to auto python-side
     },
     // Opens the modal to select a next action
     setNextAction: function(e) {

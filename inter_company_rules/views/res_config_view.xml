@@ -19,9 +19,9 @@
                         <field name="po_from_so"/>
                         <label for="po_from_so"/>
                     </div>
-                    <div name="module_inter_company_rules_warehouse_id"  attrs="{'invisible': ['|', ('po_from_so', '=', False), ('module_inter_company_rules', '=', False)]}">
+                    <div name="module_inter_company_rules_warehouse_id"  attrs="{'invisible': ['|', '&amp;', ('so_from_po', '=', False), ('po_from_so', '=', False), ('module_inter_company_rules', '=', False)]}">
                         <label for="warehouse_id"/>
-                        <field name="warehouse_id" class="oe_inline" attrs="{'required': [('po_from_so', '=', True), ('module_inter_company_rules', '=', True)]}" domain="[('company_id', '=', company_id)]"/>
+                        <field name="warehouse_id" class="oe_inline" attrs="{'required': ['|', ('po_from_so', '=', True), ('so_from_po', '=', True), ('module_inter_company_rules', '=', True)]}" domain="[('company_id', '=', company_id)]"/>
                     </div>
                     <div name="module_inter_company_rules_set_auto_validation" attrs="{'invisible': ['|', ('rule_type', '!=', 'so_and_po'), ('module_inter_company_rules', '=', False)]}">
                         <field name="auto_validation"/>

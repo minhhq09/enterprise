@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-01-05 15:38+0000\n"
+"PO-Revision-Date: 2016-02-26 17:01+0000\n"
 "Last-Translator: Simone Bernini <simone@aperturelabs.it>\n"
 "Language-Team: Italian (http://www.transifex.com/odoo/odoo-9/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Salve ${object.partner_id.name},</p>\n        \n        <p>\n            Il tuo abbonamento (${ctx.get('code')}) è appena stato rinnovato.\n            %if ctx.get('total_amount') and ctx.get('payment_method'):\n                L'importo per il rinnovo è di ${ctx['total_amount']} ${ctx['currency']} pagato tramite ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Troverai la tua fattura allegata.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Il prossimo rinnovo avverrà il ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>In caso di dubbi o domande, non esitare a contattarci.</p>\n        <p>Grazie per avere scelto ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Telefono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Sito Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Salve ${object.partner_id.name},</p>\n        \n        <p>\n            Il tuo abbonamento (${ctx.get('code')}) è appena stato rinnovato.\n            %if ctx.get('total_amount') and ctx.get('payment_method'):\n                L'importo del rinnovo è di ${ctx['total_amount']} ${ctx['currency']} pagato tramite ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Troverai la tua fattura allegata.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Il prossimo rinnovo avverrà il ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>In caso di dubbi o domande, non esitare a contattarci.</p>\n        <p>Grazie per avere scelto ${object.company_id.name or 'la nostra azienda'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Contatto telefonico:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Sito Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_close
@@ -128,7 +128,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Salve ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          I tentativi di elaborazione del pagamento per il tuo abbonamento utilizzando questo metodo di pagamento\n          ${ctx['payment_method']}\n          per ${ctx['total_amount']} ${ctx.get('currency')} sono falliti.\n          % if ctx.get('error'):\n            La tua banca o istituto di credito hanno risposto con i seguenti dettagli relativamente all'errore: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          I tentativi di elaborazione del pagamento non sono andati a buon fine, perchè non hai un metodo di pagamento valido associato al tuo utente.\n        % endif \n        </p>\n\n        <p>\n          Dato che il pagamento avrebbe dovuto essere completato  <strong>15 giorni fà</strong>, l'abbonamento collegato è stato terminato.\n        </p>\n\n        <br/>\n        <p>Nel caso tu voglia risolvere questo problema, non esitare a contattarci.</p>\n        <p>Grazie per avere scelto ${object.company_id.name or 'la nostra azienda'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Contatto telefonico:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Sito Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.email_payment_reminder
@@ -186,7 +186,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Salve ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          I tentativi di elaborazione del pagamento per il tuo abbonamento utilizzando questo metodo di pagamento\n          ${ctx['payment_method']}\n          per ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            La tua banca o istituto di credito hanno risposto con i seguenti dettagli relativamente all'errore: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          I tentativi di elaborazione del pagamento non sono andati a buon fine, perchè non hai un metodo di pagamento valido associato al tuo utente.\n        % endif \n        </p>\n\n        <p>\n          Il tuo abbonamento ${ctx.get('code')} è ancora attivo, ma verrà <b>sospeso</b>\n          il giorno ${ctx.get('date_close')} a meno che la procedura di pagamento non vada a buon fine nel frattempo (il pagamento verrà tentato una volta al giorno).\n          Per favore, assicurati di avere fondi disponibili attraverso il metodo di pagamento selezionato.\n        </p>\n\n        <br/>\n        <p>In caso di dubbi o domande, non esitare a contattarci.</p>\n        <p>Grazie per avere scelto ${object.company_id.name or 'la nostra azienda'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Contatto telefonico:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Sito Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
@@ -321,7 +321,7 @@ msgstr "Annullato"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
-msgstr "Contratti annullati"
+msgstr "Abbonamenti annullati"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
@@ -346,12 +346,12 @@ msgstr "Fai click qui per creare un template di abbonamento"
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid "Click to create a new contract."
-msgstr "Clicca per creare un nuovo contratto."
+msgstr "Clicca per creare un nuovo abbonamento."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid "Click to define a new contract."
-msgstr "Fai click per creare un nuovo contratto."
+msgstr "Fai click per creare un nuovo abbonamento."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -386,7 +386,7 @@ msgstr "Chiuso"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Closed contracts"
-msgstr "Contratti chiusi"
+msgstr "Abbonamenti chiusi"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
@@ -414,17 +414,17 @@ msgstr "Configurazione"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,type:0
 msgid "Contract"
-msgstr "Contratto"
+msgstr "Abbonamento"
 
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
 msgid "Contract expiration reminder ${user.company_id.name}"
-msgstr "Promemoria scadenza contratto ${user.company_id.name}"
+msgstr "Promemoria scadenza abbonamento ${user.company_id.name}"
 
 #. module: sale_contract
 #: model:ir.module.category,name:sale_contract.module_category_contract_management
 msgid "Contracts"
-msgstr "Contratti"
+msgstr "Abbonamenti"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -434,12 +434,12 @@ msgstr "Abbonamenti in corso"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts not assigned"
-msgstr "Contratti non assegnati"
+msgstr "Abbonamenti non assegnati"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts that are not assigned to an account manager."
-msgstr "Contratti non assegnati ad un responsabile del cliente"
+msgstr "Abbonamenti non assegnati ad un responsabile."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_country_id
@@ -451,7 +451,7 @@ msgstr "Nazione"
 msgid ""
 "Create a sale order that will overwrite this contract when confirmed "
 "(renewal quotation)"
-msgstr "Crea un ordine di vendita che sovrascriverà questo contratto quando confermato (preventivo di rinnovo)"
+msgstr "Crea un ordine di vendita che sovrascriverà questo abbonamento in caso venga confermato (preventivo di rinnovo, o aggiornamento dell'abbonamento corrente)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
@@ -566,7 +566,7 @@ msgstr "Scaduto"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Expiring soon"
-msgstr "Termina a poco"
+msgstr "Scadenza a breve"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_message_follower_ids
@@ -592,7 +592,7 @@ msgstr "Raggruppa per"
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
 msgid "Helps you handle subscriptions and recurring invoicing."
-msgstr ""
+msgstr "Ti aiuta a gestire abbonamenti e fatturazione periodica"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12136
@@ -796,7 +796,7 @@ msgstr "Avviso di pagamento relativo all'abbonamento ${object.code}"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Pending contracts"
-msgstr "Contratti pendenti"
+msgstr "Abbonamenti in attesa"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
@@ -923,7 +923,7 @@ msgstr "Sequenza"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Active"
-msgstr ""
+msgstr "Riattiva abbonamento"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -933,7 +933,7 @@ msgstr "Imposta a Inattivo"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Set to Open"
-msgstr ""
+msgstr "In Corso"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -983,28 +983,28 @@ msgstr "Abbonamento"
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_graph
 #: model:ir.ui.view,arch_db:sale_contract.view_subcription_report_pivot
 msgid "Subscription Analysis"
-msgstr ""
+msgstr "Analisi abbonamenti"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
-msgstr "Linee sottoscritte"
+msgstr "Linee abbonamento"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
 msgid "Subscription Product"
-msgstr "Prodotto ad Abbonamento"
+msgstr "Prodotto ad abbonamento"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.product_action_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_product
 msgid "Subscription Products"
-msgstr "Prodotti ad Abbonamento"
+msgstr "Prodotti ad abbonamento"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_report
 msgid "Subscription Statistics"
-msgstr ""
+msgstr "Statistiche abbonamenti"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
@@ -1022,7 +1022,7 @@ msgstr "Template di Abbonamento"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
 msgid "Subscription products"
-msgstr "Prodotti ad Abbonamento"
+msgstr "Prodotti ad abbonamento"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action

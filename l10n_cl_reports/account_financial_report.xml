@@ -47,7 +47,7 @@
         <field name="code">CLTAX_020101</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_cl.tag_IVA_19%_Compra')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_cl.tag_cl_05')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0201"/>
         <field name="show_domain">never</field>
@@ -87,7 +87,7 @@
         <field name="code">CLTAX_020201</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_cl.tag_IVA_19%_Venta')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_cl.tag_cl_09')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0202"/>
         <field name="show_domain">never</field>
@@ -136,7 +136,7 @@
         <field name="code">CLTAX_030101</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_cl.tag_IVA_19%_Venta')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_cl.tag_cl_14')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0301"/>
         <field name="show_domain">never</field>
@@ -176,7 +176,7 @@
         <field name="code">CLTAX_030201</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_cl.tag_IVA_19%_Compra')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_cl.tag_cl_18')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_cl_0302"/>
         <field name="show_domain">never</field>

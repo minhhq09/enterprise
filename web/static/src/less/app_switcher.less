@@ -14,28 +14,10 @@
             text-align: center;
             outline: none;
 
-            .o-app-icon-common() {
+            .o_app_icon {
                 width: 80%;
                 max-width: 80px;
                 border-radius: 8%;
-            }
-
-            .o_app_web_icon {
-                .o-app-icon-common;
-            }
-
-            // Applied to fontawesome icons
-            .o_app_icon {
-                .o-app-icon-common;
-                color: @odoo-brand-primary;
-                background-color: @odoo-brand-lightsecondary;
-
-                padding: 2vw;
-                font-size: 13vw; // Adapt fa size (would be 100% of parent, which is himself 22% of body)
-                @media (min-width: 363px) { // Size where 22vw = 80px
-                    padding: 8px;
-                    font-size: 64px;
-                }
             }
 
             .o_caption {
