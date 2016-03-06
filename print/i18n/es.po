@@ -6,14 +6,15 @@
 # Alejandro Die Sanchis <marketing@domatix.com>, 2016
 # Ana Juaristi <ajuaristio@gmail.com>, 2015
 # Cristóbal Martí Oliver <info@moblesmarti.com>, 2015
+# Ivan Nieto <ivan.nieto.sousa@gmail.com>, 2016
 # Sergio Hevia <sah@talleresbernesga.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-01-27 12:04+0000\n"
-"Last-Translator: Alejandro Die Sanchis <marketing@domatix.com>\n"
+"PO-Revision-Date: 2016-03-04 20:43+0000\n"
+"Last-Translator: Ivan Nieto <ivan.nieto.sousa@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,14 +44,14 @@ msgid ""
 "                </body>\n"
 "              \n"
 "            "
-msgstr ""
+msgstr "\n<body>\n<p>Estimado/a ${object.partner_id.name},</p>\n\n<p>Durante el último proceso de documentos \"Imprimir y Enviar\", han sucedido algunos errores. Aquí tiene una lista de la Impresión de Pedido que ha autorizado.\n<p>Por favor, algunos errores han sido detectados. Puede encontrarlos en <i>Configuración > Imprimir > Pedidos</i>.</p>\n\n% if ctx.get('print_errors'):\n<p>\nID Impresión de Pedido | Mensaje de Error <br/>\n-------------------------------------- <br/>\n% for print_order_id, error_text in ctx.get('print_errors'):\n${print_order_id} | ${error_text} <br/>\n% endfor\n</p>\n% endif\n</body>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
-msgstr ""
+msgstr "<b> Error de crédito:</b> El Cŕedito de su cuenta de Proveedor es negativo. Por favor, recarge su cuenta de proovedor para enviar documentos."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:63
