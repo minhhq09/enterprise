@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import base64
+import re
 from datetime import datetime, timedelta
 from openerp import models, fields, api, _
 from datetime import datetime, timedelta
@@ -186,6 +187,33 @@ class product_template(models.Model):
     def _ebay_encode(self, string):
         return escape(string.strip().encode('utf-8')) if string else ''
 
+    # returns the checksum of the ean13, or -1 if the ean has not the correct length, ean must be a string
+    def ean_checksum(self, ean):
+        code = list(ean)
+        if len(code) != 13:
+            return -1
+
+        oddsum = evensum = total = 0
+        code = code[:-1] # Remove checksum
+        for i in range(len(code)):
+            if i % 2 == 0:
+                evensum += int(code[i])
+            else:
+                oddsum += int(code[i])
+        total = oddsum * 3 + evensum
+        return int((10 - total % 10) % 10)
+
+    # returns true if the barcode string is encoded with the provided encoding.
+    def check_encoding(self, barcode, encoding):
+        if encoding == 'ean13':
+            return len(barcode) == 13 and re.match("^\d+$", barcode) and self.ean_checksum(barcode) == int(barcode[-1]) 
+        elif encoding == 'upc':
+            return len(barcode) == 12 and re.match("^\d+$", barcode) and self.ean_checksum("0"+barcode) == int(barcode[-1])
+        elif encoding == 'any':
+            return True
+        else:
+            return False
+
     @api.multi
     def _prepare_non_variant_dict(self):
         item = self._prepare_item_dict()
@@ -193,9 +221,9 @@ class product_template(models.Model):
         item['Item']['ProductListingDetails']['UPC'] = 'Does not Apply'
         # Check the length of the barcode field to guess its type.
         if self.barcode:
-            if len(self.barcode) == 12:
+            if len(self.barcode) == 12 and self.check_encoding(self.barcode, 'upc'):
                 item['Item']['ProductListingDetails']['UPC'] = self.barcode
-            elif len(self.barcode) == 13:
+            elif len(self.barcode) == 13 and self.check_encoding(self.barcode, 'ean13'):
                 item['Item']['ProductListingDetails']['EAN'] = self.barcode
         return item
 
@@ -236,9 +264,9 @@ class product_template(models.Model):
             upc = 'Does not apply'
             ean = 'Does not apply'
             if variant.barcode:
-                if len(variant.barcode) == 12:
+                if len(variant.barcode) == 12 and self.check_encoding(self.barcode, 'upc'):
                     upc = variant.barcode
-                elif len(variant.barcode) == 13:
+                elif len(variant.barcode) == 13 and self.check_encoding(self.barcode, 'ean13'):
                     ean = variant.barcode
             variations.append({
                 'Quantity': variant.ebay_quantity,
@@ -385,6 +413,7 @@ class product_template(models.Model):
     def push_product_ebay(self):
         if self.ebay_listing_status != 'Active':
             item_dict = self._get_item_dict()
+
             response = self.ebay_execute('AddItem' if self.ebay_listing_type == 'Chinese'
                                          else 'AddFixedPriceItem', item_dict)
             self._set_variant_url(response.dict()['ItemID'])
