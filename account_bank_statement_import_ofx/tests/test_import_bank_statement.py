@@ -20,7 +20,7 @@ class TestOfxFile(TransactionCase):
         import_wizard.import_file()
 
         # Check the imported bank statement
-        bank_st_record = self.env['account.bank.statement'].search([('name', '=', '000000123')])[0]
+        bank_st_record = self.env['account.bank.statement'].search([('reference', '=', 'test_ofx.ofx')])[0]
         self.assertEqual(bank_st_record.balance_start, 2516.56)
         self.assertEqual(bank_st_record.balance_end_real, 2156.56)
 
