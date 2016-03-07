@@ -105,7 +105,6 @@ class AccountBankStatementImport(models.TransientModel):
             transactions.append(vals_line)
 
         vals_bank_statement = {
-            'name': ofx.account.routing_number,
             'transactions': transactions,
             # WARNING: the provided ledger balance is not necessarily the ending balance of the statement
             # see https://github.com/odoo/odoo/issues/3003
