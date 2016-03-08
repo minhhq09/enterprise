@@ -16,7 +16,7 @@ class TestOfxFile(TransactionCase):
             'bank_acc_number': '123456'}).id
 
         # Use an import wizard to process the file
-        import_wizard = self.env['account.bank.statement.import'].with_context(journal_id=bank_journal_id).create({'data_file': ofx_file})
+        import_wizard = self.env['account.bank.statement.import'].with_context(journal_id=bank_journal_id).create({'data_file': ofx_file, 'filename': 'test_ofx.ofx'})
         import_wizard.import_file()
 
         # Check the imported bank statement
