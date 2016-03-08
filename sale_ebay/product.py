@@ -264,9 +264,9 @@ class product_template(models.Model):
             upc = 'Does not apply'
             ean = 'Does not apply'
             if variant.barcode:
-                if len(variant.barcode) == 12 and self.check_encoding(self.barcode, 'upc'):
+                if len(variant.barcode) == 12 and self.check_encoding(variant.barcode, 'upc'):
                     upc = variant.barcode
-                elif len(variant.barcode) == 13 and self.check_encoding(self.barcode, 'ean13'):
+                elif len(variant.barcode) == 13 and self.check_encoding(variant.barcode, 'ean13'):
                     ean = variant.barcode
             variations.append({
                 'Quantity': variant.ebay_quantity,
