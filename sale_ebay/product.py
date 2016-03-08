@@ -627,10 +627,10 @@ class product_template(models.Model):
                 'state': 'draft',
                 'client_order_ref': transaction['OrderLineItemID'],
                 'origin': 'eBay' + transaction['TransactionID'],
+                'fiscal_position_id': fp_id if fp_id else False,
             })
             if self.env['ir.config_parameter'].get_param('ebay_sales_team'):
                 sale_order.team_id = int(self.env['ir.config_parameter'].get_param('ebay_sales_team'))
-
             currency = self.env['res.currency'].search([
                 ('name', '=', transaction['TransactionPrice']['_currencyID'])])
             company_id = self.env.user.company_id
