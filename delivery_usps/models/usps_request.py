@@ -138,11 +138,11 @@ class USPSRequest():
         else:
             package_root = root.findall('Package')
             services = package_root[0].findall("Service")
-            postages_prices = [0]
+            postages_prices = []
             for service in services:
                 if carrier.usps_service in service.findall("SvcDescription")[0].text:
                     postages_prices += [float(service.findall("Postage")[0].text)]
-            dict_response['price'] = min(postages_prices)
+            dict_response['price'] = min(postages_prices or [0])
         return dict_response
 
     def _item_data(self, line, weight, price):
