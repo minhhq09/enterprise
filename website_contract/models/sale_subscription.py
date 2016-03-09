@@ -161,9 +161,9 @@ class SaleSubscription(models.Model):
             'recurring_invoice_line_ids': rec_lines_to_add + rec_lines_to_modify + rec_lines_to_remove,
             'recurring_rule_type': new_template.recurring_rule_type
         }
-        self.sudo().write(self.on_change_template(new_template_id).get('value', dict()))
         self.sudo().write(values)
         self.template_id = new_template
+        self.on_change_template()
 
     def _compute_options(self):
         """ Set fields with filter options:
@@ -277,7 +277,7 @@ class SaleSubscription(models.Model):
                         try:
                             payment_method = contract.payment_method_id
                             if payment_method:
-                                invoice_values = self._prepare_invoice(contract)
+                                invoice_values = contract._prepare_invoice()
                                 new_invoice = self.env['account.invoice'].create(invoice_values)
                                 new_invoice.compute_taxes()
                                 tx = contract._do_payment(payment_method, new_invoice, two_steps_sec=False)[0]
@@ -337,7 +337,7 @@ class SaleSubscription(models.Model):
                     # invoice only
                     else:
                         try:
-                            invoice_values = self._prepare_invoice(contract)
+                            invoice_values = contract._prepare_invoice()
                             new_invoice = self.env['account.invoice'].create(invoice_values)
                             new_invoice.compute_taxes()
                             invoice_ids.append(new_invoice.id)

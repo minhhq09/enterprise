@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-import sale_contract_close_reason
+import sale_subscription_close_reason_wizard

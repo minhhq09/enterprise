@@ -112,7 +112,7 @@ class website_contract(http.Controller):
         # we can't call _recurring_invoice because we'd miss 3DS, redoing the whole payment here
         payment_method = account.payment_method_id
         if payment_method:
-            invoice_values = account_res.sudo()._prepare_invoice(account)
+            invoice_values = account.sudo()._prepare_invoice()
             new_invoice = invoice_res.sudo().create(invoice_values)
             new_invoice.compute_taxes()
             tx = account.sudo()._do_payment(payment_method, new_invoice)[0]

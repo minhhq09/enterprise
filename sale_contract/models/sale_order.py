@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 from dateutil.relativedelta import relativedelta
-import datetime
 
-from openerp import api, fields, models
-from openerp.tools.translate import _
+from odoo import api, fields, models, _
 
 
 class SaleOrder(models.Model):
     _name = "sale.order"
     _inherit = "sale.order"
 
-    def _get_subscription(self):
+    def _compute_subscription(self):
         for order in self:
             order.subscription_id = self.env['sale.subscription'].search([('analytic_account_id', '=', order.project_id.id)], limit=1)
 
@@ -23,10 +22,11 @@ class SaleOrder(models.Model):
         return [('project_id', operator, aa_ids)]
 
     subscription_management = fields.Selection(string='Subscription Management', selection=[('create', 'Creation'), ('renew', 'Renewal'), ('upsell', 'Upselling')],
-                                      help="Creation: The Sales Order created the subscription\n"
-                                            "Upselling: The Sales Order added lines to the subscription\n"
-                                            "Renewal: The Sales Order replaced the subscription's content with its own")
-    subscription_id = fields.Many2one('sale.subscription', 'Subscription', compute=_get_subscription, search=_search_subscription)
+                                          help="Creation: The Sales Order created the subscription\n"
+                                                "Upselling: The Sales Order added lines to the subscription\n"
+                                                "Renewal: The Sales Order replaced the subscription's content with its own")
+    subscription_id = fields.Many2one('sale.subscription', 'Subscription', compute='_compute_subscription', search='_search_subscription')
+
 
     @api.multi
     def action_confirm(self):
@@ -76,11 +76,10 @@ class SaleOrder(models.Model):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         if self.project_id and self.subscription_management == 'renew':
             subscr = self.env['sale.subscription'].search([('analytic_account_id', '=', self.project_id.id)], limit=1)
-            next_date = datetime.datetime.strptime(subscr.recurring_next_date, "%Y-%m-%d")
+            next_date = fields.Date.from_string(subscr.recurring_next_date)
             periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-            invoicing_period = relativedelta(**{periods[subscr.recurring_rule_type]: subscr.recurring_interval})
-            previous_date = next_date - invoicing_period
+            previous_date = next_date - relativedelta(**{periods[subscr.recurring_rule_type]: subscr.recurring_interval})
 
-            invoice_vals['comment'] = _("This invoice covers the following period: %s - %s") % (previous_date.date(), (next_date - relativedelta(days=1)).date())
+            invoice_vals['comment'] = _("This invoice covers the following period: %s - %s") % (fields.Date.to_string(previous_date), fields.Date.to_string(next_date - relativedelta(days=1)))
 
         return invoice_vals

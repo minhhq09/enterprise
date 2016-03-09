@@ -13,8 +13,12 @@ class AccountAnalyticAccount(models.Model):
     subscription_count = fields.Integer(compute='_compute_subscription_count', string='Susbcription Count')
 
     def _compute_subscription_count(self):
+        subscription_data = self.env['sale.subscription'].read_group(domain=[('analytic_account_id', 'in', self.ids)],
+                                                                     fields=['analytic_account_id'],
+                                                                     groupby=['analytic_account_id'])
+        mapped_data = dict([(m['analytic_account_id'][0], m['analytic_account_id_count']) for m in subscription_data])
         for account in self:
-            account.subscription_count = len(account.subscription_ids)
+            account.subscription_count = mapped_data.get(account.id, 0)
 
     @api.multi
     def subscriptions_action(self):
@@ -30,6 +34,4 @@ class AccountAnalyticAccount(models.Model):
         if len(subscription_ids) == 1:
             result['views'] = [(False, "form")]
             result['res_id'] = subscription_ids[0]
-        else:
-            result = {'type': 'ir.actions.act_window_close'}
         return result

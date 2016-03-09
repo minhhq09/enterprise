@@ -27,8 +27,5 @@ Features:
         'data/sale_subscription_data.xml',
         'report/sale_subscription_report_view.xml',
     ],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
     'license': 'OEEL-1',
 }

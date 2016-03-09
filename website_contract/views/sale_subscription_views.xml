@@ -42,11 +42,11 @@
                 <p>You can either create a quotation that will be discounted for the current invoicing period (the options will be added when the quotation is confirmed) or directly insert them in the subscription to invoice it on the next invoice date.</p>
                 <field name="option_lines">
                     <tree string="Options" editable="bottom">
-                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity)"/>
+                        <field name="product_id"/>
                         <field name="name" invisible="1"/>
                         <field name="price_unit" invisible="1"/>
                         <field name="quantity" readonly="0"/>
-                        <field name="uom_id" on_change="product_uom_change(product_id,uom_id,quantity,name,False,False,context)"/>
+                        <field name="uom_id"/>
                     </tree>
                 </field>
                 <footer>
@@ -95,12 +95,11 @@
                     <div>
                         <field name="option_invoice_line_ids" on_write="on_add_set_optional">
                             <tree string="Account Analytic Lines" editable="bottom">
-                                <field name="product_id" domain="[('recurring_invoice','=',True)]"
-                                       on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"/>
+                                <field name="product_id"/>
                                 <field name="name"/>
                                 <field name="portal_access"/>
                                 <field name="quantity" invisible="1"/>
-                                <field name="uom_id" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)" groups="product.group_uom"/>
+                                <field name="uom_id" groups="product.group_uom"/>
                                 <field name="price_unit"/>
                             </tree>
                         </field>

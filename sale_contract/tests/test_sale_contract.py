@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp.addons.sale_contract.tests.common_sale_contract import TestContractCommon
-from openerp.tools import mute_logger
+from odoo.addons.sale_contract.tests.common_sale_contract import TestContractCommon
+from odoo.tools import mute_logger
 
 
 class TestContract(TestContractCommon):
@@ -11,7 +11,8 @@ class TestContract(TestContractCommon):
         Contract = self.env['sale.subscription']
 
         # on_change_template on existing record (present in the db)
-        self.contract.write(self.contract.on_change_template(template_id=self.contract_tmpl.id)['value'])
+        self.contract.template_id = self.contract_tmpl
+        self.contract.on_change_template()
         self.assertTrue(len(self.contract.recurring_invoice_line_ids.ids) == 0, 'sale_contract: recurring_invoice_line_ids copied on existing sale.subscription record')
 
         # on_change_template on cached record (NOT present in the db)
@@ -20,7 +21,8 @@ class TestContract(TestContractCommon):
                              'state': 'open',
                              'partner_id': self.user_portal.partner_id.id
                              })
-        temp.update(temp.on_change_template(template_id=self.contract_tmpl.id)['value'])
+        temp.update({'template_id': self.contract_tmpl.id})
+        temp.on_change_template()
         self.assertTrue(temp.recurring_invoice_line_ids.name, 'sale_contract: recurring_invoice_line_ids not copied on new cached sale.subscription record')
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')

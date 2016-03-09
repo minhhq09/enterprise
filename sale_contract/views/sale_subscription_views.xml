@@ -147,7 +147,7 @@
                     <group name="main">
                         <group>
                             <field name="type" widget="radio" invisible="1"/>
-                            <field name="partner_id" domain="[('customer','=',True)]" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }" on_change="on_change_partner(partner_id)"/>
+                            <field name="partner_id" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }"/>
                             <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}" groups="product.group_sale_pricelist"/>
                             <field name="code"/>
                             <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
@@ -163,7 +163,7 @@
                                 <field name="recurring_interval" class="oe_inline"/>
                                 <field name="recurring_rule_type" class="oe_inline"/>
                             </div>
-                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" on_change="on_change_template(template_id)" context="{'default_type': 'template', 'default_code': False}" domain="[('type', '=', 'template'), ('state', '=', 'open')]"/>
+                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" context="{'default_type': 'template', 'default_code': False}"/>
                             <field name="manager_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>
@@ -180,14 +180,12 @@
                                         name="prepare_renewal_order" type="object" attrs="{'invisible': [('type','!=','contract')]}" />
                                 <field name="recurring_invoice_line_ids">
                                     <tree editable="bottom">
-                                        <field name="product_id" domain="[('recurring_invoice','=',True)]"
-                                               on_change="product_id_change(product_id, uom_id, quantity, False, parent.partner_id, False, parent.pricelist_id, parent.company_id)"
-                                               context="{'default_recurring_invoice': True}"/>
+                                        <field name="product_id" context="{'default_recurring_invoice': True}"/>
                                         <field name="name"/>
                                         <field name="quantity" readonly="1" groups="base.group_no_one"/>
                                         <field name="actual_quantity"/>
                                         <field name="sold_quantity"/>
-                                        <field name="uom_id" groups="product.group_uom" on_change="product_uom_change(product_id,uom_id,quantity,name,parent.partner_id, parent.pricelist_id,context)"/>
+                                        <field name="uom_id" groups="product.group_uom"/>
                                         <field name="price_unit"/>
                                         <field name="discount" groups="sale.group_discount_per_so_line"/>
                                         <field name="price_subtotal"/>

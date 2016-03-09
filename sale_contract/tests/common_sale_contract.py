@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp.addons.account.tests.account_test_classes import AccountingTestCase
+from odoo.addons.account.tests.account_test_classes import AccountingTestCase
 
 
 class TestContractCommon(AccountingTestCase):
@@ -16,7 +16,7 @@ class TestContractCommon(AccountingTestCase):
             'name': 'TestProduct',
             'type': 'service',
             'recurring_invoice': True,
-            'uom_id': self.env.ref('product.product_uom_unit').id,
+            'uom_id': self.ref('product.product_uom_unit'),
         })
         self.product = Product.create({
             'product_tmpl_id': self.product_tmpl.id,
@@ -39,13 +39,13 @@ class TestContractCommon(AccountingTestCase):
             'name': 'TestContractTemplate',
             'type': 'template',
             'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.price, 'uom_id': self.product_tmpl.uom_id.id})],
-            'pricelist_id': self.env.ref('product.list0').id,
+            'pricelist_id': self.ref('product.list0'),
         })
         self.contract = Contract.create({
             'name': 'TestContract',
             'state': 'open',
             'partner_id': self.user_portal.partner_id.id,
-            'pricelist_id': self.env.ref('product.list0').id,
+            'pricelist_id': self.ref('product.list0'),
         })
         self.sale_order = SaleOrder.create({
             'name': 'TestSO',
@@ -54,5 +54,5 @@ class TestContractCommon(AccountingTestCase):
             'partner_invoice_id': self.user_portal.partner_id.id,
             'partner_shipping_id': self.user_portal.partner_id.id,
             'order_line': [(0, 0, {'name': self.product.name, 'product_id': self.product.id, 'product_uom_qty': 2, 'product_uom': self.product.uom_id.id, 'price_unit': self.product.list_price})],
-            'pricelist_id': self.env.ref('product.list0').id,
+            'pricelist_id': self.ref('product.list0'),
         })
