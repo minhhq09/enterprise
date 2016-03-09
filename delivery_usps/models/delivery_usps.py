@@ -28,7 +28,7 @@ class ProviderUSPS(models.Model):
         else:
             self.usps_size_container = 'LARGE'
 
-    usps_service = fields.Selection([('First Class', 'First Class'),
+    usps_service = fields.Selection([('First-Class', 'First-Class'),
                                      ('Priority', 'Priority'),
                                      ('Express', 'Express')],
                                     required=True, string="USPS Service", default="Express")

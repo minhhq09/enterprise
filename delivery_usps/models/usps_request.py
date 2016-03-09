@@ -65,7 +65,7 @@ class USPSRequest():
             tot_weight = sum([(line.product_id.weight * line.product_qty) for line in order.order_line]) or 0
             for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery):
                 raise ValidationError(_('The estimated price cannot be computed because the weight of your product is missing.'))
-            if tot_weight > 1.81437 and order.carrier_id.usps_service == 'First Class':     # max weight of FirstClass Service
+            if tot_weight > 1.81437 and order.carrier_id.usps_service == 'First-Class':     # max weight of FirstClass Service
                 raise ValidationError(_("Please Change the Service Max. weight of this Service is 4 pounds"))
         return True
 
@@ -237,7 +237,7 @@ class USPSRequest():
             return dict_response
 
         elif root.tag == 'DelivConfirmCertifyV4.0Response' or root.tag == 'DeliveryConfirmationV4.0Response':
-            # domestic Priority and First Class
+            # domestic Priority and First-Class
             dict_response['tracking_number'] = root.findtext('DeliveryConfirmationNumber')
             dict_response['price'] = float(root.findtext('Postage'))
             dict_response['label'] = binascii.a2b_base64(root.findtext('DeliveryConfirmationLabel'))
