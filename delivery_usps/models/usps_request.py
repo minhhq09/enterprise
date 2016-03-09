@@ -145,7 +145,10 @@ class USPSRequest():
                 usps_service = carrier.usps_service if carrier.usps_service != 'First Class' else 'First-Class'
                 if usps_service in service.findall("SvcDescription")[0].text:
                     postages_prices += [float(service.findall("Postage")[0].text)]
-            dict_response['price'] = min(postages_prices or [0])
+            if not postages_prices:
+                raise ValidationError(_("The USPS service selected (%s) cannot be used to deliver this package.") % carrier.usps_service)
+            else:
+                dict_response['price'] = min(postages_prices)
         return dict_response
 
     def _item_data(self, line, weight, price):
