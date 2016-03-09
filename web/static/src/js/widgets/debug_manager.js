@@ -210,7 +210,10 @@ var DebugManager = Widget.extend({
         }]).then(function () {
             window.location.reload();
         });
-    }
+    },
+    split_assets: function() {
+        window.location = $.param.querystring(window.location.href, 'debug=assets');
+    },
 });
 
 /**

@@ -222,6 +222,7 @@
             <li><a href="#" data-action="perform_js_tests">JS Tests</a></li>
             <li><a href="#" data-action="select_view">Open View</a></li>
             <li><a href="#" data-action="start_tour">Start tour</a></li>
+            <li><a href="#" data-action="split_assets">Activate Assets Debugging</a></li>
         </ul>
     </li>
 </t>
@@ -1423,14 +1424,11 @@
 <div t-name="UserMenu.about" class="oe_about">
     <div class="container-fluid">
         <div class="row">
-            <a class="oe_activate_debug_mode oe_right label label-primary" href="?debug" >Activate the developer mode</a>
-        </div>
-        <div class="row">
             <div class="col-sm-offset-2 col-md-offset-2 col-sm-8 col-md-8 user-details">
-                <div class="user-image">
+                <div class="user-image text-center">
                     <img src="/web/static/src/img/logo2.png" alt="Odoo (Formerly OpenERP)" title="Odoo (Formerly OpenERP)" class="img-circle"/>
                 </div>
-                <div class="user-info-block">
+                <div class="user-info-block text-center">
                     <div class="user-heading">
                         <h3>
                             Version <t t-esc="db_info.server_version"/>
@@ -1457,6 +1455,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row" t-if="!debug">
+            <div class="col-md-12">
+                <a class="oe_activate_debug_mode pull-right" href="?debug" >Activate the developer mode</a>
             </div>
         </div>
     </div>
