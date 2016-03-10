@@ -3,6 +3,7 @@ odoo.define('web_gantt.GanttView', function (require) {
 
 var ajax = require('web.ajax');
 var core = require('web.core');
+var data_manager = require('web.data_manager');
 var formats = require('web.formats');
 var Model = require('web.Model');
 var time = require('web.time');
@@ -68,7 +69,7 @@ var GanttView = View.extend({
 
         var defs = [];
         defs.push(this._super());
-        defs.push(this.ViewManager.get_fields().then(function (fields) {
+        defs.push(data_manager.load_fields(this.dataset).then(function (fields) {
            self.fields = fields;
         }));
 
