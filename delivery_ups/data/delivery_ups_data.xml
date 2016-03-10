@@ -2,15 +2,6 @@
 <odoo>
 <data noupdate="1">
 
-    <record id="ups_partner" model="res.partner">
-        <field name="name">UPS</field>
-        <field name="is_company" eval="True"/>
-        <field name="supplier" eval="True"/>
-        <field name="customer" eval="False"/>
-        <field name="website">http://www.ups.com/</field>
-        <field name="country_id" ref="base.us" />
-    </record>
-
     <!-- UPS Product Packagings -->
     <record id="ups_packaging_01" model="product.packaging">
         <field name="name">UPS Letter</field>
@@ -87,7 +78,6 @@
 
     <record id="delivery_carrier_ups_us" model="delivery.carrier">
         <field name="name">UPS US</field>
-        <field name="partner_id" ref="ups_partner"/>
         <field name="fixed_price">0.0</field>
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
@@ -103,7 +93,6 @@
 
     <record id="delivery_carrier_ups_be" model="delivery.carrier">
         <field name="name">UPS BE</field>
-        <field name="partner_id" ref="ups_partner"/>
         <field name="fixed_price">0.0</field>
         <field name="product_sale_ok" eval="False"/>
         <field name="product_type">service</field>
