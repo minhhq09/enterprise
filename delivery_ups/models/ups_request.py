@@ -25,7 +25,7 @@ from openerp.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 # uncomment to enable logging of SOAP requests and responses
-# logging.getLogger('suds.client').setLevel(logging.DEBUG)
+logging.getLogger('suds.client').setLevel(logging.DEBUG)
 
 
 UPS_ERROR_MAP = {
@@ -108,8 +108,8 @@ class Package():
         else:
             self.dimension = {'length': carrier.ups_package_length, 'width': carrier.ups_package_width, 'height': carrier.ups_package_height}
 
-    def _convert_weight(self, weight, unit='KG'):
-        ''' Convert picking weight (always expressed in KG) into the specified unit '''
+    def _convert_weight(self, weight, unit='KGS'):
+        ''' Convert picking weight (always expressed in KGS) into the specified unit '''
         if unit == 'KGS':
             return weight
         elif unit == 'LBS':
