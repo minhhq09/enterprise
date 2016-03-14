@@ -126,13 +126,13 @@
                 <button data-primary='1' class="btn btn-primary followup-email" t-att-data-context="str(context.id)">Send by email</button>
                 <button data-time='none' class="btn btn-default o_account_reports_followup-set-next-action" t-att-data-partner="str(context.partner_id.id)">Log a Note</button>
                 <button class="btn btn-primary o_account_reports_followup_done" t-att-data-partner="str(context.partner_id.id)">Done</button>
-                <button class="btn btn-default o_account_reports_followup_skip" t-att-data-partner="str(context.partner_id.id)">Do it Later</button>
+                <button t-if='context_all.partner_filter=="action"' class="btn btn-default o_account_reports_followup_skip" t-att-data-partner="str(context.partner_id.id)">Do it Later</button>
             </span>
             <div class='pull-right' id='followup-mode'>
                 Next Reminder:
                 <div class='btn-group'>
-                    <button t-att-class="'btn o_account_reports_followup-auto ' + (context.partner_id.payment_next_action_date &lt;= today and 'btn-info' or 'btn-default')">Auto</button>
-                    <button t-att-class="'btn o_account_reports_followup-manual o_account_reports_followup-set-next-action ' + (context.partner_id.payment_next_action_date &lt;= today and 'btn-default' or 'btn-info')" t-att-data-partner="str(context.partner_id.id)">Manual</button>
+                    <button t-att-class="'btn text-uppercase o_account_reports_followup-auto ' + (context.partner_id.payment_next_action_date &lt;= today and 'btn-info' or 'btn-default')">Auto</button>
+                    <button t-att-class="'btn text-uppercase o_account_reports_followup-manual o_account_reports_followup-set-next-action ' + (context.partner_id.payment_next_action_date &lt;= today and 'btn-default' or 'btn-info')" t-att-data-partner="str(context.partner_id.id)">Manual</button>
                 </div>
             </div>
         </div>

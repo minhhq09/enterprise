@@ -344,7 +344,7 @@ class account_report_context_followup(models.TransientModel):
                 'email_from': self.env.user.email or '',
                 'email_to': email,
             })
-            msg = _(': Sent a followup email')
+            msg = _('Sent a followup email')
             self.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
             return True
         return False

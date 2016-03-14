@@ -188,6 +188,7 @@ var FollowupReportWidget = ReportWidget.extend({
         e.preventDefault();
         var context_id = $(e.target).parents("div.o_account_reports_page").attr("data-context");
         return new Model('account.report.context.followup').call('send_email', [[parseInt(context_id)]]).then (function (result) { // send the email server side
+            $(e.target).parents("div.o_account_reports_page").find(".alert.alert-info.alert-dismissible").remove();
             if (result === true) {
                 $(e.target).parents("div.o_account_reports_page").prepend(QWeb.render("emailSent")); // If all went well, notify the user
                 if ($(e.target).data('primary') === 1) { // same as for letter printing
