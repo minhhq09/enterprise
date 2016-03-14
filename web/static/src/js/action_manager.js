@@ -385,12 +385,11 @@ var ActionManager = Widget.extend({
             self.inner_action = action;
             self.inner_widget = action.widget;
 
-            // Hide the ControlPanel if the widget doesn't use it
-            if (!self.inner_widget.need_control_panel) {
-                self.main_control_panel.do_hide();
-            }
-
             return $.when(action.restore(index)).done(function() {
+                // Hide the ControlPanel if the widget doesn't use it
+                if (!self.inner_widget.need_control_panel) {
+                    self.main_control_panel.do_hide();
+                }
                 // Attach the DOM of the action and restore the scroll position only if necessary
                 if (action !== old_action) {
                     // Clear the action stack (this also removes the current action from the DOM)
