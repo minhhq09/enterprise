@@ -67,7 +67,8 @@ class Lead(models.Model):
     def _merge_scores(self, opportunity_id, opportunities):
         # We needs to delete score from opportunity_id, to be sure that all rules will be re-evaluated.
         self.sudo().browse(opportunity_id).write({'score_ids': [(6, 0, [])]})
-        self.env['website.crm.score'].assign_scores_to_leads(lead_ids=[opportunity_id])
+        if not self.env.context.get('assign_leads_to_salesteams'):
+            self.env['website.crm.score'].assign_scores_to_leads(lead_ids=[opportunity_id])
 
     @api.model
     def merge_dependences(self, highest, opportunities):
@@ -81,7 +82,7 @@ class Lead(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('user_id'):
-            vals['assign_date'] = fields.datetime.now()
+            vals['assign_date'] = vals.get('user_id') and fields.datetime.now() or False
         return super(Lead, self).create(vals)
 
     @api.multi

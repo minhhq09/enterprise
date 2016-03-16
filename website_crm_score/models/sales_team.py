@@ -8,6 +8,7 @@ import logging
 import math
 
 _logger = logging.getLogger(__name__)
+
 evaluation_context = {
     'datetime': datetime,
     'context_today': datetime.datetime.now,
@@ -53,7 +54,7 @@ class team_user(models.Model):
     def _assert_valid_domain(self):
         try:
             domain = safe_eval(self.team_user_domain or '[]', evaluation_context)
-            self.env['crm.lead'].search(domain)
+            self.env['crm.lead'].search(domain, limit=1)
         except Exception:
             raise Warning('The domain is incorrectly formatted')
 
@@ -115,7 +116,7 @@ class crm_team(osv.osv):
     def _assert_valid_domain(self):
         try:
             domain = safe_eval(self.score_team_domain or '[]', evaluation_context)
-            self.env['crm.lead'].search(domain)
+            self.env['crm.lead'].search(domain, limit=1)
         except Exception:
             raise Warning('The domain is incorrectly formatted')
 
@@ -138,21 +139,25 @@ class crm_team(osv.osv):
         self._assign_leads(dry=True)
 
     @api.model
-    # Note: The dry mode assign only 50 leads per salesteam for speed issues
+    # Note: The dry mode assign only one bundle leads per salesteam for speed issues
     def assign_leads_to_salesteams(self, all_salesteams, dry=False):
+        BUNDLE_LEADS = int(self.env['ir.config_parameter'].sudo().get_param('website_crm_score.bundle_size', default=50))
         shuffle(all_salesteams)
         haslead = True
-
+        salesteams_done = []
         while haslead:
             haslead = False
             for salesteam in all_salesteams:
+                if salesteam['id'] in salesteams_done:
+                    continue
                 domain = safe_eval(salesteam['score_team_domain'], evaluation_context)
                 domain.extend([('team_id', '=', False), ('user_id', '=', False)])
                 domain.extend(['|', ('stage_id.on_change', '=', False), '&', ('stage_id.probability', '!=', 0), ('stage_id.probability', '!=', 100)])
-                leads = self.env["crm.lead"].search(domain, limit=50)
-                haslead = haslead or (len(leads) == 50 and not dry)
+                leads = self.env["crm.lead"].search(domain, limit=BUNDLE_LEADS)
+                haslead = haslead or (len(leads.exists()) == BUNDLE_LEADS and not dry)
 
                 if not leads.exists():
+                    salesteams_done.append(salesteam['id'])
                     continue
 
                 if dry:
@@ -170,13 +175,18 @@ class crm_team(osv.osv):
 
                     # Merge duplicated lead
                     leads_done = set()
+                    leads_merged = set()
+
                     for lead in leads:
                         if lead.id not in leads_done:
                             leads_duplicated = lead.get_duplicated_leads(False)
                             if len(leads_duplicated) > 1:
-                                self.env["crm.lead"].browse(leads_duplicated).merge_opportunity(False, False)
+                                merged = self.env["crm.lead"].with_context(assign_leads_to_salesteams=True).browse(leads_duplicated).merge_opportunity(False, False)
+                                leads_merged.add(merged)
                             leads_done.update(leads_duplicated)
                         self._cr.commit()
+                    if leads_merged:
+                        self.env['website.crm.score'].assign_scores_to_leads(lead_ids=list(leads_done))
                 self._cr.commit()
 
     @api.model
@@ -237,7 +247,6 @@ class crm_team(osv.osv):
                 # Assign date will be setted by write function
                 data = {'user_id': user['su'].user_id.id}
                 lead.write(data)
-
                 lead.convert_opportunity(lead.partner_id and lead.partner_id.id or None)
                 self._cr.commit()
 
@@ -247,6 +256,7 @@ class crm_team(osv.osv):
 
     @api.model
     def _assign_leads(self, dry=False):
+        _logger.info('### START leads assignation')
         # Emptying the table
         self._cr.execute("""
                 TRUNCATE TABLE crm_leads_dry_run;
@@ -256,11 +266,20 @@ class crm_team(osv.osv):
 
         all_team_users = self.env['team.user'].search([('running', '=', True)])
 
+        _logger.info('Starting assign_scores_to_leads')
+
         self.env['website.crm.score'].assign_scores_to_leads()
+
+        _logger.info('Start assign_leads_to_salesteams for %s teams' % len(all_salesteams))
 
         self.assign_leads_to_salesteams(all_salesteams, dry=dry)
 
         # Compute score after assign to salesteam, because if a merge has been done, the score for leads is removed.
+        _logger.info('Start re-assign_scores_to_leads')
         self.env['website.crm.score'].assign_scores_to_leads()
 
+        _logger.info('Start assign_leads_to_salesmen for %s salesmen' % len(all_team_users))
+
         self.assign_leads_to_salesmen(all_team_users, dry=dry)
+
+        _logger.info('### END leads assignation')
