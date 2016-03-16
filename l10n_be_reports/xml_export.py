@@ -237,8 +237,8 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         sum_tax = 0.00
         for line in lines:
             seq += 1
-            sum_turnover += line['columns'][1]
-            sum_tax += line['columns'][2]
+            sum_turnover += line['columns'][1] or 0.0
+            sum_tax += line['columns'][2] or 0.0
             amount_data = {
                 'seq': str(seq),
                 'only_vat': line['columns'][0][2:],

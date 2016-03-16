@@ -79,7 +79,7 @@ var GanttView = View.extend({
 
         // dnd by date
         if (fields_view_get.arch.attrs.round_dnd_dates) {
-            gantt.config.round_dnd_dates = fields_view_get.arch.attrs.round_dnd_dates;
+            gantt.config.round_dnd_dates = true;
         }
 
         // Configure the duration_unit
@@ -816,6 +816,11 @@ var GanttView = View.extend({
         // We first check that the fields aren't defined as readonly.
         if (this.fields[this.fields_view.arch.attrs.date_start].readonly || this.fields[this.fields_view.arch.attrs.date_stop].readonly) {
             Dialog.alert(this, _t('You are trying to write on a read-only field!'));
+            return $.Deferred().reject();
+        }
+        if (this.fields_view.arch.attrs.date_stop === undefined) {
+            // Using a duration field instead of date_stop
+            Dialog.alert(this, _t('You have no date_stop field defined!'));
             return $.Deferred().reject();
         }
 

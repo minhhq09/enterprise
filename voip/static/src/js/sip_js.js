@@ -71,9 +71,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
             media: {
                 stream: this.media_stream,
                 render: {
-                    remote: {
-                        audio: this.remote_audio
-                    },
+                    remote: this.remote_audio
                 }
             }
         };    
