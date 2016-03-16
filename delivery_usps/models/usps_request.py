@@ -140,9 +140,15 @@ class USPSRequest():
             services = package_root[0].findall("Service")
             postages_prices = []
             for service in services:
-                if carrier.usps_service in service.findall("SvcDescription")[0].text:
+                # Crappy workaround for v9 since I cannot change the selection list in stable.
+                # Proper fix done in master
+                usps_service = carrier.usps_service if carrier.usps_service != 'First Class' else 'First-Class'
+                if usps_service in service.findall("SvcDescription")[0].text:
                     postages_prices += [float(service.findall("Postage")[0].text)]
-            dict_response['price'] = min(postages_prices)
+            if not postages_prices:
+                raise ValidationError(_("The USPS service selected (%s) cannot be used to deliver this package.") % carrier.usps_service)
+            else:
+                dict_response['price'] = min(postages_prices)
         return dict_response
 
     def _item_data(self, line, weight, price):
