@@ -33,7 +33,7 @@ class website_crm_score(models.Model):
     def _assert_valid_domain(self):
         try:
             domain = safe_eval(self.domain or '[]', evaluation_context)
-            self.env['crm.lead'].search(domain)
+            self.env['crm.lead'].search(domain, limit=1)
         except Exception as e:
             _logger.warning('Exception: %s' % (e,))
             raise Warning('The domain is incorrectly formatted')
@@ -55,6 +55,7 @@ class website_crm_score(models.Model):
     # the default [] is needed for the function to be usable by the cron
     @api.model
     def assign_scores_to_leads(self, ids=False, lead_ids=False):
+        _logger.info('Start scoring for %s rules and %s leads' % (ids and len(ids) or 'all', lead_ids and len(lead_ids) or 'all'))
         domain = [('running', '=', True)]
         if ids:
             domain.append(('id', 'in', ids))
@@ -98,3 +99,4 @@ class website_crm_score(models.Model):
             leads = self.env["crm.lead"].browse(returning_ids)
             leads.modified(['score_ids'])
             leads.recompute()
+        _logger.info('End scoring')

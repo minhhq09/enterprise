@@ -39,8 +39,8 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   LEFT JOIN account_tax_account_tag tt2 on l2.tax_line_id = tt2.account_tax_id
                   WHERE tt2.account_account_tag_id IN %s
                   AND l2.partner_id IN %s
-                  AND l2.date > '%s'
-                  AND l2.date < '%s'
+                  AND l2.date >= '%s'
+                  AND l2.date <= '%s'
                   %s
                   GROUP BY l2.partner_id) AS sub2 ON sub1.partner_id = sub2.partner_id
                 """ % (tuple(tag_ids), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[0], tuple(tag_ids_2), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[1]))
