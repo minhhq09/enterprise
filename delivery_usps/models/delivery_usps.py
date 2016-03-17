@@ -30,7 +30,7 @@ class ProviderUSPS(models.Model):
 
     usps_label_file_type = fields.Selection([('PDF', 'PDF'),
                                              ('TIF', 'TIF')],
-                                            string="Label File Type", default='PDF')
+                                            string="USPS Label File Type", default='PDF')
     usps_service = fields.Selection([('First-Class', 'First-Class'),
                                      ('Priority', 'Priority'),
                                      ('Express', 'Express')],
@@ -40,7 +40,7 @@ class ProviderUSPS(models.Model):
                                                    ('PARCEL', 'Parcel'),
                                                    ('POSTCARD', 'Postcard'),
                                                    ('PACKAGE SERVICE', 'Package Service')],
-                                                  string="Mail Type", default="LETTER")
+                                                  string="USPS First Class Mail Type", default="LETTER")
     usps_container = fields.Selection([('Regular', 'Regular < 12 inch'),
                                        ('RECTANGULAR', 'Rectangular'),
                                        ('NONRECTANGULAR', 'Non-rectangular')],
@@ -53,20 +53,20 @@ class ProviderUSPS(models.Model):
                                                         ('Sm Flat Rate Box', 'Small Flat Rate Box'),
                                                         ('Lg Flat Rate Box', 'Large Flat Rate Box'),
                                                         ('Md Flat Rate Box', 'Medium Flat Rate Box')],
-                                                       string="Type of regular container", default="Lg Flat Rate Box")
+                                                       string="Type of USPS domestic regular container", default="Lg Flat Rate Box")
 
     # For international shipping
     usps_international_regular_container = fields.Selection([('FLATRATEENV', 'Flat Rate Envelope'),
                                                              ('LEGALFLATRATEENV', 'Legal Flat Rate Envelope'),
                                                              ('PADDEDFLATRATEENV', 'Padded Flat Rate Envelope'),
                                                              ('FLATRATEBOX', 'Flat Rate Box')],
-                                                            string="Type of regular container", default="FLATRATEBOX")
+                                                            string="Type of USPS International regular container", default="FLATRATEBOX")
     usps_mail_type = fields.Selection([('Package', 'Package'),
                                        ('Letter', 'Letter'),
                                        ('FlatRate', 'Flat Rate'),
                                        ('FlatRateBox', 'Flat Rate Box'),
                                        ('LargeEnvelope', 'Large Envelope')],
-                                      default="FlatRateBox", string="Mail Type")
+                                      default="FlatRateBox", string="USPS Mail Type")
     usps_content_type = fields.Selection([('SAMPLE', 'Sample'),
                                           ('GIFT', 'Gift'),
                                           ('DOCUMENTS', 'Documents'),

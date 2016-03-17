@@ -66,7 +66,7 @@ class ProviderFedex(models.Model):
                                               ('EPL2', 'EPL2'),
                                               ('PNG', 'PNG'),
                                               ('ZPLII', 'ZPLII')],
-                                             default='PDF', string="Label File Type", oldname='x_fedex_label_file_type')
+                                             default='PDF', string="FEDEX Label File Type", oldname='x_fedex_label_file_type')
 
     def fedex_get_shipping_price_from_so(self, orders):
         res = []

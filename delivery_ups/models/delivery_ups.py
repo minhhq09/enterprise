@@ -15,7 +15,7 @@ class ProviderUPS(models.Model):
     ups_passwd = fields.Char(string='UPS Password', groups="base.group_system")
     ups_shipper_number = fields.Char(string='UPS Shipper Number', groups="base.group_system")
     ups_access_number = fields.Char(string='UPS AccessLicenseNumber', groups="base.group_system")
-    ups_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
+    ups_default_packaging_id = fields.Many2one('product.packaging', string='UPS Default Packaging Type')
     ups_default_service_type = fields.Selection([('03', 'UPS Ground'),
                                                  ('11', 'UPS Standard'),
                                                  ('01', 'UPS Next Day'),
@@ -36,7 +36,7 @@ class ProviderUPS(models.Model):
                                             ('ZPL', 'ZPL'),
                                             ('EPL', 'EPL'),
                                             ('SPL', 'SPL')],
-                                           string="Label File Type", default='GIF', oldname='x_label_file_type')
+                                           string="UPS Label File Type", default='GIF', oldname='x_label_file_type')
 
     def ups_get_shipping_price_from_so(self, orders):
         res = []

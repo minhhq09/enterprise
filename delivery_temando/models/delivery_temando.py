@@ -26,7 +26,7 @@ class ProviderTemando(models.Model):
 
     # Required based on condition
     temando_subclass = fields.Selection([('Household Goods', 'Household Goods'), ('Furniture', 'Furniture'), ('Other (Etc.)', 'Other (Etc.)')], default='Other (Etc.)')
-    temando_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
+    temando_default_packaging_id = fields.Many2one('product.packaging', string='Temando Default Packaging Type')
     temando_pallet_type = fields.Selection([('Chep', 'chep'), ('Loscam', 'Loscam'), ('Plain', 'Plain'), ('Not Required', 'Not Required')])
     temando_pallet_nature = fields.Selection([('Exchange', 'Exchange'), ('Transfer', 'Transfer'), ('Not Required', 'Not Required')])
     temando_distance_measurement_type = fields.Selection([('Centimetres', 'Centimetres'), ('Metres', 'Metres'), ('Inches', 'Inches'), ('Feet', 'Feet')], default='Centimetres')

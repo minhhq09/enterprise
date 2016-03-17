@@ -21,7 +21,7 @@ class Providerdhl(models.Model):
                                                 ('KG', 'Kilograms')],
                                                default='KG',
                                                string="Package Weight Unit")
-    dhl_default_packaging_id = fields.Many2one('product.packaging', string='Default Packaging Type')
+    dhl_default_packaging_id = fields.Many2one('product.packaging', string='DHL Default Packaging Type')
     dhl_region_code = fields.Selection([('AP', 'Asia Pacific'),
                                         ('AM', 'America'),
                                         ('EU', 'Europe')],
