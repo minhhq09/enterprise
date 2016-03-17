@@ -1344,11 +1344,21 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                             order.get_orderlines().forEach(function (current, index) {
                                 order.get_orderlines().forEach(function (other, other_index) {
                                     if (index != other_index && to_delete.indexOf(current) == -1 && current.can_be_merged_with(other, "ignore blackbox finalized")) {
-                                        current.merge(other);
-                                        to_delete.push(other);
+                                        // we cannot allow consolidation that clears the
+                                        // entire order because you cannot validate an
+                                        // empty order in the POS. This would cause a
+                                        // problem because the government requires that
+                                        // every PS order is eventually encoded in an NS
+                                        // order. In fact, the backend won't allow you to
+                                        // close the session if there are non-finalized
+                                        // orders.
+                                        if (order.get_orderlines().length - to_delete.length != 2 || Math.abs(current.get_quantity()) - Math.abs(other.get_quantity()) != 0) {
+                                            current.merge(other);
+                                            to_delete.push(other);
 
-                                        if (current.get_quantity() === 0) {
-                                            to_delete.push(current);
+                                            if (current.get_quantity() === 0) {
+                                                to_delete.push(current);
+                                            }
                                         }
                                     }
                                 });
