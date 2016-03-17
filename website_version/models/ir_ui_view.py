@@ -62,16 +62,8 @@ class view(models.Model):
             xml_id = super(view, self).get_view_id(xml_id)
         return xml_id
 
-    @tools.ormcache_context('uid', 'view_id',
-        keys=('lang', 'inherit_branding', 'editable', 'translatable', 'edit_translations', 'website_id', 'version_id'))
-    def _read_template(self, cr, uid, view_id, context=None):
-        arch = self.read_combined(cr, uid, view_id, fields=['arch'], context=context)['arch']
-        arch_tree = etree.fromstring(arch)
-        self.distribute_branding(arch_tree)
-        root = etree.Element('templates')
-        root.append(arch_tree)
-        arch = etree.tostring(root, encoding='utf-8', xml_declaration=True)
-        return arch
+    def _read_template_keys(self):
+        return super(view, self)._read_template_keys() + ['website_id', 'version_id']
 
     #To take the right inheriting views
     @api.model

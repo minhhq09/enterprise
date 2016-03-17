@@ -162,9 +162,8 @@ class website_contract(http.Controller):
             msg_after = [account.sudo().template_id.name,
                          str(account.recurring_total),
                          str(account.recurring_interval) + ' ' + str(periods[account.recurring_rule_type])]
-            msg_body = request.registry['ir.ui.view'].render(request.cr, request.uid, ['website_contract.chatter_change_contract'],
-                                                             values={'msg_before': msg_before, 'msg_after': msg_after},
-                                                             context=request.context)
+            msg_body = request.env['ir.ui.view'].render_template('website_contract.chatter_change_contract',
+                                                                 values={'msg_before': msg_before, 'msg_after': msg_after})
             # price options are about to change and are not propagated to existing sale order: reset the SO
             order = request.website.sudo().sale_get_order()
             if order:
@@ -220,9 +219,8 @@ class website_contract(http.Controller):
         new_option = option_res.sudo().browse(new_option_id)
         if not new_option.price_unit or not new_option.price_unit * account.partial_recurring_invoice_ratio() or not account.template_id.partial_invoice:
             account.sudo().add_option(new_option_id)
-            msg_body = request.registry['ir.ui.view'].render(request.cr, request.uid, ['website_contract.chatter_add_option'],
-                                                             values={'new_option': new_option},
-                                                             context=request.context)
+            msg_body = request.env['ir.ui.view'].render_template('website_contract.chatter_add_option',
+                                                                 values={'new_option': new_option})
             account.message_post(body=msg_body)
         return request.redirect('/my/contract/%s/%s' % (account.id, account.uuid))
 
@@ -242,9 +240,8 @@ class website_contract(http.Controller):
         if remove_option.portal_access != "both" and not request.env.user.has_group('base.group_sale_salesman'):
             return request.render("website.403")
         account.sudo().remove_option(remove_option_id)
-        msg_body = request.registry['ir.ui.view'].render(request.cr, request.uid, ['website_contract.chatter_remove_option'],
-                                                         values={'remove_option': remove_option},
-                                                         context=request.context)
+        msg_body = request.env['ir.ui.view'].render_template('website_contract.chatter_remove_option',
+                                                             values={'remove_option': remove_option})
         account.message_post(body=msg_body)
         return request.redirect('/my/contract/%s/%s' % (account.id, account.uuid))
 

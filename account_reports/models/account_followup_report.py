@@ -317,15 +317,15 @@ class account_report_context_followup(models.TransientModel):
                 'company': self.env.user.company_id,
                 'res_company': self.env.user.company_id,
             }
-            html = self.pool['ir.ui.view'].render(self._cr, self._uid, report_obj.get_template() + '_letter', rcontext, context=context.env.context)
+            html = context.env['ir.ui.view'].render_template(report_obj.get_template() + '_letter', rcontext)
             bodies.append((0, html))
-            header = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.external_layout_header", rcontext, context=self.env.context)
+            header = self.env['ir.ui.view'].render_template("report.external_layout_header", rcontext)
             rcontext['body'] = header
-            header = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.minimal_layout", rcontext, context=self.env.context)
-            footer = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.external_layout_footer", rcontext, context=self.env.context)
+            header = self.env['ir.ui.view'].render_template("report.minimal_layout", rcontext)
+            footer = self.env['ir.ui.view'].render_template("report.external_layout_footer", rcontext)
             rcontext['body'] = footer
             rcontext['subst'] = True
-            footer = self.pool['ir.ui.view'].render(self._cr, self._uid, "report.minimal_layout", rcontext, context=self.env.context)
+            footer = self.env['ir.ui.view'].render_template("report.minimal_layout", rcontext)
             headers.append(header)
             footers.append(footer)
             if log:

@@ -364,7 +364,7 @@ class AccountReportContextCommon(models.TransientModel):
             'company': self.env.user.company_id,
         }
 
-        body = self.pool['ir.ui.view'].render(
+        body = self.pool['ir.ui.view'].render_template(
             self._cr, self._uid, "account_reports.report_financial_letter",
             values=dict(rcontext, lines=lines, report=report_obj, context=self),
             context=self.env.context
