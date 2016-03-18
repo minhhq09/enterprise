@@ -154,11 +154,12 @@ class crm_team(osv.osv):
                 domain.extend([('team_id', '=', False), ('user_id', '=', False)])
                 domain.extend(['|', ('stage_id.on_change', '=', False), '&', ('stage_id.probability', '!=', 0), ('stage_id.probability', '!=', 100)])
                 leads = self.env["crm.lead"].search(domain, limit=BUNDLE_LEADS)
-                haslead = haslead or (len(leads.exists()) == BUNDLE_LEADS and not dry)
+                haslead = haslead or (len(leads) == BUNDLE_LEADS and not dry)
+                _logger.info('Assignation of %s leads for team %s' % (len(leads), salesteam['id']))
+                _logger.debug('List of leads: %s' % leads)
 
-                if not leads.exists():
+                if len(leads) < BUNDLE_LEADS:
                     salesteams_done.append(salesteam['id'])
-                    continue
 
                 if dry:
                     for lead in leads:
@@ -182,11 +183,12 @@ class crm_team(osv.osv):
                             leads_duplicated = lead.get_duplicated_leads(False)
                             if len(leads_duplicated) > 1:
                                 merged = self.env["crm.lead"].with_context(assign_leads_to_salesteams=True).browse(leads_duplicated).merge_opportunity(False, False)
+                                _logger.debug('Lead [%s] merged of [%s]' % (merged, leads_duplicated))
                                 leads_merged.add(merged)
                             leads_done.update(leads_duplicated)
                         self._cr.commit()
                     if leads_merged:
-                        self.env['website.crm.score'].assign_scores_to_leads(lead_ids=list(leads_done))
+                        self.env['website.crm.score'].assign_scores_to_leads(lead_ids=list(leads_merged))
                 self._cr.commit()
 
     @api.model
