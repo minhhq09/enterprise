@@ -5,7 +5,7 @@ var ActionManager = require('web.ActionManager');
 var config = require('web.config');
 var core = require('web.core');
 var crash_manager = require('web.crash_manager');
-var data = require('web.data');
+var data_manager = require('web.data_manager');
 var framework = require('web.framework');
 var Loading = require('web.Loading');
 var AppSwitcher = require('web.AppSwitcher');
@@ -16,7 +16,6 @@ var session = require('web.session');
 var utils = require('web.utils');
 var Widget = require('web.Widget');
 
-var QWeb = core.qweb;
 var _t = core._t;
 
 var WebClient = Widget.extend({
@@ -361,7 +360,7 @@ var WebClient = Widget.extend({
     // --------------------------------------------------------------
     on_app_clicked: function (ev) {
         var self = this;
-        return this.menu_dm.add(this.rpc("/web/action/load", {action_id: ev.data.action_id}))
+        return this.menu_dm.add(data_manager.load_action(ev.data.action_id))
             .then(function (result) {
                 return self.action_mutex.exec(function () {
                     var completed = $.Deferred();
@@ -376,18 +375,16 @@ var WebClient = Widget.extend({
                         self.toggle_app_switcher(false);
                         completed.resolve();
                     });
-
                     setTimeout(function () {
                         completed.resolve();
                     }, 2000);
-
                     return completed;
                 });
             });
     },
     on_menu_clicked: function (ev) {
         var self = this;
-        return this.menu_dm.add(this.rpc("/web/action/load", {action_id: ev.data.action_id}))
+        return this.menu_dm.add(data_manager.load_action(ev.data.action_id))
             .then(function (result) {
                 return self.action_mutex.exec(function () {
                     var completed = $.Deferred();

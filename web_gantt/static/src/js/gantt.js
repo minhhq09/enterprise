@@ -3,6 +3,7 @@ odoo.define('web_gantt.GanttView', function (require) {
 
 var ajax = require('web.ajax');
 var core = require('web.core');
+var data_manager = require('web.data_manager');
 var formats = require('web.formats');
 var Model = require('web.Model');
 var time = require('web.time');
@@ -17,39 +18,32 @@ var QWeb = core.qweb;
 
 var GanttView = View.extend({
     display_name: _lt('Gantt'),
-    icon: 'fa-tasks',
-    template: 'GanttView',
-    view_type: 'gantt',
-
     events: {
         'click .gantt_task_row .gantt_task_cell': 'create_on_click',
     },
+    icon: 'fa-tasks',
+    require_fields: true,
+    template: 'GanttView',
 
     init: function () {
+        var self = this;
         this._super.apply(this, arguments);
         this.has_been_loaded = $.Deferred();
         this.chart_id = _.uniqueId();
         this.focus_date = moment(new Date());  // main date displayed on the gantt chart
         this.gantt_events = [];
-    },
-
-    view_loading: function (fields_view_get) {
-        var self = this;
-        this.fields_view = fields_view_get;
-        this.$el.addClass(this.fields_view.arch.attrs.class);
-
-        // Use scale_zoom attribute in xml file to specify zoom timeline (day,week,month,year),
-        // by default month.
-        var scale = fields_view_get.arch.attrs.scale_zoom;
-        if (!_.contains(['day', 'week', 'month', 'year'], scale)) {
-            self.scale = "month";
-        }
-
-        // The type of the view : 
+        // The type of the view:
         // gantt = classic gantt view (default)
         // consolidate = values of the first children are consolidated in the gantt's task
         // planning = children are displayed in the gantt's task
         this.type = this.fields_view.arch.attrs.type || 'gantt';
+
+        // Use scale_zoom attribute in xml file to specify zoom timeline (day,week,month,year),
+        // by default month.
+        var scale = this.fields_view.arch.attrs.scale_zoom;
+        if (!_.contains(['day', 'week', 'month', 'year'], scale)) {
+            this.scale = "month";
+        }
 
         // gather the fields to get
         var fields_to_gather = [
@@ -60,31 +54,38 @@ var GanttView = View.extend({
             "progress"
         ];
         var fields = _.compact(_.map(fields_to_gather, function(key) {
-            return fields_view_get.arch.attrs[key] || '';
+            return self.fields_view.arch.attrs[key] || '';
         }));
         fields.push("name", "color");
-
         // consolidation exclude, get the related fields
-        if (fields_view_get.arch.attrs.consolidation_exclude) {
-            fields = fields.concat(fields_view_get.arch.attrs.consolidation_exclude);
+        if (this.fields_view.arch.attrs.consolidation_exclude) {
+            fields = fields.concat(this.fields_view.arch.attrs.consolidation_exclude);
         }
-
         this.fields_to_fetch = fields;  //FIXME: useless?
+    },
 
-        var defs = [self.alive(new Model(this.dataset.model)
-                       .call('fields_get')).then(function (fields) {
-                           self.fields = fields;
-                       })];
+    willStart: function () {
+        var self = this;
+
+        var defs = [];
+        defs.push(this._super());
+        defs.push(data_manager.load_fields(this.dataset).then(function (fields) {
+           self.fields = fields;
+        }));
 
         if (!window.gantt) {
             defs.push(ajax.loadJS('/web_gantt/static/lib/dhtmlxGantt/sources/dhtmlxcommon.js'));
             defs.push(ajax.loadCSS('/web_gantt/static/lib/dhtmlxGantt/codebase/dhtmlxgantt.css'));
         }
 
-        return $.when.apply($, defs).then(function () {
-            self.load_gantt();
-            self.has_been_loaded.resolve();
-        });
+        return $.when.apply($, defs);
+    },
+
+    start: function () {
+        this.$el.addClass(this.fields_view.arch.attrs.class);
+        this.load_gantt();
+        this.has_been_loaded.resolve();
+        return this._super();
     },
 
     // configure templates for dhtmlXGantt

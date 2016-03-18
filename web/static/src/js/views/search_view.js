@@ -4,13 +4,13 @@ odoo.define('web.SearchView', function (require) {
 var AutoComplete = require('web.AutoComplete');
 var config = require('web.config');
 var core = require('web.core');
+var data_manager = require('web.data_manager');
 var FavoriteMenu = require('web.FavoriteMenu');
 var FilterMenu = require('web.FilterMenu');
 var GroupByMenu = require('web.GroupByMenu');
-var Model = require('web.DataModel');
 var pyeval = require('web.pyeval');
 var search_inputs = require('web.search_inputs');
-var utils = require('web.utils');
+var View = require('web.View');
 var Widget = require('web.Widget');
 var _t = core._t;
 
@@ -229,8 +229,7 @@ var FacetValueView = Widget.extend({
     }
 });
 
-var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
-    template: "SearchView",
+var SearchView = View.extend({
     events: {
         'click .o_searchview_more': function (e) {
             $(e.target).toggleClass('fa-search-plus fa-search-minus');
@@ -252,45 +251,54 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             }
         },
     },
+    defaults: _.extend({}, View.prototype.defaults, {
+        hidden: false,
+        disable_filters: false,
+        disable_groupby: false,
+        disable_favorites: false,
+        disable_custom_filters: false,
+    }),
+    template: "SearchView",
+
     /**
-     * @constructs instance.web.SearchView
-     * @extends instance.web.Widget
+     * @constructs SearchView
+     * @extends View
      *
      * @param parent
      * @param dataset
-     * @param view_id
-     * @param defaults
+     * @param fields_view
      * @param {Object} [options]
      * @param {Boolean} [options.hidden=false] hide the search view
      * @param {Boolean} [options.disable_custom_filters=false] do not load custom filters from ir.filters
      */
-    init: function(parent, dataset, view_id, defaults, options) {
-        this.options = _.defaults(options || {}, {
-            hidden: false,
-            disable_filters: false,
-            disable_groupby: false,
-            disable_favorites: false,
-            disable_custom_filters: false,
-        });
-        this._super(parent);
+    init: function() {
+        this._super.apply(this, arguments);
         this.query = undefined;
-        this.dataset = dataset;
-        this.view_id = view_id;
-        this.title = options.action && options.action.name;
+        this.title = this.options.action && this.options.action.name;
+        this.action_id = this.options.action && this.options.action.id;
         this.search_fields = [];
         this.filters = [];
         this.groupbys = [];
         this.visible_filters = (localStorage.visible_search_menu === 'true');
         this.input_subviews = []; // for user input in searchbar
-        this.defaults = defaults || {};
-        this.headless = this.options.hidden &&  _.isEmpty(this.defaults);
+        this.search_defaults = this.options.search_defaults || {};
+        this.headless = this.options.hidden &&  _.isEmpty(this.search_defaults);
         this.$buttons = this.options.$buttons;
 
         this.filter_menu = undefined;
         this.groupby_menu = undefined;
         this.favorite_menu = undefined;
-        this.action_id = this.options && this.options.action && this.options.action.id;
-    },    
+    },
+    willStart: function () {
+        var self = this;
+        var def;
+        if (!this.options.disable_favorites) {
+            def = data_manager.load_filters(this.dataset, this.action_id).then(function (filters) {
+                self.favorite_filters = filters;
+            });
+        }
+        return $.when(this._super(), def);
+    },
     start: function() {
         if (this.headless) {
             this.do_hide();
@@ -301,43 +309,29 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
                 .on('add change reset remove', this.proxy('do_search'))
                 .on('change', this.proxy('renderChangedFacets'))
                 .on('add reset remove', this.proxy('renderFacets'));
-        var load_view = this.dataset._model.fields_view_get({
-            view_id: this.view_id,
-            view_type: 'search',
-            context: this.dataset.get_context(),
-        });
         this.$('.o_searchview_more')
             .toggleClass('fa-search-minus', this.visible_filters)
             .toggleClass('fa-search-plus', !this.visible_filters);
-        return this.alive($.when(this._super(), this.alive(load_view).then(this.view_loaded.bind(this))));
-    },
-    get_title: function() {
-        return this.title;
-    },
-    view_loaded: function (r) {
         var menu_defs = [];
-        this.fields_view_get = r;
-        this.view_id = this.view_id || r.view_id;
         this.prepare_search_inputs();
         if (this.$buttons) {
-            var fields_def = new Model(this.dataset.model).call('fields_get', {
-                    context: this.dataset.get_context()
-                });
-
             if (!this.options.disable_filters) {
-                this.filter_menu = new FilterMenu(this, this.filters, fields_def);
+                this.filter_menu = new FilterMenu(this, this.filters);
                 menu_defs.push(this.filter_menu.appendTo(this.$buttons));
             }
             if (!this.options.disable_groupby) {
-                this.groupby_menu = new GroupByMenu(this, this.groupbys, fields_def);
+                this.groupby_menu = new GroupByMenu(this, this.groupbys);
                 menu_defs.push(this.groupby_menu.appendTo(this.$buttons));
             }
             if (!this.options.disable_favorites) {
-                this.favorite_menu = new FavoriteMenu(this, this.query, this.dataset.model, this.action_id);
+                this.favorite_menu = new FavoriteMenu(this, this.query, this.dataset.model, this.action_id, this.favorite_filters);
                 menu_defs.push(this.favorite_menu.appendTo(this.$buttons));
             }
         }
-        return $.when.apply($, menu_defs).then(this.proxy('set_default_filters'));
+        return $.when.apply($, menu_defs).then(this.set_default_filters.bind(this));
+    },
+    get_title: function() {
+        return this.title;
     },
     set_default_filters: function () {
         var self = this,
@@ -345,10 +339,10 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
         if (!self.options.disable_custom_filters && default_custom_filter) {
             return this.favorite_menu.toggle_filter(default_custom_filter, true);
         }
-        if (!_.isEmpty(this.defaults)) {
+        if (!_.isEmpty(this.search_defaults)) {
             var inputs = this.search_fields.concat(this.filters, this.groupbys),
-                defaults = _.invoke(inputs, 'facet_for_defaults', this.defaults);
-            return $.when.apply(null, defaults).then(function () {
+                search_defaults = _.invoke(inputs, 'facet_for_defaults', this.search_defaults);
+            return $.when.apply(null, search_defaults).then(function () {
                 self.query.reset(_(arguments).compact(), {preventSearch: true});
             });
         }
@@ -551,7 +545,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
     // * this.group_by: group_bys
     prepare_search_inputs: function () {
         var self = this,
-            arch = this.fields_view_get.arch;
+            arch = this.fields_view.arch;
 
         var filters = [].concat.apply([], _.map(arch.children, function (item) {
             return item.tag !== 'group' ? eval_item(item) : item.children.map(eval_item);
@@ -586,7 +580,7 @@ var SearchView = Widget.extend(/** @lends instance.web.SearchView# */{
             }
             if (filter.item.tag === 'field') {
                 var attrs = filter.item.attrs;
-                var field = self.fields_view_get.fields[attrs.name];
+                var field = self.fields_view.fields[attrs.name];
 
                 // M2O combined with selection widget is pointless and broken in search views,
                 // but has been used in the past for unsupported hacks -> ignore it

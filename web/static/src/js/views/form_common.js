@@ -3,6 +3,7 @@ odoo.define('web.form_common', function (require) {
 
 var core = require('web.core');
 var data = require('web.data');
+var data_manager = require('web.data_manager');
 var Dialog = require('web.Dialog');
 var ListView = require('web.ListView');
 var pyeval = require('web.pyeval');
@@ -779,7 +780,7 @@ var AbstractField = FormWidget.extend(FieldInterface, {
     on_translate: function() {
         var self = this;
         var trans = new data.DataSet(this, 'ir.translation');
-        return trans.call_button('translate_fields', [this.view.dataset.model, this.view.datarecord.id, this.name, this.view.dataset.get_context()]).done(function(r) {
+        return trans.call_button('translate_fields', [this.view.model, this.view.datarecord.id, this.name, this.view.dataset.get_context()]).done(function(r) {
             self.do_action(r);
         });
     },
@@ -802,7 +803,6 @@ var ViewDialog = Dialog.extend({ // FIXME should use ViewManager
      *  options:
      *  -readonly: only applicable when not in creation mode, default to false
      * - alternative_form_view
-     * - view_id
      * - write_function
      * - read_function
      * - create_function
@@ -908,34 +908,37 @@ var FormViewDialog = ViewDialog.extend({
 
     open: function() {
         var self = this;
-        self._super();
-        self.init_dataset();
+        var _super = this._super.bind(this);
+        this.init_dataset();
         
-        if (self.res_id) {
-            self.dataset.ids = [self.res_id];
-            self.dataset.index = 0;
+        if (this.res_id) {
+            this.dataset.ids = [this.res_id];
+            this.dataset.index = 0;
         } else {
-            self.dataset.index = null;
+            this.dataset.index = null;
         }
-        var options = _.clone(self.options.form_view_options) || {};
-        if (self.res_id !== null) {
-            options.initial_mode = self.options.readonly ? "view" : "edit";
+        var options = _.clone(this.options.form_view_options) || {};
+        if (this.res_id !== null) {
+            options.initial_mode = this.options.readonly ? "view" : "edit";
         }
         _.extend(options, {
-            $buttons: self.$buttons,
+            $buttons: this.$buttons,
         });
         var FormView = core.view_registry.get('form');
-        self.view_form = new FormView(self, self.dataset, self.options.view_id || false, options);
-        if (self.options.alternative_form_view) {
-            self.view_form.set_embedded_view(self.options.alternative_form_view);
+        var fields_view_def;
+        if (this.options.alternative_form_view) {
+            fields_view_def = $.when(this.options.alternative_form_view);
+        } else {
+            fields_view_def = data_manager.load_fields_view(this.dataset, this.options.view_id, 'form', false);
         }
-
-        self.do_hide();
-        self.view_form.appendTo(self.$el);
-        self.view_form.on("form_view_loaded", self, function() {
-            self.view_form.do_show().then(function() {
-                self.do_show();
-                self.view_form.autofocus();
+        fields_view_def.then(function (fields_view) {
+            self.view_form = new FormView(self, self.dataset, fields_view, options);
+            var fragment = document.createDocumentFragment();
+            self.view_form.appendTo(fragment).then(function () {
+                self.view_form.do_show().then(function() {
+                    self.view_form.autofocus();
+                    _super().$el.append(fragment);
+                });
             });
         });
 
@@ -980,7 +983,7 @@ var SelectCreateDialog = ViewDialog.extend({
             return this.create_edit_record();
         }
 
-        this._super();
+        var _super = this._super.bind(this);
         this.init_dataset();
         var context = pyeval.sync_eval_domains_and_contexts({
             domains: [],
@@ -993,32 +996,43 @@ var SelectCreateDialog = ViewDialog.extend({
                 search_defaults[match[1]] = value_;
             }
         });
-        this.setup(search_defaults);
+        data_manager
+            .load_views(this.dataset, [[false, 'list'], [false, 'search']], {})
+            .then(this.setup.bind(this, search_defaults))
+            .then(function (fragment) {
+                _super().$el.append(fragment);
+            });
         return this;
     },
 
-    setup: function(search_defaults) {
+    setup: function(search_defaults, fields_views) {
         var self = this;
         if (this.searchview) {
             this.searchview.destroy();
         }
-        var $header = $('<div/>').addClass('o_modal_header').appendTo(this.$el);
+        var fragment = document.createDocumentFragment();
+        var $header = $('<div/>').addClass('o_modal_header').appendTo(fragment);
         var $pager = $('<div/>').addClass('o_pager').appendTo($header);
-        var $buttons = $('<div/>').addClass('o_search_options').appendTo($header);
-        this.searchview = new SearchView(this, this.dataset, false,  search_defaults, {$buttons: $buttons});
-        this.searchview.on('search_data', self, function(domains, contexts, groupbys) {
-            if (self.initial_ids) {
-                self.do_search(domains.concat([[["id", "in", self.initial_ids]], self.domain]),
-                    contexts.concat(self.context), groupbys);
-                self.initial_ids = undefined;
+        var options = {
+            $buttons: $('<div/>').addClass('o_search_options').appendTo($header),
+            search_defaults: search_defaults,
+        };
+
+        this.searchview = new SearchView(this, this.dataset, fields_views.search, options);
+        this.searchview.on('search_data', this, function(domains, contexts, groupbys) {
+            if (this.initial_ids) {
+                this.do_search(domains.concat([[["id", "in", this.initial_ids]], this.domain]),
+                    contexts.concat(this.context), groupbys);
+                this.initial_ids = undefined;
             } else {
-                self.do_search(domains.concat([self.domain]), contexts.concat(self.context), groupbys);
+                this.do_search(domains.concat([this.domain]), contexts.concat(this.context), groupbys);
             }
         });
-        this.searchview.prependTo($header).done(function() {
+        return this.searchview.prependTo($header).then(function() {
             self.searchview.toggle_visibility(true);
+
             self.view_list = new SelectCreateListView(self,
-                self.dataset, false,
+                self.dataset, fields_views.list,
                 _.extend({'deletable': false,
                     'selectable': !self.options.disable_multiple_selection,
                     'import_enabled': false,
@@ -1032,17 +1046,6 @@ var SelectCreateDialog = ViewDialog.extend({
             self.view_list.popup = self;
             self.view_list.on('list_view_loaded', self, function() {
                 this.on_view_list_loaded();
-            });
-            self.view_list.appendTo(self.$el).then(function() {
-                self.view_list.do_show();
-                self.view_list.render_pager($pager);
-            }).then(function() {
-                if (self.options.initial_facet) {
-                    self.searchview.query.reset([self.options.initial_facet], {
-                        preventSearch: true,
-                    });
-                }
-                self.searchview.do_search();
             });
 
             var buttons = [
@@ -1059,6 +1062,19 @@ var SelectCreateDialog = ViewDialog.extend({
                 }});
             }
             self.set_buttons(buttons);
+
+            return self.view_list.appendTo(fragment).then(function() {
+                self.view_list.do_show();
+                self.view_list.render_pager($pager);
+                if (self.options.initial_facet) {
+                    self.searchview.query.reset([self.options.initial_facet], {
+                        preventSearch: true,
+                    });
+                }
+                self.searchview.do_search();
+
+                return fragment;
+            });
         });
     },
     do_search: function(domains, contexts, groupbys) {
