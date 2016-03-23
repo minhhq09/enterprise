@@ -25,7 +25,7 @@ from openerp.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 # uncomment to enable logging of SOAP requests and responses
-logging.getLogger('suds.client').setLevel(logging.DEBUG)
+# logging.getLogger('suds.client').setLevel(logging.DEBUG)
 
 
 UPS_ERROR_MAP = {
@@ -339,8 +339,8 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)
 
     def send_shipping(self, shipment_info, packages, shipper, ship_from, ship_to, packaging_type, service_type):
 
@@ -437,8 +437,8 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)
 
     def cancel_shipment(self, tracking_number):
         client = self._set_client(self.void_wsdl, 'Void', 'VoidShipmentRequest')
@@ -464,5 +464,5 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)
