@@ -628,7 +628,9 @@ var ActionManager = Widget.extend({
             });
         }
 
-        return this[type](action, options);
+        return this[type](action, options).then(function() {
+            return action;
+        });
     },
     null_action: function() {
         this.dialog_stop();
