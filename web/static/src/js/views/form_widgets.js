@@ -1261,6 +1261,7 @@ var FieldBinaryImage = FieldBinary.extend({
         }
         this.$el.prepend($img);
         $img.on('error', function() {
+            self.on_clear();
             $img.attr('src', self.placeholder);
             self.do_warn(_t("Image"), _t("Could not display the selected image."));
         });

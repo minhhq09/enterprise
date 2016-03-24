@@ -8,6 +8,12 @@
             <field name="factor">1000</field>
             <field name="uom_type">smaller</field>
         </record>
+
+        <record id="zero_vat_work_in_out" model="account.tax">
+            <field name="name">0% (work in/out)</field>
+            <field name="amount">0</field>
+        </record>
+
         <record id="product_product_work_in" model="product.product">
             <field name="name">WORK IN</field>
             <field name="standard_price">0.0</field>
@@ -15,7 +21,7 @@
             <field name="type">consu</field>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="taxes_id" eval="[(6, 0, [ref('l10n_be.attn_VAT-OUT-00-L')])]"/>
+            <field name="taxes_id" eval="[(6, 0, [ref('zero_vat_work_in_out')])]"/>
         </record>
         <record id="product_product_work_out" model="product.product">
             <field name="name">WORK OUT</field>
@@ -24,7 +30,7 @@
             <field name="type">consu</field>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="taxes_id" eval="[(6, 0, [ref('l10n_be.attn_VAT-OUT-00-L')])]"/>
+            <field name="taxes_id" eval="[(6, 0, [ref('zero_vat_work_in_out')])]"/>
         </record>
 
         <!-- read-only user that minfin functionaries can use to export data -->

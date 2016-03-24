@@ -355,7 +355,7 @@ class AccountReportContextCommon(models.TransientModel):
     def get_pdf(self):
         report_obj = self.get_report_obj()
         lines = report_obj.with_context(print_mode=True).get_lines(self)
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        base_url = self.env['ir.config_parameter'].sudo().get_param('report.url') or self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         rcontext = {
             'mode': 'print',
             'base_url': base_url,
