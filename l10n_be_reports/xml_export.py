@@ -4,6 +4,7 @@ from openerp import models, api, _
 from openerp.exceptions import UserError
 import calendar
 import time
+from itertools import groupby
 
 
 class AccountFinancialReportXMLExport(models.AbstractModel):
@@ -235,15 +236,19 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         seq = 0
         sum_turnover = 0.00
         sum_tax = 0.00
-        for line in lines:
+        lines = sorted(lines, key=lambda l: l['columns'][0])
+        for vat, values in groupby(lines, key=lambda l: l['columns'][0]):
+            values = list(values)
+            turnover = sum([k['columns'][1] or 0.0 for k in values])
+            tax = sum([k['columns'][2] or 0.0 for k in values])
             seq += 1
-            sum_turnover += line['columns'][1] or 0.0
-            sum_tax += line['columns'][2] or 0.0
+            sum_turnover += turnover
+            sum_tax += tax
             amount_data = {
                 'seq': str(seq),
-                'only_vat': line['columns'][0][2:],
-                'turnover': line['columns'][1] or 0.0,
-                'vat_amount': line['columns'][2] or 0.0,
+                'only_vat': vat[2:],
+                'turnover': turnover,
+                'vat_amount': tax,
             }
             data_client_info += """
         <ns2:Client SequenceNumber="%(seq)s">
