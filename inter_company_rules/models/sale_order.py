@@ -60,7 +60,7 @@ class sale_order(models.Model):
 
         # auto-validate the purchase order if needed
         if company.auto_validation:
-            purchase_order.sudo(intercompany_uid).signal_workflow('purchase_confirm')
+            purchase_order.sudo(intercompany_uid).button_confirm()
 
     @api.one
     def _prepare_purchase_order_data(self, company, company_partner):

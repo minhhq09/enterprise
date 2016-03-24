@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2016-02-16 07:29+0000\n"
+"POT-Creation-Date: 2016-03-08 09:33+0000\n"
+"PO-Revision-Date: 2016-03-08 09:38+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Spanish (Dominican Republic) (http://www.transifex.com/odoo/odoo-9/language/es_DO/)\n"
 "MIME-Version: 1.0\n"
@@ -66,21 +66,27 @@ msgid "&times;"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:143
+#: code:addons/account_reports/models/account_report_context_common.py:189
+#, python-format
+msgid "(As of %s)"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:190
+#, python-format
+msgid "(From %s <br/> to  %s)"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:149
 #, python-format
 msgid "10% remaining!"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:337
+#: code:addons/account_reports/models/account_followup_report.py:347
 #, python-format
 msgid ": Sent a followup email"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:313
-#, python-format
-msgid ": Sent a followup letter"
 msgstr ""
 
 #. module: account_reports
@@ -982,13 +988,7 @@ msgid "Foldable"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:339
-#, python-format
-msgid "Followup "
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:87
+#: code:addons/account_reports/models/account_followup_report.py:88
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -1425,6 +1425,11 @@ msgid "Net"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "Net Audit"
+msgstr ""
+
+#. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
 #, python-format
 msgid "Net Tax Lines"
@@ -1852,16 +1857,6 @@ msgid "See bank statement"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_financial_line
-msgid "See net move lines"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_financial_line
-msgid "See tax move lines"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Send by email"
 msgstr ""
@@ -1960,6 +1955,11 @@ msgstr ""
 #, python-format
 msgid "Tax"
 msgstr "Impuesto"
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "Tax Audit"
+msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
@@ -2197,18 +2197,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_report_context_common.py:109
 #, python-format
 msgid "get_report_obj not implemented"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:189
-#, python-format
-msgid "(As of %s)"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:189
-#, python-format
-msgid "(From %s <br/> to  %s)"
 msgstr ""
 
 #. module: account_reports

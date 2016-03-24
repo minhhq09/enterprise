@@ -20,7 +20,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA Export</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_FEUO_Export')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_02')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -31,7 +31,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA EU</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_FEU_EU')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_03')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -42,7 +42,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA tárgyi adómentes</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_FT_TAM')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_04')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -53,7 +53,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA alanyi adómentes</field>
         <field name="sequence" eval="4"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_FA_AAM')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_05')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -64,7 +64,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA 5%</field>
         <field name="sequence" eval="5"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_F5_5')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_06')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -75,7 +75,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA 18%</field>
         <field name="sequence" eval="6"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_F18_18')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_07')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -86,7 +86,7 @@
         <field name="name">Adóalap - Fizetendő ÁFA 27%</field>
         <field name="sequence" eval="7"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_F27_27')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_08')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -97,7 +97,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA EU</field>
         <field name="sequence" eval="8"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_VEU_EU')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_09')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -108,7 +108,7 @@
         <field name="name">Adóalap – Fordított ÁFA</field>
         <field name="sequence" eval="9"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_VF_FORD')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_12')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -119,7 +119,7 @@
         <field name="name">Adóalap – Import ÁFA</field>
         <field name="sequence" eval="10"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_VEUO_Import')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_11')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -130,7 +130,7 @@
         <field name="name">Adóalap – Fordított ÁFA</field>
         <field name="sequence" eval="11"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_FF_FORD')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_10')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -141,7 +141,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA alanyi adómentes</field>
         <field name="sequence" eval="12"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_VA_AAM')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_13')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -152,7 +152,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA tárgyi adómentes</field>
         <field name="sequence" eval="13"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_VT_TAM')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_14')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -163,7 +163,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA 5%</field>
         <field name="sequence" eval="14"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_V5_5')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_15')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -174,7 +174,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA 18%</field>
         <field name="sequence" eval="15"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_V18_18')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_16')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -185,7 +185,7 @@
         <field name="name">Adóalap - Visszaigényelhető ÁFA 27%</field>
         <field name="sequence" eval="16"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_V27_27')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_hu.tag_hu_17')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_01"/>
         <field name="show_domain">never</field>
@@ -205,7 +205,7 @@
         <field name="name">Fizetendő ÁFA 5%</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_F5_5')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_19')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>
@@ -216,7 +216,7 @@
         <field name="name">Fizetendő ÁFA 18%</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_F18_18')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_20')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>
@@ -227,7 +227,7 @@
         <field name="name">Fizetendő ÁFA 27%</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_F27_27')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_21')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>
@@ -238,7 +238,7 @@
         <field name="name">Visszaigényelhető ÁFA 5%</field>
         <field name="sequence" eval="4"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_V5_5')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_22')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>
@@ -249,7 +249,7 @@
         <field name="name">Visszaigényelhető ÁFA 18%</field>
         <field name="sequence" eval="5"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_V18_18')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_23')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>
@@ -260,7 +260,7 @@
         <field name="name">Visszaigényelhető ÁFA 27%</field>
         <field name="sequence" eval="6"/>
         <field name="level" eval="1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_V27_27')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_hu.tag_hu_24')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_hu_02"/>
         <field name="show_domain">never</field>

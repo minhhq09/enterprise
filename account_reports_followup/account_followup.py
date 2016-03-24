@@ -128,6 +128,8 @@ class res_partner(models.Model):
             fups[old] = (current_date - delay, result['id'])
             old = result['id']
 
+        fups[old] = (current_date - delay, old)
+
         result = {}
 
         partners_to_skip = self.env['res.partner'].search([('payment_next_action_date', '>', date)])
