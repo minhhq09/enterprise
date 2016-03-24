@@ -242,25 +242,25 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
             amount_data = {
                 'seq': str(seq),
                 'only_vat': line['columns'][0][2:],
-                'turnover': '%2.f' % (line['columns'][1] or 0.0),
-                'vat_amount': '%2.f' % (line['columns'][2] or 0.0),
+                'turnover': line['columns'][1] or 0.0,
+                'vat_amount': line['columns'][2] or 0.0,
             }
             data_client_info += """
         <ns2:Client SequenceNumber="%(seq)s">
             <ns2:CompanyVATNumber issuedBy="BE">%(only_vat)s</ns2:CompanyVATNumber>
-            <ns2:TurnOver>%(turnover)s</ns2:TurnOver>
-            <ns2:VATAmount>%(vat_amount)s</ns2:VATAmount>
+            <ns2:TurnOver>%(turnover).2f</ns2:TurnOver>
+            <ns2:VATAmount>%(vat_amount).2f</ns2:VATAmount>
         </ns2:Client>""" % amount_data
 
         amount_data_begin = {
             'seq': str(seq),
             'dnum': dnum,
-            'sum_turnover': '%2.f' % sum_turnover,
-            'sum_tax': '%2.f' % sum_tax,
+            'sum_turnover': sum_turnover,
+            'sum_tax': sum_tax,
         }
         data_begin = """
     <ns2:ClientListing SequenceNumber="1" ClientsNbr="%(seq)s" DeclarantReference="%(dnum)s"
-        TurnOverSum="%(sum_turnover)s" VATAmountSum="%(sum_tax)s">
+        TurnOverSum="%(sum_turnover).2f" VATAmountSum="%(sum_tax).2f">
 """ % amount_data_begin
 
         data_end = """
