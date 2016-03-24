@@ -45,21 +45,22 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   GROUP BY l2.partner_id) AS sub2 ON sub1.partner_id = sub2.partner_id
                 """ % (tuple(tag_ids), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[0], tuple(tag_ids_2), tuple(partner_ids), context_id.date_from, context_id.date_to, company_clauses[1]))
         for record in self.env.cr.dictfetchall():
-            columns = [record['vat'].replace(' ', '').upper(), record['turnover'], record['vat_amount']]
-            if not self.env.context.get('no_format', False):
-                currency_id = self.env.user.company_id.currency_id
-                columns[1] = formatLang(self.env, columns[1] or 0.0, currency_obj=currency_id)
-                columns[2] = formatLang(self.env, columns[2] or 0.0, currency_obj=currency_id)
-            lines.append({
-                'id': record['partner_id'],
-                'type': 'partner_id',
-                'name': record['name'],
-                'footnotes': context_id._get_footnotes('partner_id', record['partner_id']),
-                'columns': columns,
-                'level': 2,
-                'unfoldable': False,
-                'unfolded': False,
-            })
+            currency_id = self.env.user.company_id.currency_id
+            if not currency_id.is_zero(record['turnover']):
+                columns = [record['vat'].replace(' ', '').upper(), record['turnover'], record['vat_amount']]
+                if not self.env.context.get('no_format', False):
+                    columns[1] = formatLang(self.env, columns[1] or 0.0, currency_obj=currency_id)
+                    columns[2] = formatLang(self.env, columns[2] or 0.0, currency_obj=currency_id)
+                lines.append({
+                    'id': record['partner_id'],
+                    'type': 'partner_id',
+                    'name': record['name'],
+                    'footnotes': context_id._get_footnotes('partner_id', record['partner_id']),
+                    'columns': columns,
+                    'level': 2,
+                    'unfoldable': False,
+                    'unfolded': False,
+                })
         return lines
 
     @api.model
