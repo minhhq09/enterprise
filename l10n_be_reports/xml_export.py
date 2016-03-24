@@ -4,6 +4,7 @@ from openerp import models, api, _
 from openerp.exceptions import UserError
 import calendar
 import time
+from itertools import groupby
 
 
 class AccountFinancialReportXMLExport(models.AbstractModel):
@@ -235,32 +236,36 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
         seq = 0
         sum_turnover = 0.00
         sum_tax = 0.00
-        for line in lines:
+        lines = sorted(lines, key=lambda l: l['columns'][0])
+        for vat, values in groupby(lines, key=lambda l: l['columns'][0]):
+            values = list(values)
+            turnover = sum([k['columns'][1] or 0.0 for k in values])
+            tax = sum([k['columns'][2] or 0.0 for k in values])
             seq += 1
-            sum_turnover += line['columns'][1] or 0.0
-            sum_tax += line['columns'][2] or 0.0
+            sum_turnover += turnover
+            sum_tax += tax
             amount_data = {
                 'seq': str(seq),
-                'only_vat': line['columns'][0][2:],
-                'turnover': '%2.f' % (line['columns'][1] or 0.0),
-                'vat_amount': '%2.f' % (line['columns'][2] or 0.0),
+                'only_vat': vat[2:],
+                'turnover': turnover,
+                'vat_amount': tax,
             }
             data_client_info += """
         <ns2:Client SequenceNumber="%(seq)s">
             <ns2:CompanyVATNumber issuedBy="BE">%(only_vat)s</ns2:CompanyVATNumber>
-            <ns2:TurnOver>%(turnover)s</ns2:TurnOver>
-            <ns2:VATAmount>%(vat_amount)s</ns2:VATAmount>
+            <ns2:TurnOver>%(turnover).2f</ns2:TurnOver>
+            <ns2:VATAmount>%(vat_amount).2f</ns2:VATAmount>
         </ns2:Client>""" % amount_data
 
         amount_data_begin = {
             'seq': str(seq),
             'dnum': dnum,
-            'sum_turnover': '%2.f' % sum_turnover,
-            'sum_tax': '%2.f' % sum_tax,
+            'sum_turnover': sum_turnover,
+            'sum_tax': sum_tax,
         }
         data_begin = """
     <ns2:ClientListing SequenceNumber="1" ClientsNbr="%(seq)s" DeclarantReference="%(dnum)s"
-        TurnOverSum="%(sum_turnover)s" VATAmountSum="%(sum_tax)s">
+        TurnOverSum="%(sum_turnover).2f" VATAmountSum="%(sum_tax).2f">
 """ % amount_data_begin
 
         data_end = """

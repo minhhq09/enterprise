@@ -12,31 +12,11 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="view_pos_order_tree">
-            <field name="name">Orders</field>
-            <field name="model">pos.order</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
-            <field name="arch" type="xml">
-                <tree position="attributes">
-                    <attribute name="create">false</attribute>
-                </tree>
-            </field>
-        </record>
-
         <record model="ir.ui.view" id="view_pos_pos_form">
             <field name="name">pos.order</field>
             <field name="model">pos.order</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
             <field name="arch" type="xml">
-                <form position="attributes">
-                    <attribute name="create">false</attribute>
-                    <attribute name="edit">false</attribute>
-                    <attribute name="delete">false</attribute>
-                </form>
-
-                <xpath expr="//button[@name='%(point_of_sale.action_pos_payment)d']" position="replace"/>
-                <xpath expr="//button[@name='refund']" position="replace"/>
-                <xpath expr="//button[@name='action_invoice']" position="replace"/>
                 <xpath expr="//button[@name='%(point_of_sale.action_report_pos_receipt)d']" position="replace"/>
 
                 <xpath expr="//field[@name='tax_ids']" position="after">
@@ -59,6 +39,7 @@
                         <field name="pos_version" readonly="1"/>
                         <field name="pos_production_id" readonly="1"/>
                         <field name="terminal_id" readonly="1"/>
+                        <field name="hash_chain" readonly="1"/>
                     </group>
                 </xpath>
             </field>
@@ -182,6 +163,7 @@
                                     <field name="pos_version"/>
                                     <field name="pos_production_id"/>
                                     <field name="terminal_id"/>
+                                    <field name="hash_chain"/>
                                 </group>
                             </page>
                         </notebook>
@@ -234,7 +216,6 @@
                 attachment_use="True"
                 attachment="(object.name + '_user_z_report.pdf')"/>
 
-        <!-- get rid of cashbox stuff, because it's currently broken -->
         <record model="ir.ui.view" id="view_pos_session_form">
             <field name="name">pos.session.form.view</field>
             <field name="model">pos.session</field>
@@ -262,6 +243,44 @@
                         </div>
                     </button>
                 </div>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_config_form">
+            <field name="name">pos.config.form.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+            <field name="arch" type="xml">
+                <field name="proxy_ip" position="after">
+                    <field name="blackbox_pos_production_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_pos_config_kanban_serial_id">
+            <field name="name">pos.config.kanban.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="blackbox_pos_production_id"/>
+                </field>
+                <t t-esc="record.name.value" position="after">
+                    <t t-if="record.blackbox_pos_production_id.value">
+                        <t t-esc=" '(' + record.blackbox_pos_production_id.value + ')'"/>
+                    </t>
+                </t>
+            </field>
+        </record>
+
+        <record id="view_pos_order_filter_registered_transactions" model="ir.ui.view">
+            <field name="name">pos.order.list.select</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+            <field name="arch" type="xml">
+                <search position="inside">
+                    <filter string="FDM transactions" domain="[('blackbox_signature','!=','')]"/>
+                </search>
             </field>
         </record>
 

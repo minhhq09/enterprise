@@ -1319,10 +1319,8 @@ ListView.Groups = Class.extend( /** @lends instance.web.ListView.Groups# */{
         }
     },
     open: function (point_insertion) {
-        var self = this;
-        this.render().then(function() {
-            $(self.elements).insertAfter(point_insertion);
-        });
+        this.render();
+        $(this.elements).insertAfter(point_insertion);
 
         var no_subgroups = _(this.datagroup.group_by).isEmpty(),
             records_terminated = !this.datagroup.context['group_by_no_leaf'];

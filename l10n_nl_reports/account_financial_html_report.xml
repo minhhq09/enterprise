@@ -29,7 +29,7 @@
         <field name="name">1a. Leveringen/diensten belast met hoog tarief (omzet)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_3')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_03')])]"/>
         <field name="formulas">balance = - sum.balance + NLTAX_A1aa.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
@@ -40,7 +40,7 @@
         <field name="name">Leveringen/diensten belast met hoog tarief (omzet)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="3"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_4')]), ('credit', '>', 0)]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_04')]), ('credit', '>', 0)]"/>
         <field name="formulas">balance = sum.credit</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -50,7 +50,7 @@
         <field name="name">1b. Leveringen/diensten belast met laag tarief (omzet)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_2')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_05')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
@@ -61,7 +61,7 @@
         <field name="name">1c. Leveringen/diensten belast met overige tarieven behalve 0% (omzet)</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_4')]), ('debit', '>', 0)]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_06')]), ('debit', '>', 0)]"/>
         <field name="formulas">balance = - sum.debit</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
@@ -82,7 +82,7 @@
         <field name="name">1e. Leveringen/diensten belast met 0% of niet bij u belast (omzet)</field>
         <field name="sequence" eval="5"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_1'), ref('l10n_nl.tax_tag_8')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_08')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_01"/>
         <field name="show_domain">never</field>
@@ -102,7 +102,7 @@
         <field name="name">2a. Leveringen/diensten waarbij de heffing van omzetbelasting naar u is verlegd (omzet)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_11')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_10')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_02"/>
         <field name="show_domain">never</field>
@@ -122,7 +122,7 @@
         <field name="name">3a. Leveringen naar landen buiten de EU (uitvoer) (omzet)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_32')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_12')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
@@ -133,7 +133,7 @@
         <field name="name">3b. Leveringen naar/diensten in landen binnen de EU (omzet)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_21')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_13')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
@@ -144,7 +144,7 @@
         <field name="name">3c. Installatie/afstandsverkopen binnen de EU (omzet)</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_22')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_14')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_03"/>
         <field name="show_domain">never</field>
@@ -164,7 +164,7 @@
         <field name="name">4a. Leveringen/diensten uit landen buiten de EU (invoer) (omzet)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_25'), ref('l10n_nl.tax_tag_28'), ref('l10n_nl.tax_tag_31')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_16')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_04"/>
         <field name="show_domain">never</field>
@@ -175,7 +175,7 @@
         <field name="name">4b. Leveringen/diensten uit landen binnen de EU (omzet)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tax_tag_14'), ref('l10n_nl.tax_tag_17'), ref('l10n_nl.tax_tag_20')])]"/>
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_nl.tag_nl_17')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_01_04"/>
         <field name="show_domain">never</field>
@@ -204,7 +204,7 @@
         <field name="name">1a. Leveringen/diensten belast met 21% (BTW)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_3')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_20')])]"/>
         <field name="formulas">balance = - sum.balance + NLTAX_B1aa.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
@@ -215,7 +215,7 @@
         <field name="name">Leveringen/diensten belast met hoog tarief (BTW)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="3"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_4')]), ('credit', '>', 0)]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_21')]), ('credit', '>', 0)]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01_01"/>
         <field name="show_domain">never</field>
@@ -226,7 +226,7 @@
         <field name="name">1b. Leveringen/diensten belast met laag tarief (BTW)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_2')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_22')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
@@ -237,7 +237,7 @@
         <field name="name">1c. Leveringen/diensten belast met overige tarieven behalve 0% (BTW)</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_4')]), ('debit', '>', 0)]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_23')]), ('debit', '>', 0)]"/>
         <field name="formulas">balance = - sum.debit</field>
         <field name="parent_id" ref="financial_report_line_nl_02_01"/>
         <field name="show_domain">never</field>
@@ -277,7 +277,7 @@
         <field name="name">2a. Leveringen/diensten waarbij de heffing van Heffing van omzetbelasting naar u is verlegd (BTW)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_9')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_27')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_02"/>
         <field name="show_domain">never</field>
@@ -297,7 +297,7 @@
         <field name="name">4a. Leveringen/diensten uit landen buiten de EU (BTW)</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_23'), ref('l10n_nl.tax_tag_26'), ref('l10n_nl.tax_tag_29')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_29')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_03"/>
         <field name="show_domain">never</field>
@@ -308,7 +308,7 @@
         <field name="name">4b. Leveringen/diensten uit landen binnen de EU (BTW)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_12'), ref('l10n_nl.tax_tag_15'), ref('l10n_nl.tax_tag_18')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_30')])]"/>
         <field name="formulas">balance = sum.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_03"/>
         <field name="show_domain">never</field>
@@ -338,7 +338,7 @@
         <field name="name">5b. Voorbelasting (BTW)</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_5'), ref('l10n_nl.tax_tag_6'), ref('l10n_nl.tax_tag_7'), ref('l10n_nl.tax_tag_13'), ref('l10n_nl.tax_tag_16'), ref('l10n_nl.tax_tag_19'), ref('l10n_nl.tax_tag_24'), ref('l10n_nl.tax_tag_30')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_33')])]"/>
         <field name="formulas">balance = sum.balance + NLTAX_B5bb.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02_04"/>
         <field name="show_domain">never</field>
@@ -349,7 +349,7 @@
         <field name="name">Voorbelasting (BTW) bis</field>
         <field name="sequence" eval="2"/>
         <field name="level" eval="2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tax_tag_27'), ref('l10n_nl.tax_tag_10')])]"/>
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_nl.tag_nl_34')])]"/>
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>

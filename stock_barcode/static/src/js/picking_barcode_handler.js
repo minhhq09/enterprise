@@ -14,6 +14,9 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
         } else if (parent.ViewManager.view_form) {
             this.form_view_initial_mode = parent.ViewManager.view_form.options.initial_mode;
         }
+        this.m2x_field = 'pack_operation_product_ids';
+        this.quantity_field = 'qty_done';
+
         return this._super.apply(this, arguments);
     },
 
@@ -53,7 +56,7 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
                 && ! pack_operation.get('result_package_id');
         }
         var po_field = this.form_view.fields.pack_operation_product_ids;
-        var po_records = po_field.viewmanager.active_view.controller.records;
+        var po_records = this._get_records(po_field);
         var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
             || po_records.find(function(po) { return is_suitable(po) });
         if (candidate) {
@@ -73,7 +76,7 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
                 && ! pack_operation.get('result_package_id');
         }
         var po_field = this.form_view.fields.pack_operation_product_ids;
-        var po_records = po_field.viewmanager.active_view.controller.records;
+        var po_records = this._get_records(po_field);
         var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
             || po_records.find(function(po) { return is_suitable(po) });
         if (candidate) {

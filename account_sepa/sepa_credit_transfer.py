@@ -52,11 +52,11 @@ class AccountSepaCreditTransfer(models.TransientModel):
 
     @api.v7
     def create_sepa_credit_transfer(self, cr, uid, payment_ids, context=None):
+        recs = self.browse(cr, uid, [], context=context)
         payments = self.pool['account.payment'].browse(cr, uid, payment_ids, context=context)
-        return self.pool['account.sepa.credit.transfer'].browse(cr, uid, [], context=context).create_sepa_credit_transfer(payments)
+        return AccountSepaCreditTransfer.create_sepa_credit_transfer(recs, payments)
 
     @api.v8
-    @api.model
     def create_sepa_credit_transfer(self, payments):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """

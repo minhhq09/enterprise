@@ -330,7 +330,8 @@ can no longer be modified. Please create a new line with eg. a negative quantity
         },
 
         orderline_change: function(line) {
-            if (this.pos.get_order()) {
+            // don't try to rerender non-visible lines
+            if (this.pos.get_order() && line.node.parentNode) {
                 return this._super(line);
             } else {
                 return undefined;
@@ -358,6 +359,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                 'blackbox_pos_production_id': this.blackbox_pos_production_id,
                 'blackbox_terminal_id': this.blackbox_terminal_id,
                 'blackbox_pro_forma': this.blackbox_pro_forma,
+                'blackbox_hash_chain': this.blackbox_hash_chain,
             });
 
             if (this.blackbox_base_price_in_euro_per_tax_letter) {
@@ -789,7 +791,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             packet.add_field(new FDMPacketField("ticket date", 8, order.blackbox_pos_receipt_time.format("YYYYMMDD")));
             packet.add_field(new FDMPacketField("ticket time", 6, order.blackbox_pos_receipt_time.format("HHmmss")));
             packet.add_field(new FDMPacketField("insz or bis number", 11, insz_or_bis_number));
-            packet.add_field(new FDMPacketField("production number POS", 14, this.pos.blackbox_pos_production_id));
+            packet.add_field(new FDMPacketField("production number POS", 14, this.pos.config.blackbox_pos_production_id));
             packet.add_field(new FDMPacketField("ticket number", 6, (++this.pos.config.backend_sequence_number).toString(), " "));
 
             if (order.blackbox_pro_forma) {
@@ -995,6 +997,14 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             }
         },
 
+        _get_hash_chain: function (records) {
+            if (records.length) {
+                return records[0]['hash_chain'];
+            } else {
+                return "";
+            }
+        },
+
         _prepare_date_for_ticket: function (date) {
             // format of date coming from blackbox is YYYYMMDD
             var year = date.substr(0, 4);
@@ -1017,7 +1027,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             return counter + "/" + total_counter + " " + event_type;
         },
 
-        _prepare_plu_hash_for_ticket: function (hash) {
+        _prepare_hash_for_ticket: function (hash) {
             var amount_of_least_significant_characters = 8;
 
             return hash.substr(-amount_of_least_significant_characters);
@@ -1050,6 +1060,22 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             return true;
         },
 
+        connect_to_proxy: function () {
+            var self = this;
+            return posmodel_super.connect_to_proxy.apply(this, arguments).then(function () {
+                self.proxy.message('request_serial', {}, {timeout: 5000}).then(function (response) {
+                    if (! response || "BODO001" + response != self.config.blackbox_pos_production_id) {
+                        self.proxy._show_could_not_connect_error();
+                    } else {
+                        self.chrome.ready.then(function () {
+                            var current = $(self.chrome.$el).find('.placeholder-posID').text();
+                            $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.config.blackbox_pos_production_id);
+                        });
+                    }
+                });
+            });
+        },
+
         push_order_to_blackbox: function (order) {
             var self = this;
 
@@ -1077,10 +1103,13 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                     order.blackbox_signature = parsed_response.signature;
                     order.blackbox_vsc_identification_number = parsed_response.vsc_identification_number;
                     order.blackbox_unique_fdm_production_number = parsed_response.fdm_unique_production_number;
-                    order.blackbox_plu_hash = self._prepare_plu_hash_for_ticket(packet.fields[packet.fields.length - 1].content);
+                    order.blackbox_plu_hash = self._prepare_hash_for_ticket(packet.fields[packet.fields.length - 1].content);
                     order.blackbox_pos_version = "Odoo " + self.version.server_version + "BE_FDM";
-                    order.blackbox_pos_production_id = self.blackbox_pos_production_id;
+                    order.blackbox_pos_production_id = self.config.blackbox_pos_production_id;
                     order.blackbox_terminal_id = self.blackbox_terminal_id;
+
+                    self.config.blackbox_most_recent_hash = self._prepare_hash_for_ticket(Sha1.hash(self.config.blackbox_most_recent_hash + order.blackbox_plu_hash));
+                    order.blackbox_hash_chain = self.config.blackbox_most_recent_hash;
 
                     if (! order.blackbox_pro_forma) {
                         self.gui.show_screen('receipt');
@@ -1315,11 +1344,21 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                             order.get_orderlines().forEach(function (current, index) {
                                 order.get_orderlines().forEach(function (other, other_index) {
                                     if (index != other_index && to_delete.indexOf(current) == -1 && current.can_be_merged_with(other, "ignore blackbox finalized")) {
-                                        current.merge(other);
-                                        to_delete.push(other);
+                                        // we cannot allow consolidation that clears the
+                                        // entire order because you cannot validate an
+                                        // empty order in the POS. This would cause a
+                                        // problem because the government requires that
+                                        // every PS order is eventually encoded in an NS
+                                        // order. In fact, the backend won't allow you to
+                                        // close the session if there are non-finalized
+                                        // orders.
+                                        if (order.get_orderlines().length - to_delete.length != 2 || Math.abs(current.get_quantity()) - Math.abs(other.get_quantity()) != 0) {
+                                            current.merge(other);
+                                            to_delete.push(other);
 
-                                        if (current.get_quantity() === 0) {
-                                            to_delete.push(current);
+                                            if (current.get_quantity() === 0) {
+                                                to_delete.push(current);
+                                            }
                                         }
                                     }
                                 });
@@ -1432,34 +1471,13 @@ can no longer be modified. Please create a new line with eg. a negative quantity
     });
 
     models.load_models({
-        'model': "ir.config_parameter",
-        'fields': ['key', 'value'],
-        'domain': [['key', '=', 'database.uuid']],
-        'loaded': function (self, params) {
-            // 12 lsB of db uid + 2 bytes pos config
-            var config_id = self.config.id.toString();
-
-            if (config_id.length < 2) {
-                config_id = "0" + config_id;
-            }
-
-            self.blackbox_pos_production_id = "BODO001" + params[0].value.substr(-5) + config_id;
-
-            self.chrome.ready.then(function () {
-                var current = $(self.chrome.$el).find('.placeholder-posID').text();
-                $(self.chrome.$el).find('.placeholder-posID').text(' ID: ' + self.blackbox_pos_production_id);
-            });
-        }
-    }, {
-        'after': "pos.config"
-    });
-
-    models.load_models({
         'model': "pos.order",
         'domain': function (self) { return [['config_id', '=', self.config.id]]; },
+        'fields': ['name', 'hash_chain'],
         'order': "-date_order",
         'loaded': function (self, params) {
             self.config.backend_sequence_number = self._extract_order_number(params);
+            self.config.blackbox_most_recent_hash = self._get_hash_chain(params);
         }
     }, {
         'after': "pos.config"
@@ -1469,10 +1487,15 @@ can no longer be modified. Please create a new line with eg. a negative quantity
     models.load_models({
         'model': "pos.order_pro_forma",
         'domain': function (self) { return [['config_id', '=', self.config.id]]; },
+        'fields': ['name', 'hash_chain'],
         'order': "-date_order",
         'loaded': function (self, params) {
             var pro_forma_number = self._extract_order_number(params);
-            self.config.backend_sequence_number = Math.max(self.config.backend_sequence_number, pro_forma_number);
+
+            if (pro_forma_number > self.config.backend_sequence_number) {
+                self.config.backend_sequence_number = pro_forma_number;
+                self.config.most_recent_hash = self._get_hash_chain(params);
+            }
         }
     }, {
         'after': "pos.order"

@@ -27,9 +27,9 @@
         <record id="account_financial_report_l10n_be_tva_00_0" model="account.financial.html.report.line">
             <field name="name">00 - Opérations soumises à un régime particulier</field>
             <field name="code">BETAX00</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_00')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_00')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="1"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -38,9 +38,9 @@
         <record id="account_financial_report_l10n_be_tva_01_0" model="account.financial.html.report.line">
             <field name="name">01 - Opérations avec TVA à 6%</field>
             <field name="code">BETAX01</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_01')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_01')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -49,9 +49,9 @@
         <record id="account_financial_report_l10n_be_tva_02_0" model="account.financial.html.report.line">
             <field name="name">02 - Opérations avec TVA à 12%</field>
             <field name="code">BETAX02</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_02')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_02')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="3"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -60,9 +60,9 @@
         <record id="account_financial_report_l10n_be_tva_03_0" model="account.financial.html.report.line">
             <field name="name">03 - Opérations avec TVA à 21%</field>
             <field name="code">BETAX03</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_03')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_03')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="4"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -71,9 +71,9 @@
         <record id="account_financial_report_l10n_be_tva_44_0" model="account.financial.html.report.line">
             <field name="name">44 - Services intra-communautaires</field>
             <field name="code">BETAX44</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_44')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_44')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -82,9 +82,9 @@
         <record id="account_financial_report_l10n_be_tva_45_0" model="account.financial.html.report.line">
             <field name="name">45 - Opérations avec TVA due par le cocontractant</field>
             <field name="code">BETAX45</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_45')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_45')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="6"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -102,9 +102,9 @@
         <record id="account_financial_report_l10n_be_tva_46L_0" model="account.financial.html.report.line">
             <field name="name">46L - Livraisons biens intra-communautaire exemptées</field>
             <field name="code">BETAX46L</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_46_0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_46L')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_46L')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="1"/>
             <field name="show_domain">never</field>
             <field name="level" eval="4" />
@@ -113,9 +113,9 @@
         <record id="account_financial_report_l10n_be_tva_46T_0" model="account.financial.html.report.line">
             <field name="name">46T - Livraisons biens intra-communautaire exemptées</field>
             <field name="code">BETAX46T</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_46_0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_46T')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_46T')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="4" />
@@ -124,9 +124,9 @@
         <record id="account_financial_report_l10n_be_tva_47_0" model="account.financial.html.report.line">
             <field name="name">47 - Autres opérations exemptées</field>
             <field name="code">BETAX47</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_47')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_47')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="8"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -144,9 +144,9 @@
         <record id="account_financial_report_l10n_be_tva_48s44_0" model="account.financial.html.report.line">
             <field name="name">48s44 - Notes de crédit aux opérations grilles [44]</field>
             <field name="code">BETAX48s44</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_48_0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s44')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s44')]), ('invoice_id.type', '=', 'out_refund')]" />
             <field name="sequence" eval="1"/>
             <field name="show_domain">never</field>
             <field name="level" eval="4" />
@@ -155,9 +155,9 @@
         <record id="account_financial_report_l10n_be_tva_48s46L_0" model="account.financial.html.report.line">
             <field name="name">48s46L - Notes de crédit aux opérations grilles [46L]</field>
             <field name="code">BETAX48s46L</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_48_0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s46L')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s46L')]), ('invoice_id.type', '=', 'out_refund')]" />
             <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="4" />
@@ -166,9 +166,9 @@
         <record id="account_financial_report_l10n_be_tva_48s46T_0" model="account.financial.html.report.line">
             <field name="name">48s46T - Notes de crédit aux opérations grilles [46T]</field>
             <field name="code">BETAX48s46T</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_48_0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s46T')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_48s46T')]), ('invoice_id.type', '=', 'out_refund')]" />
             <field name="sequence" eval="3"/>
             <field name="show_domain">never</field>
             <field name="level" eval="4" />
@@ -177,9 +177,9 @@
         <record id="account_financial_report_l10n_be_tva_49_0" model="account.financial.html.report.line">
             <field name="name">49 - Notes de crédit aux opérations du point II</field>
             <field name="code">BETAX49</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_sortie0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_49')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_49')]), ('invoice_id.type', '=', 'out_refund')]" />
             <field name="sequence" eval="10"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -230,9 +230,9 @@
         <record id="account_financial_report_l10n_be_tva_84_0" model="account.financial.html.report.line">
             <field name="name">84 - Notes de crédits sur opérations case [86] et [88]</field>
             <field name="code">BETAX84</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_entree0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_84')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_84')]), ('invoice_id.type', '=', 'in_refund')]" />
             <field name="sequence" eval="4"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -241,9 +241,9 @@
         <record id="account_financial_report_l10n_be_tva_85_0" model="account.financial.html.report.line">
             <field name="name">85 - Notes de crédits autres opérations</field>
             <field name="code">BETAX85</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_entree0'/>
-            <field name="domain" eval="[('credit', '>', 0), '|',('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_85_not_deductible')]), ('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_85')])]" />
+            <field name="domain" eval="[('invoice_id.type', '=', 'in_refund'), '|',('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_85_not_deductible')]), ('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_85')])]" />
             <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -304,9 +304,9 @@
         <record id="account_financial_report_l10n_be_tva_54_0" model="account.financial.html.report.line">
             <field name="name">54 - TVA sur opérations des grilles [01], [02], [03]</field>
             <field name="code">BETAX54</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_54')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_54')]), ('invoice_id.type', '=', 'out_invoice')]" />
             <field name="sequence" eval="1"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -315,9 +315,9 @@
         <record id="account_financial_report_l10n_be_tva_55_0" model="account.financial.html.report.line">
             <field name="name">55 - TVA sur opérations des grilles [86] et [88]</field>
             <field name="code">BETAX55</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_55')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_55')]), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -326,9 +326,9 @@
         <record id="account_financial_report_l10n_be_tva_56_0" model="account.financial.html.report.line">
             <field name="name">56 - TVA sur opérations de la grille [87]</field>
             <field name="code">BETAX56</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_56')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_56')]), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="3"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -337,9 +337,9 @@
         <record id="account_financial_report_l10n_be_tva_57_0" model="account.financial.html.report.line">
             <field name="name">57 - TVA relatives aux importations</field>
             <field name="code">BETAX57</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_57')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_57')]), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="4"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -348,7 +348,7 @@
         <record id="account_financial_report_l10n_be_tva_61_0" model="account.financial.html.report.line">
             <field name="name">61 - Diverses régularisations en faveur de l'Etat</field>
             <field name="code">BETAX61</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
             <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
@@ -358,9 +358,9 @@
         <record id="account_financial_report_l10n_be_tva_63_0" model="account.financial.html.report.line">
             <field name="name">63 - TVA à reverser sur notes de crédit recues</field>
             <field name="code">BETAX63</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = -sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_63')]), ('credit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_63')]), ('invoice_id.type', '=', 'in_refund')]" />
             <field name="sequence" eval="6"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -380,9 +380,9 @@
         <record id="account_financial_report_l10n_be_tva_59_0" model="account.financial.html.report.line">
             <field name="name">59 - TVA déductible</field>
             <field name="code">BETAX59</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_59')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_59')]), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="1"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -391,9 +391,9 @@
         <record id="account_financial_report_l10n_be_tva_64_0" model="account.financial.html.report.line">
             <field name="name">64 - TVA à recuperer sur notes de crédit delivrées</field>
             <field name="code">BETAX64</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_64')]), ('debit', '>', 0)]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_64')]), ('invoice_id.type', '=', 'out_refund')]" />
             <field name="sequence" eval="3"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
