@@ -42,7 +42,7 @@ class ResPartner(models.Model):
         return domain
 
     @api.multi
-    def update_next_action(self):
+    def update_next_action(self, batch=False):
         """Updates the next_action_date of the right account move lines"""
         today = fields.datetime.now()
         next_action_date = today + timedelta(days=self.env.user.company_id.days_between_two_followups)
@@ -51,4 +51,6 @@ class ResPartner(models.Model):
         domain = self.get_followup_lines_domain(today)
         aml = self.env['account.move.line'].search(domain)
         aml.write({'next_action_date': next_action_date})
-        return self.env['res.partner']
+        if batch:
+            return self.env['res.partner']
+        return
