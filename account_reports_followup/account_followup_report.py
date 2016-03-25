@@ -60,13 +60,14 @@ class account_report_context_followup(models.TransientModel):
     @api.model
     def create(self, vals):
         if 'level' in vals:
-            summary = self.env['account_followup.followup.line'].browse(vals['level']).description.replace('\n', '<br />')
+            partner = self.env['res.partner'].browse(vals['partner_id'])
+            summary = self.env['account_followup.followup.line'].with_context(lang=partner.lang).browse(vals['level']).description.replace('\n', '<br />')
             vals.update({
                 'summary': summary % {
-                    'partner_name': self.env['res.partner'].browse(vals['partner_id']).name,
+                    'partner_name': partner.name,
                     'date': time.strftime('%Y-%m-%d'),
                     'user_signature': self.env.user.signature or '',
-                    'company_name': self.env['res.partner'].browse(vals['partner_id']).parent_id.name,
+                    'company_name': partner.parent_id.name,
                 }
             })
         return super(account_report_context_followup, self).create(vals)
