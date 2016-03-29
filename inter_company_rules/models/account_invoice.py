@@ -17,14 +17,10 @@ class account_invoice(models.Model):
             # do not consider invoices that have already been auto-generated, nor the invoices that were already validated in the past
             company = self.env['res.company']._find_company_from_partner(invoice.partner_id.id)
             if company and company.auto_generate_invoices and not invoice.auto_generated:
-                if invoice.type == 'out_invoice':
+                if invoice.type in ['out_invoice', 'out_refund']:
                     invoice.inter_company_create_invoice(company, 'in_invoice', 'purchase')
-                elif invoice.type == 'in_invoice':
+                elif invoice.type in ['in_invoice', 'in_refund']:
                     invoice.inter_company_create_invoice(company, 'out_invoice', 'sale')
-                elif invoice.type == 'out_refund':
-                    invoice.inter_company_create_invoice(company, 'in_refund', 'purchase_refund')
-                elif invoice.type == 'in_refund':
-                    invoice.inter_company_create_invoice(company, 'out_refund', 'sale_refund')
         return super(account_invoice, self).invoice_validate()
 
     @api.one
