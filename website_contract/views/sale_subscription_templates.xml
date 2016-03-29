@@ -809,20 +809,22 @@
     </template>
 
     <template id="contract_pricing" name="Contract Price" inherit_id="website_quote.pricing">
-        <xpath expr="//tr[@t-foreach='quotation.order_line']" position="replace">
-            <t t-set="recurring_products" t-value="[line.recurring_product for line in quotation.order_line]"/>
-            <tr t-if="True in recurring_products and False in recurring_products" class="active">
+        <xpath expr="//t[@t-as='line']" position="replace">
+            <t t-set="recurring_products" t-value="[line.recurring_product for line in layout_category['lines']]"/>
+            <t t-set="recurring_products_titles"
+               t-value="(layout_category_size == 1 and page_size == 1) and True in recurring_products and False in recurring_products"/>
+            <tr t-if="recurring_products_titles" class="active">
                 <td colspan="7">Subscription</td>
             </tr>
-            <tr t-foreach="quotation.order_line" t-as="line">
+            <tr t-foreach="layout_category['lines']" t-as="line">
                 <t t-if="line.recurring_product">
                     <t t-call="website_contract.order_line_row"/>
                 </t>
             </tr>
-            <tr t-if="True in recurring_products and False in recurring_products" class="active">
+            <tr t-if="recurring_products_titles" class="active">
                 <td colspan="7">One-time Fees <small>- These products will not be part of your subscription</small></td>
             </tr>
-            <tr t-foreach="quotation.order_line" t-as="line">
+            <tr t-foreach="layout_category['lines']" t-as="line">
                 <t t-if="not line.recurring_product">
                     <t t-call="website_contract.order_line_row"/>
                 </t>
