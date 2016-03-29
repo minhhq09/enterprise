@@ -106,9 +106,11 @@ class ProviderUPS(models.Model):
                 'total_qty': total_qty
             }
             srm.check_required_value(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id, picking=picking)
+
+            label_file_type = getattr(self, 'x_label_file_type', None) or 'GIF'
             result = srm.send_shipping(
                 shipment_info=shipment_info, packages=packages, shipper=picking.company_id.partner_id, ship_from=picking.picking_type_id.warehouse_id.partner_id,
-                ship_to=picking.partner_id, packaging_type=self.ups_default_packaging_type, service_type=self.ups_default_service_type)
+                ship_to=picking.partner_id, packaging_type=self.ups_default_packaging_type, service_type=self.ups_default_service_type, label_file_type=label_file_type)
 
             if result.get('error_message'):
                 raise ValidationError(result['error_message'])
@@ -128,7 +130,10 @@ class ProviderUPS(models.Model):
             for track_number, label_binary_data in result.get('label_binary_data').iteritems():
                 logmessage = (_("Shipment created into UPS <br/> <b>Tracking Number : </b>%s") % (track_number))
                 picking.message_post(body=logmessage)
-                labels.append(('LabelUPS-%s.pdf' % track_number, label_binary_data))
+                if label_file_type == 'GIF':
+                    labels.append(('LabelUPS-%s.pdf' % track_number, label_binary_data))
+                else:
+                    labels.append(('LabelUPS-%s.%s' % (track_number, label_file_type), label_binary_data))
                 track_numbers.append(track_number)
             logmessage = (_("Shipping label for packages"))
             picking.message_post(body=logmessage, attachments=labels)
