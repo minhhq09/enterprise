@@ -32,6 +32,11 @@ class ProviderUPS(models.Model):
                                                string="UPS Service Type", default='03')
     ups_package_weight_unit = fields.Selection([('LBS', 'Pounds'), ('KGS', 'Kilograms')], default='LBS')
     ups_package_dimension_unit = fields.Selection([('IN', 'Inches'), ('CM', 'Centimeters')], string="Units for UPS Package Size", default='IN')
+    ups_label_file_type = fields.Selection([('GIF', 'PDF'),
+                                            ('ZPL', 'ZPL'),
+                                            ('EPL', 'EPL'),
+                                            ('SPL', 'SPL')],
+                                           string="Label File Type", default='GIF', oldname='x_label_file_type')
 
     def ups_get_shipping_price_from_so(self, orders):
         res = []
@@ -102,13 +107,12 @@ class ProviderUPS(models.Model):
             }
             srm.check_required_value(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id, picking=picking)
 
-            label_file_type = getattr(self, 'x_label_file_type', None) or 'GIF'
             # UPS doesn't seem to accept different types of packages in the same shipping
             picking.check_packages_are_identical()
             package_type = picking.package_ids and picking.package_ids[0].packaging_id.shipper_package_code or self.ups_default_packaging_id.shipper_package_code
             result = srm.send_shipping(
                 shipment_info=shipment_info, packages=packages, shipper=picking.company_id.partner_id, ship_from=picking.picking_type_id.warehouse_id.partner_id,
-                ship_to=picking.partner_id, packaging_type=package_type, service_type=self.ups_default_service_type, label_file_type=label_file_type)
+                ship_to=picking.partner_id, packaging_type=package_type, service_type=self.ups_default_service_type, label_file_type=self.ups_label_file_type)
 
             if result.get('error_message'):
                 raise ValidationError(result['error_message'])
@@ -128,10 +132,10 @@ class ProviderUPS(models.Model):
             for track_number, label_binary_data in result.get('label_binary_data').iteritems():
                 logmessage = (_("Shipment created into UPS <br/> <b>Tracking Number : </b>%s") % (track_number))
                 picking.message_post(body=logmessage)
-                if label_file_type == 'GIF':
+                if self.ups_label_file_type == 'GIF':
                     labels.append(('LabelUPS-%s.pdf' % track_number, label_binary_data))
                 else:
-                    labels.append(('LabelUPS-%s.%s' % (track_number, label_file_type), label_binary_data))
+                    labels.append(('LabelUPS-%s.%s' % (track_number, self.ups_label_file_type), label_binary_data))
                 track_numbers.append(track_number)
             logmessage = (_("Shipping label for packages"))
             picking.message_post(body=logmessage, attachments=labels)
