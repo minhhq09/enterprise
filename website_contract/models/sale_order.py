@@ -111,6 +111,11 @@ class SaleOrder(models.Model):
                 data.append((2, line.id))
         self.write({'order_line': data, 'project_id': False})
 
+    def _get_payment_type(self):
+        if any(line.product_id.recurring_invoice for line in self.sudo().order_line):
+            return 'form_save'
+        return super(SaleOrder, self)._get_payment_type()
+
 
 class sale_order_line(models.Model):
     _inherit = "sale.order.line"
