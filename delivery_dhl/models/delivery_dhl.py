@@ -82,7 +82,7 @@ class Providerdhl(models.Model):
                 carrier_price = quote_currency.compute(float(shipping['price']), order_currency)
             carrier_tracking_ref = shipping['tracking_number']
             logmessage = (_("Shipment created into DHL <br/> <b>Tracking Number : </b>%s") % (carrier_tracking_ref))
-            picking.message_post(body=logmessage, attachments=[('LabelDHL-%s.pdf' % carrier_tracking_ref, srm.save_label())])
+            picking.message_post(body=logmessage, attachments=[('LabelDHL-%s.%s' % (carrier_tracking_ref, self.dhl_label_image_format), srm.save_label())])
             shipping_data = {
                 'exact_price': carrier_price,
                 'tracking_number': carrier_tracking_ref
