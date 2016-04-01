@@ -17,6 +17,7 @@
                             <field name="usps_machinable" attrs="{'required': [('delivery_type', '=', 'usps')]}"/>
                         </group>
                         <group>
+                            <field name="usps_label_file_type" attrs="{'required': [('delivery_type', '==', 'usps')]}"/>
                             <field name="usps_service" attrs="{'required': [('delivery_type', '==', 'usps')]}"/>
                             <field name="usps_mail_type" attrs="{'invisible': [('usps_delivery_nature','!=','international')]}"/>
                             <field name="usps_container" attrs="{'invisible': [('usps_service', '==','First-Class')]}"/>

@@ -28,6 +28,9 @@ class ProviderUSPS(models.Model):
         else:
             self.usps_size_container = 'LARGE'
 
+    usps_label_file_type = fields.Selection([('PDF', 'PDF'),
+                                             ('TIF', 'TIF')],
+                                            string="Label File Type", default='PDF')
     usps_service = fields.Selection([('First-Class', 'First-Class'),
                                      ('Priority', 'Priority'),
                                      ('Express', 'Express')],
@@ -126,7 +129,7 @@ class ProviderUSPS(models.Model):
             carrier_tracking_ref = booking['tracking_number']
 
             logmessage = (_("Shipment created into USPS <br/> <b>Tracking Number : </b>%s") % (carrier_tracking_ref))
-            picking.message_post(body=logmessage, attachments=[('LabelUSPS-%s.pdf' % carrier_tracking_ref, booking['label'])])
+            picking.message_post(body=logmessage, attachments=[('LabelUSPS-%s.%s' % (carrier_tracking_ref, self.usps_label_file_type), booking['label'])])
 
             shipping_data = {'exact_price': price,
                              'tracking_number': carrier_tracking_ref}

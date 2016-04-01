@@ -197,7 +197,7 @@ class USPSRequest():
             'GrossOunces': int(round(gross_weight['ounce'], 0)),    # API want 1 and no 1.0
             'MailType': carrier.usps_mail_type,
             'FirstClassMailType': 'LETTER',
-            'ImageType': "PDF",
+            'ImageType': carrier.usps_label_file_type,
             'ImageLayout': 'ALLINONEFILE',
             'Size': carrier.usps_size_container,
             'ContentType': carrier.usps_content_type,
