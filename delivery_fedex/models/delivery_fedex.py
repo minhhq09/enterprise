@@ -140,7 +140,8 @@ class ProviderFedex(models.Model):
 
             srm.shipping_charges_payment(superself.fedex_account_number)
 
-            srm.shipment_label('COMMON2D', 'PDF', self.fedex_label_stock_type, 'TOP_EDGE_OF_TEXT_FIRST', 'SHIPPING_LABEL_FIRST')
+            label_file_type = getattr(self, 'x_fedex_label_file_type', None) or 'PDF'
+            srm.shipment_label('COMMON2D', label_file_type, self.fedex_label_stock_type, 'TOP_EDGE_OF_TEXT_FIRST', 'SHIPPING_LABEL_FIRST')
 
             order_currency = picking.sale_id.currency_id or picking.company_id.currency_id
 
@@ -243,7 +244,7 @@ class ProviderFedex(models.Model):
 
                             for label in package_labels:
                                 logmessage = (_("Shipping label for package %s") % (label[0]))
-                                picking.message_post(body=logmessage, attachments=[('LabelFedex-%s.pdf' % label[0], label[1])])
+                                picking.message_post(body=logmessage, attachments=[('LabelFedex-%s.%s' % (label[0], label_file_type), label[1])])
 
                             shipping_data = {'exact_price': carrier_price,
                                              'tracking_number': carrier_tracking_ref}
@@ -281,7 +282,7 @@ class ProviderFedex(models.Model):
 
                     carrier_tracking_ref = request['tracking_number']
                     logmessage = (_("Shipment created into Fedex <br/> <b>Tracking Number : </b>%s") % (carrier_tracking_ref))
-                    picking.message_post(body=logmessage, attachments=[('LabelFedex-%s.pdf' % carrier_tracking_ref, srm.get_label())])
+                    picking.message_post(body=logmessage, attachments=[('LabelFedex-%s.%s' % (carrier_tracking_ref, label_file_type), srm.get_label())])
 
                     shipping_data = {'exact_price': carrier_price,
                                      'tracking_number': carrier_tracking_ref}

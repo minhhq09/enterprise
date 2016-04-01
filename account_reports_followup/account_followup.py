@@ -185,10 +185,10 @@ class res_partner(models.Model):
                 followup_line_id = aml.followup_line_id.id or None
                 if aml.date_maturity:
                     if aml.date_maturity <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
-                        aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
+                        aml.with_context(check_move_validity=False).write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
                         to_delete = to_delete | partner
                 elif aml.date and aml.date <= fups[followup_line_id][0].strftime('%Y-%m-%d'):
-                    aml.write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
+                    aml.with_context(check_move_validity=False).write({'followup_line_id': fups[followup_line_id][1], 'followup_date': date})
                     to_delete = to_delete | partner
 
         if batch:
