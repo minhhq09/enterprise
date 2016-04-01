@@ -7,6 +7,9 @@ var FormViewBarcodeHandler = require('barcodes.FormViewBarcodeHandler');
 var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
     init: function(parent, context) {
         this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode
+        this.m2x_field = 'line_ids';
+        this.quantity_field = 'product_qty';
+
         return this._super.apply(this, arguments);
     },
 
@@ -28,7 +31,7 @@ var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
         var view = field.viewmanager.active_view;
         var scan_location_id = this.form_view.fields.scan_location_id.get_value();
         if (view) { // Weird, sometimes is undefined. Due to an asynchronous field re-rendering ?
-            record = view.controller.records.find(function(record) {
+            record = this._get_records(field).find(function(record) {
                 return record.get('product_barcode') === barcode && record.get('location_id')[0] === scan_location_id;
             });
         }

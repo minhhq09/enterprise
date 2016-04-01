@@ -21,6 +21,11 @@ msgid "(size in bytes:"
 msgstr "(grootte in bytes:"
 
 #. module: pos_blackbox_be
+#: model:account.tax,name:pos_blackbox_be.zero_vat_work_in_out
+msgid "0% (work in/out)"
+msgstr "0% (arbeid in/uit)"
+
+#. module: pos_blackbox_be
 #: model:ir.ui.view,arch_db:pos_blackbox_be.view_pos_session_form
 msgid "<span class=\"o_stat_text\">Financial X</span>"
 msgstr "<span class=\"o_stat_text\">Financieel X</span>"
@@ -141,6 +146,12 @@ msgid "Action"
 msgstr "Actie"
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:403
+#, python-format
+msgid "Adding additional payments to registered orders is not allowed."
+msgstr "Extra betalingen toevoegen aan geregistreerde orders is niet toegestaan."
+
+#. module: pos_blackbox_be
 #. openerp-web
 #: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:51
 #, python-format
@@ -239,22 +250,11 @@ msgid "Can't modify fields related to the Fiscal Data Module."
 msgstr "Velden in verband met de Fiscal Data Module kunnen niet worden aangepast."
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:327
-#, python-format
-msgid "Can't modify saved orders."
-msgstr "Opgeslagen orders wijzigen is niet toegestaan."
-
-#. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:491
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:494
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:532
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:535
 #, python-format
 msgid "Can't modify the log book."
 msgstr "Het logboek wijzigen is niet toegestaan."
-
-#. module: pos_blackbox_be
-#: model:pos.category,name:pos_blackbox_be.certification
-msgid "Certification"
-msgstr "Certificatie"
 
 #. module: pos_blackbox_be
 #. openerp-web
@@ -317,27 +317,9 @@ msgid "Creation Date"
 msgstr "Aanmaak datum"
 
 #. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_creme_brulee
-#: model:product.template,name:pos_blackbox_be.product_creme_brulee_product_template
-msgid "Crème Brulée"
-msgstr ""
-
-#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_partner_id
 msgid "Customer"
 msgstr "Klant"
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_soup
-#: model:product.template,name:pos_blackbox_be.product_soup_product_template
-msgid "Dagsoep"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_dame_blanche
-#: model:product.template,name:pos_blackbox_be.product_dame_blanche_product_template
-msgid "Dame Blanche"
-msgstr ""
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log_date
@@ -367,8 +349,8 @@ msgstr "Point of sale orders verwijderen is niet toegestaan."
 #. module: pos_blackbox_be
 #: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:318
 #, python-format
-msgid "Deleting of point of sale orders is not allowed."
-msgstr "Point of sale orders verwijderen is niet toegestaan."
+msgid "Deleting of registered orders is not allowed."
+msgstr "Geregistreerde orders verwijderen is niet toegestaan."
 
 #. module: pos_blackbox_be
 #: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:532
@@ -451,6 +433,11 @@ msgstr "FDM ticket tellers:"
 #, python-format
 msgid "FDM time:"
 msgstr "FDM tijd:"
+
+#. module: pos_blackbox_be
+#: model:ir.ui.view,arch_db:pos_blackbox_be.view_pos_order_filter_registered_transactions
+msgid "FDM transactions"
+msgstr "FDM transacties"
 
 #. module: pos_blackbox_be
 #: model:ir.ui.view,arch_db:pos_blackbox_be.view_pos_session_form
@@ -570,10 +557,18 @@ msgid "Forbidden modules installed"
 msgstr "Verboden modules geïnstalleerd"
 
 #. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_wine
-#: model:product.template,name:pos_blackbox_be.product_wine_product_template
-msgid "Huiswijn (liter)"
-msgstr ""
+#: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_hash_chain
+#: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_hash_chain
+msgid "Hash chain"
+msgstr "Hash ketting"
+
+#. module: pos_blackbox_be
+#. openerp-web
+#: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:116
+#: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:168
+#, python-format
+msgid "Hash chain:"
+msgstr "Hash ketting"
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log_id
@@ -605,12 +600,6 @@ msgstr "PIN niet geldig."
 #, python-format
 msgid "Invalid data in message."
 msgstr "Ongeldige data in boodschap."
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_coffee
-#: model:product.template,name:pos_blackbox_be.product_coffee_product_template
-msgid "Koffie verkeerd medium"
-msgstr ""
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log___last_update
@@ -661,12 +650,24 @@ msgid "Logs"
 msgstr ""
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:324
+#, python-format
+msgid "Manually creating registered orders is not allowed."
+msgstr "Geregistreerde orders manueel aanmaken is niet toegestaan."
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_blackbox_be_log_model_name
 msgid "Model name"
 msgstr "Model naam"
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:516
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:345
+#, python-format
+msgid "Modifying registered orders is not allowed."
+msgstr "Geregistreerde orders aanpassen is niet toegestaan."
+
+#. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:557
 #, python-format
 msgid "Modifying this product is not allowed."
 msgstr "Dit product aanpassen is niet toegestaan."
@@ -698,10 +699,10 @@ msgid "Not allowed to take back more than was ordered."
 msgstr "Verboden om meer te retourneren dan dat was besteld."
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:47
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:49
 #, python-format
-msgid "Only one Point of Sale allowed per proxy."
-msgstr "Er is slechts één Point of Sale per proxy toegestaan."
+msgid "Only one Point of Sale allowed per registered POSBox."
+msgstr "Er is slechts één Point of Sale per geregistreerde POSBox toegestaan."
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_date_order
@@ -814,6 +815,11 @@ msgid "Point of Sale Orders Pro Forma (PS)"
 msgstr "Kassa Orders Pro Forma (PS)"
 
 #. module: pos_blackbox_be
+#: model:ir.model,name:pos_blackbox_be.model_pos_make_payment
+msgid "Point of Sale Payment"
+msgstr "Kassa betaling"
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
 msgid "Pos production id"
@@ -898,6 +904,17 @@ msgid "Record name"
 msgstr "Record naam"
 
 #. module: pos_blackbox_be
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:353
+#, python-format
+msgid "Refunding registered orders is not allowed."
+msgstr "Point of sale orders terugbetalen is niet toegestaan."
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_blackbox_pos_production_id
+msgid "Registered POSBox serial number"
+msgstr "Serienummer geregistreerde POSBox"
+
+#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_config_report_sequence_number
 msgid "Report sequence number"
 msgstr "Rapport volgnummer"
@@ -913,12 +930,6 @@ msgid "Revenue per category (NS):"
 msgstr "Omzet per categorie (NS):"
 
 #. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_salad
-#: model:product.template,name:pos_blackbox_be.product_salad_product_template
-msgid "Salad Bar (kg)"
-msgstr ""
-
-#. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_user_id
 msgid "Salesman"
 msgstr "Verkoper"
@@ -929,10 +940,10 @@ msgid "Search pro forma orders"
 msgstr "Zoek pro forma orders"
 
 #. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_season
-#: model:product.template,name:pos_blackbox_be.product_season_product_template
-msgid "Seizoensuggestie"
-msgstr ""
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:45
+#, python-format
+msgid "Serial number must consist of 14 characters."
+msgstr "Serienummer moet bestaan uit 14 karakters."
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_pro_forma_session_id
@@ -943,24 +954,6 @@ msgstr "Sessie"
 #: model:ir.model.fields,help:pos_blackbox_be.field_res_users_insz_or_bis_number
 msgid "Social security identification number"
 msgstr "INSZ- of BIS-nummer"
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_soda_light
-#: model:product.template,name:pos_blackbox_be.product_soda_light_product_template
-msgid "Soda LIGHT 33 CL."
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_spaghetti
-#: model:product.template,name:pos_blackbox_be.product_spaghetti_product_template
-msgid "Spaghetti Bolognaise (KLEIN)"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_steak
-#: model:product.template,name:pos_blackbox_be.product_steak_product_template
-msgid "Steak Haché"
-msgstr ""
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_line_pro_forma_price_subtotal_incl
@@ -1118,6 +1111,11 @@ msgstr "Totale maatstaf van heffing BTW-tarief D"
 #. module: pos_blackbox_be
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pos_production_id
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_pos_production_id
+msgid "Unique ID of Odoo that created this order"
+msgstr "Unieke ID van Odoo die deze order heeft aangemaakt"
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_terminal_id
 msgid "Unique ID of the POS that created this order"
 msgstr "Unieke ID van de kassa die deze order heeft aangemaakt"
 
@@ -1132,6 +1130,11 @@ msgstr "Unieke ID van de Vat Signing Card gebruikt voor deze order"
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_blackbox_unique_fdm_production_number
 msgid "Unique ID of the blackbox that handled this order"
 msgstr "Unieke ID van de blackbox gebruikt voor deze order"
+
+#. module: pos_blackbox_be
+#: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_terminal_id
+msgid "Unique ID of the terminal that created this order"
+msgstr "Unieke ID van de terminal die deze order heeft aangemaakt"
 
 #. module: pos_blackbox_be
 #: model:ir.model.fields,field_description:pos_blackbox_be.field_pos_order_line_pro_forma_price_unit
@@ -1231,13 +1234,6 @@ msgid "Vat letter"
 msgstr "BTW letter"
 
 #. module: pos_blackbox_be
-#. openerp-web
-#: code:addons/pos_blackbox_be/static/src/xml/pos_blackbox_be.xml:240
-#, python-format
-msgid "Version"
-msgstr "Versie"
-
-#. module: pos_blackbox_be
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pos_version
 #: model:ir.model.fields,help:pos_blackbox_be.field_pos_order_pro_forma_pos_version
 msgid "Version of Odoo that created the order"
@@ -1272,10 +1268,10 @@ msgid "X-report"
 msgstr "X-rapport"
 
 #. module: pos_blackbox_be
-#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:209
+#: code:addons/pos_blackbox_be/models/pos_blackbox_be.py:212
 #, python-format
-msgid "Your session still contains open orders. Please close all of them first."
-msgstr "De sessie bevat nog open bestellingen. Gelieve deze eerst af handelen."
+msgid "Your session still contains open orders (%s). Please close all of them first."
+msgstr "De sessie bevat nog open bestellingen (%s). Gelieve deze eerst af handelen."
 
 #. module: pos_blackbox_be
 #: model:ir.ui.view,arch_db:pos_blackbox_be.financial_report_template
@@ -1299,38 +1295,8 @@ msgid "create"
 msgstr ""
 
 #. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_certification_creme_brulee
-#: model:product.template,name:pos_blackbox_be.product_certification_creme_brulee_product_template
-msgid "crème brulée"
-msgstr ""
-
-#. module: pos_blackbox_be
 #: selection:pos_blackbox_be.log,action:0
 msgid "delete"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_certification_drink1
-#: model:product.template,name:pos_blackbox_be.product_certification_drink1_product_template
-msgid "drink1"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_certification_drink2
-#: model:product.template,name:pos_blackbox_be.product_certification_drink2_product_template
-msgid "drink2"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_certification_food1
-#: model:product.template,name:pos_blackbox_be.product_certification_food1_product_template
-msgid "food1"
-msgstr ""
-
-#. module: pos_blackbox_be
-#: model:product.product,name:pos_blackbox_be.product_certification_food2
-#: model:product.template,name:pos_blackbox_be.product_certification_food2_product_template
-msgid "food2"
 msgstr ""
 
 #. module: pos_blackbox_be

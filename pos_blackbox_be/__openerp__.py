@@ -17,7 +17,7 @@ More info:
   * http://www.systemedecaisseenregistreuse.be/
   * http://www.geregistreerdkassasysteem.be/
     """,
-    'depends': ['web', 'point_of_sale', 'pos_restaurant', 'l10n_be'],
+    'depends': ['web', 'point_of_sale', 'pos_restaurant'],
     'website': '',
     'data': [
         'security/pos_blackbox_be_security.xml',

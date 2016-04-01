@@ -22,7 +22,7 @@
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line0"/>
         <field name="level" eval="1" />
         <field name="formulas">balance = sum.balance</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Subist_sale'), ref('l10n_br.tax_ICMS_Subist_purchase')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_02')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -34,7 +34,7 @@
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line0"/>
         <field name="level" eval="1" />
         <field name="formulas">balance = - sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Subist_sale'), ref('l10n_br.tax_ICMS_Subist_purchase')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_03')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -53,7 +53,7 @@
         <field name="code">BRTAX01_1</field>
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line1"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_IRPJ')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_05')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
@@ -65,7 +65,7 @@
         <field name="code">BRTAX01_2</field>
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line1"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_IRPJ')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_06')])]" />
         <field name="formulas">balance = sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
@@ -86,7 +86,7 @@
         <field name="code">BRTAX02_1</field>
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line2"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_IR')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_08')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
@@ -98,7 +98,7 @@
         <field name="code">BRTAX02_2</field>
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line2"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_IR')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_09')])]" />
         <field name="formulas">balance = sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
@@ -119,7 +119,7 @@
         <field name="code">BRTAX03_1</field>
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line3"/>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_ISSQN'), ref('l10n_br.tax_ISSQN_1%'), ref('l10n_br.tax_ISSQN_2%_sale'), ref('l10n_br.tax_ISSQN_2%_purchase'), ref('l10n_br.tax_ISSQN_3%'), ref('l10n_br.tax_ISS_4%'), ref('l10n_br.tax_ISSQN_5%')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_11')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="level" eval="1" />
@@ -131,7 +131,7 @@
         <field name="code">BRTAX03_2</field>
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line3"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_ISSQN'), ref('l10n_br.tax_ISSQN_1%'), ref('l10n_br.tax_ISSQN_2%_sale'), ref('l10n_br.tax_ISSQN_2%_purchase'), ref('l10n_br.tax_ISSQN_3%'), ref('l10n_br.tax_ISS_4%'), ref('l10n_br.tax_ISSQN_5%')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_12')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="level" eval="1" />
@@ -154,7 +154,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line4"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_CSLL')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_14')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -166,7 +166,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line4"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_CSLL')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_15')])]" />
         <field name="formulas">balance = sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -187,7 +187,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_COFINS_sale'), ref('l10n_br.tax_COFINS_purchase'), ref('l10n_br.tax_COFINS_3%_sale'), ref('l10n_br.tax_COFINS_3%_purchase')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_17')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -199,7 +199,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line5"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_COFINS_sale'), ref('l10n_br.tax_COFINS_purchase'), ref('l10n_br.tax_COFINS_3%_sale'), ref('l10n_br.tax_COFINS_3%_purchase')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_18')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -219,7 +219,7 @@
         <field name="code">BRTAX06_1</field>
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_PIS_sale'), ref('l10n_br.tax_PIS_purchase'), ref('l10n_br.tax_PIS_0_65%_sale'), ref('l10n_br.tax_PIS_0_65%_purchase')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_20')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="show_domain">never</field>
@@ -232,7 +232,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line6"/>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_PIS_sale'), ref('l10n_br.tax_PIS_purchase'), ref('l10n_br.tax_PIS_0_65%_sale'), ref('l10n_br.tax_PIS_0_65%_purchase')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_21')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="level" eval="1" />
         <field name="special_date_changer">strict_range</field>
@@ -253,7 +253,7 @@
         <field name="sequence" eval="1"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_IPI_sale'), ref('l10n_br.tax_IPI_purchase'), ref('l10n_br.tax_IPI_2%_sale'), ref('l10n_br.tax_IPI_2%_purchase'), ref('l10n_br.tax_IPI_3%_sale'), ref('l10n_br.tax_IPI_3%_purchase'), ref('l10n_br.tax_IPI_4%_sale'), ref('l10n_br.tax_IPI_4%_purchase'), ref('l10n_br.tax_IPI_5%_sale'), ref('l10n_br.tax_IPI_5%_purchase'), ref('l10n_br.tax_IPI_7%_sale'), ref('l10n_br.tax_IPI_7%_purchase'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_sale'), ref('l10n_br.tax_IPI_10%_purchase'), ref('l10n_br.tax_IPI_12%_sale'), ref('l10n_br.tax_IPI_12%_purchase'), ref('l10n_br.tax_IPI_13%_sale'), ref('l10n_br.tax_IPI_13%_purchase'), ref('l10n_br.tax_IPI_15%_sale'), ref('l10n_br.tax_IPI_15%_purchase'), ref('l10n_br.tax_IPI_16%_sale'), ref('l10n_br.tax_IPI_16%_purchase'), ref('l10n_br.tax_IPI_18%_sale'), ref('l10n_br.tax_IPI_18%_purchase'), ref('l10n_br.tax_IPI_20%_sale'), ref('l10n_br.tax_IPI_20%_purchase'), ref('l10n_br.tax_IPI_22%_sale'), ref('l10n_br.tax_IPI_22%_purchase'), ref('l10n_br.tax_IPI_24%_sale'), ref('l10n_br.tax_IPI_24%_purchase'), ref('l10n_br.tax_IPI_25%_sale'), ref('l10n_br.tax_IPI_25%_purchase'), ref('l10n_br.tax_IPI_27%_sale'), ref('l10n_br.tax_IPI_27%_purchase'), ref('l10n_br.tax_IPI_30%_sale'), ref('l10n_br.tax_IPI_30%_purchase'), ref('l10n_br.tax_IPI_35%_sale'), ref('l10n_br.tax_IPI_35%_purchase'), ref('l10n_br.tax_IPI_40%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_sale'), ref('l10n_br.tax_IPI_42%_purchase'), ref('l10n_br.tax_IPI_45%_sale'), ref('l10n_br.tax_IPI_45%_purchase'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_sale'), ref('l10n_br.tax_IPI_60%_purchase'), ref('l10n_br.tax_IPI_300%_sale'), ref('l10n_br.tax_IPI_300%_purchase'), ref('l10n_br.tax_IPI_330%_sale'), ref('l10n_br.tax_IPI_330%_purchase')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_23')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -265,7 +265,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line7"/>
         <field name="level" eval="1" />
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_IPI_sale'), ref('l10n_br.tax_IPI_purchase'),ref('l10n_br.tax_IPI_2%_sale'), ref('l10n_br.tax_IPI_2%_purchase'), ref('l10n_br.tax_IPI_3%_sale'), ref('l10n_br.tax_IPI_3%_purchase'),ref('l10n_br.tax_IPI_4%_sale'), ref('l10n_br.tax_IPI_4%_purchase'), ref('l10n_br.tax_IPI_5%_sale'), ref('l10n_br.tax_IPI_5%_purchase'), ref('l10n_br.tax_IPI_7%_sale'), ref('l10n_br.tax_IPI_7%_purchase'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_sale'), ref('l10n_br.tax_IPI_8%_sale'), ref('l10n_br.tax_IPI_8%_purchase'), ref('l10n_br.tax_IPI_10%_purchase'), ref('l10n_br.tax_IPI_12%_sale'), ref('l10n_br.tax_IPI_12%_purchase'), ref('l10n_br.tax_IPI_13%_sale'), ref('l10n_br.tax_IPI_13%_purchase'), ref('l10n_br.tax_IPI_15%_sale'), ref('l10n_br.tax_IPI_15%_purchase'), ref('l10n_br.tax_IPI_16%_sale'), ref('l10n_br.tax_IPI_16%_purchase'), ref('l10n_br.tax_IPI_18%_sale'), ref('l10n_br.tax_IPI_18%_purchase'), ref('l10n_br.tax_IPI_20%_sale'), ref('l10n_br.tax_IPI_20%_purchase'), ref('l10n_br.tax_IPI_22%_sale'), ref('l10n_br.tax_IPI_22%_purchase'), ref('l10n_br.tax_IPI_24%_sale'), ref('l10n_br.tax_IPI_24%_purchase'), ref('l10n_br.tax_IPI_25%_sale'), ref('l10n_br.tax_IPI_25%_purchase'), ref('l10n_br.tax_IPI_27%_sale'), ref('l10n_br.tax_IPI_27%_purchase'), ref('l10n_br.tax_IPI_30%_sale'), ref('l10n_br.tax_IPI_30%_purchase'), ref('l10n_br.tax_IPI_35%_sale'), ref('l10n_br.tax_IPI_35%_purchase'), ref('l10n_br.tax_IPI_40%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_sale'), ref('l10n_br.tax_IPI_40%_purchase'), ref('l10n_br.tax_IPI_42%_purchase'), ref('l10n_br.tax_IPI_45%_sale'), ref('l10n_br.tax_IPI_45%_purchase'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_sale'), ref('l10n_br.tax_IPI_50%_sale'), ref('l10n_br.tax_IPI_50%_purchase'), ref('l10n_br.tax_IPI_60%_purchase'), ref('l10n_br.tax_IPI_300%_sale'), ref('l10n_br.tax_IPI_300%_purchase'), ref('l10n_br.tax_IPI_330%_sale'), ref('l10n_br.tax_IPI_330%_purchase')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_24')])]" />
         <field name="formulas">balance = - sum.balance</field>
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
@@ -287,7 +287,7 @@
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
         <field name="formulas">balance = - sum.balance</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Interno_sale'), ref('l10n_br.tax_ICMS_Interno_purchase'),ref('l10n_br.tax_ICMS_Externo_sale'), ref('l10n_br.tax_ICMS_Externo_purchase'), ref('l10n_br.tax_ICMS_Externo_7%_sale'), ref('l10n_br.tax_ICMS_Externo_7%_purchase'), ref('l10n_br.tax_ICMS_Externo_12%_sale'), ref('l10n_br.tax_ICMS_Externo_12%_purchase'), ref('l10n_br.tax_ICMS_Interno_19%_sale'), ref('l10n_br.tax_ICMS_Interno_19%_purchase'), ref('l10n_br.tax_ICMS_Interno_26%_sale'), ref('l10n_br.tax_ICMS_Interno_26%_purchase')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_br.tag_br_26')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -299,7 +299,7 @@
         <field name="parent_id" ref="account_financial_report_l10n_br_tva_line8"/>
         <field name="level" eval="1" />
         <field name="formulas">balance = - sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tax_ICMS_Interno_sale'), ref('l10n_br.tax_ICMS_Interno_purchase'),ref('l10n_br.tax_ICMS_Externo_sale'), ref('l10n_br.tax_ICMS_Externo_purchase'), ref('l10n_br.tax_ICMS_Externo_7%_sale'), ref('l10n_br.tax_ICMS_Externo_7%_purchase'), ref('l10n_br.tax_ICMS_Externo_12%_sale'), ref('l10n_br.tax_ICMS_Externo_12%_purchase'), ref('l10n_br.tax_ICMS_Interno_19%_sale'), ref('l10n_br.tax_ICMS_Interno_19%_purchase'), ref('l10n_br.tax_ICMS_Interno_26%_sale'), ref('l10n_br.tax_ICMS_Interno_26%_purchase')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_br.tag_br_27')])]" />
         <field name="show_domain">never</field>
         <field name="special_date_changer">strict_range</field>
     </record>

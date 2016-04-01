@@ -113,6 +113,10 @@
                     <td class="pos-right-align"><t t-esc="order.blackbox_terminal_id"/></td>
                 </tr>
                 <tr>
+                    <td>Hash chain:</td>
+                    <td class="pos-right-align"><t t-esc="order.blackbox_hash_chain"/></td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <br />
                         <div class="pos-center-align">Ticket signature:</div>
@@ -159,6 +163,10 @@
         <line>
             <left>POS production ID:</left>
             <right><t t-esc="order.blackbox_pos_production_id"/></right>
+        </line>
+        <line>
+            <left>Hash chain:</left>
+            <right><t t-esc="order.blackbox_hash_chain"/></right>
         </line>
         <line>
             <left>Terminal ID:</left>
@@ -246,9 +254,9 @@
         </div>
     </t>
 
-    <t t-extend="PlannerLauncher.about">
-        <t t-jquery="div.user-heading > h3" t-operation="replace">
-            <h3>Version <t t-esc="version_info.server_version"/>BE_FDM</h3>
+    <t t-extend="UserMenu.about">
+        <t t-jquery="div.user-heading > h3 > t" t-operation="replace">
+            <t t-esc="db_info.server_version"/>BE_FDM
         </t>
     </t>
 

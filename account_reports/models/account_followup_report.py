@@ -259,7 +259,7 @@ class account_report_context_followup(models.TransientModel):
             msg = _('Next action date: ') + self.partner_id.payment_next_action_date + '.\n' + note
         else:
             msg = note
-        self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
+        self.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
 
     @api.multi
     def add_footnote(self, type, target_id, column, number, text):
@@ -330,7 +330,7 @@ class account_report_context_followup(models.TransientModel):
             footers.append(footer)
             if log:
                 msg = _('Sent a followup letter')
-                context.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
+                context.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
 
         return self.env['report']._run_wkhtmltopdf(headers, footers, bodies, False, self.env.user.company_id.paperformat_id)
 
@@ -345,12 +345,12 @@ class account_report_context_followup(models.TransientModel):
                 'email_to': email,
             })
             msg = _(': Sent a followup email')
-            self.partner_id.message_post(body=msg, subtype='account.followup_logged_action')
+            self.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
             return True
         return False
 
     def get_history(self):
-        return self.env['mail.message'].search([('subtype_id', '=', self.env['ir.model.data'].xmlid_to_res_id('account.followup_logged_action')), ('id', 'in', self.partner_id.message_ids.ids)], limit=5)
+        return self.env['mail.message'].search([('subtype_id', '=', self.env.ref('account_reports.followup_logged_action').id), ('id', 'in', self.partner_id.message_ids.ids)], limit=5)
 
     @api.multi
     def to_auto(self):

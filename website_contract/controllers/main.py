@@ -281,34 +281,8 @@ class sale_quote_contract(sale_quote):
         if 'quotation' in response.qcontext:  # check if token identification was ok in super
             order = response.qcontext['quotation']
             recurring_products = True in [line.product_id.recurring_invoice for line in order.sudo().order_line]
-            tx_type = 'form_save' if recurring_products else 'form'
+            tx_type = order._get_payment_type()
             # re-render the payment buttons with the proper tx_type if recurring products
             if 'acquirers' in response.qcontext and tx_type != 'form':
-                render_ctx = dict(request.context, submit_class='btn btn-primary', submit_txt=_('Pay & Confirm'))
-                for acquirer in response.qcontext['acquirers']:
-                    acquirer.button = acquirer.with_context(render_ctx).render(
-                        order.name,
-                        order.amount_total,
-                        order.pricelist_id.currency_id.id,
-                        values={
-                            'return_url': '/quote/%s/%s' % (order_id, token) if token else '/quote/%s' % order_id,
-                            'type': tx_type,
-                            'alias_usage': _('If we store your payment information on our server, subscription payments will be made automatically.'),
-                            'partner_id': order.partner_id.id,
-                        })[0]
-                    response.qcontext['recurring_products'] = recurring_products
-        return response
-
-    # note dbo: website_sale code
-    @http.route(['/quote/<int:order_id>/transaction/<int:acquirer_id>'], type='json', auth="public", website=True)
-    def payment_transaction(self, acquirer_id, order_id, **kw):
-        """Let's use inheritance to change the tx type if there are recurring products in the order
-        """
-        response = super(sale_quote_contract, self).payment_transaction(acquirer_id, order_id)
-        if isinstance(response, int):
-            tx_id = response
-            tx = request.env['payment.transaction'].sudo().browse(tx_id)
-            order = request.env['sale.order'].sudo().browse(order_id)
-            if True in [line.product_id.recurring_invoice for line in order.order_line]:
-                tx.type = 'form_save'
+                response.qcontext['recurring_products'] = recurring_products
         return response

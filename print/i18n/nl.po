@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-01-11 16:12+0000\n"
+"PO-Revision-Date: 2016-03-24 19:26+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid ""
 "                </body>\n"
 "              \n"
 "            "
-msgstr "\n<body>\n<p>Beste ${object.partner_id.name},</p>\n\n<p>Tijdens het laatste proces van *Printen en Verzenden* documenten lijken er fouten opgetreden. Hier is een lijst van de mislukte printorders die u heeft goedgekeurd.</p>\n<p>U kan deze fouten vinden onder <i>Instellingen > Print orders</i>.</p>\n% if ctx.get('print_errors'):\n<p>\nPrint Order ID | Error Message <br/>\n-------------------------------------- <br/>\n% for print_order_id, error_text in ctx.get('print_errors'):\n${print_order_id} | ${error_text} <br/>\n% endfor\n</p>\n% endif\n</body>"
+msgstr "\n<body>\n<p>Beste ${object.partner_id.name},</p>\n\n<p>Tijdens het laatste proces van *Afdrukken en Verzenden* documenten lijken er fouten opgetreden. Hier is een lijst van de mislukte printorders die u heeft goedgekeurd.</p>\n<p>U kan deze fouten vinden onder <i>Instellingen > Print orders</i>.</p>\n% if ctx.get('print_errors'):\n<p>\nPrint Order ID | Error Message <br/>\n-------------------------------------- <br/>\n% for print_order_id, error_text in ctx.get('print_errors'):\n${print_order_id} | ${error_text} <br/>\n% endfor\n</p>\n% endif\n</body>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
@@ -179,7 +179,7 @@ msgstr "Mislukt"
 #. module: print
 #: model:mail.template,subject:print.print_user_notify_failed_email_template
 msgid "Failed Print Orders"
-msgstr "Mislukte print orders"
+msgstr "Mislukte afgedrukte orders"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
@@ -264,7 +264,7 @@ msgstr "Modelnaam"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "My Print Orders"
-msgstr "Mijn printorders"
+msgstr "Mijn afdrukorders"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_name
@@ -348,24 +348,24 @@ msgstr "Afdruk Mixin (afdrukbaar object)"
 #. module: print
 #: model:ir.model,name:print.model_print_order
 msgid "Print Order"
-msgstr "Print order"
+msgstr "Order afdrukken"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_line_wizard_view_tree
 msgid "Print Order Lines"
-msgstr "Print orderregels"
+msgstr "Orderregels afdrukken"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_print_order_wizard_id
 msgid "Print Order Wizard"
-msgstr "Print order wizard"
+msgstr "Order afdruk wizard"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_action
 #: model:ir.ui.menu,name:print.print_order_menu
 #: model:ir.ui.view,arch_db:print.print_order_view_tree
 msgid "Print Orders"
-msgstr "Print orders"
+msgstr "Orders afdrukken"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_provider_action
@@ -379,12 +379,12 @@ msgstr "Afdrukprovider"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_sendnow_wizard_print_order_ids
 msgid "Print order ids"
-msgstr "Print order ids"
+msgstr "Order ids afdrukken"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Printing Detail"
-msgstr "Printdetails"
+msgstr "Afdrukdetails"
 
 #. module: print
 #: selection:print.provider,environment:0
@@ -530,7 +530,7 @@ msgstr "Dit document heeft geen geassocieerde PDF: U moet een bestand bijlage to
 msgid ""
 "The document you want to print and send is not printable. There is no report"
 " action (ir.actions.report.xml) for the model %s."
-msgstr "Het document dat u wilt printen en verzenden is niet afdrukbaar. Er is geen rapport actie (ir.actions.report.xml) voor het model %s."
+msgstr "Het document dat u wilt afdrukken en verzenden is niet afdrukbaar. Er is geen rapport actie (ir.actions.report.xml) voor het model %s."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:61

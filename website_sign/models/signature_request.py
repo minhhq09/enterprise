@@ -258,7 +258,6 @@ class SignatureRequest(models.Model):
 
         old_pdf = PdfFileReader(StringIO.StringIO(base64.b64decode(self.template_id.attachment_id.datas)))
         box = old_pdf.getPage(0).mediaBox
-        width = int(box.getUpperRight_x())
         height = int(box.getUpperRight_y())
         font = "Helvetica"
 
@@ -280,6 +279,9 @@ class SignatureRequest(models.Model):
                     continue
 
                 value = value.value
+                box = old_pdf.getPage(p).mediaBox
+                width = int(box.getUpperRight_x())
+                height = int(box.getUpperRight_y())
 
                 if item.type_id.type == "text":
                     can.setFont(font, int(height*item.height*0.8))

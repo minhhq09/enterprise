@@ -108,8 +108,8 @@ class Package():
         else:
             self.dimension = {'length': carrier.ups_default_packaging_id.length, 'width': carrier.ups_default_packaging_id.width, 'height': carrier.ups_default_packaging_id.height}
 
-    def _convert_weight(self, weight, unit='KG'):
-        ''' Convert picking weight (always expressed in KG) into the specified unit '''
+    def _convert_weight(self, weight, unit='KGS'):
+        ''' Convert picking weight (always expressed in KGS) into the specified unit '''
         if unit == 'KGS':
             return weight
         elif unit == 'LBS':
@@ -222,15 +222,18 @@ class UPSRequest():
             result['error_message'] = description
         return result
 
-    def save_label(self, image64):
-        # Label format is GIF, so need to rotate and convert as PDF
-        img_decoded = base64.decodestring(image64)
-        image_string = StringIO.StringIO(img_decoded)
-        im = Image.open(image_string)
-        im_rotate = im.rotate(270)
-        label_result = StringIO.StringIO()
-        im_rotate.save(label_result, 'pdf')
-        return binascii.a2b_base64(label_result.getvalue().encode('base64'))
+    def save_label(self, image64, label_file_type='GIF'):
+        if label_file_type == 'GIF':
+            # Label format is GIF, so need to rotate and convert as PDF
+            img_decoded = base64.decodestring(image64)
+            image_string = StringIO.StringIO(img_decoded)
+            im = Image.open(image_string)
+            im_rotate = im.rotate(270)
+            label_result = StringIO.StringIO()
+            im_rotate.save(label_result, 'pdf')
+            return binascii.a2b_base64(label_result.getvalue().encode('base64'))
+        else:
+            return binascii.a2b_base64(image64)
 
     def set_package_detail(self, client, packages, packaging_type, namespace, ship_from, ship_to):
         Packages = []
@@ -339,10 +342,10 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)
 
-    def send_shipping(self, shipment_info, packages, shipper, ship_from, ship_to, packaging_type, service_type):
+    def send_shipping(self, shipment_info, packages, shipper, ship_from, ship_to, packaging_type, service_type, label_file_type='GIF'):
 
         client = self._set_client(self.ship_wsdl, 'Ship', 'ShipmentRequest')
 
@@ -350,8 +353,12 @@ class UPSRequest():
         request.RequestOption = 'nonvalidate'
 
         label = client.factory.create('ns3:LabelSpecification')
-        label.LabelImageFormat.Code = 'GIF'
-        label.LabelImageFormat.Description = "GIF"
+
+        label.LabelImageFormat.Code = label_file_type
+        label.LabelImageFormat.Description = label_file_type
+        if label_file_type != 'GIF':
+            label.LabelStockSize.Height = '6'
+            label.LabelStockSize.Width = '4'
 
         namespace = 'ns3'
         shipment = client.factory.create('{}:ShipmentType'.format(namespace))
@@ -420,7 +427,7 @@ class UPSRequest():
             result = {}
             result['label_binary_data'] = {}
             for package in response.ShipmentResults.PackageResults:
-                result['label_binary_data'][package.TrackingNumber] = self.save_label(package.ShippingLabel.GraphicImage)
+                result['label_binary_data'][package.TrackingNumber] = self.save_label(package.ShippingLabel.GraphicImage, label_file_type=label_file_type)
             result['tracking_ref'] = response.ShipmentResults.ShipmentIdentificationNumber
             result['currency_code'] = response.ShipmentResults.ShipmentCharges.TotalCharges.CurrencyCode
 
@@ -437,8 +444,8 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)
 
     def cancel_shipment(self, tracking_number):
         client = self._set_client(self.void_wsdl, 'Void', 'VoidShipmentRequest')
@@ -464,5 +471,5 @@ class UPSRequest():
                 prefix = '/Envelope/Body/Fault'
             return self.get_error_message(e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText(),
                                           e.document.childAtPath(prefix + '/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText())
-        except URLError:
-            return self.get_error_message('250053', 'UPS Server Not Found')
+        except URLError as e:
+            return self.get_error_message('0', 'UPS Server Not Found:\n%s' % e)

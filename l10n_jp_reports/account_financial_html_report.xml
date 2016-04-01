@@ -35,7 +35,7 @@
         <field name="code">JPTAXOutput_tax_8</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=-sum.balance</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_01'),ref('l10n_jp.tax_tag_02')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_03')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
 
@@ -46,7 +46,7 @@
         <field name="sequence" eval="2"/>
         <field name="code">JPTAXDuty_free</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_05')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_04')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_jp_line_4" model="account.financial.html.report.line">
@@ -56,7 +56,7 @@
         <field name="sequence" eval="3"/>
         <field name="code">JPTAXNon_taxation</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_06')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_09')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
 
@@ -77,7 +77,7 @@
         <field name="sequence" eval="1"/>
         <field name="code">JPTAXSuspense_consumption_tax_8</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_03'),ref('l10n_jp.tax_tag_04')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_07')])]" />
         <field name="formulas">balance=sum.balance</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -88,7 +88,7 @@
         <field name="sequence" eval="2"/>
         <field name="code">JPTAXImport</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_07')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_08')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_jp_line_8" model="account.financial.html.report.line">
@@ -98,7 +98,7 @@
         <field name="sequence" eval="3"/>
         <field name="code">JPTAXNon_taxation</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tax_tag_08')])]" />
+        <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_jp.tag_jp_09')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
 
@@ -130,7 +130,7 @@
         <field name="code">JPTAXTaxable_sales_8</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=-sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_01'),ref('l10n_jp.tax_tag_02')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_12')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_jp_line_12" model="account.financial.html.report.line">
@@ -141,7 +141,7 @@
         <field name="code">JPTAXDuty_free_sales</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_05')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_13')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_jp_line_13" model="account.financial.html.report.line">
@@ -152,7 +152,7 @@
         <field name="code">JPTAXNon_taxable_sales</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_06')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_14')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
 
@@ -173,7 +173,7 @@
         <field name="sequence" eval="1"/>
         <field name="code">JPTAXTaxable_purchases_8</field>
         <field name="show_domain">never</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_03'),ref('l10n_jp.tax_tag_04')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_16')])]" />
         <field name="formulas">balance=sum.balance</field>
         <field name="special_date_changer">strict_range</field>
     </record>
@@ -185,7 +185,7 @@
         <field name="code">JPTAXThe_import_purchase</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_07')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_17')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_l10n_jp_line_17" model="account.financial.html.report.line">
@@ -196,7 +196,7 @@
         <field name="code">JPTAXNon_taxable_purchases</field>
         <field name="show_domain">never</field>
         <field name="formulas">balance=sum.balance</field>
-        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tax_tag_08')])]" />
+        <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_jp.tag_jp_18')])]" />
         <field name="special_date_changer">strict_range</field>
     </record>
 </odoo>

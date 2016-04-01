@@ -23,7 +23,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
     def _format(self, value):
         if self.env.context.get('no_format'):
             return value
-        currency_id = self.env.user.company_id.currency_id
+        currency_id = self.env.context['journal_id'].currency_id or self.env.context['journal_id'].company_id.currency_id
         if currency_id.is_zero(value):
             # don't print -0.0 in reports
             value = abs(value)
@@ -80,11 +80,12 @@ class account_bank_reconciliation_report(models.AbstractModel):
     def _lines(self):
         lines = []
         #Start amount
+        use_foreign_currency = bool(self.env.context['journal_id'].currency_id)
         account_ids = list(set([self.env.context['journal_id'].default_debit_account_id.id, self.env.context['journal_id'].default_credit_account_id.id]))
         lines_already_accounted = self.env['account.move.line'].search([('account_id', 'in', account_ids),
                                                                         ('date', '<=', self.env.context['date_to']),
                                                                         ('company_id', 'in', self.env.context['company_ids'])])
-        start_amount = sum([line.balance for line in lines_already_accounted])
+        start_amount = sum([line.amount_currency if use_foreign_currency else line.balance for line in lines_already_accounted])
         lines.append(self.add_title_line(_("Current Balance in Odoo"), start_amount))
 
         # Un-reconcilied bank statement lines
@@ -108,7 +109,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
                     'columns': [line.date, line.ref, self._format(line.balance)],
                     'level': 1,
                 })
-                unrec_tot += line.balance
+                unrec_tot += line.amount_currency if use_foreign_currency else line.balance
             if unrec_tot > 0:
                 title = _("Plus Un-Reconciled Bank Statement Lines")
             else:

@@ -3,6 +3,7 @@ odoo.define('website_contract.website_contract', function (require) {
 
     var website = require('website.website');
     var ajax = require('web.ajax');
+    var core = require('web.core');
     if(!$('.oe_website_contract').length) {
         return $.Deferred().reject("DOM doesn't contain '.js_surveyresult'");
     }
@@ -23,6 +24,7 @@ odoo.define('website_contract.website_contract', function (require) {
 
     // When creating new pay method: create by json-rpc then continue with the new id in the form
     $new_payment_method.on("click", 'button[type="submit"],button[name="submit"]', function (ev) {
+      var self = this;
       ev.preventDefault();
       ev.stopPropagation();
       $(this).attr('disabled', true);
@@ -35,6 +37,13 @@ odoo.define('website_contract.website_contract', function (require) {
         $main_form.find('select option[value="-1"]').val(data[0]);
         $main_form.find('select').val(data[0]);
         $main_form.submit();
+      }).fail(function(message, data){
+        $(self).attr('disabled', false);
+        $(self).find('i').remove();
+        $(core.qweb.render('website.error_dialog', {
+            title: core._t('Error'),
+            message: core._t("<p>We are not able to add your payment method at the moment.<br/> Please try again later or contact us.</p>") + (core.debug ? data.data.message : '')
+        })).appendTo("body").modal('show');
       });
     });
 

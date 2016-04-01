@@ -286,8 +286,13 @@ var WebClient = Widget.extend({
      * When do_action is performed on the WebClient, forward it to the main ActionManager
      * This allows to widgets that are not inside the ActionManager to perform do_action
      */
-    do_action: function() {
-        return this.action_manager.do_action.apply(this, arguments);
+    do_action: function(action) {
+        var self = this;
+        return this.action_manager.do_action.apply(this, arguments).then(function(action) {
+            if (self.menu.appswitcher_displayed && action.target !== 'new') {
+                self.toggle_app_switcher(false);
+            }
+        });
     },
     destroy_content: function() {
         _.each(_.clone(this.getChildren()), function(el) {

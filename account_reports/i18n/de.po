@@ -9,14 +9,15 @@
 # Ralf Hilgenstock <rh@dialoge.info>, 2016
 # Renko Spiekermann <renkosp@gmail.com>, 2015
 # Tina Rittmüller <tr@ife.de>, 2016
+# Winfried Grieb <wigrieb@gmx.de>, 2016
 # Wolfgang Taferner, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-30 16:07+0000\n"
-"PO-Revision-Date: 2016-02-22 07:07+0000\n"
-"Last-Translator: Wolfgang Taferner\n"
+"POT-Creation-Date: 2016-03-08 09:33+0000\n"
+"PO-Revision-Date: 2016-03-25 19:08+0000\n"
+"Last-Translator: Winfried Grieb <wigrieb@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,22 +74,28 @@ msgid "&times;"
 msgstr "&times;"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:143
+#: code:addons/account_reports/models/account_report_context_common.py:189
+#, python-format
+msgid "(As of %s)"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:190
+#, python-format
+msgid "(From %s <br/> to  %s)"
+msgstr "(Von %s <br/> An %s)"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:149
 #, python-format
 msgid "10% remaining!"
 msgstr "10% verbleibend!"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:337
+#: code:addons/account_reports/models/account_followup_report.py:347
 #, python-format
 msgid ": Sent a followup email"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:313
-#, python-format
-msgid ": Sent a followup letter"
-msgstr ""
+msgstr ":Folge eMail versand"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_letter_body
@@ -100,7 +107,7 @@ msgstr "<br/> \nKundernreferenz:"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "<span aria-hidden=\"true\">&amp;times;</span>"
-msgstr ""
+msgstr "<span aria-hidden=\"true\">&amp;mal;</span>"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.partner_view_buttons
@@ -111,7 +118,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid ""
 "<strong>Good job!</strong> All followup letters and emails have been sent."
-msgstr ""
+msgstr "<strong>Fertig!</strong> Alle Folge Newsletter und eMails wurden vesand."
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup
@@ -989,13 +996,7 @@ msgid "Foldable"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:339
-#, python-format
-msgid "Followup "
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:87
+#: code:addons/account_reports/models/account_followup_report.py:88
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -1317,7 +1318,7 @@ msgstr "Letzter Bankauszug"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
 msgid "Latest Statement:"
-msgstr ""
+msgstr "Letzter Auszug:"
 
 #. module: account_reports
 #: model:ir.ui.menu,name:account_reports.account_reports_legal_statements_menu
@@ -1360,7 +1361,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Log a Note"
-msgstr ""
+msgstr "Notiz hinzufügen"
 
 #. module: account_reports
 #: model:mail.message.subtype,name:account_reports.followup_logged_action
@@ -1430,6 +1431,11 @@ msgstr "Bezeichnung"
 #, python-format
 msgid "Net"
 msgstr "Netto"
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "Net Audit"
+msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
@@ -1792,7 +1798,7 @@ msgstr ""
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
 #, python-format
 msgid "Reference"
-msgstr "Kundennummer"
+msgstr "Referenz"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -1856,16 +1862,6 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "See bank statement"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_financial_line
-msgid "See net move lines"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_financial_line
-msgid "See tax move lines"
 msgstr ""
 
 #. module: account_reports
@@ -1969,6 +1965,11 @@ msgid "Tax"
 msgstr "Steuer"
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "Tax Audit"
+msgstr ""
+
+#. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
 #, python-format
 msgid "Tax Lines"
@@ -2058,7 +2059,7 @@ msgstr "Gesamtbetrag"
 #: code:addons/account_reports/models/account_followup_report.py:66
 #, python-format
 msgid "Total Due"
-msgstr ""
+msgstr "Gesamtfälligkeit"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:78
@@ -2204,18 +2205,6 @@ msgstr ""
 #: code:addons/account_reports/models/account_report_context_common.py:109
 #, python-format
 msgid "get_report_obj not implemented"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:189
-#, python-format
-msgid "(As of %s)"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:189
-#, python-format
-msgid "(From %s <br/> to  %s)"
 msgstr ""
 
 #. module: account_reports

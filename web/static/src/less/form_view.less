@@ -658,6 +658,27 @@
         .o_address_state {
             margin-right: 2%;
         }
+        &.o_zip_city {
+            .o_address_zip {
+                margin-right: 2%;
+            }
+            .o_address_city {
+                margin-right: 0;
+            }
+            .o_address_state {
+                display: block;
+                margin-right: 0;
+            }
+        }
+        &.o_city_state {
+            .o_address_state {
+                margin-right: 0;
+            }
+            .o_address_zip {
+                display: block;
+                margin-right: 0;
+            }
+        }
         > span.o_form_field {
             width: auto;
         }
@@ -671,6 +692,28 @@
         }
         input.o_address_zip {
             width: 25%;
+        }
+        &.o_zip_city {
+            .o_address_zip {
+                width: 38%;
+            }
+            .o_address_city {
+                width: 60%;
+            }
+            .o_address_state {
+                width: 100%;
+            }
+        }
+        &.o_city_state {
+            .o_address_city {
+                width: 50%;
+            }
+            .o_address_state {
+                width: 48%;
+            }
+            .o_address_zip {
+                width: 100%;
+            }
         }
     }
 }

@@ -420,7 +420,9 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 }
                 break;
         }
-        self.onChangeCmpDateFilter(event, true);
+        if (this.$searchview_buttons.find("input[name='date_to_cmp']").length !== 0) {
+            self.onChangeCmpDateFilter(event, true);
+        }
     },
 });
 
