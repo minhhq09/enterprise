@@ -139,9 +139,32 @@ class RevenueKPIsDashboard(http.Controller):
                 }
                 for key, stat in FORECAST_STAT_TYPES.iteritems()
             },
-            'currency_symbol': request.env.user.company_id.currency_id.symbol,
             'currency_id': request.env.user.company_id.currency_id.id,
+            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template'), ('state', '=', 'open')], fields=['name']),
+            'companies': request.env['res.company'].search_read([], fields=['name']),
             'show_demo': request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)]) == 0,
+        }
+
+    @http.route('/account_contract_dashboard/companies_check', type='json', auth='user')
+    def companies_check(self, company_ids):
+        company_ids = request.env['res.company'].browse(company_ids)
+        currency_ids = company_ids.mapped('currency_id')
+
+        if len(currency_ids) == 1:
+            return {
+                'result': True,
+                'currency_id': currency_ids.id,
+            }
+        elif len(company_ids) == 0:
+            message = _('No company selected.')
+        elif len(currency_ids) >= 1:
+            message = _('It makes no sense to sum MRR of different currencies. Please select companies with the same currency.')
+        else:
+            message = _('Unknown error')
+
+        return {
+            'result': False,
+            'error_message': message,
         }
 
     @http.route('/account_contract_dashboard/get_default_values_forecast', type='json', auth='user')
@@ -226,30 +249,6 @@ class RevenueKPIsDashboard(http.Controller):
 
         return results
 
-    @http.route('/account_contract_dashboard/compute_graph_stat', type='json', auth='user')
-    def compute_graph_stat(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None, points_limit=30):
-
-        start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
-        end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
-        delta = end_date - start_date
-
-        ticks = self._get_pruned_tick_values(range(delta.days + 1), points_limit)
-
-        results = []
-
-        for i in ticks:
-            # METHOD NON-OPTIMIZED (could optimize it using SQL with generate_series)
-            date = start_date + timedelta(days=i)
-            value = self.compute_stat(stat_type, date, date, contract_ids=contract_ids, company_ids=company_ids)
-
-            # '0' and '1' are the keys for nvd3 to render the graph
-            results.append({
-                '0': str(date).split(' ')[0],
-                '1': value,
-            })
-
-        return results
-
     @http.route('/account_contract_dashboard/compute_graph_mrr_growth', type='json', auth='user')
     def compute_graph_mrr_growth(self, start_date, end_date, contract_ids=None, company_ids=None, points_limit=0):
 
@@ -278,8 +277,43 @@ class RevenueKPIsDashboard(http.Controller):
 
         return results
 
-    @http.route('/account_contract_dashboard/compute_stat_trend', type='json', auth='user')
-    def compute_stat_trend(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
+    @http.route('/account_contract_dashboard/compute_graph_and_stats', type='json', auth='user')
+    def compute_graph_and_stats(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None, points_limit=30):
+        """ Returns both the graph and the stats"""
+
+        # This avoids to make 2 RPCs instead of one
+        graph = self.compute_graph(stat_type, start_date, end_date, contract_ids=contract_ids, company_ids=company_ids, points_limit=points_limit)
+        stats = self._compute_stat_trend(stat_type, start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+
+        return {
+            'graph': graph,
+            'stats': stats,
+        }
+
+    @http.route('/account_contract_dashboard/compute_graph', type='json', auth='user')
+    def compute_graph(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None, points_limit=30):
+
+        start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
+        end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)
+        delta = end_date - start_date
+
+        ticks = self._get_pruned_tick_values(range(delta.days + 1), points_limit)
+
+        results = []
+        for i in ticks:
+            # METHOD NON-OPTIMIZED (could optimize it using SQL with generate_series)
+            date = start_date + timedelta(days=i)
+            value = self.compute_stat(stat_type, date, date, contract_ids=contract_ids, company_ids=company_ids)
+
+            # '0' and '1' are the keys for nvd3 to render the graph
+            results.append({
+                '0': str(date).split(' ')[0],
+                '1': value,
+            })
+
+        return results
+
+    def _compute_stat_trend(self, stat_type, start_date, end_date, contract_ids=None, company_ids=None):
 
         start_date = datetime.strptime(start_date, DEFAULT_SERVER_DATE_FORMAT)
         end_date = datetime.strptime(end_date, DEFAULT_SERVER_DATE_FORMAT)

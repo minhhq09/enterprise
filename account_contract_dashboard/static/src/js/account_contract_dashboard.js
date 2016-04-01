@@ -5,8 +5,8 @@ var ajax = require('web.ajax');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var core = require('web.core');
 var datepicker = require('web.datepicker');
+var Dialog = require('web.Dialog');
 var formats = require('web.formats');
-var Model = require('web.Model');
 var session = require('web.session');
 var utils = require('web.utils');
 var web_client = require('web.web_client');
@@ -60,10 +60,31 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         this.start_date = this.start_picker.get_value() || '0001-02-01';
         this.end_date = this.end_picker.get_value()  || '9999-12-31';
         this.contract_ids = this.get_filtered_contract_ids();
-        this.company_ids = this.get_filtered_company_ids();
+        
+        var company_ids = this.get_filtered_company_ids();
 
-        this.$el.empty();
-        this.render_dashboard();
+        if (!company_ids || !company_ids.length) {
+            Dialog.alert(this, _t('Select at least one company.'), {
+                title: _t('Warning'),
+            });
+            return;
+        }
+
+        var self = this;
+        return ajax.jsonRpc('/account_contract_dashboard/companies_check', 'call', {
+            'company_ids': company_ids,
+        }).done(function (response) {
+            if (response.result === true) {
+                self.currency_id = response.currency_id;
+                self.company_ids = company_ids;
+                self.$el.empty();
+                self.render_dashboard();
+            } else {
+                Dialog.alert(self, response.error_message, {
+                    title: _t('Warning'),
+                });
+            }
+        });
     },
 
     get_filtered_contract_ids: function() {
@@ -72,8 +93,12 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     },
 
     get_filtered_company_ids: function() {
-        var $company_inputs = this.$searchview_buttons.find(".selected > .o_companies_filter");
-        return _.map($company_inputs, function(el) { return $(el).data('id'); });
+        if (this.companies && this.companies.length === 1) {
+            return [this.companies[0].id];
+        } else {
+            var $company_inputs = this.$searchview_buttons.find(".selected > .o_companies_filter");
+            return _.map($company_inputs, function(el) { return $(el).data('id'); });
+        }
     },
 
     update_cp: function() {
@@ -98,7 +123,6 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
             this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter', function(e) {
                                         e.preventDefault();
                                         $(e.target).parent().toggleClass('selected');
-                                        self.on_update_options();
                                     });
             _.each(this.contract_ids, function(id) {
                 self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
@@ -178,11 +202,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
     willStart: function() {
         var self = this;
         return this._super().then(function() {
-            return $.when(
-                self.fetch_data(),
-                self.fetch_contract_templates(),
-                self.fetch_companies()
-            );
+            return $.when(self.fetch_data());
         });
     },
 
@@ -216,22 +236,6 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         }
     },
 
-    fetch_contract_templates: function() {
-        var self = this;
-        return new Model('sale.subscription').query(['name']).filter([['type', '=', 'template'], ['state', '=', 'open']]).all()
-            .done(function(result){
-                self.contract_templates = result;
-            });
-    },
-
-    fetch_companies: function() {
-        var self = this;
-        return new Model('res.company').query(['name']).all()
-            .done(function(result){
-                self.companies = result;
-            });
-    },
-
     fetch_data: function() {
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/fetch_data', 'call', {
@@ -239,6 +243,8 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             self.stat_types = result.stat_types;
             self.forecast_stat_types = result.forecast_stat_types;
             self.currency_id = result.currency_id;
+            self.contract_templates = result.contract_templates;
+            self.companies = result.companies;
             self.show_demo = result.show_demo;
         });
     },
@@ -476,7 +482,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         addLoader(this.$('#stat_chart_div'));
 
         var self = this;
-        ajax.jsonRpc('/account_contract_dashboard/compute_graph_stat', 'call', {
+        ajax.jsonRpc('/account_contract_dashboard/compute_graph', 'call', {
             'stat_type': this.selected_stat,
             'start_date': this.start_date,
             'end_date': this.end_date,
@@ -802,10 +808,7 @@ var AccountContractDashboardStatBox = Widget.extend({
     willStart: function() {
         var self = this;
         return this._super().then(function() {
-            return $.when(
-                self.compute_graph(),
-                self.compute_numbers()
-            );
+            return $.when(self.compute_graph());
         });
     },
 
@@ -818,7 +821,7 @@ var AccountContractDashboardStatBox = Widget.extend({
 
     compute_graph: function() {
         var self = this;
-        return ajax.jsonRpc('/account_contract_dashboard/compute_graph_stat', 'call', {
+        return ajax.jsonRpc('/account_contract_dashboard/compute_graph_and_stats', 'call', {
             'stat_type': this.stat_type,
             'start_date' : this.start_date,
             'end_date': this.end_date,
@@ -826,22 +829,10 @@ var AccountContractDashboardStatBox = Widget.extend({
             'contract_ids': this.contract_ids,
             'company_ids': this.company_ids,
         }).done(function(result){
-            self.computed_graph = result;
-        });
-    },
-
-    compute_numbers: function() {
-        var self = this;
-        return ajax.jsonRpc('/account_contract_dashboard/compute_stat_trend', 'call', {
-            'stat_type': this.stat_type,
-            'start_date': this.start_date,
-            'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
-        }).done(function(result){
-            self.value = result.value_2;
-            self.perc = result.perc;
-            self.color = get_color_class(result.perc, self.stat_types[self.stat_type].dir);
+            self.value = result.stats.value_2;
+            self.perc = result.stats.perc;
+            self.color = get_color_class(result.stats.perc, self.stat_types[self.stat_type].dir);
+            self.computed_graph = result.graph;
         });
     },
 
@@ -1200,7 +1191,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         web_client.do_push_state({action: this.action_id});
     },
 
-    on_update_options: function(ev) {
+    on_update_options: function() {
         this.date_start = this.$searchview.find('input[name="date_start"]').val();
         this.cohort_period = this.$searchview.find('option[name="period"]:selected').val();
         this.cohort_interest = this.$searchview.find('option[name="interest"]:selected').val();
@@ -1310,7 +1301,6 @@ function getPrunedTickValues(ticks, nb_desired_ticks) {
 
 function compute_forecast_values(starting_value, projection_time, growth_type, churn, linear_growth, expon_growth) {
     var values = [];
-    var now = moment();
     var cur_value = starting_value;
 
     for(var i = 1; i <= projection_time ; i++) {
