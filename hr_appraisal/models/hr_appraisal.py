@@ -37,7 +37,7 @@ class HrAppraisal(models.Model):
     colleagues_appraisal = fields.Boolean(string='Colleagues', help="This employee will be appraised by his colleagues")
     colleagues_ids = fields.Many2many('hr.employee', 'appraisal_colleagues_rel', 'hr_appraisal_id')
     colleagues_survey_id = fields.Many2one('survey.survey', string="Colleague's Appraisal")
-    employee_appraisal = fields.Boolean(string='Employee', help="This employee will do a self-appraisal")
+    employee_appraisal = fields.Boolean(help="This employee will do a self-appraisal")
     employee_survey_id = fields.Many2one('survey.survey', string='Self Appraisal')
     survey_sent_ids = fields.One2many('survey.user_input', 'appraisal_id', string='Sent Forms')
     count_sent_survey = fields.Integer(string="Number of Sent Forms", compute='_compute_sent_survey')

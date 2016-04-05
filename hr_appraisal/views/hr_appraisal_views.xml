@@ -54,7 +54,7 @@
                             <field name="manager_ids" nolabel="1" placeholder="Select Appraisal Reviewer..." widget="many2many_tags" attrs="{'invisible':[('manager_appraisal','=',False)], 'readonly':[('state', '!=', 'new')]}" readonly="0"/>
                             <field name="manager_survey_id" nolabel="1" placeholder="Appraisal Form..." attrs="{'invisible':[('manager_appraisal','=',False)], 'readonly':[('state', '!=', 'new')]}"/>
 
-                            <field name="employee_appraisal" attrs="{'readonly':[('state', '!=', 'new')]}"/>
+                            <field name="employee_appraisal" string="Employee" attrs="{'readonly':[('state', '!=', 'new')]}"/>
                             <separator/>
                             <field name="employee_survey_id" nolabel="1" placeholder="Appraisal Form..." attrs="{'invisible':[('employee_appraisal','=',False)], 'readonly':[('state', '!=', 'new')]}"/>
 
@@ -224,7 +224,7 @@
                         <field name="appraisal_date" attrs="{'invisible':[('periodic_appraisal','=',False)], 'required':[('periodic_appraisal','=',True)]}"/>
                     </group>
                     <group>
-                        <label for="appraisal_frequency"/>
+                        <label for="appraisal_frequency" string="Repeat Every"/>
                         <div class="o_row">
                             <field name="appraisal_frequency" attrs="{'invisible':[('periodic_appraisal','=',False)], 'required':[('periodic_appraisal','=',True)]}" class="oe_inline"/>
                             <field name="appraisal_frequency_unit" attrs="{'invisible':[('periodic_appraisal','=',False)], 'required':[('periodic_appraisal','=',True)]}" class="oe_inline"/>

@@ -33,7 +33,7 @@ class SignatureRequest(models.Model):
         ("canceled", "Canceled")
     ], default='draft', track_visibility='onchange')
 
-    follower_ids = fields.Many2many('res.partner', string="Followers")
+    follower_ids = fields.Many2many('res.partner', string="Document Followers")
 
     completed_document = fields.Binary(readonly=True, string="Completed Document")
 

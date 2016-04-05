@@ -33,6 +33,6 @@ class Users(models.Model):
     # and sales team is a one2many / many2one relationship we take the first of
     # the team.user record to find the user sales team.
     sale_team_id = fields.Many2one(
-        'crm.team', 'Sales Team',
+        'crm.team', 'User Sales Team',
         related='team_user_ids.team_id',
         store=True)

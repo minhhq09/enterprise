@@ -26,8 +26,8 @@ class HrEmployee(models.Model):
     appraisal_collaborators_survey_id = fields.Many2one('survey.survey', string="collaborate's Appraisal")
     periodic_appraisal = fields.Boolean(string='Periodic Appraisal', default=False)
     periodic_appraisal_created = fields.Boolean(string='Periodic Appraisal has been created', default=False)  # Flag for the cron
-    appraisal_frequency = fields.Integer(string='Repeat Every', default=1)
-    appraisal_frequency_unit = fields.Selection([('year', 'Year'), ('month', 'Month')], string='Repeat Every', copy=False, default='year')
+    appraisal_frequency = fields.Integer(string='Appraisal Repeat Every', default=1)
+    appraisal_frequency_unit = fields.Selection([('year', 'Year'), ('month', 'Month')], string='Appraisal Frequency', copy=False, default='year')
     appraisal_count = fields.Integer(compute='_compute_appraisal_count', string='Appraisals')
     related_partner_id = fields.Many2one('res.partner', compute='_compute_related_partner')
 
