@@ -76,14 +76,32 @@ class TestScoring(common.TransactionCase):
             'team_id': False,
             'stage_id': self.stage,
         })
+        self.lead3 = self.crm_lead.create(cr, uid, {
+            'name': 'lead3 to archive',
+            'email_from': 'lead3@test.com',
+            'user_id': None,
+            'team_id': False,
+            'stage_id': self.stage,
+        })
+        self.lead4 = self.crm_lead.create(cr, uid, {
+            'name': 'lead4 to delete',
+            'email_from': 'lead4@test.com',
+            'user_id': None,
+            'team_id': False,
+            'stage_id': self.stage,
+        })
 
         # PageView
         self.pageview0 = self.pageview.create(cr, uid, {
             'lead_id': self.lead0,
             'url': 'url0',
         })
-        self.pageview0 = self.pageview.create(cr, uid, {
+        self.pageview1 = self.pageview.create(cr, uid, {
             'lead_id': self.lead1,
+            'url': 'url1',
+        })
+        self.pageview2 = self.pageview.create(cr, uid, {
+            'lead_id': self.lead3,
             'url': 'url1',
         })
 
@@ -139,11 +157,25 @@ class TestScoring(common.TransactionCase):
             'name': 'score0',
             'value': 1000,
             'domain': "[('score_pageview_ids.url', '=', 'url0')]",
+            'rule_type': 'score',
         })
         self.score1 = self.website_crm_score.create(cr, uid, {
             'name': 'score1',
             'value': 900,
             'domain': "[('score_pageview_ids.url', '=', 'url1')]",
+            'rule_type': 'score',
+        })
+        self.score2 = self.website_crm_score.create(cr, uid, {
+            'name': 'score2',
+            'value': 0,
+            'domain': "[('name', '=like', '% to archive')]",
+            'rule_type': 'active',
+        })
+        self.score4 = self.website_crm_score.create(cr, uid, {
+            'name': 'score3',
+            'value': 0,
+            'domain': "[('name', '=like', '% to delete')]",
+            'rule_type': 'unlink',
         })
 
     def tearDown(self):

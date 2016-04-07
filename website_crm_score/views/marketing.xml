@@ -11,9 +11,10 @@
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
-            <field eval="False" name="doall" />
-            <field eval="'crm.team'" name="model" />
-            <field eval="'direct_assign_leads'" name="function" />
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'crm.team'"/>
+            <field name="function" eval="'direct_assign_leads'"/>
+            <field name="args">()</field>
         </record>
 
         <!-- Scheduler for Lead Scoring -->
@@ -24,9 +25,10 @@
             <field name="interval_number">1</field>
             <field name="interval_type">hours</field>
             <field name="numbercall">-1</field>
-            <field eval="False" name="doall" />
-            <field eval="'website.crm.score'" name="model" />
-            <field eval="'assign_scores_to_leads'" name="function" />
+            <field name="doall" eval="False" />
+            <field name="model" eval="'website.crm.score'" />
+            <field name="function" eval="'assign_scores_to_leads'"/>
+            <field name="args">()</field>
         </record>
     </data>
     <data>
@@ -75,11 +77,12 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="name"/>
+                                <field name="name" placeholder="Name"/>
                             </h1>
                         </div>
                         <group>
-                            <field name="value"/>
+                            <field name="rule_type"/>
+                            <field name="value" attrs="{'invisible':[('rule_type','!=','score')]}"/>
                             <field name="domain"/>
                             <field name="event_based"/>
                             <field name="running"/>
@@ -96,6 +99,7 @@
             <field name="arch" type="xml">
                 <tree string="Scores">
                     <field name="name"/>
+                    <field name="rule_type"/>
                     <field name="value"/>
                     <field name="leads_count"/>
                     <field name="domain"/>
