@@ -7,13 +7,11 @@ from mock import Mock
 class TestScoring(common.TransactionCase):
 
     def setUp(self):
-
-
         super(TestScoring, self).setUp()
         cr, uid = self.cr, self.uid
 
         cr.commit = Mock(return_value=None)
-        
+
         # empty tables before testing to only use test records
         cr.execute("""
                 UPDATE res_partner SET team_id=NULL;
@@ -36,7 +34,6 @@ class TestScoring(common.TransactionCase):
 
         # Usefull models
         self.crm_lead = self.registry('crm.lead')
-        self.crm_leads_dry_run = self.registry('crm.leads.dry.run')
         self.pageview = self.registry('website.crm.pageview')
         self.website_crm_score = self.registry('website.crm.score')
         self.team = self.registry('crm.team')

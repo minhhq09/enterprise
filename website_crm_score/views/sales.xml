@@ -219,21 +219,5 @@
             </field>
         </record>
 
-        <record id="action_lead_dry_run" model="ir.actions.server">
-            <field name="name">Lead Dry Run</field>
-            <field name="model_id" ref="model_team_user"/>
-            <field name="state">code</field>
-            <field name="code">
-                self.pool['crm.leads.dry.run'].assign_leads(cr, uid, None, context=context)
-            </field>
-        </record>
-
-        <record id="ir_lead_dry_run" model="ir.values">
-            <field eval="'client_action_multi'" name="key2"/>
-            <field eval="'team.user'" name="model"/>
-            <field name="name">Launch Lead Dry Run</field>
-            <field eval="'ir.actions.server,%d'%action_lead_dry_run" name="value"/>
-        </record>
-
     </data>
 </openerp>
