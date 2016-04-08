@@ -48,11 +48,11 @@ class ProjectForecast(models.Model):
         group = self.env.context["group_by"] if "group_by" in self.env.context else ""
 
         name = []
-        if (group != "user_id"):
+        if ("user_id" not in group):
             name.append(self.user_id.name)
-        if (group != "project_id" and self.project_id):
+        if ("project_id" not in group and self.project_id):
             name.append(self.project_id.name)
-        if (group != "task_id" and self.task_id):
+        if ("task_id" not in group and self.task_id):
             name.append(self.task_id.name)
         self.name = " - ".join(name)
         if (self.name == ""):
