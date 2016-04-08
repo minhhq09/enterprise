@@ -18,7 +18,7 @@ class ProjectForecast(models.Model):
         return today + duration
 
     name = fields.Char(compute='_compute_name')
-
+    active = fields.Boolean(default=True)
     user_id = fields.Many2one('res.users', string="User", required=True,
                               default=default_user_id)
     project_id = fields.Many2one('project.project', string="Project")
@@ -176,6 +176,12 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     allow_forecast = fields.Boolean("Allow forecast", default=False, help="This feature shows the Forecast link in the kanban view")
+
+    @api.multi
+    def write(self, vals):
+        if 'active' in vals:
+            self.env['project.forecast'].with_context(active_test=False).search([('project_id', 'in', self.ids)]).write({'active': vals['active']})
+        return super(Project, self).write(vals)
 
     @api.multi
     def create_forecast(self):

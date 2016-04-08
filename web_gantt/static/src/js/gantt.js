@@ -56,7 +56,7 @@ var GanttView = View.extend({
         var fields = _.compact(_.map(fields_to_gather, function(key) {
             return self.fields_view.arch.attrs[key] || '';
         }));
-        fields.push("name", "color");
+        fields.push("name", "color", "active");
         // consolidation exclude, get the related fields
         if (this.fields_view.arch.attrs.consolidation_exclude) {
             fields = fields.concat(this.fields_view.arch.attrs.consolidation_exclude);
@@ -532,6 +532,7 @@ var GanttView = View.extend({
                 gantt_tasks.push({
                     'id': "gantt_task_" + task.id,
                     'text': task.name,
+                    'active': task.active,
                     'start_date': task.task_start,
                     'duration': gantt.calculateDuration(task.task_start, task.task_stop),
                     'progress': task.percent / 100,
@@ -879,6 +880,14 @@ var GanttView = View.extend({
                         self.reload();
                     });
                 }},
+
+                {text: task.active ? _lt("Archive") : _lt("Unarchive"), classes: _.isUndefined(task.active)  ? 'hidden' : 'btn-default', close: true, click: function () {
+                    self.dataset.write(task_id, {active: !task.active})
+                        .then(function () {
+                            self.reload();
+                        });
+                }},
+
                 {text: _lt("Delete"), classes: 'btn-default', close: true, click: function () {
                     $.when(self.dataset.unlink([task_id])).then(function () {
                         $.when(self.dataset.remove_ids([task_id])).then(function () {

@@ -26,7 +26,7 @@
     ],
     # only loaded in demonstration mode
     'demo': [
-        'data/project_forecast_data.xml',
+        'demo/project_forecast_demo.xml',
     ],
     'application': True,
     'license': 'OEEL-1',
