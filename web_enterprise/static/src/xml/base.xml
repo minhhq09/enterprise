@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<div t-name="AppSwitcher" class="o_application_switcher">
+    <div class="o_apps">
+        <t t-foreach="widget.menu_data" t-as="primary_menu">
+          <t t-set="action_id" t-value="primary_menu.action ? primary_menu.action.split(',')[1] : ''"/>
+          <a
+            t-att-class="'o_app' + ((primary_menu.href)? '' : ' o_action_app')"
+            t-att-data-menu="primary_menu.id"
+            t-att-data-action-model="primary_menu.action ? primary_menu.action.split(',')[0] : ''"
+            t-att-data-action-id="action_id"
+            t-att-href="primary_menu.href ? primary_menu.href : ('#menu_id='+primary_menu.id+'&amp;action_id='+action_id)">
+            <img class="o_app_icon"
+                 t-att-src="(primary_menu.web_icon_data)? ('data:image/png;base64,' + primary_menu.web_icon_data) : '/web_enterprise/static/src/img/default_icon_app.png'"/>
+            <div class="o_caption"><t t-esc="primary_menu.name"/></div>
+          </a>
+        </t>
+    </div>
+    <div class="o_application_switcher_footer">
+        <img src="/web_enterprise/static/src/img/odoo.png" alt="Odoo"/>
+    </div>
+</div>
+
+<nav t-name="Menu" class="o_main_navbar">
+    <button type="button" class="fa o_menu_toggle"/>
+    <button type="button" class="fa fa-bars pull-right visible-xs-block o_mobile_menu_toggle"/>
+
+    <div class="o_menu_brand"/>
+    <ul class="o_menu_sections"/>
+    <ul class="o_menu_systray"/>
+</nav>
+
+<t t-name="Menu.link">
+    <t t-if="!depth"><t t-set="depth" t-value="1"/></t>
+    <t t-if="depth"><t t-set="depth" t-value="depth + 1"/></t>
+
+    <li t-if="!menu.children.length">
+        <a t-attf-href="#menu_id=#{menu.id}&amp;action=#{menu.action ? menu.action.split(',')[1] : ''}"
+            t-att-data-menu="menu.id"
+            t-att-data-action-model="menu.action ? menu.action.split(',')[0] : ''"
+            t-att-data-action-id="menu.action ? menu.action.split(',')[1] : ''"
+            t-att-class="'o_menu_entry_lvl_' + depth"
+            data-toggle="collapse" data-target="#o_navbar_collapse.in">
+            <span><t t-esc="menu.name"/></span>
+        </a>
+    </li>
+
+    <li t-if="menu.children.length" role="presentation" t-att-class="'dropdown-header o_menu_header_lvl_' + depth">
+        <span><t t-esc="menu.name"/></span>
+        <t t-foreach="menu.children" t-as="menu">
+            <t t-call="Menu.link"/>
+        </t>
+    </li>
+</t>
+
+<!-- separate first level dropdown from the others to avoid nested dropdown -->
+<t t-name="Menu.sections">
+    <t t-foreach="menu_data.children" t-as="first_level_menu">
+        <section t-att-class="first_level_menu.id">
+            <t t-if="first_level_menu.children.length">
+                <t t-foreach="first_level_menu.children" t-as="second_level_menu">
+                    <t t-if="!second_level_menu.children.length">
+                        <t t-set="menu" t-value="second_level_menu"/>
+                        <t t-call="Menu.link"/>
+                    </t>
+                    <t t-if="second_level_menu.children.length">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <t t-esc="second_level_menu.name"/>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <t t-foreach="second_level_menu.children" t-as="third_level_menu">
+                                    <t t-set="menu" t-value="third_level_menu"/>
+                                    <t t-call="Menu.link"/>
+                                </t>
+                            </ul>
+                        </li>
+                    </t>
+                </t>
+            </t>
+        </section>
+    </t>
+</t>
+
+<div t-name="FormRenderingStatusBar" class="o_form_statusbar">
+    <div class="o_statusbar_buttons"/>
+</div>
+
+</templates>
