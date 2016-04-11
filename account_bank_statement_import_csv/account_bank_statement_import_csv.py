@@ -74,8 +74,10 @@ class AccountBankStmtImportCSV(models.TransientModel):
     def _parse_import_data(self, cr, uid, data, import_fields, record, options, context=None):
         data = super(AccountBankStmtImportCSV, self)._parse_import_data(cr, uid, data, import_fields, record, options, context)
         statement_id = context.get('bank_statement_id', False)
+        ret_data = []
         if statement_id:
             import_fields.append('statement_id/.id')
+            import_fields.append('sequence')
             index_balance = False
             convert_to_amount = False
             if 'debit' in import_fields and 'credit' in import_fields:
@@ -100,8 +102,9 @@ class AccountBankStmtImportCSV(models.TransientModel):
                 import_fields.remove('debit')
                 import_fields.remove('credit')
                 
-            for line in data:
+            for index, line in enumerate(data):
                 line.append(statement_id)
+                line.append(index)
                 remove_index = []
                 if convert_to_amount:
                     line.append(self._convert_to_float(line[index_debit])-self._convert_to_float(line[index_credit]))
@@ -111,10 +114,11 @@ class AccountBankStmtImportCSV(models.TransientModel):
                 # Remove added field debit/credit/balance
                 for index in sorted(remove_index, reverse=True):
                     line.remove(line[index])
+                if line[import_fields.index('amount')]:
+                    ret_data.append(line)
             if 'date' in import_fields:
                 context['date'] = data[len(data)-1][import_fields.index('date')]
-
-        return data
+        return ret_data
 
     def parse_preview(self, cr, uid, id, options, count=10, context=None):
         if context is None:
