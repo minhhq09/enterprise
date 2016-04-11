@@ -91,10 +91,13 @@ class AccountBankStatementImport(models.TransientModel):
             statement_vals['balance_start'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='OPBD' or ns:Cd='PRCD' or ns:Cd='ITBD']/../../ns:Amt/text()",
                                                               namespaces=ns)[0]
             # Ending Balance
+            # Statement Date
             # any 'CLBD', 'CLAV'
-            #   CLBD : Closing Balalnce
+            #   CLBD : Closing Balance
             #   CLAV : Closing Available
             statement_vals['balance_end_real'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='CLBD' or ns:Cd='CLAV']/../../ns:Amt/text()",
+                                                              namespaces=ns)[0]
+            statement_vals['date'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='CLBD' or ns:Cd='CLAV']/../../ns:Dt/ns:Dt/text()",
                                                               namespaces=ns)[0]
             statement_list.append(statement_vals)
 
