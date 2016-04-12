@@ -1084,8 +1084,6 @@ var FieldBinary = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         this._super.apply(this, arguments);
     },
     initialize_content: function() {
-        this.filename = (this.node.attrs.filename)? this.view.datarecord[this.node.attrs.filename] : '';
-
         this.$inputFile = this.$('.o_form_input_file');
         this.$inputFile.change(this.on_file_change);
         var self = this;
@@ -1127,7 +1125,6 @@ var FieldBinary = common.AbstractField.extend(common.ReinitializeFieldMixin, {
             // TODO: use openerp web crashmanager
             console.warn("Error while uploading file : ", name);
         } else {
-            this.filename = name;
             this.on_file_uploaded_and_valid.apply(this, arguments);
         }
         this.$('.o_form_binary_progress').hide();
@@ -1166,7 +1163,6 @@ var FieldBinary = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         }
     },
     set_filename: function(value) {
-        this.filename = value;
         var filename = this.node.attrs.filename;
         if (filename) {
             var field = this.field_manager.fields[filename];
@@ -1205,19 +1201,20 @@ var FieldBinaryFile = FieldBinary.extend({
         }
     },
     render_value: function() {
+        var filename = this.view.datarecord[this.node.attrs.filename];
         if (this.get("effective_readonly")) {
             this.do_toggle(!!this.get('value'));
             if (this.get('value')) {
                 this.$el.empty().append($("<span/>").addClass('fa fa-download'));
-                if (this.filename) {
-                    this.$el.append(" " + this.filename);
+                if (filename) {
+                    this.$el.append(" " + filename);
                 }
             }
         } else {
             if(this.get('value')) {
                 this.$el.children().removeClass('o_hidden');
                 this.$('.o_select_file_button').first().addClass('o_hidden');
-                this.$input.val(this.filename || this.get('value'));
+                this.$input.val(filename || this.get('value'));
             } else {
                 this.$el.children().addClass('o_hidden');
                 this.$('.o_select_file_button').first().removeClass('o_hidden');

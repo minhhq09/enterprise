@@ -32,7 +32,7 @@ class AccountBankStatement(models.Model):
             amount_journal_currency = formatLang(self.env, batch_deposit.amount, currency_obj=journal_currency)
             amount_deposit_currency = False
             # If all the payments of the deposit are in another currency than the journal currency, we'll display amount in both currencies
-            if all(p.currency_id != journal_currency and p.currency_id == payments[0].currency_id for p in payments):
+            if payments and all(p.currency_id != journal_currency and p.currency_id == payments[0].currency_id for p in payments):
                 amount_deposit_currency = sum(p.amount for p in payments)
                 amount_deposit_currency = formatLang(self.env, amount_deposit_currency, currency_obj=payments[0].currency_id or company_currency)
 

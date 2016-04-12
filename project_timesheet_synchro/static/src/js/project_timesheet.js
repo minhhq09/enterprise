@@ -135,7 +135,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             // Interval for automatic synchronization every hour.
             this.auto_sync = setInterval(function(){
                 core.bus.trigger('sync');
-            } , 36000000);
+            } , 3600*1000);
 
             // backbutton handler for mobile
             $(document).on("backbutton", function(e) {
