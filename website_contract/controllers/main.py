@@ -12,22 +12,58 @@ from openerp.addons.website_quote.controllers.main import sale_quote
 
 
 class website_account(website_account):
-    @http.route(['/my/home'], type='http', auth="user", website=True)
+    @http.route()
     def account(self, **kw):
         """ Add contract details to main account page """
         response = super(website_account, self).account()
         partner = request.env.user.partner_id
         account_res = request.env['sale.subscription']
-        accounts = account_res.search([
+        contract_count = account_res.search_count([
             ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
             ('state', '!=', 'cancelled'),
         ])
-        response.qcontext.update({'accounts': accounts})
+        response.qcontext.update({'contract_count': contract_count})
 
         return response
 
+    @http.route(['/my/contract', '/my/contract/page/<int:page>'], type='http', auth="user", website=True)
+    def my_contract(self, page=1, date_begin=None, date_end=None, **kw):
+        values = self._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+        SaleSubscription = request.env['sale.subscription']
+
+        domain = [
+            ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
+            ('state', '!=', 'cancelled'),
+        ]
+
+        archive_groups = self._get_archive_groups('sale.subscription', domain)
+        if date_begin and date_end:
+            domain += [('create_date', '>=', date_begin), ('create_date', '<', date_end)]
+
+        # pager
+        account_count = SaleSubscription.search_count(domain)
+        pager = request.website.pager(
+            url="/my/contract",
+            url_args={'date_begin': date_begin, 'date_end': date_end},
+            total=account_count,
+            page=page,
+            step=self._items_per_page
+        )
+
+        accounts = SaleSubscription.search(domain, limit=self._items_per_page, offset=pager['offset'])
+        values.update({
+            'accounts': accounts,
+            'page_name': 'contract',
+            'pager': pager,
+            'archive_groups': archive_groups,
+            'default_url': '/my/contract',
+        })
+        return request.website.render("website_contract.portal_my_contracts", values)
+
 
 class website_contract(http.Controller):
+
     @http.route(['/my/contract/<int:account_id>/',
                  '/my/contract/<int:account_id>/<string:uuid>'], type='http', auth="public", website=True)
     def contract(self, account_id, uuid='', message='', message_class='', **kw):
