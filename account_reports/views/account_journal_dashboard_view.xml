@@ -33,11 +33,17 @@
             <xpath expr="//div[@name='latest_statement']" position="replace">
                 <div name="latest_statement" class="row">
                     <div class="col-xs-6">
-                        <a t-if="dashboard.account_balance != dashboard.last_balance" type="action" name="%(action_account_report_bank_reconciliation_with_journal)d" title="Latest Statement">Latest Statement:</a>
-                        <span t-if="dashboard.account_balance == dashboard.last_balance" title="Latest Statement">Latest Statement:</span>
+                        <span title="Latest Statement">Latest Statement</span>
                     </div>
                     <div class="col-xs-6 text-right">
                         <span><t t-esc="dashboard.last_balance"/></span>
+                    </div>
+                </div><div class="row" t-if="dashboard.difference">
+                    <div class="col-xs-6">
+                        <a type="action" name="%(action_account_report_bank_reconciliation_with_journal)d">Difference</a>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <span><t t-esc="dashboard.difference"/></span>
                     </div>
                 </div>
             </xpath>
