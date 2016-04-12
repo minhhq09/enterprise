@@ -279,6 +279,9 @@ class SaleSubscription(models.Model):
                             if payment_method:
                                 invoice_values = contract._prepare_invoice()
                                 new_invoice = self.env['account.invoice'].create(invoice_values)
+                                new_invoice.message_post_with_view('mail.message_origin_link',
+                                    values = {'self': new_invoice, 'origin': contract},
+                                    subtype_id = self.env.ref('mail.mt_note').id)
                                 new_invoice.compute_taxes()
                                 tx = contract._do_payment(payment_method, new_invoice, two_steps_sec=False)[0]
                                 # commit change as soon as we try the payment so we have a trace somewhere
@@ -339,6 +342,9 @@ class SaleSubscription(models.Model):
                         try:
                             invoice_values = contract._prepare_invoice()
                             new_invoice = self.env['account.invoice'].create(invoice_values)
+                            new_invoice.message_post_with_view('mail.message_origin_link',
+                                values = {'self': new_invoice, 'origin': contract},
+                                subtype_id = self.env.ref('mail.mt_note').id)
                             new_invoice.compute_taxes()
                             invoice_ids.append(new_invoice.id)
                             next_date = datetime.datetime.strptime(contract.recurring_next_date or current_date, "%Y-%m-%d")

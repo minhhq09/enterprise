@@ -239,6 +239,9 @@ class SaleSubscription(models.Model):
             for sub in subs:
                 try:
                     invoices.append(AccountInvoice.create(sub._prepare_invoice()))
+                    invoices[-1].message_post_with_view('mail.message_origin_link',
+                     values={'self': invoices[-1], 'origin': sub},
+                     subtype_id=self.env.ref('mail.mt_note'))
                     invoices[-1].compute_taxes()
                     next_date = fields.Date.from_string(sub.recurring_next_date or current_date)
                     rule, interval = sub.recurring_rule_type, sub.recurring_interval
