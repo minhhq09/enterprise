@@ -14,7 +14,9 @@ var utils = require('web.utils');
 var session = require('web.session');
 var pyeval = require('web.pyeval');
 
-var QWeb = core.qweb;
+var patch = require('snabbdom.patch');
+var h = require('snabbdom.h');
+
 var _t = core._t;
 var _lt = core._lt;
 
@@ -55,11 +57,97 @@ var fields = { };
 var GridView = View.extend({
     icon: 'fa-th-list',
     view_type: 'grid',
+    add_label: _lt("Add a Line"),
+    events: {
+        "click .o_grid_button_add": function(event) {
+            var _this = this;
+            event.preventDefault();
+
+            var ctx = pyeval.eval('context', _this._model.context());
+            var form_context = _this.get_full_context();
+            var formDescription = _this.ViewManager.views.form;
+            var p = new form_common.FormViewDialog(this, {
+                res_model: _this._model.name,
+                res_id: false,
+                // TODO: document quick_create_view (?) context key
+                view_id: ctx['quick_create_view'] || (formDescription && formDescription.view_id) || false,
+                context: form_context,
+                title: _this.add_label,
+                disable_multiple_selection: true,
+            }).open();
+            p.on('create_completed', this, function () {
+                _this._fetch();
+            });
+        },
+        'keydown .o_grid_input': function (e) {
+            // suppress [return]
+            switch (e.which) {
+            case $.ui.keyCode.ENTER:
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+            }
+        },
+        'blur .o_grid_input': function (e) {
+            var $target = $(e.target);
+
+            var row_index = $target.parent().data('row');
+            var col_index = $target.parent().data('column');
+            var data = this.get('grid_data');
+            var cell = data.grid[row_index][col_index];
+
+            try {
+                var val = this._cell_field.parse(e.target.textContent.trim());
+                $target.removeClass('has-error');
+            } catch (_) {
+                $target.addClass('has-error');
+                return;
+            }
+
+            this.adjust({
+                row: data.rows[row_index],
+                col: data.cols[col_index],
+                //ids: cell.ids,
+                value: cell.value
+            }, val)
+        },
+        'focus .o_grid_input': function (e) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(e.target);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        },
+        'click .o_grid_cell_information': function (e) {
+            var $target = $(e.target);
+            var grid = this.get('grid_data').grid;
+            var cell = grid[$target.parent().data('row')]
+                           [$target.parent().data('column')];
+
+            var anchor, col = this._col_field.name();
+            var additional_context = {};
+            if (anchor = this.get('anchor')) {
+                additional_context['default_' + col] = anchor;
+            }
+
+            var views = this.ViewManager.views;
+            this.do_action({
+                type: 'ir.actions.act_window',
+                name: _t("Grid Cell Details"),
+                res_model: this._model.name,
+                views: [
+                    [views.list ? views.list.view_id : false, 'list'],
+                    [views.form ? views.form.view_id : false, 'form']
+                ],
+                domain: cell.domain,
+                context: this._model.context(additional_context),
+            });
+        }
+    },
     init: function (parent, dataset) {
         this._super.apply(this, arguments);
 
         this._model = dataset._model;
-        this._view = null;
 
         this._col_field = null;
         this._cell_field = null;
@@ -67,16 +155,7 @@ var GridView = View.extend({
         this._in_waiting = null;
         this._fetch_mutex = new utils.Mutex();
 
-        this.on('change:grid_data', this, function (_, change) {
-            var v = change.newValue;
-            if (!this._view) { return; }
-            this._view.set({
-                sheets: v.grid,
-                rows: v.rows,
-                columns: v.cols,
-                row_fields: this.get('groupby'),
-            });
-        });
+        this.on('change:grid_data', this, this._render);
         this.on('change:range', this, this._fetch);
         this.on('change:pagination_context', this, this._fetch);
     },
@@ -84,7 +163,153 @@ var GridView = View.extend({
         this._col_field = this._fields_of_type('col')[0];
         this._cell_field = this._fields_of_type('measure')[0];
 
-        return this._setup_grid();
+        // this is the vroot, the first patch call will replace the DOM node
+        // itself instead of patching it in-place, so we're losing delegated
+        // events if the state is the root node
+        this._state = document.createElement('div');
+        this.el.appendChild(this._state);
+
+        this._render();
+        return $.when();
+    },
+    _render: function () {
+        var _this = this;
+        var grid_data = this.get('grid_data') || {};
+        var columns = grid_data.cols || [];
+        var rows = grid_data.rows || [];
+        var grid = grid_data.grid || [];
+        var col_field = this._col_field.name();
+        var group_fields = this.get('groupby');
+
+        var super_total = 0;
+        var row_totals = {};
+        var column_totals = {};
+        for (var i = 0; i < grid.length; i++) {
+            var row = grid[i];
+            for (var j = 0; j < row.length; j++) {
+                var cell = row[j];
+
+                super_total += cell.value;
+                row_totals[i] = (row_totals[i] || 0) + cell.value;
+                column_totals[j] = (column_totals[j] || 0) + cell.value;
+            }
+        }
+
+        var vnode = h('div.o_view_grid', [
+            h('table.table.table-condensed.table-responsive.table-striped', [
+                h('thead', [
+                    h('tr', [
+                        h('th.o_grid_title_header'),
+                        h('th.o_grid_title_header'),
+                    ].concat(
+                        columns.map(function (column) {
+                            return h('th', {class: {o_grid_current: column.is_current}},
+                                column.values[col_field][1]
+                            );
+                        }),
+                        [h('th.o_grid_total', _t("Total"))]
+                    ))
+                ]),
+                h('tfoot', [
+                    h('tr', [
+                        h('td.o_grid_add_line', _this.is_action_enabled('create') && [
+                            h('button.btn.btn-sm.btn-primary.o_grid_button_add', {
+                                attrs: {type: 'button'}
+                            }, _this.add_label.toString())
+                        ]),
+                        h('td.o_grid_total', _t("Total"))
+                    ].concat(
+                        columns.map(function (column, column_index) {
+                            return h('td', {class: {
+                                o_grid_total: true,
+                                o_grid_current: column.is_current,
+                            }}, _this._cell_field.format(
+                                column_totals[column_index]
+                            ))
+                        }),
+                        [h('td.o_grid_total', _this._cell_field.format(
+                            super_total
+                        ))]
+                    ))
+                ]),
+                h('tbody', grid.map(function (row, row_index) {
+                    var row_values = [];
+                    for (var i = 0; i < group_fields.length; i++) {
+                        var row_field = group_fields[i];
+                        var value = rows[row_index].values[row_field];
+                        if (value) {
+                            row_values.push(value);
+                        }
+                    }
+                    var row_key = row_values.map(function (v) {
+                        return v[0]
+                    }).join('|');
+                    return h('tr', {key: row_key}, [
+                        h('th', {attrs: {colspan: 2}}, [
+                            h('div', row_values.map(function (v) {
+                                return h('div', {attrs: {title: v[1]}}, v[1]);
+                            }))
+                        ]),
+                    ].concat(
+                        row.map(function (cell, cell_index) {
+                            var cell_value = _this._cell_field.format(cell.value);
+                            return h('td', {class: {o_grid_current: cell.is_current}}, [
+                                h('div', {
+                                    class: {
+                                        o_grid_cell_container: true,
+                                        o_grid_cell_empty: !cell.size
+                                    },
+                                    attrs: {
+                                        'data-row': row_index,
+                                        'data-column': cell_index,
+                                    }
+                                }, [
+                                    h('i.fa.fa-info-circle.o_grid_cell_information', []),
+                                    _this.is_action_enabled('edit')
+                                        ? h('div.o_grid_input', {attrs: {
+                                              contentEditable: "true"}
+                                          }, cell_value)
+                                        : h('div.o_grid_show', cell_value)
+                                ])
+                            ]);
+                        }),
+                        [h('td.o_grid_total', _this._cell_field.format(
+                            row_totals[row_index]
+                        ))]
+                    ));
+                }).concat(_(Math.max(5 - rows.length, 0)).times(function () {
+                    return h('tr.o_grid_padding', [
+                        h('th', {attrs: {colspan: '2'}}, '\u00A0')
+                    ].concat(
+                        columns.map(function (column) {
+                            return h('td', {class: {o_grid_current: column.is_current}}, []);
+                        }),
+                        [h('td.o_grid_total', [])]
+                    ));
+                })))
+            ])
+        ]);
+        if (!grid.length) {
+            vnode.children.push(h('div.o_grid_nocontent_container', [
+                h('div.oe_view_nocontent oe_edit_only', [
+                    h('p.oe_view_nocontent_create', _t("Click to add projects and tasks")),
+                    h('p', _t("You will be able to register your working hours on the given task"))
+                ])
+            ]));
+        }
+
+        this._state = patch(this._state, vnode);
+
+        // need to debounce so grid can render
+        setTimeout(function () {
+            var row_headers = _this.el.querySelectorAll('tbody th:first-child div');
+            for (var k = 0; k < row_headers.length; k++) {
+                var header = row_headers[k];
+                if (header.scrollWidth > header.clientWidth) {
+                    $(header).addClass('overflow');
+                }
+            }
+        }, 0);
     },
     do_show: function() {
         this.do_push_state({});
@@ -153,7 +378,6 @@ var GridView = View.extend({
         if (!this.fields_view || this.get('range') === undefined) {
             return;
         }
-
         var _this = this;
         // FIXME: since enqueue can drop functions, what should the semantics be for it to return a promise?
         this._enqueue(function () {
@@ -203,7 +427,7 @@ var GridView = View.extend({
                 var fn = _this._in_waiting;
                 _this._in_waiting = null;
 
-                fn();
+                return fn();
             })
         }
 
@@ -236,16 +460,7 @@ var GridView = View.extend({
         );
         this._navigation.appendTo($node);
     },
-    _setup_grid: function () {
-        if (this._view) {
-            this._view.destroy();
-        }
-        return (this._view = new GridWidget(
-            this,
-            this._col_field,
-            this._cell_field
-        )).appendTo(this.$el);
-    },
+
     adjust: function (cell, new_value) {
         var difference = new_value - cell.value;
         if (!difference) {
@@ -338,222 +553,8 @@ var Arrows = Widget.extend({
                 .siblings().removeClass('active');
     }
 });
-var GridWidget = Widget.extend({
-    add_label: _lt("Add a Line"),
-    events: {
-        "click .o_grid_button_add": function(event) {
-            var _this = this;
-            event.preventDefault();
-
-            var parent = this.getParent();
-
-            var ctx = pyeval.eval('context', parent._model.context());
-            var form_context = parent.get_full_context();
-            var formDescription = parent.ViewManager.views.form;
-            var p = new form_common.FormViewDialog(this, {
-                res_model: parent._model.name,
-                res_id: false,
-                // TODO: document quick_create_view (?) context key
-                view_id: ctx['quick_create_view'] || (formDescription && formDescription.view_id) || false,
-                context: form_context,
-                title: this.add_label,
-                disable_multiple_selection: true,
-            }).open();
-            p.on('create_completed', this, function () {
-                _this.getParent()._fetch();
-            });
-        },
-        'keydown .o_grid_input': function (e) {
-            // suppress [return]
-            switch (e.which) {
-            case $.ui.keyCode.ENTER:
-                e.preventDefault();
-                e.stopPropagation();
-                break;
-            }
-        },
-        'blur .o_grid_input': 'change_box',
-        'focus .o_grid_input': function (e) {
-            var selection = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(e.target);
-            selection.removeAllRanges();
-            selection.addRange(range);
-        },
-        'click .o_grid_cell_information': function (e) {
-            var $target = $(e.target);
-            var cell = this.get('sheets')[$target.parent().data('row')]
-                                         [$target.parent().data('column')];
-            var parent = this.getParent();
-
-            var anchor, col = this._col_field;
-            var additional_context = {};
-            if (anchor = parent.get('anchor')) {
-                additional_context['default_' + col] = anchor;
-            }
-
-            var views = parent.ViewManager.views;
-            this.do_action({
-                type: 'ir.actions.act_window',
-                name: _t("Grid Cell Details"),
-                res_model: parent._model.name,
-                views: [
-                    [views.list ? views.list.view_id : false, 'list'],
-                    [views.form ? views.form.view_id : false, 'form']
-                ],
-                domain: cell.domain,
-                context: parent._model.context(additional_context),
-            });
-        }
-    },
-    init: function(parent, col_field, cell_field) {
-        this._super(parent);
-
-        this._col_field = col_field.name();
-        this._cell_field = cell_field;
-
-        this._can_create = parent.is_action_enabled('create');
-
-        this._row_keys = null;
-        this._col_keys = null;
-    },
-    start: function() {
-        // debounce render so that if the parent sets seets and immediately
-        // sets columns we don't render twice
-        var render = _.debounce(this._render.bind(this), 50);
-        this.on("change:sheets", this, render);
-        this.on("change:columns", this, render);
-        this.on("change:rows", this, render);
-        this._render();
-    },
-    _render: function() {
-        // don't render anything until we have columns
-        if (!this.get('columns') || !this.get('rows')) {
-            return;
-        }
-
-        var _this = this;
-        var _grid = this.get('sheets');
-
-        var super_total = 0;
-        var row_totals = {};
-        var col_totals = {};
-        for (var i = 0; i < _grid.length; i++) {
-            var row = _grid[i];
-            for (var j = 0; j < row.length; j++) {
-                var cell = row[j];
-
-                super_total += cell.value;
-                row_totals[i] = (row_totals[i] || 0) + cell.value;
-                col_totals[j] = (col_totals[j] || 0) + cell.value;
-            }
-        }
-
-        // rows & columns is a [{values: {*fields: *values}}]
-        var row_keys = _.map(this.get('rows'), function (r) {
-            return _(_this.get('row_fields')).map(function (f) {
-                return r.values[f][0];
-            });
-        });
-        var col_keys = _.map(this.get('columns'), function (c) {
-            return c.values[_this._col_field][0];
-        });
-        if (_.isEqual(this._row_keys, row_keys) && _.isEqual(this._col_keys, col_keys)) {
-            // rows and cols haven't changed since last render, just update
-            // the cells in-place
-            var set_ = function (cell, val) {
-                var fVal = this._cell_field.format(val);
-                if (cell.textContent !== fVal) {
-                    cell.textContent = fVal;
-                }
-            }.bind(this);
-
-
-            // update grid body (including totals, but skipping padding)
-            var rows = this.el.querySelectorAll('tbody > tr:not(.o_grid_padding)');
-            for (var r = 0; r < rows.length; r++) {
-                var cells = rows[r].querySelectorAll('td');
-                for (var c = 0; c < cells.length; c++) {
-                    var newVal, currentCell = cells[c];
-                    if (cells[c].getAttribute('class') === 'o_grid_total') {
-                        newVal = row_totals[r];
-                    } else {
-                        currentCell = currentCell
-                                .firstElementChild // o_grid_cell_container
-                                .lastElementChild; // div.input | div.show
-                        if (currentCell === document.activeElement) {
-                            // skip currently edited cell
-                            continue;
-                        }
-                        var cc = _grid[r][c];
-                        newVal = cc.value;
-                        $(currentCell).parent('.o_grid_cell_container')
-                            .toggleClass('o_grid_cell_empty', !cc.size);
-                    }
-                    set_(currentCell, newVal);
-                }
-            }
-
-            // unconditionally update grid footer (totals only)
-            var footer_cells = this.el.querySelectorAll('tfoot > tr > td');
-            // update supertotal immediately
-            set_(_.last(footer_cells), super_total);
-            for (var k = 0; k < col_keys.length; k++) {
-                var col_total = col_totals[k];
-                // skip add line and "total:" cells
-                set_(footer_cells[k + 2], col_total);
-            }
-        } else {
-            this.$el.html(QWeb.render("grid.Grid", {
-                widget: this,
-                rows: this.get('rows'),
-                columns: this.get('columns'),
-                grid: _grid,
-                row_totals: row_totals,
-                column_totals: col_totals,
-                super_total: super_total
-            }));
-            // need to debounce so grid can render
-            setTimeout(function () {
-                var row_headers = this.el.querySelectorAll('tbody th:first-child div');
-                for (var k = 0; k < row_headers.length; k++) {
-                    var header = row_headers[k];
-                    if (header.scrollWidth > header.clientWidth) {
-                        $(header).addClass('overflow');
-                    }
-                }
-            }.bind(this), 0);
-        }
-        this._row_keys = row_keys;
-        this._col_keys = col_keys;
-    },
-    change_box: function (e) {
-        var $target = $(e.target);
-
-        var row_index = $target.parent().data('row');
-        var col_index = $target.parent().data('column');
-        var cell = this.get('sheets')[row_index][col_index];
-
-        try {
-            var val = this._cell_field.parse(e.target.textContent.trim());
-            $target.removeClass('has-error');
-        } catch (e) {
-            $target.addClass('has-error');
-            return;
-        }
-
-        this.getParent().adjust({
-            row: this.get('rows')[row_index],
-            col: this.get('columns')[col_index],
-            //ids: cell.ids,
-            value: cell.value
-        }, val)
-    },
-});
-
 return {
     GridView: GridView,
-    GridWidget: GridWidget
 }
 
 });
