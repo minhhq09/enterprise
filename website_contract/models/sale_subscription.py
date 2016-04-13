@@ -246,7 +246,7 @@ class SaleSubscription(models.Model):
             if tx.acquirer_id.journal_id:
                 invoice.signal_workflow('invoice_open')
                 journal = tx.acquirer_id.journal_id
-                invoice.pay_and_reconcile(journal, pay_amount=tx.amount)
+                invoice.with_context(default_ref=tx.reference, default_currency_id=tx.currency_id.id).pay_and_reconcile(journal, pay_amount=tx.amount)
             contract.increment_period()
             contract.write({'state': 'open', 'date': False})
         else:

@@ -342,10 +342,19 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                 }
             });
         }
+        var image = undefined;
+        if (v.image) {
+            image = "";
+            var image_array = new Uint8Array(v.image);
+            _.each(image_array, function(v,k){
+                image = image + String.fromCharCode(v);
+            });
+            image = btoa(image);
+        }
 
         var qdict = {name: v.displayString,
             fieldType: this.map_field_type(v.mfaFieldInfoType),
-            image: v.image && btoa(String.fromCharCode.apply(null, new Uint8Array(v.image))),
+            image: image,
             maxlength: v.maximumLength,
             questions: qaquestions,
         };

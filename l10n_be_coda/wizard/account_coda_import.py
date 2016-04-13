@@ -80,6 +80,7 @@ class AccountBankStatementImport(models.TransientModel):
                     if statementLine['debit'] == '1':
                         statementLine['amount'] = - statementLine['amount']
                     statementLine['transactionDate'] = time.strftime(tools.DEFAULT_SERVER_DATE_FORMAT, time.strptime(rmspaces(line[47:53]), '%d%m%y'))
+                    statementLine['transaction_type'] = int(rmspaces(line[53:54]))
                     statementLine['transaction_family'] = rmspaces(line[54:56])
                     statementLine['transaction_code'] = rmspaces(line[56:58])
                     statementLine['transaction_category'] = rmspaces(line[58:61])
@@ -187,7 +188,8 @@ class AccountBankStatementImport(models.TransientModel):
                     statement['coda_note'] = "\n".join([statement['coda_note'], line['type'].title() + ' with Ref. ' + str(line['ref']), 'Date: ' + str(line['entryDate']), 'Communication: ' + line['communication'], ''])
                 elif line['type'] == 'communication':
                     statement['coda_note'] = "\n".join([statement['coda_note'], line['type'].title() + ' with Ref. ' + str(line['ref']), 'Ref: ', 'Communication: ' + line['communication'], ''])
-                elif line['type'] == 'normal':
+                elif line['type'] == 'normal'\
+                        or (line['type'] == 'globalisation' and line['globalisation'] in statement['globalisation_stack'] and line['transaction_type'] in [1, 2]):
                     note = []
                     if line.get('counterpartyName'):
                         note.append(_('Counter Party') + ': ' + line['counterpartyName'])

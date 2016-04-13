@@ -824,14 +824,15 @@ var GanttView = View.extend({
     },
 
     on_task_changed: function (task_obj) {
-        // We first check that the fields aren't defined as readonly.
-        if (this.fields[this.fields_view.arch.attrs.date_start].readonly || this.fields[this.fields_view.arch.attrs.date_stop].readonly) {
-            Dialog.alert(this, _t('You are trying to write on a read-only field!'));
-            return $.Deferred().reject();
-        }
+        // TODO: modify date_delay instead of date_stop
         if (this.fields_view.arch.attrs.date_stop === undefined) {
             // Using a duration field instead of date_stop
             Dialog.alert(this, _t('You have no date_stop field defined!'));
+            return $.Deferred().reject();
+        }
+        // We first check that the fields aren't defined as readonly.
+        if (this.fields[this.fields_view.arch.attrs.date_start].readonly || this.fields[this.fields_view.arch.attrs.date_stop].readonly) {
+            Dialog.alert(this, _t('You are trying to write on a read-only field!'));
             return $.Deferred().reject();
         }
 

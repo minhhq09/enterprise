@@ -43,6 +43,26 @@ class YodleeAccountJournal(models.Model):
         raise UserError(_('An error has occurred while trying to connect to yodlee service') + msg)
 
     @api.multi
+    def remove_online_account(self):
+        if self.online_type == 'yodlee' and self.online_account_id.site_account_id:
+            # Call yodlee API to delete account
+            params = {'memSiteAccId': self.online_account_id.site_account_id}
+            resp_json = json.loads(self.fetch('/jsonsdk/SiteAccountManagement/removeSiteAccount', 'yodlee', params))
+            if resp_json.get('errorOccurred') and resp_json.get('exceptionType') != 'com.yodlee.core.InvalidSiteAccountException':
+                raise UserError(_('An error has occured while trying to remove/update account.\nMessage: %s') % (resp_json.get('message', 'Error')))
+        return super(YodleeAccountJournal, self).remove_online_account()
+
+    @api.multi
+    def save_online_account(self, vals, online_institution_id):
+        # If we have the same site_account_id, it means that user has just reconfigured it's account, so
+        # do not remove SiteAccount from yodlee server.
+        if self.online_account_id and self.online_account_id.site_account_id == str(vals.get('site_account_id')):
+            self.online_account_id.write(vals)
+            return self.online_account_id.online_sync()
+        else:
+            super(YodleeAccountJournal, self).save_online_account(vals, online_institution_id)
+
+    @api.multi
     def launch_wizard(self):
         if self.online_institution_id.type == 'yodlee':
             return {
