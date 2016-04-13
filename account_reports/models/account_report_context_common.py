@@ -218,7 +218,7 @@ class AccountReportContextCommon(models.TransientModel):
         columns = []
         if self.date_filter_cmp == 'custom':
             if display:
-                return ['Comparison<br />' + self.get_cmp_date(), '%']
+                return [_('Comparison<br />') + self.get_cmp_date(), '%']
             else:
                 if self.get_report_obj().get_report_type() == 'no_date_range':
                     return [[False, self.date_to_cmp]]
@@ -263,7 +263,7 @@ class AccountReportContextCommon(models.TransientModel):
                         year -= 1
                     else:
                         quarter -= 1
-                    columns += ['Quarter #' + str(quarter) + ' ' + str(year)]
+                    columns += [_('Quarter #') + str(quarter) + ' ' + str(year)]
                 else:
                     if dt_to.month == 12:
                         dt_to = dt_to.replace(month=9, day=30)
@@ -310,14 +310,14 @@ class AccountReportContextCommon(models.TransientModel):
                     dt_from -= delta
                     dt_to -= delta
                     if display:
-                        columns += [str((k + 1) * delta_days) + ' - ' + str((k + 2) * delta_days) + ' days ago']
+                        columns += [_('%s - %s days ago') % ((k + 1) * delta_days, (k + 2) * delta_days)]
                     else:
                         columns += [[dt_from.strftime("%Y-%m-%d"), dt_to.strftime("%Y-%m-%d")]]
             else:
                 for k in xrange(0, self.periods_number):
                     dt_to -= timedelta(days=calendar.monthrange(dt_to.year, dt_to.month > 1 and dt_to.month - 1 or 12)[1])
                     if display:
-                        columns += [dt_to.strftime('(as of %d %b %Y)')]
+                        columns += [_('(as of %s)') % dt_to.strftime('%d %b %Y')]
                     else:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
         return columns
@@ -537,7 +537,7 @@ class AccountReportContextCommon(models.TransientModel):
             domain.append(('report_id', '=', int(report_id)))
         context = False
         for c in self.env[context_model].search(domain):
-            if set(c.available_company_ids.ids) == set(self.env.user.company_ids.ids):
+            if c.available_company_ids <= self.env.user.company_ids:
                 context = c
                 break
         if context and (given_context.get('force_fy') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):

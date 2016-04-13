@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!-- 
+        redefinition of tags lately added in l10n_be so that we can just
+        upgrade l10n_be_reports and manually create taxes using those tags
+        -->
+        <record id="l10n_be.tax_tag_61" model="account.account.tag">
+            <field name="name">Belgium VAT Form: grid 61</field>
+            <field name="applicability">taxes</field>
+        </record>
+        <record id="l10n_be.tax_tag_62" model="account.account.tag">
+            <field name="name">Belgium VAT Form: grid 62</field>
+            <field name="applicability">taxes</field>
+        </record>
 
         <record id="account_financial_report_l10n_be_tva0" model="account.financial.html.report">
             <field name="name">Déclaration périodique à la TVA</field>
@@ -348,8 +360,9 @@
         <record id="account_financial_report_l10n_be_tva_61_0" model="account.financial.html.report.line">
             <field name="name">61 - Diverses régularisations en faveur de l'Etat</field>
             <field name="code">BETAX61</field>
-            <field name="formulas">balance = -sum.balance</field>
+            <field name="formulas">balance = sum.credit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_61')])]" />
             <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -370,7 +383,7 @@
         <record id="account_financial_report_l10n_be_tva_taxes_deductibles0" model="account.financial.html.report.line">
             <field name="name">V Déductibles</field>
             <field name="code">BETAXV</field>
-            <field name="formulas">balance = BETAX59.balance + BETAX64.balance</field>
+            <field name="formulas">balance = BETAX59.balance + BETAX62.balance + BETAX64.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes0'/>
             <field name="sequence" eval="4"/>
             <field name="level" eval="2" />
@@ -384,6 +397,17 @@
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_59')]), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="1"/>
+            <field name="show_domain">never</field>
+            <field name="level" eval="3" />
+            <field name="special_date_changer">strict_range</field>
+        </record>
+        <record id="account_financial_report_l10n_be_tva_62_0" model="account.financial.html.report.line">
+            <field name="name">62 - Diverses régularisations en faveur du déclarant</field>
+            <field name="code">BETAX62</field>
+            <field name="formulas">balance = sum.debit</field>
+            <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_62')])]" />
+            <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
             <field name="special_date_changer">strict_range</field>
