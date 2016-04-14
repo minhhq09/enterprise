@@ -222,10 +222,12 @@ class range_of(object):
 START_OF = {
     'week': relativedelta(weekday=MO(-1)),
     'month': relativedelta(day=1),
+    'year': relativedelta(yearday=1),
 }
 END_OF = {
     'week': relativedelta(weekday=SU),
-    'month': relativedelta(months=1, day=1, days=-1)
+    'month': relativedelta(months=1, day=1, days=-1),
+    'year': relativedelta(years=1, yearday=1, days=-1),
 }
 STEP_BY = {
     'day': relativedelta(days=1),
@@ -234,5 +236,6 @@ STEP_BY = {
     'year': relativedelta(years=1),
 }
 FORMAT = {
-    'day': u"EEE\nMMM\u00A0dd"
+    'day': u"EEE\nMMM\u00A0dd",
+    'month': u'MMMM\u00A0yyyy',
 }
