@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import date, timedelta
+from datetime import date, datetime, time, timedelta
 
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
@@ -26,10 +26,10 @@ class ProjectForecast(models.Model):
     stage_id = fields.Many2one(related='task_id.stage_id', string="Task stage")
     tag_ids = fields.Many2many(related='task_id.tag_ids', string="Task tags")
 
-    time = fields.Integer(string="%", default=100.0, help="Percentage of working time")
+    time = fields.Float(string="%", default=100.0, help="Percentage of working time")
 
-    start_date = fields.Datetime(default=fields.Datetime.now, required="True")
-    end_date = fields.Datetime(default=default_end_date, required="True")
+    start_date = fields.Date(default=fields.Date.today, required="True")
+    end_date = fields.Date(default=default_end_date, required="True")
 
     # consolidation color and exclude
     color = fields.Integer(string="Color", compute='_compute_color')
