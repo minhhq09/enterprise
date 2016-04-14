@@ -120,6 +120,17 @@ class Forecast(models.Model):
         })
         return False
 
+    @api.multi
+    def project_forecast_assign(self):
+        # necessary to forward the default_project_id, otherwise it's
+        # stripped out by the context forwarding of actions execution
+        [action] = self.env.ref('project_forecast_grid.action_project_forecast_assign').read()
+
+        action['context'] = {
+            'default_project_id': self.env.context['default_project_id']
+        }
+        return action
+
     @api.model
     def _read_forecast_tasks(self, task_ids, domain, read_group_order=None, access_rights_uid=None):
         Tasks = self.env['project.task']
@@ -139,3 +150,29 @@ class Forecast(models.Model):
     _group_by_full = {
         'task_id': _read_forecast_tasks
     }
+
+class Assignment(models.TransientModel):
+    _name = 'project.forecast.assignment'
+
+    project_id = fields.Many2one('project.project', string="Project", required=True)
+    task_id = fields.Many2one('project.task', string="Task", required=True,
+                              domain="[('project_id', '=', project_id)]")
+    user_id = fields.Many2one('res.users', string="User", required=True)
+
+    @api.multi
+    def create_assignment(self):
+        # create a project.forecast on the project's first month
+        project_start = fields.Date.from_string(self.project_id.date_start)
+        month_start = fields.Date.to_string(project_start + relativedelta(day=1))
+        month_end = fields.Date.to_string(project_start + relativedelta(months=1, day=1, days=-1))
+
+        self.env['project.forecast'].create({
+            'project_id': self.project_id.id,
+            'task_id': self.task_id.id,
+            'user_id': self.user_id.id,
+            'start_date': month_start,
+            'end_date': month_end,
+            'time': 0,
+        })
+
+        return {'type': 'ir.actions.act_window_close'}
