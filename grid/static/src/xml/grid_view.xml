@@ -95,7 +95,7 @@
                     type="button">
                 <span class="fa fa-arrow-right"/>
             </button>
-            <div t-if="widget._ranges.length" class="btn-group btn-group-sm">
+            <div t-if="widget._ranges.length > 1" class="btn-group btn-group-sm">
                 <button t-foreach="widget._ranges" t-as="range"
                         class="grid_arrow_range btn btn-sm btn-default"
                         type="button" t-att-data-name="range.name">
