@@ -162,8 +162,8 @@ var GridView = View.extend({
                     row_fields: _this.get('groupby'),
                     col_field: _this._col_field.name(),
                     cell_field: _this._cell_field.name(),
-                    range: _this.get('range'),
-                    domain: _this.get('domain'),
+                    range: _this.get('range') || false,
+                    domain: _this.get('domain') || [],
                     context: _this.get_full_context(),
                 }).then(function (results) {
                     _this._navigation.set({
