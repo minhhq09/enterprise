@@ -15,8 +15,8 @@
             <field name="model">project.forecast</field>
             <field name="arch" type="xml">
                 <grid string="Monthly Forecast" adjustment="object" adjust_name="adjust_grid">
+                    <field name="task_id" type="row" section="1"/>
                     <field name="user_id" type="row"/>
-                    <field name="task_id" type="row"/>
                     <field name="start_date" type="col">
                         <range name="project" string="Project" span="project" step="month"/>
                     </field>
