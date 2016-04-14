@@ -235,7 +235,7 @@ var GridView = View.extend({
             var group_fields = this.get('groupby');
 
             totals = this._compute_totals(grid);
-            vnode = this._table_base(columns, totals.columns, totals.super);
+            vnode = this._table_base(columns, totals.columns, totals.super, !grid.length);
             vnode.children[0].children.push(
                 h('tbody',
                     this._compute_grid_rows(grid, group_fields, ['grid'], rows, totals.rows)
@@ -251,16 +251,7 @@ var GridView = View.extend({
                     }))
                 )
             );
-            if (!grid.length) {
-                vnode.children.push(h('div.o_grid_nocontent_container', [
-                    h('div.oe_view_nocontent oe_edit_only', [
-                        h('p.oe_view_nocontent_create', _t("Click to add projects and tasks")),
-                        h('p', _t("You will be able to register your working hours on the given task"))
-                    ])
-                ]));
-            }
         }
-
 
         this._state = patch(this._state, vnode);
 
@@ -284,7 +275,7 @@ var GridView = View.extend({
      * @param {Object} [totals]
      * @param {Number} [super_total]
      */
-    _table_base: function (columns, totals, super_total) {
+    _table_base: function (columns, totals, super_total, empty) {
         var _this = this;
         var col_field = this._col_field.name();
         return h('div.o_view_grid', [
@@ -323,8 +314,27 @@ var GridView = View.extend({
                     ))
                 ]),
             ])
-        ]);
-    }, /**
+        ].concat(this._empty_warning(empty)));
+    },
+    _empty_warning: function (empty) {
+        empty = empty && _.find(this.fields_view.arch.children, function (c) {
+            return c.tag === 'empty';
+        });
+        if (!empty || !empty.children.length || !this.is_action_enabled('create')) {
+            return [];
+        }
+        return h('div.o_grid_nocontent_container', [
+                   h('div.oe_view_nocontent oe_edit_only',
+                       _(empty.children).map(function (p) {
+                           var data = p.attrs.class
+                                   ? {attrs: {class: p.attrs.class}}
+                                   : {};
+                           return h('p', data, p.children);
+                       })
+                   )
+               ]);
+    },
+    /**
      *
      * @param {Array<Array>} grid actual grid content
      * @param {Array<String>} group_fields

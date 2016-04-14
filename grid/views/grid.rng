@@ -10,8 +10,19 @@
             <interleave>
                 <oneOrMore><ref name="field"/></oneOrMore>
                 <zeroOrMore><ref name="button"/></zeroOrMore>
+                <optional>
+                    <element name="empty">
+                        <oneOrMore>
+                            <element name="p">
+                                <optional>
+                                    <attribute name="class"/>
+                                </optional>
+                                <text/>
+                            </element>
+                        </oneOrMore>
+                    </element>
+                </optional>
             </interleave>
-
         </element>
     </define>
     <define name="field">
