@@ -174,12 +174,12 @@ class Model(models.Model):
             if context_anchor:
                 anchor = field.from_string(context_anchor)
 
-            r = range_of(span, anchor)
             labelize = partial(babel.dates.format_date,
                                format=FORMAT[step],
                                locale=self.env.context.get('lang', 'en_US'))
-            period_prev = field.to_string(anchor - STEP_BY[span])
-            period_next = field.to_string(anchor + STEP_BY[span])
+            r = self._grid_range_of(span, anchor)
+
+            period_prev, period_next = self._grid_pagination(field, span, anchor)
             return ColumnMetadata(
                 grouping='{}:{}'.format(name, step),
                 domain=[
@@ -187,16 +187,17 @@ class Model(models.Model):
                     (name, '>=', field.to_string(r.start)),
                     (name, '<=', field.to_string(r.end))
                 ],
-                prev={'grid_anchor': period_prev, 'default_%s' % name: period_prev},
-                next={'grid_anchor': period_next, 'default_%s' % name: period_next},
+                prev=period_prev and {'grid_anchor': period_prev, 'default_%s' % name: period_prev},
+                next=period_next and {'grid_anchor': period_next, 'default_%s' % name: period_next},
                 values=[{
                         'values': {
                             name: (
-                                "%s/%s" % (field.to_string(d), field.to_string(d + STEP_BY[step])),
+                                "%s/%s" % (field.to_string(d), field.to_string(d + self._grid_step_by(step))),
                                 labelize(d)
                         )},
-                        'domain': ['&', (name, '>=', field.to_string(d)),
-                                        (name, '<', field.to_string(d + STEP_BY[step]))],
+                        'domain': ['&',
+                                   (name, '>=', field.to_string(d)),
+                                   (name, '<', field.to_string(d + self._grid_step_by(step)))],
                         'is_current': d == today,
                     } for d in r.iter(step)
                 ],
@@ -205,12 +206,34 @@ class Model(models.Model):
         else:
             raise ValueError(_("Can not use fields of type %s as grid columns") % field.type)
 
+    def _grid_pagination(self, field, span, anchor):
+        if field.type == 'date':
+            diff = self._grid_step_by(span)
+            period_prev = field.to_string(anchor - diff)
+            period_next = field.to_string(anchor + diff)
+            return period_prev, period_next
+        return False, False
+
+    def _grid_step_by(self, span):
+        return STEP_BY.get(span)
+
+    def _grid_range_of(self, span, anchor):
+        return date_range(self._grid_start_of(span, anchor),
+                          self._grid_end_of(span, anchor))
+
+    def _grid_start_of(self, span, anchor):
+        return anchor + START_OF[span]
+
+    def _grid_end_of(self, span, anchor):
+        return anchor + END_OF[span]
+
+
 ColumnMetadata = collections.namedtuple('ColumnMetadata', 'grouping domain prev next values format')
-class range_of(object):
-    def __init__(self, span, anchor):
-        self.start = anchor + START_OF[span]
-        self.end = anchor + END_OF[span]
-        assert self.start < self.end
+class date_range(object):
+    def __init__(self, start, stop):
+        assert start < stop
+        self.start = start
+        self.end = stop
 
     def iter(self, step):
         v = self.start
