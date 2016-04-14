@@ -108,12 +108,10 @@ class TestScoring(common.TransactionCase):
         # Salesteam
         self.team0 = self.team.create(cr, uid, {
             'name': 'team0',
-            'code': 'S0',
             'score_team_domain': [('country_id', '=', 'Belgium')],
         })
         self.team1 = self.team.create(cr, uid, {
             'name': 'team1',
-            'code': 'S1',
             'score_team_domain': [('country_id', '=', 'France')],
         })
 
