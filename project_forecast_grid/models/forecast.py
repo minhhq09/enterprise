@@ -120,3 +120,22 @@ class Forecast(models.Model):
         })
         return False
 
+    @api.model
+    def _read_forecast_tasks(self, task_ids, domain, read_group_order=None, access_rights_uid=None):
+        Tasks = self.env['project.task']
+        if access_rights_uid:
+            Tasks = Tasks.sudo(access_rights_uid)
+
+        tasks_domain = [('id', 'in', task_ids)]
+        if 'default_project_id' in self.env.context:
+            tasks_domain = expression.OR([
+                tasks_domain,
+                [('project_id', '=', self.env.context['default_project_id'])]
+            ])
+        ids = Tasks._search(tasks_domain)
+        return Tasks.browse(ids).name_get(), dict.fromkeys(ids, False)
+
+
+    _group_by_full = {
+        'task_id': _read_forecast_tasks
+    }
