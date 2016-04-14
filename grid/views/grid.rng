@@ -18,7 +18,14 @@
         <element name="field">
             <attribute name="name"/>
             <choice>
-                <attribute name="type"><value>row</value></attribute>
+                <group>
+                    <attribute name="type"><value>row</value></attribute>
+                    <optional>
+                        <attribute name="section">
+                            <value>1</value>
+                        </attribute>
+                    </optional>
+                </group>
                 <!-- TODO: column anchor, range & prev/next? -->
                 <group>
                     <attribute name="type"><value>col</value></attribute>

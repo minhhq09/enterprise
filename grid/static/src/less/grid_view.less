@@ -105,6 +105,23 @@
                 background-color: @state-danger-bg;
             }
         }
+
+        // "grouped" tbodies get special styling for their title rows (first
+        // row of the tbody) and the row labels of both title and regular rows
+        &.o_grid_section {
+            tr th {
+                padding-left: 3 * @table-condensed-cell-padding;
+            }
+            tr:first-child {
+                th {
+                    padding-left: @table-condensed-cell-padding;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+                color: lighten(@odoo-main-text-color, 15%);
+                background-color: lighten(@odoo-brand-lightsecondary, 4%);
+            }
+        }
     }
 
     .o_grid_current:not(.o_grid_total) {

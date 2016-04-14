@@ -54,6 +54,16 @@ var Field = Class.extend({
 });
 var fields = { };
 
+function into(object, path) {
+    if (!_(path).isArray()) {
+        path = path.split('.');
+    }
+    for (var i = 0; i < path.length; i++) {
+        object = object[path[i]];
+    }
+    return object;
+}
+
 var GridView = View.extend({
     icon: 'fa-th-list',
     view_type: 'grid',
@@ -91,10 +101,12 @@ var GridView = View.extend({
         'blur .o_grid_input': function (e) {
             var $target = $(e.target);
 
-            var row_index = $target.parent().data('row');
-            var col_index = $target.parent().data('column');
             var data = this.get('grid_data');
-            var cell = data.grid[row_index][col_index];
+            // path should be [path, to, grid, 'grid', row_index, col_index]
+            var cell_path = $target.parent().data('path').split('.');
+            var grid_path = cell_path.slice(0, -3);
+            var row_path = grid_path.concat(['rows'], cell_path.slice(-2, -1));
+            var col_path = grid_path.concat(['cols'], cell_path.slice(-1));
 
             try {
                 var val = this._cell_field.parse(e.target.textContent.trim());
@@ -105,10 +117,10 @@ var GridView = View.extend({
             }
 
             this.adjust({
-                row: data.rows[row_index],
-                col: data.cols[col_index],
+                row: into(data, row_path),
+                col: into(data, col_path),
                 //ids: cell.ids,
-                value: cell.value
+                value: into(data, cell_path).value
             }, val)
         },
         'focus .o_grid_input': function (e) {
@@ -120,9 +132,8 @@ var GridView = View.extend({
         },
         'click .o_grid_cell_information': function (e) {
             var $target = $(e.target);
-            var grid = this.get('grid_data').grid;
-            var cell = grid[$target.parent().data('row')]
-                           [$target.parent().data('column')];
+            var data = this.get('grid_data');
+            var cell = into(data, $target.parent().data('path'));
 
             var anchor, col = this._col_field.name();
             var additional_context = {};
@@ -174,129 +185,82 @@ var GridView = View.extend({
     },
     _render: function () {
         var _this = this;
+        var columns, vnode, grid, totals;
         var grid_data = this.get('grid_data') || {};
-        var columns = grid_data.cols || [];
-        var rows = grid_data.rows || [];
-        var grid = grid_data.grid || [];
-        var col_field = this._col_field.name();
-        var group_fields = this.get('groupby');
+        if (_.isArray(grid_data)) {
+            // array of grid groups
+            // get columns (check they're the same in all groups)
+            if (!(_.isEmpty(grid_data) || _(grid_data).reduce(function (m, it) {
+                return _.isEqual(m.cols, it.cols) && m;
+            }))) {
+                throw new Error(_t("The sectioned grid view can't handle groups with different columns sets"));
+            }
 
-        var super_total = 0;
-        var row_totals = {};
-        var column_totals = {};
-        for (var i = 0; i < grid.length; i++) {
-            var row = grid[i];
-            for (var j = 0; j < row.length; j++) {
-                var cell = row[j];
+            columns = grid_data.length ? grid_data[0].cols : [];
+            vnode = this._table_base(columns);
+            var grid_body = vnode.children[0].children;
+            for (var n = 0; n < grid_data.length; n++) {
+                grid = grid_data[n];
 
-                super_total += cell.value;
-                row_totals[i] = (row_totals[i] || 0) + cell.value;
-                column_totals[j] = (column_totals[j] || 0) + cell.value;
+                totals = this._compute_totals(grid.grid);
+                rows = this._compute_grid_rows(
+                    grid.grid || [],
+                    this.get('groupby').slice(1),
+                    [n, 'grid'],
+                    grid.rows || [],
+                    totals.rows
+                );
+                grid_body.push(
+                    h('tbody', {class: {o_grid_section: true}}, [
+                        h('tr', [
+                            h('th', {attrs: {colspan: 2}}, [
+                                (grid.__label || [])[1] || "\u00A0"
+                            ])
+                        ].concat(
+                            _(columns).map(function (column, column_index) {
+                                return h('td', {class: {
+                                    o_grid_current: column.is_current,
+                                }}, _this._cell_field.format(
+                                        totals.columns[column_index]));
+                            }),
+                            [h('td.o_grid_total', [])]
+                        ))
+                    ].concat(rows)
+                ));
+            }
+        } else {
+            columns = grid_data.cols || [];
+            var rows = grid_data.rows || [];
+            grid = grid_data.grid || [];
+            var group_fields = this.get('groupby');
+
+            totals = this._compute_totals(grid);
+            vnode = this._table_base(columns, totals.columns, totals.super);
+            vnode.children[0].children.push(
+                h('tbody',
+                    this._compute_grid_rows(grid, group_fields, ['grid'], rows, totals.rows)
+                    .concat(_(Math.max(5 - rows.length, 0)).times(function () {
+                        return h('tr.o_grid_padding', [
+                            h('th', {attrs: {colspan: '2'}}, "\u00A0")
+                        ].concat(
+                            _(columns).map(function (column) {
+                                return h('td', {class: {o_grid_current: column.is_current}}, []);
+                            }),
+                            [h('td.o_grid_total', [])]
+                        ));
+                    }))
+                )
+            );
+            if (!grid.length) {
+                vnode.children.push(h('div.o_grid_nocontent_container', [
+                    h('div.oe_view_nocontent oe_edit_only', [
+                        h('p.oe_view_nocontent_create', _t("Click to add projects and tasks")),
+                        h('p', _t("You will be able to register your working hours on the given task"))
+                    ])
+                ]));
             }
         }
 
-        var vnode = h('div.o_view_grid', [
-            h('table.table.table-condensed.table-responsive.table-striped', [
-                h('thead', [
-                    h('tr', [
-                        h('th.o_grid_title_header'),
-                        h('th.o_grid_title_header'),
-                    ].concat(
-                        columns.map(function (column) {
-                            return h('th', {class: {o_grid_current: column.is_current}},
-                                column.values[col_field][1]
-                            );
-                        }),
-                        [h('th.o_grid_total', _t("Total"))]
-                    ))
-                ]),
-                h('tfoot', [
-                    h('tr', [
-                        h('td.o_grid_add_line', _this.is_action_enabled('create') && [
-                            h('button.btn.btn-sm.btn-primary.o_grid_button_add', {
-                                attrs: {type: 'button'}
-                            }, _this.add_label.toString())
-                        ]),
-                        h('td.o_grid_total', _t("Total"))
-                    ].concat(
-                        columns.map(function (column, column_index) {
-                            return h('td', {class: {
-                                o_grid_total: true,
-                                o_grid_current: column.is_current,
-                            }}, _this._cell_field.format(
-                                column_totals[column_index]
-                            ))
-                        }),
-                        [h('td.o_grid_total', _this._cell_field.format(
-                            super_total
-                        ))]
-                    ))
-                ]),
-                h('tbody', grid.map(function (row, row_index) {
-                    var row_values = [];
-                    for (var i = 0; i < group_fields.length; i++) {
-                        var row_field = group_fields[i];
-                        var value = rows[row_index].values[row_field];
-                        if (value) {
-                            row_values.push(value);
-                        }
-                    }
-                    var row_key = row_values.map(function (v) {
-                        return v[0]
-                    }).join('|');
-                    return h('tr', {key: row_key}, [
-                        h('th', {attrs: {colspan: 2}}, [
-                            h('div', row_values.map(function (v) {
-                                return h('div', {attrs: {title: v[1]}}, v[1]);
-                            }))
-                        ]),
-                    ].concat(
-                        row.map(function (cell, cell_index) {
-                            var cell_value = _this._cell_field.format(cell.value);
-                            return h('td', {class: {o_grid_current: cell.is_current}}, [
-                                h('div', {
-                                    class: {
-                                        o_grid_cell_container: true,
-                                        o_grid_cell_empty: !cell.size
-                                    },
-                                    attrs: {
-                                        'data-row': row_index,
-                                        'data-column': cell_index,
-                                    }
-                                }, [
-                                    h('i.fa.fa-info-circle.o_grid_cell_information', []),
-                                    _this.is_action_enabled('edit')
-                                        ? h('div.o_grid_input', {attrs: {
-                                              contentEditable: "true"}
-                                          }, cell_value)
-                                        : h('div.o_grid_show', cell_value)
-                                ])
-                            ]);
-                        }),
-                        [h('td.o_grid_total', _this._cell_field.format(
-                            row_totals[row_index]
-                        ))]
-                    ));
-                }).concat(_(Math.max(5 - rows.length, 0)).times(function () {
-                    return h('tr.o_grid_padding', [
-                        h('th', {attrs: {colspan: '2'}}, '\u00A0')
-                    ].concat(
-                        columns.map(function (column) {
-                            return h('td', {class: {o_grid_current: column.is_current}}, []);
-                        }),
-                        [h('td.o_grid_total', [])]
-                    ));
-                })))
-            ])
-        ]);
-        if (!grid.length) {
-            vnode.children.push(h('div.o_grid_nocontent_container', [
-                h('div.oe_view_nocontent oe_edit_only', [
-                    h('p.oe_view_nocontent_create', _t("Click to add projects and tasks")),
-                    h('p', _t("You will be able to register your working hours on the given task"))
-                ])
-            ]));
-        }
 
         this._state = patch(this._state, vnode);
 
@@ -311,35 +275,152 @@ var GridView = View.extend({
             }
         }, 0);
     },
+    /**
+     * Generates the header and footer for the grid's table. If
+     * totals and super_total are provided they will be formatted and
+     * inserted into the table footer, otherwise the cells will be left empty
+     *
+     * @param {Array} columns
+     * @param {Object} [totals]
+     * @param {Number} [super_total]
+     */
+    _table_base: function (columns, totals, super_total) {
+        var _this = this;
+        var col_field = this._col_field.name();
+        return h('div.o_view_grid', [
+            h('table.table.table-condensed.table-responsive.table-striped', [
+                h('thead', [
+                    h('tr', [
+                        h('th.o_grid_title_header'),
+                        h('th.o_grid_title_header'),
+                    ].concat(
+                        _(columns).map(function (column) {
+                            return h('th', {class: {o_grid_current: column.is_current}},
+                                column.values[col_field][1]
+                            );
+                        }),
+                        [h('th.o_grid_total', _t("Total"))]
+                    ))
+                ]),
+                h('tfoot', [
+                    h('tr', [
+                        h('td.o_grid_add_line', _this.is_action_enabled('create') ? [
+                            h('button.btn.btn-sm.btn-primary.o_grid_button_add', {
+                                attrs: {type: 'button'}
+                            }, _this.add_label.toString())
+                        ] : []),
+                        h('td', totals ? _t("Total") : [])
+                    ].concat(
+                        _(columns).map(function (column, column_index) {
+                            var cell_content = !totals
+                                ? []
+                                : _this._cell_field.format(totals[column_index]);
+                            return h('td', {class: {
+                                o_grid_current: column.is_current,
+                            }}, cell_content);
+                        }),
+                        [h('td', !super_total ? [] : _this._cell_field.format(super_total))]
+                    ))
+                ]),
+            ])
+        ]);
+    }, /**
+     *
+     * @param {Array<Array>} grid actual grid content
+     * @param {Array<String>} group_fields
+     * @param {Array} path object path to `grid` from the object's grid_data
+     * @param {Array} rows list of row keys
+     * @param {Object} totals row-keyed totals
+     * @returns {*}
+     * @private
+     */
+    _compute_grid_rows: function (grid, group_fields, path, rows, totals) {
+        var _this = this;
+        return _(grid).map(function (row, row_index) {
+            var row_values = [];
+            for (var i = 0; i < group_fields.length; i++) {
+                var row_field = group_fields[i];
+                var value = rows[row_index].values[row_field];
+                if (value) {
+                    row_values.push(value);
+                }
+            }
+            var row_key = _(row_values).map(function (v) {
+                return v[0]
+            }).join('|');
+            return h('tr', {key: row_key}, [h('th', {attrs: {colspan: 2}}, [h('div', _(row_values).map(function (v) {
+                return h('div', {attrs: {title: v[1]}}, v[1]);
+            }))]),].concat(_(row).map(function (cell, cell_index) {
+                var cell_value = _this._cell_field.format(cell.value);
+                return h('td', {class: {o_grid_current: cell.is_current}}, [h('div', {
+                    class: {
+                        o_grid_cell_container: true,
+                        o_grid_cell_empty: !cell.size
+                    }, attrs: {
+                        'data-path': path.concat([row_index, cell_index]).join('.')
+                    }
+                }, [h('i.fa.fa-info-circle.o_grid_cell_information', []), _this.is_action_enabled('edit') ? h('div.o_grid_input', {
+                    attrs: {
+                        contentEditable: "true"
+                    }
+                }, cell_value) : h('div.o_grid_show', cell_value)])]);
+            }), [h('td.o_grid_total', _this._cell_field.format(totals[row_index]))]));
+        });
+    },
+    /**
+     * @returns {{super: number, rows: {}, columns: {}}}
+     */
+    _compute_totals: function (grid) {
+        var totals = {super: 0, rows: {}, columns: {}};
+        for (var i = 0; i < grid.length; i++) {
+            var row = grid[i];
+            for (var j = 0; j < row.length; j++) {
+                var cell = row[j];
+
+                totals.super += cell.value;
+                totals.rows[i] = (totals.rows[i] || 0) + cell.value;
+                totals.columns[j] = (totals.columns[j] || 0) + cell.value;
+            }
+        }
+        return totals;
+    },
     do_show: function() {
         this.do_push_state({});
         return this._super();
     },
     get_ids: function () {
         var data = this.get('grid_data');
-        var grid = data.grid;
-        // if there are no elements in the grid we'll get an empty domain
-        // which will select all records of the model... that is *not* what
-        // we want
-        if (!grid.length) {
-            // ensure whatever's waiting on the ids never gets them
-            return $.Deferred().reject().promise();
+        if (!_.isArray(data)) {
+            data = [data];
         }
 
         var domain = [];
         // count number of non-empty cells and only add those to the search
         // domain, on sparse grids this makes domains way smaller
         var cells = 0;
-        for (var i = 0; i < grid.length; i++) {
-            var row = grid[i];
-            for (var j = 0; j < row.length; j++) {
-                var cell = row[j];
-                if (cell.size != 0) {
-                    cells++;
-                    domain.push.apply(domain, cell.domain);
+
+        for (var i = 0; i < data.length; i++) {
+            var grid = data[i].grid;
+
+            for (var j = 0; j < grid.length; j++) {
+                var row = grid[j];
+                for (var k = 0; k < row.length; k++) {
+                    var cell = row[k];
+                    if (cell.size != 0) {
+                        cells++;
+                        domain.push.apply(domain, cell.domain);
+                    }
                 }
             }
         }
+
+        // if there are no elements in the grid we'll get an empty domain
+        // which will select all records of the model... that is *not* what
+        // we want
+        if (cells === 0) {
+            return $.async_when([]);
+        }
+
         while (--cells > 0) {
             domain.unshift('|');
         }
@@ -379,23 +460,74 @@ var GridView = View.extend({
             return;
         }
         var _this = this;
+        var first_field = _this.get('groupby')[0];
+        var section = _(this.fields_view.arch.children).find(function (c) {
+            return c.tag === 'field'
+                && c.attrs.name === first_field
+                && c.attrs.type === 'row'
+                && c.attrs.section === '1';
+        });
+
         // FIXME: since enqueue can drop functions, what should the semantics be for it to return a promise?
         this._enqueue(function () {
-            _this._model.call(
-                'read_grid', {
-                    row_fields: _this.get('groupby'),
-                    col_field: _this._col_field.name(),
-                    cell_field: _this._cell_field.name(),
-                    range: _this.get('range') || false,
+            if (section) {
+                var section_name = section.attrs.name;
+                return _this._model.call('read_group', {
                     domain: _this.get('domain') || [],
-                    context: _this.get_full_context(),
-                }).then(function (results) {
+                    fields: [section_name],
+                    groupby: [section_name],
+                    context: _this.get_full_context()
+                }).then(function (groups) {
+                    if (!groups.length) {
+                        // if there are no groups in the output we still need
+                        // to fetch an empty grid so we can render the table's
+                        // decoration (pagination and columns &etc) otherwise
+                        // we get a completely empty grid
+                        return _this._model.call('read_grid', {
+                            row_fields: _this.get('groupby').slice(1),
+                            col_field: _this._col_field.name(),
+                            cell_field: _this._cell_field.name(),
+                            range: _this.get('range') || false,
+                            domain: _this.get('domain') || [],
+                            context: _this.get_full_context(),
+                        });
+                    }
+                    return $.when.apply(null, _(groups).map(function (group) {
+                        return _this._model.call('read_grid', {
+                            row_fields: _this.get('groupby').slice(1),
+                            col_field: _this._col_field.name(),
+                            cell_field: _this._cell_field.name(),
+                            range: _this.get('range') || false,
+                            domain: group.__domain,
+                            context: _this.get_full_context(),
+                        }).done(function (grid) {
+                            grid.__label = group[section_name];
+                        });
+                    }));
+                }).then(function () {
+                    var results = [].slice.apply(arguments);
+                    var r0 = results[0];
                     _this._navigation.set({
-                        prev: results.prev,
-                        next: results.next,
+                        prev: r0 && r0.prev,
+                        next: r0 && r0.next
                     });
                     _this.set('grid_data', results);
                 });
+            }
+
+            return _this._model.call('read_grid', {
+                row_fields: _this.get('groupby'),
+                col_field: _this._col_field.name(),
+                cell_field: _this._cell_field.name(),
+                range: _this.get('range') || false,
+                domain: _this.get('domain') || [],
+                context: _this.get_full_context(),
+            }).then(function (results) {
+                _this._navigation.set({
+                    prev: results.prev, next: results.next,
+                });
+                _this.set('grid_data', results);
+            });
         });
     },
     _enqueue: function (fn) {
@@ -463,7 +595,8 @@ var GridView = View.extend({
 
     adjust: function (cell, new_value) {
         var difference = new_value - cell.value;
-        if (!difference) {
+        // 1e-6 is probably an overkill, but that way milli-values are usable
+        if (Math.abs(difference) < 1e-6) {
             // cell value was set to itself, don't hit the server
             return;
         }
@@ -504,14 +637,16 @@ var Arrows = Widget.extend({
         },
         'click .grid_arrow_button': function (e) {
             e.stopPropagation();
+            // TODO: maybe allow opting out of getting ids?
             var button = this._buttons[$(e.target).data('index')];
-                this.getParent().get_ids().then(function (ids) {
-                    this.getParent().do_execute_action(button, new data.DataSetStatic(
+            var parent = this.getParent();
+            parent.get_ids().then(function (ids) {
+                parent.do_execute_action(button, new data.DataSetStatic(
                     this,
-                    this.getParent()._model.name,
-                    this.getParent().get_full_context(button.context),
+                    parent._model.name,
+                    parent.get_full_context(button.context),
                     ids
-                ));
+                ), undefined, parent.proxy('_fetch'));
             }.bind(this));
         }
     },
