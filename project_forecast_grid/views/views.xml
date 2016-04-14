@@ -1,0 +1,28 @@
+<openerp>
+    <data>
+        <record id="project_form_forecast_grid_button" model="ir.ui.view">
+            <field name="name">project form: add forecast grid button</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="after">
+                    <button name="view_monthly_forecast" string="Forecast" type="object"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="project_forecast_grid" model="ir.ui.view">
+            <field name="name">Project Forecast: Grid View</field>
+            <field name="model">project.forecast</field>
+            <field name="arch" type="xml">
+                <grid string="Monthly Forecast" adjustment="object" adjust_name="adjust_grid">
+                    <field name="user_id" type="row"/>
+                    <field name="task_id" type="row"/>
+                    <field name="start_date" type="col">
+                        <range name="year" string="Yearly" span="year" step="month"/>
+                    </field>
+                    <field name="resource_hours" type="measure"/>
+                </grid>
+            </field>
+        </record>
+    </data>
+</openerp>
