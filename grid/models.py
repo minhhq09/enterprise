@@ -183,9 +183,9 @@ class Model(models.Model):
             labelize = partial(babel.dates.format_date,
                                format=FORMAT[step],
                                locale=self.env.context.get('lang', 'en_US'))
-            r = self._grid_range_of(span, anchor)
+            r = self._grid_range_of(span, step, anchor)
 
-            period_prev, period_next = self._grid_pagination(field, span, anchor)
+            period_prev, period_next = self._grid_pagination(field, span, step, anchor)
             return ColumnMetadata(
                 grouping='{}:{}'.format(name, step),
                 domain=[
@@ -212,7 +212,7 @@ class Model(models.Model):
         else:
             raise ValueError(_("Can not use fields of type %s as grid columns") % field.type)
 
-    def _grid_pagination(self, field, span, anchor):
+    def _grid_pagination(self, field, span, step, anchor):
         if field.type == 'date':
             diff = self._grid_step_by(span)
             period_prev = field.to_string(anchor - diff)
@@ -223,14 +223,14 @@ class Model(models.Model):
     def _grid_step_by(self, span):
         return STEP_BY.get(span)
 
-    def _grid_range_of(self, span, anchor):
-        return date_range(self._grid_start_of(span, anchor),
-                          self._grid_end_of(span, anchor))
+    def _grid_range_of(self, span, step, anchor):
+        return date_range(self._grid_start_of(span, step, anchor),
+                          self._grid_end_of(span, step, anchor))
 
-    def _grid_start_of(self, span, anchor):
+    def _grid_start_of(self, span, step, anchor):
         return anchor + START_OF[span]
 
-    def _grid_end_of(self, span, anchor):
+    def _grid_end_of(self, span, step, anchor):
         return anchor + END_OF[span]
 
 
