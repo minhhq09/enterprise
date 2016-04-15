@@ -86,7 +86,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
                                                                         ('date', '<=', self.env.context['date_to']),
                                                                         ('company_id', 'in', self.env.context['company_ids'])])
         start_amount = sum([line.amount_currency if use_foreign_currency else line.balance for line in lines_already_accounted])
-        lines.append(self.add_title_line(_("Current Balance in Odoo"), start_amount))
+        lines.append(self.add_title_line(_("Current Balance in GL"), start_amount))
 
         # Un-reconcilied bank statement lines
         move_lines = self.env['account.move.line'].search([('move_id.journal_id', '=', self.env.context['journal_id'].id),
@@ -111,9 +111,9 @@ class account_bank_reconciliation_report(models.AbstractModel):
                 })
                 unrec_tot += line.amount_currency if use_foreign_currency else line.balance
             if unrec_tot > 0:
-                title = _("Plus Un-Reconciled Bank Statement Lines")
+                title = _("Plus Unreconciled Payments")
             else:
-                title = _("Less Un-Reconciled Bank Statement Lines")
+                title = _("Minus Unreconciled Payments")
             lines.append(self.add_subtitle_line(title))
             lines += tmp_lines
             lines.append(self.add_total_line(unrec_tot))
@@ -126,7 +126,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
                                                                              ('company_id', 'in', self.env.context['company_ids'])])
         outstanding_plus_tot = 0
         if not_reconcile_plus:
-            lines.append(self.add_subtitle_line(_("Plus Outstanding Payment")))
+            lines.append(self.add_subtitle_line(_("Plus Unreconciled Statement Lines")))
             for line in not_reconcile_plus:
                 lines.append(self.add_bank_statement_line(line, line.amount))
                 outstanding_plus_tot += line.amount
@@ -140,7 +140,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
                                                                              ('company_id', 'in', self.env.context['company_ids'])])
         outstanding_less_tot = 0
         if not_reconcile_less:
-            lines.append(self.add_subtitle_line(_("Less Outstanding Receipt")))
+            lines.append(self.add_subtitle_line(_("Minus Unreconciled Statement Lines")))
             for line in not_reconcile_less:
                 lines.append(self.add_bank_statement_line(line, line.amount))
                 outstanding_less_tot += line.amount
@@ -153,11 +153,11 @@ class account_bank_reconciliation_report(models.AbstractModel):
         real_last_stmt_balance = last_statement.balance_end
         if computed_stmt_balance != real_last_stmt_balance:
             if real_last_stmt_balance - computed_stmt_balance > 0:
-                title = _("Plus Unencoded Statements")
+                title = _("Plus Missing Statements")
             else:
-                title = _("Less Unencoded Statements")
+                title = _("Minus Missing Statements")
             lines.append(self.add_subtitle_line(title, real_last_stmt_balance - computed_stmt_balance))
-        lines.append(self.add_title_line(_("Last Statement Balance"), real_last_stmt_balance))
+        lines.append(self.add_title_line(_("Equal Last Statement Balance"), real_last_stmt_balance))
         return lines
 
     @api.model
