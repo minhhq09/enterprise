@@ -7,16 +7,10 @@ from odoo.addons.grid.models import END_OF
 class AnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
-    def copy_data(self, cr, uid, id, default=None, context=None):
-        copy_data = super(AnalyticLine, self)\
-            .copy_data(cr, uid, id, default=default, context=context)
-        if not default or 'name' not in default:
-            # don't keep the current description for the new copied line
-            copy_data['name'] = u'/'
-        if not default or 'amount' not in default:
-            # also reset the amount
-            copy_data['amount'] = 0
-        return copy_data
+    # don't keep existing description (if any) when copying a line
+    name = fields.Char(required=False, copy=False)
+    # reset amount on copy
+    amount = fields.Monetary(copy=False)
 
     @api.multi
     def validate(self):
