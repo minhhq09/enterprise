@@ -230,5 +230,19 @@
         <record id="hr_timesheet.menu_hr_timesheet_report_all" model="ir.ui.menu">
             <field name="name">Activity Analysis</field>
         </record>
+
+        <record id="project_view_form_timesheets" model="ir.ui.view">
+            <field name="name">Enable timesheet on project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options_active']" position="inside">
+                    <div>
+                        <field name="allow_timesheets" class="oe_inline" string="Allow timesheets"/>
+                        <label for="allow_timesheets"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>

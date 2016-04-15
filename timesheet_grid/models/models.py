@@ -13,6 +13,7 @@ class AnalyticLine(models.Model):
     # reset amount on copy
     amount = fields.Monetary(copy=False)
     validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
+    project_id = fields.Many2one(domain=[('allow_timesheets', '=', True)])
 
     @api.multi
     def validate(self):
@@ -63,3 +64,8 @@ class Employee(models.Model):
     timesheet_validated = fields.Date(
         "Timesheets validation limit",
         help="Date until which the employee's timesheets have been validated")
+
+class Project(models.Model):
+    _inherit = 'project.project'
+
+    allow_timesheets = fields.Boolean("Allow timesheets", default=True)
