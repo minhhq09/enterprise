@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import itertools
 
 from openerp import models, fields, api, _
 from odoo.addons.grid.models import END_OF
@@ -11,6 +12,7 @@ class AnalyticLine(models.Model):
     name = fields.Char(required=False, copy=False)
     # reset amount on copy
     amount = fields.Monetary(copy=False)
+    validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
 
     @api.multi
     def validate(self):
@@ -39,6 +41,21 @@ class AnalyticLine(models.Model):
             cell_field: change
         })
         return False
+
+    @api.multi
+    @api.depends('date', 'user_id.employee_ids.timesheet_validated')
+    def _timesheet_line_validated(self):
+        for line in self:
+            # get most recent validation date on any of the line user's
+            # employees
+            validated_to = max(itertools.chain((
+                e.timesheet_validated
+                for e in line.user_id.employee_ids
+            ), [None]))
+            if validated_to:
+                line.validated = line.date <= validated_to
+            else:
+                line.validated = False
 
 class Employee(models.Model):
     _inherit = 'hr.employee'

@@ -81,7 +81,29 @@
         <record id="view_timesheet_grid_search" model="ir.ui.view">
             <field name="name">timesheet grid search</field>
             <field name="model">account.analytic.line</field>
-            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="arch" type="xml">
+                <search string="Timesheet">
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="name"/>
+                    <filter name="mine" string="My Timesheets" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter name="validated" string="Validated" domain="[('validated', '=', True)]"/>
+                    <filter name="nonvalidated" string="Non Validated" domain="[('validated', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Users" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Task" domain="[]" context="{'group_by':'task_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_timesheet_grid_validation_search" model="ir.ui.view">
+            <field name="name">timesheet validation grid search</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="view_timesheet_grid_search"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <xpath expr="//search">
@@ -97,6 +119,7 @@
             <field name="name">My Timesheet</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
+            <field name="search_view_id" ref="view_timesheet_grid_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid')}),
@@ -119,30 +142,36 @@
             ]"/>
         </record>
         <record id="action_timesheet_previous_week" model="ir.actions.act_window">
-            <field name="name">Last Week's Timesheets</field>
+            <field name="name">Timesheets To Validate</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
-            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="search_view_id" ref="view_timesheet_grid_validation_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
             ]"/>
-            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d')}</field>
+            <field name="context">{
+                'grid_anchor': (datetime.date.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'),
+                'search_default_nonvalidated': True,
+            }</field>
         </record>
         <record id="action_timesheet_previous_month" model="ir.actions.act_window">
-            <field name="name">Last Month's Timesheets</field>
+            <field name="name">Timesheets To Validate</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
-            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="search_view_id" ref="view_timesheet_grid_validation_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
             ]"/>
-            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-%d'), 'grid_range': 'month'}</field>
+            <field name="context">{
+                'grid_anchor': (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-%d'), 'grid_range': 'month',
+                'search_default_nonvalidated': True,
+            }</field>
         </record>
 
         <!-- rename My Timesheet menu -->
