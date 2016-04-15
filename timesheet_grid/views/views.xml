@@ -148,23 +148,26 @@
         <record id="hr_timesheet.menu_hr_time_tracking" model="ir.ui.menu">
             <field name="name">Timesheets</field>
         </record>
-        <menuitem name="My Timesheet" id="menu_timesheet_grid_my"
+
+        <menuitem name="Timesheets" id="menu_timesheet_grid_timesheet"
                   parent="hr_timesheet.menu_hr_time_tracking"
-                  action="action_timesheet_current"
-                  sequence="0"/>
-        <menuitem name="All Timesheets" id="menu_timesheet_grid_all"
-                  parent="hr_timesheet.menu_hr_time_tracking"
-                  groups="base.group_hr_user"
-                  action="action_timesheet_all"
                   sequence="2"/>
+        <menuitem name="My Timesheet" id="menu_timesheet_grid_my"
+                  parent="menu_timesheet_grid_timesheet"
+                  action="action_timesheet_current"/>
+        <menuitem name="All Timesheets" id="menu_timesheet_grid_all"
+                  parent="menu_timesheet_grid_timesheet"
+                  groups="base.group_hr_user"
+                  action="action_timesheet_all"/>
+
         <menuitem name="To Validate" id="menu_timesheet_grid_validate"
                   parent="hr_timesheet.menu_hr_time_tracking"
                   groups="base.group_hr_user"
                   sequence="4"/>
-        <menuitem name="Previous Week" id="menu_timesheet_grid_validate_previous_week"
+        <menuitem name="Last Week" id="menu_timesheet_grid_validate_previous_week"
                   parent="menu_timesheet_grid_validate"
                   action="action_timesheet_previous_week"/>
-        <menuitem name="Previous Month" id="menu_timesheet_grid_validate_previous_month"
+        <menuitem name="Last Month" id="menu_timesheet_grid_validate_previous_month"
                   parent="menu_timesheet_grid_validate"
                   action="action_timesheet_previous_month"/>
 
@@ -190,8 +193,12 @@
             </field>
         </record>
 
-        <menuitem name="Grid" id="menu_timesheet_grid_report"
+        <menuitem name="Timesheet Analysis" id="menu_timesheet_grid_report"
                   parent="hr_timesheet.menu_timesheets_reports"
                   action="action_timesheet_report"/>
+        <!-- rename Reports > Timesheets -->
+        <record id="hr_timesheet.menu_hr_timesheet_report_all" model="ir.ui.menu">
+            <field name="name">Activity Analysis</field>
+        </record>
     </data>
 </openerp>
