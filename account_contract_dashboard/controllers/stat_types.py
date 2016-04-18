@@ -6,20 +6,22 @@ from openerp.http import request
 from openerp import _
 
 
-def _build_sql_query(fields, tables, conditions, query_args):
+def _build_sql_query(fields, tables, conditions, query_args, filters):
 
     # The conditions should use named arguments and these arguments are in query_args.
 
-    if query_args.get('contract_ids'):
+    if filters.get('contract_ids'):
         tables.append("account_analytic_account")
         tables.append("sale_subscription")
         conditions.append("account_invoice_line.account_analytic_id = account_analytic_account.id")
         conditions.append("sale_subscription.template_id IN %(contract_ids)s")
         conditions.append("sale_subscription.analytic_account_id = account_analytic_account.id")
+        query_args['contract_ids'] = tuple(filters.get('contract_ids'))
 
-    if query_args.get('company_ids'):
+    if filters.get('company_ids'):
         conditions.append("account_invoice.company_id IN %(company_ids)s")
         conditions.append("account_invoice_line.company_id IN %(company_ids)s")
+        query_args['company_ids'] = tuple(filters.get('company_ids'))
 
     fields_str = ', '.join(fields)
     tables_str = ', '.join(tables)
@@ -31,7 +33,7 @@ def _build_sql_query(fields, tables, conditions, query_args):
     return request.cr.dictfetchall()
 
 
-def compute_net_revenue(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_net_revenue(start_date, end_date, filters):
     fields = ['SUM(account_invoice_line.price_subtotal_signed)']
     tables = ['account_invoice_line', 'account_invoice']
     conditions = [
@@ -44,37 +46,34 @@ def compute_net_revenue(start_date, end_date, contract_ids=None, company_ids=Non
     sql_results = _build_sql_query(fields, tables, conditions, {
         'start_date': start_date,
         'end_date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     return 0 if not sql_results or not sql_results[0]['sum'] else int(sql_results[0]['sum'])
 
 
-def compute_arpu(start_date, end_date, contract_ids=None, company_ids=None):
-    mrr = compute_mrr(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
-    nb_customers = compute_nb_contracts(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+def compute_arpu(start_date, end_date, filters):
+    mrr = compute_mrr(start_date, end_date, filters)
+    nb_customers = compute_nb_contracts(start_date, end_date, filters)
     result = 0 if not nb_customers else mrr/float(nb_customers)
     return int(result)
 
 
-def compute_arr(start_date, end_date, contract_ids=None, company_ids=None):
-    result = 12*compute_mrr(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+def compute_arr(start_date, end_date, filters):
+    result = 12*compute_mrr(start_date, end_date, filters)
     return int(result)
 
 
-def compute_ltv(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_ltv(start_date, end_date, filters):
     # LTV = Average Monthly Recurring Revenue Per Customer / User Churn Rate
-    mrr = compute_mrr(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
-    nb_contracts = compute_nb_contracts(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+    mrr = compute_mrr(start_date, end_date, filters)
+    nb_contracts = compute_nb_contracts(start_date, end_date, filters)
     avg_mrr_per_customer = 0 if nb_contracts == 0 else mrr / float(nb_contracts)
-    logo_churn = compute_logo_churn(start_date, end_date, contract_ids=contract_ids, company_ids=company_ids)
+    logo_churn = compute_logo_churn(start_date, end_date, filters)
     result = 0 if logo_churn == 0 else avg_mrr_per_customer/float(logo_churn)
     return int(result)
 
 
-def compute_nrr(start_date, end_date, contract_ids=None, company_ids=None):
-
+def compute_nrr(start_date, end_date, filters):
     fields = ['SUM(account_invoice_line.price_subtotal_signed)']
     tables = ['account_invoice_line', 'account_invoice']
     conditions = [
@@ -88,14 +87,12 @@ def compute_nrr(start_date, end_date, contract_ids=None, company_ids=None):
     sql_results = _build_sql_query(fields, tables, conditions, {
         'start_date': start_date,
         'end_date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     return 0 if not sql_results or not sql_results[0]['sum'] else int(sql_results[0]['sum'])
 
 
-def compute_nb_contracts(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_nb_contracts(start_date, end_date, filters):
     fields = ['COUNT(DISTINCT account_invoice_line.account_analytic_id) AS sum']
     tables = ['account_invoice_line', 'account_invoice']
     conditions = [
@@ -108,14 +105,12 @@ def compute_nb_contracts(start_date, end_date, contract_ids=None, company_ids=No
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     return 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
 
-def compute_mrr(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_mrr(start_date, end_date, filters):
     fields = ['SUM(account_invoice_line.asset_mrr)']
     tables = ['account_invoice_line', 'account_invoice']
     conditions = [
@@ -127,14 +122,12 @@ def compute_mrr(start_date, end_date, contract_ids=None, company_ids=None):
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     return 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
 
-def compute_logo_churn(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_logo_churn(start_date, end_date, filters):
 
     fields = ['COUNT(DISTINCT account_invoice_line.account_analytic_id) AS sum']
     tables = ['account_invoice_line', 'account_invoice']
@@ -148,9 +141,7 @@ def compute_logo_churn(start_date, end_date, contract_ids=None, company_ids=None
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     active_customers_1_month_ago = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
@@ -172,16 +163,14 @@ def compute_logo_churn(start_date, end_date, contract_ids=None, company_ids=None
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     resigned_customers = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
     return 0 if not active_customers_1_month_ago else resigned_customers/float(active_customers_1_month_ago)
 
 
-def compute_revenue_churn(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_revenue_churn(start_date, end_date, filters):
 
     fields = ['SUM(account_invoice_line.asset_mrr) AS sum']
     tables = ['account_invoice_line', 'account_invoice']
@@ -201,16 +190,14 @@ def compute_revenue_churn(start_date, end_date, contract_ids=None, company_ids=N
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     churned_mrr = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
-    previous_month_mrr = compute_mrr(start_date, (end_date - relativedelta(months=+1)), contract_ids=contract_ids, company_ids=company_ids)
+    previous_month_mrr = compute_mrr(start_date, (end_date - relativedelta(months=+1)), filters)
     return 0 if previous_month_mrr == 0 else (churned_mrr)/float(previous_month_mrr)
 
 
-def compute_mrr_growth_values(start_date, end_date, contract_ids=None, company_ids=None):
+def compute_mrr_growth_values(start_date, end_date, filters):
     new_mrr = 0
     expansion_mrr = 0
     down_mrr = 0
@@ -236,14 +223,12 @@ def compute_mrr_growth_values(start_date, end_date, contract_ids=None, company_i
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     new_mrr = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
     # 2. DOWN & EXPANSION - TODO: remove SQL query and use_build_sql_query instead
-    if not contract_ids:
+    if not filters.get('contract_ids'):
         request.cr.execute("""
             SELECT old_line.account_analytic_id, old_line.sum AS old_sum, new_line.sum AS new_sum, (new_line.sum - old_line.sum) AS diff
             FROM (
@@ -302,7 +287,7 @@ def compute_mrr_growth_values(start_date, end_date, contract_ids=None, company_i
                 old_line.account_analytic_id = new_line.account_analytic_id
         """, {
             'date': end_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-            'contracts': tuple(contract_ids)
+            'contracts': tuple(filters.get('contract_ids'))
         })
     sql_results = request.cr.dictfetchall()
     for account in sql_results:
@@ -330,9 +315,7 @@ def compute_mrr_growth_values(start_date, end_date, contract_ids=None, company_i
 
     sql_results = _build_sql_query(fields, tables, conditions, {
         'date': end_date,
-        'contract_ids': tuple(contract_ids or []),
-        'company_ids': tuple(company_ids or []),
-    })
+    }, filters)
 
     churned_mrr = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 

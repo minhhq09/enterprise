@@ -59,7 +59,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     on_update_options: function() {
         this.start_date = this.start_picker.get_value() || '0001-02-01';
         this.end_date = this.end_picker.get_value()  || '9999-12-31';
-        this.contract_ids = this.get_filtered_contract_ids();
+        this.filters.contract_ids = this.get_filtered_contract_ids();
         
         var company_ids = this.get_filtered_company_ids();
 
@@ -76,7 +76,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         }).done(function (response) {
             if (response.result === true) {
                 self.currency_id = response.currency_id;
-                self.company_ids = company_ids;
+                self.filters.company_ids = company_ids;
                 self.$el.empty();
                 self.render_dashboard();
             } else {
@@ -112,22 +112,17 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
 
             this.$searchview_buttons = $();
             if(this.contract_templates.length || this.companies.length) {
-                this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {
-                    contract_templates: this.contract_templates,
-                    companies: this.companies,
-                    contract_ids: this.contract_ids,
-                    company_ids: this.company_ids,
-                }));
+                this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
             }
             // Check the box if it was already checked before the update
             this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter', function(e) {
                                         e.preventDefault();
                                         $(e.target).parent().toggleClass('selected');
                                     });
-            _.each(this.contract_ids, function(id) {
+            _.each(this.filters.contract_ids, function(id) {
                 self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
             });
-            _.each(this.company_ids, function(id) {
+            _.each(this.filters.company_ids, function(id) {
                 self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
             });
         }
@@ -193,8 +188,10 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.start_date = moment().subtract(1, 'M').format('YYYY-MM-DD');
         this.end_date = moment().format('YYYY-MM-DD');
 
-        this.contract_ids = [];
-        this.company_ids = [session.company_id];
+        this.filters = {
+            contract_ids: [],
+            company_ids: [session.company_id],
+        };
 
         this.defs = [];
         this.unresolved_defs_vals = [];
@@ -222,8 +219,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                         self,
                         self.start_date,
                         self.end_date,
-                        self.contract_ids,
-                        self.company_ids,
+                        self.filters,
                         self.currency_id,
                         self.stat_types,
                         stat_boxes[v].getAttribute("name"),
@@ -270,8 +266,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
                 this,
                 this.start_date,
                 this.end_date,
-                this.contract_ids,
-                this.company_ids,
+                this.filters,
                 this.currency_id,
                 this.stat_types,
                 stat_boxes[i].getAttribute("name"),
@@ -284,8 +279,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             new AccountContractDashboardForecastBox(
                 this,
                 this.end_date,
-                this.contract_ids,
-                this.company_ids,
+                this.filters,
                 this.forecast_stat_types,
                 forecast_boxes[j].getAttribute("name"),
                 forecast_boxes[j].getAttribute("code"),
@@ -320,8 +314,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
             'companies': this.companies,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
             'currency_id': this.currency_id,
             'push_main_state': true,
         };
@@ -337,8 +330,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
             'companies': this.companies,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
             'currency_id': this.currency_id,
             'push_main_state': true,
         };
@@ -374,8 +366,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         this.selected_stat = options.selected_stat;
         this.contract_templates = options.contract_templates;
         this.companies = options.companies;
-        this.contract_ids = options.contract_ids;
-        this.company_ids = options.company_ids;
+        this.filters = options.filters;
         this.currency_id = options.currency_id;
 
         this.display_stats_by_plan = !_.contains(['nrr', 'arpu', 'logo_churn'], this.selected_stat);
@@ -389,8 +380,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'stat_type': this.selected_stat,
             'start_date': this.start_date,
             'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function (result) {
             self.value = result;
         });
@@ -437,8 +427,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'stat_type': this.selected_stat,
             'start_date': this.start_date,
             'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function (result) {
             // Rounding of result
             _.map(result, function(v, k, dict) {dict[k] = Math.round(v * 100) / 100;});
@@ -464,8 +453,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'stat_type': this.selected_stat,
             'start_date': this.start_date,
             'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function (result) {
             var html = QWeb.render('account_contract_dashboard.stats_by_plan', {
                 stats_by_plan: result,
@@ -494,8 +482,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'start_date': this.start_date,
             'end_date': this.end_date,
             'points_limit': 0,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function(result){
             load_chart('#stat_chart_div', self.stat_types[self.selected_stat].name, result, true);
             self.$('#stat_chart_div div.o_loader').hide();
@@ -511,8 +498,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
             'start_date' : this.start_date,
             'end_date': this.end_date,
             'points_limit': 30,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function(result){
             self.load_chart_mrr_growth_stat('#mrr_growth_chart_div', result);
             self.$('#mrr_growth_chart_div div.o_loader').hide();
@@ -622,8 +608,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.end_date = options.end_date;
         this.contract_templates = options.contract_templates;
         this.companies = options.companies;
-        this.contract_ids = options.contract_ids;
-        this.company_ids = options.company_ids;
+        this.filters = options.filters;
         this.currency_id = options.currency_id;
 
         this.values = {};
@@ -684,8 +669,8 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         var self = this;
         return ajax.jsonRpc('/account_contract_dashboard/get_default_values_forecast', 'call', {
             'forecast_type': forecast_type,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'end_date': moment().format('YYYY-MM-DD'),
+            'filters': this.filters,
         }).done(function(result){
             self.values[forecast_type] = result;
         });
@@ -780,14 +765,13 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
 var AccountContractDashboardStatBox = Widget.extend({
     template: 'account_contract_dashboard.stat_box_content',
 
-    init: function(parent, start_date, end_date, contract_ids, company_ids, currency_id, stat_types, box_name, stat_type, has_mrr) {
+    init: function(parent, start_date, end_date, filters, currency_id, stat_types, box_name, stat_type, has_mrr) {
         this._super(parent);
 
         this.start_date = start_date;
         this.end_date = end_date;
 
-        this.contract_ids = contract_ids;
-        this.company_ids = company_ids;
+        this.filters = filters;
         this.currency_id = currency_id;
         this.stat_types = stat_types;
         this.box_name = box_name;
@@ -835,8 +819,7 @@ var AccountContractDashboardStatBox = Widget.extend({
             'start_date' : this.start_date,
             'end_date': this.end_date,
             'points_limit': 30,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function(result){
             self.value = result.stats.value_2;
             self.perc = result.stats.perc;
@@ -858,11 +841,10 @@ var AccountContractDashboardStatBox = Widget.extend({
 var AccountContractDashboardForecastBox = Widget.extend({
     template: 'account_contract_dashboard.forecast_stat_box_content',
 
-    init: function(parent, end_date, contract_ids, company_ids, forecast_stat_types, box_name, stat_type, currency_id, has_mrr) {
+    init: function(parent, end_date, filters, forecast_stat_types, box_name, stat_type, currency_id, has_mrr) {
         this._super(parent);
         this.end_date = end_date;
-        this.contract_ids = contract_ids;
-        this.company_ids = company_ids;
+        this.filters = filters;
 
         this.currency_id = currency_id;
         this.forecast_stat_types = forecast_stat_types;
@@ -905,8 +887,7 @@ var AccountContractDashboardForecastBox = Widget.extend({
         return ajax.jsonRpc('/account_contract_dashboard/get_default_values_forecast', 'call', {
             'forecast_type': this.stat_type,
             'end_date': this.end_date,
-            'contract_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).done(function(result){
             self.computed_graph = compute_forecast_values(
                 result.starting_value,
@@ -1127,8 +1108,10 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         this.cohort_periods = [['day', _t('By Day')], ['week', _t('By Week')], ['month', _t('By Month')], ['year', _t('By Year')]];
         this.cohort_interest = 'number';
         this.cohort_interests = [['number', _t('Number of Contracts')], ['value', _t('Value of Contracts')]];
-        this.contract_ids = [];
-        this.company_ids = [session.company_id];
+        this.filters = {
+            'contract_ids': [],
+            'company_ids': [session.company_id],
+        };
 
         var self = this;
         this.fetch_cohort_report().done(function() {
@@ -1142,8 +1125,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
             'date_start': this.date_start,
             'cohort_period': this.cohort_period,
             'cohort_interest': this.cohort_interest,
-            'contract_template_ids': this.contract_ids,
-            'company_ids': this.company_ids,
+            'filters': this.filters,
         }).then(function (result) {
             self.cohort_report = result.cohort_report;
             self.contract_templates = result.contract_templates;
@@ -1206,8 +1188,8 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         this.date_start = this.$searchview.find('input[name="date_start"]').val();
         this.cohort_period = this.$searchview.find('option[name="period"]:selected').val();
         this.cohort_interest = this.$searchview.find('option[name="interest"]:selected').val();
-        this.contract_ids = this.get_filtered_contract_ids();
-        this.company_ids = this.get_filtered_company_ids();
+        this.filters.contract_ids = this.get_filtered_contract_ids();
+        this.filters.company_ids = this.get_filtered_company_ids();
 
         var self = this;
         addLoader(this.$('.o_cohort_analysis').empty());
@@ -1244,12 +1226,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
 
         this.$searchview_buttons = $();
         if(this.contract_templates.length) {
-            this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {
-                contract_templates: this.contract_templates,
-                contract_ids: this.contract_ids,
-                companies: this.companies,
-                company_ids: this.company_ids,
-            }));
+            this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
         }
         var self = this;
         // Check the box if it was already checked before the update
@@ -1258,10 +1235,10 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
             $(e.target).parent().toggleClass('selected');
             self.on_update_options();
         });
-        _.each(this.contract_ids, function(id) {
+        _.each(this.filters.contract_ids, function(id) {
             self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
         });
-        _.each(this.company_ids, function(id) {
+        _.each(this.filters.company_ids, function(id) {
             self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
         });
 

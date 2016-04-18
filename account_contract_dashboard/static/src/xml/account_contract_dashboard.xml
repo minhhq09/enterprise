@@ -289,20 +289,20 @@
     </div>
     <t t-name="account_contract_dashboard.dashboard_option_filters">
         <!-- Contracts -->
-        <div t-if="contract_templates &amp;&amp; contract_templates.length > 1" class="o_dropdown">
+        <div t-if="widget.contract_templates &amp;&amp; widget.contract_templates.length > 1" class="o_dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on contracts</a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
-                <li t-foreach="contract_templates" t-as="template">
+                <li t-foreach="widget.contract_templates" t-as="template">
                     <a href="#" class="o_contract_template_filter" t-att-data-id="template.id"><t t-esc="template.name"/></a>
                 </li>
             </ul>
         </div>
 
         <!-- Companies -->
-        <div t-if="companies &amp;&amp; companies.length > 1" class="o_dropdown">
+        <div t-if="widget.companies &amp;&amp; widget.companies.length > 1" class="o_dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on companies</a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
-                <li t-foreach="companies" t-as="company">
+                <li t-foreach="widget.companies" t-as="company">
                     <a href="#" class="o_companies_filter" t-att-data-id="company.id"><t t-esc="company.name"/></a>
                 </li>
             </ul>
