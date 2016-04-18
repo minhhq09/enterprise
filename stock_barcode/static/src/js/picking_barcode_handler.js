@@ -37,7 +37,7 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
         var deferred = $.Deferred();
         if (state === 'cancel' || state === 'done') {
             this.do_warn(_.str.sprintf(_t('Picking %s'), state), _.str.sprintf(_t('The picking is %s and cannot be edited.'), state));
-            return deferred.resolve(true);
+            return deferred.reject();
         }
         var self = this;
         self.try_increasing_po_qty(barcode).fail(function() {
