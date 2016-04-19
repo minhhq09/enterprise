@@ -298,6 +298,16 @@
             </ul>
         </div>
 
+        <!-- Tags -->
+        <div t-if="widget.tags &amp;&amp; widget.tags.length > 1" class="o_dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">Filter on tags</a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <li t-foreach="widget.tags" t-as="tag">
+                    <a href="#" class="o_tags_filter" t-att-data-id="tag.id"><t t-esc="tag.name"/></a>
+                </li>
+            </ul>
+        </div>
+
         <!-- Companies -->
         <div t-if="widget.companies &amp;&amp; widget.companies.length > 1" class="o_dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on companies</a>

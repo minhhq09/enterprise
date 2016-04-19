@@ -28,7 +28,7 @@ class RevenueKPIsDashboard(http.Controller):
         :param date_start: date of the first contract to take into account
         :param cohort_period: cohort period. Between 'day','week','month', 'year'
         :param cohort_interest: cohort interest. Could be 'value' or 'number'
-        :param filters: filtering on specific contract templates, companies, etc.
+        :param filters: filtering on specific contract templates, tags, companies
         """
 
         cohort_report = []
@@ -42,6 +42,8 @@ class RevenueKPIsDashboard(http.Controller):
             ('date_start', '<=', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
         if filters.get('contract_ids'):
             subs_domain.append(('template_id', 'in', filters.get('contract_ids')))
+        if filters.get('tag_ids'):
+            subs_domain.append(('tag_ids', 'in', filters.get('tag_ids')))
         if filters.get('company_ids'):
             subs_domain.append(('company_id', 'in', filters.get('company_ids')))
 
@@ -114,6 +116,7 @@ class RevenueKPIsDashboard(http.Controller):
 
         return {
             'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], ['name']),
+            'tags': request.env['account.analytic.tag'].search_read([], ['name']),
             'companies': request.env['res.company'].search_read([], ['name']),
             'cohort_report': cohort_report,
             'currency_id': company_currency_id.id,
@@ -145,6 +148,7 @@ class RevenueKPIsDashboard(http.Controller):
             },
             'currency_id': request.env.user.company_id.currency_id.id,
             'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], fields=['name']),
+            'tags': request.env['account.analytic.tag'].search_read([], fields=['name']),
             'companies': request.env['res.company'].search_read([], fields=['name']),
             'has_template': bool(request.env['sale.subscription'].search_count([('active', '=', True), ('type', '=', 'template')])),
             'has_mrr': bool(request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)])),

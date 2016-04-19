@@ -18,6 +18,16 @@ def _build_sql_query(fields, tables, conditions, query_args, filters):
         conditions.append("sale_subscription.analytic_account_id = account_analytic_account.id")
         query_args['contract_ids'] = tuple(filters.get('contract_ids'))
 
+    if filters.get('tag_ids'):
+        tables.append("account_analytic_account")
+        tables.append("sale_subscription")
+        tables.append("account_analytic_account_tag_rel")
+        conditions.append("account_invoice_line.account_analytic_id = account_analytic_account.id")
+        conditions.append("sale_subscription.analytic_account_id = account_analytic_account.id")
+        conditions.append("account_analytic_account.id = account_analytic_account_tag_rel.account_id")
+        conditions.append("account_analytic_account_tag_rel.tag_id IN %(tag_ids)s")
+        query_args['tag_ids'] = tuple(filters.get('tag_ids'))
+
     if filters.get('company_ids'):
         conditions.append("account_invoice.company_id IN %(company_ids)s")
         conditions.append("account_invoice_line.company_id IN %(company_ids)s")

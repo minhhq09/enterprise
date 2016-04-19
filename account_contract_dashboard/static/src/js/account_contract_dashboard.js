@@ -60,6 +60,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         this.start_date = this.start_picker.get_value() || '0001-02-01';
         this.end_date = this.end_picker.get_value()  || '9999-12-31';
         this.filters.contract_ids = this.get_filtered_contract_ids();
+        this.filters.tag_ids = this.get_filtered_tag_ids();
         
         var company_ids = this.get_filtered_company_ids();
 
@@ -92,6 +93,11 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         return _.map($contract_inputs, function(el) { return $(el).data('id'); });
     },
 
+    get_filtered_tag_ids: function() {
+        var $tag_inputs = this.$searchview_buttons.find(".selected > .o_tags_filter");
+        return _.map($tag_inputs, function(el) { return $(el).data('id'); });
+    },
+
     get_filtered_company_ids: function() {
         if (this.companies && this.companies.length === 1) {
             return [this.companies[0].id];
@@ -111,16 +117,19 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
             def = this.set_up_datetimepickers();
 
             this.$searchview_buttons = $();
-            if(this.contract_templates.length || this.companies.length) {
+            if(this.contract_templates.length || this.companies.length || this.tags.length) {
                 this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
             }
             // Check the box if it was already checked before the update
-            this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter', function(e) {
+            this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter, .o_tags_filter', function(e) {
                                         e.preventDefault();
                                         $(e.target).parent().toggleClass('selected');
                                     });
             _.each(this.filters.contract_ids, function(id) {
                 self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
+            });
+            _.each(this.filters.tag_ids, function(id) {
+                self.$searchview_buttons.find('.o_tags_filter[data-id=' + id + ']').parent().addClass('selected');
             });
             _.each(this.filters.company_ids, function(id) {
                 self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
@@ -190,6 +199,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 
         this.filters = {
             contract_ids: [],
+            tag_ids: [],
             company_ids: [session.company_id],
         };
 
@@ -241,6 +251,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             self.forecast_stat_types = result.forecast_stat_types;
             self.currency_id = result.currency_id;
             self.contract_templates = result.contract_templates;
+            self.tags = result.tags;
             self.companies = result.companies;
             self.has_mrr = result.has_mrr;
             self.has_template = result.has_template;
@@ -313,6 +324,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'start_date': this.start_date,
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
+            'tags': this.tags,
             'companies': this.companies,
             'filters': this.filters,
             'currency_id': this.currency_id,
@@ -329,6 +341,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             'start_date': this.start_date,
             'end_date': this.end_date,
             'contract_templates': this.contract_templates,
+            'tags': this.tags,
             'companies': this.companies,
             'filters': this.filters,
             'currency_id': this.currency_id,
@@ -365,6 +378,7 @@ var account_contract_dashboard_detailed = account_contract_dashboard_abstract.ex
         this.end_date = options.end_date;
         this.selected_stat = options.selected_stat;
         this.contract_templates = options.contract_templates;
+        this.tags = options.tags;
         this.companies = options.companies;
         this.filters = options.filters;
         this.currency_id = options.currency_id;
@@ -607,6 +621,7 @@ var account_contract_dashboard_forecast = account_contract_dashboard_abstract.ex
         this.start_date = options.start_date;
         this.end_date = options.end_date;
         this.contract_templates = options.contract_templates;
+        this.tags = options.tags;
         this.companies = options.companies;
         this.filters = options.filters;
         this.currency_id = options.currency_id;
@@ -1110,6 +1125,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         this.cohort_interests = [['number', _t('Number of Contracts')], ['value', _t('Value of Contracts')]];
         this.filters = {
             'contract_ids': [],
+            'tag_ids': [],
             'company_ids': [session.company_id],
         };
 
@@ -1129,6 +1145,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         }).then(function (result) {
             self.cohort_report = result.cohort_report;
             self.contract_templates = result.contract_templates;
+            self.tags = result.tags;
             self.companies = result.companies;
             self.currency_id = result.currency_id;
         });
@@ -1189,6 +1206,7 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         this.cohort_period = this.$searchview.find('option[name="period"]:selected').val();
         this.cohort_interest = this.$searchview.find('option[name="interest"]:selected').val();
         this.filters.contract_ids = this.get_filtered_contract_ids();
+        this.filters.tag_ids = this.get_filtered_tag_ids();
         this.filters.company_ids = this.get_filtered_company_ids();
 
         var self = this;
@@ -1201,6 +1219,11 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
     get_filtered_contract_ids: function() {
         var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
         return _.map($contract_inputs, function(el) { return $(el).data('id'); });
+    },
+
+    get_filtered_tag_ids: function() {
+        var $tag_inputs = this.$searchview_buttons.find(".selected > .o_tags_filter");
+        return _.map($tag_inputs, function(el) { return $(el).data('id'); });
     },
 
     get_filtered_company_ids: function() {
@@ -1225,18 +1248,21 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
         this.set_up_datetimepickers();
 
         this.$searchview_buttons = $();
-        if(this.contract_templates.length) {
+        if(this.contract_templates.length || this.companies.length || this.tags.length) {
             this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
         }
         var self = this;
         // Check the box if it was already checked before the update
-        this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter', function(e) {
+        this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_tags_filter, .o_companies_filter', function(e) {
             e.preventDefault();
             $(e.target).parent().toggleClass('selected');
             self.on_update_options();
         });
         _.each(this.filters.contract_ids, function(id) {
             self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+        _.each(this.filters.tag_ids, function(id) {
+            self.$searchview_buttons.find('.o_tags_filter[data-id=' + id + ']').parent().addClass('selected');
         });
         _.each(this.filters.company_ids, function(id) {
             self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
