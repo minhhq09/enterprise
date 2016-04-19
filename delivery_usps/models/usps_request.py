@@ -22,6 +22,9 @@ CANCEL_SHIPMENT_ADDRESS = {'ID': '308ABC004378',
                            'ZIP4': '1234',
                            'ConfirmationNumber': 'WTC123456789'}
 
+# This re should match postcodes like 12345 and 12345-6789
+ZIP_ZIP4 = re.compile('^[0-9]{5}(-[0-9]{4})?$')
+
 
 class USPSRequest():
 
@@ -44,16 +47,15 @@ class USPSRequest():
             raise ValidationError(_("The address of your company is missing or wrong (Missing field(s) :  \n %s)") % ", ".join(res).replace("_id", ""))
         if shipper.country_id.code != 'US':
             raise ValidationError(_("Please set country U.S.A in your company address, Service is only available for U.S.A"))
-        if len(shipper.zip) != 5:
+        if not ZIP_ZIP4.match(shipper.zip):
             raise ValidationError(_("Please enter a valid ZIP code in your Company address"))
         if not self._convert_phone_number(shipper.phone):
             raise ValidationError(_("Company phone number is invalid. Please insert a US phone number."))
         res = [field for field in recipient_required_field if not recipient[field]]
         if res:
             raise ValidationError(_("The recipient address is missing or wrong (Missing field(s) :  \n %s)") % ", ".join(res).replace("_id", ""))
-        if delivery_nature == 'domestic' and len(recipient.zip) != 5:
+        if delivery_nature == 'domestic' and not ZIP_ZIP4.match(recipient.zip):
             raise ValidationError(_("Please enter a valid ZIP code in recipient address"))
-
         if recipient.country_id.code == "US" and delivery_nature == 'international':
             raise ValidationError(_("USPS International is used only to ship  outside of the U.S.A. Please change the delivery method into USPS Domestic."))
         if recipient.country_id.code != "US" and delivery_nature == 'domestic':
