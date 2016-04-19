@@ -247,9 +247,11 @@ class YodleeAccountJournal(models.Model):
         params['userSessionToken'] = self.company_id.yodlee_user_access_token
         try:
             resp = requests.post(credentials['url'] + service, params=params)
+            _logger.info('Yodlee call to %s with params %s' % (service, params))
             resp.raise_for_status()
         except Exception as e:
             self._raise_exception(e, resp)
+        _logger.info('Yodlee response to %s: %s' % (service, resp.json()))
         return resp.text
 
 
