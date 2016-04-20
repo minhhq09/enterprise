@@ -39,7 +39,12 @@ class report_account_general_ledger(models.AbstractModel):
         ''' Compute the sum of ending balances for all accounts that are of a type that does not bring forward the balance in new fiscal years.
             This is needed to balance the trial balance and the general ledger reports (to have total credit = total debit)
         '''
-        select = 'SELECT COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_currency),SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
+
+        select = '''
+        SELECT COALESCE(SUM("account_move_line".balance), 0),
+               COALESCE(SUM("account_move_line".amount_currency), 0),
+               COALESCE(SUM("account_move_line".debit), 0),
+               COALESCE(SUM("account_move_line".credit), 0)'''
         if self.env.context.get('cash_basis'):
             select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         select += " FROM %s WHERE %s"
@@ -98,7 +103,7 @@ class report_account_general_ledger(models.AbstractModel):
             else:
                 accounts[account]['lines'] = self.env['account.move.line'].search(domain, order='date')
         #if the unaffected earnings account wasn't in the selection yet: add it manually
-        if not unaffected_earnings_line:
+        if not unaffected_earnings_line and unaffected_earnings_results['balance']:
             #search an unaffected earnings account
             unaffected_earnings_account = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_unaffected_earnings').id)], limit=1)
             if unaffected_earnings_account and (not line_id or unaffected_earnings_account.id == line_id):
