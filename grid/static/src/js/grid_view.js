@@ -133,7 +133,10 @@ var GridView = View.extend({
         'click .o_grid_cell_information': function (e) {
             var $target = $(e.target);
             var data = this.get('grid_data');
-            var cell = into(data, $target.parent().data('path'));
+            var cell_path = $target.parent().data('path').split('.');
+            var row_path = cell_path.slice(0, -3).concat(['rows'], cell_path.slice(-2, -1));
+            var cell = into(data, cell_path);
+            var row = into(data, row_path);
 
             var anchor, col = this._col_field.name();
             var additional_context = {};
@@ -142,9 +145,13 @@ var GridView = View.extend({
             }
 
             var views = this.ViewManager.views;
+            var group_fields = this.get('groupby').slice(_.isArray(this.get('grid_data')) ? 1 : 0);
+            var label = _(group_fields).map(function (name) {
+                return row.values[name][1];
+            }).join(': ');
             this.do_action({
                 type: 'ir.actions.act_window',
-                name: _t("Grid Cell Details"),
+                name: label,
                 res_model: this._model.name,
                 views: [
                     [views.list ? views.list.view_id : false, 'list'],
