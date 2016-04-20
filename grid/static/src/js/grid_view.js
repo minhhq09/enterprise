@@ -197,7 +197,9 @@ var GridView = View.extend({
             }
 
             columns = grid_data.length ? grid_data[0].cols : [];
-            vnode = this._table_base(columns);
+            var super_totals = this._compute_totals(
+                _.flatten(_.pluck(grid_data, 'grid'), true));
+            vnode = this._table_base(columns, super_totals.columns);
             var grid_body = vnode.children[0].children;
             for (var n = 0; n < grid_data.length; n++) {
                 grid = grid_data[n];
@@ -274,6 +276,7 @@ var GridView = View.extend({
      * @param {Array} columns
      * @param {Object} [totals]
      * @param {Number} [super_total]
+     * @param {Boolean} [empty=false]
      */
     _table_base: function (columns, totals, super_total, empty) {
         var _this = this;
