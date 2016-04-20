@@ -56,6 +56,7 @@ odoo.define('project_timeshee.ui', function (require ) {
 
             self.session = session; // This makes session accessible in QWEB templates.
             self.syncable = false; // Sync flag. Enabled if the user has a valid session with a server where the appropiate sync module is installed.
+            self.sync_in_progress = false;
 
         },
         /**
@@ -237,7 +238,7 @@ odoo.define('project_timeshee.ui', function (require ) {
         // Options should only contain a callback function.
         // If there is a callback, it is always called even if the sync failed or was skipped.
         sync: function(options) {
-            if (!this.syncable) {
+            if (!this.syncable || this.sync_in_progress) {
                 if (options && options.callback) {
                     options.callback();
                 }
@@ -246,6 +247,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var defer = $.Deferred();
             var self = this;
             self.$('.pt_nav_sync a').addClass('pt_sync_in_progress');
+            self.sync_in_progress = true;
 
             // Before syncing, we must ensure that the xml_ids on the server and in the app are appropriate.
             // If they are not, we try to clean them on the server and locally.
@@ -413,6 +415,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         });
                         self.sync_time = new Date();
                         self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
+                        self.sync_in_progress = false;
                         self.flush_activities(MAX_AGE);
                         self.save_user_data();
                         defer.resolve();
@@ -422,6 +425,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     });
                 }).fail(function() {
                     self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
+                    self.sync_in_progress = false;
                     defer.resolve();
                     if (options && options.callback) {
                         options.callback();
