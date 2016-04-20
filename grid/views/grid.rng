@@ -7,6 +7,15 @@
         <element name="grid">
             <ref name="acl"/>
             <attribute name="string"/>
+            <optional>
+                <attribute name="adjustment">
+                    <choice>
+                        <value>object</value>
+                        <value>action</value>
+                    </choice>
+                </attribute>
+                <attribute name="adjust_name"/>
+            </optional>
             <interleave>
                 <oneOrMore><ref name="field"/></oneOrMore>
                 <zeroOrMore><ref name="button"/></zeroOrMore>

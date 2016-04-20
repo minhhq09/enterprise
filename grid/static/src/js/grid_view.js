@@ -165,6 +165,8 @@ var GridView = View.extend({
 
         this._in_waiting = null;
         this._fetch_mutex = new utils.Mutex();
+        // cells are only editable if the view is *and* an adjustment callback is configured
+        this._editable_cells = this.is_action_enabled('edit') && this.fields_view.arch.attrs['adjustment'];
 
         this.on('change:grid_data', this, this._render);
         this.on('change:range', this, this._fetch);
@@ -372,7 +374,7 @@ var GridView = View.extend({
                     }, attrs: {
                         'data-path': path.concat([row_index, cell_index]).join('.')
                     }
-                }, [h('i.fa.fa-info-circle.o_grid_cell_information', []), _this.is_action_enabled('edit') ? h('div.o_grid_input', {
+                }, [h('i.fa.fa-info-circle.o_grid_cell_information', []), _this._editable_cells ? h('div.o_grid_input', {
                     attrs: {
                         contentEditable: "true"
                     }
@@ -617,14 +619,31 @@ var GridView = View.extend({
         var domain = this.get('domain').concat(cell.row.domain);
 
         var column_name = this._col_field.name();
-        return this._model.call('adjust_grid', {
-            row_domain: domain,
-            column_field: column_name,
-            column_value: cell.col.values[column_name][0],
-            cell_field: this._cell_field.name(),
-            change: difference,
-            context: this.get_full_context()
-        }).then(this.proxy('_fetch'));
+
+        return this.do_execute_action({
+                type: this.fields_view.arch.attrs['adjustment'],
+                name: this.fields_view.arch.attrs['adjust_name'],
+                args: JSON.stringify([ // args for type=object
+                    domain,
+                    column_name,
+                    cell.col.values[column_name][0],
+                    this._cell_field.name(),
+                    difference
+                ]),
+                context: this.get_full_context({
+                    'grid_adjust': { // context for type=action
+                        row_domain: domain,
+                        column_field: column_name,
+                        column_value: cell.col.values[column_name][0],
+                        cell_field: this._cell_field.name(),
+                        change: difference,
+                    }
+                })
+            },
+            new data.DataSetStatic(null, this._model.name, {}, []), // ids=[]
+            null, // record_id
+            this.proxy('_fetch') // on_close
+        );
     },
 });
 core.view_registry.add('grid', GridView);

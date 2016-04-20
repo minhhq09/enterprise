@@ -13,8 +13,7 @@ This view is a work in progress and may have to be expanded or altered.
   are nominally implemented and supported but have not been tested, 
   ``datetime`` is not implemented at all.
 * column cells are hardly configurable and must be numerical
-* cell adjustment (in editable views) is currently hard-coded as a specific 
-  method call
+* cell adjustment is disabled by default and must be configured to be enabled
 * ``create``, ``edit`` and ``delete`` ACL metadata doesn't get automatically
   set on the view root due to limitations in ``fields_view_get`` 
   post-processing (there's a fixed explicit list of the view types getting 
@@ -31,6 +30,29 @@ view architecture is:
     
     * mandatory ``string`` attribute
     * optional ``create``, ``edit`` and ``delete`` attributes
+    * optional ``adjustment`` and ``adjust_name`` attributes
+
+      ``adjustment`` can be either ``object`` or ``action`` to indicate
+      whether a cell's adjustment should be performed through a method call
+      or an action execution. ``adjust_name`` provides respectively the method
+      name and the action id.
+
+      In both cases, the adjustment parameters are provided as a
+      ``grid_adjust`` context member, in the ``object`` case, the parameters
+      are also provided as positional function parameters (next to an empty
+      list of ids):
+
+      ``row_domain``
+        the domain matching the entire row of the adjusted cell
+      ``column_field``
+        the name of the column for the adjusted cell
+      ``column_value``
+        the value of the column for the adjusted cell
+      ``cell_field``
+        the measure field of the adjusted cell
+      ``change``
+        the difference between the old value of the cell and the adjusted one,
+        may be possitive or negative
 
 ``<button>`` (0+)
     Regular Odoo action buttons, displayed in the view header
