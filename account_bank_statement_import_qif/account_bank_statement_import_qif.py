@@ -61,7 +61,10 @@ class AccountBankStatementImport(models.TransientModel):
         transactions = []
         vals_line = {}
         total = 0
-        if header == "Bank":
+        # Identified header types of the QIF format that we support.
+        # Other types might need to be added. Here are the possible values
+        # according to the QIF spec: Cash, Bank, CCard, Invst, Oth A, Oth L, Invoice.
+        if header in ['Bank', 'Cash', 'CCard']:
             vals_bank_statement = {}
             for line in data_list:
                 line = line.strip()
