@@ -6,8 +6,24 @@ from openerp.http import request
 from openerp import _
 
 
-def _build_sql_query(fields, tables, conditions, query_args, filters):
+def _execute_sql_query(fields, tables, conditions, query_args, filters, groupby=None):
+    """ Returns the result of the SQL query. """
+    query, args = _build_sql_query(fields, tables, conditions, query_args, filters, groupby=groupby)
+    request.cr.execute(query, args)
+    return request.cr.dictfetchall()
 
+
+def _build_sql_query(fields, tables, conditions, query_args, filters, groupby=None):
+    """ The goal of this function is to avoid:
+        * writing raw SQL requests (kind of abstraction)
+        * writing additionnal conditions for filters (same conditions for every request)
+    :params fields, tables, conditions: basic SQL request statements
+    :params query_args: dict of optional query args used in the request
+    :params filters: dict of optional filters (contract_ids, tag_ids, company_ids)
+    :params groupby: additionnal groupby statement
+
+    :returns: the SQL request and the new query_args (with filters tables & conditions)
+    """
     # The conditions should use named arguments and these arguments are in query_args.
 
     if filters.get('contract_ids'):
@@ -33,14 +49,16 @@ def _build_sql_query(fields, tables, conditions, query_args, filters):
         conditions.append("account_invoice_line.company_id IN %(company_ids)s")
         query_args['company_ids'] = tuple(filters.get('company_ids'))
 
-    fields_str = ', '.join(fields)
-    tables_str = ', '.join(tables)
-    conditions_str = ' AND '.join(conditions)
+    fields_str = ', '.join(set(fields))
+    tables_str = ', '.join(set(tables))
+    conditions_str = ' AND '.join(set(conditions))
 
-    base_query = "SELECT %s FROM %s WHERE %s" % (fields_str, tables_str, conditions_str)
+    if groupby:
+        base_query = "SELECT %s FROM %s WHERE %s GROUP BY %s" % (fields_str, tables_str, conditions_str, groupby)
+    else:
+        base_query = "SELECT %s FROM %s WHERE %s" % (fields_str, tables_str, conditions_str)
 
-    request.cr.execute(base_query, query_args)
-    return request.cr.dictfetchall()
+    return base_query, query_args
 
 
 def compute_net_revenue(start_date, end_date, filters):
@@ -53,7 +71,7 @@ def compute_net_revenue(start_date, end_date, filters):
         "account_invoice.state NOT IN ('draft', 'cancel')",
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'start_date': start_date,
         'end_date': end_date,
     }, filters)
@@ -94,7 +112,7 @@ def compute_nrr(start_date, end_date, filters):
         "account_invoice_line.asset_start_date IS NULL",
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'start_date': start_date,
         'end_date': end_date,
     }, filters)
@@ -113,7 +131,7 @@ def compute_nb_contracts(start_date, end_date, filters):
         "account_invoice_line.account_analytic_id IS NOT NULL"
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
@@ -130,7 +148,7 @@ def compute_mrr(start_date, end_date, filters):
         "account_invoice.state NOT IN ('draft', 'cancel')"
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
@@ -149,7 +167,7 @@ def compute_logo_churn(start_date, end_date, filters):
         "account_invoice_line.account_analytic_id IS NOT NULL"
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
@@ -171,7 +189,7 @@ def compute_logo_churn(start_date, end_date, filters):
         """,
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
@@ -198,7 +216,7 @@ def compute_revenue_churn(start_date, end_date, filters):
         """
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
@@ -231,74 +249,45 @@ def compute_mrr_growth_values(start_date, end_date, filters):
         """
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
     new_mrr = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
-    # 2. DOWN & EXPANSION - TODO: remove SQL query and use_build_sql_query instead
-    if not filters.get('contract_ids'):
-        request.cr.execute("""
-            SELECT old_line.account_analytic_id, old_line.sum AS old_sum, new_line.sum AS new_sum, (new_line.sum - old_line.sum) AS diff
-            FROM (
-                SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice
-                WHERE asset_start_date BETWEEN date %(date)s - interval '1 months' + interval '1 days' and date %(date)s AND
-                    invoice.id = line.invoice_id AND
-                    invoice.type IN ('out_invoice', 'out_refund') AND
-                    invoice.state NOT IN ('draft', 'cancel')
-                GROUP BY account_analytic_id
-                ) AS new_line,
-                (
-                SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice
-                WHERE asset_end_date BETWEEN date %(date)s - interval '2 months' + interval '1 days' and date %(date)s AND
-                    invoice.id = line.invoice_id AND
-                    invoice.type IN ('out_invoice', 'out_refund') AND
-                    invoice.state NOT IN ('draft', 'cancel')
-                GROUP BY account_analytic_id
-                ) AS old_line
-            WHERE
-                new_line.account_analytic_id IS NOT NULL AND
-                old_line.account_analytic_id = new_line.account_analytic_id
-        """, {
-            'date': end_date,
-        })
-    else:
-        request.cr.execute("""
-            SELECT old_line.account_analytic_id, old_line.sum AS old_sum, new_line.sum AS new_sum, (new_line.sum - old_line.sum) AS diff
-            FROM (
-                SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account, sale_subscription as contract
-                WHERE asset_start_date BETWEEN date %(date)s - interval '1 months' + interval '1 days' and date %(date)s AND
-                    invoice.id = line.invoice_id AND
-                    invoice.type IN ('out_invoice', 'out_refund') AND
-                    invoice.state NOT IN ('draft', 'cancel') AND
-                    line.account_analytic_id = analytic_account.id AND
-                    contract.template_id IN %(contracts)s AND
-                    contract.analytic_account_id = analytic_account.id
-                GROUP BY account_analytic_id
-                ) AS new_line,
-                (
-                SELECT account_analytic_id, SUM(asset_mrr) AS sum
-                FROM account_invoice_line AS line, account_invoice AS invoice, account_analytic_account AS analytic_account, sale_subscription as contract
-                WHERE asset_end_date BETWEEN date %(date)s - interval '2 months' + interval '1 days' and date %(date)s AND
-                    invoice.id = line.invoice_id AND
-                    invoice.type IN ('out_invoice', 'out_refund') AND
-                    invoice.state NOT IN ('draft', 'cancel') AND
-                    line.account_analytic_id = analytic_account.id AND
-                    contract.template_id IN %(contracts)s AND
-                    contract.analytic_account_id = analytic_account.id
-                GROUP BY account_analytic_id
-                ) AS old_line
-            WHERE
-                new_line.account_analytic_id IS NOT NULL AND
-                old_line.account_analytic_id = new_line.account_analytic_id
-        """, {
-            'date': end_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-            'contracts': tuple(filters.get('contract_ids'))
-        })
+    # 2. DOWN & EXPANSION
+    fields = ['account_invoice_line.account_analytic_id', 'SUM(account_invoice_line.asset_mrr) AS sum']
+    tables = ['account_invoice_line', 'account_invoice']
+    conditions = [
+        "account_invoice.id = account_invoice_line.invoice_id",
+        "account_invoice.type IN ('out_invoice', 'out_refund')",
+        "account_invoice.state NOT IN ('draft', 'cancel')",
+    ]
+    groupby = "account_invoice_line.account_analytic_id"
+
+    subquery_1 = _build_sql_query(fields, tables, [
+        "account_invoice.id = account_invoice_line.invoice_id",
+        "account_invoice.type IN ('out_invoice', 'out_refund')",
+        "account_invoice.state NOT IN ('draft', 'cancel')",
+        "account_invoice_line.asset_start_date BETWEEN date %(date)s - interval '1 months' + interval '1 days' and date %(date)s"
+    ], {'date': end_date}, filters, groupby=groupby)
+
+    subquery_2 = _build_sql_query(fields, tables, [
+        "account_invoice.id = account_invoice_line.invoice_id",
+        "account_invoice.type IN ('out_invoice', 'out_refund')",
+        "account_invoice.state NOT IN ('draft', 'cancel')",
+        "account_invoice_line.asset_end_date BETWEEN date %(date)s - interval '1 months' + interval '1 days' and date %(date)s"
+    ], {'date': end_date}, filters, groupby=groupby)
+
+    computed_query = """
+        SELECT old_line.account_analytic_id, old_line.sum AS old_sum, new_line.sum AS new_sum, (new_line.sum - old_line.sum) AS diff
+        FROM ( """ + subquery_1[0] + """ ) AS new_line, ( """ + subquery_2[0] + """ ) AS old_line
+        WHERE
+            new_line.account_analytic_id IS NOT NULL AND
+            old_line.account_analytic_id = new_line.account_analytic_id
+    """
+    request.cr.execute(computed_query, subquery_1[1])
+
     sql_results = request.cr.dictfetchall()
     for account in sql_results:
         if account['diff'] > 0:
@@ -323,7 +312,7 @@ def compute_mrr_growth_values(start_date, end_date, filters):
         """,
     ]
 
-    sql_results = _build_sql_query(fields, tables, conditions, {
+    sql_results = _execute_sql_query(fields, tables, conditions, {
         'date': end_date,
     }, filters)
 
