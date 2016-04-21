@@ -18,7 +18,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['voip','base','crm'],
+    'depends': ['voip','base','crm','web_enterprise'],
 
     # always loaded
     'data': [
