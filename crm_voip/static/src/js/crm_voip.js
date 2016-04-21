@@ -1,13 +1,14 @@
 odoo.define('crm.voip', function(require) {
+"use strict";
 
 var voip_core = require('voip.core');
 var core = require('web.core');
-var common = require('web.form_common');
 var Model = require('web.Model');
 var real_session = require('web.session');
 var SystrayMenu = require('web.SystrayMenu');
 var web_client = require('web.web_client');
 var Widget = require('web.Widget');
+require('web_enterprise.form_widgets'); // FieldPhone must be in the form_widget_registry
 
 var dialing_panel = null;
 
@@ -46,7 +47,7 @@ var PhonecallWidget = Widget.extend({
         this.opportunity_title_action = phonecall.opportunity_title_action;
         if(!this.opportunity_name){
             this.opportunity_name = _t("No opportunity linked");
-        }else if(this.opportunity_name == phonecall.name){
+        }else if(this.opportunity_name === phonecall.name){
             this.display_opp_name = false;
         }
         this.max_priority = phonecall.max_priority;
@@ -93,7 +94,7 @@ var PhonecallWidget = Widget.extend({
             if(state === 'in_call'){
                 this.$('.oe_dial_phonecall_partner_name')
                     .after("<i style='margin-left:5px;' class='fa fa-microphone oe_dial_icon_inCall'></i>");
-            }else if(state == 'pending' && !this.$('.oe_dial_state_icon_pending').length){
+            }else if(state === 'pending' && !this.$('.oe_dial_state_icon_pending').length){
                 this.$('.oe_dial_status_span')
                     .append('<i class="fa fa-stack oe_dial_state_icon" style="width:13px; height:15px;line-height: 13px;">'+
                             '<i class="fa fa-phone fa-stack-1x oe_dial_state_icon text-muted"></i>'+
@@ -426,7 +427,7 @@ var DialingPanel = Widget.extend({
         var pattern = '%02d:%02d';
         var min = Math.floor(value);
         var sec = Math.round((value % 1) * 60);
-        if (sec == 60){
+        if (sec === 60){
             sec = 0;
             min = min + 1;
         }
@@ -556,7 +557,7 @@ var DialingPanel = Widget.extend({
         //Check if the current phonecall is currently done to add the microphone icon
 
         var widget = new PhonecallWidget(this, phonecall, this.formatCurrency);
-        if(this.in_call && phonecall.id == this.current_phonecall){
+        if(this.in_call && phonecall.id === this.current_phonecall){
             widget.set_state('in_call');
         }
         widget.appendTo(this.$(".oe_dial_phonecalls"));
@@ -586,7 +587,6 @@ var DialingPanel = Widget.extend({
         if(this.optional_buttons_animated){
             return;
         }
-        var self = this;
         var selected = selected_phonecall.$el.hasClass("oe_dial_selected_phonecall");
         this.$(".oe_dial_selected_phonecall").removeClass("oe_dial_selected_phonecall");
         if(!selected){
@@ -614,7 +614,7 @@ var DialingPanel = Widget.extend({
     remove_phonecall: function(phonecall_widget){
         var phonecall_model = new Model("crm.phonecall");
         var self = this;
-        phonecall_model.call("remove_from_queue", [phonecall_widget.id]).then(function(action){
+        phonecall_model.call("remove_from_queue", [phonecall_widget.id]).then(function(){
             self.search_phonecalls_status();
             self.$(".popover").remove();
         });
@@ -622,11 +622,10 @@ var DialingPanel = Widget.extend({
 
     //action done when the button "call" is clicked
     call_button: function(){
-        var self = this;
         if(this.selected_phonecall){
             this.make_call(this.selected_phonecall.id);
         }else{
-            var next_call = _.filter(this.widgets, function(widget){return widget.state != "done";}).shift();
+            var next_call = _.filter(this.widgets, function(widget){return widget.state !== "done";}).shift();
             if(next_call){
                 this.make_call(next_call.id);
             }
@@ -643,7 +642,7 @@ var DialingPanel = Widget.extend({
         this.in_automatic_mode = true;
         this.phonecalls_auto_call = [];
          _.each(this.widgets,function(phonecall){
-            if(phonecall.state != "done"){
+            if(phonecall.state !== "done"){
                 self.phonecalls_auto_call.push(phonecall.id);
             }
         });
@@ -714,7 +713,7 @@ var DialingPanel = Widget.extend({
 
     scroll_down: function(){
         this.$('.oe_dial_phonecalls').animate({
-            scrollTop: self.$('.oe_dial_phonecalls').prop('scrollHeight') - self.$('.oe_dial_phonecalls').innerHeight(),
+            scrollTop: this.$('.oe_dial_phonecalls').prop('scrollHeight') - this.$('.oe_dial_phonecalls').innerHeight(),
         },1000);
     },
 });
