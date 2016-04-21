@@ -26,15 +26,33 @@
         </record>
 
         <record id="project_form_forecast_grid_button" model="ir.ui.view">
-            <field name="name">project form: add forecast grid button</field>
+            <field name="name">project form: link forecast button to grid</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="inherit_id" ref="project_forecast.project_view_form_inherit_project_forecast"/>
             <field name="arch" type="xml">
-                <xpath expr="//notebook" position="after">
-                    <button name="view_monthly_forecast" string="Forecast" type="object"/>
+                <xpath expr="//button[@name='create_forecast']" position="replace"/>
+                <xpath expr="//button[@type='action'][@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
+                    <attribute name="type">object</attribute>
+                    <attribute name="name">view_monthly_forecast</attribute>
                 </xpath>
             </field>
         </record>
+        <record id="project_kanban_forecast_grid_button" model="ir.ui.view">
+            <field name="name">project kanban: link forecast buttons to grid</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project_forecast.project_view_kanban_inherit_project_forecast"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[contains(@class, 'o_kanban_card_manage_section')]/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
+                    <attribute name="type">object</attribute>
+                    <attribute name="name">view_monthly_forecast</attribute>
+                </xpath>
+                <xpath expr="//div[contains(@class, 'o_project_kanban_boxes')]/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
+                    <attribute name="type">object</attribute>
+                    <attribute name="name">view_monthly_forecast</attribute>
+                </xpath>
+            </field>
+        </record>
+
         <record id="project_forecast_grid" model="ir.ui.view">
             <field name="name">Project Forecast: Grid View</field>
             <field name="model">project.forecast</field>
