@@ -131,11 +131,21 @@ class account_analytic_line(models.Model):
         The records to remove from the UI are those that no longer exist on the server and that have not been modified in the UI since the previous sync, and analytic lines where the user_id has been changed in the backend.
         In this method, ls_ refers to the items sent by the ui, from its localStorage.
         """
+        cr = self.env.cr
+
+        cr.execute("""
+            SELECT concat(imd.module,'.',imd.name) as xml_id, p.active
+            FROM ir_model_data imd
+            JOIN project_project p ON (model='project.project' AND p.id = res_id)
+            WHERE concat(imd.module,'.',imd.name) = ANY(%s);
+            """, ([x['id'] for x in ls_projects],))
+
+        sv_projects = {project['xml_id']: project['active'] for project in cr.dictfetchall()}
+
         ls_projects_to_import = []
         ls_projects_to_remove = []
         for ls_project in ls_projects:
-            sv_project = self.env["ir.model.data"].xmlid_to_object(str(ls_project['id']))
-            if not sv_project:
+            if not ls_project['id'] in sv_projects:
                 if ls_project.get('to_sync'):
                     ls_projects_to_import.append([
                         str(ls_project['id']),
@@ -143,7 +153,7 @@ class account_analytic_line(models.Model):
                     ])
                 else:
                     ls_projects_to_remove.append(str(ls_project['id']))
-            elif not sv_project.active:
+            elif not sv_projects.get(ls_project['id']):
                 ls_projects_to_remove.append(str(ls_project['id']))
 
         projects_fields = [
@@ -153,11 +163,20 @@ class account_analytic_line(models.Model):
         project_errors = self.load_wrapper(self.env["project.project"], projects_fields, ls_projects_to_import)
 
         # Tasks management
+
+        cr.execute("""
+            SELECT concat(imd.module,'.',imd.name) AS xml_id, t.active
+            FROM ir_model_data imd
+            JOIN project_task t ON (model='project.task' AND t.id = res_id)
+            WHERE concat(imd.module,'.',imd.name) = ANY(%s);
+            """, ([x['id'] for x in ls_tasks],))
+
+        sv_tasks = {task['xml_id']: task['active'] for task in cr.dictfetchall()}
+
         ls_tasks_to_import = []
         ls_tasks_to_remove = []
         for ls_task in ls_tasks:
-            sv_task = self.env["ir.model.data"].xmlid_to_object(str(ls_task['id']))
-            if not sv_task:
+            if not ls_task['id'] in sv_tasks:
                 if ls_task.get('to_sync'):
                     ls_tasks_to_import.append([
                         str(ls_task['id']),
@@ -167,7 +186,7 @@ class account_analytic_line(models.Model):
                     ])
                 else:
                     ls_tasks_to_remove.append(str(ls_task['id']))
-            elif not sv_task.active:
+            elif not sv_tasks.get(ls_task['id']):
                 ls_tasks_to_remove.append(str(ls_task['id']))
 
         tasks_fields = [
@@ -179,24 +198,43 @@ class account_analytic_line(models.Model):
         task_errors = self.load_wrapper(self.env["project.task"], tasks_fields, ls_tasks_to_import)
 
         # Account analytic lines management
+
+        cr.execute("""
+            SELECT concat(imd.module,'.',imd.name) AS xml_id,
+                aal.user_id,
+                aal.id,
+                DATE_TRUNC('second', aal.write_date) AS write_date
+            FROM ir_model_data imd
+            JOIN account_analytic_line aal ON (model='account.analytic.line' AND aal.id = res_id)
+            WHERE concat(imd.module,'.',imd.name) = ANY(%s);
+            """, ([x['id'] for x in ls_aals],))
+
+        sv_aals = {}
+        for aal in cr.dictfetchall():
+            sv_aals[aal['xml_id']] = {
+                'user_id': aal['user_id'],
+                'write_date': aal['write_date'],
+                'id': aal['id'],
+            }
+
         new_ls_aals = []
         ls_aals_to_remove = []
         aals_on_hold = []
         for ls_aal in ls_aals:
-            sv_aal = self.env["ir.model.data"].xmlid_to_object(str(ls_aal['id']))
-            sv_project = self.env["ir.model.data"].xmlid_to_object(str(ls_aal.get('project_id')))
+            sv_aal = sv_aals.get(str(ls_aal['id']))
+            sv_project = str(ls_aal.get('project_id')) in sv_projects or self.env["ir.model.data"].xmlid_to_object(str(ls_aal['project_id']))  # Fallback condition: when the project created after the sql select and thus is not in the list.
 
-            if sv_aal and sv_aal.user_id.id != self.env.uid:  # The user on the activity has been changed
+            if sv_aal and sv_aal['user_id'] != self.env.uid:  # The user on the activity has been changed
                 ls_aals_to_remove.append(str(ls_aal['id']))
             elif sv_aal and ls_aal.get('to_remove'):  # The UI is requesting the deletion of the activity
                 try:
-                    sv_aal.unlink()
+                    self.browse(sv_aal['id']).unlink()
                     ls_aals_to_remove.append(str(ls_aal['id']))
                 except (AccessError, UserError):
                     aals_on_hold.append(str(ls_aal['id']))
             elif ls_aal.get('to_sync') and sv_project:
                 if sv_aal:
-                    if(datetime.datetime.strptime(ls_aal['write_date'], tools.DEFAULT_SERVER_DATETIME_FORMAT) > datetime.datetime.strptime(sv_aal['__last_update'], tools.DEFAULT_SERVER_DATETIME_FORMAT)):
+                    if(datetime.datetime.strptime(ls_aal['write_date'], tools.DEFAULT_SERVER_DATETIME_FORMAT) > datetime.datetime.strptime(sv_aal['write_date'], tools.DEFAULT_SERVER_DATETIME_FORMAT)):
                         new_ls_aals.append(ls_aal)
                 else:
                     new_ls_aals.append(ls_aal)
