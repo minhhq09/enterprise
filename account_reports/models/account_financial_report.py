@@ -129,7 +129,7 @@ class AccountFinancialReportLine(models.Model):
         res = dict((fn, 0.0) for fn in field_names)
         if self.domain:
             amls = self.env['account.move.line'].search(safe_eval(self.domain))
-            compute = amls._compute_fields(field_names)
+            compute = amls._compute_fields(field_names, group_by=self.groupby)
             for aml in amls:
                 if compute.get(aml.id):
                     for field in field_names:
@@ -437,7 +437,11 @@ class FormulaLine(object):
         if type == 'balance':
             fields = obj.get_balance(linesDict)[0]
             linesDict[obj.code] = self
-        elif type == 'sum':
+        elif type in ['sum', 'sum_if_pos', 'sum_if_neg']:
+            if type == 'sum_if_neg':
+                obj = obj.with_context(sum_if_neg=True)
+            if type == 'sum_if_pos':
+                obj = obj.with_context(sum_if_pos=True)
             if obj._name == 'account.financial.html.report.line':
                 fields = obj._get_sum()
                 self.amount_residual = fields['amount_residual']
@@ -473,6 +477,14 @@ class FormulaContext(dict):
         if item == 'sum':
             res = FormulaLine(self.curObj, type='sum')
             self['sum'] = res
+            return res
+        if item == 'sum_if_pos':
+            res = FormulaLine(self.curObj, type='sum_if_pos')
+            self['sum_if_pos'] = res
+            return res
+        if item == 'sum_if_neg':
+            res = FormulaLine(self.curObj, type='sum_if_neg')
+            self['sum_if_neg'] = res
             return res
         if item == 'NDays':
             d1 = datetime.strptime(self.curObj.env.context['date_from'], "%Y-%m-%d")
