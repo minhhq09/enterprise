@@ -69,5 +69,69 @@
                 </grid>
             </field>
         </record>
+
+        <record id="view_project_forecast_grid_by_user" model="ir.ui.view">
+            <field name="name">Project Forecast: grid by user</field>
+            <field name="model">project.forecast</field>
+            <field name="arch" type="xml">
+                <grid string="Project Forecast By User" create="false">
+                    <field name="user_id" type="row"/>
+                    <field name="start_date" type="col">
+                        <range name="week" string="Week" span="week" step="day"/>
+                        <range name="month" string="Month" span="month" step="day"/>
+                        <range name="year" string="Year" span="year" step="month"/>
+                    </field>
+                    <field name="resource_hours" type="measure"/>
+                </grid>
+            </field>
+        </record>
+        <record id="action_project_forecast_grid_by_user" model="ir.actions.act_window">
+            <field name="name">Forecast By User</field>
+            <field name="res_model">project.forecast</field>
+            <field name="view_mode">grid</field>
+            <field name="view_id" ref="view_project_forecast_grid_by_user"/>
+            <field name="context">{'grid_range': 'year'}</field>
+        </record>
+
+        <record id="view_project_forecast_grid_by_project" model="ir.ui.view">
+            <field name="name">Project Forecast: grid by project</field>
+            <field name="model">project.forecast</field>
+            <field name="arch" type="xml">
+                <grid string="Project Forecast By User" create="false">
+                    <field name="project_id" type="row"/>
+                    <field name="start_date" type="col">
+                        <range name="week" string="Week" span="week" step="day"/>
+                        <range name="month" string="Month" span="month" step="day"/>
+                        <range name="year" string="Year" span="year" step="month"/>
+                    </field>
+                    <field name="resource_hours" type="measure"/>
+                </grid>
+            </field>
+        </record>
+        <record id="action_project_forecast_grid_by_project" model="ir.actions.act_window">
+            <field name="name">Forecast By Project</field>
+            <field name="res_model">project.forecast</field>
+            <field name="view_mode">grid</field>
+            <field name="view_id" ref="view_project_forecast_grid_by_project"/>
+            <field name="context">{'grid_range': 'year'}</field>
+        </record>
+
+        <menuitem id="menu_project_forecast_grid" name="Grid" parent="project_forecast.project_forecast_menu" sequence="10"/>
+        <menuitem id="menu_project_forecast_grid_by_user" name="By User"
+                  parent="menu_project_forecast_grid"
+                  action="action_project_forecast_grid_by_user"
+                  sequence="10"/>
+        <menuitem id="menu_project_forecast_grid_by_project" name="By Project"
+                  parent="menu_project_forecast_grid"
+                  action="action_project_forecast_grid_by_project"
+                  sequence="10"/>
+
+        <menuitem id="project_forecast_gantt" name="Gantt" parent="project_forecast.project_forecast_menu" sequence="20"/>
+        <record id="project_forecast.project_forecast_group_by_user" model="ir.ui.menu">
+            <field name="parent_id" ref="project_forecast_gantt"/>
+        </record>
+        <record id="project_forecast.project_forecast_group_by_project" model="ir.ui.menu">
+            <field name="parent_id" ref="project_forecast_gantt"/>
+        </record>
     </data>
 </openerp>
