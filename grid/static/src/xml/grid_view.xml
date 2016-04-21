@@ -19,7 +19,7 @@
             </div>
             <div t-if="widget._buttons.length" class="btn-group btn-group-sm">
                 <button t-foreach="widget._buttons" t-as="btn"
-                        class="grid_arrow_button btn btn-sm btn-default"
+                        t-attf-class="grid_arrow_button btn btn-sm {{ btn['class'] || 'btn-default' }}"
                         type="button" t-att-data-index="btn_index">
                     <t t-esc="btn.string"/>
                 </button>
