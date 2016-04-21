@@ -244,5 +244,28 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="validable_form" model="ir.ui.view">
+            <field name="name">timesheet validation wizard</field>
+            <field name="model">timesheet_grid.validation</field>
+            <field name="arch" type="xml">
+                <form string="Validate Timesheets">
+                    Validate the timesheets of the selected employees up to
+                    <field name="validate_to" readonly="1"/>
+                    <field name="validable_ids">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="employee_id" readonly="1"/>
+                            <field name="validate"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" string="Validate" name="validate"
+                                class="btn-primary"/>
+                        <button special="cancel" string="Cancel"
+                                class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>

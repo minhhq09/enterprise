@@ -17,12 +17,27 @@ class AnalyticLine(models.Model):
 
     @api.multi
     def validate(self):
-        employees = self.mapped('user_id.employee_ids')
         anchor = fields.Date.from_string(self.env.context['grid_anchor'])
         span = self.env.context['grid_range']['span']
-        validate_to = anchor + END_OF[span]
-        employees.write({'timesheet_validated': fields.Date.to_string(validate_to)})
-        return ()
+        validate_to = fields.Date.to_string(anchor + END_OF[span])
+
+        validation = self.env['timesheet_grid.validation'].create({
+            'validate_to': validate_to,
+            'validable_ids': [
+                (0, None, {'employee_id': employee.id})
+                for employee in self.mapped('user_id.employee_ids')
+                if not employee.timesheet_validated \
+                    or employee.timesheet_validated < validate_to
+            ]
+        })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'res_model': 'timesheet_grid.validation',
+            'res_id': validation.id,
+            'views': [(False, 'form')],
+        }
 
     @api.model
     def adjust_grid(self, row_domain, column_field, column_value, cell_field, change):
@@ -69,3 +84,24 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     allow_timesheets = fields.Boolean("Allow timesheets", default=True)
+
+class Validation(models.TransientModel):
+    _name = 'timesheet_grid.validation'
+
+    validate_to = fields.Date()
+    validable_ids = fields.One2many('timesheet_grid.validable', 'validation_id')
+
+    @api.multi
+    def validate(self):
+        self.validable_ids \
+            .filtered('validate').mapped('employee_id') \
+            .write({'timesheet_validated': self.validate_to})
+        return ()
+
+class Validable(models.TransientModel):
+    _name = 'timesheet_grid.validable'
+
+    validation_id = fields.Many2one('timesheet_grid.validation', required=True)
+    employee_id = fields.Many2one('hr.employee', string="Employee", required=True)
+    validate = fields.Boolean(
+        default=True, help="Validate this employee's timesheet up to the chosen date")
