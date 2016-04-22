@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Action Show all sales documents related to a contract -->
+    <record id="sale_order_view_tree_subscription" model="ir.ui.view">
+        <field name="name">sale.order.list.subscription</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Orders" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'">
+                <field name="message_needaction" invisible="1"/>
+                <field name="name" string="Order Number"/>
+                <field name="date_order"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="subscription_management"/>
+                <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                <field name="invoice_status"/>
+                <field name="state" invisible="1"/>
+           </tree>
+        </field>
+    </record>
+
     <record id="action_contract_sales_all" model="ir.actions.act_window">
         <field name="name">Sales Documents</field>
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="sale_order_view_tree_subscription"/>
         <field name="domain">[('subscription_id', '=', active_id)]</field>
         <field name="context">{'create':False}</field>
         <field name="help" type="html">

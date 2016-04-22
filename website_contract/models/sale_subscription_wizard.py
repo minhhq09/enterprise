@@ -27,6 +27,7 @@ class SaleSubscriptionWizard(models.TransientModel):
             'team_id': team and team.id,
             'pricelist_id': self.subscription_id.pricelist_id.id,
             'fiscal_position_id': fpos_id,
+            'subscription_management': 'upsell',
         })
         for line in self.option_lines:
             for option in template_id.option_invoice_line_ids:

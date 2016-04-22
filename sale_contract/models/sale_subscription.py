@@ -306,7 +306,6 @@ class SaleSubscription(osv.osv):
                     'discount': line.discount,
                 }))
             res[contract.id] = {
-                'name': order_seq.next_by_id() + ' -  Renewal',
                 'pricelist_id': contract.pricelist_id.id,
                 'partner_id': contract.partner_id.id,
                 'partner_invoice_id': contract.partner_id.id,
@@ -314,7 +313,7 @@ class SaleSubscription(osv.osv):
                 'currency_id': contract.pricelist_id.currency_id.id,
                 'order_line': order_lines,
                 'project_id': contract.analytic_account_id.id,
-                'update_contract': True,
+                'subscription_management': 'renew',
                 'note': contract.description,
                 'user_id': contract.manager_id.id,
                 'fiscal_position_id': fpos_id,

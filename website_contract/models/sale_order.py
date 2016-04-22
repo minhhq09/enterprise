@@ -72,7 +72,10 @@ class SaleOrder(models.Model):
                 sub_values = {'recurring_invoice_line_ids': invoice_line_ids}
                 subscription.write(sub_values)
 
-            self.project_id = subscription.analytic_account_id
+            self.write({
+                'project_id': subscription.analytic_account_id.id,
+                'subscription_management': 'create',
+            })
             return subscription
         return False
 

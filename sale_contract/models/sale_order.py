@@ -22,7 +22,10 @@ class SaleOrder(models.Model):
 
         return [('project_id', operator, aa_ids)]
 
-    update_contract = fields.Boolean("Update Contract", help="If set, the associated contract will be overwritten by this sale order (every recurring line of the contract not in this sale order will be deleted).")
+    subscription_management = fields.Selection(string='Subscription Management', selection=[('create', 'Creation'), ('renew', 'Renewal'), ('upsell', 'Upselling')],
+                                      help="Creation: The Sales Order created the subscription\n"
+                                            "Upselling: The Sales Order added lines to the subscription\n"
+                                            "Renewal: The Sales Order replaced the subscription's content with its own")
     subscription_id = fields.Many2one('sale.subscription', 'Subscription', compute=_get_subscription, search=_search_subscription)
 
     @api.multi
@@ -31,10 +34,12 @@ class SaleOrder(models.Model):
         for order in self:
             if order.subscription_id:
                 # wipe the subscription clean if needed
-                if order.update_contract:
+                if order.subscription_management == 'renew':
                     to_remove = [(2, line.id, 0) for line in order.subscription_id.recurring_invoice_line_ids]
                     order.subscription_id.sudo().write({'recurring_invoice_line_ids': to_remove, 'description': order.note, 'state': 'open', 'pricelist_id': order.pricelist_id.id})
                     order.subscription_id.sudo().increment_period()
+                if not order.subscription_management:
+                    order.subscription_management = 'upsell'
                 # add new lines or increment quantities on existing lines
                 values = {'recurring_invoice_line_ids': []}
                 for line in order.order_line:
@@ -58,7 +63,7 @@ class SaleOrder(models.Model):
                                 'sold_quantity': line.product_uom_qty,
                                 'uom_id': line.product_uom.id,
                                 'price_unit': line.price_unit,
-                                'discount': line.discount if line.order_id.update_contract else False,
+                                'discount': line.discount if line.order_id.subscription_management == 'renew' else False,
                             }))
                 order.subscription_id.sudo().write(values)
                 order.action_done()
@@ -67,7 +72,7 @@ class SaleOrder(models.Model):
     @api.multi
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
-        if self.project_id and self.update_contract:
+        if self.project_id and self.subscription_management == 'renew':
             subscr = self.env['sale.subscription'].search([('analytic_account_id', '=', self.project_id.id)], limit=1)
             next_date = datetime.datetime.strptime(subscr.recurring_next_date, "%Y-%m-%d")
             periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
