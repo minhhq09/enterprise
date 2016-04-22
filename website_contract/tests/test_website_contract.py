@@ -56,3 +56,16 @@ class TestContract(TestContractCommon):
         self.assertEqual(len(self.contract.recurring_invoice_line_ids), 2, 'website_contract: number of lines after adding pro-rated discounted option does not add up')
         # there should be no discount on the contract line in this case
         self.assertEqual(self.contract.recurring_total, 70, 'website_contract: price after adding pro-rated discounted option does not add up')
+
+    def test_sub_creation(self):
+        order = self.env['sale.order'].create({
+            'name': 'TestSOTemplate',
+            'partner_id': self.user_portal.partner_id.id,
+            'template_id': self.quote_template.id,
+        })
+
+        update = self.registry['sale.order'].onchange_template_id(self.cr, self.uid, order.id, self.quote_template.id, self.env.context)
+        order.write(update.get('value'))
+        order.action_confirm()
+        self.assertTrue(order.subscription_id, 'website_contract: subscription is not created at so confirmation')
+        self.assertEqual(order.subscription_management, 'create', 'website_contract: subscription creation should set the so to "create"')

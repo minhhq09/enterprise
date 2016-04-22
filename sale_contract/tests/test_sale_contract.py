@@ -29,13 +29,14 @@ class TestContract(TestContractCommon):
         self.sale_order.action_confirm()
         self.assertTrue(len(self.contract.recurring_invoice_line_ids.ids) == 1, 'sale_contract: recurring_invoice_line_ids not created when confirming sale_order with recurring_product')
         self.assertEqual(self.sale_order.state, 'done', 'sale_contract: so state should be after confirmation done when there is a subscription')
+        self.assertEqual(self.sale_order.subscription_management, 'upsell', 'sale_contract: so should be set to "upsell" if not specified otherwise')
 
     def test_renewal(self):
         """ Test contract renewal """
         res = self.contract.prepare_renewal_order()
         renewal_so_id = res['res_id']
         renewal_so = self.env['sale.order'].browse(renewal_so_id)
-        self.assertTrue(renewal_so.sub_management == 'renew', 'sale_contract: renewal quotation generation is wrong')
+        self.assertTrue(renewal_so.subscription_management == 'renew', 'sale_contract: renewal quotation generation is wrong')
         self.contract.write({'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': 50, 'uom_id': self.product.uom_id.id})]})
         renewal_so.write({'order_line': [(0, 0, {'product_id': self.product.id, 'name': 'TestRenewalLine', 'product_uom': self.product.uom_id.id})]})
         renewal_so.action_confirm()
@@ -43,3 +44,4 @@ class TestContract(TestContractCommon):
         self.assertTrue('TestRecurringLine' not in lines, 'sale_contract: old line still present after renewal quotation confirmation')
         self.assertTrue('TestRenewalLine' in lines, 'sale_contract: new line not present after renewal quotation confirmation')
         self.assertEqual(renewal_so.state, 'done', 'sale_contract: so state should be after confirmation done when there is a subscription')
+        self.assertEqual(renewal_so.subscription_management, 'renew', 'sale_contract: so should be set to "renew" in the renewal process')
