@@ -67,13 +67,6 @@ return AbstractWebClient.extend({
                 }
             }
         });
-
-        // Fastclick
-        if ('addEventListener' in document) {
-            document.addEventListener('DOMContentLoaded', function() {
-                FastClick.attach(document.body);
-            }, false);
-        }
     },
     show_application: function () {
         var self = this;
