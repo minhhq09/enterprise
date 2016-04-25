@@ -36,8 +36,9 @@ class RevenueKPIsDashboard(http.Controller):
         subs_fields = ['date_start', 'recurring_total']
         subs_domain = [
             ('type', '=', 'contract'),
+            ('state', 'not in', ['cancel']),
             ('date_start', '>=', date_start),
-            ('date_start', '<', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
+            ('date_start', '<=', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
         if contract_template_ids:
             subs_domain.append(('template_id', 'in', contract_template_ids))
         if company_ids:
