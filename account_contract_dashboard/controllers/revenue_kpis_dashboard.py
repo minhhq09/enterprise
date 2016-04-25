@@ -14,6 +14,7 @@ DISPLAY_FORMATS = {
     'week': 'W%W %Y',
     'week_special': '%w W%W %Y',
     'month': '%B %Y',
+    'year': '%Y',
 }
 
 
@@ -25,11 +26,12 @@ class RevenueKPIsDashboard(http.Controller):
         Get a Cohort Analysis report
 
         :param date_start: date of the first contract to take into account
-        :param cohort_period: cohort period. Between 'day','week','month'
+        :param cohort_period: cohort period. Between 'day','week','month', 'year'
         :param cohort_interest: cohort interest. Could be 'value' or 'number'
         :param contract_template_ids: filtering on specific contract templates
         :param company_ids: filtering on specific companies
         """
+
         cohort_report = []
         company_currency_id = request.env.user.company_id.currency_id
 
@@ -73,9 +75,12 @@ class RevenueKPIsDashboard(http.Controller):
                 elif cohort_period == 'week':
                     ij_start_date += relativedelta(days=7*ij)
                     ij_end_date = ij_start_date + relativedelta(days=7)
-                else:
+                elif cohort_period == 'month':
                     ij_start_date += relativedelta(months=ij)
                     ij_end_date = ij_start_date + relativedelta(months=1)
+                else:
+                    ij_start_date += relativedelta(years=ij)
+                    ij_end_date = ij_start_date + relativedelta(years=1)
 
                 if ij_start_date > datetime.today():
                     # Who can predict the future, right ?
@@ -85,7 +90,6 @@ class RevenueKPIsDashboard(http.Controller):
                         'domain': '',
                     })
                     continue
-
                 significative_period = ij_start_date.strftime(DISPLAY_FORMATS[cohort_period])
                 churned_subs = [x for x in cohort_subs if x.date and datetime.strptime(x.date, DEFAULT_SERVER_DATE_FORMAT).strftime(DISPLAY_FORMATS[cohort_period]) == significative_period]
 
