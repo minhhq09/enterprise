@@ -2,6 +2,13 @@
 from lxml import etree
 from openerp import tools, fields, models, api
 
+class Qweb(models.Model):
+
+    _inherit = "ir.qweb"
+
+    def _read_template_keys(self):
+        return super(view, self)._read_template_keys() + ['website_id', 'version_id']
+
 
 class view(models.Model):
 
@@ -77,9 +84,6 @@ class view(models.Model):
         else:
             xml_id = super(view, self).get_view_id(xml_id)
         return xml_id
-
-    def _read_template_keys(self):
-        return super(view, self)._read_template_keys() + ['website_id', 'version_id']
 
     #To take the right inheriting views
     @api.model
