@@ -105,19 +105,25 @@ class Model(models.Model):
         }
 
     def _grid_get_row_headers(self, row_fields, groups, key):
-        seen = set()
+        seen = {}
         rows = []
         for cell in groups:
             k = key(cell)
-            if k not in seen:
-                seen.add(k)
-                rows.append({
-                    'values': {f: cell[f] for f in row_fields},
-                    # domain of first cell seen for that row, so it's possible
-                    # to find one of the relevant records and copy it
-                    'domain': cell['__domain'],
-                })
-        return rows
+            if k in seen:
+                seen[k][1].append(cell['__domain'])
+            else:
+                r = (
+                    {f: cell[f] for f in row_fields},
+                    [cell['__domain']],
+                )
+                seen[k] = r
+                rows.append(r)
+
+        # TODO: generates pretty long domains, is there a way to simplify them?
+        return [
+            {'values': values, 'domain': expression.OR(domains)}
+            for values, domains in rows
+        ]
 
     def _grid_column_info(self, name, range):
         """
