@@ -346,6 +346,9 @@ var GridView = View.extend({
                    )
                ]);
     },
+    _cell_is_readonly: function (cell) {
+        return !this._editable_cells || cell.readonly === true;
+    },
     /**
      *
      * @param {Array<Array>} grid actual grid content
@@ -373,19 +376,25 @@ var GridView = View.extend({
             return h('tr', {key: row_key}, [h('th', {attrs: {colspan: 2}}, [h('div', _(row_values).map(function (v) {
                 return h('div', {attrs: {title: v[1]}}, v[1]);
             }))]),].concat(_(row).map(function (cell, cell_index) {
+                var is_readonly = _this._cell_is_readonly(cell);
                 var cell_value = _this._cell_field.format(cell.value);
-                return h('td', {class: {o_grid_current: cell.is_current}}, [h('div', {
-                    class: {
-                        o_grid_cell_container: true,
-                        o_grid_cell_empty: !cell.size
-                    }, attrs: {
-                        'data-path': path.concat([row_index, cell_index]).join('.')
-                    }
-                }, [h('i.fa.fa-info-circle.o_grid_cell_information', []), _this._editable_cells ? h('div.o_grid_input', {
-                    attrs: {
-                        contentEditable: "true"
-                    }
-                }, cell_value) : h('div.o_grid_show', cell_value)])]);
+                var cell_content = is_readonly
+                    ? h('div.o_grid_show', cell_value)
+                    : h('div.o_grid_input', { attrs: { contentEditable: "true"}}, cell_value);
+                return h('td', {class: {o_grid_current: cell.is_current}}, [
+                    h('div', {
+                        class: {
+                            o_grid_cell_container: true,
+                            o_grid_cell_empty: !cell.size,
+                            o_grid_cell_readonly: is_readonly,
+                        }, attrs: {
+                            'data-path': path.concat([row_index, cell_index]).join('.')
+                        }
+                    }, [
+                        h('i.fa.fa-info-circle.o_grid_cell_information', []),
+                        cell_content
+                    ])
+                ]);
             }), [h('td.o_grid_total', _this._cell_field.format(totals[row_index]))]));
         });
     },

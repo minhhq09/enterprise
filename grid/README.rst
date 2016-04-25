@@ -140,6 +140,9 @@ Aside from optional buttons, the grid view currently calls two methods:
         the domain matching the cell's records (should be assumed opaque)
     ``size``
         the number of records grouped in the cell
+    ``readonly`` (optional)
+        a boolean indicating that this specific cell should not be
+        client-editable
   * ``prev`` and ``next`` which can be either falsy (no pagination) or a 
     context item to merge into the view's own context to ``read_grid`` the 
     previous or next page, it should be assumed to be opaque
