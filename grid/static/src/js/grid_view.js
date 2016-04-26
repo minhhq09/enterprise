@@ -391,7 +391,11 @@ var GridView = View.extend({
                             'data-path': path.concat([row_index, cell_index]).join('.')
                         }
                     }, [
-                        h('i.fa.fa-info-circle.o_grid_cell_information', []),
+                        h('i.fa.fa-search-plus.o_grid_cell_information', {
+                            attrs: {
+                                title: _("See all the records aggregated in this cell")
+                            }
+                        }, []),
                         cell_content
                     ])
                 ]);
