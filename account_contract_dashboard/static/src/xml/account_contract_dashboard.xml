@@ -293,7 +293,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on contracts</a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li t-foreach="widget.contract_templates" t-as="template">
-                    <a href="#" class="o_contract_template_filter" t-att-data-id="template.id"><t t-esc="template.name"/></a>
+                    <a href="#" class="o_contract_template_filter js_tag" t-att-data-id="template.id"><t t-esc="template.name"/></a>
                 </li>
             </ul>
         </div>
@@ -303,7 +303,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on tags</a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li t-foreach="widget.tags" t-as="tag">
-                    <a href="#" class="o_tags_filter" t-att-data-id="tag.id"><t t-esc="tag.name"/></a>
+                    <a href="#" class="o_tags_filter js_tag" t-att-data-id="tag.id"><t t-esc="tag.name"/></a>
                 </li>
             </ul>
         </div>
@@ -313,7 +313,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown">Filter on companies</a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
                 <li t-foreach="widget.companies" t-as="company">
-                    <a href="#" class="o_companies_filter" t-att-data-id="company.id"><t t-esc="company.name"/></a>
+                    <a href="#" class="o_companies_filter js_tag" t-att-data-id="company.id"><t t-esc="company.name"/></a>
                 </li>
             </ul>
         </div>

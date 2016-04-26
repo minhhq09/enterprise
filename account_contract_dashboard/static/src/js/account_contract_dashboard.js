@@ -107,6 +107,29 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         }
     },
 
+    render_filters: function() {
+        this.$searchview_buttons = $();
+        if(this.contract_templates.length || this.companies.length || this.tags.length) {
+            this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
+        }
+        this.$searchview_buttons.on('click', '.js_tag', function(e) {
+            e.preventDefault();
+            $(e.target).parent().toggleClass('selected');
+        });
+
+        // Check the boxes if it was already checked before the update
+        var self = this;
+        _.each(this.filters.contract_ids, function(id) {
+            self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+        _.each(this.filters.tag_ids, function(id) {
+            self.$searchview_buttons.find('.o_tags_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+        _.each(this.filters.company_ids, function(id) {
+            self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
+        });
+    },
+
     update_cp: function() {
         var self = this;
 
@@ -115,25 +138,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
             this.$searchview = $(QWeb.render("account_contract_dashboard.dashboard_option_pickers"));
             this.$searchview.find('.o_update_options').on('click', this.on_update_options);
             def = this.set_up_datetimepickers();
-
-            this.$searchview_buttons = $();
-            if(this.contract_templates.length || this.companies.length || this.tags.length) {
-                this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
-            }
-            // Check the box if it was already checked before the update
-            this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_companies_filter, .o_tags_filter', function(e) {
-                                        e.preventDefault();
-                                        $(e.target).parent().toggleClass('selected');
-                                    });
-            _.each(this.filters.contract_ids, function(id) {
-                self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
-            });
-            _.each(this.filters.tag_ids, function(id) {
-                self.$searchview_buttons.find('.o_tags_filter[data-id=' + id + ']').parent().addClass('selected');
-            });
-            _.each(this.filters.company_ids, function(id) {
-                self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
-            });
+            this.render_filters();
         }
 
         $.when(def).then(function() {
@@ -1108,7 +1113,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 
 
 // Cohort Analysis
-var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
+var account_contract_dashboard_cohort = account_contract_dashboard_abstract.extend({
 
     events: {
         'click .js_heat': 'on_cohort_table',
@@ -1128,10 +1133,12 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
             'tag_ids': [],
             'company_ids': [session.company_id],
         };
+    },
 
+    willStart: function() {
         var self = this;
-        this.fetch_cohort_report().done(function() {
-            self.render_dashboard();
+        return this._super().then(function() {
+            return $.when(self.fetch_cohort_report());
         });
     },
 
@@ -1241,31 +1248,14 @@ var account_contract_dashboard_cohort = Widget.extend(ControlPanelMixin, {
     },
 
     update_cp: function() {
-
+        var self = this;
         this.$searchview = $(QWeb.render("account_contract_dashboard.cohort_searchview", {widget: this}));
+        this.set_up_datetimepickers();
+        this.render_filters();
 
         this.$searchview.find('select').on('change', this.on_update_options);
-        this.set_up_datetimepickers();
-
-        this.$searchview_buttons = $();
-        if(this.contract_templates.length || this.companies.length || this.tags.length) {
-            this.$searchview_buttons = $(QWeb.render("account_contract_dashboard.dashboard_option_filters", {widget: this}));
-        }
-        var self = this;
-        // Check the box if it was already checked before the update
-        this.$searchview_buttons.on('click', '.o_contract_template_filter, .o_tags_filter, .o_companies_filter', function(e) {
-            e.preventDefault();
-            $(e.target).parent().toggleClass('selected');
+        this.$searchview_buttons.on('click', '.js_tag', function() {
             self.on_update_options();
-        });
-        _.each(this.filters.contract_ids, function(id) {
-            self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
-        });
-        _.each(this.filters.tag_ids, function(id) {
-            self.$searchview_buttons.find('.o_tags_filter[data-id=' + id + ']').parent().addClass('selected');
-        });
-        _.each(this.filters.company_ids, function(id) {
-            self.$searchview_buttons.find('.o_companies_filter[data-id=' + id + ']').parent().addClass('selected');
         });
 
         this.update_control_panel({
