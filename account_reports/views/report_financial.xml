@@ -21,12 +21,15 @@
     <t t-if="a.get('level') == 2 and a['type'] in ['line', 'total']"><t t-set="trclass" t-value="'o_account_reports_level2'"/></t>
     <t t-set="domainClass" t-value="'o_account_reports_domain_line_2'"/>
     <t t-if="a['type'] not in ['line', 'total']">
-        <t t-if="a.get('level', False)">
+        <t t-if="'level' in a">
             <t t-if="a['level'] == 1">
                 <t t-set="domainClass" t-value="'o_account_reports_domain_line_1'"/>
             </t>
             <t t-if="a['level'] == 3">
                 <t t-set="domainClass" t-value="'o_account_reports_domain_line_3'"/>
+            </t>
+            <t t-if="a['level'] == 0">
+                <t t-set="domainClass" t-value="'o_account_reports_domain_line_0'"/>
             </t>
         </t>
     </t>
@@ -60,9 +63,11 @@
                 </a>
                 <t t-call="account_reports.report_financial_footnote_sup" />
                 <ul class="dropdown-menu o_account_reports_domain_dropdown" role="menu" aria-labelledby="dLabel">
-                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" class="o_account_reports_web_action">Customer Statement</a></li>
-                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_receivable" class="o_account_reports_web_action">Partner Ledger</a></li>
-                    <li role="presentation" t-if="a['type'] == 'partner_id' and report.get_title() == 'Aged Payable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_payable" class="o_account_reports_web_action">Partner Ledger</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and a['id'] and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_followup" class="o_account_reports_web_action">Customer Statement</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and a['id'] and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_receivable" class="o_account_reports_web_action">Partner Ledger</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and not a['id'] and report.get_title() == 'Aged Receivable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_receivable_no_partner" class="o_account_reports_web_action">Journal Items</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and a['id'] and report.get_title() == 'Aged Payable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_payable" class="o_account_reports_web_action">Partner Ledger</a></li>
+                    <li role="presentation" t-if="a['type'] == 'partner_id' and not a['id'] and report.get_title() == 'Aged Payable'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account.act_account_partner_ledger_payable_no_partner" class="o_account_reports_web_action">Journal Items</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id'"><a role="menuitem" tabindex="-1"  t-att-data-active-id="a.get('id')" data-action-name="account_reports.action_account_general_ledger_force_account" data-force-context='true' class="o_account_reports_web_action">General Ledger</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id' and a.get('account_type') == 'receivable'"><a class='o_account_reports_web_action' data-action-name='account_reports.action_account_report_ar' data-force-context='true' role="menuitem" tabindex="-1">Aged Receivable</a></li>
                     <li role="presentation" t-if="a['type'] == 'account_id' and a.get('account_type') == 'payable'"><a class='o_account_reports_web_action' data-action-name='account_reports.action_account_report_ap' data-force-context='true' role="menuitem" tabindex="-1">Aged Payable</a></li>
@@ -119,7 +124,7 @@
             <span><t t-raw="context.summary" /></span>
         </div>
         <div t-att-class="mode != 'print' and 'table-responsive' or ''">
-            <table width='100%' t-att-class="' '.join(['o_account_reports_table', report.get_report_type() == 'date_range_extended' and 'table-striped' or ''])">
+            <table width='100%' t-att-class="' '.join(['o_account_reports_table', report.get_name() in ['aged_receivable', 'aged_payable'] and 'table-striped' or ''])">
                 <thead>
                     <tr>
                         <th></th>

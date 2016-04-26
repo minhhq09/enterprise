@@ -11,3 +11,4 @@ import res_partner
 import res_company
 import account_move_line
 import account_report_coa
+import account_aged_partner_balance

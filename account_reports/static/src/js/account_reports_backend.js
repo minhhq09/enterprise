@@ -293,7 +293,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     onChangeCmpDateFilter: function(event, fromDateFilter) {
         var filter_cmp = (_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter_cmp;
         var filter = !(_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter;
-        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'bank_reconciliation';
+        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'no_comparison_no_date_range';
         if (filter_cmp === 'previous_period' || filter_cmp === 'same_last_year') {
             var dtTo = !(_.isUndefined(fromDateFilter)) ? this.$searchview_buttons.find("input[name='date_to']").val() : this.report_context.date_to;
             var dtFrom;
@@ -355,7 +355,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     onChangeDateFilter: function(event) {
         var self = this;
-        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'bank_reconciliation';
+        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'no_comparison_no_date_range';
         var today = new Date();
         var dt;
         switch($(event.target).parents('li').data('value')) {

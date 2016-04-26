@@ -82,6 +82,8 @@ class AccountReportContextCommon(models.TransientModel):
             'followup_report': 'account.followup.report',
             'bank_reconciliation': 'account.bank.reconciliation.report',
             'general_ledger': 'account.general.ledger',
+            'aged_receivable': 'account.aged.receivable',
+            'aged_payable': 'account.aged.payable',
             'coa': 'account.coa.report',
             'l10n_be_partner_vat_listing': 'l10n.be.report.partner.vat.listing',
             'l10n_be_partner_vat_intra': 'l10n.be.report.partner.vat.intra',
@@ -94,6 +96,8 @@ class AccountReportContextCommon(models.TransientModel):
             'account.followup.report': 'account.report.context.followup',
             'account.bank.reconciliation.report': 'account.report.context.bank.rec',
             'account.general.ledger': 'account.context.general.ledger',
+            'account.aged.receivable': 'account.context.aged.receivable',
+            'account.aged.payable': 'account.context.aged.payable',
             'account.coa.report': 'account.context.coa',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
             'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
@@ -202,11 +206,6 @@ class AccountReportContextCommon(models.TransientModel):
             res[:0] = [[False, self.date_to]]
         else:
             res[:0] = [[self.date_from, self.date_to]]
-            if self.get_report_obj().get_report_type() == 'date_range_extended':
-                dt_from = datetime.strptime(self.date_to, "%Y-%m-%d") + timedelta(days=1)
-                res[:0] = [[dt_from.strftime("%Y-%m-%d"), False]]
-                dt_to = datetime.strptime(res[-1][0], "%Y-%m-%d") - timedelta(days=1)
-                res.append([False, dt_to.strftime("%Y-%m-%d")])
         return res
 
     def get_cmp_periods(self, display=False):
@@ -332,15 +331,6 @@ class AccountReportContextCommon(models.TransientModel):
                 'date_from': datetime.today().replace(day=1),
                 'date_to': dt.replace(day=calendar.monthrange(dt.year, dt.month)[1]),
                 'date_filter': 'this_month',
-            }
-        elif report_type == 'date_range_extended':
-            dt = datetime.today()
-            update = {
-                'date_from': datetime.today() - timedelta(days=29),
-                'date_to': datetime.today(),
-                'date_filter': 'custom',
-                'date_filter_cmp': 'previous_period',
-                'periods_number': 3,
             }
         else:
             update = {

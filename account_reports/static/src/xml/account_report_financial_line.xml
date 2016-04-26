@@ -76,6 +76,9 @@
             <t t-if="l.level == 3">
                 <t t-set="domainClass" t-value="'o_account_reports_domain_line_3'"/>
             </t>
+            <t t-if="l.level == 0">
+                <t t-set="domainClass" t-value="'o_account_reports_domain_line_0'"/>
+            </t>
         </t>
         <tr t-att-class="l.type" t-att-data-type="l.type" t-att-data-id="l.id">
             <td t-att-colspan="l.colspan != undefined ? l.colspan : 1">

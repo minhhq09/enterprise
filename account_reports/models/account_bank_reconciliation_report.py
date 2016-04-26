@@ -170,7 +170,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'bank_reconciliation'
+        return 'no_comparison_no_date_range'
 
     @api.model
     def get_template(self):

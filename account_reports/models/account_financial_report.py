@@ -17,7 +17,6 @@ class ReportAccountFinancialReport(models.Model):
     debit_credit = fields.Boolean('Show Credit and Debit Columns')
     line_ids = fields.One2many('account.financial.html.report.line', 'financial_report_id', string='Lines')
     report_type = fields.Selection([('date_range', 'Based on date ranges'),
-                                    ('date_range_extended', "Based on date ranges with 'older' and 'total' columns and last 3 months"),
                                     ('no_date_range', 'Based on a single date'),
                                     ('date_range_cash', 'Bases on date ranges and cash basis method')],
                                    string='Analysis Periods', default=False, required=True,
@@ -71,8 +70,6 @@ class ReportAccountFinancialReport(models.Model):
         res = line_obj.with_context(
             state=context_id.all_entries and 'all' or 'posted',
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
-            strict_range=self.report_type == 'date_range_extended',
-            aged_balance=self.report_type == 'date_range_extended',
             company_ids=context_id.company_ids.ids,
             context=context_id
         ).get_lines(self, context_id, currency_table, linesDicts)
@@ -386,8 +383,6 @@ class AccountFinancialReportLine(models.Model):
                     })
 
             for vals in lines:
-                if financial_report.report_type == 'date_range_extended':
-                    vals['columns'].append(sum(vals['columns']))
                 if len(comparison_table) == 2:
                     vals['columns'].append(line._build_cmp(vals['columns'][0], vals['columns'][1]))
                     for i in [0, 1]:
@@ -525,8 +520,6 @@ class AccountFinancialReportContext(models.TransientModel):
 
     def get_columns_names(self):
         columns = []
-        if self.report_id.report_type == 'date_range_extended':
-            columns += [_('Non-issued')]
         if self.report_id.debit_credit and not self.comparison:
             columns += [_('Debit'), _('Credit')]
         columns += [self.get_balance_date()]
@@ -535,15 +528,11 @@ class AccountFinancialReportContext(models.TransientModel):
                 columns += [self.get_cmp_date(), '%']
             else:
                 columns += self.get_cmp_periods(display=True)
-        if self.report_id.report_type == 'date_range_extended':
-            columns += [_('Older'), _('Total')]
         return columns
 
     @api.multi
     def get_columns_types(self):
         types = []
-        if self.report_id.report_type == 'date_range_extended':
-            types += ['number']
         if self.report_id.debit_credit and not self.comparison:
             types += ['number', 'number']
         types += ['number']
@@ -552,8 +541,6 @@ class AccountFinancialReportContext(models.TransientModel):
                 types += ['number', 'number']
             else:
                 types += (['number'] * self.periods_number)
-        if self.report_id.report_type == 'date_range_extended':
-            types += ['number', 'number']
         return types
 
 
