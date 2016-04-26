@@ -80,7 +80,7 @@ class crm_team(osv.osv):
     def _get_default_team_id(self, user_id=None):
         if user_id is None:
             user_id = self.env.user.id
-        team_id = self.search([('team_user_ids.user_id', '=', user_id)], limit=1).id
+        team_id = self.sudo().search([('team_user_ids.user_id', '=', user_id)], limit=1).id
         if not team_id:
             team_id = super(crm_team, self)._get_default_team_id(user_id=user_id)
         return team_id
