@@ -258,6 +258,9 @@ return AbstractWebClient.extend({
                     in_DOM: true,
                 });
 
+                // Clear the input and reset the menuitems display
+                self.app_switcher.reset_menu_display();
+
                 // Save and clear the url
                 self.url = $.bbq.getState();
                 self._ignore_hashchange = true;

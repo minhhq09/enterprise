@@ -5,39 +5,121 @@
 
     font-size: @odoo-font-size-base-touch;
 
-    .o_apps {
-        .user-select(none);
+    .o_application_switcher_scrollable {
 
-        .o_app {
-            background: transparent;
-            text-decoration: none;
-            text-align: center;
-            outline: none;
+        .o_apps {
+            margin-top: 10px;
 
-            .o_app_icon {
-                width: 80%;
-                max-width: 80px;
-                border-radius: 8%;
-            }
+            .user-select(none);
 
-            .o_caption {
-                .o-text-overflow(block);
-                color: @odoo-brand-lightsecondary;
-                margin-top: 8px;
+            .o_app {
+                padding-top: 5px;
+                background: transparent;
+                text-decoration: none;
+                text-align: center;
+                outline: none;
+
+                .o_app_icon {
+                    width: 80%;
+                    max-width: 80px;
+                    border-radius: 8%;
+                }
+
+                .o_caption {
+                    .o-text-overflow(block);
+                    color: @odoo-brand-lightsecondary;
+                    margin-top: 8px;
+                }
+
+                &:focus, &.o_focused {
+                    background: rgba(0, 0, 0, 0.2);
+                }
+                &:hover {
+                    background: rgba(0, 0, 0, 0.1);
+                }
+                &.o_menu_hidden {
+                    display: none;
+                }
             }
         }
-    }
 
-    .o_application_switcher_footer {
-        .user-select(none);
-        > img {
-            width: 130px;
+        .o_menuitems {
+            padding: 5px;
+
+            .o_secondary_menu_group {
+                margin-bottom: 4px;
+                &.o_menu_hidden {
+                    margin: 0;
+                    display: none !important; // override display flex
+                }
+
+                .o_secondary_menu_group_app {
+                    .o_secondary_menu_group_icon {
+                        width: 80%;
+                        max-width: 40px;
+                        border-radius: 8%;
+                    }        
+                }
+                .o_secondary_menu_group_menuitems {
+                    .o_secondary_menu {
+                        .o-text-overflow();
+                        color: @odoo-brand-lightsecondary;
+                        margin-bottom: 3px;
+                        @media (min-width: @screen-sm-min) {
+                            font-size: 22px;
+                        }
+                        outline: none;
+                        width: 100%;
+                        @media (max-width: @screen-xs-max) {
+                            padding: 5px 0;
+                        }
+                        .o_menu_path {
+                            .o-text-overflow(block);
+                            color: @odoo-brand-lightsecondary;
+                        }
+                        &:focus, &.o_focused {
+                            background: rgba(0, 0, 0, 0.2);
+                        }
+                        &:hover {
+                            background: rgba(0, 0, 0, 0.1);
+                        }
+                        &.o_menu_hidden {
+                            margin: 0;
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .o_no_results {
+            color: @odoo-brand-lightsecondary;
+            font-size: 22px;
+            &.o_hidden {
+                display: none;
+            }
+        }
+
+        .o_application_switcher_footer {
+            .user-select(none);
+            > img {
+                width: 130px;
+            }
         }
     }
 }
 
 .database_expiration_panel {
     text-align: center;
+    max-width: 768px;
+    width: 100%;    
+    .alert {
+        @media (min-width: @screen-md-min) {
+            margin-top: 25px;
+        }
+        margin-bottom: 0px;
+    }
 }
 
 .oe_instance_register_form, .oe_instance_success, .oe_instance_error {

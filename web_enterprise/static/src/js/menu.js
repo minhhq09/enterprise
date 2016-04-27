@@ -94,7 +94,11 @@ var Menu = Widget.extend({
 
         this.$menu_toggle.toggleClass('fa-chevron-left', this.appswitcher_displayed)
                          .toggleClass('fa-th', !this.appswitcher_displayed);
-
+        if (this.appswitcher_displayed && !this.backbutton_displayed) {
+            this.$menu_toggle.removeAttr('accesskey');
+        } else {
+            this.$menu_toggle.attr('accesskey', 'h');
+        }
         this.$menu_toggle.toggleClass('hidden', this.appswitcher_displayed && !this.backbutton_displayed);
         this.$menu_brand_placeholder.toggleClass('hidden', this.appswitcher_displayed);
         this.$section_placeholder.toggleClass('hidden', this.appswitcher_displayed);
