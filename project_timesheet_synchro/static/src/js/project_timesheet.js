@@ -52,9 +52,11 @@ odoo.define('project_timeshee.ui', function (require ) {
             core.bus.on('change_screen', this, this.go_to_screen);
             core.bus.on('sync', this, this.sync);
             core.bus.on('reset', this, this.reset_app);
+            core.bus.on('after_sync', this, this.after_sync);
 
             self.session = session; // This makes session accessible in QWEB templates.
             self.syncable = false; // Sync flag. Enabled if the user has a valid session with a server where the appropiate sync module is installed.
+            self.sync_in_progress = false;
 
         },
         /**
@@ -123,9 +125,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                             self.syncable = true;
                             self.sync({
                                 callback : function(){
-                                    core.bus.trigger('change_screen', {
-                                        id : 'activities',
-                                    });
+                                    core.bus.trigger('after_sync');
                                 }
                             });
                         }
@@ -232,14 +232,13 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
             next_screen.attach(this.$el, args.options);
             this.current_screen = next_screen;
-            this.$('.pt_drawer_menu_wrapper').removeClass('shown');
         },
         // Data management methods
 
         // Options should only contain a callback function.
         // If there is a callback, it is always called even if the sync failed or was skipped.
         sync: function(options) {
-            if (!this.syncable) {
+            if (!this.syncable || this.sync_in_progress) {
                 if (options && options.callback) {
                     options.callback();
                 }
@@ -248,6 +247,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var defer = $.Deferred();
             var self = this;
             self.$('.pt_nav_sync a').addClass('pt_sync_in_progress');
+            self.sync_in_progress = true;
 
             // Before syncing, we must ensure that the xml_ids on the server and in the app are appropriate.
             // If they are not, we try to clean them on the server and locally.
@@ -415,6 +415,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                         });
                         self.sync_time = new Date();
                         self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
+                        self.sync_in_progress = false;
                         self.flush_activities(MAX_AGE);
                         self.save_user_data();
                         defer.resolve();
@@ -424,6 +425,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     });
                 }).fail(function() {
                     self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
+                    self.sync_in_progress = false;
                     defer.resolve();
                     if (options && options.callback) {
                         options.callback();
@@ -431,6 +433,20 @@ odoo.define('project_timeshee.ui', function (require ) {
                 });
             });
             return defer;
+        },
+        /*
+        * Called after a synchronization
+        * It triggers a refresh of the current screen, only if the current screen is the Activities screen.
+        * This is useful to display new synchronized activities.
+        * If the user is on a different screen, a refresh is not as useful, and can even be troubling,
+        * e.g. if the user is editing or creating an activity.
+        */
+        after_sync: function() {
+            if (this.current_screen === this.activities_screen) {
+                core.bus.trigger('change_screen', {
+                    id : 'activities'
+                });
+            }
         },
         // Remove the activities that are older than a certain threshold.
         // Age is the max number of days old an activity can be to be kept in the app
@@ -582,6 +598,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                 id: $(ev.currentTarget).data('menu-id'),
                 options: ($(ev.currentTarget).data('options')),
             });
+            this.$el.removeClass('shown');
         },
         on_close_menu_by_click: function(ev) {
             if ($(ev.target).hasClass('pt_drawer_menu_shade')) {
@@ -1437,9 +1454,7 @@ odoo.define('project_timeshee.ui', function (require ) {
 
             core.bus.trigger('sync', {
                 callback : function() {
-                    core.bus.trigger('change_screen', {
-                        id : 'activities',
-                    });
+                    core.bus.trigger('after_sync');
                 },
             });
 
@@ -1728,31 +1743,34 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         on_keep_data: function() {
             this.getParent().get_user_data(session.username, session.server, true);
+            core.bus.trigger('change_screen', {
+                id : 'activities',
+            });
             core.bus.trigger('sync', {
                 callback : function(){
-                    core.bus.trigger('change_screen', {
-                        id : 'activities',
-                    });
+                    core.bus.trigger('after_sync');
                 }
             });
         },
         on_discard_data: function() {
             this.getParent().get_user_data(session.username, session.server);
+            core.bus.trigger('change_screen', {
+                id : 'activities',
+            });
             core.bus.trigger('sync', {
                 callback : function(){
-                    core.bus.trigger('change_screen', {
-                        id : 'activities',
-                    });
+                    core.bus.trigger('after_sync');
                 }
             });
         },
         sync_now: function() {
             var self = this;
+            core.bus.trigger('change_screen', {
+                id : 'activities',
+            });
             core.bus.trigger('sync', {
                 callback : function(){
-                    core.bus.trigger('change_screen', {
-                        id : 'activities',
-                    });
+                    core.bus.trigger('after_sync');
                 }
             });
         },

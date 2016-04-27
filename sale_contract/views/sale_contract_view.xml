@@ -97,7 +97,7 @@
                     <group name="main">
                         <group>
                             <field name="type" widget="radio" invisible="1"/>
-                            <field name="partner_id" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }" on_change="on_change_partner(partner_id)"/>
+                            <field name="partner_id" domain="[('customer','=',True)]" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }" on_change="on_change_partner(partner_id)"/>
                             <field name="code"/>
                             <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}"/>
                             <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
@@ -118,7 +118,7 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="date_start"/>
-                            <field name="date" state="close"/>
+                            <field name="date" states="close"/>
                             <field name="close_reason_id" attrs="{'invisible': ['|',('type','!=','contract'),('state','in',['draft','open','pending'])]}"/>
                         </group>
                     </group>

@@ -354,7 +354,7 @@ class DHLProvider():
         if order:
             if not order.order_line:
                 raise ValidationError(_("Please provide at least one item to ship."))
-            for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery):
+            for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery and not line.product_id.type in ['service', 'digital']):
                 raise ValidationError(_('The estimated price cannot be computed because the weight of your product is missing.'))
         return True
 

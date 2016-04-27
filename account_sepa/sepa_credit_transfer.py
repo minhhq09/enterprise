@@ -79,7 +79,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         res = self.create({
             'journal_id': journal.id,
             'bank_account_id': bank_account.id,
-            'filename': "SCT" + bank_account.sanitized_acc_number + time.strftime("%Y%m%d") + ".xml",
+            'filename': "SCT-" + journal.code + "-" + time.strftime("%Y%m%d") + ".xml",
             'is_generic': self._require_generic_message(journal, payments),
         })
 
