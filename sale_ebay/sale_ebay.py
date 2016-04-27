@@ -80,9 +80,13 @@ class ebay_category(models.Model):
                                                       if domain == 'sand'
                                                       else 'ebay_prod_category_version',
                                                       ebay_version)
+            if domain == 'sand':
+                levellimit = 2
+            else:
+                levellimit = 4
             call_data = {
                 'DetailLevel': 'ReturnAll',
-                'LevelLimit': 4,
+                'LevelLimit': levellimit,
             }
             response = prod.ebay_execute('GetCategories', call_data)
             categories = response.dict()['CategoryArray']['Category']

@@ -27,7 +27,7 @@ class Lead(models.Model):
         for lead in self:
             lead.score = scores.get(lead.id, 0)
 
-    score = fields.Float(compute='_compute_score', store=True)
+    score = fields.Float(compute='_compute_score', store=True, group_operator="avg")
     score_ids = fields.Many2many('website.crm.score', 'crm_lead_score_rel', 'lead_id', 'score_id', string='Score')
     score_pageview_ids = fields.One2many('website.crm.pageview', 'lead_id', string='Page Views', help="List of (tracked) pages seen by the owner of this lead")
     assign_date = fields.Datetime(string='Assign Date', help="Date when the lead has been assigned via the auto-assignation mechanism")

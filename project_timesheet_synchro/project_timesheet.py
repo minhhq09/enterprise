@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, exceptions
+from openerp import models, api
+from openerp.exceptions import UserError, AccessError
 
 import time
 import datetime
@@ -68,9 +69,7 @@ class account_analytic_line(models.Model):
             '&',
                 '|',
                     '|',
-                        '|',
                         ("user_id", "=", self.env.uid),
-                        ("user_id", "=", False),
                     ("message_partner_ids", "=", self.env.user.partner_id.id),
                 ("id", "in", task_ids_list),
             ('active', '=', True),
@@ -102,8 +101,9 @@ class account_analytic_line(models.Model):
         projects = projects_ids.export_data(projects_fields)
 
         # Reduces the sheet_id/state to open or closed.
-        # If an aal is not linked to a project, it won't be exported
-        index = 0
+        # If an aal is not linked to a project, it won't be imported
+        aals_to_return = {'datas': []}
+
         for aal in aals['datas']:
             if aal[8] == 'Approved' or aal[8] == 'Waiting Approval':
                 aal[8] = 'closed'
@@ -182,11 +182,10 @@ class account_analytic_line(models.Model):
                 ls_aals_to_remove.append(str(ls_aal['id']))
             elif sv_aal and ls_aal.get('to_remove'):  # The UI is requesting the deletion of the activity
                 try:
-                    self.unlink(sv_aal.id)
+                    sv_aal.unlink()
                     ls_aals_to_remove.append(str(ls_aal['id']))
-                except:
+                except (AccessError, UserError):
                     aals_on_hold.append(str(ls_aal['id']))
-                    pass
             elif ls_aal.get('to_sync') and sv_project:
                 if sv_aal:
                     if(datetime.datetime.strptime(ls_aal['write_date'], tools.DEFAULT_SERVER_DATETIME_FORMAT) > datetime.datetime.strptime(sv_aal['__last_update'], tools.DEFAULT_SERVER_DATETIME_FORMAT)):
