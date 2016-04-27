@@ -203,6 +203,123 @@
     </t>
 </t>
 
+<t t-extend="UserMenu">
+    <t t-jquery="li.divider" t-operation="before">
+        <li class="hidden-xs"><a href="#" data-menu="shortcuts">Shortcuts</a></li>
+    </t>
+</t>
+
+<div t-name="UserMenu.shortcuts">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-8">
+                <table class="o_shortcut_table text-center">
+                    <thead>
+                        <tr>
+                            <th style="width:50%;">Description</th>
+                            <th style="width:25%;" class="text-center">Windows/Linux</th>
+                            <th style="width:25%;" class="text-center">Mac</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="left"><strong>S</strong>ave a record</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">s</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">s</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Edit a record (<strong>a</strong>dapt)</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">a</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">a</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Discard a record modification (<strong>j</strong>unk)</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">j</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">j</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left"><strong>C</strong>reate a new record</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">c</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">c</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Open to <strong>l</strong>ist view</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">l</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">l</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Open to <strong>k</strong>anban view</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">k</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">k</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Open the <strong>p</strong>revious record</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">p</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">p</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Open the <strong>n</strong>ext record</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">n</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">n</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Search a menu item (<strong>h</strong>ome)</td>
+                            <td>
+                                <span class="o_key">Alt</span> + <span class="o_key">h</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Control</span> + <span class="o_key">Alt</span> + <span class="o_key">a</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">Come back on the last view from the app switcher (<strong>esc</strong>ape)</td>
+                            <td>
+                                <span class="o_key">Esc</span>
+                            </td>
+                            <td>
+                                <span class="o_key">Esc</span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div t-name="FormRenderingStatusBar" class="o_form_statusbar">
     <div class="o_statusbar_buttons"/>
 </div>
