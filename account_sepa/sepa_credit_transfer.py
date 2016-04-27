@@ -8,7 +8,7 @@ import base64
 from lxml import etree
 
 from openerp import models, fields, api, _
-from openerp.tools import float_round
+from openerp.tools import float_round, DEFAULT_SERVER_DATE_FORMAT
 from openerp.exceptions import UserError, ValidationError
 
 
@@ -139,38 +139,46 @@ class AccountSepaCreditTransfer(models.TransientModel):
         val_NbOfTxs = str(len(doc_payments))
         if len(val_NbOfTxs) > 15:
             raise ValidationError(_("Too many transactions for a single file."))
+        if not self.bank_account_id.bank_bic:
+            raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s' of journal '%s'") % (self.bank_account_id.acc_number, self.journal_id.name))
         NbOfTxs.text = val_NbOfTxs
         CtrlSum = etree.SubElement(GrpHdr, "CtrlSum")
         CtrlSum.text = self._get_CtrlSum(doc_payments)
         GrpHdr.append(self._get_InitgPty())
 
-        # Create the PmtInf XML block
-        PmtInf = etree.SubElement(CstmrCdtTrfInitn, "PmtInf")
-        PmtInfId = etree.SubElement(PmtInf, "PmtInfId")
-        PmtInfId.text = (val_MsgId + str(self.journal_id.id))[-30:]
-        PmtMtd = etree.SubElement(PmtInf, "PmtMtd")
-        PmtMtd.text = 'TRF'
-        BtchBookg = etree.SubElement(PmtInf, "BtchBookg")
-        BtchBookg.text = 'false'
-        NbOfTxs = etree.SubElement(PmtInf, "NbOfTxs")
-        NbOfTxs.text = str(len(doc_payments))
-        CtrlSum = etree.SubElement(PmtInf, "CtrlSum")
-        CtrlSum.text = self._get_CtrlSum(doc_payments)
-        PmtInf.append(self._get_PmtTpInf())
-        ReqdExctnDt = etree.SubElement(PmtInf, "ReqdExctnDt")
-        ReqdExctnDt.text = time.strftime("%Y-%m-%d")
-        PmtInf.append(self._get_Dbtr())
-        PmtInf.append(self._get_DbtrAcct())
-        DbtrAgt = etree.SubElement(PmtInf, "DbtrAgt")
-        FinInstnId = etree.SubElement(DbtrAgt, "FinInstnId")
-        if not self.bank_account_id.bank_bic:
-            raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s' of journal '%s'") % (self.bank_account_id.acc_number, self.journal_id.name))
-        BIC = etree.SubElement(FinInstnId, "BIC")
-        BIC.text = self.bank_account_id.bank_bic
-
-        # One CdtTrfTxInf per transaction
+        # Create one PmtInf XML block per execution date
+        payments_date_wise = {}
         for payment in doc_payments:
-            PmtInf.append(self._get_CdtTrfTxInf(PmtInfId, payment))
+            if payment.payment_date not in payments_date_wise:
+                payments_date_wise[payment.payment_date] = []
+            payments_date_wise[payment.payment_date].append(payment)
+        count = 0
+        for payment_date, payments_list in payments_date_wise.items():
+            count += 1
+            PmtInf = etree.SubElement(CstmrCdtTrfInitn, "PmtInf")
+            PmtInfId = etree.SubElement(PmtInf, "PmtInfId")
+            PmtInfId.text = (val_MsgId + str(self.journal_id.id) + str(count))[-30:]
+            PmtMtd = etree.SubElement(PmtInf, "PmtMtd")
+            PmtMtd.text = 'TRF'
+            BtchBookg = etree.SubElement(PmtInf, "BtchBookg")
+            BtchBookg.text = 'false'
+            NbOfTxs = etree.SubElement(PmtInf, "NbOfTxs")
+            NbOfTxs.text = str(len(payments_list))
+            CtrlSum = etree.SubElement(PmtInf, "CtrlSum")
+            CtrlSum.text = self._get_CtrlSum(payments_list)
+            PmtInf.append(self._get_PmtTpInf())
+            ReqdExctnDt = etree.SubElement(PmtInf, "ReqdExctnDt")
+            ReqdExctnDt.text = time.strftime('%Y-%m-%d', time.strptime(payment_date, DEFAULT_SERVER_DATE_FORMAT))
+            PmtInf.append(self._get_Dbtr())
+            PmtInf.append(self._get_DbtrAcct())
+            DbtrAgt = etree.SubElement(PmtInf, "DbtrAgt")
+            FinInstnId = etree.SubElement(DbtrAgt, "FinInstnId")
+            BIC = etree.SubElement(FinInstnId, "BIC")
+            BIC.text = self.bank_account_id.bank_bic
+
+            # One CdtTrfTxInf per transaction
+            for payment in payments_list:
+                PmtInf.append(self._get_CdtTrfTxInf(PmtInfId, payment))
 
         return etree.tostring(Document, pretty_print=True, xml_declaration=True, encoding='utf-8')
 
@@ -269,7 +277,6 @@ class AccountSepaCreditTransfer(models.TransientModel):
         val_RmtInf = self._get_RmtInf(payment)
         if val_RmtInf != False:
             CdtTrfTxInf.append(val_RmtInf)
-
         return CdtTrfTxInf
 
     def _get_ChrgBr(self):
