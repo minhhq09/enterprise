@@ -359,7 +359,7 @@ var AppSwitcher = Widget.extend({
             new_index = i + this.app_icon_by_line;
             if(new_index + 1 > this.visible_apps_count) {
                 var app_lines_count = Math.ceil(this.visible_apps_count/this.app_icon_by_line);
-                var current_line_number = Math.ceil(i+1/this.app_icon_by_line);
+                var current_line_number = Math.ceil((i+1)/this.app_icon_by_line);
                 if (app_lines_count > current_line_number) {
                     new_index = this.visible_apps_count - 1;                                
                 } else {
