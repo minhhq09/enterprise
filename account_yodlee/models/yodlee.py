@@ -363,6 +363,8 @@ class YodleeAccount(models.Model):
             'transactionSearchRequest.searchFilter.postDateRange.fromDate': from_date,
             'transactionSearchRequest.searchFilter.postDateRange.toDate': to_date,
             'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
+            'transactionSearchRequest.searchFilter.transactionStatus.description': 'posted',
+            'transactionSearchRequest.searchFilter.transactionStatus.statusId': 1,
             'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
             # 'transactionSearchRequest.searchFilter.setFirstCall': True,
         }
