@@ -239,7 +239,11 @@ var AppSwitcher = Widget.extend({
         var self = this;
         _.each(menu_data, function (menu) {
             if (menu.action_id) {
-                menu.$el = self.$('.o_action_app[data-action-id=' + menu.action_id + ']');
+                if (menu.parent_id) {
+                    menu.$el = self.$('.o_secondary_menu.o_action_app[data-action-id=' + menu.action_id + ']');
+                } else {
+                    menu.$el = self.$('.o_primary_menu.o_action_app[data-action-id=' + menu.action_id + ']');
+                }
                 menu.$group = self.$('.o_secondary_menu_group[data-menu=' + menu.root_menu_id + ']');
             }
             if (menu.children.length) {
