@@ -54,7 +54,8 @@
                                 <div t-attf-class="o_grid_cell_container {{cell.size ? '' : ' o_grid_cell_empty'}}"
                                      t-att-data-row="row_index"
                                      t-att-data-column="cell_index">
-                                    <i class="fa fa-info-circle o_grid_cell_information"/>
+                                    <i class="fa fa-search-plus o_grid_cell_information"
+                                       title="See all the records aggregated in this cell"/>
                                     <div t-if="widget.getParent().is_action_enabled('edit')"
                                         class="o_grid_input" contenteditable="true"
                                     ><t t-esc="widget._cell_field.format(cell.value)"/></div>
@@ -82,12 +83,6 @@
                     </tr>
                 </tbody>
             </table>
-            <div t-if="!grid.length" class="o_grid_nocontent_container">
-                <div class="oe_view_nocontent oe_edit_only">
-                    <p class="oe_view_nocontent_create">Click to add projects and tasks.</p>
-                    <p>You will be able to register your working hours on the given task.</p>
-                </div>
-            </div>
         </div>
     </t>
     <t t-name="grid.GridArrows">
