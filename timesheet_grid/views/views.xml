@@ -51,6 +51,11 @@
                     <attribute name="create">false</attribute>
                     <attribute name="edit">false</attribute>
                 </xpath>
+                <!-- group view by user (only) instead of (project, task) -->
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                    <attribute name="name">user_id</attribute>
+                </xpath>
+                <xpath expr="//field[@name='task_id']" position="remove"/>
             </field>
         </record>
         <record id="view_timesheet_list" model="ir.ui.view">
