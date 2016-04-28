@@ -197,21 +197,20 @@
             <field name="name">Timesheets</field>
         </record>
 
-        <menuitem name="Timesheets" id="menu_timesheet_grid_timesheet"
-                  parent="hr_timesheet.menu_hr_time_tracking"
-                  sequence="2"/>
         <menuitem name="My Timesheet" id="menu_timesheet_grid_my"
-                  parent="menu_timesheet_grid_timesheet"
-                  action="action_timesheet_current"/>
+                  parent="hr_timesheet.menu_hr_time_tracking"
+                  action="action_timesheet_current"
+                  sequence="0"/>
         <menuitem name="All Timesheets" id="menu_timesheet_grid_all"
-                  parent="menu_timesheet_grid_timesheet"
+                  parent="hr_timesheet.menu_hr_time_tracking"
                   groups="base.group_hr_user"
-                  action="action_timesheet_all"/>
+                  action="action_timesheet_all"
+                  sequence="1"/>
 
         <menuitem name="To Validate" id="menu_timesheet_grid_validate"
-                  parent="hr_timesheet.menu_hr_time_tracking"
+                  parent="hr_timesheet.timesheet_menu_root"
                   groups="base.group_hr_user"
-                  sequence="4"/>
+                  sequence="10"/>
         <menuitem name="Last Week" id="menu_timesheet_grid_validate_previous_week"
                   parent="menu_timesheet_grid_validate"
                   action="action_timesheet_previous_week"/>
