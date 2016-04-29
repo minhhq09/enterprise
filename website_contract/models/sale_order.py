@@ -17,7 +17,7 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).onchange_template_id(cr, uid, ids, template_id, partner=partner, fiscal_position_id=fiscal_position_id, pricelist_id=pricelist_id, context=context)
         contract_template = self.pool['sale.quote.template'].browse(cr, uid, template_id, context=context).contract_template
         if contract_template:
-            res['value']['contract_template'] = contract_template
+            res['value']['contract_template'] = contract_template.id
         return res
 
     @api.onchange('contract_template')
