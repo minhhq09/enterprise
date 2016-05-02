@@ -219,17 +219,17 @@
                   action="action_timesheet_previous_month"/>
 
         <!-- reporting -->
-        <record id="action_timesheet_report" model="ir.actions.act_window">
-            <field name="name">Timesheets</field>
-            <field name="res_model">account.analytic.line</field>
-            <field name="view_mode">grid,pivot,graph</field>
+        <record id="hr_timesheet.act_hr_timesheet_line" model="ir.actions.act_window">
             <field name="view_ids" eval="[
-                (5, 0, 0),
-                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')}),
+                (0, False, {
+                    'view_mode': 'grid',
+                    'sequence': 1,
+                    'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')
+                })
             ]"/>
-            <field name="context">{"search_default_groupby_user": 1}</field>
         </record>
-        <record id="view_timesheet_seach" model="ir.ui.view">
+
+        <record id="view_timesheet_search" model="ir.ui.view">
             <field name="name">Add name to user_id group</field>
             <field name="model">account.analytic.line</field>
             <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
@@ -238,14 +238,6 @@
                     <attribute name="name">groupby_user</attribute>
                 </xpath>
             </field>
-        </record>
-
-        <menuitem name="Timesheet Analysis" id="menu_timesheet_grid_report"
-                  parent="hr_timesheet.menu_timesheets_reports"
-                  action="action_timesheet_report"/>
-        <!-- rename Reports > Timesheets -->
-        <record id="hr_timesheet.menu_hr_timesheet_report_all" model="ir.ui.menu">
-            <field name="name">Activity Analysis</field>
         </record>
 
         <record id="project_view_form_timesheets" model="ir.ui.view">
