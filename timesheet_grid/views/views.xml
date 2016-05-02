@@ -14,10 +14,11 @@
                             </group>
                             <group>
                                 <field name="date"/>
-                                <field name="unit_amount"/>
+                                <field name="unit_amount" string="Time Spent" widget="float_time"/>
                             </group>
                         </group>
                         <field name="name" nolabel="1" widget="text"
+                               placeholder="Describe your activity"
                                colspan="4"/>
                     </sheet>
                 </form>
@@ -50,6 +51,11 @@
                     <attribute name="create">false</attribute>
                     <attribute name="edit">false</attribute>
                 </xpath>
+                <!-- group view by user (only) instead of (project, task) -->
+                <xpath expr="//field[@name='project_id']" position="attributes">
+                    <attribute name="name">user_id</attribute>
+                </xpath>
+                <xpath expr="//field[@name='task_id']" position="remove"/>
             </field>
         </record>
         <record id="view_timesheet_list" model="ir.ui.view">
@@ -60,8 +66,8 @@
                     <field name="date"/>
                     <field name="project_id"/>
                     <field name="task_id" domain="[['project_id', '=', project_id]]"/>
-                    <field name="unit_amount"/>
                     <field name="name"/>
+                    <field name="unit_amount" widget="float_time"/>
                 </tree>
             </field>
         </record>
@@ -80,7 +86,29 @@
         <record id="view_timesheet_grid_search" model="ir.ui.view">
             <field name="name">timesheet grid search</field>
             <field name="model">account.analytic.line</field>
-            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="arch" type="xml">
+                <search string="Timesheet">
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="name"/>
+                    <filter name="mine" string="My Timesheets" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter name="validated" string="Validated" domain="[('validated', '=', True)]"/>
+                    <filter name="nonvalidated" string="Non Validated" domain="[('validated', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Users" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Task" domain="[]" context="{'group_by':'task_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_timesheet_grid_validation_search" model="ir.ui.view">
+            <field name="name">timesheet validation grid search</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="view_timesheet_grid_search"/>
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <xpath expr="//search">
@@ -96,6 +124,7 @@
             <field name="name">My Timesheet</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
+            <field name="search_view_id" ref="view_timesheet_grid_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid')}),
@@ -103,7 +132,7 @@
                 (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
             ]"/>
             <field name="domain">[('user_id', '=', uid)]</field>
-            <field name="context">{'user_id': uid, 'default_name': '/'}</field>
+            <field name="context">{'user_id': uid}</field>
         </record>
         <record id="action_timesheet_all" model="ir.actions.act_window">
             <field name="name">All Timesheets</field>
@@ -118,36 +147,56 @@
             ]"/>
         </record>
         <record id="action_timesheet_previous_week" model="ir.actions.act_window">
-            <field name="name">Last Week's Timesheets</field>
+            <field name="name">Timesheets To Validate</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
-            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="search_view_id" ref="view_timesheet_grid_validation_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
             ]"/>
-            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d')}</field>
+            <field name="context">{
+                'grid_anchor': (datetime.date.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'),
+                'search_default_nonvalidated': True,
+            }</field>
         </record>
         <record id="action_timesheet_previous_month" model="ir.actions.act_window">
-            <field name="name">Last Month's Timesheets</field>
+            <field name="name">Timesheets To Validate</field>
             <field name="res_model">account.analytic.line</field>
             <field name="view_mode">grid,tree</field>
-            <field name="search_view_id" ref="view_timesheet_grid_search"/>
+            <field name="search_view_id" ref="view_timesheet_grid_validation_search"/>
             <field name="view_ids" eval="[
                 (5, 0, 0),
                 (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_validate')}),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('timesheet_grid.view_timesheet_list')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('timesheet_grid.view_timesheet_form')}),
             ]"/>
-            <field name="context">{'grid_anchor': (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-%d'), 'grid_range': 'month'}</field>
+            <field name="context">{
+                'grid_anchor': (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-%d'), 'grid_range': 'month',
+                'search_default_nonvalidated': True,
+            }</field>
+        </record>
+
+        <record id="hr_timesheet_employee_form_validation" model="ir.ui.view">
+            <field name="name">timesheet_grid: add validation field to employee form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[group[@name='active_group']]" position="after">
+                    <group groups="base.group_no_one"><group>
+                        <field name="timesheet_validated"/>
+                    </group></group>
+                </xpath>
+            </field>
         </record>
 
         <!-- rename My Timesheet menu -->
         <record id="hr_timesheet.menu_hr_time_tracking" model="ir.ui.menu">
             <field name="name">Timesheets</field>
         </record>
+
         <menuitem name="My Timesheet" id="menu_timesheet_grid_my"
                   parent="hr_timesheet.menu_hr_time_tracking"
                   action="action_timesheet_current"
@@ -156,30 +205,31 @@
                   parent="hr_timesheet.menu_hr_time_tracking"
                   groups="base.group_hr_user"
                   action="action_timesheet_all"
-                  sequence="2"/>
+                  sequence="1"/>
+
         <menuitem name="To Validate" id="menu_timesheet_grid_validate"
-                  parent="hr_timesheet.menu_hr_time_tracking"
+                  parent="hr_timesheet.timesheet_menu_root"
                   groups="base.group_hr_user"
-                  sequence="4"/>
-        <menuitem name="Previous Week" id="menu_timesheet_grid_validate_previous_week"
+                  sequence="10"/>
+        <menuitem name="Last Week" id="menu_timesheet_grid_validate_previous_week"
                   parent="menu_timesheet_grid_validate"
                   action="action_timesheet_previous_week"/>
-        <menuitem name="Previous Month" id="menu_timesheet_grid_validate_previous_month"
+        <menuitem name="Last Month" id="menu_timesheet_grid_validate_previous_month"
                   parent="menu_timesheet_grid_validate"
                   action="action_timesheet_previous_month"/>
 
         <!-- reporting -->
-        <record id="action_timesheet_report" model="ir.actions.act_window">
-            <field name="name">Timesheets</field>
-            <field name="res_model">account.analytic.line</field>
-            <field name="view_mode">grid,pivot,graph</field>
+        <record id="hr_timesheet.act_hr_timesheet_line" model="ir.actions.act_window">
             <field name="view_ids" eval="[
-                (5, 0, 0),
-                (0, 0, {'view_mode': 'grid', 'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')}),
+                (0, False, {
+                    'view_mode': 'grid',
+                    'sequence': 1,
+                    'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')
+                })
             ]"/>
-            <field name="context">{"search_default_groupby_user": 1}</field>
         </record>
-        <record id="view_timesheet_seach" model="ir.ui.view">
+
+        <record id="view_timesheet_search" model="ir.ui.view">
             <field name="name">Add name to user_id group</field>
             <field name="model">account.analytic.line</field>
             <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
@@ -190,8 +240,41 @@
             </field>
         </record>
 
-        <menuitem name="Grid" id="menu_timesheet_grid_report"
-                  parent="hr_timesheet.menu_timesheets_reports"
-                  action="action_timesheet_report"/>
+        <record id="project_view_form_timesheets" model="ir.ui.view">
+            <field name="name">Enable timesheet on project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options_active']" position="inside">
+                    <div>
+                        <field name="allow_timesheets" class="oe_inline" string="Allow timesheets"/>
+                        <label for="allow_timesheets"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="validable_form" model="ir.ui.view">
+            <field name="name">timesheet validation wizard</field>
+            <field name="model">timesheet_grid.validation</field>
+            <field name="arch" type="xml">
+                <form string="Validate Timesheets">
+                    Validate the timesheets of the selected employees up to
+                    <field name="validate_to" readonly="1"/>
+                    <field name="validable_ids">
+                        <tree editable="bottom" create="false" delete="false">
+                            <field name="employee_id" readonly="1"/>
+                            <field name="validate"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button type="object" string="Validate" name="validate"
+                                class="btn-primary"/>
+                        <button special="cancel" string="Cancel"
+                                class="btn-default"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>
