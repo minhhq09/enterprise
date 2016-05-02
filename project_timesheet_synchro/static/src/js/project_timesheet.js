@@ -857,6 +857,13 @@ odoo.define('project_timeshee.ui', function (require ) {
                     }
                 }
             });
+            // For the the weekly view, we sort the list by date, in descending order
+            if(self.show_week) {
+                self.activities_list = _.sortBy(self.activities_list, function(aal) {
+                    return - moment(aal.date, 'YYYYMMDD').valueOf();
+                })
+            }
+
         },
         create_activity: function(event, unit_amount) {
             core.bus.trigger('change_screen', {
