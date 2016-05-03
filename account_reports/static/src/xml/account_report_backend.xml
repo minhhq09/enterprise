@@ -55,9 +55,9 @@
     <t t-name="accountReports.searchView">
         <div class="o_dropdown o_account_reports_date-filter">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-calendar"/>
-                <t t-if="report_type == 'no_date_range'">Date:</t>
-                <t t-if="report_type != 'no_date_range'">Period:</t>
+                <span class="fa fa-calendar"/> 
+                <t t-if="!report_type.date_range">Date:</t>
+                <t t-if="report_type.date_range">Period:</t>
                 <t t-if="context.date_filter == 'today'">Today</t>
                 <t t-if="context.date_filter == 'last_month'">Last Month</t>
                 <t t-if="context.date_filter == 'last_quarter'">Last Quarter</t>
@@ -68,13 +68,13 @@
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
-                <t t-if="report_type == 'no_date_range' or report_type == 'no_comparison_no_date_range'">
+                <t t-if="!report_type.date_range">
                     <li title="Today" data-value="today" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'today' and 'selected' or '')"><a>Today</a></li>
                     <li title="End of Last Month" data-value="last_month" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'last_month' and 'selected' or '')"><a>End of Last Month</a></li>
                     <li title="End of Last Quarter" data-value="last_quarter" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'last_quarter' and 'selected' or '')"><a>End of Last Quarter</a></li>
                     <li title="End of Last Financial Year" data-value="last_year" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'last_year' and 'selected' or '')"><a>End of Last Financial Year</a></li>
                 </t>
-                <t t-if="report_type != 'no_date_range' and report_type != 'no_comparison_no_date_range'">
+                <t t-if="report_type.date_range">
                     <li title="This Month" data-value="this_month" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'this_month' and 'selected' or '')"><a>This Month</a></li>
                     <li title="This Financial Year" data-value="this_year" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'this_year' and 'selected' or '')"><a>This Financial Year</a></li>
                     <li class="divider"></li>
@@ -85,15 +85,15 @@
                 <li class="divider"></li>
                 <li t-att-class="'o_account_reports_use-custom ' + (context.date_filter == 'custom' and 'o_open_menu' or 'o_closed_menu')"><a>Custom</a></li>
                 <li class="o_account_reports_custom-dates" data-value='custom' style='margin-left: 10px; margin-right: 10px;'>
-                    <label class="custom-date" t-if="report_type != 'no_date_range' and report_type != 'no_comparison_no_date_range'" for="date_from">Start Date :</label>
-                    <div t-if="report_type != 'no_date_range' and report_type != 'no_comparison_no_date_range'" class="form-group custom-date">
+                    <label class="custom-date" t-if="report_type.date_range" for="date_from">Start Date :</label>
+                    <div t-if="report_type.date_range" class="form-group custom-date">
                         <div class='o_datepicker date o_account_reports_datetimepicker' t-att-data-default-value="context.date_from">
                             <input type='text' class="o_datepicker_input" name="date_from" />
                             <span class="o_datepicker_button"/>
                         </div>
                     </div>
-                    <label class="custom-date" for="date_to" t-if="report_type != 'no_date_range' and report_type != 'no_comparison_no_date_range'">End Date :</label>
-                    <label class="custom-date" for="date_to" t-if="report_type == 'no_date_range' or report_type == 'no_comparison_no_date_range'">Date :</label>
+                    <label class="custom-date" for="date_to" t-if="report_type.date_range">End Date :</label>
+                    <label class="custom-date" for="date_to" t-if="!report_type.date_range">Date :</label>
                     <div class="form-group custom-date">
                         <div class='o_datepicker date o_account_reports_datetimepicker' t-att-data-default-value="context.date_to">
                             <input type='text' class="o_datepicker_input" name="date_to" />
@@ -104,7 +104,7 @@
                 </li>
             </ul>
         </div>
-        <div class="o_dropdown o_account_reports_date-filter-cmp" t-if="report_type != 'no_comparison' and report_type != 'bank_reconciliation' and report_type != 'no_comparison_no_date_range'">
+        <div class="o_dropdown o_account_reports_date-filter-cmp" t-if="report_type.comparison">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-bar-chart"/> Comparison:
                 <t t-if="context.date_filter_cmp == 'no_comparison'">None</t>
@@ -132,15 +132,15 @@
                 <li class="divider"></li>
                 <li t-att-class="'o_account_reports_use-custom-cmp ' + (context.date_filter_cmp == 'custom' and 'o_open_menu' or 'o_closed_menu')"><a>Custom</a></li>
                 <li class="o_account_reports_custom-cmp" data-value='custom' style='margin-left: 10px; margin-right: 10px;'>
-                    <label class="custom-date" t-if="report_type != 'no_date_range'" for="date_from_cmp">Start Date :</label>
-                    <div t-if="report_type != 'no_date_range'" class="form-group custom-date">
+                    <label class="custom-date" t-if="report_type.date_range" for="date_from_cmp">Start Date :</label>
+                    <div t-if="report_type.date_range" class="form-group custom-date">
                         <div class='o_datepicker date o_account_reports_datetimepicker' t-att-data-default-value="context.date_from_cmp">
                             <input type='text' class="o_datepicker_input" name="date_from_cmp" />
                             <span class="o_datepicker_button"/>
                         </div>
                     </div>
-                    <label class="custom-date" for="date_to_cmp" t-if="report_type != 'no_date_range'">End Date :</label>
-                    <label class="custom-date" for="date_to_cmp" t-if="report_type == 'no_date_range'">Date :</label>
+                    <label class="custom-date" for="date_to_cmp" t-if="report_type.date_range">End Date :</label>
+                    <label class="custom-date" for="date_to_cmp" t-if="!report_type.date_range">Date :</label>
                     <div class="form-group custom-date">
                         <div class='o_datepicker date o_account_reports_datetimepicker' t-att-data-default-value="context.date_to_cmp">
                             <input type='text' class="o_datepicker_input" name="date_to_cmp" />
@@ -151,19 +151,19 @@
                 </li>
             </ul>
         </div>
-        <div class="o_dropdown o_account_reports_date-filter-bool" t-if="report_type != 'bank_reconciliation' and report_type != 'no_comparison_no_date_range'">
+        <div class="o_dropdown o_account_reports_date-filter-bool" t-if="report_type.extra_options">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="fa fa-filter"/> Options:
-                <t t-if="report_type != 'date_range_cash'">
-                    <t t-if="context.cash_basis">Cash Basis,</t>
-                    <t t-if="!context.cash_basis">Accrual Basis,</t>
+                <t t-if="!report_type.cash_basis"> 
+                    <t t-if="context.cash_basis">Cash Basis,</t> 
+                    <t t-if="!context.cash_basis">Accrual Basis,</t> 
                 </t>
                 <t t-if="context.all_entries">With Draft Entries</t>
                 <t t-if="!context.all_entries">Posted Entries Only</t>
                 <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
-                <li t-if="report_type != 'date_range_cash'" title="Cash Basis Method" data-value="cash_basis" t-att-class="'o_account_reports_one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
+                <li t-if="!report_type.cash_basis" title="Cash Basis Method" data-value="cash_basis" t-att-class="'o_account_reports_one-filter-bool ' + (context.cash_basis and 'selected' or '')"><a>Cash Basis Method</a></li>
                 <li title="Include unposted entries" data-value="all_entries" t-att-class="'o_account_reports_one-filter-bool ' + (context.all_entries and 'selected' or '')"><a>Include Unposted Entries</a></li>
                 <li t-if="context.has_hierarchy" title="Hierarchy" data-value="hierarchy_3" t-att-class="'o_account_reports_one-filter-bool ' + (context.hierarchy_3 and 'selected' or '')"><a>Hierarchy and Subtotals</a></li>
             </ul>
@@ -210,6 +210,35 @@
                 <li title="Customers" data-value="receivable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'receivable') and 'selected' or '')"><a>Customers</a></li>
                 <li title="Suppliers" data-value="payable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'payable') and 'selected' or '')"><a>Suppliers</a></li>
                 <li title="Customers and suppliers" data-value="receivable_payable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'receivable_payable') and 'selected' or '')"><a>Customers and suppliers</a></li>
+            </ul>
+        </div>
+        <div class="o_dropdown o_account_reports_tags-filter" t-if="report_type.tags">
+            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-filter"/> Tags (<t t-esc="context.account_tag_ids.length + context.analytic_tag_ids.length" />)
+                <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <li style='margin-left: 10px; margin-right: 10px;'>
+                    <b>Account tags</b><br />
+                    <select class="o_account_reports_account_tag_auto_complete" multiple="multiple" style="min-width: 100px;">
+                        <t t-foreach="context.available_account_tag_ids" t-as="t">
+                            <option t-att-value="t[0]"><t t-esc="t[1]" /></option>
+                        </t>
+                    </select>
+                    <button type="button" class="btn btn-primary o_account_reports_add_account_tag">Apply</button>
+                </li>
+                <t t-if="context.analytic">
+                    <li class="divider"></li>
+                    <li style='margin-left: 10px; margin-right: 10px;'>
+                        <b>Analytic tags</b><br />
+                        <select class="o_account_reports_analytic_tag_auto_complete" multiple="multiple" style="min-width: 100px;">
+                            <t t-foreach="context.available_analytic_tag_ids" t-as="t">
+                                <option t-att-value="t[0]"><t t-esc="t[1]" /></option>
+                            </t>
+                        </select>
+                        <button type="button" class="btn btn-primary o_account_reports_add_analytic_tag">Apply</button>
+                    </li>
+                </t>
             </ul>
         </div>
     </t>

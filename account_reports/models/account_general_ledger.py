@@ -33,6 +33,8 @@ class report_account_general_ledger(models.AbstractModel):
             'context_id': context_id,
             'company_ids': context_id.company_ids.ids,
             'journal_ids': context_id.journal_ids.ids,
+            'account_tag_ids': context_id.account_tag_ids,
+            'analytic_tag_ids': context_id.analytic_tag_ids,
         })
         return self.with_context(new_context)._lines(line_id)
 
@@ -62,6 +64,10 @@ class report_account_general_ledger(models.AbstractModel):
             base_domain.append(('date', '>=', context['date_from_aml']))
         if context['state'] == 'posted':
             base_domain.append(('move_id.state', '=', 'posted'))
+        if context.get('account_tag_ids'):
+            base_domain += [('account_id.tag_ids', 'in', context['account_tag_ids'].ids)]
+        if context.get('analytic_tag_ids'):
+            base_domain += ['|', ('analytic_account_id.tag_ids', 'in', context['analytic_tag_ids'].ids), ('analytic_tag_ids', 'in', context['analytic_tag_ids'].ids)]
         for account_id, result in results.items():
             domain = list(base_domain)  # copying the base domain
             domain.append(('account_id', '=', account_id))
@@ -260,7 +266,7 @@ class report_account_general_ledger(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'no_comparison'
+        return self.env.ref('account_reports.account_report_type_general_ledger')
 
     def get_template(self):
         return 'account_reports.report_financial'

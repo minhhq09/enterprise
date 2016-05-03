@@ -137,7 +137,7 @@ class report_account_generic_tax_report(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'date_range'
+        return self.env.ref('account_reports.account_report_type_date_range')
 
     @api.model
     def get_template(self):

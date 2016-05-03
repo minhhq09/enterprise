@@ -2,6 +2,47 @@
 <openerp>
     <data>
 
+<!--         <template inherit_id="web_editor.snippet_options">
+            <xpath expr="." position="inside">
+                <div data-js='many2many' data-selector=".oe-account-reports-many2many-tags" />
+            </xpath>
+        </template> -->
+
+        <record id="account_report_type_no_date_range" model="account.report.type">
+            <field name="date_range" eval="False" />
+        </record>
+
+        <record id="account_report_type_date_range" model="account.report.type">
+        </record>
+
+        <record id="account_report_type_no_date_range_tags" model="account.report.type">
+            <field name="date_range" eval="False" />
+            <field name="tags" eval="True" />
+        </record>
+
+        <record id="account_report_type_date_range_tags" model="account.report.type">
+            <field name="tags" eval="True" />
+        </record>
+
+        <record id="account_report_type_date_range_cash" model="account.report.type">
+            <field name="cash_basis" eval="True" />
+        </record>
+
+        <record id="account_report_type_nothing" model="account.report.type">
+            <field name="date_range" eval="False" />
+            <field name="comparison" eval="False" />
+            <field name="extra_options" eval="False" />
+        </record>
+
+        <record id="account_report_type_date_range_no_comparison" model="account.report.type">
+            <field name="comparison" eval="False" />
+        </record>
+
+        <record id="account_report_type_general_ledger" model="account.report.type">
+            <field name="comparison" eval="False" />
+            <field name="tags" eval="True" />
+        </record>
+
         <menuitem id="account_reports_legal_statements_menu" name="Legal Statements" parent="account.menu_finance_reports" sequence="1" groups="account.group_account_user"/>
         <menuitem id="account_reports_business_statements_menu" name="Business Statements" parent="account.menu_finance_reports" sequence="2" groups="account.group_account_user"/>
 
@@ -15,7 +56,7 @@
         <record id="account_financial_report_profitandloss0" model="account.financial.html.report">
             <field name="name">Profit and Loss</field>
             <field name="debit_credit" eval="False"/>
-            <field name="report_type">date_range</field>
+            <field name="report_type">date_range_tags</field>
             <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_net_profit0" model="account.financial.html.report.line">
@@ -108,7 +149,7 @@
         <record id="account_financial_report_balancesheet0" model="account.financial.html.report">
             <field name="name">Balance Sheet</field>
             <field name="debit_credit" eval="False"/>
-            <field name="report_type">no_date_range</field>
+            <field name="report_type">no_date_range_tags</field>
             <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_total_assets0" model="account.financial.html.report.line">

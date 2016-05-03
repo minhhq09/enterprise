@@ -93,7 +93,7 @@ class report_account_followup_report(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'custom'
+        return self.env.ref('account_reports.account_report_type_nothing')
 
     @api.model
     def get_template(self):

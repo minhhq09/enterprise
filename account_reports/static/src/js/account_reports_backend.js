@@ -43,7 +43,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         var self = this;
         var def = $.when();
         if (!this.report_widget) {
-            this.report_widget = new ReportWidget(this, this.report_context, this.context_model, this.odoo_context);
+            this.report_widget = new ReportWidget(this, this.report_context, this.context_model, this.odoo_context, this.report_type);
             def = this.report_widget.appendTo(this.$el);
         }
         else {
@@ -242,7 +242,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.restart(report_context);
             });
         }
-        if (this.report_context.journal_ids) { // Same for th ecompany filter
+        if (this.report_context.journal_ids) { // Same for the journal
             this.$searchview_buttons.find('.o_account_reports_one-journal').bind('click', function (event) {
                 var report_context = {};
                 var value = $(event.target).parents('li').data('value');
@@ -255,10 +255,39 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.restart(report_context);
             });
         }
-        if (this.report_context.account_type) { // Same for th ecompany filter
+        if (this.report_context.account_type) { // Same for the account types
             this.$searchview_buttons.find('.o_account_reports_one-account_type').bind('click', function (event) {
                 var value = $(event.target).parents('li').data('value');
                 self.restart({'account_type': value});
+            });
+        }
+        if (this.report_type.tags) { // Same for the tags filter
+            this.$searchview_buttons.find(".o_account_reports_account_tag_auto_complete").select2();
+            var selection = [];
+            for (i = 0; i < this.report_context.account_tag_ids.length; i++) { 
+                selection.push({id:i+1, text:this.report_context.account_tag_ids[i][1]});
+            }
+            this.$searchview_buttons.find('.o_account_reports_account_tag_auto_complete').data().select2.updateSelection(selection);
+            if (this.report_context.analytic) {
+                this.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2();
+                selection = [];
+                var i;
+                for (i = 0; i < this.report_context.analytic_tag_ids.length; i++) { 
+                    selection.push({id:i+1, text:this.report_context.analytic_tag_ids[i][1]});
+                }
+                this.$searchview_buttons.find('.o_account_reports_analytic_tag_auto_complete').data().select2.updateSelection(selection);
+            }
+            this.$searchview_buttons.find('.o_account_reports_add_account_tag').bind('click', function (event) {
+                var report_context = {};
+                var value = self.$searchview_buttons.find(".o_account_reports_account_tag_auto_complete").select2("val");
+                report_context.account_tag_ids = value;
+                self.restart(report_context);
+            });
+            this.$searchview_buttons.find('.o_account_reports_add_analytic_tag').bind('click', function (event) {
+                var report_context = {};
+                var value = self.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2("val");
+                report_context.analytic_tag_ids = value;
+                self.restart(report_context);
             });
         }
         this.$searchview_buttons.find('li').bind('click', function (event) {event.stopImmediatePropagation();});
@@ -299,7 +328,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     onChangeCmpDateFilter: function(event, fromDateFilter) {
         var filter_cmp = (_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter_cmp;
         var filter = !(_.isUndefined(fromDateFilter)) ? $(event.target).parents('li').data('value') : this.report_context.date_filter;
-        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'no_comparison_no_date_range';
+        var no_date_range = !this.report_type.date_range;
         if (filter_cmp === 'previous_period' || filter_cmp === 'same_last_year') {
             var dtTo = !(_.isUndefined(fromDateFilter)) ? this.$searchview_buttons.find("input[name='date_to']").val() : this.report_context.date_to;
             var dtFrom;
@@ -361,7 +390,7 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
     },
     onChangeDateFilter: function(event) {
         var self = this;
-        var no_date_range = this.report_type === 'no_date_range' || this.report_type === 'no_comparison_no_date_range';
+        var no_date_range = !this.report_type.date_range;
         var today = new Date();
         var dt;
         switch($(event.target).parents('li').data('value')) {

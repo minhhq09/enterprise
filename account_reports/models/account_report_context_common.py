@@ -58,10 +58,43 @@ class AccountReportMulticompanyManager(models.TransientModel):
         return self.env.user.company_ids
 
 
+class AccountReportAccountTagsManager(models.TransientModel):
+    _name = 'account.report.account.tag.manager'
+    _description = 'manages account tags for reports'
+
+    account_tag_ids = fields.Many2many('account.account.tag', relation='account_report_context_account_tag_rel')
+
+    @api.multi
+    def get_available_account_tag_ids_and_names(self):
+        return [[t.id, t.name] for t in self.env['account.account.tag'].search([])]
+
+
+class AccountReportAnalyticTagsManager(models.TransientModel):
+    _name = 'account.report.analytic.tag.manager'
+    _description = 'manages analytic tags for reports'
+
+    analytic_tag_ids = fields.Many2many('account.analytic.tag', relation='account_report_context_analytic_tag_rel')
+    analytic = fields.Boolean('Allow analytic accounting', compute='_get_analytic', store=False)
+
+    @api.multi
+    def get_available_analytic_tag_ids_and_names(self):
+        return [[t.id, t.name] for t in self.env['account.analytic.tag'].search([])]
+
+    @api.one
+    def _get_analytic(self):
+        group_analytic = self.env.ref('analytic.group_analytic_accounting')
+        self.analytic = self.create_uid.id in group_analytic.users.ids
+
+
 class AccountReportContextCommon(models.TransientModel):
     _name = "account.report.context.common"
     _description = "A particular context for a financial report"
-    _inherits = {'account.report.footnotes.manager': 'footnotes_manager_id', 'account.report.multicompany.manager': 'multicompany_manager_id'}
+    _inherits = {
+        'account.report.footnotes.manager': 'footnotes_manager_id',
+        'account.report.multicompany.manager': 'multicompany_manager_id',
+        'account.report.account.tag.manager': 'account_tags_manager_id',
+        'account.report.analytic.tag.manager': 'analytic_tags_manager_id',
+    }
 
     @api.model
     def get_context_by_report_name(self, name):
@@ -150,6 +183,8 @@ class AccountReportContextCommon(models.TransientModel):
     periods_number = fields.Integer('Number of periods', default=1)
     footnotes_manager_id = fields.Many2one('account.report.footnotes.manager', string='Footnotes Manager', required=True, ondelete='cascade')
     multicompany_manager_id = fields.Many2one('account.report.multicompany.manager', string='Multi-company Manager', required=True, ondelete='cascade')
+    account_tags_manager_id = fields.Many2one('account.report.account.tag.manager', string='Account Tags Manager', required=True, ondelete='cascade')
+    analytic_tags_manager_id = fields.Many2one('account.report.analytic.tag.manager', string='Analytic Tags Manager', required=True, ondelete='cascade')
 
     def get_tax_action(self, tax_type, active_id):
         name = tax_type == 'net' and _('Net Tax Lines') or _('Tax Lines')
@@ -213,13 +248,13 @@ class AccountReportContextCommon(models.TransientModel):
         return _('(From %s <br/> to  %s)') % (date_from, date_to)
 
     def get_cmp_date(self):
-        if self.get_report_obj().get_report_type() == 'no_date_range':
+        if not self.get_report_obj().get_report_type().date_range:
             return self.get_full_date_names(self.date_to_cmp)
         return self.get_full_date_names(self.date_to_cmp, self.date_from_cmp)
 
     def get_periods(self):
         res = self.get_cmp_periods()
-        if self.get_report_obj().get_report_type() == 'no_date_range':
+        if not self.get_report_obj().get_report_type().date_range:
             res[:0] = [[False, self.date_to]]
         else:
             res[:0] = [[self.date_from, self.date_to]]
@@ -229,14 +264,14 @@ class AccountReportContextCommon(models.TransientModel):
         if not self.comparison:
             return []
         dt_to = datetime.strptime(self.date_to, "%Y-%m-%d")
-        if self.get_report_obj().get_report_type() != 'no_date_range':
+        if self.get_report_obj().get_report_type().date_range:
             dt_from = self.date_from and datetime.strptime(self.date_from, "%Y-%m-%d") or self.env.user.company_id.compute_fiscalyear_dates(dt_to)['date_from']
         columns = []
         if self.date_filter_cmp == 'custom':
             if display:
                 return [_('Comparison<br />') + self.get_cmp_date(), '%']
             else:
-                if self.get_report_obj().get_report_type() == 'no_date_range':
+                if not self.get_report_obj().get_report_type().date_range:
                     return [[False, self.date_to_cmp]]
                 return [[self.date_from_cmp, self.date_to_cmp]]
         if self.date_filter_cmp == 'same_last_year':
@@ -244,13 +279,13 @@ class AccountReportContextCommon(models.TransientModel):
             for k in xrange(0, self.periods_number):
                 dt_to = dt_to.replace(year=dt_to.year - 1)
                 if display:
-                    if self.get_report_obj().get_report_type() == 'no_date_range':
+                    if not self.get_report_obj().get_report_type().date_range:
                         columns += [self.get_full_date_names(dt_to.strftime("%Y-%m-%d"))]
                     else:
                         dt_from = dt_from.replace(year=dt_from.year - 1)
                         columns += [self.get_full_date_names(dt_to.strftime("%Y-%m-%d"), dt_from.strftime("%Y-%m-%d"))]
                 else:
-                    if self.get_report_obj().get_report_type() == 'no_date_range':
+                    if not self.get_report_obj().get_report_type().date_range:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
                     else:
                         dt_from = dt_from.replace(year=dt_from.year - 1)
@@ -263,7 +298,7 @@ class AccountReportContextCommon(models.TransientModel):
                 if display:
                     columns += [dt_to.strftime('%b %Y')]
                 else:
-                    if self.get_report_obj().get_report_type() == 'no_date_range':
+                    if not self.get_report_obj().get_report_type().date_range:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
                     else:
                         dt_from -= timedelta(days=1)
@@ -289,7 +324,7 @@ class AccountReportContextCommon(models.TransientModel):
                         dt_to = dt_to.replace(month=3, day=31)
                     else:
                         dt_to = dt_to.replace(month=12, day=31, year=dt_to.year - 1)
-                    if self.get_report_obj().get_report_type() == 'no_date_range':
+                    if not self.get_report_obj().get_report_type().date_range:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
                     else:
                         if dt_from.month == 10:
@@ -311,13 +346,13 @@ class AccountReportContextCommon(models.TransientModel):
                     else:
                         columns += [str(dt_to.year - 1) + ' - ' + str(dt_to.year)]
                 else:
-                    if self.get_report_obj().get_report_type() == 'no_date_range':
+                    if not self.get_report_obj().get_report_type().date_range:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
                     else:
                         dt_from = dt_to.replace(year=dt_to.year - 1) + timedelta(days=1)
                         columns += [[dt_from.strftime("%Y-%m-%d"), dt_to.strftime("%Y-%m-%d")]]
         else:
-            if self.get_report_obj().get_report_type() != 'no_date_range':
+            if self.get_report_obj().get_report_type().date_range:
                 dt_from = datetime.strptime(self.date_from, "%Y-%m-%d")
                 delta = dt_to - dt_from
                 delta = timedelta(days=delta.days + 1)
@@ -342,7 +377,7 @@ class AccountReportContextCommon(models.TransientModel):
     def create(self, vals):
         res = super(AccountReportContextCommon, self).create(vals)
         report_type = res.get_report_obj().get_report_type()
-        if report_type in ['date_range', 'date_range_cash', 'no_comparison']:
+        if report_type.date_range:
             dt = datetime.today()
             update = {
                 'date_from': datetime.today().replace(day=1),
@@ -403,7 +438,11 @@ class AccountReportContextCommon(models.TransientModel):
             update = {}
             for field in given_context:
                 if field.startswith('add_'):
-                    update[field[4:]] = [(4, int(given_context[field]))]
+                    if field.startswith('add_tag_'):
+                        ilike = self.env['account.report.tag.ilike'].create({'text': given_context[field]})
+                        update[field[8:]] = [(4, ilike.id)]
+                    else:
+                        update[field[4:]] = [(4, int(given_context[field]))]
                 if field.startswith('remove_'):
                     update[field[7:]] = [(3, int(given_context[field]))]
                 if self._fields.get(field) and given_context[field] != 'undefined':
@@ -411,8 +450,8 @@ class AccountReportContextCommon(models.TransientModel):
                         given_context[field] = False
                     if given_context[field] == 'none':
                         given_context[field] = None
-                    if field == 'company_ids': #  Needs to be treated differently as it's a many2many
-                        update[field] = [(6, 0, given_context[field])]
+                    if field in ['account_tag_ids', 'analytic_tag_ids', 'company_ids']: #  Needs to be treated differently as they are many2many
+                        update[field] = [(6, 0, [int(id) for id in given_context[field]])]
                     else:
                         update[field] = given_context[field]
 
@@ -429,8 +468,8 @@ class AccountReportContextCommon(models.TransientModel):
             'mode': 'display',
         }
         result['html'] = self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)
-        result['report_type'] = self.get_report_obj().get_report_type()
-        select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company', 'hierarchy_3']
+        result['report_type'] = self.get_report_obj().get_report_type().read(['date_range', 'comparison', 'cash_basis', 'tags', 'extra_options'])[0]
+        select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company', 'hierarchy_3', 'analytic']
         if self.get_report_obj().get_name() == 'general_ledger':
             select += ['journal_ids']
             result['available_journals'] = self.get_available_journal_ids_names_and_codes()
@@ -438,6 +477,11 @@ class AccountReportContextCommon(models.TransientModel):
             select += ['account_type']
         result['report_context'] = self.read(select)[0]
         result['report_context'].update(self._context_add())
+        if result['report_type']['tags']:
+            result['report_context']['account_tag_ids'] = [(t.id, t.name) for t in self.account_tag_ids]
+            result['report_context']['analytic_tag_ids'] = [(t.id, t.name) for t in self.analytic_tag_ids]
+            result['report_context']['available_account_tag_ids'] = self.account_tags_manager_id.get_available_account_tag_ids_and_names()
+            result['report_context']['available_analytic_tag_ids'] = self.analytic_tags_manager_id.get_available_analytic_tag_ids_and_names()
         result['xml_export'] = self.env['account.financial.html.report.xml.export'].is_xml_export_available(self.get_report_obj())
         result['fy'] = {
             'fiscalyear_last_day': self.env.user.company_id.fiscalyear_last_day,
@@ -576,3 +620,9 @@ class AccountReportFootnote(models.TransientModel):
     number = fields.Integer()
     text = fields.Char()
     manager_id = fields.Many2one('account.report.footnotes.manager')
+
+
+class AccountReportTagILike(models.TransientModel):
+    _name = "account.report.tag.ilike"
+
+    text = fields.Text()

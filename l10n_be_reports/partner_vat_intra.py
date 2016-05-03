@@ -74,7 +74,7 @@ class ReportL10nBePartnerVatIntra(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'no_comparison'
+        return self.env.ref('account_reports.account_report_type_no_comparison')'
 
     @api.model
     def get_template(self):

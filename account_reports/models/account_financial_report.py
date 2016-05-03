@@ -18,7 +18,9 @@ class ReportAccountFinancialReport(models.Model):
     line_ids = fields.One2many('account.financial.html.report.line', 'financial_report_id', string='Lines')
     report_type = fields.Selection([('date_range', 'Based on date ranges'),
                                     ('no_date_range', 'Based on a single date'),
-                                    ('date_range_cash', 'Bases on date ranges and cash basis method')],
+                                    ('date_range_cash', 'Bases on date ranges and cash basis method'),
+                                    ('date_range_tags', 'Based on date ranges with a tags filter'),
+                                    ('no_date_range_tags', 'Based on a single date with a tags filter')],
                                    string='Analysis Periods', default=False, required=True,
                                    help='For report like the balance sheet that do not work with date ranges')
     company_id = fields.Many2one('res.company', string='Company')
@@ -71,7 +73,9 @@ class ReportAccountFinancialReport(models.Model):
             state=context_id.all_entries and 'all' or 'posted',
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
             company_ids=context_id.company_ids.ids,
-            context=context_id
+            context=context_id,
+            account_tag_ids=context_id.account_tag_ids,
+            analytic_tag_ids=context_id.analytic_tag_ids
         ).get_lines(self, context_id, currency_table, linesDicts)
         return res
 
@@ -83,7 +87,7 @@ class ReportAccountFinancialReport(models.Model):
 
     @api.multi
     def get_report_type(self):
-        return self.report_type
+        return self.env.ref('account_reports.account_report_type_' + self.report_type)
 
     def get_template(self):
         return 'account_reports.report_financial'

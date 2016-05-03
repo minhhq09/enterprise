@@ -23,10 +23,11 @@ var ReportWidget = Widget.extend({
         'click .o_account_reports_web_action': 'outboundLink',
         'click .o_account_reports_footnote_sup': 'goToFootNote',
     },
-    init: function(parent, context, context_model, odoo_context) {
+    init: function(parent, context, context_model, odoo_context, report_type) {
         this.context = context;
         this.context_model = context_model;
         this.odoo_context = odoo_context;
+        this.report_type = report_type;
         this._super.apply(this, arguments);
     },
     start: function() {
@@ -75,7 +76,7 @@ var ReportWidget = Widget.extend({
             var context = {
                 date_filter: this.context.date_filter,
                 date_filter_cmp: this.context.date_filter_cmp,
-                date_from: self.report_type !== 'no_date_range' ? this.context.date_from : 'none',
+                date_from: !this.report_type.date_range ? this.context.date_from : 'none',
                 date_to: this.context.date_to,
                 periods_number: this.context.periods_number,
                 date_from_cmp: this.context.date_from_cmp,
