@@ -53,12 +53,12 @@ class TestDeferredRevenue(common.TransactionCase):
             line.create_move()
 
         # I check that move line is created from posted installment lines.
-        self.assertEqual(len(recognition.depreciation_line_ids), len(recognition.account_move_ids),
+        self.assertEqual(len(recognition.depreciation_line_ids), recognition.entry_count,
             'Move lines not created correctly.')
 
         # I check data in move line and installment line.
         first_installment_line = recognition.depreciation_line_ids[0]
-        first_move = recognition.account_move_ids[0]
+        first_move = first_installment_line.move_id
         self.assertEqual(first_installment_line.amount, first_move.amount,
             'First installment line amount is incorrect.')
         remaining_value = recognition.value - first_installment_line.amount
