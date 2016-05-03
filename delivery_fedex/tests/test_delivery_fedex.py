@@ -5,7 +5,10 @@ from openerp.tests.common import TransactionCase
 from openerp.exceptions import ValidationError
 
 
+# These errors are due to failures of Fedex test server and are not implementation errors
 ERROR_200 = u"200: Rating is temporarily unavailable, please try again later."
+ERROR_200_BIS = u"200: An unexpected exception occurred"
+SKIPPABLE_ERRORS = [ERROR_200, ERROR_200_BIS]
 SKIP_MSG = u"Test skipped due to FedEx server unavailability"
 
 
@@ -65,7 +68,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name == ERROR_200:
+            if e.name in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
@@ -110,7 +113,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name == ERROR_200:
+            if e.name in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
@@ -168,7 +171,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name == ERROR_200:
+            if e.name in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
