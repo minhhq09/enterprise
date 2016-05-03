@@ -75,6 +75,41 @@ class report_account_general_ledger(models.AbstractModel):
                 accounts[account]['lines'] = self.env['account.move.line'].search(domain, order='date')
         return accounts
 
+    def _get_taxes(self):
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        query = """
+            SELECT rel.account_tax_id, SUM("account_move_line".balance) AS base_amount
+            FROM account_move_line_account_tax_rel rel, """ + tables + """ 
+            WHERE "account_move_line".id = rel.account_move_line_id
+                AND """ + where_clause + """
+           GROUP BY rel.account_tax_id"""
+        self.env.cr.execute(query, where_params)
+        ids = []
+        base_amounts = {}
+        for row in self.env.cr.fetchall():
+            ids.append(row[0])
+            base_amounts[row[0]] = row[1]
+
+        res = {}
+        for tax in self.env['account.tax'].browse(ids):
+            self.env.cr.execute('SELECT sum(debit - credit) FROM ' + tables + ' '
+                ' WHERE ' + where_clause + ' AND tax_line_id = %s', where_params + [tax.id])
+            res[tax] = {
+                'base_amount': base_amounts[tax.id],
+                'tax_amount': self.env.cr.fetchone()[0] or 0.0,
+            }
+            if self.env.context['context_id'].journal_ids[0].type == 'sale':
+                #sales operation are credits
+                res[tax]['base_amount'] = res[tax]['base_amount'] * -1
+                res[tax]['tax_amount'] = res[tax]['tax_amount'] * -1
+        return res
+
+    def _get_journal_total(self):
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
+        self.env.cr.execute('SELECT SUM(debit) as debit, SUM(credit) as credit, SUM(debit-credit) as balance FROM ' + tables + ' '
+                        'WHERE ' + where_clause + ' ', where_params)
+        return self.env.cr.dictfetchone()
+
     @api.model
     def _lines(self, line_id=None):
         lines = []
@@ -93,7 +128,7 @@ class report_account_general_ledger(models.AbstractModel):
                 'type': 'line',
                 'name': account.code + " " + account.name,
                 'footnotes': self.env.context['context_id']._get_footnotes('line', account.id),
-                'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
+                'columns': [amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': account in context['context_id']['unfolded_accounts'] or unfold_all,
@@ -169,6 +204,50 @@ class report_account_general_ledger(models.AbstractModel):
                         'level': 3,
                     })
                 lines += domain_lines
+
+        if len(context['context_id'].journal_ids) == 1 and context['context_id'].journal_ids.type in ['sale', 'purchase'] and not line_id:
+            total = self._get_journal_total()
+            lines.append({
+                'id': 0,
+                'type': 'total',
+                'name': _('Total'),
+                'footnotes': [],
+                'columns': ['', '', '', '', self._format(total['debit']), self._format(total['credit']), self._format(total['balance'])],
+                'level': 1,
+                'unfoldable': False,
+                'unfolded': False,
+            })
+            lines.append({
+                'id': 0,
+                'type': 'line',
+                'name': _('Tax Declaration'),
+                'footnotes': [],
+                'columns': ['', '', '', '', '', '', ''],
+                'level': 1,
+                'unfoldable': False,
+                'unfolded': False,
+            })
+            lines.append({
+                'id': 0,
+                'type': 'line',
+                'name': _('Name'),
+                'footnotes': [],
+                'columns': ['', '', '', '', _('Base Amount'), _('Tax Amount'), ''],
+                'level': 2,
+                'unfoldable': False,
+                'unfolded': False,
+            })
+            for tax, values in self._get_taxes().items():
+                lines.append({
+                    'id': tax.id,
+                    'name': tax.name + ' (' + str(tax.amount) + ')',
+                    'type': 'tax_id',
+                    'footnotes': self.env.context['context_id']._get_footnotes('tax_id', tax.id),
+                    'unfoldable': False,
+                    'columns': ['', '', '', '', values['base_amount'], values['tax_amount'], ''],
+                    'level': 1,
+                })
+
         return lines
 
     @api.model
@@ -194,12 +273,12 @@ class account_context_general_ledger(models.TransientModel):
 
     fold_field = 'unfolded_accounts'
     unfolded_accounts = fields.Many2many('account.account', 'context_to_account', string='Unfolded lines')
-    journal_ids = fields.Many2many('account.journal', relation='account_report_gl_journals', default=lambda s: [(6, 0, s.env['account.journal'].search([]).ids)])
+    journal_ids = fields.Many2many('account.journal', relation='account_report_gl_journals')
     available_journal_ids = fields.Many2many('account.journal', relation='account_report_gl_available_journal', default=lambda s: [(6, 0, s.env['account.journal'].search([]).ids)])
 
     @api.multi
-    def get_available_journal_ids_and_names(self):
-        return [[c.id, c.name] for c in self.available_journal_ids]
+    def get_available_journal_ids_names_and_codes(self):
+        return [[c.id, c.name, c.code] for c in self.available_journal_ids]
 
     @api.model
     def get_available_journals(self):

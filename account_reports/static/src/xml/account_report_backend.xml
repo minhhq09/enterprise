@@ -180,12 +180,36 @@
         </div>
         <div class="o_dropdown o_account_reports_date-filter-journals" t-if="context.journal_ids">
             <a type="button" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="fa fa-book"/> Journals: <span class="caret"/>
+                <span class="fa fa-book"/>
+                <t t-if="context.journal_ids.length">
+                    Journals:
+                </t>
+                <t t-if="!context.journal_ids.length">
+                    All journals
+                </t>
+                <t t-foreach="context.available_journals" t-as="j">
+                    <t t-if="context.journal_ids.indexOf(j[0]) !== -1"><t t-esc='j[2]'/></t>
+                </t>
+                <span class="caret"/>
             </a>
             <ul class="dropdown-menu o_filters_menu" role="menu">
                 <t t-foreach="context.available_journals" t-as="j">
                     <li t-att-title="c=j[1]" t-att-data-value="j[0]" t-att-class="'o_account_reports_one-journal ' + ((context.journal_ids.indexOf(j[0]) !== -1) and 'selected' or '')"><a><t t-esc='j[1]'/></a></li>
                 </t>
+            </ul>
+        </div>
+        <div class="o_dropdown o_account_reports_filter-account_types" t-if="context.account_type">
+            <a type="button" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-user"/>
+                <t t-if="context.account_type == 'receivable'">Customers</t>
+                <t t-if="context.account_type == 'payable'">Suppliers</t>
+                <t t-if="context.account_type == 'receivable_payable'">Customers and suppliers</t>
+                <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu o_filters_menu" role="menu">
+                <li title="Customers" data-value="receivable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'receivable') and 'selected' or '')"><a>Customers</a></li>
+                <li title="Suppliers" data-value="payable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'payable') and 'selected' or '')"><a>Suppliers</a></li>
+                <li title="Customers and suppliers" data-value="receivable_payable" t-att-class="'o_account_reports_one-account_type ' + ((context.account_type == 'receivable_payable') and 'selected' or '')"><a>Customers and suppliers</a></li>
             </ul>
         </div>
     </t>

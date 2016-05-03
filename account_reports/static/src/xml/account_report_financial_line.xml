@@ -82,7 +82,7 @@
         </t>
         <tr t-att-class="l.type" t-att-data-type="l.type" t-att-data-id="l.id">
             <td t-att-colspan="l.colspan != undefined ? l.colspan : 1">
-                <t t-if="l.type != 'account_id' &amp; l.type != 'move_line_id' &amp; l.type != 'too_many'"><span t-att-data-id="l.id" t-att-class="l.type + ' ' + domainClass">
+                <t t-if="l.type != 'account_id' &amp; l.type != 'move_line_id' &amp; l.type != 'too_many' &amp; l.type != 'too_many_partners'"><span t-att-data-id="l.id" t-att-class="l.type + ' ' + domainClass">
                     <t t-esc="l.name"/></span>
                     <t t-if="l.footnotes[column] != undefined">
                         <t t-set='footNoteSeqNum' t-value="l.footnotes[column]" />
@@ -90,6 +90,9 @@
                     </t>
                 </t>
                 <a t-if="l.type == 'too_many'">
+                    <span t-att-data-active-id="l.id" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="l.name"/></span>
+                </a>
+                <a t-if="l.type == 'too_many_partners'">
                     <span t-att-data-active-id="l.id" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="l.name"/></span>
                 </a>
                 <div class="dropdown" t-if="l.type == 'account_id' || l.type =='move_line_id'">

@@ -255,6 +255,12 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.restart(report_context);
             });
         }
+        if (this.report_context.account_type) { // Same for th ecompany filter
+            this.$searchview_buttons.find('.o_account_reports_one-account_type').bind('click', function (event) {
+                var value = $(event.target).parents('li').data('value');
+                self.restart({'account_type': value});
+            });
+        }
         this.$searchview_buttons.find('li').bind('click', function (event) {event.stopImmediatePropagation();});
         var l10n = core._t.database.parameters; // Get the localisation parameters
         var $datetimepickers = this.$searchview_buttons.find('.o_account_reports_datetimepicker');

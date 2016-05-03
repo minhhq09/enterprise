@@ -87,6 +87,7 @@ class AccountReportContextCommon(models.TransientModel):
             'coa': 'account.coa.report',
             'l10n_be_partner_vat_listing': 'l10n.be.report.partner.vat.listing',
             'l10n_be_partner_vat_intra': 'l10n.be.report.partner.vat.intra',
+            'partner_ledger': 'account.partner.ledger',
         }
 
     def _report_model_to_report_context(self):
@@ -101,6 +102,7 @@ class AccountReportContextCommon(models.TransientModel):
             'account.coa.report': 'account.context.coa',
             'l10n.be.report.partner.vat.listing': 'l10n.be.partner.vat.listing.context',
             'l10n.be.report.partner.vat.intra': 'l10n.be.partner.vat.intra.context',
+            'account.partner.ledger': 'account.partner.ledger.context',
         }
 
     def _report_name_to_report_context(self):
@@ -148,6 +150,21 @@ class AccountReportContextCommon(models.TransientModel):
     periods_number = fields.Integer('Number of periods', default=1)
     footnotes_manager_id = fields.Many2one('account.report.footnotes.manager', string='Footnotes Manager', required=True, ondelete='cascade')
     multicompany_manager_id = fields.Many2one('account.report.multicompany.manager', string='Multi-company Manager', required=True, ondelete='cascade')
+
+    def get_tax_action(self, tax_type, active_id):
+        name = tax_type == 'net' and _('Net Tax Lines') or _('Tax Lines')
+        domain = [('date', '>=', self.date_from), ('date', '<=', self.date_to)]
+        if not self.all_entries:
+            domain.append(('move_id.state', '=', 'posted'))
+        if tax_type == 'net':
+            domain.append(('tax_ids', 'in', [active_id]))
+        elif tax_type == 'tax':
+            domain.append(('tax_line_id', 'in', [active_id]))
+        return {
+            'name': name,
+            'res_model': 'account.move.line',
+            'domain': domain,
+        }
 
     @api.multi
     def remove_line(self, line_id):
@@ -416,7 +433,9 @@ class AccountReportContextCommon(models.TransientModel):
         select = ['id', 'date_filter', 'date_filter_cmp', 'date_from', 'date_to', 'periods_number', 'date_from_cmp', 'date_to_cmp', 'cash_basis', 'all_entries', 'company_ids', 'multi_company', 'hierarchy_3']
         if self.get_report_obj().get_name() == 'general_ledger':
             select += ['journal_ids']
-            result['available_journals'] = self.get_available_journal_ids_and_names()
+            result['available_journals'] = self.get_available_journal_ids_names_and_codes()
+        if self.get_report_obj().get_name() == 'partner_ledger':
+            select += ['account_type']
         result['report_context'] = self.read(select)[0]
         result['report_context'].update(self._context_add())
         result['xml_export'] = self.env['account.financial.html.report.xml.export'].is_xml_export_available(self.get_report_obj())
