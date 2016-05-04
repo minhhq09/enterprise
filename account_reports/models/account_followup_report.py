@@ -8,7 +8,7 @@ from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
 import time
 from openerp.tools.safe_eval import safe_eval
-from openerp.tools import append_content_to_html
+from openerp.tools import append_content_to_html, DEFAULT_SERVER_DATE_FORMAT
 import math
 
 
@@ -18,6 +18,15 @@ class report_account_followup_report(models.AbstractModel):
 
     @api.model
     def get_lines(self, context_id, line_id=None, public=False):
+        # Get date format for the lang
+        lang_code = context_id.partner_id.lang or self.env.user.lang or 'en_US'
+        lang_ids = self.env['res.lang'].search([('code', '=', lang_code)], limit=1)
+        date_format = lang_ids.date_format or DEFAULT_SERVER_DATE_FORMAT
+
+        def formatLangDate(date):
+            date_dt = datetime.strptime(date, DEFAULT_SERVER_DATE_FORMAT)
+            return date_dt.strftime(date_format)
+
         lines = []
         res = {}
         today = datetime.today().strftime('%Y-%m-%d')
@@ -35,7 +44,7 @@ class report_account_followup_report(models.AbstractModel):
             aml_recs = sorted(aml_recs, key=lambda aml: aml.blocked)
             for aml in aml_recs:
                 amount = aml.currency_id and aml.amount_residual_currency or aml.amount_residual
-                date_due = aml.date_maturity or aml.date
+                date_due = formatLangDate(aml.date_maturity or aml.date)
                 total += not aml.blocked and amount or 0
                 is_overdue = today > aml.date_maturity if aml.date_maturity else today > aml.date
                 is_payment = aml.payment_id
@@ -55,7 +64,7 @@ class report_account_followup_report(models.AbstractModel):
                     'type': is_payment and 'payment' or 'unreconciled_aml',
                     'footnotes': {},
                     'unfoldable': False,
-                    'columns': [aml.date, date_due, aml.invoice_id.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
+                    'columns': [formatLangDate(aml.date), date_due, aml.invoice_id.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
                     'blocked': aml.blocked,
                 })
             total = formatLang(self.env, total, currency_obj=currency)
