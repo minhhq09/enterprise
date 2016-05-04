@@ -2810,7 +2810,7 @@
         <field name="sequence" eval="1"/>
         <field name="level" eval="1"/>
         <field name="parent_id" ref="account_financial_report_lu_4"/>
-        <field name="formulas">balance=LUTAX_103.balance+LUTAX_104.balance</field>
+        <field name="formulas">balance=LUTAX_103.balance-LUTAX_104.balance</field>
         <field name="special_date_changer">strict_range</field>
     </record>
     <record id="account_financial_report_lu_4_1_1" model="account.financial.html.report.line">

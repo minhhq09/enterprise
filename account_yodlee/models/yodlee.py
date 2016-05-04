@@ -107,10 +107,8 @@ class YodleeAccountJournal(models.Model):
         elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'SITE_CANNOT_BE_REFRESHED':
             raise UserError(_('Please execute manual synchronization every few minutes'))
         elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'REFRESH_ALREADY_IN_PROGRESS':
-            # In this case an old refresh request has been triggered but not completed and we must first 
-            # complete that old refresh then we can ask yodlee for a new refresh
-            self.online_account_id.online_sync()
-            return self.online_sync()
+            # Refresh had already been triggered so perform a refresh
+            return self.online_account_id.online_sync()
         else:
             raise UserError(_('Incorrect Refresh status received: %s (expected REFRESH_TRIGGERED)') % (resp_json['siteRefreshStatus']['siteRefreshStatus']))
 
@@ -363,6 +361,8 @@ class YodleeAccount(models.Model):
             'transactionSearchRequest.searchFilter.postDateRange.fromDate': from_date,
             'transactionSearchRequest.searchFilter.postDateRange.toDate': to_date,
             'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
+            'transactionSearchRequest.searchFilter.transactionStatus.description': 'posted',
+            'transactionSearchRequest.searchFilter.transactionStatus.statusId': 1,
             'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
             # 'transactionSearchRequest.searchFilter.setFirstCall': True,
         }

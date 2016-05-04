@@ -291,6 +291,7 @@ class SaleSubscription(models.Model):
                                     cr.commit()
                                 else:
                                     cr.rollback()
+                                    new_invoice.unlink()
                                     amount = contract.recurring_total
                                     date_close = datetime.datetime.strptime(contract.recurring_next_date, "%Y-%m-%d") + relativedelta(days=15)
                                     close_contract = current_date >= date_close.strftime('%Y-%m-%d')
@@ -312,15 +313,16 @@ class SaleSubscription(models.Model):
                                         template.with_context(email_context).send_mail(contract.id)
                                         _logger.debug("Sending Contract Closure Mail to %s for contract %s and closing contract", contract.partner_id.email, contract.id)
                                         msg_body = 'Automatic payment failed after multiple attempts. Contract closed automatically.'
-                                        self.message_post(body=msg_body)
+                                        contract.message_post(body=msg_body)
                                     else:
                                         _, template_id = imd_res.get_object_reference('website_contract', 'email_payment_reminder')
+                                        msg_body = 'Automatic payment failed. Contract set to "To Renew".'
                                         if (datetime.datetime.today() - datetime.datetime.strptime(contract.recurring_next_date, '%Y-%m-%d')).days in [0, 3, 7, 14]:
                                             template = template_res.browse(template_id)
                                             template.with_context(email_context).send_mail(contract.id)
                                             _logger.debug("Sending Payment Failure Mail to %s for contract %s and setting contract to pending", contract.partner_id.email, contract.id)
-                                            msg_body = 'Automatic payment failed. Contract set to "To Renew".'
-                                            self.message_post(body=msg_body)
+                                            msg_body += ' E-mail sent to customer.'
+                                        contract.message_post(body=msg_body)
                                     contract.write({'state': 'close' if close_contract else 'pending'})
                                     cr.commit()
                         except Exception:

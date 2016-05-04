@@ -132,7 +132,24 @@ class AccountJournal(models.Model):
     @api.model
     def launch_online_sync(self):
         for journal in self.search([('online_account_id', '!=', False)]):
-            journal.online_account_id.online_sync()
+            try:
+                journal.online_account_id.online_sync()
+            except UserError as e:
+                # send a mail to user telling him there was an error during sync
+                if self.env.user.email:
+                    self.env['mail.mail'].create({
+                        'body_html': '<div><p>This is an automated message,</p>'
+                                     '<p>There was a problem during the automatic bank synchronization '
+                                     'that recquires your attention. (journal: %s)</p>'
+                                     '<p>The error returned is the following: %s </p>'
+                                     '<p>You can try manually executing the synchronization by clicking '
+                                     'on the online sync button from the accounting dashboard menu, and '
+                                     'if the problem persist, please contact support at online@odoo.com</p>'
+                                     '</div>' % (journal.name, e),
+                        'subject': 'Problem occurred during automatic bank synchronization',
+                        'email_to': self.env.user.email,
+                    })
+                continue
 
     @api.multi
     def online_sync(self):
