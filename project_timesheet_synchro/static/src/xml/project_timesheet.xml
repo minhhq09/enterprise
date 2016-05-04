@@ -50,7 +50,7 @@
             </div><div class="pt_title">
                 <a href="#"><t t-esc="_title"/></a>
             </div><div class="pt_nav_sync">
-                <a class="fa fa-spin fa-refresh" title="Sync in progress"/>
+                <a t-att-class="widget.getParent().sync_in_progress ? 'fa fa-spin fa-refresh pt_sync_in_progress' : 'fa fa-spin fa-refresh'" title="Sync in progress"/>
             </div><div t-att-class="'pt_action ' + _action">
                 <a t-att-class="'fa fa-' + _action_icon" href="#"></a>
             </div>
@@ -333,6 +333,9 @@
             <div class="pt_content">
                 <div class="alert alert-danger pt_edit_alert">
                     Please select a project.
+                </div>
+                <div class="pt_activity_date">
+                    <t t-esc="moment(widget.activity.date).format('dddd, MMMM D')"/>
                 </div>
                 <form class="container-fluid pt_form">
                     <div class="form-group">

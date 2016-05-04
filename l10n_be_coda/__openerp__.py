@@ -55,7 +55,7 @@ description provided by the CODA configuration tables is based upon the CODA
 V2.2 specifications.
 If required, you can manually adjust the descriptions via the CODA configuration menu.
 ''',
-    'depends': ['account_accountant', 'l10n_be', 'account_bank_statement_import'],
+    'depends': ['account_accountant', 'l10n_be', 'account_bank_statement_import', 'base_iban'],
     'data': [
         'l10n_be_coda_view.xml',
     ],

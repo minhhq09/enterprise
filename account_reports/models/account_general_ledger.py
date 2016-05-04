@@ -38,6 +38,25 @@ class report_account_general_ledger(models.AbstractModel):
         })
         return self.with_context(new_context)._lines(line_id)
 
+    def do_query_unaffected_earnings(self, line_id):
+        ''' Compute the sum of ending balances for all accounts that are of a type that does not bring forward the balance in new fiscal years.
+            This is needed to balance the trial balance and the general ledger reports (to have total credit = total debit)
+        '''
+
+        select = '''
+        SELECT COALESCE(SUM("account_move_line".balance), 0),
+               COALESCE(SUM("account_move_line".amount_currency), 0),
+               COALESCE(SUM("account_move_line".debit), 0),
+               COALESCE(SUM("account_move_line".credit), 0)'''
+        if self.env.context.get('cash_basis'):
+            select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
+        select += " FROM %s WHERE %s"
+        tables, where_clause, where_params = self.env['account.move.line']._query_get(domain=[('user_type_id.include_initial_balance', '=', False)])
+        query = select % (tables, where_clause)
+        self.env.cr.execute(query, where_params)
+        res = self.env.cr.fetchone()
+        return {'balance': res[0], 'amount_currency': res[1], 'debit': res[2], 'credit': res[3]}
+
     def do_query(self, line_id):
         select = ',COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_currency),SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
         if self.env.context.get('cash_basis'):
@@ -56,6 +75,13 @@ class report_account_general_ledger(models.AbstractModel):
         results = self.do_query(line_id)
         initial_bal_date_to = datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d") + timedelta(days=-1)
         initial_bal_results = self.with_context(date_to=initial_bal_date_to.strftime('%Y-%m-%d')).do_query(line_id)
+        unaffected_earnings_xml_ref = self.env.ref('account.data_unaffected_earnings')
+        unaffected_earnings_line = True  # used to make sure that we add the unaffected earning initial balance only once
+        if unaffected_earnings_xml_ref:
+            #compute the benefit/loss of last year to add in the initial balance of the current year earnings account
+            last_day_previous_fy = self.env.user.company_id.compute_fiscalyear_dates(datetime.strptime(self.env.context['date_from_aml'], "%Y-%m-%d"))['date_from'] + timedelta(days=-1)
+            unaffected_earnings_results = self.with_context(date_to=last_day_previous_fy.strftime('%Y-%m-%d'), date_from=False).do_query_unaffected_earnings(line_id)
+            unaffected_earnings_line = False
         context = self.env.context
         base_domain = [('date', '<=', context['date_to']), ('company_id', 'in', context['company_ids'])]
         if context.get('journal_ids'):
@@ -74,11 +100,25 @@ class report_account_general_ledger(models.AbstractModel):
             account = self.env['account.account'].browse(account_id)
             accounts[account] = result
             accounts[account]['initial_bal'] = initial_bal_results.get(account.id, {'balance': 0, 'amount_currency': 0, 'debit': 0, 'credit': 0})
+            if account.user_type_id.id == self.env.ref('account.data_unaffected_earnings').id and not unaffected_earnings_line:
+                #add the benefit/loss of previous fiscal year to the first unaffected earnings account found.
+                unaffected_earnings_line = True
+                for field in ['balance', 'debit', 'credit']:
+                    accounts[account]['initial_bal'][field] += unaffected_earnings_results[field]
+                    accounts[account][field] += unaffected_earnings_results[field]
             if not context.get('print_mode'):
                 #  fetch the 81 first amls. The report only displays the first 80 amls. We will use the 81st to know if there are more than 80 in which case a link to the list view must be displayed.
                 accounts[account]['lines'] = self.env['account.move.line'].search(domain, order='date', limit=81)
             else:
                 accounts[account]['lines'] = self.env['account.move.line'].search(domain, order='date')
+        #if the unaffected earnings account wasn't in the selection yet: add it manually
+        if not unaffected_earnings_line and unaffected_earnings_results['balance']:
+            #search an unaffected earnings account
+            unaffected_earnings_account = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_unaffected_earnings').id)], limit=1)
+            if unaffected_earnings_account and (not line_id or unaffected_earnings_account.id == line_id):
+                accounts[unaffected_earnings_account[0]] = unaffected_earnings_results
+                accounts[unaffected_earnings_account[0]]['initial_bal'] = unaffected_earnings_results
+                accounts[unaffected_earnings_account[0]]['lines'] = []
         return accounts
 
     def _get_taxes(self):
