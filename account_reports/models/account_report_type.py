@@ -10,5 +10,5 @@ class AccountReportType(models.Model):
     date_range = fields.Boolean('Reports use a date range and not a single date', default=True)
     comparison = fields.Boolean('Reports allow comparisons', default=True)
     cash_basis = fields.Boolean('Reports always use cash basis', default=False)
-    tags = fields.Boolean('Reports enable the tags filter', default=False)
+    analytic = fields.Boolean('Reports enable the analytic filter', default=False)
     extra_options = fields.Boolean('Display the extra options dropdown (with cash basis and draft entries)', default=True)

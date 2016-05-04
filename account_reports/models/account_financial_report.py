@@ -74,7 +74,7 @@ class ReportAccountFinancialReport(models.Model):
             cash_basis=self.report_type == 'date_range_cash' or context_id.cash_basis,
             company_ids=context_id.company_ids.ids,
             context=context_id,
-            account_tag_ids=context_id.account_tag_ids,
+            analytic_account_ids=context_id.analytic_account_ids,
             analytic_tag_ids=context_id.analytic_tag_ids
         ).get_lines(self, context_id, currency_table, linesDicts)
         return res

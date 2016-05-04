@@ -261,26 +261,24 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 self.restart({'account_type': value});
             });
         }
-        if (this.report_type.tags) { // Same for the tags filter
-            this.$searchview_buttons.find(".o_account_reports_account_tag_auto_complete").select2();
+        if (this.report_type.analytic && this.report_context.analytic) { // Same for the tags filter
+            this.$searchview_buttons.find(".o_account_reports_analytic_account_auto_complete").select2();
             var selection = [];
-            for (i = 0; i < this.report_context.account_tag_ids.length; i++) { 
-                selection.push({id:i+1, text:this.report_context.account_tag_ids[i][1]});
+            for (i = 0; i < this.report_context.analytic_account_ids.length; i++) { 
+                selection.push({id:i+1, text:this.report_context.analytic_account_ids[i][1]});
             }
-            this.$searchview_buttons.find('.o_account_reports_account_tag_auto_complete').data().select2.updateSelection(selection);
-            if (this.report_context.analytic) {
-                this.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2();
-                selection = [];
-                var i;
-                for (i = 0; i < this.report_context.analytic_tag_ids.length; i++) { 
-                    selection.push({id:i+1, text:this.report_context.analytic_tag_ids[i][1]});
-                }
-                this.$searchview_buttons.find('.o_account_reports_analytic_tag_auto_complete').data().select2.updateSelection(selection);
+            this.$searchview_buttons.find('.o_account_reports_analytic_account_auto_complete').data().select2.updateSelection(selection);
+            this.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2();
+            selection = [];
+            var i;
+            for (i = 0; i < this.report_context.analytic_tag_ids.length; i++) { 
+                selection.push({id:i+1, text:this.report_context.analytic_tag_ids[i][1]});
             }
-            this.$searchview_buttons.find('.o_account_reports_add_account_tag').bind('click', function (event) {
+            this.$searchview_buttons.find('.o_account_reports_analytic_tag_auto_complete').data().select2.updateSelection(selection);
+            this.$searchview_buttons.find('.o_account_reports_add_analytic_account').bind('click', function (event) {
                 var report_context = {};
-                var value = self.$searchview_buttons.find(".o_account_reports_account_tag_auto_complete").select2("val");
-                report_context.account_tag_ids = value;
+                var value = self.$searchview_buttons.find(".o_account_reports_analytic_account_auto_complete").select2("val");
+                report_context.analytic_account_ids = value;
                 self.restart(report_context);
             });
             this.$searchview_buttons.find('.o_account_reports_add_analytic_tag').bind('click', function (event) {

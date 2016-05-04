@@ -15,13 +15,13 @@
         <record id="account_report_type_date_range" model="account.report.type">
         </record>
 
-        <record id="account_report_type_no_date_range_tags" model="account.report.type">
+        <record id="account_report_type_no_date_range_analytic" model="account.report.type">
             <field name="date_range" eval="False" />
-            <field name="tags" eval="True" />
+            <field name="analytic" eval="True" />
         </record>
 
-        <record id="account_report_type_date_range_tags" model="account.report.type">
-            <field name="tags" eval="True" />
+        <record id="account_report_type_date_range_analytic" model="account.report.type">
+            <field name="analytic" eval="True" />
         </record>
 
         <record id="account_report_type_date_range_cash" model="account.report.type">
@@ -40,7 +40,7 @@
 
         <record id="account_report_type_general_ledger" model="account.report.type">
             <field name="comparison" eval="False" />
-            <field name="tags" eval="True" />
+            <field name="analytic" eval="True" />
         </record>
 
         <menuitem id="account_reports_legal_statements_menu" name="Legal Statements" parent="account.menu_finance_reports" sequence="1" groups="account.group_account_user"/>
