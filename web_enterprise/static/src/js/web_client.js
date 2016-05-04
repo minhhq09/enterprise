@@ -91,7 +91,7 @@ return AbstractWebClient.extend({
             // Here, we instanciate every menu widgets and we immediately append them into dummy
             // document fragments, so that their `start` method are executed before inserting them
             // into the DOM.
-            self.app_switcher = new AppSwitcher(self, menu_data.children);
+            self.app_switcher = new AppSwitcher(self, menu_data);
             self.menu = new Menu(self, menu_data);
 
             var defs = [];
@@ -256,10 +256,8 @@ return AbstractWebClient.extend({
                 // Attach the app_switcher
                 framework.append(self.$el, [self.app_switcher.$el], {
                     in_DOM: true,
+                    callbacks: [{widget: self.app_switcher}],                    
                 });
-
-                // Clear the input and reset the menuitems display
-                self.app_switcher.reset_menu_display();
 
                 // Save and clear the url
                 self.url = $.bbq.getState();

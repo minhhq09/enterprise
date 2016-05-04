@@ -9,10 +9,241 @@ var utils = require('web.utils');
 
 var QWeb = core.qweb;
 
+function visit(tree, callback, path) {
+    path = path || [];
+    callback(tree, path);
+    _.each(tree.children, function(node) {
+        visit(node, callback, path.concat(tree));
+    });
+}
+
+function is_mobile() {
+    return config.device.size_class <= config.device.SIZES.XS;
+}
+
+function nbr_icons() {
+    return  is_mobile() ? 6 : 4;
+}
+
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
     events: {
-        'click .o_action_app': 'on_app_click',
+        'input input': function(e) {
+            if(!e.target.value) {
+                this.state = this.get_initial_state();
+                this.state.is_searching = true;
+            }
+            this.update(e.target.value);
+        },
+    },
+    init: function (parent, menu_data) {
+        this._super.apply(this, arguments);
+        this.menu_data = this.process_menu_data(menu_data);
+        this.state = this.get_initial_state();
+    },
+    start: function () {
+        this.$input = this.$('input');
+        this.$menu_search = this.$('.o_menu_search');
+        this.$main_content = this.$('.o_application_switcher_scrollable');
+    },
+    get_initial_state: function () {
+        return {
+            apps: _.where(this.menu_data, {is_app: true}),
+            menu_items: [],
+            focus: null,  // index of focused element
+            is_searching: is_mobile(),
+        };
+    },
+    process_menu_data: function(menu_data) {
+        var result = [];
+        visit(menu_data, function (menu_item, parents) {
+            if (!menu_item.id || !menu_item.action) {
+                return;
+            }
+            var item = {
+                label: _.pluck(parents.slice(1), 'name').concat(menu_item.name).join(' / '),
+                id: menu_item.id,
+                action: menu_item.action ? menu_item.action.split(',')[1] : '',
+                is_app: !menu_item.parent_id,
+            };
+            if (!menu_item.parent_id) {
+                if (menu_item.web_icon_data) {
+                    item.icon = 'data:image/png;base64,' + menu_item.web_icon_data;
+                } else {
+                    item.icon = '/web_enterprise/static/src/img/default_icon_app.png';
+                }
+            } else {
+                item.menu_id = parents[1].id;
+            }
+            result.push(item);
+        });
+        return result;
+    },
+    on_attach_callback: function () {
+        core.bus.on("keydown", this, this.on_keydown);
+        this.state = this.get_initial_state();
+        this.$input.val('');
+        this.render();
+    },
+    on_detach_callback: function () {
+        core.bus.off("keydown", this, this.on_keydown);
+    },
+    get_app_index: function () {
+        return this.state.focus < this.state.apps.length ? this.state.focus : null;
+    },
+    get_menu_index: function () {
+        var state = this.state;
+        return state.focus >= state.apps.length ? state.focus - state.apps.length : null;
+    },
+    on_keydown: function(event) {
+        var state = this.state;
+        var elem_focused = state.focus !== null;
+        var app_focused = elem_focused && state.focus < state.apps.length;
+        var delta = app_focused ? nbr_icons() : 1;
+        var $input = this.$input;
+        switch (event.which) {
+            case $.ui.keyCode.DOWN:
+                if (elem_focused) {
+                    this.update_index(delta);
+                } else {
+                    this.state.focus = 0;
+                }
+                event.preventDefault();
+                this.render();
+                break;
+            case $.ui.keyCode.RIGHT:
+                if ($input.is(':focus') && $input[0].selectionEnd < $input.val().length) {
+                    return;
+                }
+                if (elem_focused) {
+                    this.update_index(1);
+                } else {
+                    this.state.focus = 0;
+                }
+                this.render();
+                break;
+            case $.ui.keyCode.TAB:
+                event.preventDefault();
+                this.update_index(1);
+                this.render();
+                break;
+            case $.ui.keyCode.UP:
+                if (elem_focused) {
+                    this.update_index(-delta);
+                } else {
+                    this.state.focus = 0;
+                }
+                event.preventDefault();
+                this.render();
+                break;
+            case $.ui.keyCode.LEFT:
+                if ($input.is(':focus') && $input[0].selectionStart > 0) {
+                    return;
+                }
+                if (elem_focused) {
+                    this.update_index(-1);
+                } else {
+                    this.state.focus = 0;
+                }
+                this.render();
+                break;
+            case $.ui.keyCode.ENTER:
+                if (elem_focused && this.state.focus < this.state.apps.length) {
+                    var focused_app = this.state.apps[this.state.focus];
+                    this.trigger_up('app_clicked', {
+                        menu_id: focused_app.id,
+                        action_id: focused_app.action,
+                    });
+                } else if (elem_focused) {
+                    var index = this.state.focus - this.state.apps.length;
+                    var menu = this.state.menu_items[index];
+                    this.trigger_up('menu_clicked', {
+                        menu_id: menu.id,
+                        action_id: menu.action,
+                    });
+                    core.bus.trigger('change_menu_section', menu.menu_id);
+                }
+                event.preventDefault();
+                return;
+            case $.ui.keyCode.PAGE_DOWN:
+            case $.ui.keyCode.PAGE_UP:
+                break;
+            default:
+                if (!this.$input.is(':focus')) {
+                    this.$input.focus();
+                }
+                this.state.focus = 0;
+        }
+    },
+    update_index: function(delta) {
+        var state = this.state;
+        var app_nbr = state.apps.length;
+        var new_index = state.focus + delta;
+        if (new_index < 0) {
+            new_index = state.apps.length + state.menu_items.length - 1;
+        }
+        if (new_index >= state.apps.length + state.menu_items.length) {
+            new_index = 0;
+        }
+        if (new_index >= app_nbr && state.focus < app_nbr && delta > 0) {
+            if (state.focus + delta - (state.focus % delta) < app_nbr) {
+                new_index = app_nbr - 1;
+            } else {
+                new_index = app_nbr;
+            }
+        }
+        if (new_index < app_nbr && state.focus >= app_nbr && delta < 0) {
+            new_index = app_nbr - (app_nbr % nbr_icons());
+            if (new_index === app_nbr) {
+                new_index = app_nbr - nbr_icons();
+            }
+        }
+        state.focus = new_index;
+    },
+    update: function(search) {
+        var self = this;
+        if (search) {
+            var options = {extract: function(el) { return el.label; }};
+            var search_results = fuzzy.filter(search, this.menu_data, options);
+            var results = _.map(search_results, function (result) {
+                return self.menu_data[result.index];
+            });
+            this.state = _.extend(this.state, {
+                apps: _.where(results, {is_app: true}),
+                menu_items: _.where(results, {is_app: false}),
+                focus: results.length ? 0 : null,
+                is_searching: true,
+            });
+        }
+        this.render();
+    },
+    render: function() {
+        this.$menu_search.toggleClass('o_bar_hidden', !this.state.is_searching);
+        this.$main_content.html(QWeb.render('AppSwitcher.Content', { widget: this }));
+        var $focused = this.$main_content.find('.o_focused');
+        if ($focused.length && !is_mobile()) {
+            $focused.focus();
+            this.$el.scrollTo($focused, {offset: {top:-0.5*this.$el.height()}});
+        }
+    },
+});
+
+return AppSwitcher;
+
+});
+
+odoo.define('web_enterprise.ExpirationPanel', function (require) {
+"use strict";
+
+var core = require('web.core');
+var Model = require('web.Model');
+var utils = require('web.utils');
+var AppSwitcher = require('web_enterprise.AppSwitcher');
+
+var QWeb = core.qweb;
+
+AppSwitcher.include({
+    events: _.extend(AppSwitcher.prototype.events, {
         'click .oe_instance_buy': 'enterprise_buy',
         'click .oe_instance_renew': 'enterprise_renew',
         'click .oe_instance_upsell': 'enterprise_upsell',
@@ -21,45 +252,10 @@ var AppSwitcher = Widget.extend({
         },
         'click #confirm_enterprise_code': 'enterprise_code_submit',
         'click .oe_instance_hide_panel': 'enterprise_hide_panel',
-        'input input': function(e) {
-            if(!e.target.value) {
-                this.reset_menu_display();
-            } else {
-                this.update(e.target.value);
-            }
-        },
-        'click .o_menu_search_icon': function(e) {this.$input.focus();},
-        'keydown': 'on_keydown',
-    },
-    init: function (parent, menu_data) {
-        this._super.apply(this, arguments);
-        this.menu_data = menu_data;
-        this.lookup_list = [];
-        this.menuitems_count = 0;
-        this.mobile = config.device.size_class <= config.device.SIZES.XS;
-        this._process_menu_data(menu_data, false, false);
-    },
-    willStart: function() {
-        // Force the background image to be in the browser cache before the
-        // stylesheet requests it
-        var bg_loaded = $.Deferred();
-        var bg = new Image();
-        bg.onload = function () {
-            bg_loaded.resolve();
-        };
-        bg.src = '/web_enterprise/static/src/img/application-switcher-bg.jpg';
-        return $.when(this._super.apply(this, arguments), bg_loaded);
-    },
+    }),
     start: function () {
-        var self = this;
-        self.enterprise_expiration_check();
-        this.$menu_search = this.$('.o_menu_search');
-        this.$apps = this.$('.o_apps');
-        this.$menuitems = this.$('.o_menuitems');
-        this.$no_results = this.$('.o_no_results');
-        this.$input = this.$('.o_menu_search input');
-        this._link_dom_to_menuitems(this.menu_data);
-        return this._super.apply(this, arguments);
+        this._super();
+        this.enterprise_expiration_check();
     },
     /** Checks for the database expiration date and display a warning accordingly. */
     enterprise_expiration_check: function() {
@@ -206,256 +402,6 @@ var AppSwitcher = Widget.extend({
             });
         });
     },
-    on_app_click: function (ev) {
-        ev.preventDefault();
-        this.trigger_up('app_clicked', {
-            menu_id: $(ev.currentTarget).data('menu'),
-            action_id: $(ev.currentTarget).data('action-id'),
-        });
-    },
-    // Travel along the tree menu_data and push each node which has an action_id
-    // into the list lookup_list. For each element to push:
-    _process_menu_data: function (menu_data, parent, root_menu_id) {
-        var self = this;
-        _.each(menu_data, function (menu) {
-            menu.path_name = parent ? [parent, menu.name].join(' / ') : menu.name;
-            menu.root_menu_id = parent ? root_menu_id : menu.id;
-
-            if (menu.action) {
-                menu.action_id = menu.action.split(',').pop();
-                menu.visible = !parent;
-                menu.index = self.menuitems_count;
-                self.menuitems_count = self.menuitems_count + 1;
-                self.lookup_list.push(menu.path_name);
-            }
-            if (menu.children.length) {
-                self._process_menu_data(menu.children, menu.path_name, menu.root_menu_id);
-            }
-        });
-    },
-    // Link on each menuitems on this.menu_data the related JQuery element
-    // and the related JQuery group
-    _link_dom_to_menuitems: function(menu_data) {
-        var self = this;
-        _.each(menu_data, function (menu) {
-            if (menu.action_id) {
-                if (menu.parent_id) {
-                    menu.$el = self.$('.o_secondary_menu.o_action_app[data-action-id=' + menu.action_id + ']');
-                } else {
-                    menu.$el = self.$('.o_primary_menu.o_action_app[data-action-id=' + menu.action_id + ']');
-                }
-                menu.$group = self.$('.o_secondary_menu_group[data-menu=' + menu.root_menu_id + ']');
-            }
-            if (menu.children.length) {
-                self._link_dom_to_menuitems(menu.children);
-            }
-        });
-    },
-    // Compute the matching menuitems and applications matching the input
-    // value, according to a fuzzy search. Set a boolean 'visible' to each link
-    // that will be used by 'update_menuitems_render' to show/hide them
-    update: function(search) {
-        var self = this;
-        // Make to fuzzy searches for the apps and the secondary menuitems
-        var search_results = fuzzy.filter(search, this.lookup_list);
-        var matching_elements_indexes = _.pluck(search_results, 'index');
-
-        // Update the display
-        this.$menuitems.find('.o_secondary_menu_group').addClass('o_menu_hidden');
-        this.update_menu_data_visibility(this.menu_data, matching_elements_indexes);
-
-        // Display 'No results' if needed
-        var display_no_results = search_results.length === 0;
-        this.$no_results.toggleClass('o_hidden', !display_no_results);
-
-        // Fake a focus on the first element, pressing 'Enter' will
-        // jump into it
-        self.$('.o_action_app.o_focused').removeClass('o_focused');
-        self.$('.o_action_app:visible:first()').addClass('o_focused');
-    },
-    update_menu_data_visibility: function(menu_data, matching_indexes) {
-        var self = this; 
-        _.each(menu_data, function(menu) {
-            if (menu.action_id) {
-                menu.visible = _.contains(matching_indexes, menu.index);
-                menu.$el.toggleClass('o_menu_hidden', !menu.visible);
-                if (menu.visible) {
-                    menu.$group.removeClass('o_menu_hidden');
-                }
-            }
-            if (menu.children.length) {
-                self.update_menu_data_visibility(menu.children, matching_indexes);
-            }
-        });
-    },
-    // Reset the menuitems display at it initial state
-    // All the apps displayed, no secondary menuitems and no group icon displayed
-    reset_menu_display: function() {
-        this.$apps.find('.o_app').removeClass('o_menu_hidden');
-        this.$menuitems
-            .find('.o_secondary_menu')
-            .add('.o_secondary_menu_group')
-            .addClass('o_menu_hidden');
-        this.$no_results.addClass('o_hidden');
-        if (!this.mobile) {
-            this.$input.focus();
-            this.$menu_search.addClass('o_bar_hidden');
-        }
-        this.$('.o_action_app.o_focused').removeClass('o_focused');
-        this.$input.val('');
-    },
-    on_keydown: function (e) {
-        this.$focused_element = $(document.activeElement);
-        this.$visible_menuitems = this.$('.o_action_app:visible');
-        this.is_focus_on_input = this.$focused_element.is('input');
-        this.app_icon_by_line = config.device.size_class > config.device.SIZES.XS ? 6 : 4;
-        this.visible_apps_count = this.$apps.find('.o_primary_menu:visible').length;
-        this.visible_secondary_menu_count = this.$menuitems.find(".o_secondary_menu:visible").length;
-        switch (e.which) {
-            case $.ui.keyCode.DOWN:
-                this.on_keydown_down(e);
-                break;
-            case $.ui.keyCode.RIGHT:
-                this.on_keydown_right(e);
-                break;
-            case $.ui.keyCode.TAB:
-                this.on_keydown_tab(e);
-                break;
-            case $.ui.keyCode.UP:
-                this.on_keydown_up(e);
-                break;
-            case $.ui.keyCode.LEFT:
-                this.on_keydown_left(e);
-                break;
-            case $.ui.keyCode.ENTER:
-                this.on_keydown_enter(e);
-                break;
-            case $.ui.keyCode.PAGE_DOWN:
-            case $.ui.keyCode.PAGE_UP:
-                break;
-            default:
-                if (!this.mobile && this.$menu_search.hasClass('o_bar_hidden')) {
-                    this.$menu_search.removeClass('o_bar_hidden');
-                }
-                if (!this.$focused_element.is('input') && !e.shiftKey) {
-                    this.$input.focus();
-                }
-        }
-    },
-    on_keydown_down: function (e) {
-        // Case fake focus on first menu
-        if (this.is_focus_on_input && this.$visible_menuitems.first().hasClass('o_focused')) {
-            this.$visible_menuitems.first().removeClass('o_focused');
-            this.$visible_menuitems.first().focus();
-            this.is_focus_on_input = false;
-            this.$focused_element = this.$visible_menuitems.first();
-        } else if (this.is_focus_on_input) {
-            this.$visible_menuitems.first().focus();
-            return;
-        }
-        var new_index = -1;
-        var i = this.$visible_menuitems.index(this.$focused_element);
-        if (this.$focused_element.hasClass('o_primary_menu')) {
-            new_index = i + this.app_icon_by_line;
-            if(new_index + 1 > this.visible_apps_count) {
-                var app_lines_count = Math.ceil(this.visible_apps_count/this.app_icon_by_line);
-                var current_line_number = Math.ceil((i+1)/this.app_icon_by_line);
-                if (app_lines_count > current_line_number) {
-                    new_index = this.visible_apps_count - 1;                                
-                } else {
-                    if (!this.visible_secondary_menu_count) {
-                        new_index = -1;
-                    } else {
-                        new_index = this.visible_apps_count;
-                    }
-                }
-            }
-        } else {
-            new_index = i + 1;
-            if(new_index >= this.$visible_menuitems.length) {
-                new_index = -1;
-            }
-        }
-        new_index === -1 ? this.$input.focus() : this.$visible_menuitems.eq(new_index).focus();
-        e.preventDefault();
-    },
-    on_keydown_up: function (e) {
-        // Case fake focus on first menu
-        if (this.is_focus_on_input) {
-            this.$visible_menuitems.first().removeClass('o_focused');
-            this.$visible_menuitems.last().focus();
-            return;
-        }
-        var i = this.$visible_menuitems.index(this.$focused_element);
-        var new_index = -1;
-        if (this.$focused_element.hasClass('o_primary_menu')) {
-            new_index = Math.max(i - this.app_icon_by_line, -1);
-        } else {
-            new_index = i - 1;
-        }
-        new_index === -1 ? this.$input.focus() : this.$visible_menuitems.eq(new_index).focus();
-        e.preventDefault();
-    },
-    on_keydown_right: function (e) {
-        var self = this;
-        // Case fake focus on first menu
-        if (this.is_focus_on_input && this.$visible_menuitems.first().hasClass('o_focused') && this.$visible_menuitems.eq(1).hasClass('o_primary_menu')) {
-            self.$visible_menuitems.first().removeClass('o_focused');
-            self.$visible_menuitems.eq(1).focus();
-            return; 
-        } 
-        var i = this.$visible_menuitems.index(this.$focused_element);
-        if (this.$focused_element.hasClass('o_primary_menu')) {
-            var new_index = i + 1;
-            if (Math.floor(new_index/self.app_icon_by_line) === Math.floor(i/self.app_icon_by_line) && self.$visible_menuitems.eq(new_index).hasClass('o_primary_menu')) {
-                self.$visible_menuitems.eq(new_index).focus();
-                return;
-            }
-        }
-    },
-    on_keydown_left: function (e) {
-        var self = this;
-        // Case fake focus on first menu
-        if (this.is_focus_on_input && this.$visible_menuitems.first().hasClass('o_focused')) {
-            self.$visible_menuitems.first().removeClass('o_focused');
-            self.$visible_menuitems.first().focus();
-            return; 
-        } 
-        var i = this.$visible_menuitems.index(this.$focused_element);
-        if (this.$focused_element.hasClass('o_primary_menu')) {
-            var new_index = i - 1;
-            if (Math.floor(new_index/self.app_icon_by_line) === Math.floor(i/self.app_icon_by_line)) {
-                self.$visible_menuitems.eq(new_index).focus();
-                return;
-            }
-        }
-    },
-    on_keydown_tab: function (e) {
-        var self = this;
-        if (this.is_focus_on_input) {
-            if (self.$visible_menuitems.first().hasClass('o_focused')) {
-                self.$visible_menuitems.first().removeClass('o_focused');
-                self.$visible_menuitems.eq(1).focus();
-            } else {
-                e.shiftKey ? $(self.$visible_menuitems.slice(-1)[0]).focus() : self.$visible_menuitems.first().focus();
-            }
-        } else {
-            var i = this.$visible_menuitems.index(this.$focused_element);
-            if (e.shiftKey) {
-                i === 0 ? self.$input.focus() : self.$visible_menuitems.eq(i-1).focus();
-            } else {
-                i === self.$visible_menuitems.length - 1 ? self.$input.focus() : self.$visible_menuitems.eq(i+1).focus();
-            }
-        }
-        e.preventDefault();
-    },
-    on_keydown_enter: function (e) {
-        if (this.is_focus_on_input) {
-            this.$visible_menuitems.first().trigger('click');
-        }
-    },
 });
-
-return AppSwitcher;
 
 });

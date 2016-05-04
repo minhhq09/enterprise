@@ -5,6 +5,10 @@
 
     font-size: @odoo-font-size-base-touch;
 
+    .o_menu_search.o_bar_hidden input {
+        cursor: default;
+    }
+    
     .o_application_switcher_scrollable {
 
         .o_apps {
@@ -37,68 +41,34 @@
                 &:hover {
                     background: rgba(0, 0, 0, 0.1);
                 }
-                &.o_menu_hidden {
-                    display: none;
-                }
             }
         }
 
         .o_menuitems {
-            padding: 5px;
-
-            .o_secondary_menu_group {
-                margin-bottom: 4px;
-                &.o_menu_hidden {
-                    margin: 0;
-                    display: none !important; // override display flex
+            .o_menuitem {
+                padding: 2px;
+                .o-text-overflow();
+                color: @odoo-brand-lightsecondary;
+                margin-bottom: 3px;
+                @media (min-width: @screen-sm-min) {
+                    font-size: 20px;
+                }
+                outline: none;
+                width: 100%;
+                @media (max-width: @screen-xs-max) {
+                    padding: 5px 0;
+                }
+                &:focus, &.o_focused {
+                    background: rgba(0, 0, 0, 0.2);
                 }
 
-                .o_secondary_menu_group_app {
-                    .o_secondary_menu_group_icon {
-                        width: 80%;
-                        max-width: 40px;
-                        border-radius: 8%;
-                    }        
-                }
-                .o_secondary_menu_group_menuitems {
-                    .o_secondary_menu {
-                        .o-text-overflow();
-                        color: @odoo-brand-lightsecondary;
-                        margin-bottom: 3px;
-                        @media (min-width: @screen-sm-min) {
-                            font-size: 22px;
-                        }
-                        outline: none;
-                        width: 100%;
-                        @media (max-width: @screen-xs-max) {
-                            padding: 5px 0;
-                        }
-                        .o_menu_path {
-                            .o-text-overflow(block);
-                            color: @odoo-brand-lightsecondary;
-                        }
-                        &:focus, &.o_focused {
-                            background: rgba(0, 0, 0, 0.2);
-                        }
-                        &:hover {
-                            background: rgba(0, 0, 0, 0.1);
-                        }
-                        &.o_menu_hidden {
-                            margin: 0;
-                            display: none;
-                        }
-                    }
-                }
             }
-
         }
 
-        .o_no_results {
+        .o_no_result {
             color: @odoo-brand-lightsecondary;
             font-size: 22px;
-            &.o_hidden {
-                display: none;
-            }
+            margin-top: 10px;
         }
 
         .o_application_switcher_footer {

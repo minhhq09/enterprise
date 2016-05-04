@@ -6,21 +6,20 @@
     .o-flex-flow(column, nowrap);
     .o-align-items(center);
 
+    // 3 rules to hide the scrollbar
+    &::-webkit-scrollbar {
+        width: 0 !important 
+    }        
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+
     .o_application_switcher_scrollable {
         .o-flex-display();
         .o-flex-flow(column, nowrap);
         .o-align-items(center);
-        .o-flex(1, 1, auto);
+        .o-flex(1, 0, auto);
         width: 100%;
         max-width: @screen-sm-min;
-        overflow-y: scroll;
-        
-        // 3 rules to hide the scrollbar
-        &::-webkit-scrollbar {
-            width: 0 !important 
-        }        
-        -ms-overflow-style: none;
-        overflow: -moz-scrollbars-none;
         
         .o_apps {
             .o-flex(0, 0, auto);
@@ -41,21 +40,20 @@
             width: 100%;
 
             .o-flex(1, 0, auto);
-            .o_secondary_menu_group {
-                .o-flex-display();
-                .o-flex(0, 0, auto); 
-                .o_secondary_menu_group_app {
-                    .o-flex(0, 0, auto);
-                }
-
-                .o_secondary_menu_group_menuitems {
-                    .o-flex(1, 1, auto);
-                    min-width: 0;
+            .o_menuitem {
+                @media (max-width: @screen-xs-max) {
+                    padding: 6px;
                 }
             }
+            
         }
         .o_no_results {
             .o-flex(1, 0, auto);
         }
+    }
+    .o_application_switcher_footer {
+        .o-flex-display();
+        .o-flex(1, 0, auto);
+        align-items: flex-end;
     }
 }
