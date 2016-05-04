@@ -334,6 +334,9 @@
                 <div class="alert alert-danger pt_edit_alert">
                     Please select a project.
                 </div>
+                <div class="pt_activity_date">
+                    <t t-esc="moment(widget.activity.date).format('dddd, MMMM D')"/>
+                </div>
                 <form class="container-fluid pt_form">
                     <div class="form-group">
                         <label for="pt_activity_project">Project</label>
