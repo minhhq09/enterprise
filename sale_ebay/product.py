@@ -589,10 +589,10 @@ class product_template(models.Model):
                     ])
                 partner_data['state_id'] = state.id
 
+            partner.write(partner_data)
             fp_id = self.env['account.fiscal.position'].get_fiscal_position(partner.id)
             if fp_id:
-                partner_data['property_account_position_id'] = fp_id
-            partner.write(partner_data)
+                partner.property_account_position_id = fp_id
             if self.product_variant_count > 1:
                 if 'Variation' in transaction:
                     variant = self.product_variant_ids.filtered(
