@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-04-27 09:44+0000\n"
-"Last-Translator: Gang LIU <liu9ang@hotmail.com>\n"
+"PO-Revision-Date: 2016-05-07 03:34+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,13 +58,13 @@ msgstr "预计日期"
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Total Due "
-msgstr "全部到期的"
+msgstr "到期 合计"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:329
 #, python-format
 msgid "%s Payment Reminder"
-msgstr "%s 支付提醒"
+msgstr "%s 付款提醒"
 
 #. module: account_reports
 #. openerp-web
@@ -97,7 +97,7 @@ msgstr "剩下10%!"
 #: code:addons/account_reports/models/account_followup_report.py:347
 #, python-format
 msgid ": Sent a followup email"
-msgstr ": 发送跟进邮件"
+msgstr ": 发送催款邮件"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_letter_body
@@ -186,14 +186,14 @@ msgstr "会计报告"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
 msgid "Account Report Line"
-msgstr "会计报表行"
+msgstr "会计报告行"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:154
 #, python-format
 msgid "Accrual Basis,"
-msgstr "应计制"
+msgstr "权责发生制"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_action_id
@@ -230,7 +230,7 @@ msgstr "到期的应收账款"
 #: model:ir.actions.client,name:account_reports.action_account_report_ar
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Receivables"
-msgstr "到期应收"
+msgstr "到期的应收账款"
 
 #. module: account_reports
 #: selection:account.report.context.followup.all,partner_filter:0
@@ -355,7 +355,7 @@ msgstr "银行帐户"
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation_with_journal
 #, python-format
 msgid "Bank Reconciliation"
-msgstr "银行调节"
+msgstr "银行对账"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
@@ -372,7 +372,7 @@ msgstr "银行和现金账户"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_bank_reconciliation_report
 msgid "Bank reconciliation report"
-msgstr "银行核销报表"
+msgstr "银行对账报告"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
@@ -415,7 +415,7 @@ msgstr "当年盈利"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:146
 #, python-format
 msgid "Cash Basis Method"
-msgstr "基于现金的方法"
+msgstr "现金收付制方法"
 
 #. module: account_reports
 #. openerp-web
@@ -706,7 +706,7 @@ msgstr "流动负债"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_ca_to_l0
 msgid "Current assets to liabilities"
-msgstr "流动资产负债"
+msgstr "流动资产到负债"
 
 #. module: account_reports
 #. openerp-web
@@ -835,7 +835,7 @@ msgstr "域"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:148
 #, python-format
 msgid "Don't follow-up before :"
-msgstr "不要在...之前催款："
+msgstr "不要在此之前催款："
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -877,7 +877,7 @@ msgstr "因为业务伙伴的邮件没有填所以邮件没有发出"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_cash_basis
 msgid "Enable cash basis columns"
-msgstr "启用现金基础栏"
+msgstr "启用现金收付制栏位"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_comparison
@@ -1078,7 +1078,7 @@ msgstr "总账报告"
 #: model:ir.actions.client,name:account_reports.action_account_report_gt
 #: model:ir.model,name:account_reports.model_account_generic_tax_report
 msgid "Generic Tax Report"
-msgstr "通用税表"
+msgstr "通用税金报告"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
@@ -1176,7 +1176,7 @@ msgstr "收入"
 #: code:addons/account_reports/models/account_general_ledger.py:145
 #, python-format
 msgid "Initial Balance"
-msgstr "期初余额"
+msgstr "初始余额"
 
 #. module: account_reports
 #. openerp-web
@@ -1202,7 +1202,7 @@ msgstr "内部备注"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_invoice_address_id
 msgid "Invoice Address"
-msgstr "发票地址"
+msgstr "开票地址"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_green_on_positive
@@ -1546,7 +1546,7 @@ msgstr "无"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:150
 #, python-format
 msgid "Note"
-msgstr "笔记"
+msgstr "备注"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_res_partner_payment_next_action
@@ -1698,37 +1698,37 @@ msgstr "期间："
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
 msgid "Plus Fixed Assets"
-msgstr "加上固定资产"
+msgstr "加  固定资产"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_assets_view0
 msgid "Plus Non-current Assets"
-msgstr "加上非流动资产"
+msgstr "加  非流动资产"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
 #, python-format
 msgid "Plus Outstanding Payment"
-msgstr "加上未完成的付款"
+msgstr "加  未完成的付款"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
 #, python-format
 msgid "Plus Un-Reconciled Bank Statement Lines"
-msgstr "加上未核销的银行对账单行"
+msgstr "加  未调节的银行对账单行"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
 #, python-format
 msgid "Plus Unencoded Statements"
-msgstr "加上未编码的报表"
+msgstr "加  未编制的报表"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
 #, python-format
 msgid "Posted Entries Only"
-msgstr "限制为已登账凭证"
+msgstr "仅已登账分录"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
@@ -1747,7 +1747,7 @@ msgstr "以前的期间"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:106
 #, python-format
 msgid "Previous Periods"
-msgstr "前周期"
+msgstr "上一个期间"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -1794,7 +1794,7 @@ msgstr "应收账款"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Reconciliation Report"
-msgstr "核销报告"
+msgstr "调节报告"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
@@ -1805,7 +1805,7 @@ msgstr "引用"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Reference number"
-msgstr "参考号"
+msgstr "参考号码"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_line_form
@@ -1859,7 +1859,7 @@ msgstr "保存"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_name
 msgid "Section Name"
-msgstr "部门名称"
+msgstr "部分名称"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
@@ -1875,7 +1875,7 @@ msgstr "以邮件形式发送"
 #: code:addons/account_reports/models/account_followup_report.py:332
 #, python-format
 msgid "Sent a followup letter"
-msgstr "发出跟踪信"
+msgstr "发出催款信"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
@@ -1895,12 +1895,12 @@ msgstr "呈现借贷栏位"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_show_domain
 msgid "Show domain"
-msgstr "显示域名"
+msgstr "显示域"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_skipped_partners_ids
 msgid "Skipped partners"
-msgstr "跳过业务伙伴"
+msgstr "跳过的业务伙伴"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_special_date_changer
@@ -1975,14 +1975,14 @@ msgstr "税务审计"
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
 #, python-format
 msgid "Tax Lines"
-msgstr "税行"
+msgstr "税金明细行"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:132
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
-msgstr "税务报表"
+msgstr "税金报告"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_text
@@ -2026,7 +2026,7 @@ msgstr "这个财政年度"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:65
 #, python-format
 msgid "This Month"
-msgstr "这个月"
+msgstr "本月份"
 
 #. module: account_reports
 #. openerp-web
@@ -2061,13 +2061,13 @@ msgstr "总计"
 #: code:addons/account_reports/models/account_followup_report.py:66
 #, python-format
 msgid "Total Due"
-msgstr "全部到期的"
+msgstr "到期 总计"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:78
 #, python-format
 msgid "Total Overdue"
-msgstr "全部过期的"
+msgstr "逾期 总计"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_coa
@@ -2080,7 +2080,7 @@ msgstr "试算表"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:145
 #, python-format
 msgid "Two months"
-msgstr "两个月"
+msgstr "两月"
 
 #. module: account_reports
 #. openerp-web
@@ -2127,7 +2127,7 @@ msgstr "用给定的日期"
 #: code:addons/account_reports/models/account_move_line.py:36
 #, python-format
 msgid "View Bank Statement"
-msgstr "银行对账单视图"
+msgstr "查看银行对账单"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_move_line.py:40
@@ -2142,19 +2142,19 @@ msgstr "查看发票"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
 msgid "View Journal Entry"
-msgstr "分类账视图"
+msgstr "查看分类账分录"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_move_line.py:41
 #, python-format
 msgid "View Move"
-msgstr "凭证视图"
+msgstr "查看分录"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_move_line.py:38
 #, python-format
 msgid "View Payment"
-msgstr "付款视图"
+msgstr "查看付款"
 
 #. module: account_reports
 #. openerp-web
@@ -2175,7 +2175,7 @@ msgstr "带有草案项"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:13
 #, python-format
 msgid "With Overdue Invoices"
-msgstr "带有过期发票的"
+msgstr "带有逾期发票的"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
