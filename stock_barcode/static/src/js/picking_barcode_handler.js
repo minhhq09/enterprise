@@ -57,8 +57,8 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
         }
         var po_field = this.form_view.fields.pack_operation_product_ids;
         var po_records = this._get_records(po_field);
-        var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
-            || po_records.find(function(po) { return is_suitable(po) });
+        var candidate = _.find(po_records, function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
+            || _.find(po_records, function(po) { return is_suitable(po) });
         if (candidate) {
             return po_field.data_update(candidate.get('id'), {'qty_done': candidate.get('qty_done') + 1}).then(function() {
                 return po_field.viewmanager.active_view.controller.reload_record(candidate);
@@ -77,8 +77,8 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
         }
         var po_field = this.form_view.fields.pack_operation_product_ids;
         var po_records = this._get_records(po_field);
-        var candidate = po_records.find(function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
-            || po_records.find(function(po) { return is_suitable(po) });
+        var candidate = _.find(po_records, function(po) { return is_suitable(po) && po.get('qty_done') < po.get('product_qty') })
+            || _.find(po_records, function(po) { return is_suitable(po) });
         if (candidate) {
             var self = this;
             return self.form_view.save().done(function() {
