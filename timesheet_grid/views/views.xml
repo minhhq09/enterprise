@@ -219,14 +219,11 @@
                   action="action_timesheet_previous_month"/>
 
         <!-- reporting -->
-        <record id="hr_timesheet.act_hr_timesheet_line" model="ir.actions.act_window">
-            <field name="view_ids" eval="[
-                (0, False, {
-                    'view_mode': 'grid',
-                    'sequence': 1,
-                    'view_id': ref('timesheet_grid.view_timesheet_grid_readonly')
-                })
-            ]"/>
+        <record id="act_hr_timesheet_line_grid" model="ir.actions.act_window.view">
+            <field name="view_mode">grid</field>
+            <field name="sequence">1</field>
+            <field name="view_id" ref="timesheet_grid.view_timesheet_grid_readonly"/>
+            <field name="act_window_id" ref="hr_timesheet.act_hr_timesheet_line"/>
         </record>
 
         <record id="view_timesheet_search" model="ir.ui.view">
