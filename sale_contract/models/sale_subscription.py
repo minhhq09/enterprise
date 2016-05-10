@@ -513,7 +513,7 @@ class AccountAnalyticAccount(osv.osv):
 
     _columns = {
         'subscription_ids': fields.one2many('sale.subscription', 'analytic_account_id', 'Subscriptions'),
-        'subscription_count': fields.function(_compute_subscription_count, 'Susbcription Count', type='integer')
+        'subscription_count': fields.function(_compute_subscription_count, string='Susbcription Count', type='integer')
     }
 
     def subscriptions_action(self, cr, uid, ids, context=None):
