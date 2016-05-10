@@ -8,6 +8,7 @@ var Model = require('web.Model');
 var utils = require('web.utils');
 
 var QWeb = core.qweb;
+var NBR_ICONS = 6;
 
 function visit(tree, callback, path) {
     path = path || [];
@@ -19,10 +20,6 @@ function visit(tree, callback, path) {
 
 function is_mobile() {
     return config.device.size_class <= config.device.SIZES.XS;
-}
-
-function nbr_icons() {
-    return  is_mobile() ? 6 : 4;
 }
 
 var AppSwitcher = Widget.extend({
@@ -96,10 +93,14 @@ var AppSwitcher = Widget.extend({
         return state.focus >= state.apps.length ? state.focus - state.apps.length : null;
     },
     on_keydown: function(event) {
+        var is_editable = event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA" || event.target.isContentEditable;
+        if (is_editable && event.target !== this.$input[0]) {
+            return;
+        }
         var state = this.state;
         var elem_focused = state.focus !== null;
         var app_focused = elem_focused && state.focus < state.apps.length;
-        var delta = app_focused ? nbr_icons() : 1;
+        var delta = app_focused ? NBR_ICONS : 1;
         var $input = this.$input;
         switch (event.which) {
             case $.ui.keyCode.DOWN:
@@ -193,9 +194,9 @@ var AppSwitcher = Widget.extend({
             }
         }
         if (new_index < app_nbr && state.focus >= app_nbr && delta < 0) {
-            new_index = app_nbr - (app_nbr % nbr_icons());
+            new_index = app_nbr - (app_nbr % NBR_ICONS);
             if (new_index === app_nbr) {
-                new_index = app_nbr - nbr_icons();
+                new_index = app_nbr - NBR_ICONS;
             }
         }
         state.focus = new_index;
@@ -224,6 +225,12 @@ var AppSwitcher = Widget.extend({
         if ($focused.length && !is_mobile()) {
             $focused.focus();
             this.$el.scrollTo($focused, {offset: {top:-0.5*this.$el.height()}});
+        }
+        if (this.state.is_searching) {
+            this.$el.css({
+                "align-items": "flex-start",
+                "padding-left": (window.innerWidth - this.$menu_search.width()) / 2
+            });
         }
     },
 });
