@@ -32,6 +32,11 @@ var AppSwitcher = Widget.extend({
             }
             this.update(e.target.value);
         },
+        'click .o_menuitem': function (e) {
+            e.preventDefault();
+            var menu_id = $(event.target).data('menu');
+            this.open_menu(_.findWhere(this.menu_data, {id: menu_id}));
+        },
     },
     init: function (parent, menu_data) {
         this._super.apply(this, arguments);
@@ -149,20 +154,10 @@ var AppSwitcher = Widget.extend({
                 this.render();
                 break;
             case $.ui.keyCode.ENTER:
-                if (elem_focused && this.state.focus < this.state.apps.length) {
-                    var focused_app = this.state.apps[this.state.focus];
-                    this.trigger_up('app_clicked', {
-                        menu_id: focused_app.id,
-                        action_id: focused_app.action,
-                    });
-                } else if (elem_focused) {
-                    var index = this.state.focus - this.state.apps.length;
-                    var menu = this.state.menu_items[index];
-                    this.trigger_up('menu_clicked', {
-                        menu_id: menu.id,
-                        action_id: menu.action,
-                    });
-                    core.bus.trigger('change_menu_section', menu.menu_id);
+                if (elem_focused) {
+                    var menus = app_focused ? state.apps : state.menu_items;
+                    var index = app_focused ? state.focus : state.focus - state.apps.length;
+                    this.open_menu(menus[index]);
                 }
                 event.preventDefault();
                 return;
@@ -233,6 +228,15 @@ var AppSwitcher = Widget.extend({
             });
         }
     },
+    open_menu: function(menu) {
+        this.trigger_up(menu.is_app ? 'app_clicked' : 'menu_clicked', {
+            menu_id: menu.id,
+            action_id: menu.action,
+        });
+        if (!menu.is_app) {
+            core.bus.trigger('change_menu_section', menu.menu_id);
+        }
+    }
 });
 
 return AppSwitcher;
