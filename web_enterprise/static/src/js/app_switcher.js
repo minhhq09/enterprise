@@ -30,7 +30,7 @@ var AppSwitcher = Widget.extend({
                 this.state = this.get_initial_state();
                 this.state.is_searching = true;
             }
-            this.update(e.target.value);
+            this.update({search: e.target.value, focus: 0});
         },
         'click .o_menuitem': function (e) {
             e.preventDefault();
@@ -109,49 +109,31 @@ var AppSwitcher = Widget.extend({
         var $input = this.$input;
         switch (event.which) {
             case $.ui.keyCode.DOWN:
-                if (elem_focused) {
-                    this.update_index(delta);
-                } else {
-                    this.state.focus = 0;
-                }
+                this.update({focus: elem_focused ? delta : 0});
                 event.preventDefault();
-                this.render();
                 break;
             case $.ui.keyCode.RIGHT:
                 if ($input.is(':focus') && $input[0].selectionEnd < $input.val().length) {
                     return;
                 }
-                if (elem_focused) {
-                    this.update_index(1);
-                } else {
-                    this.state.focus = 0;
-                }
-                this.render();
+                this.update({focus: elem_focused ? 1 : 0});
+                event.preventDefault();
                 break;
             case $.ui.keyCode.TAB:
                 event.preventDefault();
-                this.update_index(1);
-                this.render();
+                var f = elem_focused ? (event.shiftKey ? -1 : 1) : 0;
+                this.update({focus: f});
                 break;
             case $.ui.keyCode.UP:
-                if (elem_focused) {
-                    this.update_index(-delta);
-                } else {
-                    this.state.focus = 0;
-                }
+                this.update({focus: elem_focused ? -delta : 0});
                 event.preventDefault();
-                this.render();
                 break;
             case $.ui.keyCode.LEFT:
                 if ($input.is(':focus') && $input[0].selectionStart > 0) {
                     return;
                 }
-                if (elem_focused) {
-                    this.update_index(-1);
-                } else {
-                    this.state.focus = 0;
-                }
-                this.render();
+                this.update({focus: elem_focused ? -1 : 0});
+                event.preventDefault();
                 break;
             case $.ui.keyCode.ENTER:
                 if (elem_focused) {
@@ -168,39 +150,13 @@ var AppSwitcher = Widget.extend({
                 if (!this.$input.is(':focus')) {
                     this.$input.focus();
                 }
-                this.state.focus = 0;
         }
     },
-    update_index: function(delta) {
-        var state = this.state;
-        var app_nbr = state.apps.length;
-        var new_index = state.focus + delta;
-        if (new_index < 0) {
-            new_index = state.apps.length + state.menu_items.length - 1;
-        }
-        if (new_index >= state.apps.length + state.menu_items.length) {
-            new_index = 0;
-        }
-        if (new_index >= app_nbr && state.focus < app_nbr && delta > 0) {
-            if (state.focus + delta - (state.focus % delta) < app_nbr) {
-                new_index = app_nbr - 1;
-            } else {
-                new_index = app_nbr;
-            }
-        }
-        if (new_index < app_nbr && state.focus >= app_nbr && delta < 0) {
-            new_index = app_nbr - (app_nbr % NBR_ICONS);
-            if (new_index === app_nbr) {
-                new_index = app_nbr - NBR_ICONS;
-            }
-        }
-        state.focus = new_index;
-    },
-    update: function(search) {
+    update: function(data) {
         var self = this;
-        if (search) {
+        if (data.search) {
             var options = {extract: function(el) { return el.label; }};
-            var search_results = fuzzy.filter(search, this.menu_data, options);
+            var search_results = fuzzy.filter(data.search, this.menu_data, options);
             var results = _.map(search_results, function (result) {
                 return self.menu_data[result.index];
             });
@@ -210,6 +166,31 @@ var AppSwitcher = Widget.extend({
                 focus: results.length ? 0 : null,
                 is_searching: true,
             });
+        }
+        if ('focus' in data) {
+            var state = this.state;
+            var app_nbr = state.apps.length;
+            var new_index = data.focus + (state.focus || 0);
+            if (new_index < 0) {
+                new_index = state.apps.length + state.menu_items.length - 1;
+            }
+            if (new_index >= state.apps.length + state.menu_items.length) {
+                new_index = 0;
+            }
+            if (new_index >= app_nbr && state.focus < app_nbr && data.focus > 0) {
+                if (state.focus + data.focus - (state.focus % data.focus) < app_nbr) {
+                    new_index = app_nbr - 1;
+                } else {
+                    new_index = app_nbr;
+                }
+            }
+            if (new_index < app_nbr && state.focus >= app_nbr && data.focus < 0) {
+                new_index = app_nbr - (app_nbr % NBR_ICONS);
+                if (new_index === app_nbr) {
+                    new_index = app_nbr - NBR_ICONS;
+                }
+            }
+            state.focus = new_index;
         }
         this.render();
     },
