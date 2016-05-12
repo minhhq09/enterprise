@@ -190,7 +190,7 @@ class report_account_general_ledger(models.AbstractModel):
                 domain_lines.append({
                     'id': account.id,
                     'type': 'o_account_reports_domain_total',
-                    'name': _('Total ') + account.name,
+                    'name': _('Total '),
                     'footnotes': self.env.context['context_id']._get_footnotes('o_account_reports_domain_total', account.id),
                     'columns': ['', '', '', amount_currency, self._format(debit), self._format(credit), self._format(balance)],
                     'level': 1,
