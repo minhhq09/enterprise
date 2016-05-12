@@ -14,6 +14,22 @@
             <field name="applicability">taxes</field>
         </record>
 
+        <record id="action_be_vat_statement_new_move_61" model="ir.actions.act_window">
+            <field name="name">Move for grid 61</field>
+            <field name="res_model">tax.adjustments.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_reason': 'Value added in grid 61', 'action': 'l10n_be_reports.action_account_report_l10n_be_vat'}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_be_vat_statement_new_move_62" model="ir.actions.act_window">
+            <field name="name">Move for grid 62</field>
+            <field name="res_model">tax.adjustments.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'default_reason': 'Value added in grid 62', 'action': 'l10n_be_reports.action_account_report_l10n_be_vat'}</field>
+            <field name="target">new</field>
+        </record>
+
         <record id="account_financial_report_l10n_be_tva0" model="account.financial.html.report">
             <field name="name">Déclaration périodique à la TVA</field>
             <field name="report_type">date_range</field>
@@ -363,6 +379,7 @@
             <field name="formulas">balance = sum.credit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_61')])]" />
+            <field name="action_id" ref="action_be_vat_statement_new_move_61" />
             <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -407,7 +424,8 @@
             <field name="formulas">balance = sum.debit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_62')])]" />
-            <field name="sequence" eval="2"/>
+            <field name="action_id" ref="action_be_vat_statement_new_move_62" />
+            <field name="sequence" eval="5"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
             <field name="special_date_changer">strict_range</field>
@@ -449,6 +467,12 @@
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
             <field name="special_date_changer">strict_range</field>
+        </record>
+
+        <record id="action_account_report_l10n_be_vat" model="ir.actions.client">
+            <field name="name">Déclaration périodique à la TVA</field>
+            <field name="tag">account_report_generic</field>
+            <field name="context" eval="{'url': '/account_reports/output_format/financial_report/' + str(ref('account_financial_report_l10n_be_tva0')), 'model': 'account.financial.html.report', 'id': ref('account_financial_report_l10n_be_tva0')}" />
         </record>
 
         <record id="action_account_report_partner_vat_listing" model="ir.actions.client">
