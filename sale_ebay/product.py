@@ -242,7 +242,7 @@ class product_template(models.Model):
         for variant in self.product_variant_ids:
             if self.ebay_sync_stock:
                 variant.ebay_quantity = max(int(variant.virtual_available), 0)
-            if not variant.ebay_quantity and\
+            if variant.ebay_use and not variant.ebay_quantity and\
                not self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                 raise UserError(_('All the quantities must be greater than 0 or you need to enable the Out Of Stock option.'))
             variant_name_values = []
@@ -618,10 +618,20 @@ class product_template(models.Model):
                         lambda l: l.product_tmpl_id.id == self.id)
             else:
                 variant = self.product_variant_ids[0]
-            variant.write({
-                'ebay_quantity_sold': variant.ebay_quantity_sold + int(transaction['QuantityPurchased']),
-                'ebay_quantity': variant.ebay_quantity - int(transaction['QuantityPurchased']),
-                })
+            variant.ebay_quantity_sold = variant.ebay_quantity_sold + int(transaction['QuantityPurchased'])
+            if not self.ebay_sync_stock:
+                variant.ebay_quantity = variant.ebay_quantity - int(transaction['QuantityPurchased'])
+                variant_qty = 0
+                if len(self.product_variant_ids.filtered('ebay_use')) > 1:
+                    for variant in self.product_variant_ids:
+                        variant_qty += variant.ebay_quantity
+                else:
+                    variant_qty = variant.ebay_quantity
+                if variant_qty <= 0:
+                    if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
+                        self.ebay_listing_status = 'Out Of Stock'
+                    else:
+                        self.ebay_listing_status = 'Ended'
             sale_order = self.env['sale.order'].create({
                 'partner_id': partner.id,
                 'state': 'draft',
@@ -688,12 +698,22 @@ class product_template(models.Model):
 
     @api.one
     def sync_available_qty(self):
-        if self.ebay_use and self.ebay_sync_stock:
+        if self.ebay_sync_stock:
             if self.ebay_listing_status in ['Active', 'Error']:
                 # The product is Active on eBay but there is no more stock
                 if self.virtual_available <= 0:
                     # Only revise product if there is a change of quantity
-                    if self.ebay_quantity != self.virtual_available:
+                    if len(self.product_variant_ids.filtered('ebay_use')) > 1:
+                        for variant in self.product_variant_ids:
+                            if variant.virtual_available != variant.ebay_quantity:
+                                # If the Out Of Stock option is enabled only need to revise the quantity
+                                if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
+                                    self.revise_product_ebay()
+                                    self.ebay_listing_status = 'Out Of Stock'
+                                else:
+                                    self.end_listing_product_ebay()
+                                    self.ebay_listing_status = 'Ended'
+                    elif self.ebay_quantity != self.virtual_available:
                         # If the Out Of Stock option is enabled only need to revise the quantity
                         if self.env['ir.config_parameter'].get_param('ebay_out_of_stock'):
                             self.revise_product_ebay()
