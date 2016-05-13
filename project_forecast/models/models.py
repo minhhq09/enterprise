@@ -13,7 +13,7 @@ class ProjectForecast(models.Model):
         return self.env.user if ("default_user_id" not in self.env.context) else self.env.context["default_user_id"]
 
     def default_end_date(self):
-        today = fields.Date.from_string(fields.Datetime.now())
+        today = fields.Datetime.from_string(fields.Datetime.now())
         duration = timedelta(days=1)
         return today + duration
 
@@ -26,7 +26,7 @@ class ProjectForecast(models.Model):
 
     time = fields.Integer(string="%", default=100.0, help="Percentage of working time")
 
-    start_date = fields.Datetime(default=fields.Date.today, required="True")
+    start_date = fields.Datetime(default=fields.Datetime.now, required="True")
     end_date = fields.Datetime(default=default_end_date, required="True")
 
     # consolidation color and exclude
@@ -146,14 +146,14 @@ class ProjectForecast(models.Model):
     @api.onchange('start_date')
     def _onchange_start_date(self):
         if (self.end_date < self.start_date):
-            start = fields.Date.from_string(self.start_date)
+            start = fields.Datetime.from_string(self.start_date)
             duration = timedelta(days=1)
             self.end_date = start + duration
 
     @api.onchange('end_date')
     def _onchange_end_date(self):
         if (self.start_date > self.end_date):
-            end = fields.Date.from_string(self.end_date)
+            end = fields.Datetime.from_string(self.end_date)
             duration = timedelta(days=1)
             self.start_date = end - duration
 
@@ -209,4 +209,3 @@ class Task(models.Model):
                 'default_user_id': self.user_id.id,
             }
         }
-
