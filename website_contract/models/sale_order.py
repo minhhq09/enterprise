@@ -81,8 +81,8 @@ class SaleOrder(models.Model):
             msg_body = self.env.ref('website_contract.chatter_add_paid_option').render(values={'lines': lines})
             # done as sudo since salesman may not have write rights on subscriptions
             self.subscription_id.sudo().message_post(body=msg_body, author_id=self.env.user.partner_id.id)
-        self.create_contract()
-        return super(SaleOrder, self).action_confirm()
+        sub = self.create_contract()
+        return super(SaleOrder, self.with_context(create_contract=bool(sub))).action_confirm()
 
     # DBO: the following is there to amend the behaviour of website_sale:
     # - do not update price on sale_order_line where force_price = True
