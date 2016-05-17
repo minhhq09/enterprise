@@ -8,7 +8,8 @@ from openerp.exceptions import ValidationError
 # These errors are due to failures of Fedex test server and are not implementation errors
 ERROR_200 = u"200: Rating is temporarily unavailable, please try again later."
 ERROR_200_BIS = u"200: An unexpected exception occurred"
-SKIPPABLE_ERRORS = [ERROR_200, ERROR_200_BIS]
+ERROR_1000 = u"1000: General Failure"
+SKIPPABLE_ERRORS = [ERROR_200, ERROR_200_BIS, ERROR_1000]
 SKIP_MSG = u"Test skipped due to FedEx server unavailability"
 
 

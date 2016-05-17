@@ -412,6 +412,9 @@ var WebClient = Widget.extend({
             });
     },
     toggle_app_switcher: function (display) {
+        if (display === this.app_switcher_displayed) {
+            return; // nothing to do (prevents erasing previously detached webclient content)
+        }
         if (display) {
             var self = this;
             this.clear_uncommitted_changes().then(function() {
@@ -432,6 +435,7 @@ var WebClient = Widget.extend({
                 framework.append(self.$el, [self.app_switcher.$el], {
                     in_DOM: true,
                 });
+                self.app_switcher_displayed = true;
 
                 // Save and clear the url
                 self.url = $.bbq.getState();
@@ -444,6 +448,7 @@ var WebClient = Widget.extend({
                 in_DOM: true,
                 callbacks: [{widget: this.action_manager}],
             });
+            this.app_switcher_displayed = false;
         }
 
         this.menu.toggle_mode(display, this.action_manager.get_inner_action() !== null);

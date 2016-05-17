@@ -136,6 +136,8 @@ class SaleSubscription(osv.osv):
         template = self.browse(cr, uid, template_id, context=context)
         if template.pricelist_id.id:
             res['value']['pricelist_id'] = template.pricelist_id.id
+        if template.description:
+            res['value']['description'] = template.description
         if not ids:
             invoice_line_ids = []
             for x in template.recurring_invoice_line_ids:
