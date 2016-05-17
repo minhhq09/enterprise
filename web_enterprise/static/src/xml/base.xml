@@ -17,7 +17,7 @@
         <t t-set="focused_app_index" t-value="widget.get_app_index()"/>
         <t t-foreach="widget.state.apps" t-as="app">
           <a
-            t-att-class="'o_app o_primary_menu' + ((focused_app_index === app_index)? ' o_focused' : '')"
+            t-att-class="'o_app o_menuitem' + ((focused_app_index === app_index)? ' o_focused' : '')"
             t-att-data-menu="app.id"
             t-att-data-action-model="app.action ? app.action.split(',')[0] : ''"
             t-att-data-action-id="app.action"
