@@ -237,6 +237,9 @@ return AbstractWebClient.extend({
             });
     },
     toggle_app_switcher: function (display) {
+        if (display === this.app_switcher_displayed) {
+            return; // nothing to do (prevents erasing previously detached webclient content)
+        }
         if (display) {
             var self = this;
             this.clear_uncommitted_changes().then(function() {
@@ -258,6 +261,7 @@ return AbstractWebClient.extend({
                     in_DOM: true,
                     callbacks: [{widget: self.app_switcher}],                    
                 });
+                self.app_switcher_displayed = true;
 
                 // Save and clear the url
                 self.url = $.bbq.getState();
@@ -270,6 +274,7 @@ return AbstractWebClient.extend({
                 in_DOM: true,
                 callbacks: [{widget: this.action_manager}],
             });
+            this.app_switcher_displayed = false;
         }
 
         this.menu.toggle_mode(display, this.action_manager.get_inner_action() !== null);
