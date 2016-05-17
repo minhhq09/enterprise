@@ -33,39 +33,41 @@ class SaleOrder(models.Model):
         res = super(SaleOrder, self).action_confirm()
         for order in self:
             if order.subscription_id:
-                # wipe the subscription clean if needed
-                if order.subscription_management == 'renew':
-                    to_remove = [(2, line.id, 0) for line in order.subscription_id.recurring_invoice_line_ids]
-                    order.subscription_id.sudo().write({'recurring_invoice_line_ids': to_remove, 'description': order.note, 'state': 'open', 'pricelist_id': order.pricelist_id.id})
-                    order.subscription_id.sudo().increment_period()
-                if not order.subscription_management:
-                    order.subscription_management = 'upsell'
-                # add new lines or increment quantities on existing lines
-                values = {'recurring_invoice_line_ids': []}
-                for line in order.order_line:
-                    if line.product_id.recurring_invoice:
-                        recurring_line_id = False
-                        if line.product_id in [subscr_line.product_id for subscr_line in order.subscription_id.recurring_invoice_line_ids]:
-                            for subscr_line in order.subscription_id.recurring_invoice_line_ids:
-                                if subscr_line.product_id == line.product_id and subscr_line.uom_id == line.product_uom:
-                                    recurring_line_id = subscr_line.id
-                                    quantity = subscr_line.sold_quantity
-                                    break
-                        if recurring_line_id:
-                            values['recurring_invoice_line_ids'].append((1, recurring_line_id, {
-                                'sold_quantity': quantity + line.product_uom_qty,
-                            }))
-                        else:
-                            values['recurring_invoice_line_ids'].append((0, 0, {
-                                'product_id': line.product_id.id,
-                                'analytic_account_id': order.subscription_id.id,
-                                'name': line.name,
-                                'sold_quantity': line.product_uom_qty,
-                                'uom_id': line.product_uom.id,
-                                'price_unit': line.price_unit,
-                                'discount': line.discount if line.order_id.subscription_management == 'renew' else False,
-                            }))
-                order.subscription_id.sudo().write(values)
+                # no need for updates if the contract was juste created
+                if not self.env.context.get('create_contract'):
+                    # wipe the subscription clean if needed
+                    if order.subscription_management == 'renew':
+                        to_remove = [(2, line.id, 0) for line in order.subscription_id.recurring_invoice_line_ids]
+                        order.subscription_id.sudo().write({'recurring_invoice_line_ids': to_remove, 'description': order.note, 'state': 'open', 'pricelist_id': order.pricelist_id.id})
+                        order.subscription_id.sudo().increment_period()
+                    if not order.subscription_management:
+                        order.subscription_management = 'upsell'
+                    # add new lines or increment quantities on existing lines
+                    values = {'recurring_invoice_line_ids': []}
+                    for line in order.order_line:
+                        if line.product_id.recurring_invoice:
+                            recurring_line_id = False
+                            if line.product_id in [subscr_line.product_id for subscr_line in order.subscription_id.recurring_invoice_line_ids]:
+                                for subscr_line in order.subscription_id.recurring_invoice_line_ids:
+                                    if subscr_line.product_id == line.product_id and subscr_line.uom_id == line.product_uom:
+                                        recurring_line_id = subscr_line.id
+                                        quantity = subscr_line.sold_quantity
+                                        break
+                            if recurring_line_id:
+                                values['recurring_invoice_line_ids'].append((1, recurring_line_id, {
+                                    'sold_quantity': quantity + line.product_uom_qty,
+                                }))
+                            else:
+                                values['recurring_invoice_line_ids'].append((0, 0, {
+                                    'product_id': line.product_id.id,
+                                    'analytic_account_id': order.subscription_id.id,
+                                    'name': line.name,
+                                    'sold_quantity': line.product_uom_qty,
+                                    'uom_id': line.product_uom.id,
+                                    'price_unit': line.price_unit,
+                                    'discount': line.discount if line.order_id.subscription_management == 'renew' else False,
+                                }))
+                    order.subscription_id.sudo().write(values)
                 order.action_done()
         return res
 

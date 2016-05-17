@@ -30,7 +30,10 @@
     <div t-if="widget.state.menu_items.length" class="o_menuitems">
         <t t-set="focused_menu_index" t-value="widget.get_menu_index()"/>
         <t t-foreach="widget.state.menu_items" t-as="menu">
-            <a t-att-class="'o_menuitem' + ((focused_menu_index === menu_index)? ' o_focused' : '')" t-att-href="menu.href ? menu.href : ('#menu_id='+menu.id+'&amp;action_id='+menu.action)">
+            <a
+              t-att-class="'o_menuitem' + ((focused_menu_index === menu_index)? ' o_focused' : '')"
+              t-att-href="menu.href ? menu.href : ('#menu_id='+menu.id+'&amp;action_id='+menu.action)"
+              t-att-data-menu="menu.id">
                   <t t-esc="menu.label"/>
             </a>
         </t>
