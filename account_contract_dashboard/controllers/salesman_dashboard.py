@@ -52,13 +52,17 @@ class SalemanDashboard(http.Controller):
 
         new_mrr, churned_mrr, expansion_mrr, down_mrr, net_new_mrr = 0, 0, 0, 0, 0
 
-        starting_invoice_line_ids = request.env['account.invoice.line'].search([
+        domain = [
+            ('invoice_id.type', 'in', ('out_invoice', 'out_refund')),
+            ('invoice_id.state', 'not in', ('draft', 'cancel')),
             ('invoice_id.user_id', '=', salesman_id),
+        ]
+
+        starting_invoice_line_ids = request.env['account.invoice.line'].search(domain + [
             ('asset_start_date', '>=', start_date),
             ('asset_start_date', '<=', end_date),
         ], order='account_analytic_id')
-        stopping_invoice_lines_ids = request.env['account.invoice.line'].search([
-            ('invoice_id.user_id', '=', salesman_id),
+        stopping_invoice_lines_ids = request.env['account.invoice.line'].search(domain + [
             ('asset_end_date', '>=', start_date),
             ('asset_end_date', '<=', end_date),
         ], order='account_analytic_id')
@@ -152,6 +156,8 @@ class SalemanDashboard(http.Controller):
         nrr_invoice_ids = []
         total_nrr = 0
         current_invoice_ids = request.env['account.invoice'].search([
+            ('type', 'in', ('out_invoice', 'out_refund')),
+            ('state', 'not in', ('draft', 'cancel')),
             ('user_id', '=', salesman_id),
             ('date_invoice', '>=', start_date),
             ('date_invoice', '<=', end_date),
