@@ -27,8 +27,8 @@
         <field name="model">hr.appraisal.report</field>
         <field name="arch" type="xml">
             <search string="Appraisal Analysis">
-                <filter string="To Start" icon="terp-camera_test" domain="[('state', '=' ,'new')]" help = "In progress Evaluations"/>
-                <filter string="Appraisal Sent" icon="terp-camera_test" domain="[('state','=','pending')]" help = "Final Interview Date"/>
+                <filter string="To Start" icon="fa-check" domain="[('state', '=' ,'new')]" help = "In progress Evaluations"/>
+                <filter string="Appraisal Sent" icon="fa-check" domain="[('state','=','pending')]" help = "Final Interview Date"/>
                 <filter string="Done" domain="[('state','=','done')]"/>
                 <field name="employee_id"/>
                 <group expand="0" string="Extended Filters...">
