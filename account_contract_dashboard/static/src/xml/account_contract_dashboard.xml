@@ -245,12 +245,12 @@
                 </tr>
                 <tr t-foreach="cohort_report" t-as="cohort_row">
                     <td><t t-esc="cohort_row.period"/></td>
+                    <td t-att-data-row="cohort_row_index" class="js_to_subs">
+                        <t t-if="cohort_interest === 'number'"><t t-esc="cohort_row.starting_value"/></t>
+                        <t t-if="cohort_interest === 'value'"><t t-esc="format_number(cohort_row.starting_value)"/></t>
+                    </td>
                     <t t-foreach="cohort_row.values" t-as="value">
-                        <td t-if="value_first">
-                            <t t-if="cohort_interest === 'number'"><t t-esc="value.value"/></t>
-                            <t t-if="cohort_interest === 'value'"><t t-esc="format_number(value.value)"/></t>
-                        </td>
-                        <td t-att-data-value="value.percentage" t-att-data-row="cohort_row_index" t-att-data-line="value_index" class="js_heat"><t t-esc="value.percentage"/><t t-if="value.percentage !== '-'">%</t></td>
+                        <td t-att-data-value="value.percentage" t-att-data-row="cohort_row_index" t-att-data-column="value_index" class="js_heat js_to_subs"><t t-esc="value.percentage"/><t t-if="value.percentage !== '-'">%</t></td>
                     </t>
                 </tr>
             </table>

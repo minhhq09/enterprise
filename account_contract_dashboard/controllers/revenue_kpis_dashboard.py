@@ -37,7 +37,7 @@ class RevenueKPIsDashboard(http.Controller):
         subs_fields = ['date_start', 'recurring_total']
         subs_domain = [
             ('type', '=', 'contract'),
-            ('state', 'not in', ['cancel']),
+            ('state', 'not in', ['draft', 'cancel']),
             ('date_start', '>=', date_start),
             ('date_start', '<=', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
         if filters.get('contract_ids'):
@@ -62,13 +62,8 @@ class RevenueKPIsDashboard(http.Controller):
             else:
                 starting_value = float(len(cohort_subs))
             cohort_line = []
-            cohort_line.append({
-                'value': starting_value,
-                'percentage': 100,
-                'domain': cohort_group['__domain'],
-            })
 
-            for ij in range(1, 16):
+            for ij in range(0, 16):
                 ij_start_date = cohort_date
                 if cohort_period == 'day':
                     ij_start_date += relativedelta(days=ij)
@@ -99,7 +94,8 @@ class RevenueKPIsDashboard(http.Controller):
                 else:
                     churned_value = len(churned_subs)
 
-                cohort_remaining = cohort_line[-1]['value'] - churned_value
+                previous_cohort_remaining = starting_value if ij == 0 else cohort_line[-1]['value']
+                cohort_remaining = previous_cohort_remaining - churned_value
                 cohort_line_ij = {
                     'value': cohort_remaining,
                     'percentage': starting_value and round(100*(cohort_remaining)/starting_value, 1) or 0,
@@ -111,6 +107,8 @@ class RevenueKPIsDashboard(http.Controller):
 
             cohort_report.append({
                 'period': tf,
+                'starting_value': starting_value,
+                'domain': cohort_group['__domain'],
                 'values': cohort_line,
             })
 
