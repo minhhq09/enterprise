@@ -26,6 +26,15 @@ CANCEL_SHIPMENT_ADDRESS = {'ID': '308ABC004378',
 ZIP_ZIP4 = re.compile('^[0-9]{5}(-[0-9]{4})?$')
 
 
+def split_zip(zipcode):
+    '''If zipcode is a ZIP+4, split it into two parts.
+       Else leave it unchanged '''
+    if ZIP_ZIP4.match(zipcode) and '-' in zipcode:
+        return zipcode.split('-')
+    else:
+        return [zipcode, '']
+
+
 class USPSRequest():
 
     def __init__(self, usps_test_mode):
@@ -87,8 +96,8 @@ class USPSRequest():
             'ID': carrier.sudo().usps_username,
             'revision': "2",
             'package_id': '%s%d' % ("PKG", order.id),
-            'ZipOrigination': order.warehouse_id.partner_id.zip,
-            'ZipDestination': order.partner_shipping_id.zip,
+            'ZipOrigination': split_zip(order.warehouse_id.partner_id.zip)[0],
+            'ZipDestination': split_zip(order.partner_shipping_id.zip)[0],
             'FirstClassMailType': carrier.usps_first_class_mail_type,
             'Pounds': total_weight['pound'],
             'Ounces': total_weight['ounce'],
@@ -217,6 +226,8 @@ class USPSRequest():
             'AltReturnCountry': carrier.usps_redirect_partner_id.country_id.name,
             'Machinable': str(carrier.usps_machinable),
             'Container': carrier.usps_container,
+            # We pass the function so that the template can use it too
+            'func_split_zip': split_zip,
         }
         return shipping_detail
 
@@ -263,6 +274,7 @@ class USPSRequest():
 
     def _usps_cancel_shipping_data(self, usps_test_mode, picking):
         if not usps_test_mode:
+            zip5, zip4 = split_zip(picking.picking_type_id.warehouse_id.partner_id.zip)
             return {
                 'ID': picking.carrier_id.sudo().usps_username,
                 'FirmName': picking.picking_type_id.warehouse_id.partner_id.name,
@@ -271,8 +283,8 @@ class USPSRequest():
                 'Urbanization': '',
                 'City': picking.picking_type_id.warehouse_id.partner_id.city,
                 'State': picking.picking_type_id.warehouse_id.partner_id.state_id.code,
-                'ZIP5': picking.picking_type_id.warehouse_id.partner_id.zip,
-                'ZIP4': '',
+                'ZIP5': zip5,
+                'ZIP4': zip4,
                 'ConfirmationNumber': picking.carrier_tracking_ref
             }
         return CANCEL_SHIPMENT_ADDRESS
