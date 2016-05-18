@@ -121,6 +121,11 @@ var GanttView = View.extend({
             gantt.config.round_dnd_dates = true;
         }
 
+        // Set resizing of tasks
+        if (fields_view_get.arch.attrs.drag_resize === '0' || fields_view_get.arch.attrs.drag_resize === 'false') {
+            gantt.config.drag_resize = false;
+        }
+
         // Configure the duration_unit
         if (this.fields_view.arch.attrs.duration_unit) {
             gantt.config.duration_unit = this.fields_view.arch.attrs.duration_unit;
