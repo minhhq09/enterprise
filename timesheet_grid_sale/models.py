@@ -43,7 +43,7 @@ class AnalyticLine(models.Model):
         # analytics. Semantically we should roundtrip through employee_ids,
         # but that's an o2m so (lines).mapped('user_id.employee_ids.user_id')
         # should give the same result as (lines).mapped('user_id')
-        self.search([('user_id', 'in', self.mapped('user_id').ids)]) \
+        self.search(['&', ('is_timesheet', '=', True), ('user_id', 'in', self.mapped('user_id').ids)]) \
             .mapped('so_line') \
             .sudo() \
             ._compute_analytic()
