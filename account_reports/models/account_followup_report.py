@@ -3,11 +3,9 @@
 
 from openerp import models, fields, api, tools
 from datetime import datetime
-from hashlib import md5
 from openerp.tools.misc import formatLang
 from openerp.tools.translate import _
 import time
-from openerp.tools.safe_eval import safe_eval
 from openerp.tools import append_content_to_html, DEFAULT_SERVER_DATE_FORMAT
 import math
 
