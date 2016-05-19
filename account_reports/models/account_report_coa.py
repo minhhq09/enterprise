@@ -74,7 +74,7 @@ class report_account_coa(models.AbstractModel):
                         'id': title_index,
                         'type': 'line',
                         'name': level and title_index or (_("Class %s") % title_index),
-                        'footnotes': [],
+                        'footnotes': {},
                         'columns': total2,
                         'level': level+1,
                         'unfoldable': False,

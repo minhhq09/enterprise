@@ -104,6 +104,30 @@
     <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or ''])">
         <h2 t-esc="report.get_title()"/>
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
+        <div class="row" t-if="mode == 'print'" style='margin-top: 20px; margin-bottom: 20px;'>
+            <div class="col-xs-4">
+                <t t-if="context.get_report_obj().get_report_type() in ['no_date_range', 'bank_reconciliation']"><t t-raw="context.get_full_date_names(context.date_to)" /></t>
+                <t t-if="context.get_report_obj().get_report_type() not in ['no_date_range', 'bank_reconciliation']"><t t-raw="context.get_full_date_names(context.date_to, context.date_from)" /></t>
+            </div>
+            <div class="col-xs-4">
+                <t t-if="context.cash_basis">Cash Basis</t><t t-if="not context.cash_basis">Accrual Basis</t><br/>
+                <t t-if="context.all_entries">With Draft Entries</t><t t-if="not context.all_entries">Posted Entries Only</t>
+            </div>
+            <div class="col-xs-4">
+                <t t-if="context.multi_company">
+                    Companies:
+                    <t t-foreach="context.company_ids" t-as="c">
+                        <t t-esc="c.name" /><br/>
+                    </t>
+                </t>
+                <t t-if="context.get_report_obj().get_name() == 'general_ledger'">
+                    Journals:
+                    <t t-foreach="context.journal_ids" t-as="j">
+                        <t t-esc="j.code" />
+                    </t>
+                </t>
+            </div>
+        </div>
         <div t-if="mode != 'print' and context.summary == ''" class="o_account_reports_summary">
             <div class="addSummary" role="alert">
                 <span><input type='text' class="o_form_input o_form_field" name='summary' placeholder='Click to add an introductory explanation' /></span>
@@ -137,9 +161,9 @@
                 </tbody>
             </table>
         </div>
-        <t t-foreach="context.footnotes" t-as="footnote">
-            <p class="footnote" t-att-id="'footnote' + str(footnote.number)">
-                <span class='text'><t t-raw="str(footnote.number) + '. ' + footnote.text"/></span>
+        <t t-foreach="footnotes" t-as="footnote">
+            <p class="footnote" t-att-id="'footnote' + str(footnote['number'])">
+                <span class='text'><t t-raw="str(footnote['number']) + '. ' + footnote['text']"/></span>
                 <span class='o_account_reports_footnote_icons'><i class="fa fa-fw fa-pencil-square"></i><i class="fa fa-fw fa-trash-o"></i></span>
             </p>
         </t>

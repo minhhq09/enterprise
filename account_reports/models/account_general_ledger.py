@@ -203,7 +203,7 @@ class report_account_general_ledger(models.AbstractModel):
                         'id': account.id,
                         'type': 'too_many',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
-                        'footnotes': [],
+                        'footnotes': {},
                         'colspan': 8,
                         'columns': [],
                         'level': 3,

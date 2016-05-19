@@ -249,13 +249,19 @@ var ReportWidget = Widget.extend({
                 new Model('account.report.context.common').call('get_full_report_name_by_report_name', [report_name]).then(function (result) {
                     var reportObj = new Model(result);
                     var f = function (lines) {// After loading the line
-                        self.context_model.call('get_columns_types', [[parseInt(context_id, 10)]]).then(function (types) {
-                            var line;
-                            lines.shift();
-                            for (line in lines) { // Render each line
-                                $cursor.after(QWeb.render("report_financial_line", {l: lines[line], types: types}));
-                                $cursor = $cursor.next();
+                        return self.context_model.call('get_footnotes_from_lines', [[parseInt(context_id, 10)], lines]).then(function (footnotes) {
+                            var footnote;
+                            for (footnote in footnotes) {
+                                self.$("div.o_account_reports_page").append(QWeb.render("savedFootNote", {num: footnotes[footnote].number, note: footnotes[footnote].text}));
                             }
+                            self.context_model.call('get_columns_types', [[parseInt(context_id, 10)]]).then(function (types) {
+                                var line;
+                                lines.shift();
+                                for (line in lines) { // Render each line
+                                    $cursor.after(QWeb.render("report_financial_line", {l: lines[line], types: types}));
+                                    $cursor = $cursor.next();
+                                }
+                            });
                         });
                     };
                     if (report_name === 'financial_report') { // Fetch the report_id first if needed
