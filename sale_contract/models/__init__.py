@@ -2,3 +2,4 @@ import sale_subscription
 import product
 import res_partner
 import sale_order
+import account_analytic_account

@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-import sale_contract_report
+import sale_subscription_report
