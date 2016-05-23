@@ -8,14 +8,17 @@ class SaleSubscription(models.Model):
     asset_category_id = fields.Many2one('account.asset.category', 'Deferred Revenue Category',
                                         help="This asset category will be applied to the lines of the contract's invoices.",
                                         domain="[('type','=','sale')]")
+    template_asset_category_id = fields.Many2one('account.asset.category', 'Deferred Revenue Category',
+                                        help="This asset category will be applied to the subscriptions based on this template. This field is company-dependent.",
+                                        domain="[('type','=','sale')]", company_dependent=True)
 
     @api.multi
     def on_change_template(self, template_id):
         res = super(SaleSubscription, self).on_change_template(template_id)
 
         template = self.browse(template_id)
-        if template.asset_category_id:
-            res['value']['asset_category_id'] = template.asset_category_id.id
+        if template.template_asset_category_id:
+            res['value']['asset_category_id'] = template.template_asset_category_id.id
 
         return res
 
