@@ -127,6 +127,7 @@ var GanttView = View.extend({
         }
         
         // the class of the task bar
+        var self = this;
         gantt.templates.task_class = function (start, end, task) {
             var classes = ["o_gantt_color" + task.color + "_0"];
             if (self.type === "consolidate" || self.type === "planning") {

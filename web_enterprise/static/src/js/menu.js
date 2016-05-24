@@ -15,6 +15,7 @@ var Menu = Widget.extend({
     template: 'Menu',
     events: {
         'click .o_menu_toggle': function () {
+            ev.preventDefault();
             this.trigger_up((this.appswitcher_displayed)? 'hide_app_switcher' : 'show_app_switcher');
             this.$el.parent().removeClass('o_mobile_menu_opened');
         },
