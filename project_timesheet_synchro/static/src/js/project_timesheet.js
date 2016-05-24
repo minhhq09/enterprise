@@ -650,6 +650,12 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.isDesktop = parent.isDesktop;
             this.time_module = time_module;  // Makes the time_module accessible inside qweb templates
             this.has_been_loaded = false;
+
+            Object.defineProperty(this, 'today', {
+                get: function () {
+                    return time_module.date_to_str(new Date());
+                }
+            });
         },
         start: function() {
             var self = this;
@@ -787,7 +793,6 @@ odoo.define('project_timeshee.ui', function (require ) {
             var self = this;
             this._super(parent);
             this.motivation_text = this.get_motivation_text();
-            this.today = time_module.date_to_str(new Date());
             // Flags to select daily or weekly view
             this.show_week = false;
             this.show_today = true;
@@ -1042,7 +1047,7 @@ odoo.define('project_timeshee.ui', function (require ) {
         // Each entry of the list is a [project, task] pair, where task might be false.
         make_day_plan_list: function() {
             var self = this;
-            var today = time_module.date_to_str(new Date());
+            var today = this.today;
             var aals = self.getParent().data.account_analytic_lines;
             self.day_plan_list = [];
             _.each(aals, function(aal) {
@@ -1076,7 +1081,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                 id : MODULE_KEY + self.getParent().sanitize_xml_id(self.getParent().user + self.getParent().data.original_timestamp + "_aal_" + self.getParent().data.next_aal_id),
                 project_id : event.currentTarget.dataset.project_id,
                 task_id : task_id,
-                date : time_module.date_to_str(new Date()),
+                date : self.today,
                 unit_amount : 0,
                 desc : " ",
                 to_sync : true,
@@ -1216,7 +1221,6 @@ odoo.define('project_timeshee.ui', function (require ) {
         init: function(parent) {
             var self = this;
             this._super(parent);
-            this.today = time_module.date_to_str(new Date());
             _.extend(self.events,
                 {
                     "change input.pt_activity_duration":"on_change_duration",
@@ -1900,6 +1904,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     alert("Could not find server. Please check that the url you entered is correct.");
                 } else {
                     // Re render the form with a field allowing to enter a database name. Useful for servers that don't allow listing databases.
+                    self.use_https = (protocol === 'https://');
                     self.url = server_address;
                     self.show_db_field = true;
                     self.renderElement();

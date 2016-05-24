@@ -69,7 +69,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name in SKIPPABLE_ERRORS:
+            if e.name.strip() in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
@@ -114,7 +114,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name in SKIPPABLE_ERRORS:
+            if e.name.strip() in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
@@ -172,7 +172,7 @@ class TestDeliveryFedex(TransactionCase):
             self.assertEquals(picking.carrier_price, 0.0, "Carrier price has not been properly deleted")
 
         except ValidationError as e:
-            if e.name in SKIPPABLE_ERRORS:
+            if e.name.strip() in SKIPPABLE_ERRORS:
                 raise unittest.SkipTest(SKIP_MSG)
             else:
                 raise e
