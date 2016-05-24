@@ -51,7 +51,7 @@ class crm_phonecall(models.Model):
     opportunity_id = fields.Many2one('crm.lead', 'Lead/Opportunity', ondelete='cascade', track_visibility='onchange')
 
     _defaults = {
-        'date': fields.Datetime.now(),
+        'date': fields.Datetime.now,
         'priority': '1',
         'state':  'open',
         'user_id': lambda self, cr, uid, ctx: uid,

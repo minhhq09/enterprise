@@ -158,6 +158,14 @@ class AccountReportContextCommon(models.TransientModel):
             result.update({footnote.column: footnote.number})
         return result
 
+    @api.multi
+    def get_footnotes_from_lines(self, lines):
+        footnotes = self.env['account.report.footnote']
+        for line in lines:
+            if 'footnotes' in line:
+                footnotes = footnotes | self.env['account.report.footnote'].search([('number', 'in', line['footnotes'].values()), ('id', 'in', self.footnotes.ids)])
+        return [{'number': f.number, 'text': f.text} for f in footnotes]
+
     fold_field = ''
     date_from = fields.Date("Start date")
     date_to = fields.Date("End date")
@@ -236,8 +244,8 @@ class AccountReportContextCommon(models.TransientModel):
             else:
                 return str(dt_to.year - 1) + ' - ' + str(dt_to.year)
         if not dt_from:
-            return _('(As of %s)') % (date_to,)
-        return _('(From %s <br/> to  %s)') % (date_from, date_to)
+            return _('As of %s') % (date_to,)
+        return _('From %s <br/> to  %s') % (date_from, date_to)
 
     def get_cmp_date(self):
         if not self.get_report_obj().get_report_type().date_range:
@@ -391,6 +399,7 @@ class AccountReportContextCommon(models.TransientModel):
     def get_pdf(self):
         report_obj = self.get_report_obj()
         lines = report_obj.with_context(print_mode=True).get_lines(self)
+        footnotes = self.get_footnotes_from_lines(lines)
         base_url = self.env['ir.config_parameter'].sudo().get_param('report.url') or self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         rcontext = {
             'mode': 'print',
@@ -400,7 +409,7 @@ class AccountReportContextCommon(models.TransientModel):
 
         body = self.pool['ir.ui.view'].render_template(
             self._cr, self._uid, "account_reports.report_financial_letter",
-            values=dict(rcontext, lines=lines, report=report_obj, context=self),
+            values=dict(rcontext, lines=lines, footnotes=footnotes, report=report_obj, context=self),
             context=self.env.context
         )
 
@@ -457,6 +466,7 @@ class AccountReportContextCommon(models.TransientModel):
             'context': self,
             'report': self.get_report_obj(),
             'lines': lines,
+            'footnotes': self.get_footnotes_from_lines(lines),
             'mode': 'display',
         }
         result['html'] = self.env['ir.model.data'].xmlid_to_object(self.get_report_obj().get_template()).render(rcontext)

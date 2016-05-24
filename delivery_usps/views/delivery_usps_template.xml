@@ -145,8 +145,8 @@
             </t>
             <FromCity t-esc="picking_warehouse_partner.city"/>
             <FromState t-esc="picking_warehouse_partner.state_id.code"/>
-            <FromZip5 t-esc="picking_warehouse_partner.zip"/>
-            <FromZip4 />
+            <FromZip5 t-esc="func_split_zip(picking_warehouse_partner.zip)[0]"/>
+            <FromZip4 t-esc="func_split_zip(picking_warehouse_partner.zip)[1]"/>
             <FromPhone t-esc="picking_warehouse_partner_phone"/>
             <t t-if="not picking_partner.is_company">
                 <ToFirstName t-esc="picking_partner.display_name"/>
@@ -265,8 +265,8 @@
             </t>
             <FromCity t-esc="picking_warehouse_partner.city"/>
             <FromState t-esc="picking_warehouse_partner.state_id.code"/>
-            <FromZip5 t-esc="picking_warehouse_partner.zip"/>
-            <FromZip4 />
+            <FromZip5 t-esc="func_split_zip(picking_warehouse_partner.zip)[0]"/>
+            <FromZip4 t-esc="func_split_zip(picking_warehouse_partner.zip)[1]"/>
             <FromPhone t-esc="picking_warehouse_partner_phone"/>
             <t t-if="not picking_partner.is_company">
                 <ToFirstName t-esc="picking_partner.display_name"/>
@@ -292,8 +292,8 @@
             </t>
             <ToCity t-esc="picking_partner.city"/>
             <ToState t-esc="picking_partner.state_id.code"/>
-            <ToZip5 t-esc="picking_partner.zip"/>
-            <ToZip4 />
+            <ToZip5 t-esc="func_split_zip(picking_partner.zip)[0]"/>
+            <ToZip4 t-esc="func_split_zip(picking_partner.zip)[1]"/>
             <ToPOBoxFlag t-esc="ToPOBoxFlagDom" />
             <ToPhone />
             <WeightInOunces t-esc="WeightInOunces"/>
@@ -348,8 +348,8 @@
             </t>
             <FromCity t-esc="picking_warehouse_partner.city"/>
             <FromState t-esc="picking_warehouse_partner.state_id.code"/>
-            <FromZip5 t-esc="picking_warehouse_partner.zip"/>
-            <FromZip4 />
+            <FromZip5 t-esc="func_split_zip(picking_warehouse_partner.zip)[0]"/>
+            <FromZip4 t-esc="func_split_zip(picking_warehouse_partner.zip)[1]"/>
             <t t-if="not picking_partner.is_company">
                 <ToName t-esc="picking_partner.display_name"/>
                 <ToFirm/>
@@ -373,8 +373,8 @@
 
             <ToCity t-esc="picking_partner.city"/>
             <ToState t-esc="picking_partner.state_id.code"/>
-            <ToZip5 t-esc="picking_partner.zip"/>
-            <ToZip4 />
+            <ToZip5 t-esc="func_split_zip(picking_partner.zip)[0]"/>
+            <ToZip4 t-esc="func_split_zip(picking_partner.zip)[1]"/>
             <ToPOBoxFlag/>
             <WeightInOunces t-esc="WeightInOunces"/>
 

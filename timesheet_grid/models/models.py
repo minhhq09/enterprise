@@ -14,6 +14,22 @@ class AnalyticLine(models.Model):
     amount = fields.Monetary(copy=False)
     validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
     project_id = fields.Many2one(domain=[('allow_timesheets', '=', True)])
+    is_timesheet = fields.Boolean(
+        string="Timesheet Line",
+        compute='_compute_is_timesheet', search='_search_is_timesheet',
+        help="Set if this analytic line represents a line of timesheet.")
+
+    @api.multi
+    @api.depends('project_id')
+    def _compute_is_timesheet(self):
+        for line in self:
+            line.is_timesheet = bool(line.project_id)
+
+    def _search_is_timesheet(self, operator, value):
+        if (operator, value) in [('=', True), ('!=', False)]:
+            return [('project_id', '!=', False)]
+
+        return [('project_id', '=', False)]
 
     @api.multi
     def validate(self):

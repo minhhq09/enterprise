@@ -34,7 +34,7 @@ var AppSwitcher = Widget.extend({
         },
         'click .o_menuitem': function (e) {
             e.preventDefault();
-            var menu_id = $(event.target).data('menu');
+            var menu_id = $(e.currentTarget).data('menu');
             this.open_menu(_.findWhere(this.menu_data, {id: menu_id}));
         },
     },

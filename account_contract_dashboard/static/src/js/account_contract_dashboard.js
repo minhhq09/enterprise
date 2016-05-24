@@ -1116,7 +1116,7 @@ var account_contract_dashboard_salesman = Widget.extend(ControlPanelMixin, {
 var account_contract_dashboard_cohort = account_contract_dashboard_abstract.extend({
 
     events: {
-        'click .js_heat': 'on_cohort_table',
+        'click .js_to_subs': 'on_cohort_table',
     },
 
     init: function(parent, context) {
@@ -1181,9 +1181,9 @@ var account_contract_dashboard_cohort = account_contract_dashboard_abstract.exte
     on_cohort_table: function(ev) {
 
         var row = $(ev.currentTarget).data().row;
-        var line = $(ev.currentTarget).data().line;
+        var column = $(ev.currentTarget).data().column;
 
-        var cell_content = this.cohort_report[row].values[line];
+        var cell_content = this.cohort_report[row].values[column] || this.cohort_report[row];
         var subs_domain = cell_content && cell_content.domain || [];
 
         if (!subs_domain.length) {
@@ -1198,7 +1198,7 @@ var account_contract_dashboard_cohort = account_contract_dashboard_abstract.exte
             type: 'ir.actions.act_window',
             res_model: 'sale.subscription',
             views: [[false, 'list'], [false, 'form']],
-            name: 'Churned Subscriptions',
+            name: column === undefined && _t('Subscriptions') || _t('Churned Subscriptions'),
             domain: subs_domain,
         }, options);
     },
