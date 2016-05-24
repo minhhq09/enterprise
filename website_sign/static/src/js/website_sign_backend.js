@@ -1487,9 +1487,15 @@ odoo.define('website_sign.backend', function(require) {
 
         return getPartnerSelectConfiguration.def;
 
+        function ensure_strings(partner) {
+            partner['name'] = partner['name'] || '';
+            partner['email'] = partner['email'] || '';
+        }
+
         function process_partners(data) {
             var $partnerSelect = $('<select><option/></select>');
             for(var i = 0 ; i < data.length ; i++) {
+                ensure_strings(data[i]);
                 $partnerSelect.append($('<option/>', {
                     value: data[i]['id'],
                     text: JSON.stringify(data[i]),

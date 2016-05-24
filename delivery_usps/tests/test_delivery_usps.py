@@ -22,7 +22,7 @@ class TestDeliveryUSPS(TransactionCase):
                                      'city': 'Cupertino',
                                      'state_id': self.env.ref('base.state_us_13').id,
                                      'country_id': self.env.ref('base.us').id,
-                                     'zip': '95014'})
+                                     'zip': '95014-2083'})
 
     @unittest.skip("USPS test disabled: We do not want to overload USPS with runbot's requests")
     def test_01_usps_basic_us_domestic_flow(self):
