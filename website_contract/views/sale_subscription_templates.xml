@@ -164,9 +164,12 @@
                                 </tbody>
                             </table>
                             <div t-if="account.state in ['pending','close']" t-attf-class="alert alert-#{'warning' if account.state=='pending' else 'danger'}" role="alert" id="payment_message">
-                                <p t-if="account.state == 'pending'" id='warning_pending'>Your contract is waiting for payment.</p>
-                                <div t-if="payment_mandatory and allow_reopen and account.state!='open'">
-                                    <p t-if="allow_reopen and account.state == 'close'">Your account is closed. If you wish to reopen it, you can pay your invoice for the current invoicing period.</p>
+                                <p t-if="account.state == 'pending'" id='warning_pending'>Your subscription is waiting for payment.</p>
+                                <div t-if="payment_mandatory and account.state!='open'">
+                                    <p id="wc_warning_closed" t-if="account.state == 'close'">Your subscription is closed.
+                                        <t t-if="missing_periods == 1">If you wish to reopen it, you can pay your invoice for the current invoicing period.</t>
+                                        <t t-if="missing_periods &gt; 1">If you wish to reopen it, the <t t-esc="missing_periods"/> missing payments (from <span t-field="account.recurring_next_date"/> to this day) will be automatically processed.</t>
+                                    </p>
                                     <form method="post" class="mt16 clearfix" id="wc-payment-form" t-attf-action="/my/contract/payment/#{account.id}/#{account.uuid}">
                                         <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         <div class="form-group">
@@ -183,7 +186,7 @@
                                         <div class="clearfix"></div>
                                         <button type="submit" t-attf-class="mt8 btn btn-primary btn-sm pull-right contract-submit #{'hidden' if not account.payment_method_id else ''}">Pay Now</button>
                                     </form>
-                                    <div id="new_payment_method" t-if="account.state == 'pending' or (account.state == 'close' and allow_reopen)" t-attf-class="#{'hidden' if account.payment_method_id else ''} clearfix">
+                                    <div id="new_payment_method" t-if="account.state in ['pending', 'close']" t-attf-class="#{'hidden' if account.payment_method_id else ''} clearfix">
                                         <div t-if="error_message" class="alert alert-danger">
                                           <t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
                                         </div>

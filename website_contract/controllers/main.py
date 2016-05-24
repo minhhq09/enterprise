@@ -49,9 +49,8 @@ class website_contract(http.Controller):
         display_close = account.template_id.sudo().user_closable and account.state != 'close'
         active_plan = account.template_id.sudo()
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-        invoicing_period = relativedelta(**{periods[account.recurring_rule_type]: account.recurring_interval})
-        limit_date = datetime.datetime.strptime(account.recurring_next_date, '%Y-%m-%d') + invoicing_period
-        allow_reopen = datetime.datetime.today() < limit_date
+        rel_period = relativedelta(datetime.datetime.today(), datetime.datetime.strptime(account.recurring_next_date, '%Y-%m-%d'))
+        missing_periods = getattr(rel_period, periods[account.recurring_rule_type]) + 1
         dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_action')
         account_templates = account_res.sudo().search([
             ('type', '=', 'template'),
@@ -64,7 +63,7 @@ class website_contract(http.Controller):
             'account': account,
             'display_close': display_close,
             'close_reasons': request.env['sale.subscription.close.reason'].search([]),
-            'allow_reopen': allow_reopen,
+            'missing_periods': missing_periods,
             'inactive_options': inactive_options,
             'payment_mandatory': active_plan.payment_mandatory,
             'user': request.env.user,
