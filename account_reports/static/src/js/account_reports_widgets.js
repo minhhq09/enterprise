@@ -46,6 +46,7 @@ var ReportWidget = Widget.extend({
         var action_name = $(e.target).data('action-name');
         var active_id = $(e.target).data('active-id');
         var res_model = $(e.target).data('res-model');
+        var view_id = $(e.target).data('view-id') || false;
         var action_domain = $(e.target).data('action-domain');
         var force_context = $(e.target).data('force-context');
         var additional_context = {};
@@ -57,7 +58,7 @@ var ReportWidget = Widget.extend({
                 type: 'ir.actions.act_window',
                 res_model: res_model,
                 res_id: active_id,
-                views: [[false, 'form']],
+                views: [[view_id, 'form']],
                 target: 'current'
             });
         }
