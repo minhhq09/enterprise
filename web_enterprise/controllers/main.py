@@ -25,23 +25,6 @@ openerp.service.common.RPC_VERSION_1.update(
 #----------------------------------------------------------
 # OpenERP Web web Controllers
 #----------------------------------------------------------
-def db_info():
-    cr, uid, context = request.cr, request.uid, request.context
-    version_info = openerp.service.common.exp_version()
-    if request.registry['res.users'].has_group(cr, uid, 'base.group_system'):
-        warn_enterprise = 'admin'
-    elif request.registry['res.users'].has_group(cr, uid, 'base.group_user'):
-        warn_enterprise = 'user'
-    else:
-        warn_enterprise = False
-    return {
-        'server_version': version_info.get('server_version'),
-        'server_version_info': version_info.get('server_version_info'),
-        'expiration_date': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_date', context=context),
-        'expiration_reason': request.registry['ir.config_parameter'].get_param(cr, openerp.SUPERUSER_ID, 'database.expiration_reason', context=context),
-        'warning': warn_enterprise,
-    }
-
 class Home(http.Controller):
 
     # ideally, this route should be `auth="user"` but that don't work in non-monodb mode.
@@ -54,4 +37,7 @@ class Home(http.Controller):
             return werkzeug.utils.redirect(kw.get('redirect'), 303)
 
         request.uid = request.session.uid
-        return request.render('web.webclient_bootstrap', qcontext={'db_info': json.dumps(db_info())})
+        context = {
+            'session_info': json.dumps(request.env['ir.http'].session_info()),
+        }
+        return request.render('web.webclient_bootstrap', qcontext=context)

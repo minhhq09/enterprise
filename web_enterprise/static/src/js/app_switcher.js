@@ -4,8 +4,6 @@ odoo.define('web_enterprise.AppSwitcher', function (require) {
 var config = require('web.config');
 var core = require('web.core');
 var Widget = require('web.Widget');
-var Model = require('web.Model');
-var utils = require('web.utils');
 
 var QWeb = core.qweb;
 var NBR_ICONS = 6;
@@ -229,6 +227,7 @@ odoo.define('web_enterprise.ExpirationPanel', function (require) {
 
 var core = require('web.core');
 var Model = require('web.Model');
+var session = require('web.session');
 var utils = require('web.utils');
 var AppSwitcher = require('web_enterprise.AppSwitcher');
 
@@ -252,55 +251,21 @@ AppSwitcher.include({
     /** Checks for the database expiration date and display a warning accordingly. */
     enterprise_expiration_check: function() {
         var self = this;
-        if (!self.session) {
+
+        // don't show the expiration warning for portal users
+        if (!(session.warning))  {
             return;
         }
-        var P = new Model('ir.config_parameter');
-        if (!odoo.db_info) {
-            $.when(
-                this.session.user_has_group('base.group_user'),
-                this.session.user_has_group('base.group_system'),
-                P.call('get_param', ['database.expiration_date']),
-                P.call('get_param', ['database.enterprise_code']),
-                P.call('get_param', ['database.expiration_reason'])
-            ).then(function(is_user, is_admin, dbexpiration_date, dbenterprise_code, dbexpiration_reason) {
-                // don't show the expiration warning for portal users
-                if (!is_user) {
-                    return;
-                }
-                var today = new moment();
-                // if no date found, assume 1 month and hope for the best
-                dbexpiration_date = new moment(dbexpiration_date || new moment().add(30, 'd'));
-                var duration = moment.duration(dbexpiration_date.diff(today));
-                var options = {
-                    'diffDays': Math.round(duration.asDays()),
-                    'dbexpiration_reason': dbexpiration_reason,
-                    'warning': is_admin?'admin':(is_user?'user':false),
-                    'dbenterprise_code': dbenterprise_code
-                };
-                self.enterprise_show_panel(options);
-            });
-        } else {
-            $.when(
-                P.call('get_param', ['database.enterprise_code'])
-            ).then(function(dbenterprise_code) {
-                // don't show the expiration warning for portal users
-                if (!(odoo.db_info.warning))  {
-                    return;
-                }
-                var today = new moment();
-                // if no date found, assume 1 month and hope for the best
-                var dbexpiration_date = new moment(odoo.db_info.expiration_date || new moment().add(30, 'd'));
-                var duration = moment.duration(dbexpiration_date.diff(today));
-                var options = {
-                    'diffDays': Math.round(duration.asDays()),
-                    'dbexpiration_reason': odoo.db_info.expiration_reason,
-                    'warning': odoo.db_info.warning,
-                    'dbenterprise_code': dbenterprise_code
-                };
-                self.enterprise_show_panel(options);
-            });
-        }
+        var today = new moment();
+        // if no date found, assume 1 month and hope for the best
+        var dbexpiration_date = new moment(session.expiration_date || new moment().add(30, 'd'));
+        var duration = moment.duration(dbexpiration_date.diff(today));
+        var options = {
+            'diffDays': Math.round(duration.asDays()),
+            'dbexpiration_reason': session.expiration_reason,
+            'warning': session.warning,
+        };
+        self.enterprise_show_panel(options);
     },
     enterprise_show_panel: function(options) {
         //Show expiration panel 30 days before the expiry
@@ -309,9 +274,8 @@ AppSwitcher.include({
         if ((options.diffDays <= 30 && !hide_cookie) || options.diffDays <= 0) {
 
             var expiration_panel = $(QWeb.render('WebClient.database_expiration_panel', {
-                has_mail: _.includes(odoo._modules, 'mail'),
+                has_mail: _.includes(session.module_list, 'mail'),
                 diffDays: options.diffDays,
-                dbenterprise_code:options.dbenterprise_code,
                 dbexpiration_reason:options.dbexpiration_reason,
                 warning: options.warning
             })).insertBefore(self.$menu_search);
