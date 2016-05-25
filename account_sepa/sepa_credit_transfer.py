@@ -13,7 +13,7 @@ from openerp.exceptions import UserError, ValidationError
 
 
 def check_valid_SEPA_str(string):
-    if re.search('[^-A-Za-z0-9/?:().,\'+ ]', string) != None:
+    if re.search('[^-A-Za-z0-9/?:().,\'+ ]', string) is not None:
         raise ValidationError(_("The text used in SEPA files can only contain the following characters :\n\n"
             "a b c d e f g h i j k l m n o p q r s t u v w x y z\n"
             "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"
@@ -26,13 +26,13 @@ def prepare_SEPA_string(string):
     """
     if not string:
         return ''
-    while '//' in string: # No double slash allowed
+    while '//' in string:  # No double slash allowed
         string = string.replace('//', '/')
-    while string.startswith('/'): # No leading slash allowed
+    while string.startswith('/'):  # No leading slash allowed
         string = string[1:]
-    while string.endswith('/'): # No ending slash allowed
+    while string.endswith('/'):  # No ending slash allowed
         string = string[:-1]
-    string = re.sub('[^-A-Za-z0-9/?:().,\'+ ]', '', string) # Only keep allowed characters
+    string = re.sub('[^-A-Za-z0-9/?:().,\'+ ]', '', string)  # Only keep allowed characters
     return string
 
 
@@ -83,7 +83,12 @@ class AccountSepaCreditTransfer(models.TransientModel):
             'is_generic': self._require_generic_message(journal, payments),
         })
 
-        xml_doc = res._create_pain_001_001_03_document(payments)
+        if journal.company_id.sepa_pain_version == 'pain.001.001.03.ch.02':
+            xml_doc = res._create_pain_001_001_03_ch_document(payments)
+        elif journal.company_id.sepa_pain_version == 'pain.001.003.03':
+            xml_doc = res._create_pain_001_003_03_document(payments)
+        else:
+            xml_doc = res._create_pain_001_001_03_document(payments)
         res.file = base64.encodestring(xml_doc)
 
         payments.write({'state': 'sent'})
@@ -106,29 +111,58 @@ class AccountSepaCreditTransfer(models.TransientModel):
         # A message is generic if :
         debtor_currency = journal.currency_id and journal.currency_id.name or journal.company_id.currency_id.name
         if debtor_currency != 'EUR':
-            return True # The debtor account is not labelled in EUR
+            return True  # The debtor account is not labelled in EUR
         for payment in payments:
             bank_account = payment.partner_bank_account_id
             if payment.currency_id.name != 'EUR':
-                return True # Any transaction in instructed in another currency than EUR
+                return True  # Any transaction in instructed in another currency than EUR
             if not bank_account.bank_bic:
-                return True # Any creditor agent is not identified by a BIC
+                return True  # Any creditor agent is not identified by a BIC
             if not bank_account.acc_type == 'iban':
-                return True # Any creditor account is not identified by an IBAN
+                return True  # Any creditor account is not identified by an IBAN
         return False
 
     def _create_pain_001_001_03_document(self, doc_payments):
-        """ :param doc_payments: recordset of account.payment to be exported in the XML document returned
+        """ Create a sepa credit transfer file that follows the European Payment Councile generic guidelines (pain.001.001.03)
+
+            :param doc_payments: recordset of account.payment to be exported in the XML document returned
+        """
+        Document = self._create_iso20022_document('pain.001.001.03')
+        return self._create_iso20022_credit_transfer(Document, doc_payments)
+
+    def _create_pain_001_001_03_ch_document(self, doc_payments):
+        """ Create a sepa credit transfer file that follows the swiss specific guidelines, as established
+            by SIX Interbank Clearing (pain.001.001.03.ch.02)
+
+            :param doc_payments: recordset of account.payment to be exported in the XML document returned
         """
         Document = etree.Element("Document", nsmap={
-            None: "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03",
-            'xsi': "http://www.w3.org/2001/XMLSchema-instance" })
+            None: "http://www.six-interbank-clearing.com/de/pain.001.001.03.ch.02.xsd",
+            'xsi': "http://www.w3.org/2001/XMLSchema-instance"})
+        return self._create_iso20022_credit_transfer(Document, doc_payments)
+
+    def _create_pain_001_003_03_document(self, doc_payments):
+        """ Create a sepa credit transfer file that follows the german specific guidelines, as established
+            by the German Bank Association (Deutsche Kreditwirtschaft) (pain.001.003.03)
+
+            :param doc_payments: recordset of account.payment to be exported in the XML document returned
+        """
+        Document = self._create_iso20022_document('pain.001.003.03')
+        return self._create_iso20022_credit_transfer(Document, doc_payments)
+
+    def _create_iso20022_document(self, pain_version):
+        Document = etree.Element("Document", nsmap={
+            None: "urn:iso:std:iso:20022:tech:xsd:%s" % (pain_version,),
+            'xsi': "http://www.w3.org/2001/XMLSchema-instance"})
+        return Document
+
+    def _create_iso20022_credit_transfer(self, Document, doc_payments):
         CstmrCdtTrfInitn = etree.SubElement(Document, "CstmrCdtTrfInitn")
 
         # Create the GrpHdr XML block
         GrpHdr = etree.SubElement(CstmrCdtTrfInitn, "GrpHdr")
         MsgId = etree.SubElement(GrpHdr, "MsgId")
-        val_MsgId = str(int(time.time()*100))[-10:]
+        val_MsgId = str(int(time.time() * 100))[-10:]
         val_MsgId = prepare_SEPA_string(self.journal_id.company_id.name[-15:]) + val_MsgId
         val_MsgId = str(random.random()) + val_MsgId
         val_MsgId = val_MsgId[-30:]
@@ -265,7 +299,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         val_InstdAmt = str(float_round(payment.amount, 2))
         max_digits = val_Ccy == 'EUR' and 11 or 15
         if len(re.sub('\.', '', val_InstdAmt)) > max_digits:
-            raise ValidationError(_("The amount of the payment '%s' is too high. The maximum permitted is %s.") % (payment.name, str(9)*(max_digits-3)+".99"))
+            raise ValidationError(_("The amount of the payment '%s' is too high. The maximum permitted is %s.") % (payment.name, str(9) * (max_digits - 3) + ".99"))
         InstdAmt = etree.SubElement(Amt, "InstdAmt", Ccy=val_Ccy)
         InstdAmt.text = val_InstdAmt
         CdtTrfTxInf.append(self._get_ChrgBr())
@@ -275,7 +309,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
         Nm.text = prepare_SEPA_string(payment.partner_id.name[:70])
         CdtTrfTxInf.append(self._get_CdtrAcct(payment.partner_bank_account_id))
         val_RmtInf = self._get_RmtInf(payment)
-        if val_RmtInf != False:
+        if val_RmtInf is not False:
             CdtTrfTxInf.append(val_RmtInf)
         return CdtTrfTxInf
 
@@ -295,8 +329,8 @@ class AccountSepaCreditTransfer(models.TransientModel):
             BIC.text = val_BIC
         elif not self.is_generic:
             raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s'") % bank_account.acc_number)
-        Nm = etree.SubElement(FinInstnId, "Nm")
-        Nm.text = prepare_SEPA_string(bank_account.bank_name) or bank and prepare_SEPA_string(bank.name) or ''
+        #Nm = etree.SubElement(FinInstnId, "Nm")
+        #Nm.text = prepare_SEPA_string(bank_account.bank_name) or bank and prepare_SEPA_string(bank.name) or ''
         if bank and bank.street and bank.city and bank.zip and bank.country:
             PstlAdr = etree.SubElement(FinInstnId, "PstlAdr")
             Ctry = etree.SubElement(PstlAdr, "Ctry")

@@ -23,12 +23,21 @@ class ResCompany(models.Model):
         if self.partner_id.country_id.code == 'BE' and self.partner_id.vat:
             return self.partner_id.vat[:2].upper() + self.partner_id.vat[2:].replace(' ', '')
 
+    def _default_sepa_pain_version(self):
+        """ Set default value for the field sepa_pain_version"""
+        if self.partner_id.country_id.code == 'DE':
+            return 'pain.001.003.03'
+        if self.partner_id.country_id.code == 'CH':
+            return 'pain.001.001.03.ch.02'
+        return 'pain.001.001.03'
+
     sepa_orgid_id = fields.Char('Identification', size=35, copy=False,
         help="Identification assigned by an institution (eg. VAT number).")
     sepa_orgid_issr = fields.Char('Issuer', size=35, copy=False,
         help="Entity that assigns the identification (eg. KBE-BCO or Finanzamt Muenchen IV).")
     sepa_initiating_party_name = fields.Char('Your Company Name', size=70, copy=False, default=lambda self: prepare_SEPA_string(self.env.user.company_id.name),
         help="Will appear in SEPA payments as the name of the party initiating the payment. Limited to 70 characters.")
+    sepa_pain_version = fields.Selection([('pain.001.001.03', 'Generic'), ('pain.001.001.03.ch.02', 'Swiss Version'), ('pain.001.003.03', 'German Version')], string='SEPA Pain Version', help='SEPA may be a generic format, some countries differ from the SEPA recommandations made by the EPC (European Payment Councile) and thus the XML created need some tweakenings.', required=True, default=_default_sepa_pain_version)
 
     @api.one
     @api.constrains('sepa_orgid_id', 'sepa_orgid_issr', 'sepa_initiating_party_name')
@@ -48,9 +57,12 @@ class ResCompany(models.Model):
             self.sepa_orgid_id = self._default_sepa_origid_id()
         if not self.sepa_orgid_issr:
             self.sepa_orgid_issr = self._default_sepa_origid_issr()
+        if not self.sepa_pain_version:
+            self.sepa_pain_version = self._default_sepa_pain_version()
 
     @api.model
     def _set_default_sepa_origid_on_existing_companies(self):
         for company in self.search([]):
             company.sepa_orgid_id = company._default_sepa_origid_id()
             company.sepa_orgid_issr = company._default_sepa_origid_issr()
+            company.sepa_pain_version = company._default_sepa_pain_version()
