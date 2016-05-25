@@ -288,7 +288,7 @@
         <field name="name">Rubriek 4: Prestaties vanuit het buitenland aan u verricht (BTW)</field>
         <field name="sequence" eval="3"/>
         <field name="level" eval="1"/>
-        <field name="formulas">balance = NLTAX_B4a.balance + NLTAX_B4b.balance</field>
+        <field name="formulas">balance = - NLTAX_B4a.balance - NLTAX_B4b.balance</field>
         <field name="parent_id" ref="financial_report_line_nl_02"/>
         <field name="special_date_changer">strict_range</field>
     </record>
