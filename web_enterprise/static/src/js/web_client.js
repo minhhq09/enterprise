@@ -251,10 +251,9 @@ return AbstractWebClient.extend({
                         .not(self.menu.$el)
                         .not('.o_loading')
                         .not('.o_chat_window')
-                        .not('.o_notification_manager')
-                        .not('.ui-autocomplete')
-                        .not('.blockUI');
-                self.$web_client_content = framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach});
+                        .not('.o_notification_manager');
+                self.web_client_content = document.createDocumentFragment();
+                framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach}).appendTo(self.web_client_content);
 
                 // Attach the app_switcher
                 framework.append(self.$el, [self.app_switcher.$el], {
@@ -270,7 +269,7 @@ return AbstractWebClient.extend({
             });
         } else {
             framework.detach([{widget: this.app_switcher}]);
-            framework.append(this.$el, [this.$web_client_content], {
+            framework.append(this.$el, [this.web_client_content], {
                 in_DOM: true,
                 callbacks: [{widget: this.action_manager}],
             });
