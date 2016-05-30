@@ -8,6 +8,20 @@ from datetime import timedelta, datetime
 import calendar
 import json
 
+MONTHS = [
+    _('January'),
+    _('February'),
+    _('March'),
+    _('April'),
+    _('May'),
+    _('June'),
+    _('July'),
+    _('August'),
+    _('September'),
+    _('October'),
+    _('November'),
+    _('December')
+]
 
 class AccountReportFootnotesManager(models.TransientModel):
     _name = 'account.report.footnotes.manager'
@@ -176,10 +190,10 @@ class AccountReportContextCommon(models.TransientModel):
         if dt_from:
             date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
-            return dt_to.strftime('%b %Y')
+            return '%s %s' % (MONTHS[dt_to.month], dt_to.year)
         if 'quarter' in self.date_filter:
             quarter = (dt_to.month - 1) / 3 + 1
-            return dt_to.strftime('Quarter #' + str(quarter) + ' %Y')
+            return dt_to.strftime(_('Quarter #') + str(quarter) + ' %Y')
         if 'year' in self.date_filter:
             if self.env.user.company_id.fiscalyear_last_day == 31 and self.env.user.company_id.fiscalyear_last_month == 12:
                 return dt_to.strftime('%Y')
