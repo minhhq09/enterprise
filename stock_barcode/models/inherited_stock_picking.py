@@ -75,6 +75,7 @@ class StockPicking(models.Model):
     def _check_product(self, product, qty=1.0):
         corresponding_po = self.pack_operation_product_ids.filtered(lambda r: r.product_id.id == product.id and not r.result_package_id and not r.location_processed)
         if corresponding_po:
+            corresponding_po = corresponding_po[0]
             if not corresponding_po.lots_visible:#product.tracking=='none':
                 new_po = False
                 last_po = False
