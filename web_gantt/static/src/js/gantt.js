@@ -122,7 +122,7 @@ var GanttView = View.extend({
         }
 
         // Set resizing of tasks
-        if (fields_view_get.arch.attrs.drag_resize === '0' || fields_view_get.arch.attrs.drag_resize === 'false') {
+        if (this.fields_view.arch.attrs.drag_resize === '0' || this.fields_view.arch.attrs.drag_resize === 'false') {
             gantt.config.drag_resize = false;
         }
 
