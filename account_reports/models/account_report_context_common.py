@@ -190,7 +190,7 @@ class AccountReportContextCommon(models.TransientModel):
         if dt_from:
             date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
-            return '%s %s' % (MONTHS[dt_to.month], dt_to.year)
+            return '%s %s' % (MONTHS[dt_to.month - 1], dt_to.year)
         if 'quarter' in self.date_filter:
             quarter = (dt_to.month - 1) / 3 + 1
             return dt_to.strftime(_('Quarter #') + str(quarter) + ' %Y')
