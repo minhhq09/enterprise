@@ -8,20 +8,6 @@ from datetime import timedelta, datetime
 import calendar
 import json
 
-MONTHS = [
-    _('January'),
-    _('February'),
-    _('March'),
-    _('April'),
-    _('May'),
-    _('June'),
-    _('July'),
-    _('August'),
-    _('September'),
-    _('October'),
-    _('November'),
-    _('December')
-]
 
 class AccountReportFootnotesManager(models.TransientModel):
     _name = 'account.report.footnotes.manager'
@@ -190,7 +176,7 @@ class AccountReportContextCommon(models.TransientModel):
         if dt_from:
             date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
-            return '%s %s' % (MONTHS[dt_to.month - 1], dt_to.year)
+            return '%s %s' % (self._get_month(dt_to.month - 1), dt_to.year)
         if 'quarter' in self.date_filter:
             quarter = (dt_to.month - 1) / 3 + 1
             return dt_to.strftime(_('Quarter #') + str(quarter) + ' %Y')
@@ -202,6 +188,12 @@ class AccountReportContextCommon(models.TransientModel):
         if not dt_from:
             return _('(As of %s)') % (date_to,)
         return _('(From %s <br/> to  %s)') % (date_from, date_to)
+
+    def _get_month(self, index):
+        return [
+            _('January'), _('February'), _('March'), _('April'), _('May'), _('June'),
+            _('July'), _('August'), _('September'), _('October'), _('November'), _('December')
+        ][index]
 
     def get_cmp_date(self):
         if self.get_report_obj().get_report_type() == 'no_date_range':
