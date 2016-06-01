@@ -49,10 +49,10 @@ class SaleOrder(models.Model):
         self.ensure_one()
         if self.require_payment:
             tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
-            payment_method = tx.payment_method_id
+            payment_token = tx.payment_token_id
         if (self.template_id and self.template_id.contract_template or self.contract_template) and not self.subscription_id \
                 and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
-            values = self._prepare_contract_data(payment_method_id=payment_method.id if self.require_payment else False)
+            values = self._prepare_contract_data(payment_token_id=payment_token.id if self.require_payment else False)
             subscription = self.env['sale.subscription'].sudo().create(values)
             subscription.name = self.partner_id.name + ' - ' + subscription.code
 
@@ -79,7 +79,7 @@ class SaleOrder(models.Model):
             return subscription
         return False
 
-    def _prepare_contract_data(self, payment_method_id=False):
+    def _prepare_contract_data(self, payment_token_id=False):
         if self.template_id and self.template_id.contract_template:
             contract_tmp = self.template_id.contract_template
         else:
@@ -93,7 +93,7 @@ class SaleOrder(models.Model):
             'manager_id': self.user_id.id,
             'date_start': fields.Date.today(),
             'description': self.note,
-            'payment_method_id': payment_method_id,
+            'payment_token_id': payment_token_id,
             'pricelist_id': self.pricelist_id.id,
             'recurring_rule_type': contract_tmp.recurring_rule_type,
             'recurring_interval': contract_tmp.recurring_interval,

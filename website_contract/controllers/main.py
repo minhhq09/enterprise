@@ -79,8 +79,8 @@ class website_contract(http.Controller):
             account = account_res.browse(account_id)
 
         acquirers = list(request.env['payment.acquirer'].search([('website_published', '=', True), ('registration_view_template_id', '!=', False)]))
-        acc_pm = account.payment_method_id
-        part_pms = account.partner_id.payment_method_ids
+        acc_pm = account.payment_token_id
+        part_pms = account.partner_id.payment_token_ids
         inactive_options = account.sudo().recurring_inactive_lines
         display_close = account.template_id.sudo().user_closable and account.state != 'close'
         active_plan = account.template_id.sudo()
@@ -146,15 +146,15 @@ class website_contract(http.Controller):
 
         # no change
         if int(kw.get('pay_meth', 0)) > 0:
-            account.payment_method_id = int(kw['pay_meth'])
+            account.payment_token_id = int(kw['pay_meth'])
 
         # we can't call _recurring_invoice because we'd miss 3DS, redoing the whole payment here
-        payment_method = account.payment_method_id
-        if payment_method:
+        payment_token = account.payment_token_id
+        if payment_token:
             invoice_values = account.sudo()._prepare_invoice()
             new_invoice = invoice_res.sudo().create(invoice_values)
             new_invoice.compute_taxes()
-            tx = account.sudo()._do_payment(payment_method, new_invoice)[0]
+            tx = account.sudo()._do_payment(payment_token, new_invoice)[0]
             if tx.html_3ds:
                 return tx.html_3ds
             get_param = self.payment_succes_msg if tx.state == 'done' else self.payment_fail_msg

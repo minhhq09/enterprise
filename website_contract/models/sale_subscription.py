@@ -23,7 +23,7 @@ class SaleSubscription(models.Model):
     recurring_inactive_lines = fields.Many2many('sale.subscription.line.option', compute="_compute_options")
     recurring_custom_lines = fields.Many2many('sale.subscription.line', compute="_compute_options")
     user_closable = fields.Boolean(string="Closable by customer", help="If checked, the user will be able to close his account from the frontend")
-    payment_method_id = fields.Many2one('payment.method', 'Payment Method', help='If not set, the default payment method of the partner will be used.', domain="[('partner_id','=',partner_id)]")
+    payment_token_id = fields.Many2one('payment.token', 'Payment Token', help='If not set, the default payment token of the partner will be used.', domain="[('partner_id','=',partner_id)]")
     payment_mandatory = fields.Boolean('Automatic Payment', help='If set, payments will be made automatically and invoices will not be generated if payment attempts are unsuccessful.')
     # add tax calculation
     recurring_amount_tax = fields.Float('Taxes', compute="_amount_all")
@@ -211,16 +211,16 @@ class SaleSubscription(models.Model):
 
     # online payments
     @api.one
-    def _do_payment(self, payment_method, invoice, two_steps_sec=True):
+    def _do_payment(self, payment_token, invoice, two_steps_sec=True):
         tx_obj = self.env['payment.transaction']
         reference = "CONTRACT-%s-%s" % (self.id, datetime.datetime.now().strftime('%y%m%d_%H%M%S'))
         values = {
             'amount': invoice.amount_total,
-            'acquirer_id': payment_method.acquirer_id.id,
+            'acquirer_id': payment_token.acquirer_id.id,
             'type': 'server2server',
             'currency_id': invoice.currency_id.id,
             'reference': reference,
-            'payment_method_id': payment_method.id,
+            'payment_token_id': payment_token.id,
             'partner_id': self.partner_id.id,
             'partner_country_id': self.partner_id.country_id.id,
             'invoice_id': invoice.id,
@@ -276,15 +276,15 @@ class SaleSubscription(models.Model):
                     # payment + invoice (only by cron)
                     if contract.template_id and contract.template_id.payment_mandatory and contract.recurring_total and automatic:
                         try:
-                            payment_method = contract.payment_method_id
-                            if payment_method:
+                            payment_token = contract.payment_token_id
+                            if payment_token:
                                 invoice_values = contract._prepare_invoice()
                                 new_invoice = self.env['account.invoice'].with_context(context_company).create(invoice_values)
                                 new_invoice.message_post_with_view('mail.message_origin_link',
                                     values = {'self': new_invoice, 'origin': contract},
                                     subtype_id = self.env.ref('mail.mt_note').id)
                                 new_invoice.with_context(context_company).compute_taxes()
-                                tx = contract._do_payment(payment_method, new_invoice, two_steps_sec=False)[0]
+                                tx = contract._do_payment(payment_token, new_invoice, two_steps_sec=False)[0]
                                 # commit change as soon as we try the payment so we have a trace somewhere
                                 cr.commit()
                                 if tx.state == 'done':
@@ -301,7 +301,7 @@ class SaleSubscription(models.Model):
                                     close_contract = current_date >= date_close.strftime('%Y-%m-%d')
                                     email_context = self.env.context.copy()
                                     email_context.update({
-                                        'payment_method': contract.payment_method_id and contract.payment_method_id.name,
+                                        'payment_token': contract.payment_token_id and contract.payment_token_id.name,
                                         'renewed': False,
                                         'total_amount': amount,
                                         'email_to': contract.partner_id.email,
@@ -374,7 +374,7 @@ class SaleSubscription(models.Model):
         _, template_id = imd_res.get_object_reference('website_contract', 'email_payment_success')
         email_context = self.env.context.copy()
         email_context.update({
-            'payment_method': self.payment_method_id.name,
+            'payment_token': self.payment_token_id.name,
             'renewed': True,
             'total_amount': tx.amount,
             'next_date': new_date.date(),

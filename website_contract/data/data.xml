@@ -37,9 +37,9 @@
             <td style="padding:0px 10px 5px 5px;font-size: 14px;">
                 <p>Hello ${object.partner_id.name},</p>
                 <p>
-                % if ctx.get('payment_method') and ctx.get('total_amount'):
+                % if ctx.get('payment_token) and ctx.get('total_amount'):
                   Our final attempt to process a payment for your subscription using your payment method
-                  ${ctx['payment_method']}
+                  ${ctx['payment_token']}
                   for ${ctx['total_amount']} ${ctx.get('currency')} failed.
                   % if ctx.get('error'):
                     Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.
@@ -105,9 +105,9 @@
             <td style="padding:0px 10px 5px 5px;font-size: 14px;">
                 <p>Hello ${object.partner_id.name},</p>
                 <p>
-                % if ctx.get('payment_method') and ctx.get('total_amount'):
+                % if ctx.get('payment_token') and ctx.get('total_amount'):
                   We were unable to process a payment for your subscription using your payment method
-                  ${ctx['payment_method']}
+                  ${ctx['payment_token']}
                   for ${ctx['total_amount']} ${ctx.get('currency')}.
                   % if ctx.get('error'):
                     Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.
@@ -178,8 +178,8 @@
                 <p>Dear ${object.partner_id.name},</p>
                 <p>
                     Your subscription (${ctx.get('code')}) has just been renewed
-                    %if ctx.get('total_amount') and ctx.get('payment_method'):
-                        via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_method']}
+                    %if ctx.get('total_amount') and ctx.get('payment_token'):
+                        via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_token']}
                         .
                     %endif
                 </p>

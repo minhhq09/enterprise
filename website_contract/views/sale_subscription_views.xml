@@ -80,7 +80,7 @@
                 <field name="partial_invoice" attrs="{'invisible': [('type','!=','template')]}"/>
             </xpath>
             <xpath expr="//notebook/page[@id='settings']/group" position="inside">
-                <field name="payment_method_id" attrs="{'invisible': [('type','!=','contract')]}"/>
+                <field name="payment_token_id" attrs="{'invisible': [('type','!=','contract')]}"/>
             </xpath>
             <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
                 <button class="oe_stat_button o_open_subscription" name="open_website_url"
