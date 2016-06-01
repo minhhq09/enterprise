@@ -27,7 +27,6 @@
         'views/crm_voip.xml',
         'views/phonecall.xml',
         'views/opportunities.xml',
-        'views/crm_voip_tip.xml',
         'views/res_config_view.xml',
         'views/res_partner_view.xml',
         'views/crm_phonecall_report_view.xml',
