@@ -64,6 +64,7 @@ var AppSwitcher = Widget.extend({
             var item = {
                 label: _.pluck(parents.slice(1), 'name').concat(menu_item.name).join(' / '),
                 id: menu_item.id,
+                xmlid: menu_item.xmlid,
                 action: menu_item.action ? menu_item.action.split(',')[1] : '',
                 is_app: !menu_item.parent_id,
             };
