@@ -28,6 +28,19 @@ class Project(models.Model):
                 }
             )
 
+        # forecast grid requires start and end dates on the project
+        if not (self.date_start and self.date):
+            return {
+                'name': self.display_name,
+                'type': 'ir.actions.act_window',
+                'res_model': 'project.project',
+                'target': 'new',
+                'res_id': self.id,
+                'view_mode': 'form',
+                'view_id': self.env.ref('project_forecast_grid.view_project_set_dates').id,
+            }
+
+
         return {
             'name': _("Forecast"),
             'type': 'ir.actions.act_window',

@@ -24,6 +24,30 @@
                 </form>
             </field>
         </record>
+        <record id="view_project_set_dates" model="ir.ui.view">
+            <field name="name">Set dates on project</field>
+            <field name="model">project.project</field>
+            <field name="priority">5000</field>
+            <field name="arch" type="xml">
+                <form string="Project Dates">
+                    <sheet>
+                        <p>
+                            Forecasting on a project requires that the project
+                            have start and end dates
+                            <group col="4">
+                                <field name="date_start" required="1"/>
+                                <field name="date" required="1"/>
+                            </group>
+                        </p>
+                    </sheet>
+                    <footer>
+                        <button string="View Forecast"
+                                type="object" name="view_monthly_forecast"
+                                class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 
         <record id="project_form_forecast_grid_button" model="ir.ui.view">
             <field name="name">project form: link forecast button to grid</field>
