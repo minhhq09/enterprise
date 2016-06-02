@@ -64,42 +64,64 @@
       <input class="oe_dial_searchbox" placeholder="Search Phone Calls..."/>
       <span class="oe_e oe_dial_search_clear">[</span>
       <div style="float:right;">
-        <a href="#">
-            <i title="Refresh the Panel" class="oe_dial_refresh_icon fa fa-refresh"></i>
+        <a href="#" class="oe_dial_icon oe_dial_keypad_icon">
+            <i title="Display Keypad" class="fa fa-table"></i>
         </a>
-        <a href="#">
-            <i title="Close the Panel" class="oe_dial_close_icon fa fa-times"></i>
+        <a href="#" class="oe_dial_icon oe_dial_refresh_icon">
+            <i title="Refresh the Panel" class="fa fa-refresh"></i>
+        </a>
+        <a href="#" class="oe_dial_icon oe_dial_close_icon">
+            <i title="Close the Panel" class="fa fa-times"></i>
         </a>
       </div>
     </div>
-    <div class="oe_dial_phonecalls"></div>
-    <div class="oe_dial_content">
-      <div class="oe_dial_callingbuttons">
-        <div class="btn-group dropup oe_dial_split_call_button">
-          <button type="button" class="btn btn-success oe_dial_call_button oe_dial_big_call_button">Call</button>
-          <button type="button" class="btn btn-success dropdown-toggle oe_call_dropdown" data-toggle="dropdown">
-          <span class="caret"></span>
-          <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-          <li><a href="#" class="oe_dial_autocall_button">Call All</a></li>
-          <li><a href="#" class="oe_dial_call_button">Call Next One</a></li>
-          </ul>
+    <div class="oe_dial_display_pannel">
+      <div class="oe_dial_phonecalls"></div>
+      <div class="oe_dial_content">
+        <div class="oe_dial_callingbuttons">
+          <div class="btn-group dropup oe_dial_split_call_button">
+            <button type="button" class="btn btn-success oe_dial_call_button oe_dial_big_call_button">Call</button>
+            <button type="button" class="btn btn-success dropdown-toggle oe_call_dropdown" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+            <li><a href="#" class="oe_dial_autocall_button">Call All</a></li>
+            <li><a href="#" class="oe_dial_call_button">Call Next One</a></li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-danger oe_dial_stop_autocall_button">Stop Automatic Call</button>
+          <button type="button" class="btn btn-danger btn-sm oe_dial_hangup_button">Hang Up</button>
+          <button type="button" class="btn btn-info btn-sm oe_dial_transfer_button">Transfer</button>
         </div>
-        <button type="button" class="btn btn-danger oe_dial_stop_autocall_button">Stop Automatic Call</button>
-        <button type="button" class="btn btn-danger btn-sm oe_dial_hangup_button">Hang Up</button>
-        <button type="button" class="btn btn-info btn-sm oe_dial_transfer_button">Transfer</button>
+        <div class="oe_dial_optionalbuttons">
+          <div class="oe_dial_actionbuttons">
+            <button type="button" class="btn btn-info btn-sm oe_dial_schedule_call">Reschedule Call</button>
+            <button type="button" class="btn btn-info btn-sm oe_dial_email">Send Email</button>
+          </div>
+          <div class="oe_dial_redirectbuttons">
+            <button type="button" class="btn btn-info btn-sm oe_dial_to_client"><i class="fa fa-arrow-circle-o-right"></i> Customer</button>
+            <button type="button" class="btn btn-info btn-sm oe_dial_to_lead"><i class="fa fa-arrow-circle-o-right"></i> Opportunity</button>
+          </div>
+        </div>
       </div>
-      <div class="oe_dial_optionalbuttons">
-        <div class="oe_dial_actionbuttons">
-          <button type="button" class="btn btn-info btn-sm oe_dial_schedule_call">Reschedule Call</button>
-          <button type="button" class="btn btn-info btn-sm oe_dial_email">Send Email</button>
-        </div>
-        <div class="oe_dial_redirectbuttons">
-          <button type="button" class="btn btn-info btn-sm oe_dial_to_client"><i class="fa fa-arrow-circle-o-right"></i> Customer</button>
-          <button type="button" class="btn btn-info btn-sm oe_dial_to_lead"><i class="fa fa-arrow-circle-o-right"></i> Opportunity</button>
-        </div>
-      </div>
+    </div>
+    <div class="oe_dial_keypad oe_dial_pannel_displayed">
+      <input class="oe_dial_keypad_input oe_dial_keypad_optional" placeholder="Enter the number..."/>
+      <div class="oe_dial_keypad_backspace fa fa-long-arrow-left oe_dial_keypad_optional" title="Backspace"/>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">1</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">2</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">3</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">4</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">5</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">6</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">7</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">8</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">9</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">*</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">0</button>
+      <button class="btn btn-sm btn-primary oe_dial_keypad_button">#</button>
+      <button class="btn btn-sm btn-success oe_dial_keypad_call_button oe_dial_keypad_optional">Call</button>
     </div>
   </div>
 </t>

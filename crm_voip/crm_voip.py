@@ -221,6 +221,14 @@ class crm_phonecall(models.Model):
             order='sequence,id')
             .get_info()}
 
+    @api.model
+    def get_new_phonecall(self, number):
+        phonecall = self.create({
+            'name': 'Call to ' + number,
+            'partner_phone': number,
+        })
+        return {"phonecall": phonecall.get_info()}
+
 
 class crm_lead(models.Model):
     _inherit = "crm.lead"
