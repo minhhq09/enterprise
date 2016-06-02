@@ -5,6 +5,10 @@ from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from openerp.osv import expression
 
+class User(models.Model):
+    _inherit = 'res.users'
+
+    resource_ids = fields.One2many('resource.resource', 'user_id')
 
 class ProjectForecast(models.Model):
     _name = 'project.forecast'
@@ -26,7 +30,7 @@ class ProjectForecast(models.Model):
     stage_id = fields.Many2one(related='task_id.stage_id', string="Task stage")
     tag_ids = fields.Many2many(related='task_id.tag_ids', string="Task tags")
 
-    time = fields.Float(string="%", default=100.0, help="Percentage of working time")
+    time = fields.Float(string="%", help="Percentage of working time", compute='_compute_time', store=True)
 
     start_date = fields.Date(default=fields.Date.today, required="True")
     end_date = fields.Date(default=default_end_date, required="True")
@@ -36,7 +40,7 @@ class ProjectForecast(models.Model):
     exclude = fields.Boolean(string="Exclude", compute='_compute_exclude', store=True)
 
     # resource
-    resource_hours = fields.Float(string="Planned hours", compute='_compute_resource_hours', store=True)
+    resource_hours = fields.Float(string="Planned hours", default=0)
     effective_hours = fields.Float(string="Effective hours", compute='_compute_effective_hours', store=True)
     percentage_hours = fields.Float(string="Progress", compute='_compute_percentage_hours', store=True)
 
@@ -69,16 +73,16 @@ class ProjectForecast(models.Model):
         self.exclude = (self.project_id.name == "Leaves")
 
     @api.one
-    @api.depends('time', 'start_date', 'end_date')
-    def _compute_resource_hours(self):
+    @api.depends('resource_hours', 'start_date', 'end_date', 'user_id.resource_ids.calendar_id')
+    def _compute_time(self):
         start = fields.Datetime.from_string(self.start_date)
         stop = fields.Datetime.from_string(self.end_date)
-        calendar = self.env['resource.resource'].search([('user_id', '=', self.user_id.id)], limit=1).calendar_id
+        calendar = self.mapped('user_id.resource_ids.calendar_id')
         if calendar:
-            hours = calendar.get_working_hours(start, stop)
-            self.resource_hours = hours[0] * (self.time / 100.0)
+            hours = calendar[0].get_working_hours(start, stop)
+            self.time = self.resource_hours * 100.0 / hours[0]
         else:
-            self.resource_hours = 0
+            self.time = 0
 
     @api.one
     @api.depends('task_id', 'user_id', 'start_date', 'end_date', 'project_id.analytic_account_id')
@@ -111,10 +115,10 @@ class ProjectForecast(models.Model):
             self.percentage_hours = 0
 
     @api.one
-    @api.constrains('time')
+    @api.constrains('resource_hours')
     def _check_time_positive(self):
-        if self.time and (self.time < 0):
-            raise ValidationError(_("The time must be positive"))
+        if self.resource_hours and (self.resource_hours < 0):
+            raise ValidationError(_("Forecasted time must be positive"))
 
     @api.one
     @api.constrains('task_id', 'project_id')
@@ -142,14 +146,14 @@ class ProjectForecast(models.Model):
 
     @api.onchange('start_date')
     def _onchange_start_date(self):
-        if (self.end_date < self.start_date):
+        if self.end_date < self.start_date:
             start = fields.Date.from_string(self.start_date)
             duration = timedelta(days=1)
             self.end_date = start + duration
 
     @api.onchange('end_date')
     def _onchange_end_date(self):
-        if (self.start_date > self.end_date):
+        if self.start_date > self.end_date:
             end = fields.Date.from_string(self.end_date)
             duration = timedelta(days=1)
             self.start_date = end - duration
