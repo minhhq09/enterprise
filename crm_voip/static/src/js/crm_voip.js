@@ -7,6 +7,7 @@ var Model = require('web.Model');
 var real_session = require('web.session');
 var SystrayMenu = require('web.SystrayMenu');
 var web_client = require('web.web_client');
+var WebClient = require('web.WebClient');
 var Widget = require('web.Widget');
 
 var dialing_panel = null;
@@ -250,12 +251,15 @@ var DialingPanel = Widget.extend({
         this.sip_js.on('sip_error',this,this.sip_error);
         this.sip_js.on('sip_error_resolved',this,this.sip_error_resolved);
         this.sip_js.on('sip_customer_unavailable',this,this.sip_customer_unavailable);
+        this.sip_js.on('sip_incoming_call',this,this.sip_incoming_call);
+        this.sip_js.on('sip_end_incoming_call',this,this.sip_end_incoming_call);
 
         //bind the bus trigger with the functions
         core.bus.on('reload_panel', this, this.search_phonecalls_status);
         core.bus.on('transfer_call',this,this.transfer_call);
         core.bus.on('select_call',this,this.select_call);
         core.bus.on('next_call',this,this.next_call);
+        core.bus.on('voip_toggle_display',this,this.toggle_display);
 
         dialing_panel = this;
         this.appendTo(web_client.$el);
@@ -337,6 +341,18 @@ var DialingPanel = Widget.extend({
     sip_accepted: function(){
         new Model("crm.phonecall").call("init_call", [this.current_phonecall]);
         this.$('.oe_dial_transfer_button').removeAttr('disabled');
+    },
+
+    sip_incoming_call: function(){
+        this.in_call = true;
+        this.$big_call_button.html(_t("Calling..."));
+        this.$hangup_transfer_buttons.removeAttr('disabled');
+    },
+
+    sip_end_incoming_call: function(){
+        this.in_call = false;
+        this.$big_call_button.html(_t("Call"));
+        this.$hangup_transfer_buttons.attr('disabled','disabled');
     },
 
     sip_cancel: function(){
@@ -727,19 +743,7 @@ var VoipTopButton = Widget.extend({
 
     toggle_display: function (ev){
         ev.preventDefault();
-        if(!this.DialingPanel){
-            //To get the formatCurrency function from the server
-            var self = this;
-            new Model("res.currency")
-                .call("get_format_currencies_js_function")
-                .then(function(data) {
-                    var formatCurrency = new Function("amount, currency_id", data);
-                    self.DialingPanel = new DialingPanel(web_client, formatCurrency);
-                    self.toggle_display(ev);
-                });
-        }else{
-            this.DialingPanel.toggle_display();
-        }
+        core.bus.trigger('voip_toggle_display');
     },
 });
 
@@ -822,6 +826,18 @@ core.form_widget_registry.get('phone').include({
     }
 });
 
+WebClient.include({
+    show_application: function(){
+        this._super();
+        // To get the formatCurrency function from the server
+        new Model("res.currency")
+            .call("get_format_currencies_js_function")
+            .then(function(data) {
+                var formatCurrency = new Function("amount, currency_id", data);
+                self.DialingPanel = new DialingPanel(web_client, formatCurrency);
+            });
+    },
+})
 return {
     voipTopButton: new VoipTopButton(),
 };
