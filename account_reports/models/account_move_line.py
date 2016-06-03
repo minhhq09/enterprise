@@ -51,12 +51,13 @@ class AccountMoveLine(models.Model):
     def get_model_id_and_name(self):
         """Function used to display the right action on journal items on dropdown lists, in reports like general ledger"""
         if self.statement_id:
-            return ['account.bank.statement', self.statement_id.id, _('View Bank Statement')]
+            return ['account.bank.statement', self.statement_id.id, _('View Bank Statement'), False]
         if self.payment_id:
-            return ['account.payment', self.payment_id.id, _('View Payment')]
+            return ['account.payment', self.payment_id.id, _('View Payment'), False]
         if self.invoice_id:
-            return ['account.invoice', self.invoice_id.id, _('View Invoice')]
-        return ['account.move', self.move_id.id, _('View Move')]
+            view_id = self.invoice_id.get_formview_id()
+            return ['account.invoice', self.invoice_id.id, _('View Invoice'), view_id]
+        return ['account.move', self.move_id.id, _('View Move'), False]
 
     @api.multi
     def write_blocked(self, blocked):

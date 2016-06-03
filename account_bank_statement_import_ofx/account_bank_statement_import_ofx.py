@@ -69,8 +69,7 @@ class AccountBankStatementImport(models.TransientModel):
             return True
         try:
             #v2 OFX
-            root = ElementTree.fromstring(data_file)
-            return root.tag.lower() == 'ofx'
+            return "<ofx>" in data_file.lower()
         except ElementTree.ParseError:
             return False
 
