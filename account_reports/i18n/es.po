@@ -7,10 +7,10 @@
 # Alejandro Die Sanchis <marketing@domatix.com>, 2015
 # Antonio Trueba, 2015-2016
 # Christopher Ormaza <chris.ormaza@gmail.com>, 2015
-# Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>, 2015
+# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2015
 # José Vicente <txusev@gmail.com>, 2015
 # Luis Triana <luistriana.28@gmail.com>, 2015
-# Mateo Tibaquirá <nestormateo@gmail.com>, 2015
+# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2015
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2015
 # Sergio Flores <vitavitae1@gmail.com>, 2015
 msgid ""
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-03-08 09:38+0000\n"
+"PO-Revision-Date: 2016-05-31 11:33+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,13 @@ msgid " Total Due "
 msgstr "Total Debe"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:329
+#: code:addons/account_reports/models/account_report_context_common.py:311
+#, python-format
+msgid "%s - %s days ago"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:342
 #, python-format
 msgid "%s Payment Reminder"
 msgstr "%s Recordatorio de Pago"
@@ -85,6 +91,12 @@ msgstr ""
 #: code:addons/account_reports/models/account_report_context_common.py:190
 #, python-format
 msgid "(From %s <br/> to  %s)"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:318
+#, python-format
+msgid "(as of %s)"
 msgstr ""
 
 #. module: account_reports
@@ -294,9 +306,21 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:15
+#, python-format
+msgid "April"
+msgstr "Abril"
+
+#. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
 msgid "At the beginning of the period"
 msgstr "Al principio del período"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:19
+#, python-format
+msgid "August"
+msgstr "Agosto"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -612,6 +636,12 @@ msgid "Comparison:"
 msgstr "Comparación:"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:219
+#, python-format
+msgid "Comparison<br />"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_line_form
 msgid "Computation"
 msgstr "Cálculo"
@@ -784,6 +814,12 @@ msgstr "Debe"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_debtors0
 msgid "Debtors"
 msgstr "Deudores"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:23
+#, python-format
+msgid "December"
+msgstr "Diciembre"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_depreciation0
@@ -975,6 +1011,12 @@ msgstr "La fecha esperada de pago es asignada manualmente a través de estado de
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_less_expenses0
 msgid "Expenses"
 msgstr "Gastos"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:13
+#, python-format
+msgid "February"
+msgstr "Febrero"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_financial_report_id
@@ -1210,9 +1252,27 @@ msgid "Is growth good when positive"
 msgstr "Es buen crecimiento cuando es positivo"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:12
+#, python-format
+msgid "January"
+msgstr "Enero"
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
 msgstr "Apunte contable"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:18
+#, python-format
+msgid "July"
+msgstr "Julio"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:17
+#, python-format
+msgid "June"
+msgstr "Junio"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_liabilities_view0
@@ -1384,6 +1444,18 @@ msgstr "ID del Administrador"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Manual"
 msgstr "Manual"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:14
+#, python-format
+msgid "March"
+msgstr "Marzo"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:16
+#, python-format
+msgid "May"
+msgstr "Mayo"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_menuitem_created
@@ -1561,6 +1633,12 @@ msgid ""
 msgstr "Note que usted puede fijar un elemento recibible del diario a través del extracto del cliente"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:22
+#, python-format
+msgid "November"
+msgstr "Noviembre"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_number
 msgid "Number"
 msgstr "Número"
@@ -1590,7 +1668,13 @@ msgid "Number of periods :"
 msgstr "Número de periodos:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:516
+#: code:addons/account_reports/models/account_report_context_common.py:21
+#, python-format
+msgid "October"
+msgstr "Octubre"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:549
 #, python-format
 msgid "Older"
 msgstr "Más Antiguos"
@@ -1782,6 +1866,12 @@ msgid "Put back in the list"
 msgstr "Poner de vuelta en la lista"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:264
+#, python-format
+msgid "Quarter #"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_retained_earnings0
 msgid "RETAINED EARNINGS"
 msgstr ""
@@ -1876,6 +1966,12 @@ msgstr "Enviar por email"
 #, python-format
 msgid "Sent a followup letter"
 msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:20
+#, python-format
+msgid "September"
+msgstr "Septiembre"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
