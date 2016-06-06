@@ -67,7 +67,7 @@ class website_contract(http.Controller):
     @http.route(['/my/contract/<int:account_id>/',
                  '/my/contract/<int:account_id>/<string:uuid>'], type='http', auth="public", website=True)
     def contract(self, account_id, uuid='', message='', message_class='', **kw):
-        request.env['res.users'].browse(request.uid).has_group('sales_team.group_sale_salesman')
+        request.env['res.users'].browse(request.uid).has_group('base.group_sale_salesman')
         account_res = request.env['sale.subscription']
         if uuid:
             account = account_res.sudo().browse(account_id)
@@ -110,7 +110,7 @@ class website_contract(http.Controller):
             'acquirers': acquirers,
             'acc_pm': acc_pm,
             'part_pms': part_pms,
-            'is_salesman': request.env['res.users'].sudo(request.uid).has_group('sales_team.group_sale_salesman'),
+            'is_salesman': request.env['res.users'].sudo(request.uid).has_group('base.group_sale_salesman'),
             'action': action,
             'message': message,
             'message_class': message_class,
@@ -276,7 +276,7 @@ class website_contract(http.Controller):
         else:
             remove_option = option_res.browse(remove_option_id)
             account = account_res.browse(account_id)
-        if remove_option.portal_access != "both" and not request.env.user.has_group('sales_team.group_sale_salesman'):
+        if remove_option.portal_access != "both" and not request.env.user.has_group('base.group_sale_salesman'):
             return request.render("website.403")
         account.sudo().remove_option(remove_option_id)
         msg_body = request.env['ir.ui.view'].render_template('website_contract.chatter_remove_option',

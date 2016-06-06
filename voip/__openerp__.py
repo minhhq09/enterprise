@@ -22,7 +22,7 @@
     'version': '1.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'sales_team'],
+    'depends': ['base', 'web'],
 
     # always loaded
     'data': [
