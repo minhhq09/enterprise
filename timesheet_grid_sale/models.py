@@ -63,5 +63,5 @@ class SaleConfiguration(models.TransientModel):
         self.env['ir.config_parameter'].set_param(
             'sale.invoiced_timesheet',
             self.invoiced_timesheet,
-            groups=['base.group_sale_manager']
+            groups=['sales_team.group_sale_manager']
         )
