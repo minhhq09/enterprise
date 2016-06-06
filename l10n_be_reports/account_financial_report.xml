@@ -698,7 +698,7 @@
             <field name="code">BE_9900</field>
             <field name="parent_id" ref='account_financial_report_be_produits0'/>
             <field name="groupby">account_id</field>
-            <field name="formulas">balance = BE_70.balance - BE_60_61.balance; credit = BE_70.credit - BE_60_61.credit; debit = BE_70.debit - BE_60_61.debit</field>
+            <field name="formulas">balance = BE_70.balance + BE_71.balance + BE_72.balance + BE_74.balance - BE_60_61.balance; credit = BE_70.credit + BE_71.credit + BE_72.credit+ BE_74.credit- BE_60_61.credit; debit = BE_70.debit + BE_71.debit+ BE_72.debit+ BE_74.debit- BE_60_61.debit</field>
             <field name="sequence" eval="1"/>
             <field name="level" eval="2" />
         </record>
