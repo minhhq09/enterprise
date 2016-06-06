@@ -122,14 +122,14 @@ class AccountFinancialReportLine(models.Model):
         if self.groupby and self.groupby not in self.env['account.move.line']._columns:
             raise ValidationError("Groupby should be a journal item field")
 
-    def _get_sum(self, field_names=None):
+    def _get_sum(self, currency_table, field_names=None):
         ''' Returns the sum of the amls in the domain '''
         if not field_names:
             field_names = ['debit', 'credit', 'balance', 'amount_residual']
         res = dict((fn, 0.0) for fn in field_names)
         if self.domain:
             amls = self.env['account.move.line'].search(safe_eval(self.domain))
-            compute = amls._compute_fields(field_names, group_by=self.groupby)
+            compute = amls._compute_fields(field_names, currency_table, group_by=self.groupby)
             for aml in amls:
                 if compute.get(aml.id):
                     for field in field_names:
@@ -137,11 +137,11 @@ class AccountFinancialReportLine(models.Model):
         return res
 
     @api.one
-    def get_balance(self, linesDict, field_names=None):
+    def get_balance(self, linesDict, currency_table, field_names=None):
         if not field_names:
             field_names = ['debit', 'credit', 'balance']
         res = dict((fn, 0.0) for fn in field_names)
-        c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, self)
+        c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, self)
         if self.formulas:
             for f in self.formulas.split(';'):
                 [field, formula] = f.split('=')
@@ -203,7 +203,7 @@ class AccountFinancialReportLine(models.Model):
         if self.code and self.code in linesDict:
             res = linesDict[self.code]
         else:
-            res = FormulaLine(self, linesDict=linesDict)
+            res = FormulaLine(self, currency_table, linesDict=linesDict)
         vals = {}
         vals['balance'] = res.balance
         if debit_credit:
@@ -258,10 +258,10 @@ class AccountFinancialReportLine(models.Model):
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
             else:
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2]}) for k in results])
-            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict)
+            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table)
             if formulas:
                 for key in results:
-                    c['sum'] = FormulaLine(results[key], type='not_computed')
+                    c['sum'] = FormulaLine(results[key], currency_table, type='not_computed')
                     for col, formula in formulas.items():
                         if col in results[key]:
                             results[key][col] = safe_eval(formula, c, nocopy=True)
@@ -430,12 +430,12 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
 
 class FormulaLine(object):
-    def __init__(self, obj, type='balance', linesDict=None):
+    def __init__(self, obj, currency_table, type='balance', linesDict=None):
         if linesDict is None:
             linesDict = {}
         fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
         if type == 'balance':
-            fields = obj.get_balance(linesDict)[0]
+            fields = obj.get_balance(linesDict, currency_table)[0]
             linesDict[obj.code] = self
         elif type in ['sum', 'sum_if_pos', 'sum_if_neg']:
             if type == 'sum_if_neg':
@@ -443,12 +443,12 @@ class FormulaLine(object):
             if type == 'sum_if_pos':
                 obj = obj.with_context(sum_if_pos=True)
             if obj._name == 'account.financial.html.report.line':
-                fields = obj._get_sum()
+                fields = obj._get_sum(currency_table)
                 self.amount_residual = fields['amount_residual']
             elif obj._name == 'account.move.line':
                 self.amount_residual = 0.0
                 field_names = ['debit', 'credit', 'balance', 'amount_residual']
-                res = obj._compute_fields(field_names)
+                res = obj._compute_fields(field_names, currency_table)
                 if res.get(obj.id):
                     for field in field_names:
                         fields[field] = res[obj.id][field]
@@ -463,10 +463,11 @@ class FormulaLine(object):
 
 
 class FormulaContext(dict):
-    def __init__(self, reportLineObj, linesDict, curObj=None, *data):
+    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, *data):
         self.reportLineObj = reportLineObj
         self.curObj = curObj
         self.linesDict = linesDict
+        self.currency_table = currency_table
         return super(FormulaContext, self).__init__(data)
 
     def __getitem__(self, item):
@@ -475,15 +476,15 @@ class FormulaContext(dict):
         if self.linesDict.get(item):
             return self.linesDict[item]
         if item == 'sum':
-            res = FormulaLine(self.curObj, type='sum')
+            res = FormulaLine(self.curObj, self.currency_table, type='sum')
             self['sum'] = res
             return res
         if item == 'sum_if_pos':
-            res = FormulaLine(self.curObj, type='sum_if_pos')
+            res = FormulaLine(self.curObj, self.currency_table, type='sum_if_pos')
             self['sum_if_pos'] = res
             return res
         if item == 'sum_if_neg':
-            res = FormulaLine(self.curObj, type='sum_if_neg')
+            res = FormulaLine(self.curObj, self.currency_table, type='sum_if_neg')
             self['sum_if_neg'] = res
             return res
         if item == 'NDays':
@@ -494,7 +495,7 @@ class FormulaContext(dict):
             return res
         line_id = self.reportLineObj.search([('code', '=', item)], limit=1)
         if line_id:
-            res = FormulaLine(line_id, linesDict=self.linesDict)
+            res = FormulaLine(line_id, self.currency_table, linesDict=self.linesDict)
             self.linesDict[item] = res
             return res
         return super(FormulaContext, self).__getitem__(item)
