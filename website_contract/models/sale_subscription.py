@@ -270,16 +270,17 @@ class SaleSubscription(models.Model):
         if contracts:
             cr.execute('SELECT a.company_id, array_agg(sub.id) as ids FROM sale_subscription as sub JOIN account_analytic_account as a ON sub.analytic_account_id = a.id WHERE sub.id IN %s GROUP BY a.company_id', (tuple(contracts.ids),))
             for company_id, ids in cr.fetchall():
-                for contract in self.with_context(dict(self.env.context, company_id=company_id, force_company=company_id)).browse(ids):
+                context_company = dict(self.env.context, company_id=company_id, force_company=company_id)
+                for contract in self.with_context(context_company).browse(ids):
                     cr.commit()
                     # payment + invoice (only by cron)
                     if contract.template_id and contract.template_id.payment_mandatory and contract.recurring_total and automatic:
                         try:
                             payment_method = contract.payment_method_id
                             if payment_method:
-                                invoice_values = self._prepare_invoice(contract)
-                                new_invoice = self.env['account.invoice'].create(invoice_values)
-                                new_invoice.compute_taxes()
+                                invoice_values = self.with_context(context_company)._prepare_invoice(contract)
+                                new_invoice = self.env['account.invoice'].with_context(context_company).create(invoice_values)
+                                new_invoice.with_context(context_company).compute_taxes()
                                 tx = contract._do_payment(payment_method, new_invoice, two_steps_sec=False)[0]
                                 # commit change as soon as we try the payment so we have a trace somewhere
                                 cr.commit()
@@ -337,9 +338,9 @@ class SaleSubscription(models.Model):
                     # invoice only
                     else:
                         try:
-                            invoice_values = self._prepare_invoice(contract)
-                            new_invoice = self.env['account.invoice'].create(invoice_values)
-                            new_invoice.compute_taxes()
+                            invoice_values = self.with_context(context_company)._prepare_invoice(contract)
+                            new_invoice = self.env['account.invoice'].with_context(context_company).create(invoice_values)
+                            new_invoice.with_context(context_company).compute_taxes()
                             invoice_ids.append(new_invoice.id)
                             next_date = datetime.datetime.strptime(contract.recurring_next_date or current_date, "%Y-%m-%d")
                             periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
