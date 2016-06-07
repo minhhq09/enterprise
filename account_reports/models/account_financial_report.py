@@ -19,8 +19,8 @@ class ReportAccountFinancialReport(models.Model):
     report_type = fields.Selection([('date_range', 'Based on date ranges'),
                                     ('no_date_range', 'Based on a single date'),
                                     ('date_range_cash', 'Bases on date ranges and cash basis method'),
-                                    ('date_range_tags', 'Based on date ranges with a tags filter'),
-                                    ('no_date_range_tags', 'Based on a single date with a tags filter')],
+                                    ('date_range_analytic', 'Based on date ranges with the analytic filter'),
+                                    ('no_date_range_analytic', 'Based on a single date with the analytic filter')],
                                    string='Analysis Periods', default=False, required=True,
                                    help='For report like the balance sheet that do not work with date ranges')
     company_id = fields.Many2one('res.company', string='Company')
