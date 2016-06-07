@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-04-12 10:04+0000\n"
+"PO-Revision-Date: 2016-05-31 11:33+0000\n"
 "Last-Translator: krnkris\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,13 @@ msgid " Total Due "
 msgstr "Lejárt összesen :"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:329
+#: code:addons/account_reports/models/account_report_context_common.py:311
+#, python-format
+msgid "%s - %s days ago"
+msgstr "%s - %s nappal ezelőtt"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:342
 #, python-format
 msgid "%s Payment Reminder"
 msgstr "%s Fizetési emlékeztető"
@@ -79,6 +85,12 @@ msgstr "(Úgy mint %s)"
 #, python-format
 msgid "(From %s <br/> to  %s)"
 msgstr "(Ettől %s <br/> eddig  %s)"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:318
+#, python-format
+msgid "(as of %s)"
+msgstr "(úgy mint %s)"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:149
@@ -287,9 +299,21 @@ msgid "Apply"
 msgstr "Alkalmaz"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:15
+#, python-format
+msgid "April"
+msgstr "Április"
+
+#. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
 msgid "At the beginning of the period"
 msgstr "Az időszak kezdete"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:19
+#, python-format
+msgid "August"
+msgstr "Augusztus"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -605,6 +629,12 @@ msgid "Comparison:"
 msgstr "Összehasonlítás:"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:219
+#, python-format
+msgid "Comparison<br />"
+msgstr "Összehasonlítás<br />"
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_line_form
 msgid "Computation"
 msgstr "Számítás"
@@ -777,6 +807,12 @@ msgstr "Tartozik"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_debtors0
 msgid "Debtors"
 msgstr "Adósok"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:23
+#, python-format
+msgid "December"
+msgstr "December"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_depreciation0
@@ -968,6 +1004,12 @@ msgstr "Kifizetés várható dátuma kézzel beállított a vásárlók kivonata
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_less_expenses0
 msgid "Expenses"
 msgstr "Kiadások"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:13
+#, python-format
+msgid "February"
+msgstr "Február"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_financial_report_id
@@ -1203,9 +1245,27 @@ msgid "Is growth good when positive"
 msgstr "Ez jól növekszik, ha pozitív"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:12
+#, python-format
+msgid "January"
+msgstr "Január"
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
 msgstr "Könyvelési tételsor"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:18
+#, python-format
+msgid "July"
+msgstr "Július"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:17
+#, python-format
+msgid "June"
+msgstr "Június"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_liabilities_view0
@@ -1377,6 +1437,18 @@ msgstr "Menedzser id azonosító"
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Manual"
 msgstr "Kézi"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:14
+#, python-format
+msgid "March"
+msgstr "Március"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:16
+#, python-format
+msgid "May"
+msgstr "Május"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_menuitem_created
@@ -1554,6 +1626,12 @@ msgid ""
 msgstr "Beállíthatja a vásárló kivonatán keresztül egy beérkezett napló tételként"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:22
+#, python-format
+msgid "November"
+msgstr "November"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_number
 msgid "Number"
 msgstr "Sorszám"
@@ -1583,7 +1661,13 @@ msgid "Number of periods :"
 msgstr "Időszakok száma :"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:516
+#: code:addons/account_reports/models/account_report_context_common.py:21
+#, python-format
+msgid "October"
+msgstr "Október"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:549
 #, python-format
 msgid "Older"
 msgstr "Régebbi"
@@ -1775,6 +1859,12 @@ msgid "Put back in the list"
 msgstr "Tegye vissza a listára"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:264
+#, python-format
+msgid "Quarter #"
+msgstr "Negyedév #"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_retained_earnings0
 msgid "RETAINED EARNINGS"
 msgstr "VISSZATARTOTT NYERESÉGEK"
@@ -1869,6 +1959,12 @@ msgstr "Küldés Email-ben"
 #, python-format
 msgid "Sent a followup letter"
 msgstr "Nyomkövető levél elküldve"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:20
+#, python-format
+msgid "September"
+msgstr "Szeptember"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
