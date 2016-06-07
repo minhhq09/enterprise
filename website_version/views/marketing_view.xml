@@ -86,7 +86,7 @@
                             <field name="google_id" readonly="1" groups="base.group_no_one"/>
                             <label for="goal_id"/>
                             <div>
-                                <field name="goal_id" class="oe_inline" widget="selection" attrs="{'readonly' : [('google_id', '!=', False)] }"/>
+                                <field name="goal_id" class="oe_inline" attrs="{'readonly' : [('google_id', '!=', False)] }" option="{'no_create': True}"/>
                                 <button name="update_goals" string="(Sync)" type="object" context="{'website_id': website_id}" class="oe_link oe_edit_only"/>
                             </div>
                         </group>

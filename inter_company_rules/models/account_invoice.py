@@ -55,6 +55,7 @@ class account_invoice(models.Model):
             line2.sudo()._onchange_product_id()
             line_data = line2._convert_to_write(line2._cache)
             line.with_context(context).sudo(intercompany_uid).create(line_data)
+        invoice.compute_taxes()
         return invoice.id
 
     @api.one

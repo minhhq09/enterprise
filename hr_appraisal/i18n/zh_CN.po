@@ -5,14 +5,15 @@
 # Translators:
 # fausthuang, 2016
 # Gary Wei <Gary.wei@elico-corp.com>, 2015-2016
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
 # 卓忆科技 <zhanghao@jointd.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-13 15:34+0000\n"
-"PO-Revision-Date: 2016-03-12 01:56+0000\n"
-"Last-Translator: Joroy <13637815@qq.com>\n"
+"PO-Revision-Date: 2016-06-02 13:38+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgid ""
 "                </div>\n"
 "                \n"
 "            "
-msgstr "\n                \n                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n                    <p>亲爱的 ${ctx.get('employee').name},</p>\n                    % if ctx.get('employee').id == object.employee_id.id:\n                        <p>请填写下列与您评估相关的调查.</p>\n                    % else:\n                        <p>请填写下列${object.employee_id.name} 评估相关的调查.</p>\n                    % endif\n                    <p><a href=\"__URL__\">点击这里保存调查.</a></p>\n                    <p>附上您的回答 : ${object.date_close}</p>\n                    <p>谢谢您的参与.</p>\n                </div>\n                \n            "
+msgstr "\n                \n                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n                    <p>亲爱的 ${ctx.get('employee').name},</p>\n                    % if ctx.get('employee').id == object.employee_id.id:\n                        <p>请填写下列与您评价相关的调查.</p>\n                    % else:\n                        <p>请填写下列${object.employee_id.name} 评价相关的调查.</p>\n                    % endif\n                    <p><a href=\"__URL__\">点击这里保存调查.</a></p>\n                    <p>附上您的回答 : ${object.date_close}</p>\n                    <p>谢谢您的参与.</p>\n                </div>\n                \n            "
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -48,7 +49,7 @@ msgstr ") 回答"
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid ") Sent Appraisal"
-msgstr ") 发送评估"
+msgstr ") 发送评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -125,7 +126,7 @@ msgstr "答案"
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_tree
 msgid "Appraisal"
-msgstr "评估"
+msgstr "评价"
 
 #. module: hr_appraisal
 #: model:ir.actions.act_window,name:hr_appraisal.action_appraisal_report_all
@@ -133,40 +134,40 @@ msgstr "评估"
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_pivot
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Appraisal Analysis"
-msgstr "评估分析"
+msgstr "评价分析"
 
 #. module: hr_appraisal
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_new
 #: model:mail.message.subtype,name:hr_appraisal.mt_appraisal_new
 msgid "Appraisal Created"
-msgstr "已创建评估"
+msgstr "评价已创建"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_date_close
 msgid "Appraisal Deadline"
-msgstr "评估截止时间"
+msgstr "评价截止时间"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Appraisal Form..."
-msgstr "考评表"
+msgstr "评价表"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:117
 #, python-format
 msgid "Appraisal Meeting For %s"
-msgstr "%s的评估会议"
+msgstr "%s的评价会议"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.opinion_1
 msgid "Appraisal Process"
-msgstr "评估阶段"
+msgstr "评价过程"
 
 #. module: hr_appraisal
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
-msgstr "评估关于"
+msgstr "评价关于"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:212
@@ -175,64 +176,64 @@ msgstr "评估关于"
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
 #, python-format
 msgid "Appraisal Sent"
-msgstr "发送评估"
+msgstr "评价送出"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_appraisal_report
 msgid "Appraisal Statistics"
-msgstr "评估统计"
+msgstr "评价统计"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_collaborators_ids
 msgid "Appraisal collaborators ids"
-msgstr "评估合作者 ids"
+msgstr "评价合作者 ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_ids
 msgid "Appraisal colleagues ids"
-msgstr "评估合作者 ids"
+msgstr "评价同事 ids"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_1_3
 msgid "Appraisal for Period"
-msgstr "评估的周期"
+msgstr "期间的评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_manager_ids
 msgid "Appraisal manager ids"
-msgstr "评估经理ID"
+msgstr "评价经理IDs"
 
 #. module: hr_appraisal
 #: model:mail.message.subtype,name:hr_appraisal.mt_appraisal_sent
 msgid "Appraisal sent"
-msgstr "发送评估"
+msgstr "评价送出"
 
 #. module: hr_appraisal
 #: model:ir.actions.act_window,name:hr_appraisal.hr_appraisal_action_from_department
 msgid "Appraisal to start"
-msgstr "开始评估"
+msgstr "待开始的评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_department_view_kanban
 msgid "Appraisal(s)"
-msgstr "评估"
+msgstr "评价"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:160
 #, python-format
 msgid "Appraisal(s) form have been sent"
-msgstr "评估表格(多个)已经发送"
+msgstr "评价表已经发送"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_count
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_department_view_kanban
 msgid "Appraisals"
-msgstr "评估"
+msgstr "评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_department_appraisals_to_process_count
 msgid "Appraisals to Process"
-msgstr "评估过程"
+msgstr "待处理评价"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
@@ -242,12 +243,12 @@ msgstr "评估人"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "At the conclusion of the appraisal time period"
-msgstr "评估阶段的结束时"
+msgstr "在评价时间段的结束"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "At the outset of the appraisal time period"
-msgstr "评估阶段的开始时"
+msgstr "在评价时间段的开始"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -269,32 +270,32 @@ msgstr "已取消"
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid "Click to create a new appraisal."
-msgstr "点击创建一个新的评估"
+msgstr "点击创建一个新的评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_appraisal
 msgid "Collaborator"
-msgstr "协作者"
+msgstr "合作者"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_survey_id
 msgid "Collaborator's Appraisal"
-msgstr "协作人的评估"
+msgstr "合作者的评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_by_collaborators
 msgid "Collaborators"
-msgstr "协作者"
+msgstr "合作者"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_collaborators_ids
 msgid "Collaborators ids"
-msgstr "协作者ID"
+msgstr "合作者 ids"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_colleagues_survey_id
 msgid "Colleague's Appraisal"
-msgstr "同事的评估"
+msgstr "同事的评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_colleagues_appraisal
@@ -463,7 +464,7 @@ msgstr "有效性"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_mail_template_id
 msgid "Email Template for Appraisal"
-msgstr "评估的邮件模板"
+msgstr "评价的邮件模板"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
@@ -479,13 +480,13 @@ msgstr "员工"
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_appraisal
 msgid "Employee Appraisal"
-msgstr "员工评估"
+msgstr "员工评价"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.appraisal_1
 #: model:survey.survey,title:hr_appraisal.appraisal_form
 msgid "Employee Appraisal Form"
-msgstr "员工考核表"
+msgstr "员工评价表"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.appraisal_5
@@ -510,7 +511,7 @@ msgstr "在关键领域的绩效"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
 msgid "Employee's Appraisal"
-msgstr "员工评估"
+msgstr "员工的评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -556,12 +557,12 @@ msgstr "最终评估"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_date_final_interview
 msgid "Final Interview"
-msgstr "最后面谈"
+msgstr "最终面谈"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Final Interview Date"
-msgstr "最后面谈日期"
+msgstr "最终面谈日期"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_follower_ids
@@ -819,7 +820,7 @@ msgstr "经理id"
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_survey_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_manager_survey_id
 msgid "Manager's Appraisal"
-msgstr "经理的评估"
+msgstr "经理的评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_by_manager
@@ -892,7 +893,7 @@ msgstr "你的直接上司的名字"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_date
 msgid "Next Appraisal Date"
-msgstr "下一个评估日期"
+msgstr "下一评价日期"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
@@ -939,7 +940,7 @@ msgstr "我们的工作组，识别和减少我们的活动和过程的时间浪
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "Overall Purpose Of Employee Appraisal"
-msgstr "员工考核的总体目标"
+msgstr "员工评价的总体目的"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_4_3
@@ -952,12 +953,12 @@ msgstr "总之，我相信我的工作组正在改善提供的产品质量和服
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal
 #: model:ir.ui.menu,name:hr_appraisal.menu_hr_appraisal_configuration
 msgid "Periodic Appraisal"
-msgstr "定期评估"
+msgstr "定期评价"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal_created
 msgid "Periodic Appraisal has been created"
-msgstr "定期评估已创建"
+msgstr "定期评价已创建"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
@@ -1030,29 +1031,29 @@ msgstr "面对技术，组织，结构和/或关系问题的自下而上的调�
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "Schedule The Final Interview"
-msgstr "最终面谈安排"
+msgstr "安排最终面谈"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 msgid "Search Appraisal"
-msgstr "搜索评估"
+msgstr "搜索评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Select Appraisal Reviewer..."
-msgstr "选择评估面谈人"
+msgstr "选择评价审核人"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_survey_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self_survey_id
 msgid "Self Appraisal"
-msgstr "自我评估"
+msgstr "自我评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Send Appraisal Form To"
-msgstr "发送评估表到"
+msgstr "发送评价表至"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_survey_sent_ids
@@ -1075,7 +1076,7 @@ msgstr "明显超过职位所需的标准和预期"
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Start Appraisal and Send Forms"
-msgstr "开始评估并发送表单"
+msgstr "开始评价并发送表单"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_state
@@ -1150,7 +1151,7 @@ msgstr "您输入的答案格式不正确。"
 msgid ""
 "The appraisal deadline must be in the future to allow employees to answer "
 "the survey."
-msgstr "考评的最后期限必须使员工能有足够的时间来完成调查。"
+msgstr "评价的最后期限必须使员工能有足够的时间来完成调查。"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -1170,14 +1171,14 @@ msgstr "考核人员应该对员工的主要工作的完成度和表现按以下
 #: code:addons/hr_appraisal/models/hr_employee.py:76
 #, python-format
 msgid "The date of the next appraisal cannot be in the past"
-msgstr "下一次的考评时间不能是过去的时间"
+msgstr "下一次的评价时间不能是过去的时间"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_employee_appraisal_date
 msgid ""
 "The date of the next appraisal is computed by the appraisal plan's dates "
 "(first appraisal + periodicity)."
-msgstr "下次评估的日期是按评估计划的日期计算出来的 （首次评估 + 周期）"
+msgstr "下次评价的日期是按评价计划的日期计算出来的 （首次评价 + 周期）"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1192,7 +1193,7 @@ msgid ""
 "The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
 "point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
-msgstr "雇员将负责完成评估表的草案，作为自我评估的工具和开始\n对主管的评价。员工可以为每一个标准添加成就的例子。\n一旦填写表格完成，雇员可以将其发送给主管"
+msgstr "雇员将负责完成评价的草案，作为自我评价的工具和开始\n对主管的评价。员工可以为每一个标准添加成就的例子。\n一旦填写表格完成，雇员可以将其发送给主管"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -1213,7 +1214,7 @@ msgstr "领导把表格发给印度和比利时的人资部门"
 msgid ""
 "The supervisor synthesizes and integrates all input into the completed appraisal. He motivates his evaluation in the ad\n"
 "hoc fields."
-msgstr "主管合成并将所有输入集成到已完成的评估中。他激励他的评价在研究领域。"
+msgstr "主管合成并将所有输入集成到已完成的评价中。他激励他的评价在研究领域。"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_color
@@ -1238,7 +1239,7 @@ msgstr "该员工将被他的经理评估"
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_employee_appraisal
 msgid "This employee will do a self-appraisal"
-msgstr "该员工将做自我评估"
+msgstr "该员工将做自我评价"
 
 #. module: hr_appraisal
 #: model:survey.question,constr_error_msg:hr_appraisal.appraisal_1_1
@@ -1340,7 +1341,7 @@ msgstr "年"
 #: code:addons/hr_appraisal/models/hr_appraisal.py:206
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
-msgstr "已经在 '%s'状态的考评不能删除"
+msgstr "你不能删除在 '%s'状态的评价"
 
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
@@ -1353,7 +1354,7 @@ msgstr "你将能够选择哪一种形式将被发送(员工、管理者、合�
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_collaborators_survey_id
 msgid "collaborate's Appraisal"
-msgstr "协作人的评估"
+msgstr "合作者的评价"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban

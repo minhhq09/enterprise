@@ -31,7 +31,7 @@ class Goals(models.Model):
     """
     _name = "website_version.goals"
 
-    name = fields.Char(string="Name", required=True)
+    name = fields.Char(string="Name", required=True, translate=True)
     google_ref = fields.Char(string="Google Reference", required=True)
 
 
