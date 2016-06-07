@@ -127,7 +127,7 @@ class report_account_aged_payable(models.AbstractModel):
 
     @api.model
     def get_report_type(self):
-        return 'no_comparison_no_date_range'
+        return self.env.ref('account_reports.account_report_type_nothing')
 
     def get_template(self):
         return 'account_reports.report_financial'

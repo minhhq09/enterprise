@@ -56,7 +56,7 @@
         <record id="account_financial_report_profitandloss0" model="account.financial.html.report">
             <field name="name">Profit and Loss</field>
             <field name="debit_credit" eval="False"/>
-            <field name="report_type">date_range_tags</field>
+            <field name="report_type">date_range_analytic</field>
             <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_net_profit0" model="account.financial.html.report.line">
@@ -149,7 +149,7 @@
         <record id="account_financial_report_balancesheet0" model="account.financial.html.report">
             <field name="name">Balance Sheet</field>
             <field name="debit_credit" eval="False"/>
-            <field name="report_type">no_date_range_tags</field>
+            <field name="report_type">no_date_range_analytic</field>
             <field name='parent_id' ref='account_reports_legal_statements_menu'/>
         </record>
         <record id="account_financial_report_total_assets0" model="account.financial.html.report.line">

@@ -234,10 +234,10 @@ class AccountReportContextCommon(models.TransientModel):
         if dt_from:
             date_from = convert_date(dt_from, None)
         if 'month' in self.date_filter:
-            return dt_to.strftime('%b %Y')
+            return '%s %s' % (self._get_month(dt_to.month - 1), dt_to.year)
         if 'quarter' in self.date_filter:
             quarter = (dt_to.month - 1) / 3 + 1
-            return dt_to.strftime('Quarter #' + str(quarter) + ' %Y')
+            return dt_to.strftime(_('Quarter #') + str(quarter) + ' %Y')
         if 'year' in self.date_filter:
             if self.env.user.company_id.fiscalyear_last_day == 31 and self.env.user.company_id.fiscalyear_last_month == 12:
                 return dt_to.strftime('%Y')
@@ -246,6 +246,12 @@ class AccountReportContextCommon(models.TransientModel):
         if not dt_from:
             return _('As of %s') % (date_to,)
         return _('From %s <br/> to  %s') % (date_from, date_to)
+
+    def _get_month(self, index):
+        return [
+            _('January'), _('February'), _('March'), _('April'), _('May'), _('June'),
+            _('July'), _('August'), _('September'), _('October'), _('November'), _('December')
+        ][index]
 
     def get_cmp_date(self):
         if not self.get_report_obj().get_report_type().date_range:

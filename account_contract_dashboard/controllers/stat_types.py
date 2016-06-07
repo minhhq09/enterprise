@@ -195,7 +195,7 @@ def compute_logo_churn(start_date, end_date, filters):
 
     resigned_customers = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
 
-    return 0 if not active_customers_1_month_ago else resigned_customers/float(active_customers_1_month_ago)
+    return 0 if not active_customers_1_month_ago else 100*resigned_customers/float(active_customers_1_month_ago)
 
 
 def compute_revenue_churn(start_date, end_date, filters):
@@ -222,7 +222,7 @@ def compute_revenue_churn(start_date, end_date, filters):
 
     churned_mrr = 0 if not sql_results or not sql_results[0]['sum'] else sql_results[0]['sum']
     previous_month_mrr = compute_mrr(start_date, (end_date - relativedelta(months=+1)), filters)
-    return 0 if previous_month_mrr == 0 else (churned_mrr)/float(previous_month_mrr)
+    return 0 if previous_month_mrr == 0 else 100*churned_mrr/float(previous_month_mrr)
 
 
 def compute_mrr_growth_values(start_date, end_date, filters):

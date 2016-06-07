@@ -40,13 +40,20 @@ class AccountSepaCreditTransfer(models.TransientModel):
     _name = "account.sepa.credit.transfer"
     _description = "Create SEPA credit transfer files"
 
+    @api.multi
+    def _get_warning_message(self):
+        for wiz in self:
+            warning_message = self._context.get('warning_message', '')
+            if warning_message:
+                wiz.warning_message = _('The generated payment file is not a generic SEPA credit transfer. Be aware that some banks may reject it because it is not implemented on their side.\n\nIn particular, the reason why it this payment file is not a generic is the following:\n   ') + warning_message 
+
     journal_id = fields.Many2one('account.journal', string="Journal", readonly=True)
     bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", readonly=True)
     is_generic = fields.Boolean(readonly=True,
         help="Technical feature used during the file creation. A SEPA message is said to be 'generic' if it cannot be considered as "
              "a standard european credit transfer. That is if the bank journal is not in €, a transaction is not in € or a payee is "
              "not identified by an IBAN account number and a bank BIC.")
-
+    warning_message = fields.Text(string='Warning', compute=_get_warning_message, store=False)
     file = fields.Binary('SEPA XML File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
 
@@ -76,11 +83,12 @@ class AccountSepaCreditTransfer(models.TransientModel):
             if not payment.partner_bank_account_id:
                 raise UserError(_("There is no bank account selected for payment '%s'") % payment.name)
 
+        is_generic, warning_msg = self._require_generic_message(journal, payments)
         res = self.create({
             'journal_id': journal.id,
             'bank_account_id': bank_account.id,
             'filename': "SCT-" + journal.code + "-" + time.strftime("%Y%m%d") + ".xml",
-            'is_generic': self._require_generic_message(journal, payments),
+            'is_generic': is_generic,
         })
 
         if journal.company_id.sepa_pain_version == 'pain.001.001.03.ch.02':
@@ -101,6 +109,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
             'res_model': 'account.sepa.credit.transfer',
             'target': 'new',
             'res_id': res.id,
+            'context': {'warning_message': warning_msg}
         }
 
     @api.model
@@ -111,16 +120,16 @@ class AccountSepaCreditTransfer(models.TransientModel):
         # A message is generic if :
         debtor_currency = journal.currency_id and journal.currency_id.name or journal.company_id.currency_id.name
         if debtor_currency != 'EUR':
-            return True  # The debtor account is not labelled in EUR
+            return True, _('Your bank account is not labelled in EUR')
         for payment in payments:
             bank_account = payment.partner_bank_account_id
             if payment.currency_id.name != 'EUR':
-                return True  # Any transaction in instructed in another currency than EUR
+                return True, _('The transaction %s is instructed in another currency than EUR') % payment.name
             if not bank_account.bank_bic:
-                return True  # Any creditor agent is not identified by a BIC
+                return True, _('The creditor bank account %s used in payment %s is not identified by a BIC') % (payment.partner_bank_account_id.acc_number, payment.name)
             if not bank_account.acc_type == 'iban':
-                return True  # Any creditor account is not identified by an IBAN
-        return False
+                return True, _('The creditor bank account %s used in payment %s is not identified by an IBAN') % (payment.partner_bank_account_id.acc_number, payment.name)
+        return False, ''
 
     def _create_pain_001_001_03_document(self, doc_payments):
         """ Create a sepa credit transfer file that follows the European Payment Councile generic guidelines (pain.001.001.03)
