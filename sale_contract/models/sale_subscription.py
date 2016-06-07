@@ -265,11 +265,12 @@ class SaleSubscription(osv.osv):
         if contract_ids:
             cr.execute('SELECT a.company_id, array_agg(sub.id) as ids FROM sale_subscription as sub JOIN account_analytic_account as a ON sub.analytic_account_id = a.id WHERE sub.id IN %s GROUP BY a.company_id', (tuple(contract_ids),))
             for company_id, ids in cr.fetchall():
-                for contract in self.browse(cr, uid, ids, context=dict(context, company_id=company_id, force_company=company_id)):
+                context_company = dict(context, company_id=company_id, force_company=company_id)
+                for contract in self.browse(cr, uid, ids, context=context_company):
                     try:
-                        invoice_values = self._prepare_invoice(cr, uid, contract, context=context)
-                        invoice_ids.append(self.pool['account.invoice'].create(cr, uid, invoice_values, context=context))
-                        self.pool['account.invoice'].compute_taxes(cr, uid, [invoice_ids[-1]], context=context)
+                        invoice_values = self._prepare_invoice(cr, uid, contract, context=context_company)
+                        invoice_ids.append(self.pool['account.invoice'].create(cr, uid, invoice_values, context=context_company))
+                        self.pool['account.invoice'].compute_taxes(cr, uid, [invoice_ids[-1]], context=context_company)
                         next_date = datetime.datetime.strptime(contract.recurring_next_date or current_date, "%Y-%m-%d")
                         interval = contract.recurring_interval
                         if contract.recurring_rule_type == 'daily':
@@ -280,7 +281,7 @@ class SaleSubscription(osv.osv):
                             new_date = next_date + relativedelta(months=+interval)
                         else:
                             new_date = next_date + relativedelta(years=+interval)
-                        self.write(cr, uid, [contract.id], {'recurring_next_date': new_date.strftime('%Y-%m-%d')}, context=context)
+                        self.write(cr, uid, [contract.id], {'recurring_next_date': new_date.strftime('%Y-%m-%d')}, context=context_company)
                         if automatic:
                             cr.commit()
                     except Exception:

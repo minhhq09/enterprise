@@ -56,7 +56,11 @@ odoo.define('website_sign.dashboard', function(require) {
                                 input_field.val("");
                             });
                 };
-                reader.readAsDataURL(f);
+                try {
+                    reader.readAsDataURL(f);
+                } catch (e) {
+                    console.warn(e);
+                }
             },
 
             'click .o_sign_dashboard_item > a': function(e) {

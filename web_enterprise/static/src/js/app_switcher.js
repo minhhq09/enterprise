@@ -380,9 +380,32 @@ AppSwitcher.include({
         });
     },
     enterprise_renew: function() {
-        new Model('ir.config_parameter').call('get_param', ['database.enterprise_code']).then(function(contract) {
-            var params = contract ? {contract: contract} : {};
-            window.location = $.param.querystring("https://www.odoo.com/odoo-enterprise/renew", params);
+        var P = new Model('ir.config_parameter');
+        var Publisher = new Model('publisher_warranty.contract');
+        $.when(
+            P.call('get_param', ['database.expiration_date']))
+        .then(function(old_date) {
+            utils.set_cookie('oe_instance_hide_panel', '', -1);
+            Publisher.call('update_notification', [[]]).then(function() {
+                $.when(
+                    P.call('get_param', ['database.expiration_date']),
+                    P.call('get_param', ['database.expiration_reason']),
+                    P.call('get_param', ['database.enterprise_code']))
+                .then(function(new_date, dbexpiration_reason, enterprise_code) {
+                    var mt_new_date = new moment(new_date);
+                    if (new_date != old_date && mt_new_date > new moment()) {
+                        $.unblockUI();
+                        $('.oe_instance_register').hide();
+                        $('.database_expiration_panel .alert').removeClass('alert-info alert-warning alert-danger');
+                        $('.database_expiration_panel .alert').addClass('alert-success');
+                        $('.valid_date').html(moment(new_date).format('LL'));
+                        $('.oe_instance_success, .oe_instance_hide_panel').show();
+                    } else {
+                            var params = enterprise_code ? {contract: enterprise_code} : {};
+                            window.location = $.param.querystring("https://www.odoo.com/odoo-enterprise/renew", params);
+                    }
+                });
+            });
         });
     },
     enterprise_upsell: function() {

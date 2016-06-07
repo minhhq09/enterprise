@@ -14,6 +14,11 @@
                         <field name="file" filename="filename"/>
                         <field name="filename" invisible="True"/>
                     </group>
+                    <group>
+                      <div class="alert alert-warning" attrs="{'invisible': [('warning_message', '=', False)]}">
+                        <field name="warning_message"/>
+                      </div>
+                    </group>
                     <footer>
                         <button string='Ok' class="oe_highlight" special="cancel"/>
                         or

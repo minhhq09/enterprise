@@ -50,11 +50,12 @@ class account_invoice(models.Model):
             # get invoice line data from product onchange
             # create invoice line, as the intercompany user
             inv_line_data = self.sudo()._prepare_invoice_line_data(line)
-            line2 = self.env['account.invoice.line'].new(inv_line_data)
+            line2 = self.env['account.invoice.line'].with_context(context).new(inv_line_data)
             line2.invoice_id = invoice.id
             line2.sudo()._onchange_product_id()
             line_data = line2._convert_to_write(line2._cache)
             line.with_context(context).sudo(intercompany_uid).create(line_data)
+        invoice.compute_taxes()
         return invoice.id
 
     @api.one
@@ -89,7 +90,7 @@ class account_invoice(models.Model):
             'company_id': company.id,
             'auto_generated': True,
             'auto_invoice_id': self.id,}
-        inv = self.env['account.invoice'].new(vals)
+        inv = self.env['account.invoice'].with_context(context).new(vals)
         inv._onchange_partner_id()
         return inv._convert_to_write(inv._cache)
 

@@ -7,20 +7,22 @@
 # Frédéric Clementi <frederic.clementi@camptocamp.com>, 2015
 # Jean-Patrick Debarge <djump@hotmail.fr>, 2015
 # Loic <loic.richard2@gmail.com>, 2015
-# Lucas Deliege <lud@odoo.com>, 2015
-# Martin Trigaux, 2015
+# Lucas Deliege <lud@odoo.com>, 2015-2016
+# Martin Trigaux, 2015-2016
 # Matillon Samantha <smatillon@gmail.com>, 2015-2016
 # Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
 # Mensanh Dodji Anani LAWSON <omolowo73@gmail.com>, 2016
 # Nancy Bolognesi <nb@microcom.ca>, 2015
 # Nicolas Guichard <nicolas.guichard@ovh.fr>, 2015
+# Shark McGnark <peculiarcheese@gmail.com>, 2016
+# ShevAbam, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-05-11 14:05+0000\n"
-"Last-Translator: Mensanh Dodji Anani LAWSON <omolowo73@gmail.com>\n"
+"PO-Revision-Date: 2016-06-03 15:07+0000\n"
+"Last-Translator: Lucas Deliege <lud@odoo.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +64,13 @@ msgid " Total Due "
 msgstr "Montant dû"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:329
+#: code:addons/account_reports/models/account_report_context_common.py:311
+#, python-format
+msgid "%s - %s days ago"
+msgstr "il y a %s - %s jours"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_followup_report.py:342
 #, python-format
 msgid "%s Payment Reminder"
 msgstr "%s rappels de paiement"
@@ -87,6 +95,12 @@ msgstr "(A partir de %s)"
 #, python-format
 msgid "(From %s <br/> to  %s)"
 msgstr "(De %s <br/> à %s)"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:318
+#, python-format
+msgid "(as of %s)"
+msgstr "(comme %s)"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:149
@@ -295,9 +309,21 @@ msgid "Apply"
 msgstr "Appliquer"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:15
+#, python-format
+msgid "April"
+msgstr "avril"
+
+#. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
 msgid "At the beginning of the period"
 msgstr "Au début de la période"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:19
+#, python-format
+msgid "August"
+msgstr "août"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -613,6 +639,12 @@ msgid "Comparison:"
 msgstr "Comparaison :"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:219
+#, python-format
+msgid "Comparison<br />"
+msgstr "Comparaison<br />"
+
+#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_line_form
 msgid "Computation"
 msgstr "Calcul"
@@ -785,6 +817,12 @@ msgstr "Débit"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_debtors0
 msgid "Debtors"
 msgstr "Débiteurs"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:23
+#, python-format
+msgid "December"
+msgstr "décembre"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_depreciation0
@@ -976,6 +1014,12 @@ msgstr "La date prévue du paiement indiquée manuellement suite à la déclarat
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_less_expenses0
 msgid "Expenses"
 msgstr "Frais"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:13
+#, python-format
+msgid "February"
+msgstr "février"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_financial_report_id
@@ -1211,9 +1255,27 @@ msgid "Is growth good when positive"
 msgstr "Est une bonne croissance quand positif"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:12
+#, python-format
+msgid "January"
+msgstr "janvier"
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
 msgstr "Écriture comptable"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:18
+#, python-format
+msgid "July"
+msgstr "juillet"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:17
+#, python-format
+msgid "June"
+msgstr "juin"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_liabilities_view0
@@ -1387,6 +1449,18 @@ msgid "Manual"
 msgstr "Manuel"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:14
+#, python-format
+msgid "March"
+msgstr "mars"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:16
+#, python-format
+msgid "May"
+msgstr "mai"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_menuitem_created
 msgid "Menu Has Been Created"
 msgstr "Un menu a été crée."
@@ -1438,7 +1512,7 @@ msgstr "Net"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "Net Audit"
-msgstr ""
+msgstr "Audit net"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
@@ -1562,6 +1636,12 @@ msgid ""
 msgstr "Note que vous pouvez envoyer à travers la déclaration du client concernant une écriture de journal recevable"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:22
+#, python-format
+msgid "November"
+msgstr "novembre"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_number
 msgid "Number"
 msgstr "Nombre"
@@ -1591,7 +1671,13 @@ msgid "Number of periods :"
 msgstr "Nombre de périodes:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:516
+#: code:addons/account_reports/models/account_report_context_common.py:21
+#, python-format
+msgid "October"
+msgstr "octobre"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:549
 #, python-format
 msgid "Older"
 msgstr "Ancien"
@@ -1783,6 +1869,12 @@ msgid "Put back in the list"
 msgstr "Remettre dans la liste"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:264
+#, python-format
+msgid "Quarter #"
+msgstr "Trimestre #"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_retained_earnings0
 msgid "RETAINED EARNINGS"
 msgstr "BÉNÉFICES NON RÉPARTIS"
@@ -1879,6 +1971,12 @@ msgid "Sent a followup letter"
 msgstr "Envoyé une lettre de suivi"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:20
+#, python-format
+msgid "September"
+msgstr "septembre"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_sequence
 msgid "Sequence"
 msgstr "Séquence"
@@ -1970,7 +2068,7 @@ msgstr "Taxe"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "Tax Audit"
-msgstr ""
+msgstr "Audit fiscal"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_generic_tax_report.py:176
