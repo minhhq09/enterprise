@@ -242,7 +242,7 @@
             <field name="name">Current Liabilities</field>
             <field name="code">CL</field>
             <field name="parent_id" ref='account_financial_report_liabilities_view0'/>
-            <field name="domain" eval="['|', ('account_id.user_type_id', '=', ref('account.data_account_type_current_liabilities')), ('account_id.user_type_id.type', '=', 'payable')]"/>
+            <field name="domain" eval="['|', ('account_id.user_type_id', 'in', [ref('account.data_account_type_current_liabilities'), ref('account.data_account_type_credit_card')]), ('account_id.user_type_id.type', '=', 'payable')]"/>
             <field name="groupby">account_id</field>
             <field name="formulas">balance = -sum.balance</field>
             <field name="sequence" eval="1"/>
