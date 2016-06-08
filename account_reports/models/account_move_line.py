@@ -48,7 +48,8 @@ class AccountMoveLine(models.Model):
         for result in results.keys():
             currency_id = results[result]['currency_id']
             for field in results[result].keys():
-                results[result][field] = results[result][field] * currency_table[currency_id]
+                if currency_id in currency_table:
+                    results[result][field] = results[result][field] * currency_table[currency_id]
         return results
 
     @api.multi
