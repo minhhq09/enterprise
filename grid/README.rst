@@ -110,7 +110,7 @@ Server interactions
 
 Aside from optional buttons, the grid view currently calls two methods:
 
-* ``read_grid`` (provided on all models by the module) returns almost the 
+* ``read_grid`` (provided on all models by the module) returns almost the
   entirety of the grid's content as a dict:
   
   * the row titles is a list of dictionaries with the following keys:
@@ -143,12 +143,64 @@ Aside from optional buttons, the grid view currently calls two methods:
     ``readonly`` (optional)
         a boolean indicating that this specific cell should not be
         client-editable
-  * ``prev`` and ``next`` which can be either falsy (no pagination) or a 
+    ``classes`` (optional)
+        a list of classes (as strings) to add on the cell's container (between
+        the cell's TD and the cell's potentially-editable element).
+
+        In case of conflicts between this list and the base classes (prefixed
+        with ``o_grid_cell_``), the classes in this list are ignored.
+
+    Note that the grid data is *dense*, if querying the database yields no
+    group matching a cell a cell will generate an "empty" cell with default
+    values for required keys.
+  * ``prev`` and ``next`` which can be either falsy (no pagination) or a
     context item to merge into the view's own context to ``read_grid`` the 
     previous or next page, it should be assumed to be opaque
 
 * ``adjust_grid``, for which there currently isn't a blanket implementation
   and whose semantics are likely to evolve with time and use cases
+
+Server Hooks
+============
+
+``read_grid`` calls a number of hooks allowing the customisation of its
+operations from within without having to override the entire method:
+
+``_grid_format_cell(group, cell_field)``
+    converts the output of a read_group (group-by-group) into cells in the
+    format described above (as part of "the grid data")
+``_grid_make_empty_cell(cell_domain)``
+    generates an empty version of a cell (if there is no corresponding group)
+``_grid_column_info(name, range)``
+    generates a ColumnMetadata object based on the column type, storing values
+    either returned directly (as part of ``read_grid``) or used query and
+    reformat ``read_group`` into ``read_grid``:
+
+    ``grouping``
+        the actual grouping field/query for the columns
+    ``domain``
+        domain to apply to ``read_group`` in case the column field is
+        paginated, can be an empty list
+    ``prev`` and ``next``
+        context segments which will be sent to ``read_grid`` for pages before
+        and after the current one. If ``False``, disables pagination in that
+        direction
+    ``values``
+        column values to display on the "current page", each value is a
+        dictionary with the following keys:
+
+        ``values``
+            dictionary mapping field names to values for the entire column,
+            usually just ``name`` -> a value
+        ``domain``
+            domain matching this specific column
+        ``is_current``
+            ``True`` if the current column should be specifically outlined in
+            the grid, ``False`` otherwise
+        ``format``
+            how to format the values of that column/type from ``read_group``
+            formatting to ``read_grid`` formatting (matching ``values`` in
+            ColumnInfo)
 
 ACL
 ===
