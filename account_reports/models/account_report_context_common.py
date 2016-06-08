@@ -319,7 +319,7 @@ class AccountReportContextCommon(models.TransientModel):
                         columns += [[dt_from.strftime("%Y-%m-%d"), dt_to.strftime("%Y-%m-%d")]]
             else:
                 for k in xrange(0, self.periods_number):
-                    dt_to -= timedelta(days=calendar.monthrange(dt_to.year, dt_to.month > 1 and dt_to.month - 1 or 12)[1])
+                    dt_to -= timedelta(days=calendar.monthrange(dt_to.year, dt_to.month)[1])
                     if display:
                         columns += [_('(as of %s)') % dt_to.strftime('%d %b %Y')]
                     else:
