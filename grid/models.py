@@ -63,11 +63,7 @@ class Model(models.Model):
         for group in groups:
             row = row_key(group)
             col = column_info.format(group[column_info.grouping])
-            cell_map[row][col] = {
-                'size': group['__count'],
-                'domain': group['__domain'],
-                'value': group[cell_field],
-            }
+            cell_map[row][col] = self._grid_format_cell(group, cell_field)
 
         # pre-build whole grid, row-major, h = len(rows), w = len(cols),
         # each cell is
@@ -93,7 +89,7 @@ class Model(models.Model):
                         for f, v in r['values'].iteritems()
                     ])
                     d = expression.AND([d, c['domain']])
-                    row.append({'size': 0, 'domain': d, 'value': 0})
+                    row.append(self._grid_make_empty_cell(d))
                 row[-1]['is_current'] = c.get('is_current', False)
 
         return {
@@ -102,6 +98,16 @@ class Model(models.Model):
             'cols': cols,
             'rows': rows,
             'grid': grid,
+        }
+
+    def _grid_make_empty_cell(self, cell_domain):
+        return {'size': 0, 'domain': cell_domain, 'value': 0}
+
+    def _grid_format_cell(self, group, cell_field):
+        return {
+            'size': group['__count'],
+            'domain': group['__domain'],
+            'value': group[cell_field],
         }
 
     def _grid_get_row_headers(self, row_fields, groups, key):

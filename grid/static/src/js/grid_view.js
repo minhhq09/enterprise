@@ -373,34 +373,51 @@ var GridView = View.extend({
             var row_key = _(row_values).map(function (v) {
                 return v[0]
             }).join('|');
-            return h('tr', {key: row_key}, [h('th', {attrs: {colspan: 2}}, [h('div', _(row_values).map(function (v) {
-                return h('div', {attrs: {title: v[1]}}, v[1]);
-            }))]),].concat(_(row).map(function (cell, cell_index) {
-                var is_readonly = _this._cell_is_readonly(cell);
-                var cell_value = _this._cell_field.format(cell.value);
-                var cell_content = is_readonly
-                    ? h('div.o_grid_show', cell_value)
-                    : h('div.o_grid_input', { attrs: { contentEditable: "true"}}, cell_value);
-                return h('td', {class: {o_grid_current: cell.is_current}}, [
-                    h('div', {
-                        class: {
-                            o_grid_cell_container: true,
-                            o_grid_cell_empty: !cell.size,
-                            o_grid_cell_readonly: is_readonly,
-                        }, attrs: {
-                            'data-path': path.concat([row_index, cell_index]).join('.')
-                        }
-                    }, [
-                        h('i.fa.fa-search-plus.o_grid_cell_information', {
-                            attrs: {
-                                title: _("See all the records aggregated in this cell")
-                            }
-                        }, []),
-                        cell_content
-                    ])
-                ]);
+
+            return h('tr', {key: row_key}, [
+                h('th', {attrs: {colspan: 2}}, [
+                    h('div', _(row_values).map(function (v) {
+                        return h('div', {attrs: {title: v[1]}}, v[1]);
+                    }))
+                ])
+            ].concat(_(row).map(function (cell, cell_index) {
+                return _this._render_cell(cell, path.concat([row_index, cell_index]).join('.'));
             }), [h('td.o_grid_total', _this._cell_field.format(totals[row_index]))]));
         });
+    },
+    _render_cell: function (cell, path) {
+        var is_readonly = this._cell_is_readonly(cell);
+
+         // these are "hard-set" for correct grid behaviour
+        var classmap = {
+            o_grid_cell_container: true,
+            o_grid_cell_empty: !cell.size,
+            o_grid_cell_readonly: is_readonly,
+        };
+        // merge in class info from the cell
+        // classes may be completely absent, _.each treats that as an empty array
+        _(cell.classes).each(function (cls) {
+            // don't allow overwriting initial values
+            if (!(cls in classmap)) {
+                classmap[cls] = true;
+            }
+        });
+
+        var cell_value = this._cell_field.format(cell.value);
+        var cell_content = is_readonly
+            ? h('div.o_grid_show', cell_value)
+            : h('div.o_grid_input', {attrs: {contentEditable: "true"}}, cell_value);
+
+        return h('td', {class: {o_grid_current: cell.is_current}}, [
+            h('div', { class: classmap, attrs: { 'data-path': path } }, [
+                h('i.fa.fa-search-plus.o_grid_cell_information', {
+                    attrs: {
+                        title: _("See all the records aggregated in this cell")
+                    }
+                }, []),
+                cell_content
+            ])
+        ]);
     },
     /**
      * @returns {{super: number, rows: {}, columns: {}}}
