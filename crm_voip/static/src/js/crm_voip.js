@@ -827,17 +827,20 @@ core.form_widget_registry.get('phone').include({
 
 WebClient.include({
     show_application: function(){
-        this._super();
         // To get the formatCurrency function from the server
-        new Model("res.currency")
-            .call("get_format_currencies_js_function")
-            .then(function(data) {
-                var formatCurrency = new Function("amount, currency_id", data);
-                self.DialingPanel = new DialingPanel(web_client, formatCurrency);
-            });
+        return this._super.apply(this, arguments).then(function () {
+            new Model("res.currency")
+                .call("get_format_currencies_js_function")
+                .then(function(data) {
+                    var formatCurrency = new Function("amount, currency_id", data);
+                    self.DialingPanel = new DialingPanel(web_client, formatCurrency);
+                });
+        });
     },
-})
+});
+
 return {
     voipTopButton: new VoipTopButton(),
 };
+
 });
