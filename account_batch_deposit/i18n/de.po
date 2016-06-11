@@ -7,14 +7,16 @@
 # Anja Funk <anja.funk@afimage.de>, 2015
 # Ralf Hilgenstock <rh@dialoge.info>, 2016
 # Rudolf Schnapka <rs@techno-flex.de>, 2016
+# Thorsten Vocks <thorsten.vocks@openbig.org>, 2016
+# Uldarr <martin.haedicke@googlemail.com>, 2016
 # Wolfgang Taferner, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-07 14:51+0000\n"
-"PO-Revision-Date: 2016-05-15 18:46+0000\n"
-"Last-Translator: Andreas Heßler <andreas.hessler@x-direct-group.com>\n"
+"PO-Revision-Date: 2016-06-09 15:46+0000\n"
+"Last-Translator: Thorsten Vocks <thorsten.vocks@openbig.org>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,23 +75,23 @@ msgstr "Stapelbuchungen"
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
 msgid "Batch Deposit Sequence"
-msgstr ""
+msgstr "Stapelbuchungskette"
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal.py:37
 #, python-format
 msgid "Batch Deposits Sequence"
-msgstr ""
+msgstr "Stapelbuchungenkette"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_payment_batch_deposit_id
 msgid "Batch deposit id"
-msgstr ""
+msgstr "Stapelbuchungs Id"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_payment_method_selected
 msgid "Batch deposit payment method selected"
-msgstr ""
+msgstr "Stapelbuchungen als Zahlungsart ausgewählt"
 
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
@@ -97,14 +99,14 @@ msgid ""
 "Batch deposits allows you to group received checks before you deposit them to the bank.\n"
 "                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
 "                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
-msgstr ""
+msgstr "Durch Stapelbuchungen können Sie erhaltene Schecks sammeln und zusammengefasst zur Einlösung an Ihre Bank übergeben.\nDer Gesamtbetrag aller Scheckzahlungen erscheint dann als eine einzige Buchungsposition auf dem Bankkontoauszug.\nWenn Sie beim Bearbeiten Ihres Bankkontoauszugs fortfahren, wählen Sie einfach den korrespondierenden Scheck-Stapel aus, um einen Ausgleich offener Posten vorzunehmen."
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal_dashboard.py:13
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
-msgstr ""
+msgstr "Stapelbuchung anlegen"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_create_uid
@@ -202,7 +204,7 @@ msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
 "payment method, not be part of an existing batch deposit and not have "
 "already been reconciled"
-msgstr ""
+msgstr "Zahlungen, die als Einzahlungsbeleg ausgedruckt werden sollen, müssen als Zahlungsart 'Stapelbuchung' ausgewählt haben, sie dürfen nicht bereits zu einer bestehenden Stapelbuchung gehören und dürfen nicht bereits ausgeglichen worden sein."
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -212,12 +214,12 @@ msgstr "Drucken"
 #. module: account_batch_deposit
 #: model:ir.actions.report.xml,name:account_batch_deposit.action_print_batch_deposit
 msgid "Print Batch Deposit"
-msgstr ""
+msgstr "Stapelbuchung drucken"
 
 #. module: account_batch_deposit
 #: model:ir.actions.server,name:account_batch_deposit.action_account_print_batch_deposit
 msgid "Print Batch Deposits"
-msgstr ""
+msgstr "Stapelbuchungen drucken"
 
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
@@ -244,7 +246,7 @@ msgstr "Einzahlung erfassen"
 #: code:addons/account_batch_deposit/static/src/xml/account_reconciliation.xml:8
 #, python-format
 msgid "Select a Batch Deposit"
-msgstr ""
+msgstr "Wählen Sie eine Stapelbuchung aus"
 
 #. module: account_batch_deposit
 #. openerp-web
@@ -253,7 +255,7 @@ msgstr ""
 msgid ""
 "Some journal items from the selected batch deposit are already selected in "
 "another reconciliation : "
-msgstr ""
+msgstr "Einige der Journalposten aus der ausgwählten Stapelbuchung sind bereits in einer anderen Abstimmung verwendet :"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_state
@@ -266,7 +268,7 @@ msgstr "Bundesland"
 msgid ""
 "Technical feature used to know whether batch deposit was enabled as payment "
 "method."
-msgstr ""
+msgstr "Technische Funktion, um festzustellen, ob Stapelbuchungen als mögliche Zahlungsart aktiviert wurden."
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
