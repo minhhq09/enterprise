@@ -56,7 +56,7 @@ var GanttView = View.extend({
         var fields = _.compact(_.map(fields_to_gather, function(key) {
             return self.fields_view.arch.attrs[key] || '';
         }));
-        fields.push("name", "color", "active");
+        fields.push("name");
         // consolidation exclude, get the related fields
         if (this.fields_view.arch.attrs.consolidation_exclude) {
             fields = fields.concat(this.fields_view.arch.attrs.consolidation_exclude);
@@ -70,7 +70,13 @@ var GanttView = View.extend({
         var defs = [];
         defs.push(this._super());
         defs.push(data_manager.load_fields(this.dataset).then(function (fields) {
-           self.fields = fields;
+            self.fields = fields;
+            if(self.fields.color) {
+                self.fields_to_fetch.push('color');
+            }
+            if(self.fields.active) {
+                self.fields_to_fetch.push('active');
+            }
         }));
 
         if (!window.gantt) {
