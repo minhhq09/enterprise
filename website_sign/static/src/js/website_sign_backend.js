@@ -1301,6 +1301,7 @@ odoo.define('website_sign.backend', function(require) {
             var select2Options = {
                 placeholder: _t("Select the responsible"),
                 allowClear: false,
+                minimumInputLength: 3,
 
                 formatResult: function(data, resultElem, searchObj) {
                     if(!data.text) {
@@ -1381,6 +1382,7 @@ odoo.define('website_sign.backend', function(require) {
 
             var select2Options = {
                 allowClear: true,
+                minimumInputLength: 3,
 
                 formatResult: function(data, resultElem, searchObj) {
                     var partner = $.parseJSON(data.text);
