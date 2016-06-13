@@ -335,7 +335,7 @@ class product_template(models.Model):
             domain = 'api.ebay.com'
 
         if not app_id or not cert_id or not token:
-            action = self.env.ref('base_setup.action_sale_config')
+            action = self.env.ref('sales_team.action_sale_config')
             raise RedirectWarning(_('One parameter is missing.'),
                                   action.id, _('Configure The eBay Integrator Now'))
 
