@@ -57,8 +57,6 @@ var Menu = Widget.extend({
         this.$menu_brand_placeholder = this.$('.o_menu_brand');
         this.$section_placeholder = this.$('.o_menu_sections');
 
-        core.bus.on('keyup', this, this._hide_app_switcher);
-
         // Navbar's menus event handlers
         var on_secondary_menu_click = function (ev) {
             ev.preventDefault();
@@ -81,15 +79,6 @@ var Menu = Widget.extend({
         core.bus.on("resize", this, _.debounce(this._handle_extra_items, 500));
 
         return this._super.apply(this, arguments);
-    },
-    destroy: function () {
-        this._super.apply(this, arguments);
-        core.bus.off('keyup', this, this._hide_app_switcher);
-    },
-    _hide_app_switcher: function (ev) {
-        if (ev.keyCode === $.ui.keyCode.ESCAPE && this.backbutton_displayed) {
-            this.trigger_up('hide_app_switcher');
-        }
     },
     toggle_mode: function (appswitcher, overapp) {
         this.appswitcher_displayed = !!appswitcher;
