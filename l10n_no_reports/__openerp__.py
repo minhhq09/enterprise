@@ -12,7 +12,7 @@ Accounting reports for Norway
     'author': 'Rolv Råen',
     'category': 'Localization/Account Charts',
     'depends': [
-        'l10n_no',
+        'l10n_no', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml'

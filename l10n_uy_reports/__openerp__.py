@@ -12,7 +12,7 @@
 
 """,
     'depends': [
-        'l10n_uy',
+        'l10n_uy', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml',

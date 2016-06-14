@@ -17,7 +17,7 @@ This module applies to companies based in Vietnamese Accounting Standard (VAS).
 
 **Credits:** General Solutions.
 """,
-    "depends": ['l10n_vn'],
+    "depends": ['l10n_vn', 'account_reports'],
     "data": [
         'account_financial_html_report.xml',
     ],
