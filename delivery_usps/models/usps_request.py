@@ -120,9 +120,7 @@ class USPSRequest():
 
     def usps_rate_request(self, order, carrier):
         request_detail = self._usps_request_data(carrier, order)
-        request_text = carrier.env['ir.qweb'].render('delivery_usps.usps_price_request',
-                                                     request_detail,
-                                                     loader=lambda name: carrier.env['ir.ui.view'].read_template(name))
+        request_text = carrier.env['ir.qweb'].render('delivery_usps.usps_price_request', request_detail)
         dict_response = {'price': 0.0, 'currency_code': "USD"}
         api = 'RateV4' if carrier.usps_delivery_nature == 'domestic' else 'IntlRateV2'
         xml = '&XML=%s' % (quote(request_text))
@@ -234,9 +232,7 @@ class USPSRequest():
 
     def usps_request(self, picking, delivery_nature, service):
         ship_detail = self._usps_shipping_data(picking)
-        request_text = picking.env['ir.qweb'].render('delivery_usps.usps_shipping_common',
-                                                     ship_detail,
-                                                     loader=lambda name: picking.env['ir.ui.view'].read_template(name))
+        request_text = picking.env['ir.qweb'].render('delivery_usps.usps_shipping_common', ship_detail)
         api = self._api_url(delivery_nature, service)
         dict_response = {'tracking_number': 0.0, 'price': 0.0, 'currency': "USD"}
         url = 'https://secure.shippingapis.com/ShippingAPI.dll?API='
@@ -292,9 +288,7 @@ class USPSRequest():
 
     def cancel_shipment(self, picking, account_validated):
         cancel_detail = self._usps_cancel_shipping_data(picking)
-        request_text = picking.env["ir.qweb"].render('delivery_usps.usps_cancel_request',
-                                                     cancel_detail,
-                                                     loader=lambda name: picking.env['ir.ui.view'].read_template(name))
+        request_text = picking.env["ir.qweb"].render('delivery_usps.usps_cancel_request', cancel_detail)
         dict_response = {'ShipmentDeleted': False, 'error_found': False}
         # If the account isn't validated by USPS you can't use cancelling methods. It returns an authentication error.
         if not account_validated:
