@@ -341,7 +341,7 @@
                                         <t t-foreach="o.get_total_sold_per_category()" t-as="category">
                                             <tr>
                                                 <td><t t-esc="category[0]"/></td>
-                                                <td style="padding-left: 5px"><t t-esc="category[1]" t-esc-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></td>
+                                                <td style="padding-left: 5px"><t t-esc="format(category[1], 'monetary', o.currency_id)"/></td>
                                             </tr>
                                         </t>
                                     </table>
@@ -389,7 +389,7 @@
                                 <div class="col-xs-12">
                                     <strong>Amount of money in cash register</strong>:
                                     <span t-field="o.cash_register_balance_end"
-                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                          t-field-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                 </div>
                             </div>
                             <div class="row">
@@ -500,7 +500,7 @@
                                     <div class="col-xs-12">
                                         <strong>Amount of money in cash register</strong>:
                                         <span t-field="o.cash_register_balance_end"
-                                              t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                              t-field-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -515,7 +515,7 @@
                                             <t t-foreach="user['revenue_per_category']" t-as="category">
                                                 <tr>
                                                     <td><t t-esc="category[0]"/></td>
-                                                    <td style="padding-left: 5px"><t t-esc="category[1]" t-esc-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/></td>
+                                                    <td style="padding-left: 5px"><t t-esc="format(category[1], 'monetary', o.currency_id)"/></td>
                                                 </tr>
                                             </t>
                                     </table>

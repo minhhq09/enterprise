@@ -106,7 +106,7 @@
     </tr>
 </template>
 <template id="report_financial_body">
-    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or ''])">
+    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or None])">
         <h2 t-esc="report.get_title()"/>
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div class="row" t-if="mode == 'print'" style='margin-top: 20px; margin-bottom: 20px;'>
@@ -147,7 +147,7 @@
         <div t-if="mode == 'print' and context.summary != ''" class="o_account_reports_summary" role="alert">
             <span><t t-raw="context.summary" /></span>
         </div>
-        <div t-att-class="mode != 'print' and 'table-responsive' or ''">
+        <div t-att-class="mode != 'print' and 'table-responsive' or None">
             <table width='100%' t-att-class="' '.join(['o_account_reports_table', report.get_name() in ['aged_receivable', 'aged_payable'] and 'table-striped' or ''])">
                 <thead>
                     <tr>
