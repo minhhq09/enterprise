@@ -102,9 +102,9 @@
                                             <p class="mb0"><strong>Total:</strong></p>
                                         </td>
                                         <td>
-                                            <p class="mb0" t-field="account.recurring_total" t-field-options='{"widget": "monetary", "display_currency": "pricelist.currency_id"}'/>
-                                            <p class="mb0" t-field="account.recurring_amount_tax" t-field-options='{"widget": "monetary", "display_currency": "pricelist.currency_id"}'/>
-                                            <strong><p class="mb0" t-field="account.recurring_amount_total" t-field-options='{"widget": "monetary", "display_currency": "pricelist.currency_id"}'/></strong>
+                                            <p class="mb0" t-field="account.recurring_total" t-field-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/>
+                                            <p class="mb0" t-field="account.recurring_amount_tax" t-field-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/>
+                                            <strong><p class="mb0" t-field="account.recurring_amount_total" t-field-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/></strong>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -866,7 +866,7 @@
         </td>
         <td>
               <div t-field="line.price_unit"
-                  t-field-options='{"widget": "monetary", "display_currency": "quotation.pricelist_id.currency_id"}'
+                  t-field-options='{"widget": "monetary", "display_currency": quotation.pricelist_id.currency_id}'
                   t-att-style="line.discount and 'text-decoration: line-through' or ''"
                   t-att-class="(line.discount and 'text-danger' or '') + 'text-right'"/>
               <!-- TODO: apply monetary widget formating -->
@@ -877,7 +877,7 @@
         <td>
             <div class="text-right"
                 t-field="line.price_subtotal"
-                t-field-options='{"widget": "monetary", "display_currency": "quotation.pricelist_id.currency_id"}'/>
+                t-field-options='{"widget": "monetary", "display_currency": quotation.pricelist_id.currency_id}'/>
         </td>
         <td class="text-center">
             <a t-attf-href="./update_line/#{ line.id }/?order_id=#{ quotation.id }&amp;unlink=True&amp;token=#{ quotation.access_token }" class="mb8 js_update_line_json hidden-print" t-if="line.option_line_id">
