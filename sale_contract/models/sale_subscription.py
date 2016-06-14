@@ -265,7 +265,7 @@ class SaleSubscription(models.Model):
             for line in contract.recurring_invoice_line_ids:
                 order_lines.append((0, 0, {
                     'product_id': line.product_id.id,
-                    'name': line.product_id.name_template,
+                    'name': line.product_id.product_tmpl_id.name,
                     'product_uom': line.uom_id.id,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
