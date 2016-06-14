@@ -1,4 +1,2 @@
-import sys
-
-import controllers
 import models
+import version

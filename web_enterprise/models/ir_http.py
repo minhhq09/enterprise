@@ -1,9 +1,17 @@
+import json
+
 from openerp import models
 from openerp.http import request
 
 
 class Http(models.Model):
     _inherit = 'ir.http'
+
+    def webclient_rendering_context(self):
+        """ Overrides community to prevent unnecessary load_menus request """
+        return {
+            'session_info': json.dumps(self.session_info()),
+        }
 
     def session_info(self):
         ICP = request.env['ir.config_parameter'].sudo()
