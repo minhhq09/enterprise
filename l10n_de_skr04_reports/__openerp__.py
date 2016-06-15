@@ -63,7 +63,7 @@
 Accounting reports for Deutschland SKR04
     """,
     'depends': [
-        'l10n_de_skr04',
+        'l10n_de_skr04', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml',

@@ -13,7 +13,7 @@
     'author': 'SmartMode LTD',
     'website': 'http://www.smartmode.co.uk',
     'depends': [
-        'l10n_uk'
+        'l10n_uk', 'account_reports'
     ],
     'data': [
         'account_financial_html_report.xml',

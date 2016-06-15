@@ -19,7 +19,7 @@
         Accounting reports for Spain
     """,
     'depends': [
-        'l10n_es',
+        'l10n_es', 'account_reports',
     ],
     'data': [
         'account_financial_html_report.xml',

@@ -10,7 +10,7 @@
         Accounting reports for Romania
     """,
     'depends': [
-        'l10n_ro',
+        'l10n_ro', 'account_reports',
     ],
     'data': [
         'account_financial_html_report.xml',
