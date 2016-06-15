@@ -25,4 +25,35 @@
             color: transparent;
         }
     }
+
+    .o_extra_menu_items {
+        > a {
+            width: @odoo-navbar-height - 2;
+            text-align: center;
+        }
+        &.open > ul {
+            padding: 0;
+
+            > li {
+                > a {
+                    background-color: @odoo-brand-primary;
+                    color: white;
+                    border-bottom: 1px solid @odoo-brand-lightsecondary;
+
+                    &.dropdown-toggle {
+                        background-color: lighten(@odoo-brand-primary, 15%);
+                        pointer-events: none; // hack to prevent clicking on it because dropdown always opened
+                    }
+                }
+                > ul { // remove dropdown-menu default style as it is nested in another one
+                    position: static;
+                    float: none;
+                    display: block;
+                    border: none;
+                    box-shadow: none;
+                    max-height: none;
+                }
+            }
+        }
+    }
 }
