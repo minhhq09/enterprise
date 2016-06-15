@@ -9,7 +9,7 @@
         Accounting reports for Chile
     """,
     'depends': [
-        'l10n_cl',
+        'l10n_cl', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml',

@@ -17,7 +17,7 @@ Accounting reports for Colombia
     """,
     'author': ['David Arnold BA HSG (devCO)'],
     'category': 'Localization/Account Charts',
-    'depends': ['l10n_co'],
+    'depends': ['l10n_co', 'account_reports'],
     'data': [
         'account_financial_html_report.xml'
     ],

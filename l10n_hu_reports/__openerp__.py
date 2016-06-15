@@ -14,7 +14,7 @@
     'author': 'InnOpen Group Kft',
     'website': 'http://www.innopen.eu',
     'depends': [
-        'l10n_hu',
+        'l10n_hu', 'account_reports',
     ],
     'data': [
         'account_financial_html_report.xml',

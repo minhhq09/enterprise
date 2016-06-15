@@ -12,7 +12,7 @@
     'description': """
         Accounting reports for Slovenian
     """,
-    'depends': ['l10n_si'],
+    'depends': ['l10n_si', 'account_reports'],
     'data': [
         'account_financial_html_report.xml',
     ],

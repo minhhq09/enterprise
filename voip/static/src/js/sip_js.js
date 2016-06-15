@@ -19,36 +19,59 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     //initialisation of the ua object
     init_ua: function(result){
         this.mode = result.mode;
-        var ua_config = {};
-        if(this.mode == "prod" && !(result.login && result.pbx_ip && result.password)){
-            this.trigger_error(_t('One or more parameter is missing. Please check your configuration.'));
-            return;
-        }
-        ua_config = {
-            uri: result.login +'@'+result.pbx_ip,
-            wsServers: result.wsServer || null,
-            authorizationUser: result.login,
-            password: result.password,
-            hackIpInContact: true,
-            log: {level: "debug"},
-            traceSip: true,
-        };
-        this.always_transfer = result.always_transfer;
-        this.external_phone = result.external_phone;
-        this.ring_number = result.ring_number;
-        try{
-            var self = this;
-            if(this.mode == "prod"){
+        if(this.mode == "prod"){
+            var ua_config = {};
+            if(!(result.login && result.pbx_ip && result.password)){
+                this.trigger_error(_t('One or more parameter is missing. Please check your configuration.'));
+                return;
+            }
+            ua_config = {
+                uri: result.login +'@'+result.pbx_ip,
+                wsServers: result.wsServer || null,
+                authorizationUser: result.login,
+                password: result.password,
+                hackIpInContact: true,
+                log: {level: "debug"},
+                traceSip: true,
+            };
+            this.always_transfer = result.always_transfer;
+            this.external_phone = result.external_phone;
+            this.ring_number = result.ring_number;
+            try{
+                var self = this;
                 //test the ws uri
                 var test_ws = new window.WebSocket(result.wsServer, 'sip');
                 test_ws.onerror = function(){
                     self.trigger_error(_t('The websocket uri could be wrong. Please check your configuration.'));
                 };
+                this.ua = new SIP.UA(ua_config);
+            }catch(err){
+                this.trigger_error(_t('The server configuration could be wrong. Please check your configuration.'));
+                return;
             }
-            this.ua = new SIP.UA(ua_config);
-        }catch(err){
-            this.trigger_error(_t('The server configuration could be wrong. Please check your configuration.'));
-            return;
+            this.ua.on('invite', function (invite_session){
+                var name = invite_session.remoteIdentity.displayName;
+                var number = invite_session.remoteIdentity.uri.user;
+                var confirmation = confirm(_t("Incoming call from ") + name + ' (' + number + ')');
+                if(confirmation){
+                    var call_options = {
+                        media: {
+                            render: {
+                                remote: self.remote_audio
+                            }
+                        }
+                    };
+                    invite_session.accept(call_options);
+                    self.onCall = true;
+                    self.incoming_call = true;
+                    self.sip_session = invite_session;
+                    self.trigger('sip_incoming_call');
+                    //Bind action when the call is hanged up
+                    invite_session.on('bye',_.bind(self.bye,self));
+                }else{
+                    invite_session.reject();
+                }
+            });
         }
         this.remote_audio = document.createElement("audio");
         this.remote_audio.autoplay = "autoplay";
@@ -57,29 +80,6 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         this.ringbacktone.loop = "true";
         this.ringbacktone.src = "/voip/static/src/sounds/ringbacktone.mp3";
         $("body").append(this.ringbacktone);
-        this.ua.on('invite', function (invite_session){
-            var name = invite_session.remoteIdentity.displayName;
-            var number = invite_session.remoteIdentity.uri.user;
-            var confirmation = confirm(_t("Incoming call from ") + name + ' (' + number + ')');
-            if(confirmation){
-                var call_options = {
-                    media: {
-                        render: {
-                            remote: self.remote_audio
-                        }
-                    }
-                };
-                invite_session.accept(call_options);
-                self.onCall = true;
-                self.incoming_call = true;
-                self.sip_session = invite_session;
-                self.trigger('sip_incoming_call');
-                //Bind action when the call is hanged up
-                invite_session.on('bye',_.bind(self.bye,self));
-            }else{
-                invite_session.reject();
-            }
-        });
     },
 
     trigger_error: function(msg, temporary){
@@ -194,7 +194,8 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         if(this.mode == "demo"){
             var response = {'reason_phrase': "Ringing"};
             var self = this;
-            this.progress(response);
+            this.trigger('sip_ringing');
+            this.ringbacktone.play();
             var timer_accepted = setTimeout(function(){
                 self.accepted(response);
             },5000);

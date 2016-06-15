@@ -9,7 +9,7 @@
         Accounting reports for Switzerland
     """,
     'depends': [
-        'l10n_ch'
+        'l10n_ch', 'account_reports'
     ],
     'data': [
         'account_financial_report.xml',

@@ -13,7 +13,7 @@ Accounting reports for Croatia
     'author': ['OpenERP Croatian Community'],
     'website': 'https://code.launchpad.net/openobject-croatia',
     'category': 'Localization/Account Charts',
-    'depends': ['l10n_hr'],
+    'depends': ['l10n_hr', 'account_reports'],
     'data': [
         'account_financial_html_report.xml'
     ],

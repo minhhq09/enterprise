@@ -12,7 +12,7 @@ Accounting reports for Singapore
 ================================
     """,
     'depends': [
-        'l10n_sg'
+        'l10n_sg', 'account_reports'
     ],
     'data': [
         'account_financial_html_report.xml',
