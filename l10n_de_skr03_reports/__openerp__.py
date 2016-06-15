@@ -61,7 +61,7 @@
 Accounting reports for Deutschland
     """,
     'depends': [
-        'l10n_de_skr03'
+        'l10n_de_skr03', 'account_reports'
     ],
     'data': [
         'account_financial_report.xml',

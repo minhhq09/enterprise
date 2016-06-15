@@ -14,7 +14,7 @@ Accounting reports for France
     'author': ['OpenERP SA'],
     'website': 'http://www.openerp.com',
     'category': 'Localization/Account Charts',
-    'depends': ['l10n_fr'],
+    'depends': ['l10n_fr', 'account_reports'],
     'data':[
         'account_financial_html_report.xml'
     ],

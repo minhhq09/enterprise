@@ -1,11 +1,13 @@
 odoo.define('website_version.tour', function (require) {
 'use strict';
 
+var base = require('web_editor.base');
 var core = require('web.core');
 var Tour = require('web.Tour');
 
 var _t = core._t;
 
+base.ready().done(function () {
 Tour.register({
     id:   'versioning',
     name: "Tutorial versioning",
@@ -188,5 +190,5 @@ Tour.register({
 
     ]
 });
-
+});
 });

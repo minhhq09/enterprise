@@ -328,11 +328,8 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                     }
                 }
                 else if (no_date_range) {
-                    month = dtTo.getMonth();
-                    dtTo.setMonth(month - 1);
-                    if (dtTo.getMonth() === month) {
-                        dtTo.setDate(0);
-                    }
+                    var days_to_subtract = new Date(dtTo.getFullYear(), dtTo.getMonth()+1, 0).getDate();
+                    dtTo.setDate(dtTo.getDate()-days_to_subtract);
                 }
                 else {
                     var diff = dtTo.getTime() - dtFrom.getTime();

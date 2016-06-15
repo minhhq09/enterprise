@@ -35,7 +35,7 @@ class YodleeAccountJournal(models.Model):
     This yodlee.account record fetchs the bank statements
     '''
 
-    def _raise_exception(self, e, resp):
+    def _raise_exception(self, e):
         msg = ''
         if isinstance(e, requests.HTTPError):
             msg = " (%s)" % (e.response.status_code)
@@ -144,7 +144,7 @@ class YodleeAccountJournal(models.Model):
                 return self.company_id.write({'yodlee_user_login': username, 'yodlee_user_password': password,})
             resp.raise_for_status()
         except Exception as e:
-            self._raise_exception(e, resp)
+            self._raise_exception(e)
 
     @api.model
     def _get_yodlee_credentials(self):
@@ -196,7 +196,7 @@ class YodleeAccountJournal(models.Model):
             else:
                 raise UserError(_('An error has occurred while trying to connect to Yodlee service ') + str(e.response.status_code))
         except Exception as e:
-            self._raise_exception(e, resp)
+            self._raise_exception(e)
         resp_json = json.loads(resp.text)
         if 'error' in resp_json:
             raise UserError(resp_json.get('error'))
@@ -221,7 +221,7 @@ class YodleeAccountJournal(models.Model):
             resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=20)
             resp.raise_for_status()
         except Exception as e:
-            self._raise_exception(e, resp)
+            self._raise_exception(e)
         resp_json = json.loads(resp.text)
         if not resp_json.get('userContext', False):
             raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or _('An Error has occurred'))
@@ -248,7 +248,7 @@ class YodleeAccountJournal(models.Model):
             _logger.info('Yodlee call to %s with params %s' % (service, params))
             resp.raise_for_status()
         except Exception as e:
-            self._raise_exception(e, resp)
+            self._raise_exception(e)
         _logger.info('Yodlee response to %s: %s' % (service, resp.json()))
         return resp.text
 

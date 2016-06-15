@@ -74,7 +74,7 @@
     'author': 'Veritos - Jan Verlaan',
     'website': 'http://www.veritos.nl',
     'depends': [
-        'l10n_nl',
+        'l10n_nl', 'account_reports',
     ],
     'data': [
         'account_financial_html_report.xml',

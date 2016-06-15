@@ -10,7 +10,7 @@
         Accounting reports for Brazilian
     """,
     'depends': [
-        'l10n_br',
+        'l10n_br', 'account_reports',
     ],
     'data': [
         'account_financial_report.xml',
