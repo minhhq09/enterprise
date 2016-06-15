@@ -52,7 +52,7 @@ class SaleSubscription(models.Model):
             cr.commit()
 
         else:
-            super(SaleSubscription, self)._set_default_value_on_column(cr, column_name, context=context)
+            super(SaleSubscription, self)._init_column(cr, column_name, context=context)
 
     @api.depends('recurring_invoice_line_ids')
     def _amount_all(self):
