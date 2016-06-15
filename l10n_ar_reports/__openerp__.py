@@ -14,7 +14,7 @@ Accounting reports for Argentina
     'author': ['Cubic ERP'],
     'website': 'http://cubicERP.com',
     'category': 'Localization/Account Charts',
-    'depends': ['l10n_ar'],
+    'depends': ['l10n_ar', 'account_reports'],
     'data':[
         'report_vat_statement.xml'
     ],

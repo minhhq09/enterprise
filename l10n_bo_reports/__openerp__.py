@@ -14,7 +14,7 @@ Accounting reports for Bolivia
     "author": "Cubic ERP",
     "website": "https://cubicERP.com",
     "category": "Localization/Account Charts",
-    "depends": ["l10n_bo"],
+    "depends": ["l10n_bo", 'account_reports'],
     "data": [
         "account_financial_html_report.xml",
     ],
