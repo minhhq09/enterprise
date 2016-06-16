@@ -506,6 +506,18 @@ var GridView = View.extend({
         });
         return this._fetch();
     },
+    _fetch_section_grid: function (section_name, section_group, additional_context) {
+        return this._model.call('read_grid', {
+            row_fields: this.get('groupby').slice(1),
+            col_field: this._col_field.name(),
+            cell_field: this._cell_field.name(),
+            range: this.get('range') || false,
+            domain: section_group.__domain,
+            context: this.get_full_context(additional_context),
+        }).done(function (grid) {
+            grid.__label = section_group[section_name];
+        });
+    },
     _fetch: function () {
         // ignore if view hasn't been loaded yet
         if (!this.fields_view || this.get('range') === undefined) {
@@ -535,26 +547,12 @@ var GridView = View.extend({
                         // to fetch an empty grid so we can render the table's
                         // decoration (pagination and columns &etc) otherwise
                         // we get a completely empty grid
-                        return _this._model.call('read_grid', {
-                            row_fields: _this.get('groupby').slice(1),
-                            col_field: _this._col_field.name(),
-                            cell_field: _this._cell_field.name(),
-                            range: _this.get('range') || false,
-                            domain: _this.get('domain') || [],
-                            context: _this.get_full_context(),
+                        return _this._fetch_section_grid(null, {
+                            __domain: _this.get('domain') || [],
                         });
                     }
                     return $.when.apply(null, _(groups).map(function (group) {
-                        return _this._model.call('read_grid', {
-                            row_fields: _this.get('groupby').slice(1),
-                            col_field: _this._col_field.name(),
-                            cell_field: _this._cell_field.name(),
-                            range: _this.get('range') || false,
-                            domain: group.__domain,
-                            context: _this.get_full_context(),
-                        }).done(function (grid) {
-                            grid.__label = group[section_name];
-                        });
+                        return _this._fetch_section_grid(section_name, group);
                     }));
                 }).then(function () {
                     var results = [].slice.apply(arguments);
