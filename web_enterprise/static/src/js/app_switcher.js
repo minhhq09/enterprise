@@ -45,6 +45,7 @@ var AppSwitcher = Widget.extend({
         this.$input = this.$('input');
         this.$menu_search = this.$('.o_menu_search');
         this.$main_content = this.$('.o_application_switcher_scrollable');
+        return this._super.apply(this, arguments);
     },
     get_initial_state: function () {
         return {
@@ -63,6 +64,7 @@ var AppSwitcher = Widget.extend({
             var item = {
                 label: _.pluck(parents.slice(1), 'name').concat(menu_item.name).join(' / '),
                 id: menu_item.id,
+                xmlid: menu_item.xmlid,
                 action: menu_item.action ? menu_item.action.split(',')[1] : '',
                 is_app: !menu_item.parent_id,
             };
@@ -200,12 +202,10 @@ var AppSwitcher = Widget.extend({
             $focused.focus();
             this.$el.scrollTo($focused, {offset: {top:-0.5*this.$el.height()}});
         }
-        if (this.state.is_searching) {
-            this.$el.css({
-                "align-items": "flex-start",
-                "padding-left": (window.innerWidth - this.$menu_search.width()) / 2
-            });
-        }
+        this.$el.css({
+            "align-items": "flex-start",
+            "padding-left": (window.innerWidth - this.$menu_search.width()) / 2,
+        });
     },
     open_menu: function(menu) {
         this.trigger_up(menu.is_app ? 'app_clicked' : 'menu_clicked', {
@@ -245,8 +245,7 @@ AppSwitcher.include({
         'click .oe_instance_hide_panel': 'enterprise_hide_panel',
     }),
     start: function () {
-        this._super();
-        this.enterprise_expiration_check();
+        return this._super.apply(this, arguments).then(this.enterprise_expiration_check.bind(this));
     },
     /** Checks for the database expiration date and display a warning accordingly. */
     enterprise_expiration_check: function() {

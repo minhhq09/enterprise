@@ -27,6 +27,7 @@ return AbstractWebClient.extend({
         },
     }),
     start: function () {
+        var self = this;
         this.$el.toggleClass('o_touch_device', config.device.touch);
 
         core.bus.on('change_menu_section', this, function (menu_id) {
@@ -35,7 +36,10 @@ return AbstractWebClient.extend({
             }));
         });
 
-        return this._super.apply(this, arguments);
+        return this._super.apply(this, arguments).then(function () {
+            // Listen to 'scroll' event in app_switcher and propagate it on main bus
+            self.app_switcher.$el.on('scroll', core.bus.trigger.bind(core.bus, 'scroll'));
+        });
     },
     bind_events: function () {
         var self = this;

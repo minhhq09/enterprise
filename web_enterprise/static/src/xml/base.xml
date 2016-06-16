@@ -21,6 +21,7 @@
             t-att-data-menu="app.id"
             t-att-data-action-model="app.action ? app.action.split(',')[0] : ''"
             t-att-data-action-id="app.action"
+            t-att-data-menu-xmlid="app.xmlid"
             t-att-href="app.href ? app.href : ('#menu_id='+app.id+'&amp;action_id='+app.action)">
             <img class="o_app_icon" t-att-src="app.icon" />
             <div class="o_caption"><t t-esc="app.label"/></div>
@@ -131,6 +132,7 @@
             t-att-data-menu="menu.id"
             t-att-data-action-model="menu.action ? menu.action.split(',')[0] : ''"
             t-att-data-action-id="menu.action ? menu.action.split(',')[1] : ''"
+            t-att-data-menu-xmlid="menu.xmlid"
             t-att-class="'o_menu_entry_lvl_' + depth"
             data-toggle="collapse" data-target="#o_navbar_collapse.in">
             <span><t t-esc="menu.name"/></span>
@@ -157,7 +159,7 @@
                     </t>
                     <t t-if="second_level_menu.children.length">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" t-att-data-menu-xmlid="second_level_menu.xmlid" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <t t-esc="second_level_menu.name"/>
                             </a>
                             <ul class="dropdown-menu" role="menu">
