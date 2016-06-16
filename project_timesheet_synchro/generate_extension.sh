@@ -27,6 +27,7 @@ cp ../web/static/src/js/framework/utils.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/core.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/mixins.js extension/static/src/js/framework
 cp ../web/static/src/js/framework/registry.js extension/static/src/js/framework
+cp ../web/static/src/js/framework/local_storage.js extension/static/src/js/framework
 
 cp -r ../web/static/lib/qweb extension/static/lib
 cp -r ../web/static/lib/nvd3 extension/static/lib

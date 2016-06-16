@@ -7,6 +7,7 @@ odoo.define('project_timeshee.ui', function (require ) {
     var time_module = require('web.time');
     var Model = require('web.Model');
     var web_data = require('web.data');
+    var local_storage = require('web.local_storage');
     var QWeb = core.qweb;
 
     var MAX_AGE = 21; // Age limit in days for activities before they are removed from the app
@@ -74,8 +75,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                 });
             }
             else {
-                self.user = localStorage.getItem('pt_current_user') ? localStorage.getItem('pt_current_user') : "$no_user$";
-                self.server = localStorage.getItem('pt_current_server') ? localStorage.getItem('pt_current_server') : "$no_server$";
+                self.user = local_storage.getItem('pt_current_user') ? local_storage.getItem('pt_current_user') : "$no_user$";
+                self.server = local_storage.getItem('pt_current_server') ? local_storage.getItem('pt_current_server') : "$no_server$";
                 self.get_user_data(self.user, self.server);
                 self.sanitize_all_ids();
                 return $.Deferred().resolve();
@@ -180,9 +181,9 @@ odoo.define('project_timeshee.ui', function (require ) {
                 self.save_user_data();
             }
 
-            localStorage.setItem('pt_current_user', username);
+            local_storage.setItem('pt_current_user', username);
             // All data
-            self.users_data = JSON.parse(localStorage.getItem('pt_data'));
+            self.users_data = JSON.parse(local_storage.getItem('pt_data'));
             // User specific data
             self.user_local_data = _.findWhere(self.users_data, {session_user : username, server_address : server_address});
             if (self.user_local_data) {
@@ -222,7 +223,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             self.save_user_data();
         },
         save_user_data: function() {
-            localStorage.setItem("pt_data", JSON.stringify(this.users_data));
+            local_storage.setItem("pt_data", JSON.stringify(this.users_data));
         },
         go_to_screen: function(args) {
             var next_screen = this.map_ids_to_widgets[args.id];
@@ -479,7 +480,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             }
         },
         reset_app : function() {
-            localStorage.clear();
+            local_storage.clear();
         },
         // Odoo XML ids require a specific format : module.id.
         // This function removes any extra dot contained in an id string
@@ -817,12 +818,12 @@ odoo.define('project_timeshee.ui', function (require ) {
             // Checks if the timer is linked to a scpecific activity, if needed.
             this.current_activity = false;
             this.timer_on = false;
-            if (localStorage.getItem("pt_start_timer_time")) {
-                this.start_timer_time = JSON.parse(localStorage.getItem("pt_start_timer_time"));
+            if (local_storage.getItem("pt_start_timer_time")) {
+                this.start_timer_time = JSON.parse(local_storage.getItem("pt_start_timer_time"));
                 var start_amount = 0;
 
-                if (localStorage.getItem("pt_timer_activity_id")) {
-                    var current_activity_id = JSON.parse(localStorage.getItem("pt_timer_activity_id"));
+                if (local_storage.getItem("pt_timer_activity_id")) {
+                    var current_activity_id = JSON.parse(local_storage.getItem("pt_timer_activity_id"));
                     this.current_activity = _.findWhere(self.getParent().data.account_analytic_lines , {id : current_activity_id});
                     start_amount = this.current_activity.unit_amount;
                 }
@@ -900,7 +901,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var self = this;
             self.timer_on = true;
             self.start_timer_time = new Date();
-            localStorage.setItem("pt_start_timer_time", JSON.stringify(self.start_timer_time));
+            local_storage.setItem("pt_start_timer_time", JSON.stringify(self.start_timer_time));
             this.timer_start = setInterval(function() {self.refresh_timer(self.start_timer_time, 0);},500);
             core.bus.trigger('change_screen', {
                 id : 'activities'
@@ -914,8 +915,8 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.current_activity = activity;
             this.timer_on = true;
             this.start_timer_time = new Date();
-            localStorage.setItem("pt_start_timer_time", JSON.stringify(self.start_timer_time));
-            localStorage.setItem("pt_timer_activity_id", JSON.stringify(activity.id));
+            local_storage.setItem("pt_start_timer_time", JSON.stringify(self.start_timer_time));
+            local_storage.setItem("pt_timer_activity_id", JSON.stringify(activity.id));
             this.timer_start = setInterval(function() {self.refresh_timer(self.start_timer_time, self.current_activity.unit_amount);},500);
             core.bus.trigger('change_screen', {
                 id : 'activities'
@@ -925,11 +926,11 @@ odoo.define('project_timeshee.ui', function (require ) {
         },
         on_interrupt_activity: function() {
             var self = this;
-            var activity_id = JSON.parse(localStorage.getItem("pt_timer_activity_id"));
+            var activity_id = JSON.parse(local_storage.getItem("pt_timer_activity_id"));
             var activity = _.findWhere(this.getParent().data.account_analytic_lines , {id : activity_id}); 
             clearInterval(this.timer_start);
             this.$(".pt_timer_clock").text("");
-            var start_time = new Date(JSON.parse(localStorage.getItem("pt_start_timer_time")));
+            var start_time = new Date(JSON.parse(local_storage.getItem("pt_start_timer_time")));
             var ms = moment(moment(new Date()).add(activity.unit_amount,"hours")).diff(moment(start_time));
             var d = moment.duration(ms);
             var hours = Math.floor(d.asHours());
@@ -945,8 +946,8 @@ odoo.define('project_timeshee.ui', function (require ) {
             this.current_activity = false;
             this.timer_on = false;
             this.getParent().save_user_data();
-            localStorage.removeItem("pt_start_timer_time");
-            localStorage.removeItem("pt_timer_activity_id");
+            local_storage.removeItem("pt_start_timer_time");
+            local_storage.removeItem("pt_timer_activity_id");
             core.bus.trigger('change_screen', {
                 id : 'activities'
             });
@@ -954,9 +955,9 @@ odoo.define('project_timeshee.ui', function (require ) {
         stop_timer: function() {
             this.timer_on = false;
             clearInterval(this.timer_start);
-            var unit_amount = this.hh_mm_to_unit_amount(moment.utc(new Date() - new Date(JSON.parse(localStorage.getItem("pt_start_timer_time")))).format("HH:mm"));
+            var unit_amount = this.hh_mm_to_unit_amount(moment.utc(new Date() - new Date(JSON.parse(local_storage.getItem("pt_start_timer_time")))).format("HH:mm"));
             this.current_activity = false;
-            localStorage.removeItem("pt_start_timer_time");
+            local_storage.removeItem("pt_start_timer_time");
 
             this.create_activity(undefined, unit_amount);
         },
@@ -1002,7 +1003,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             });
         },
         on_duration_over: function(event) {
-            if (localStorage.getItem("pt_start_timer_time") === null) {
+            if (local_storage.getItem("pt_start_timer_time") === null) {
                 var duration_box = this.$(event.currentTarget);
                 duration_box.addClass("pt_duration_continue");
                 duration_box.children(".pt_duration_time").addClass("hidden");
@@ -1707,7 +1708,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             session.origin = protocol + server_address;
             session.setup(protocol + server_address, {use_cors : true});
             session._session_authenticate(db_name, login, password).then(function() {
-                localStorage.setItem('pt_current_server', session.origin);
+                local_storage.setItem('pt_current_server', session.origin);
                 self.renderElement();
                 self.getParent().get_user_data(session.username, session.server);
             }).fail(function(error) {
@@ -1724,8 +1725,8 @@ odoo.define('project_timeshee.ui', function (require ) {
             session.session_logout().then(function() {
                 session.uid = undefined;
                 session.username = undefined;
-                localStorage.removeItem('pt_current_user');
-                localStorage.removeItem('pt_current_server');
+                local_storage.removeItem('pt_current_user');
+                local_storage.removeItem('pt_current_server');
                 self.getParent().get_user_data("$no_user$", "$no_server$");
                 self.renderElement();
                 console.log("Logout Successful");
@@ -1864,8 +1865,8 @@ odoo.define('project_timeshee.ui', function (require ) {
                     session.session_reload().always(function() {
                         if (session.uid) {
                             self.getParent().on_successful_login();
-                            localStorage.setItem('pt_current_server', session.origin);
-                            localStorage.setItem('pt_current_user', session.username);
+                            local_storage.setItem('pt_current_server', session.origin);
+                            local_storage.setItem('pt_current_user', session.username);
                         }
                         else {
                             alert('Odoo login failed');
@@ -1926,7 +1927,7 @@ odoo.define('project_timeshee.ui', function (require ) {
             var server_address = this.$(".pt_premise_url").val();
             var protocol = this.$(".pt_premise_protocol").val();
             session._session_authenticate(db_name, login, password).then(function() {
-                localStorage.setItem('pt_current_server', session.origin);
+                local_storage.setItem('pt_current_server', session.origin);
                 self.getParent().on_successful_login();
             }).fail(function(error) {
                 if (error && error.code == -32098) {
