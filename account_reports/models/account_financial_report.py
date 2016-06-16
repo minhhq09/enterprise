@@ -7,6 +7,7 @@ from openerp.tools.misc import formatLang
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
+from openerp.osv import expression
 
 
 class ReportAccountFinancialReport(models.Model):
@@ -115,6 +116,25 @@ class AccountFinancialReportLine(models.Model):
     show_domain = fields.Selection([('always', 'Always'), ('never', 'Never'), ('foldable', 'Foldable')], default='foldable')
     hide_if_zero = fields.Boolean(default=False)
     action_id = fields.Many2one('ir.actions.actions')
+
+    @api.multi
+    def report_move_lines_action(self):
+        domain = safe_eval(self.domain)
+        if 'date_from' in self.env.context.get('context', {}):
+            if self.env.context['context'].get('date_from'):
+                domain = expression.AND([domain, [('date', '>=', self.env.context['context']['date_from'])]])
+            if self.env.context['context'].get('date_to'):
+                domain = expression.AND([domain, [('date', '<=', self.env.context['context']['date_to'])]])
+            if self.env.context['context'].get('state', 'all') == 'posted':
+                domain = expression.AND([domain, [('move_id.state', '=', 'posted')]])
+            if self.env.context['context'].get('company_ids'):
+                domain = expression.AND([domain, [('company_id', 'in', self.env.context['context']['company_ids'])]])
+        return {'type': 'ir.actions.act_window',
+                'name': 'Journal Items (%s)' % self.name,
+                'res_model': 'account.move.line',
+                'view_mode': 'tree,form',
+                'domain': domain,
+                }
 
     @api.one
     @api.constrains('groupby')
