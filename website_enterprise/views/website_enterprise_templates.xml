@@ -8,11 +8,8 @@
     </template>
 
     <template id="user_navbar" inherit_id="website.user_navbar">
-        <xpath expr="//ul['id=oe_applications']" position="attributes">
-            <attribute name="groups">!base.group_user</attribute>
-        </xpath>
-        <xpath expr="//ul['id=oe_applications']" position="after">
-            <a groups="base.group_user" href="#" class="fa fa-th o_menu_toggle"/>
+        <xpath expr="//ul['id=oe_applications']" position="replace">
+            <a href="#" class="fa fa-th o_menu_toggle"/>
         </xpath>
     </template>
 </odoo>
