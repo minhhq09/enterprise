@@ -278,7 +278,7 @@ class account_analytic_line(models.Model):
         Wrapper for the load method. It ensures that all valid records are loaded, while records that can't be loaded for any reason are left out.
         Returns the failed records ids and error messages.
         """
-        messages = model.load(fields, data_rows, context=self.env.context)['messages']
+        messages = model.load(fields, data_rows)['messages']
 
         failed_records_indices = [messages[x].get('record') for x in range(len(messages)) if messages[x].get('type') == 'error']
 
