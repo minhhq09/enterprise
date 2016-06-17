@@ -287,7 +287,7 @@ class account_analytic_line(models.Model):
 
         if failed_records_indices:
             correct_data_rows = [v for i, v in enumerate(data_rows) if i not in failed_records_indices]
-            second_load_message = model.load(fields, correct_data_rows, context=self.env.context)
+            second_load_message = model.load(fields, correct_data_rows)
 
             failed_records_messages = [messages[x].get('message') for x in range(len(messages)) if messages[x].get('type') == 'error']
             failed_records = [v[0] for i, v in enumerate(data_rows) if i in failed_records_indices]
