@@ -90,7 +90,6 @@ class sale_order(models.Model):
             'auto_generated': True,
             'auto_sale_order_id': self.id,
             'partner_ref': self.name,
-            'dest_address_id': self.partner_shipping_id and self.partner_shipping_id.id or False,
         }
         return res
 
