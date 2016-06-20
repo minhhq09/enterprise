@@ -56,27 +56,27 @@ class Lead(models.Model):
     def get_score_domain_cookies(self):
         return request.httprequest.host
 
-    @api.model
-    def _merge_pageviews(self, opportunity_id, opportunities):
+    @api.multi
+    def _merge_pageviews(self, opportunities):
         crmpv = self.env['website.crm.pageview']
-        lead_ids = [opp.id for opp in opportunities if opp.id != opportunity_id]
+        lead_ids = [opp.id for opp in opportunities if opp.id != self.id]
         pv_ids = crmpv.sudo().search([('lead_id', 'in', lead_ids)])
-        pv_ids.write({'lead_id': opportunity_id})
+        pv_ids.write({'lead_id': self.id})
 
-    @api.model
-    def _merge_scores(self, opportunity_id, opportunities):
+    @api.multi
+    def _merge_scores(self, opportunities):
         # We needs to delete score from opportunity_id, to be sure that all rules will be re-evaluated.
-        self.sudo().browse(opportunity_id).write({'score_ids': [(6, 0, [])]})
+        self.sudo().write({'score_ids': [(6, 0, [])]})
         if not self.env.context.get('assign_leads_to_salesteams'):
-            self.env['website.crm.score'].assign_scores_to_leads(lead_ids=[opportunity_id])
+            self.env['website.crm.score'].assign_scores_to_leads(lead_ids=self.ids)
 
-    @api.model
-    def merge_dependences(self, highest, opportunities):
-        self._merge_pageviews(highest, opportunities)
-        self._merge_scores(highest, opportunities)
+    @api.multi
+    def merge_dependences(self, opportunities):
+        self._merge_pageviews(opportunities)
+        self._merge_scores(opportunities)
 
         # Call default merge function
-        super(Lead, self).merge_dependences(highest, opportunities)
+        return super(Lead, self).merge_dependences(opportunities)
 
     # Overwritte ORM to add or remove the assign date
     @api.model
