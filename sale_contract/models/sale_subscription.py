@@ -215,7 +215,11 @@ class SaleSubscription(osv.osv):
             account_id = res.categ_id.property_account_income_categ_id.id
         account_id = fpos_obj.map_account(cr, uid, fiscal_position, account_id)
 
-        taxes = res.taxes_id or False
+        if context.get('force_company'):
+            taxes = res.taxes_id.filtered(lambda r: r.company_id.id == context.get('force_company')) or False
+        else:
+            taxes = res.taxes_id or False
+
         tax_id = fpos_obj.map_tax(cr, uid, fiscal_position, taxes)
         values = {
             'name': line.name,
