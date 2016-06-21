@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 10:15+0000\n"
-"PO-Revision-Date: 2016-06-07 12:04+0000\n"
+"PO-Revision-Date: 2016-06-16 05:42+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "在SEPA 备注中不允许超出 140 个字符"
 msgid ""
 "The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
 "configure it first."
-msgstr "分类账 '%s' 需要一个正确的IBAN 账号来通过SEPA付费。请先配置它。"
+msgstr "日记账 '%s' 需要一个正确的IBAN 账号来通过SEPA付费。请先配置它。"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:52
@@ -42,7 +42,7 @@ msgstr "分类账 '%s' 需要一个正确的IBAN 账号来通过SEPA付费。请
 msgid ""
 "The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
 "pay via SEPA. Please configure it first."
-msgstr "账户 '%s' (分类账 %s)需要一个银行认证码 (BIC)来通过SEPA付费. 请先配置它."
+msgstr "账户 '%s' (日记账 %s)需要一个银行认证码 (BIC)来通过SEPA付费. 请先配置它."
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:61
@@ -137,7 +137,7 @@ msgstr "被一家机构分配的标识例(如.增值税 号码)"
 msgid ""
 "In order to export a SEPA Credit Transfer file, please only select payments "
 "belonging to the same bank journal."
-msgstr "为了到处一个SEPA的转账文件.请选择同一家银行的分类账的付费。"
+msgstr "为了到处一个SEPA的转账文件.请选择同一家银行的日记账的付费。"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -153,7 +153,7 @@ msgstr "发行人"
 #: model:ir.model,name:account_sepa.model_account_journal
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_journal_id
 msgid "Journal"
-msgstr "分类账"
+msgstr "日记账"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer___last_update
@@ -237,7 +237,7 @@ msgid ""
 "be 'generic' if it cannot be considered as a standard european credit "
 "transfer. That is if the bank journal is not in €, a transaction is not in €"
 " or a payee is not identified by an IBAN account number and a bank BIC."
-msgstr "技术功能在文件创建时使用. 会有一条被认为是“通用”的SEPA信息，如果不能被看作是一个标准的欧洲信用转账. 当银行分类账不是以欧元为单位，交易不是以欧元为单位或者没有IBAN认证和银行认证码."
+msgstr "技术功能在文件创建时使用. 会有一条被认为是“通用”的SEPA信息，如果不能被看作是一个标准的欧洲信用转账. 当银行日记账不是以欧元为单位，交易不是以欧元为单位或者没有IBAN认证和银行认证码."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:306
@@ -253,7 +253,7 @@ msgstr "账户 %s,链接到伙伴 '%s', 不是IBAN类型.\n一个有效的IBAN�
 msgid ""
 "The account %s, of journal '%s', is not of type IBAN.\n"
 "A valid IBAN account is required to use SEPA features."
-msgstr "分类账的 %s, 账户 '%s',不是IBAN类型.\n一个有效的IBAN账户需要使用SEPA功能."
+msgstr "日记账的 %s, 账户 '%s',不是IBAN类型.\n一个有效的IBAN账户需要使用SEPA功能."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:260
@@ -286,7 +286,7 @@ msgstr "这个银行账号没有银行认证码 '%s'"
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
 "'%s'"
-msgstr "银行帐号没有银行认证码记录 '%s' 分类账的 '%s'"
+msgstr "银行帐号没有银行认证码记录 '%s' 日记账的 '%s'"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:77
