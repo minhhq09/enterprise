@@ -44,6 +44,7 @@ var ReportWidget = Widget.extend({
     outboundLink: function(e) {
         e.stopPropagation();
         var self = this;
+        var id = $(e.target).parents('td').data('id');
         var action_id = $(e.target).data('action-id');
         var action_name = $(e.target).data('action-name');
         var active_id = $(e.target).data('active-id');
@@ -54,6 +55,9 @@ var ReportWidget = Widget.extend({
         var additional_context = {};
         if (active_id) { 
             additional_context = {active_id: active_id};
+        }
+        else {
+            additional_context = {active_id: id};
         }
         if (res_model && active_id) { // Open the view form of the given model
             return this.do_action({

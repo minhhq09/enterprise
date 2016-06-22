@@ -10,10 +10,10 @@ class report_account_general_ledger(models.AbstractModel):
     _name = "account.general.ledger"
     _description = "General Ledger Report"
 
-    def _format(self, value):
+    def _format(self, value, currency=False):
         if self.env.context.get('no_format'):
             return value
-        currency_id = self.env.user.company_id.currency_id
+        currency_id = currency or self.env.user.company_id.currency_id
         if currency_id.is_zero(value):
             # don't print -0.0 in reports
             value = abs(value)
@@ -170,7 +170,7 @@ class report_account_general_ledger(models.AbstractModel):
             debit = grouped_accounts[account]['debit']
             credit = grouped_accounts[account]['credit']
             balance = grouped_accounts[account]['balance']
-            amount_currency = '' if not account.currency_id else grouped_accounts[account]['amount_currency']
+            amount_currency = '' if not account.currency_id else self._format(grouped_accounts[account]['amount_currency'], currency=account.currency_id)
             lines.append({
                 'id': account.id,
                 'type': 'line',
@@ -198,7 +198,7 @@ class report_account_general_ledger(models.AbstractModel):
                         line_debit = line.debit
                         line_credit = line.credit
                     progress = progress + line_debit - line_credit
-                    currency = "" if not line.account_id.currency_id else line.amount_currency
+                    currency = "" if not line.currency_id else self._format(line.amount_currency, currency=line.currency_id)
                     name = []
                     name = line.name and line.name or ''
                     if line.ref:
@@ -224,7 +224,7 @@ class report_account_general_ledger(models.AbstractModel):
                 initial_debit = grouped_accounts[account]['initial_bal']['debit']
                 initial_credit = grouped_accounts[account]['initial_bal']['credit']
                 initial_balance = grouped_accounts[account]['initial_bal']['balance']
-                initial_currency = '' if not account.currency_id else grouped_accounts[account]['initial_bal']['amount_currency']
+                initial_currency = '' if not account.currency_id else self._format(grouped_accounts[account]['initial_bal']['amount_currency'], currency=account.currency_id)
                 domain_lines[:0] = [{
                     'id': account.id,
                     'type': 'initial_balance',

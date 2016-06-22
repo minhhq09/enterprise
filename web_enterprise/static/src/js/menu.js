@@ -78,6 +78,8 @@ var Menu = Widget.extend({
         this.systray_menu = new SystrayMenu(this);
         this.systray_menu.attachTo(this.$('.o_menu_systray'));
 
+        core.bus.on("resize", this, _.debounce(this._handle_extra_items, 500));
+
         return this._super.apply(this, arguments);
     },
     destroy: function () {
@@ -123,6 +125,8 @@ var Menu = Widget.extend({
 
         this.$menu_sections[primary_menu_id].appendTo(this.$section_placeholder);
         this.current_primary_menu = primary_menu_id;
+
+        this._handle_extra_items();
     },
     _trigger_menu_clicked: function(menu_id, action_id) {
         this.trigger_up('menu_clicked', {
@@ -180,6 +184,35 @@ var Menu = Widget.extend({
             }
         }
         return undefined;
+    },
+    _handle_extra_items: function () {
+        if (this.$extraItemsToggle) {
+            this.$extraItemsToggle.find("> ul > *").appendTo(this.$section_placeholder);
+            this.$extraItemsToggle.remove();
+        }
+        if (config.device.size_class < config.device.SIZES.SM) {
+            return;
+        }
+
+        var width = this.$el.width();
+        var menuItemWidth = this.$section_placeholder.outerWidth(true);
+        var othersWidth = this.$menu_toggle.outerWidth(true) + this.$menu_brand_placeholder.outerWidth(true) + this.systray_menu.$el.outerWidth(true);
+
+        if (width < menuItemWidth + othersWidth) {
+            var $items = this.$section_placeholder.children();
+            var nbItems = $items.length;
+            menuItemWidth += 44; // @odoo-navbar-height - 2 (width of the "+" button)
+            do {
+                nbItems--;
+                menuItemWidth -= $items.eq(nbItems).outerWidth(true);
+            } while (width < menuItemWidth + othersWidth);
+
+            var $extraItems = $items.slice(nbItems).detach();
+            this.$extraItemsToggle = $("<li/>", {"class": "o_extra_menu_items"});
+            this.$extraItemsToggle.append($("<a/>", {href: "#", "class": "dropdown-toggle fa fa-plus", "data-toggle": "dropdown"}));
+            this.$extraItemsToggle.append($("<ul/>", {"class": "dropdown-menu"}).append($extraItems));
+            this.$extraItemsToggle.appendTo(this.$section_placeholder);
+        }
     },
 });
 

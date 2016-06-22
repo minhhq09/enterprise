@@ -163,8 +163,8 @@ class ProjectForecast(models.Model):
 
     @api.model
     def all_users(self, present_ids, domain, **kwargs):
-        users = self.env['res.users'].search([])
-        name = users.name_get()
+        group = self.env.ref('project.group_project_user') or self.env.ref('base.group_user')
+        name = group.users.name_get()
         return name, None
 
     _group_by_full = {

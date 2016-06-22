@@ -1,18 +1,22 @@
 // No content helper
 .o_view_manager_content {
     .oe_view_nocontent {
-        margin: 10px @odoo-horizontal-padding;
+        margin: 16px @odoo-horizontal-padding;
         padding: 15px 10px 10px 10px;
         color: white;
-        background-color: darken(@odoo-brand-secondary, 15%);
+        background-color: darken(@odoo-brand-secondary, 25%);
         max-width: 500px;
+
+        a {
+            color: lighten(@odoo-brand-optional, 15%)!important; // improve contrast
+        }
         .oe_view_nocontent_create {
             font-weight: bold;
             position: relative;
             &:before {
                 content: " ";
                 display: block;
-                border-bottom: 25px solid darken(@odoo-brand-secondary, 15%);
+                border-bottom: 25px solid darken(@odoo-brand-secondary, 25%);
                 border-top: none;
                 border-left: 25px solid transparent;
                 border-right: 25px solid transparent;
@@ -22,12 +26,5 @@
                 left: 0;
             }
         }
-        a {
-            cursor: pointer;
-        }
-    }
-    // Hide view_nocontent in x2many fields
-    &.o_form_field .oe_view_nocontent {
-        display: none;
     }
 }

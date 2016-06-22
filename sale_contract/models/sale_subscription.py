@@ -197,7 +197,11 @@ class SaleSubscription(models.Model):
             account_id = line.product_id.categ_id.property_account_income_categ_id.id
         account_id = fiscal_position.map_account(account_id)
 
-        tax = fiscal_position.map_tax(line.product_id.taxes_id)
+        if self.env.context.get('force_company'):
+            tax = line.product_id.taxes_id.filter(lambda r: r.company_id.id == self.env.context['force_company'])
+        else:
+            tax = line.product_id.taxes_id
+        tax = fiscal_position.map_tax(tax)
         return {
             'name': line.name,
             'account_id': account_id,

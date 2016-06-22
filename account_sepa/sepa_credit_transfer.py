@@ -50,9 +50,9 @@ class AccountSepaCreditTransfer(models.TransientModel):
     journal_id = fields.Many2one('account.journal', string="Journal", readonly=True)
     bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", readonly=True)
     is_generic = fields.Boolean(readonly=True,
-        help="Technical feature used during the file creation. A SEPA message is said to be 'generic' if it cannot be considered as "
-             "a standard european credit transfer. That is if the bank journal is not in €, a transaction is not in € or a payee is "
-             "not identified by an IBAN account number and a bank BIC.")
+        help=u"Technical feature used during the file creation. A SEPA message is said to be 'generic' if it cannot be considered as "
+             u"a standard european credit transfer. That is if the bank journal is not in €, a transaction is not in € or a payee is "
+             u"not identified by an IBAN account number and a bank BIC.")
     warning_message = fields.Text(string='Warning', compute=_get_warning_message, store=False)
     file = fields.Binary('SEPA XML File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
