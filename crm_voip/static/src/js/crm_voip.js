@@ -215,6 +215,10 @@ var DialingPanel = Widget.extend({
         "click .oe_dial_call_button":  "call_button",
         "click .oe_dial_search_icon": function(ev){ev.preventDefault();this.search_phonecalls_status(false);},
         "click .oe_dial_refresh_icon": function(ev){ev.preventDefault();this.search_phonecalls_status(true);},
+        "click .oe_dial_keypad_icon": function(ev){ev.preventDefault();this.toggle_keypad();},
+        "click .oe_dial_keypad_button": function(ev){ev.preventDefault();this.keypad_button(ev.currentTarget.textContent);},
+        "click .oe_dial_keypad_backspace": "keypad_backspace",
+        "click .oe_dial_keypad_call_button": "keypad_call_button",
         "click .oe_dial_hangup_button": "hangup_button",
         "click .oe_dial_schedule_call": "schedule_call",
         "click .oe_dial_email": "send_email",
@@ -271,6 +275,10 @@ var DialingPanel = Widget.extend({
         this.$big_call_button = this.$('.oe_dial_big_call_button');
         this.$hangup_button = this.$('.oe_dial_hangup_button');
         this.$hangup_transfer_buttons = this.$(".oe_dial_transfer_button, .oe_dial_hangup_button");
+        this.$dial_display_pannel = this.$(".oe_dial_display_pannel");
+        this.$dial_keypad = this.$(".oe_dial_keypad");
+        this.$dial_keypad_optional = this.$(".oe_dial_keypad_optional");
+        this.$dial_dial_keypad_input = this.$(".oe_dial_keypad_input");
     },
 
     toggle_display: function(){
@@ -318,6 +326,58 @@ var DialingPanel = Widget.extend({
                 if(self.button_up_deferred){
                     self.button_up_deferred.resolve();
                 }
+            });
+        }
+    },
+
+    toggle_keypad: function(){
+        this.toggle_keypad_optional();
+        if (this.$dial_keypad.hasClass("oe_dial_pannel_displayed")){
+            this.$dial_display_pannel.addClass("oe_dial_keypad_displayed");
+            this.$dial_keypad.removeClass("oe_dial_pannel_displayed");
+        }else{
+            this.$dial_display_pannel.removeClass("oe_dial_keypad_displayed");
+            this.$dial_keypad.addClass("oe_dial_pannel_displayed");
+        }
+    },
+
+    toggle_keypad_optional: function(){
+        if(this.in_call){
+            this.$dial_keypad_optional.addClass("oe_dial_keypad_incall");
+        }else{
+            this.$dial_keypad_optional.removeClass("oe_dial_keypad_incall");
+        }
+    },
+
+    keypad_button: function(number){
+        if(this.in_call){
+            this.sip_js.send_dtmf(number);
+        }else{
+            var val = this.$dial_dial_keypad_input.val();
+            this.$dial_dial_keypad_input.val(val + number);
+        }
+    },
+
+    keypad_backspace: function(){
+        if(!this.in_call){
+            var val = this.$dial_dial_keypad_input.val();
+            this.$dial_dial_keypad_input.val(val.slice(0, -1));
+        }
+    },
+
+    keypad_call_button: function(){
+        if(!this.in_call){
+            var self = this;
+            var number = this.$dial_dial_keypad_input.val();
+            new Model("crm.phonecall").call("get_new_phonecall", [number]).then(
+                function(result){
+                    var phonecall = result.phonecall[0];
+                    self.toggle_keypad();
+                    self.display_in_queue(phonecall);
+                    self.select_call(phonecall.id);
+                    self.make_call(phonecall.id);
+                    self.$dial_dial_keypad_input.val("");
+
             });
         }
     },
@@ -480,19 +540,21 @@ var DialingPanel = Widget.extend({
     },
 
     make_call: function(phonecall_id){
-        this.current_phonecall = phonecall_id;
-        var number;
-        if(!this.widgets[this.current_phonecall].partner_phone){
-            this.do_notify(_t('The phonecall has no number'),_t('Please check if a phone number is given for the current phonecall'));
-            return;
+        if(!this.in_call){
+            this.current_phonecall = phonecall_id;
+            var number;
+            if(!this.widgets[this.current_phonecall].partner_phone){
+                this.do_notify(_t('The phonecall has no number'),_t('Please check if a phone number is given for the current phonecall'));
+                return;
+            }
+            number = this.widgets[this.current_phonecall].partner_phone;
+            //Select the current call if not already selected
+            if(!this.selected_phonecall || this.selected_phonecall.id !== this.current_phonecall ){
+                this.select_call(this.current_phonecall);
+            }
+            this.in_call = true;
+            this.sip_js.make_call(number);
         }
-        number = this.widgets[this.current_phonecall].partner_phone;
-        //Select the current call if not already selected
-        if(!this.selected_phonecall || this.selected_phonecall.id !== this.current_phonecall ){
-            this.select_call(this.current_phonecall);
-        }
-        this.in_call = true;
-        this.sip_js.make_call(number);
     },
 
     next_call: function(){

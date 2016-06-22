@@ -146,12 +146,8 @@ class ProviderFedex(models.Model):
             package_type = picking.package_ids and picking.package_ids[0].packaging_id.shipper_package_code or self.fedex_default_packaging_id.shipper_package_code
             srm.shipment_request(self.fedex_droppoff_type, self.fedex_service_type, package_type, self.fedex_weight_unit)
             srm.set_currency(picking.company_id.currency_id.name)
-            if picking.picking_type_id.code == 'incoming':
-                srm.set_shipper(picking.partner_id, picking.partner_id)
-                srm.set_recipient(picking.company_id.partner_id)
-            else:
-                srm.set_recipient(picking.partner_id)
-                srm.set_shipper(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id)
+            srm.set_shipper(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id)
+            srm.set_recipient(picking.partner_id)
 
             srm.shipping_charges_payment(superself.fedex_account_number)
 

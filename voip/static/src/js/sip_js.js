@@ -1,8 +1,10 @@
 odoo.define('voip.core', function(require) {
 "use strict";
 
+var bus = require('bus.bus').bus;
 var core = require('web.core');
 var Model = require('web.Model');
+var web_client = require('web.web_client');
 var Class = core.Class;
 var mixins = core.mixins;
 var _t = core._t;
@@ -52,24 +54,58 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
             this.ua.on('invite', function (invite_session){
                 var name = invite_session.remoteIdentity.displayName;
                 var number = invite_session.remoteIdentity.uri.user;
-                var confirmation = confirm(_t("Incoming call from ") + name + ' (' + number + ')');
-                if(confirmation){
-                    var call_options = {
-                        media: {
-                            render: {
-                                remote: self.remote_audio
+                var content = _t("From ") + name + ' (' + number + ')';
+                var title = _t('Incoming call');
+                self.ringbacktone.play();
+                var notification = self.send_notification(title, content);
+                if (notification){            
+                    notification.onclick = function(){
+                        window.focus();
+                        self.ringbacktone.pause();
+                        var call_options = {
+                            media: {
+                                render: {
+                                    remote: self.remote_audio
+                                }
                             }
+                        };
+                        invite_session.accept(call_options);
+                        self.onCall = true;
+                        self.incoming_call = true;
+                        self.sip_session = invite_session;
+                        self.trigger('sip_incoming_call');
+                        //Bind action when the call is hanged up
+                        invite_session.on('bye',_.bind(self.bye,self));
+                        this.close();
+                    };
+                    notification.onclose = function(ev){
+                        if(!self.incoming_call){
+                            self.ringbacktone.pause();
+                            invite_session.reject();
                         }
                     };
-                    invite_session.accept(call_options);
-                    self.onCall = true;
-                    self.incoming_call = true;
-                    self.sip_session = invite_session;
-                    self.trigger('sip_incoming_call');
-                    //Bind action when the call is hanged up
-                    invite_session.on('bye',_.bind(self.bye,self));
                 }else{
-                    invite_session.reject();
+                    var confirmation = confirm(_t("Incoming call from ") + name + ' (' + number + ')');
+                    if(confirmation){
+                        self.ringbacktone.pause();
+                        var call_options = {
+                            media: {
+                                render: {
+                                    remote: self.remote_audio
+                                }
+                            }
+                        };
+                        invite_session.accept(call_options);
+                        self.onCall = true;
+                        self.incoming_call = true;
+                        self.sip_session = invite_session;
+                        self.trigger('sip_incoming_call');
+                        //Bind action when the call is hanged up
+                        invite_session.on('bye',_.bind(self.bye,self));
+                    }else{
+                        invite_session.reject();
+                        self.ringbacktone.pause();
+                    }
                 }
             });
         }
@@ -80,6 +116,16 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         this.ringbacktone.loop = "true";
         this.ringbacktone.src = "/voip/static/src/sounds/ringbacktone.mp3";
         $("body").append(this.ringbacktone);
+    },
+
+    // TODO when the send_notification is moved into utils instead of mail.utils
+    // remove this function and use the one in utils
+    send_notification: function(title, content) {
+        if (Notification && Notification.permission === "granted") {
+            if (bus.is_master) {
+                return new Notification(title, {body: content, icon: "/mail/static/src/img/odoo_o.png", silent: true});
+            }
+        }
     },
 
     trigger_error: function(msg, temporary){
@@ -130,7 +176,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
         this.ringbacktone.pause();
         if(response.status_code == 404 || response.status_code == 488){
             this.trigger_error(
-                _.str.sprintf(_t('The user credentials could be wrong or the connection cannot be made. Please check your configuration.</br> (Reason receives :%s',
+                _.str.sprintf(_t('The number is incorrect, the user credentials could be wrong or the connection cannot be made. Please check your configuration.</br> (Reason receives :%s)',
                     response.reason_phrase)),
                 true);
         }
@@ -257,6 +303,12 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     transfer: function(number){
         if(this.sip_session){
             this.sip_session.refer(number);
+        }
+    },
+
+    send_dtmf: function(number){
+        if(this.sip_session){
+            this.sip_session.dtmf(number);
         }
     },
 });

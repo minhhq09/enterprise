@@ -51,6 +51,14 @@
             action="account.action_account_aged_balance_view"
             parent="account_reports_legal_statements_menu"/>
 
+        <record model="ir.actions.server" id="action_journal_items">
+            <field name="name">Journal Items by tax</field>
+            <field name="model_id" ref="account_reports.model_account_financial_html_report_line"/>
+            <field name="code">
+                action = self.pool['account.financial.html.report.line'].report_move_lines_action(cr, uid, [context['active_id']], context=context)
+            </field>
+        </record>
+
         <!-- PROFIT AND LOSS -->
 
         <record id="account_financial_report_profitandloss0" model="account.financial.html.report">
