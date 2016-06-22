@@ -282,6 +282,8 @@ class AccountFinancialReportLine(models.Model):
             if formulas:
                 for key in results:
                     c['sum'] = FormulaLine(results[key], currency_table, type='not_computed')
+                    c['sum_if_pos'] = FormulaLine(results[key]['balance'] >= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
+                    c['sum_if_neg'] = FormulaLine(results[key]['balance'] <= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
                     for col, formula in formulas.items():
                         if col in results[key]:
                             results[key][col] = safe_eval(formula, c, nocopy=True)
