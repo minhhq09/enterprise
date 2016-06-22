@@ -16,6 +16,13 @@ This module turns the Point Of Sale module into a certified Belgian cash registe
 More info:
   * http://www.systemedecaisseenregistreuse.be/
   * http://www.geregistreerdkassasysteem.be/
+
+Legal
+-----
+**The use of pos_blackbox_be sources is only certified on odoo.com SaaS platform.**
+An obfuscated and certified version of the pos_blackbox_be may be provided on
+requests for on-premise installations.
+No modified version is certified and supported by Odoo SA.
     """,
     'author': 'Odoo SA',
     'depends': ['web', 'point_of_sale', 'pos_restaurant'],
