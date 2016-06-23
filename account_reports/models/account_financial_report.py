@@ -278,7 +278,7 @@ class AccountFinancialReportLine(models.Model):
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
             else:
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2]}) for k in results])
-            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table)
+            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, only_sum=True)
             if formulas:
                 for key in results:
                     c['sum'] = FormulaLine(results[key], currency_table, type='not_computed')
@@ -479,20 +479,25 @@ class FormulaLine(object):
             for field in fields:
                 fields[field] = obj.get(field, 0)
             self.amount_residual = obj.get('amount_residual', 0)
+        elif type == 'null':
+            self.amount_residual = 0.0
         self.balance = fields['balance']
         self.credit = fields['credit']
         self.debit = fields['debit']
 
 
 class FormulaContext(dict):
-    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, *data):
+    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, only_sum=False, *data):
         self.reportLineObj = reportLineObj
         self.curObj = curObj
         self.linesDict = linesDict
         self.currency_table = currency_table
+        self.only_sum = only_sum
         return super(FormulaContext, self).__init__(data)
 
     def __getitem__(self, item):
+        if self.only_sum and item not in ['sum', 'sum_if_pos', 'sum_if_neg']:
+            return FormulaLine(self.curObj, self.currency_table, type='null')
         if self.get(item):
             return super(FormulaContext, self).__getitem__(item)
         if self.linesDict.get(item):
