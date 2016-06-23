@@ -171,6 +171,7 @@
                 <ToAddress2 t-esc="picking_partner.street"/>
             </t>
             <ToCity t-esc="picking_partner.city"/>
+            <ToProvince t-esc="picking_partner.state_id.code or ''"/>
             <ToCountry t-esc="picking_partner.country_id.name"/>
             <ToPostalCode t-esc="picking_partner.zip"/>
             <ToPOBoxFlag t-esc="ToPOBoxFlag"/>
