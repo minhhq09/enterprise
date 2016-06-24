@@ -55,7 +55,7 @@ class AnalyticLine(models.Model):
             'views': [(False, 'form')],
         }
 
-    @api.model
+    @api.multi
     def adjust_grid(self, row_domain, column_field, column_value, cell_field, change):
         if column_field != 'date' or cell_field != 'unit_amount':
             raise ValueError(
@@ -73,7 +73,6 @@ class AnalyticLine(models.Model):
             cell_field: change
         })
         return False
-
     @api.multi
     @api.depends('date', 'user_id.employee_ids.timesheet_validated')
     def _timesheet_line_validated(self):

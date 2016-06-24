@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import date, datetime, time, timedelta
 
 from openerp import models, fields, api, _
 from openerp.exceptions import ValidationError
 from openerp.osv import expression
 
+class User(models.Model):
+    _inherit = 'res.users'
+
+    resource_ids = fields.One2many('resource.resource', 'user_id')
 
 class ProjectForecast(models.Model):
     _name = 'project.forecast'
 
     def default_user_id(self):
-        return self.env.user if ("default_user_id" not in self.env.context) else self.env.context["default_user_id"]
+        return self.env.context.get('default_user_id', self.env.uid)
 
     def default_end_date(self):
-        today = fields.Datetime.from_string(fields.Datetime.now())
-        duration = timedelta(days=1)
-        return today + duration
+        return date.today() + timedelta(days=1)
 
     name = fields.Char(compute='_compute_name')
     active = fields.Boolean(default=True)
@@ -28,24 +30,24 @@ class ProjectForecast(models.Model):
     stage_id = fields.Many2one(related='task_id.stage_id', string="Task stage")
     tag_ids = fields.Many2many(related='task_id.tag_ids', string="Task tags")
 
-    time = fields.Integer(string="%", default=100.0, help="Percentage of working time")
+    time = fields.Float(string="%", help="Percentage of working time", compute='_compute_time', store=True)
 
-    start_date = fields.Datetime(default=fields.Datetime.now, required="True")
-    end_date = fields.Datetime(default=default_end_date, required="True")
+    start_date = fields.Date(default=fields.Date.today, required="True")
+    end_date = fields.Date(default=default_end_date, required="True")
 
     # consolidation color and exclude
     color = fields.Integer(string="Color", compute='_compute_color')
     exclude = fields.Boolean(string="Exclude", compute='_compute_exclude', store=True)
 
     # resource
-    resource_hours = fields.Float(string="Planned hours", compute='_compute_resource_hours', store=True)
+    resource_hours = fields.Float(string="Planned hours", default=0)
     effective_hours = fields.Float(string="Effective hours", compute='_compute_effective_hours', store=True)
     percentage_hours = fields.Float(string="Progress", compute='_compute_percentage_hours', store=True)
 
     @api.one
     @api.depends('project_id', 'task_id', 'user_id')
     def _compute_name(self):
-        group = self.env.context["group_by"] if "group_by" in self.env.context else ""
+        group = self.env.context.get("group_by", "")
 
         name = []
         if ("user_id" not in group):
@@ -54,36 +56,33 @@ class ProjectForecast(models.Model):
             name.append(self.project_id.name)
         if ("task_id" not in group and self.task_id):
             name.append(self.task_id.name)
-        self.name = " - ".join(name)
-        if (self.name == ""):
+
+        if name:
+            self.name = " - ".join(name)
+        else:
             self.name = _("undefined")
 
     @api.one
     @api.depends('project_id.color')
     def _compute_color(self):
-        if (self.project_id):
-            self.color = self.project_id.color
-        else:
-            self.color = 0
+        self.color = self.project_id.color or 0
 
     @api.one
     @api.depends('project_id.name')
     def _compute_exclude(self):
-        self.exclude = (self.project_id and self.project_id.name == "Leaves")
+        self.exclude = (self.project_id.name == "Leaves")
 
     @api.one
-    @api.depends('time', 'start_date', 'end_date')
-    def _compute_resource_hours(self):
-        start = datetime.strptime(self.start_date, "%Y-%m-%d %H:%M:%S")
-        stop = datetime.strptime(self.end_date, "%Y-%m-%d %H:%M:%S")
-        resource = self.env['resource.resource'].search([('user_id', '=', self.user_id.id)], limit=1)
-        if (resource):
-            calendar = resource.calendar_id
-            if (calendar):
-                hours = calendar.get_working_hours(start, stop)
-                self.resource_hours = hours[0] * (self.time / 100.0)
-                return
-        self.resource_hours = 0
+    @api.depends('resource_hours', 'start_date', 'end_date', 'user_id.resource_ids.calendar_id')
+    def _compute_time(self):
+        start = fields.Datetime.from_string(self.start_date)
+        stop = fields.Datetime.from_string(self.end_date)
+        calendar = self.mapped('user_id.resource_ids.calendar_id')
+        if calendar:
+            hours = calendar[0].get_working_hours(start, stop)
+            self.time = self.resource_hours * 100.0 / hours[0]
+        else:
+            self.time = 0
 
     @api.one
     @api.depends('task_id', 'user_id', 'start_date', 'end_date', 'project_id.analytic_account_id')
@@ -104,24 +103,22 @@ class ProjectForecast(models.Model):
                 timesheets = aac_obj.search(expression.AND([[('account_id', '=', self.project_id.analytic_account_id.id)], aac_domain]))
             else:
                 timesheets = aac_obj.browse()
-            acc = 0
-            for timesheet in timesheets:
-                acc += timesheet.unit_amount
-            self.effective_hours = acc
+
+            self.effective_hours = sum(timesheet.unit_amount for timesheet in timesheets)
 
     @api.one
     @api.depends('resource_hours', 'effective_hours')
     def _compute_percentage_hours(self):
-        if (self.resource_hours != 0):
+        if self.resource_hours:
             self.percentage_hours = self.effective_hours / self.resource_hours
         else:
             self.percentage_hours = 0
 
     @api.one
-    @api.constrains('time')
+    @api.constrains('resource_hours')
     def _check_time_positive(self):
-        if self.time and (self.time < 0):
-            raise ValidationError(_("The time must be positive"))
+        if self.resource_hours and (self.resource_hours < 0):
+            raise ValidationError(_("Forecasted time must be positive"))
 
     @api.one
     @api.constrains('task_id', 'project_id')
@@ -137,7 +134,7 @@ class ProjectForecast(models.Model):
 
     @api.onchange('task_id')
     def _onchange_task_id(self):
-        if (self.task_id):
+        if self.task_id:
             self.project_id = self.task_id.project_id
 
     @api.onchange('project_id')
@@ -149,15 +146,15 @@ class ProjectForecast(models.Model):
 
     @api.onchange('start_date')
     def _onchange_start_date(self):
-        if (self.end_date < self.start_date):
-            start = fields.Datetime.from_string(self.start_date)
+        if self.end_date < self.start_date:
+            start = fields.Date.from_string(self.start_date)
             duration = timedelta(days=1)
             self.end_date = start + duration
 
     @api.onchange('end_date')
     def _onchange_end_date(self):
-        if (self.start_date > self.end_date):
-            end = fields.Datetime.from_string(self.end_date)
+        if self.start_date > self.end_date:
+            end = fields.Date.from_string(self.end_date)
             duration = timedelta(days=1)
             self.start_date = end - duration
 
@@ -185,7 +182,7 @@ class Project(models.Model):
 
     @api.multi
     def create_forecast(self):
-        view_id = self.env['ir.model.data'].get_object_reference('project_forecast', 'project_forecast_view_form')[1]
+        view_id = self.env.ref('project_forecast.project_forecast_view_form').id
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'project.forecast',
@@ -205,7 +202,7 @@ class Task(models.Model):
 
     @api.multi
     def create_forecast(self):
-        view_id = self.env['ir.model.data'].get_object_reference('project_forecast', 'project_forecast_view_form')[1]
+        view_id = self.env.ref('project_forecast.project_forecast_view_form').id
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'project.forecast',

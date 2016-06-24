@@ -13,8 +13,7 @@ This view is a work in progress and may have to be expanded or altered.
   are nominally implemented and supported but have not been tested, 
   ``datetime`` is not implemented at all.
 * column cells are hardly configurable and must be numerical
-* cell adjustment (in editable views) is currently hard-coded as a specific 
-  method call
+* cell adjustment is disabled by default and must be configured to be enabled
 * ``create``, ``edit`` and ``delete`` ACL metadata doesn't get automatically
   set on the view root due to limitations in ``fields_view_get`` 
   post-processing (there's a fixed explicit list of the view types getting 
@@ -31,6 +30,29 @@ view architecture is:
     
     * mandatory ``string`` attribute
     * optional ``create``, ``edit`` and ``delete`` attributes
+    * optional ``adjustment`` and ``adjust_name`` attributes
+
+      ``adjustment`` can be either ``object`` or ``action`` to indicate
+      whether a cell's adjustment should be performed through a method call
+      or an action execution. ``adjust_name`` provides respectively the method
+      name and the action id.
+
+      In both cases, the adjustment parameters are provided as a
+      ``grid_adjust`` context member, in the ``object`` case, the parameters
+      are also provided as positional function parameters (next to an empty
+      list of ids):
+
+      ``row_domain``
+        the domain matching the entire row of the adjusted cell
+      ``column_field``
+        the name of the column for the adjusted cell
+      ``column_value``
+        the value of the column for the adjusted cell
+      ``cell_field``
+        the measure field of the adjusted cell
+      ``change``
+        the difference between the old value of the cell and the adjusted one,
+        may be possitive or negative
 
 ``<button>`` (0+)
     Regular Odoo action buttons, displayed in the view header
@@ -88,7 +110,7 @@ Server interactions
 
 Aside from optional buttons, the grid view currently calls two methods:
 
-* ``read_grid`` (provided on all models by the module) returns almost the 
+* ``read_grid`` (provided on all models by the module) returns almost the
   entirety of the grid's content as a dict:
   
   * the row titles is a list of dictionaries with the following keys:
@@ -118,12 +140,67 @@ Aside from optional buttons, the grid view currently calls two methods:
         the domain matching the cell's records (should be assumed opaque)
     ``size``
         the number of records grouped in the cell
-  * ``prev`` and ``next`` which can be either falsy (no pagination) or a 
+    ``readonly`` (optional)
+        a boolean indicating that this specific cell should not be
+        client-editable
+    ``classes`` (optional)
+        a list of classes (as strings) to add on the cell's container (between
+        the cell's TD and the cell's potentially-editable element).
+
+        In case of conflicts between this list and the base classes (prefixed
+        with ``o_grid_cell_``), the classes in this list are ignored.
+
+    Note that the grid data is *dense*, if querying the database yields no
+    group matching a cell a cell will generate an "empty" cell with default
+    values for required keys.
+  * ``prev`` and ``next`` which can be either falsy (no pagination) or a
     context item to merge into the view's own context to ``read_grid`` the 
     previous or next page, it should be assumed to be opaque
 
 * ``adjust_grid``, for which there currently isn't a blanket implementation
   and whose semantics are likely to evolve with time and use cases
+
+Server Hooks
+============
+
+``read_grid`` calls a number of hooks allowing the customisation of its
+operations from within without having to override the entire method:
+
+``_grid_format_cell(group, cell_field)``
+    converts the output of a read_group (group-by-group) into cells in the
+    format described above (as part of "the grid data")
+``_grid_make_empty_cell(cell_domain)``
+    generates an empty version of a cell (if there is no corresponding group)
+``_grid_column_info(name, range)``
+    generates a ColumnMetadata object based on the column type, storing values
+    either returned directly (as part of ``read_grid``) or used query and
+    reformat ``read_group`` into ``read_grid``:
+
+    ``grouping``
+        the actual grouping field/query for the columns
+    ``domain``
+        domain to apply to ``read_group`` in case the column field is
+        paginated, can be an empty list
+    ``prev`` and ``next``
+        context segments which will be sent to ``read_grid`` for pages before
+        and after the current one. If ``False``, disables pagination in that
+        direction
+    ``values``
+        column values to display on the "current page", each value is a
+        dictionary with the following keys:
+
+        ``values``
+            dictionary mapping field names to values for the entire column,
+            usually just ``name`` -> a value
+        ``domain``
+            domain matching this specific column
+        ``is_current``
+            ``True`` if the current column should be specifically outlined in
+            the grid, ``False`` otherwise
+        ``format``
+            how to format the values of that column/type from ``read_group``
+            formatting to ``read_grid`` formatting (matching ``values`` in
+            ColumnInfo)
 
 ACL
 ===

@@ -32,12 +32,8 @@
             <field name="end_date"/>
             <field name="task_id"/>
             <label for="time" string="Time"/>
-            <div>
-              <field name="time" class="oe_inline"/>
-              % of time
-            </div>
-            <field name="resource_hours" widget="float_time"
-                   attrs="{'invisible': [('resource_hours', '=', 0)]}"/>
+            <field name="resource_hours" widget="float_time"/>
+            <field name="time" attrs="{'invisible': [('time', '=', 0)]}"/>
             <field name="effective_hours" widget="float_time"
                    attrs="{'invisible': [('project_id', '=', False), ('task_id', '=', False)]}"/>
           </group>

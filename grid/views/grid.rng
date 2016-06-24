@@ -7,18 +7,45 @@
         <element name="grid">
             <ref name="acl"/>
             <attribute name="string"/>
+            <optional>
+                <attribute name="adjustment">
+                    <choice>
+                        <value>object</value>
+                        <value>action</value>
+                    </choice>
+                </attribute>
+                <attribute name="adjust_name"/>
+            </optional>
             <interleave>
                 <oneOrMore><ref name="field"/></oneOrMore>
                 <zeroOrMore><ref name="button"/></zeroOrMore>
+                <optional>
+                    <element name="empty">
+                        <oneOrMore>
+                            <element name="p">
+                                <optional>
+                                    <attribute name="class"/>
+                                </optional>
+                                <text/>
+                            </element>
+                        </oneOrMore>
+                    </element>
+                </optional>
             </interleave>
-
         </element>
     </define>
     <define name="field">
         <element name="field">
             <attribute name="name"/>
             <choice>
-                <attribute name="type"><value>row</value></attribute>
+                <group>
+                    <attribute name="type"><value>row</value></attribute>
+                    <optional>
+                        <attribute name="section">
+                            <value>1</value>
+                        </attribute>
+                    </optional>
+                </group>
                 <!-- TODO: column anchor, range & prev/next? -->
                 <group>
                     <attribute name="type"><value>col</value></attribute>
@@ -56,6 +83,7 @@
             </attribute>
             <!-- method name or action id -->
             <attribute name="name"/>
+            <optional><attribute name="class"/></optional>
             <!-- Python dict literal -->
             <optional><attribute name="context"/></optional>
         </element>

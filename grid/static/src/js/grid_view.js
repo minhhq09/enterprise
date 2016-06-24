@@ -14,7 +14,9 @@ var utils = require('web.utils');
 var session = require('web.session');
 var pyeval = require('web.pyeval');
 
-var QWeb = core.qweb;
+var patch = require('snabbdom.patch');
+var h = require('snabbdom.h');
+
 var _t = core._t;
 var _lt = core._lt;
 
@@ -52,31 +54,128 @@ var Field = Class.extend({
 });
 var fields = { };
 
+function into(object, path) {
+    if (!_(path).isArray()) {
+        path = path.split('.');
+    }
+    for (var i = 0; i < path.length; i++) {
+        object = object[path[i]];
+    }
+    return object;
+}
+
 var GridView = View.extend({
     icon: 'fa-th-list',
     view_type: 'grid',
+    add_label: _lt("Add a Line"),
+    events: {
+        "click .o_grid_button_add": function(event) {
+            var _this = this;
+            event.preventDefault();
+
+            var ctx = pyeval.eval('context', _this._model.context());
+            var form_context = _this.get_full_context();
+            var formDescription = _this.ViewManager.views.form;
+            var p = new form_common.FormViewDialog(this, {
+                res_model: _this._model.name,
+                res_id: false,
+                // TODO: document quick_create_view (?) context key
+                view_id: ctx['quick_create_view'] || (formDescription && formDescription.view_id) || false,
+                context: form_context,
+                title: _this.add_label,
+                disable_multiple_selection: true,
+            }).open();
+            p.on('create_completed', this, function () {
+                _this._fetch();
+            });
+        },
+        'keydown .o_grid_input': function (e) {
+            // suppress [return]
+            switch (e.which) {
+            case $.ui.keyCode.ENTER:
+                e.preventDefault();
+                e.stopPropagation();
+                break;
+            }
+        },
+        'blur .o_grid_input': function (e) {
+            var $target = $(e.target);
+
+            var data = this.get('grid_data');
+            // path should be [path, to, grid, 'grid', row_index, col_index]
+            var cell_path = $target.parent().data('path').split('.');
+            var grid_path = cell_path.slice(0, -3);
+            var row_path = grid_path.concat(['rows'], cell_path.slice(-2, -1));
+            var col_path = grid_path.concat(['cols'], cell_path.slice(-1));
+
+            try {
+                var val = this._cell_field.parse(e.target.textContent.trim());
+                $target.removeClass('has-error');
+            } catch (_) {
+                $target.addClass('has-error');
+                return;
+            }
+
+            this.adjust({
+                row: into(data, row_path),
+                col: into(data, col_path),
+                //ids: cell.ids,
+                value: into(data, cell_path).value
+            }, val)
+        },
+        'focus .o_grid_input': function (e) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(e.target);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        },
+        'click .o_grid_cell_information': function (e) {
+            var $target = $(e.target);
+            var data = this.get('grid_data');
+            var cell_path = $target.parent().data('path').split('.');
+            var row_path = cell_path.slice(0, -3).concat(['rows'], cell_path.slice(-2, -1));
+            var cell = into(data, cell_path);
+            var row = into(data, row_path);
+
+            var anchor, col = this._col_field.name();
+            var additional_context = {};
+            if (anchor = this.get('anchor')) {
+                additional_context['default_' + col] = anchor;
+            }
+
+            var views = this.ViewManager.views;
+            var group_fields = this.get('groupby').slice(_.isArray(this.get('grid_data')) ? 1 : 0);
+            var label = _(group_fields).map(function (name) {
+                return row.values[name][1];
+            }).join(': ');
+            this.do_action({
+                type: 'ir.actions.act_window',
+                name: label,
+                res_model: this._model.name,
+                views: [
+                    [views.list ? views.list.view_id : false, 'list'],
+                    [views.form ? views.form.view_id : false, 'form']
+                ],
+                domain: cell.domain,
+                context: this._model.context(additional_context),
+            });
+        }
+    },
     init: function (parent, dataset) {
         this._super.apply(this, arguments);
 
         this._model = dataset._model;
-        this._view = null;
 
         this._col_field = null;
         this._cell_field = null;
 
         this._in_waiting = null;
         this._fetch_mutex = new utils.Mutex();
+        // cells are only editable if the view is *and* an adjustment callback is configured
+        this._editable_cells = this.is_action_enabled('edit') && this.fields_view.arch.attrs['adjustment'];
 
-        this.on('change:grid_data', this, function (_, change) {
-            var v = change.newValue;
-            if (!this._view) { return; }
-            this._view.set({
-                sheets: v.grid,
-                rows: v.rows,
-                columns: v.cols,
-                row_fields: this.get('groupby'),
-            });
-        });
+        this.on('change:grid_data', this, this._render);
         this.on('change:range', this, this._fetch);
         this.on('change:pagination_context', this, this._fetch);
     },
@@ -84,7 +183,258 @@ var GridView = View.extend({
         this._col_field = this._fields_of_type('col')[0];
         this._cell_field = this._fields_of_type('measure')[0];
 
-        return this._setup_grid();
+        // this is the vroot, the first patch call will replace the DOM node
+        // itself instead of patching it in-place, so we're losing delegated
+        // events if the state is the root node
+        this._state = document.createElement('div');
+        this.el.appendChild(this._state);
+
+        this._render();
+        return $.when();
+    },
+    _render: function () {
+        var _this = this;
+        var columns, vnode, grid, totals;
+        var grid_data = this.get('grid_data') || {};
+        if (_.isArray(grid_data)) {
+            // array of grid groups
+            // get columns (check they're the same in all groups)
+            if (!(_.isEmpty(grid_data) || _(grid_data).reduce(function (m, it) {
+                return _.isEqual(m.cols, it.cols) && m;
+            }))) {
+                throw new Error(_t("The sectioned grid view can't handle groups with different columns sets"));
+            }
+
+            columns = grid_data.length ? grid_data[0].cols : [];
+            var super_totals = this._compute_totals(
+                _.flatten(_.pluck(grid_data, 'grid'), true));
+            vnode = this._table_base(columns, super_totals.columns);
+            var grid_body = vnode.children[0].children;
+            for (var n = 0; n < grid_data.length; n++) {
+                grid = grid_data[n];
+
+                totals = this._compute_totals(grid.grid);
+                rows = this._compute_grid_rows(
+                    grid.grid || [],
+                    this.get('groupby').slice(1),
+                    [n, 'grid'],
+                    grid.rows || [],
+                    totals.rows
+                );
+                grid_body.push(
+                    h('tbody', {class: {o_grid_section: true}}, [
+                        h('tr', [
+                            h('th', {attrs: {colspan: 2}}, [
+                                (grid.__label || [])[1] || "\u00A0"
+                            ])
+                        ].concat(
+                            _(columns).map(function (column, column_index) {
+                                return h('td', {class: {
+                                    o_grid_current: column.is_current,
+                                }}, _this._cell_field.format(
+                                        totals.columns[column_index]));
+                            }),
+                            [h('td.o_grid_total', [])]
+                        ))
+                    ].concat(rows)
+                ));
+            }
+        } else {
+            columns = grid_data.cols || [];
+            var rows = grid_data.rows || [];
+            grid = grid_data.grid || [];
+            var group_fields = this.get('groupby');
+
+            totals = this._compute_totals(grid);
+            vnode = this._table_base(columns, totals.columns, totals.super, !grid.length);
+            vnode.children[0].children.push(
+                h('tbody',
+                    this._compute_grid_rows(grid, group_fields, ['grid'], rows, totals.rows)
+                    .concat(_(Math.max(5 - rows.length, 0)).times(function () {
+                        return h('tr.o_grid_padding', [
+                            h('th', {attrs: {colspan: '2'}}, "\u00A0")
+                        ].concat(
+                            _(columns).map(function (column) {
+                                return h('td', {class: {o_grid_current: column.is_current}}, []);
+                            }),
+                            [h('td.o_grid_total', [])]
+                        ));
+                    }))
+                )
+            );
+        }
+
+        this._state = patch(this._state, vnode);
+
+        // need to debounce so grid can render
+        setTimeout(function () {
+            var row_headers = _this.el.querySelectorAll('tbody th:first-child div');
+            for (var k = 0; k < row_headers.length; k++) {
+                var header = row_headers[k];
+                if (header.scrollWidth > header.clientWidth) {
+                    $(header).addClass('overflow');
+                }
+            }
+        }, 0);
+    },
+    /**
+     * Generates the header and footer for the grid's table. If
+     * totals and super_total are provided they will be formatted and
+     * inserted into the table footer, otherwise the cells will be left empty
+     *
+     * @param {Array} columns
+     * @param {Object} [totals]
+     * @param {Number} [super_total]
+     * @param {Boolean} [empty=false]
+     */
+    _table_base: function (columns, totals, super_total, empty) {
+        var _this = this;
+        var col_field = this._col_field.name();
+        return h('div.o_view_grid', [
+            h('table.table.table-condensed.table-responsive.table-striped', [
+                h('thead', [
+                    h('tr', [
+                        h('th.o_grid_title_header'),
+                        h('th.o_grid_title_header'),
+                    ].concat(
+                        _(columns).map(function (column) {
+                            return h('th', {class: {o_grid_current: column.is_current}},
+                                column.values[col_field][1]
+                            );
+                        }),
+                        [h('th.o_grid_total', _t("Total"))]
+                    ))
+                ]),
+                h('tfoot', [
+                    h('tr', [
+                        h('td.o_grid_add_line', _this.is_action_enabled('create') ? [
+                            h('button.btn.btn-sm.btn-primary.o_grid_button_add', {
+                                attrs: {type: 'button'}
+                            }, _this.add_label.toString())
+                        ] : []),
+                        h('td', totals ? _t("Total") : [])
+                    ].concat(
+                        _(columns).map(function (column, column_index) {
+                            var cell_content = !totals
+                                ? []
+                                : _this._cell_field.format(totals[column_index]);
+                            return h('td', {class: {
+                                o_grid_current: column.is_current,
+                            }}, cell_content);
+                        }),
+                        [h('td', !super_total ? [] : _this._cell_field.format(super_total))]
+                    ))
+                ]),
+            ])
+        ].concat(this._empty_warning(empty)));
+    },
+    _empty_warning: function (empty) {
+        empty = empty && _.find(this.fields_view.arch.children, function (c) {
+            return c.tag === 'empty';
+        });
+        if (!empty || !empty.children.length || !this.is_action_enabled('create')) {
+            return [];
+        }
+        return h('div.o_grid_nocontent_container', [
+                   h('div.oe_view_nocontent oe_edit_only',
+                       _(empty.children).map(function (p) {
+                           var data = p.attrs.class
+                                   ? {attrs: {class: p.attrs.class}}
+                                   : {};
+                           return h('p', data, p.children);
+                       })
+                   )
+               ]);
+    },
+    _cell_is_readonly: function (cell) {
+        return !this._editable_cells || cell.readonly === true;
+    },
+    /**
+     *
+     * @param {Array<Array>} grid actual grid content
+     * @param {Array<String>} group_fields
+     * @param {Array} path object path to `grid` from the object's grid_data
+     * @param {Array} rows list of row keys
+     * @param {Object} totals row-keyed totals
+     * @returns {*}
+     * @private
+     */
+    _compute_grid_rows: function (grid, group_fields, path, rows, totals) {
+        var _this = this;
+        return _(grid).map(function (row, row_index) {
+            var row_values = [];
+            for (var i = 0; i < group_fields.length; i++) {
+                var row_field = group_fields[i];
+                var value = rows[row_index].values[row_field];
+                if (value) {
+                    row_values.push(value);
+                }
+            }
+            var row_key = _(row_values).map(function (v) {
+                return v[0]
+            }).join('|');
+
+            return h('tr', {key: row_key}, [
+                h('th', {attrs: {colspan: 2}}, [
+                    h('div', _(row_values).map(function (v) {
+                        return h('div', {attrs: {title: v[1]}}, v[1]);
+                    }))
+                ])
+            ].concat(_(row).map(function (cell, cell_index) {
+                return _this._render_cell(cell, path.concat([row_index, cell_index]).join('.'));
+            }), [h('td.o_grid_total', _this._cell_field.format(totals[row_index]))]));
+        });
+    },
+    _render_cell: function (cell, path) {
+        var is_readonly = this._cell_is_readonly(cell);
+
+         // these are "hard-set" for correct grid behaviour
+        var classmap = {
+            o_grid_cell_container: true,
+            o_grid_cell_empty: !cell.size,
+            o_grid_cell_readonly: is_readonly,
+        };
+        // merge in class info from the cell
+        // classes may be completely absent, _.each treats that as an empty array
+        _(cell.classes).each(function (cls) {
+            // don't allow overwriting initial values
+            if (!(cls in classmap)) {
+                classmap[cls] = true;
+            }
+        });
+
+        var cell_value = this._cell_field.format(cell.value);
+        var cell_content = is_readonly
+            ? h('div.o_grid_show', cell_value)
+            : h('div.o_grid_input', {attrs: {contentEditable: "true"}}, cell_value);
+
+        return h('td', {class: {o_grid_current: cell.is_current}}, [
+            h('div', { class: classmap, attrs: { 'data-path': path } }, [
+                h('i.fa.fa-search-plus.o_grid_cell_information', {
+                    attrs: {
+                        title: _("See all the records aggregated in this cell")
+                    }
+                }, []),
+                cell_content
+            ])
+        ]);
+    },
+    /**
+     * @returns {{super: number, rows: {}, columns: {}}}
+     */
+    _compute_totals: function (grid) {
+        var totals = {super: 0, rows: {}, columns: {}};
+        for (var i = 0; i < grid.length; i++) {
+            var row = grid[i];
+            for (var j = 0; j < row.length; j++) {
+                var cell = row[j];
+
+                totals.super += cell.value;
+                totals.rows[i] = (totals.rows[i] || 0) + cell.value;
+                totals.columns[j] = (totals.columns[j] || 0) + cell.value;
+            }
+        }
+        return totals;
     },
     do_show: function() {
         this.do_push_state({});
@@ -92,29 +442,37 @@ var GridView = View.extend({
     },
     get_ids: function () {
         var data = this.get('grid_data');
-        var grid = data.grid;
-        // if there are no elements in the grid we'll get an empty domain
-        // which will select all records of the model... that is *not* what
-        // we want
-        if (!grid.length) {
-            // ensure whatever's waiting on the ids never gets them
-            return $.Deferred().reject().promise();
+        if (!_.isArray(data)) {
+            data = [data];
         }
 
         var domain = [];
         // count number of non-empty cells and only add those to the search
         // domain, on sparse grids this makes domains way smaller
         var cells = 0;
-        for (var i = 0; i < grid.length; i++) {
-            var row = grid[i];
-            for (var j = 0; j < row.length; j++) {
-                var cell = row[j];
-                if (cell.size != 0) {
-                    cells++;
-                    domain.push.apply(domain, cell.domain);
+
+        for (var i = 0; i < data.length; i++) {
+            var grid = data[i].grid;
+
+            for (var j = 0; j < grid.length; j++) {
+                var row = grid[j];
+                for (var k = 0; k < row.length; k++) {
+                    var cell = row[k];
+                    if (cell.size != 0) {
+                        cells++;
+                        domain.push.apply(domain, cell.domain);
+                    }
                 }
             }
         }
+
+        // if there are no elements in the grid we'll get an empty domain
+        // which will select all records of the model... that is *not* what
+        // we want
+        if (cells === 0) {
+            return $.async_when([]);
+        }
+
         while (--cells > 0) {
             domain.unshift('|');
         }
@@ -148,30 +506,78 @@ var GridView = View.extend({
         });
         return this._fetch();
     },
+    _fetch_section_grid: function (section_name, section_group, additional_context) {
+        return this._model.call('read_grid', {
+            row_fields: this.get('groupby').slice(1),
+            col_field: this._col_field.name(),
+            cell_field: this._cell_field.name(),
+            range: this.get('range') || false,
+            domain: section_group.__domain,
+            context: this.get_full_context(additional_context),
+        }).done(function (grid) {
+            grid.__label = section_group[section_name];
+        });
+    },
     _fetch: function () {
         // ignore if view hasn't been loaded yet
         if (!this.fields_view || this.get('range') === undefined) {
             return;
         }
-
         var _this = this;
+        var first_field = _this.get('groupby')[0];
+        var section = _(this.fields_view.arch.children).find(function (c) {
+            return c.tag === 'field'
+                && c.attrs.name === first_field
+                && c.attrs.type === 'row'
+                && c.attrs.section === '1';
+        });
+
         // FIXME: since enqueue can drop functions, what should the semantics be for it to return a promise?
         this._enqueue(function () {
-            _this._model.call(
-                'read_grid', {
-                    row_fields: _this.get('groupby'),
-                    col_field: _this._col_field.name(),
-                    cell_field: _this._cell_field.name(),
-                    range: _this.get('range'),
-                    domain: _this.get('domain'),
-                    context: _this.get_full_context(),
-                }).then(function (results) {
+            if (section) {
+                var section_name = section.attrs.name;
+                return _this._model.call('read_group', {
+                    domain: _this.get('domain') || [],
+                    fields: [section_name],
+                    groupby: [section_name],
+                    context: _this.get_full_context()
+                }).then(function (groups) {
+                    if (!groups.length) {
+                        // if there are no groups in the output we still need
+                        // to fetch an empty grid so we can render the table's
+                        // decoration (pagination and columns &etc) otherwise
+                        // we get a completely empty grid
+                        return _this._fetch_section_grid(null, {
+                            __domain: _this.get('domain') || [],
+                        });
+                    }
+                    return $.when.apply(null, _(groups).map(function (group) {
+                        return _this._fetch_section_grid(section_name, group);
+                    }));
+                }).then(function () {
+                    var results = [].slice.apply(arguments);
+                    var r0 = results[0];
                     _this._navigation.set({
-                        prev: results.prev,
-                        next: results.next,
+                        prev: r0 && r0.prev,
+                        next: r0 && r0.next
                     });
                     _this.set('grid_data', results);
                 });
+            }
+
+            return _this._model.call('read_grid', {
+                row_fields: _this.get('groupby'),
+                col_field: _this._col_field.name(),
+                cell_field: _this._cell_field.name(),
+                range: _this.get('range') || false,
+                domain: _this.get('domain') || [],
+                context: _this.get_full_context(),
+            }).then(function (results) {
+                _this._navigation.set({
+                    prev: results.prev, next: results.next,
+                });
+                _this.set('grid_data', results);
+            });
         });
     },
     _enqueue: function (fn) {
@@ -203,7 +609,7 @@ var GridView = View.extend({
                 var fn = _this._in_waiting;
                 _this._in_waiting = null;
 
-                fn();
+                return fn();
             })
         }
 
@@ -236,19 +642,11 @@ var GridView = View.extend({
         );
         this._navigation.appendTo($node);
     },
-    _setup_grid: function () {
-        if (this._view) {
-            this._view.destroy();
-        }
-        return (this._view = new GridWidget(
-            this,
-            this._col_field,
-            this._cell_field
-        )).appendTo(this.$el);
-    },
+
     adjust: function (cell, new_value) {
         var difference = new_value - cell.value;
-        if (!difference) {
+        // 1e-6 is probably an overkill, but that way milli-values are usable
+        if (Math.abs(difference) < 1e-6) {
             // cell value was set to itself, don't hit the server
             return;
         }
@@ -256,14 +654,31 @@ var GridView = View.extend({
         var domain = this.get('domain').concat(cell.row.domain);
 
         var column_name = this._col_field.name();
-        return this._model.call('adjust_grid', {
-            row_domain: domain,
-            column_field: column_name,
-            column_value: cell.col.values[column_name][0],
-            cell_field: this._cell_field.name(),
-            change: difference,
-            context: this.get_full_context()
-        }).then(this.proxy('_fetch'));
+
+        return this.do_execute_action({
+                type: this.fields_view.arch.attrs['adjustment'],
+                name: this.fields_view.arch.attrs['adjust_name'],
+                args: JSON.stringify([ // args for type=object
+                    domain,
+                    column_name,
+                    cell.col.values[column_name][0],
+                    this._cell_field.name(),
+                    difference
+                ]),
+                context: this.get_full_context({
+                    'grid_adjust': { // context for type=action
+                        row_domain: domain,
+                        column_field: column_name,
+                        column_value: cell.col.values[column_name][0],
+                        cell_field: this._cell_field.name(),
+                        change: difference,
+                    }
+                })
+            },
+            new data.DataSetStatic(null, this._model.name, {}, []), // ids=[]
+            null, // record_id
+            this.proxy('_fetch') // on_close
+        );
     },
 });
 core.view_registry.add('grid', GridView);
@@ -289,14 +704,16 @@ var Arrows = Widget.extend({
         },
         'click .grid_arrow_button': function (e) {
             e.stopPropagation();
+            // TODO: maybe allow opting out of getting ids?
             var button = this._buttons[$(e.target).data('index')];
-                this.getParent().get_ids().then(function (ids) {
-                    this.getParent().do_execute_action(button, new data.DataSetStatic(
+            var parent = this.getParent();
+            parent.get_ids().then(function (ids) {
+                parent.do_execute_action(button, new data.DataSetStatic(
                     this,
-                    this.getParent()._model.name,
-                    this.getParent().get_full_context(button.context),
+                    parent._model.name,
+                    parent.get_full_context(button.context),
                     ids
-                ));
+                ), undefined, parent.proxy('_fetch'));
             }.bind(this));
         }
     },
@@ -338,222 +755,8 @@ var Arrows = Widget.extend({
                 .siblings().removeClass('active');
     }
 });
-var GridWidget = Widget.extend({
-    add_label: _lt("Add a Line"),
-    events: {
-        "click .o_grid_button_add": function(event) {
-            var _this = this;
-            event.preventDefault();
-
-            var parent = this.getParent();
-
-            var ctx = pyeval.eval('context', parent._model.context());
-            var form_context = parent.get_full_context();
-            var formDescription = parent.ViewManager.views.form;
-            var p = new form_common.FormViewDialog(this, {
-                res_model: parent._model.name,
-                res_id: false,
-                // TODO: document quick_create_view (?) context key
-                view_id: ctx['quick_create_view'] || (formDescription && formDescription.view_id) || false,
-                context: form_context,
-                title: this.add_label,
-                disable_multiple_selection: true,
-            }).open();
-            p.on('create_completed', this, function () {
-                _this.getParent()._fetch();
-            });
-        },
-        'keydown .o_grid_input': function (e) {
-            // suppress [return]
-            switch (e.which) {
-            case $.ui.keyCode.ENTER:
-                e.preventDefault();
-                e.stopPropagation();
-                break;
-            }
-        },
-        'blur .o_grid_input': 'change_box',
-        'focus .o_grid_input': function (e) {
-            var selection = window.getSelection();
-            var range = document.createRange();
-            range.selectNodeContents(e.target);
-            selection.removeAllRanges();
-            selection.addRange(range);
-        },
-        'click .o_grid_cell_information': function (e) {
-            var $target = $(e.target);
-            var cell = this.get('sheets')[$target.parent().data('row')]
-                                         [$target.parent().data('column')];
-            var parent = this.getParent();
-
-            var anchor, col = this._col_field;
-            var additional_context = {};
-            if (anchor = parent.get('anchor')) {
-                additional_context['default_' + col] = anchor;
-            }
-
-            var views = parent.ViewManager.views;
-            this.do_action({
-                type: 'ir.actions.act_window',
-                name: _t("Grid Cell Details"),
-                res_model: parent._model.name,
-                views: [
-                    [views.list ? views.list.view_id : false, 'list'],
-                    [views.form ? views.form.view_id : false, 'form']
-                ],
-                domain: cell.domain,
-                context: parent._model.context(additional_context),
-            });
-        }
-    },
-    init: function(parent, col_field, cell_field) {
-        this._super(parent);
-
-        this._col_field = col_field.name();
-        this._cell_field = cell_field;
-
-        this._can_create = parent.is_action_enabled('create');
-
-        this._row_keys = null;
-        this._col_keys = null;
-    },
-    start: function() {
-        // debounce render so that if the parent sets seets and immediately
-        // sets columns we don't render twice
-        var render = _.debounce(this._render.bind(this), 50);
-        this.on("change:sheets", this, render);
-        this.on("change:columns", this, render);
-        this.on("change:rows", this, render);
-        this._render();
-    },
-    _render: function() {
-        // don't render anything until we have columns
-        if (!this.get('columns') || !this.get('rows')) {
-            return;
-        }
-
-        var _this = this;
-        var _grid = this.get('sheets');
-
-        var super_total = 0;
-        var row_totals = {};
-        var col_totals = {};
-        for (var i = 0; i < _grid.length; i++) {
-            var row = _grid[i];
-            for (var j = 0; j < row.length; j++) {
-                var cell = row[j];
-
-                super_total += cell.value;
-                row_totals[i] = (row_totals[i] || 0) + cell.value;
-                col_totals[j] = (col_totals[j] || 0) + cell.value;
-            }
-        }
-
-        // rows & columns is a [{values: {*fields: *values}}]
-        var row_keys = _.map(this.get('rows'), function (r) {
-            return _(_this.get('row_fields')).map(function (f) {
-                return r.values[f][0];
-            });
-        });
-        var col_keys = _.map(this.get('columns'), function (c) {
-            return c.values[_this._col_field][0];
-        });
-        if (_.isEqual(this._row_keys, row_keys) && _.isEqual(this._col_keys, col_keys)) {
-            // rows and cols haven't changed since last render, just update
-            // the cells in-place
-            var set_ = function (cell, val) {
-                var fVal = this._cell_field.format(val);
-                if (cell.textContent !== fVal) {
-                    cell.textContent = fVal;
-                }
-            }.bind(this);
-
-
-            // update grid body (including totals, but skipping padding)
-            var rows = this.el.querySelectorAll('tbody > tr:not(.o_grid_padding)');
-            for (var r = 0; r < rows.length; r++) {
-                var cells = rows[r].querySelectorAll('td');
-                for (var c = 0; c < cells.length; c++) {
-                    var newVal, currentCell = cells[c];
-                    if (cells[c].getAttribute('class') === 'o_grid_total') {
-                        newVal = row_totals[r];
-                    } else {
-                        currentCell = currentCell
-                                .firstElementChild // o_grid_cell_container
-                                .lastElementChild; // div.input | div.show
-                        if (currentCell === document.activeElement) {
-                            // skip currently edited cell
-                            continue;
-                        }
-                        var cc = _grid[r][c];
-                        newVal = cc.value;
-                        $(currentCell).parent('.o_grid_cell_container')
-                            .toggleClass('o_grid_cell_empty', !cc.size);
-                    }
-                    set_(currentCell, newVal);
-                }
-            }
-
-            // unconditionally update grid footer (totals only)
-            var footer_cells = this.el.querySelectorAll('tfoot > tr > td');
-            // update supertotal immediately
-            set_(_.last(footer_cells), super_total);
-            for (var k = 0; k < col_keys.length; k++) {
-                var col_total = col_totals[k];
-                // skip add line and "total:" cells
-                set_(footer_cells[k + 2], col_total);
-            }
-        } else {
-            this.$el.html(QWeb.render("grid.Grid", {
-                widget: this,
-                rows: this.get('rows'),
-                columns: this.get('columns'),
-                grid: _grid,
-                row_totals: row_totals,
-                column_totals: col_totals,
-                super_total: super_total
-            }));
-            // need to debounce so grid can render
-            setTimeout(function () {
-                var row_headers = this.el.querySelectorAll('tbody th:first-child div');
-                for (var k = 0; k < row_headers.length; k++) {
-                    var header = row_headers[k];
-                    if (header.scrollWidth > header.clientWidth) {
-                        $(header).addClass('overflow');
-                    }
-                }
-            }.bind(this), 0);
-        }
-        this._row_keys = row_keys;
-        this._col_keys = col_keys;
-    },
-    change_box: function (e) {
-        var $target = $(e.target);
-
-        var row_index = $target.parent().data('row');
-        var col_index = $target.parent().data('column');
-        var cell = this.get('sheets')[row_index][col_index];
-
-        try {
-            var val = this._cell_field.parse(e.target.textContent.trim());
-            $target.removeClass('has-error');
-        } catch (e) {
-            $target.addClass('has-error');
-            return;
-        }
-
-        this.getParent().adjust({
-            row: this.get('rows')[row_index],
-            col: this.get('columns')[col_index],
-            //ids: cell.ids,
-            value: cell.value
-        }, val)
-    },
-});
-
 return {
     GridView: GridView,
-    GridWidget: GridWidget
 }
 
 });

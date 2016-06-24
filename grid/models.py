@@ -63,11 +63,7 @@ class Model(models.Model):
         for group in groups:
             row = row_key(group)
             col = column_info.format(group[column_info.grouping])
-            cell_map[row][col] = {
-                'size': group['__count'],
-                'domain': group['__domain'],
-                'value': group[cell_field],
-            }
+            cell_map[row][col] = self._grid_format_cell(group, cell_field)
 
         # pre-build whole grid, row-major, h = len(rows), w = len(cols),
         # each cell is
@@ -93,7 +89,7 @@ class Model(models.Model):
                         for f, v in r['values'].iteritems()
                     ])
                     d = expression.AND([d, c['domain']])
-                    row.append({'size': 0, 'domain': d, 'value': 0})
+                    row.append(self._grid_make_empty_cell(d))
                 row[-1]['is_current'] = c.get('is_current', False)
 
         return {
@@ -104,20 +100,36 @@ class Model(models.Model):
             'grid': grid,
         }
 
+    def _grid_make_empty_cell(self, cell_domain):
+        return {'size': 0, 'domain': cell_domain, 'value': 0}
+
+    def _grid_format_cell(self, group, cell_field):
+        return {
+            'size': group['__count'],
+            'domain': group['__domain'],
+            'value': group[cell_field],
+        }
+
     def _grid_get_row_headers(self, row_fields, groups, key):
-        seen = set()
+        seen = {}
         rows = []
         for cell in groups:
             k = key(cell)
-            if k not in seen:
-                seen.add(k)
-                rows.append({
-                    'values': {f: cell[f] for f in row_fields},
-                    # domain of first cell seen for that row, so it's possible
-                    # to find one of the relevant records and copy it
-                    'domain': cell['__domain'],
-                })
-        return rows
+            if k in seen:
+                seen[k][1].append(cell['__domain'])
+            else:
+                r = (
+                    {f: cell[f] for f in row_fields},
+                    [cell['__domain']],
+                )
+                seen[k] = r
+                rows.append(r)
+
+        # TODO: generates pretty long domains, is there a way to simplify them?
+        return [
+            {'values': values, 'domain': expression.OR(domains)}
+            for values, domains in rows
+        ]
 
     def _grid_column_info(self, name, range):
         """
@@ -168,12 +180,12 @@ class Model(models.Model):
             if context_anchor:
                 anchor = field.from_string(context_anchor)
 
-            r = range_of(span, anchor)
             labelize = partial(babel.dates.format_date,
                                format=FORMAT[step],
                                locale=self.env.context.get('lang', 'en_US'))
-            period_prev = field.to_string(anchor - STEP_BY[span])
-            period_next = field.to_string(anchor + STEP_BY[span])
+            r = self._grid_range_of(span, step, anchor)
+
+            period_prev, period_next = self._grid_pagination(field, span, step, anchor)
             return ColumnMetadata(
                 grouping='{}:{}'.format(name, step),
                 domain=[
@@ -181,16 +193,17 @@ class Model(models.Model):
                     (name, '>=', field.to_string(r.start)),
                     (name, '<=', field.to_string(r.end))
                 ],
-                prev={'grid_anchor': period_prev, 'default_%s' % name: period_prev},
-                next={'grid_anchor': period_next, 'default_%s' % name: period_next},
+                prev=period_prev and {'grid_anchor': period_prev, 'default_%s' % name: period_prev},
+                next=period_next and {'grid_anchor': period_next, 'default_%s' % name: period_next},
                 values=[{
                         'values': {
                             name: (
-                                "%s/%s" % (field.to_string(d), field.to_string(d + STEP_BY[step])),
+                                "%s/%s" % (field.to_string(d), field.to_string(d + self._grid_step_by(step))),
                                 labelize(d)
                         )},
-                        'domain': ['&', (name, '>=', field.to_string(d)),
-                                        (name, '<', field.to_string(d + STEP_BY[step]))],
+                        'domain': ['&',
+                                   (name, '>=', field.to_string(d)),
+                                   (name, '<', field.to_string(d + self._grid_step_by(step)))],
                         'is_current': d == today,
                     } for d in r.iter(step)
                 ],
@@ -199,12 +212,34 @@ class Model(models.Model):
         else:
             raise ValueError(_("Can not use fields of type %s as grid columns") % field.type)
 
+    def _grid_pagination(self, field, span, step, anchor):
+        if field.type == 'date':
+            diff = self._grid_step_by(span)
+            period_prev = field.to_string(anchor - diff)
+            period_next = field.to_string(anchor + diff)
+            return period_prev, period_next
+        return False, False
+
+    def _grid_step_by(self, span):
+        return STEP_BY.get(span)
+
+    def _grid_range_of(self, span, step, anchor):
+        return date_range(self._grid_start_of(span, step, anchor),
+                          self._grid_end_of(span, step, anchor))
+
+    def _grid_start_of(self, span, step, anchor):
+        return anchor + START_OF[span]
+
+    def _grid_end_of(self, span, step, anchor):
+        return anchor + END_OF[span]
+
+
 ColumnMetadata = collections.namedtuple('ColumnMetadata', 'grouping domain prev next values format')
-class range_of(object):
-    def __init__(self, span, anchor):
-        self.start = anchor + START_OF[span]
-        self.end = anchor + END_OF[span]
-        assert self.start < self.end
+class date_range(object):
+    def __init__(self, start, stop):
+        assert start < stop
+        self.start = start
+        self.end = stop
 
     def iter(self, step):
         v = self.start
@@ -216,10 +251,12 @@ class range_of(object):
 START_OF = {
     'week': relativedelta(weekday=MO(-1)),
     'month': relativedelta(day=1),
+    'year': relativedelta(yearday=1),
 }
 END_OF = {
     'week': relativedelta(weekday=SU),
-    'month': relativedelta(months=1, day=1, days=-1)
+    'month': relativedelta(months=1, day=1, days=-1),
+    'year': relativedelta(years=1, yearday=1, days=-1),
 }
 STEP_BY = {
     'day': relativedelta(days=1),
@@ -228,5 +265,6 @@ STEP_BY = {
     'year': relativedelta(years=1),
 }
 FORMAT = {
-    'day': u"EEE\nMMM\u00A0dd"
+    'day': u"EEE\nMMM\u00A0dd",
+    'month': u'MMMM\u00A0yyyy',
 }
