@@ -59,7 +59,7 @@ class AccountBankStatementImport(models.TransientModel):
                 # Name 0..1
                 transaction_name = entry.xpath('.//ns:RmtInf/ns:Ustrd/text()', namespaces=ns)
                 partner_name = entry.xpath('.//ns:RltdPties/ns:%s/ns:Nm/text()' % (counter_party,), namespaces=ns)
-                entry_vals['name'] = transaction_name and transaction_name[0] or ''
+                entry_vals['name'] = transaction_name and transaction_name[0] or '/'
                 entry_vals['partner_name'] = partner_name and partner_name[0] or False
                 # Bank Account No
                 bank_account_no = entry.xpath(""".//ns:RltdPties/ns:%sAcct/ns:Id/ns:IBAN/text() |
@@ -88,15 +88,25 @@ class AccountBankStatementImport(models.TransientModel):
             #   OPBD : Opening Balance
             #   PRCD : Previous Closing Balance
             #   ITBD : Interim Balance (in the case of preceeding pagination)
-            statement_vals['balance_start'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='OPBD' or ns:Cd='PRCD' or ns:Cd='ITBD']/../../ns:Amt/text()",
-                                                              namespaces=ns)[0]
+            start_amount = float(statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='OPBD' or ns:Cd='PRCD' or ns:Cd='ITBD']/../../ns:Amt/text()",
+                                                              namespaces=ns)[0])
+            # Credit Or Debit Indicator 1..1
+            sign = statement.xpath('ns:Bal/ns:CdtDbtInd/text()', namespaces=ns)[0]
+            if sign == 'DBIT':
+                start_amount *= -1
+            statement_vals['balance_start'] = start_amount
             # Ending Balance
             # Statement Date
             # any 'CLBD', 'CLAV'
             #   CLBD : Closing Balance
             #   CLAV : Closing Available
-            statement_vals['balance_end_real'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='CLBD' or ns:Cd='CLAV']/../../ns:Amt/text()",
-                                                              namespaces=ns)[0]
+            end_amount = float(statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='CLBD' or ns:Cd='CLAV']/../../ns:Amt/text()",
+                                                              namespaces=ns)[0])
+            sign = statement.xpath('ns:Bal/ns:CdtDbtInd/text()', namespaces=ns)[0]
+            if sign == 'DBIT':
+                end_amount *= -1
+            statement_vals['balance_end_real'] = end_amount
+
             statement_vals['date'] = statement.xpath("ns:Bal/ns:Tp/ns:CdOrPrtry[ns:Cd='CLBD' or ns:Cd='CLAV']/../../ns:Dt/ns:Dt/text()",
                                                               namespaces=ns)[0]
             statement_list.append(statement_vals)
