@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_production_view_form_inherit_mrp_barcode" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.barcode</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="_barcode_scanned" widget="production_barcode_handler"/>
+            </form>
+            <xpath expr="//button[@name='post_inventory']" position="attributes">
+                <attribute name="barcode_trigger">post_inventory</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_assign']" position="attributes">
+                <attribute name="barcode_trigger">action_assign</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_plan']" position="attributes">
+                <attribute name="barcode_trigger">button_plan</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_mark_done']" position="attributes">
+                <attribute name="barcode_trigger">button_mark_done</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_unreserve']" position="attributes">
+                <attribute name="barcode_trigger">button_unreserve</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="barcode_trigger">action_cancel</attribute>
+            </xpath>
+            <xpath expr="//button[@name='open_produce_product']" position="attributes">
+                <attribute name="barcode_trigger">open_produce_product</attribute>
+            </xpath>
+            <xpath expr="//button[@name='button_scrap']" position="attributes">
+                <attribute name="barcode_trigger">button_scrap</attribute>
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']/tree" position="inside">
+                <field name="product_barcode" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']//field[@name='quantity_done']" position="attributes">
+                <attribute name="options">{'barcode_events': True}</attribute>
+                <attribute name="widget">field_float_scannable</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_production_view_form_inherit_barcode" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.barcode</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp_workorder.mrp_production_view_form_inherit_planning"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_unplan']" position="attributes">
+                <attribute name="barcode_trigger">button_unplan</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

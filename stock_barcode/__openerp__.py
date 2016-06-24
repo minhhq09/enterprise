@@ -14,6 +14,7 @@
         'views/inherited_stock_picking_views.xml',
         'views/stock_barcode_templates.xml',
         'views/stock_barcode_views.xml',
+        'views/inherited_stock_scrap_views.xml',
         'data/web_planner_data.xml',
     ],
     'qweb': [

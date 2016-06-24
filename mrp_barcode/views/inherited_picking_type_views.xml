@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_production_form_action_barcode" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">form</field>
+        <field name="context">{
+            'form_view_initial_mode': 'edit',
+        }</field>
+    </record>
+
+    <record id="mrp_production_kanban_mrp_barcode" model="ir.actions.act_window">
+        <field name="name">Operations</field>
+        <field name="res_model">mrp.production</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{
+            'form_view_initial_mode': 'edit',
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'search_default_todo': True,
+        }</field>
+    </record>
+
+    <record id="stock_picking_type_kanban_mrp_barcodee" model="ir.ui.view">
+        <field name="name">stock.picking.type.kanban</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock_barcode.stock_picking_type_kanban"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="count_mo_todo"/>
+            </field>
+            <xpath expr='//div[@name="stock_picking"]' position="after">
+                <div t-if="record.code.raw_value == 'mrp_operation'">
+                    <div t-attf-class="oe_kanban_card #{kanban_color(record.color.raw_value)}">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <strong><span><t t-esc="record.display_name.value"/></span></strong>
+                            </div>
+                        </div>
+                        <div class="row text-muted">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary" name="get_action_picking_tree_ready_kanban" type="object">
+                                    <span><t t-esc="record.count_mo_todo.value"/> To Do </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

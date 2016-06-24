@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_move_inherit_mrp_barcode" model="ir.ui.view">
+        <field name="name">stock.move.form.inherit.barcode</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="mrp.view_stock_move_lots"/>
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="_barcode_scanned" widget="barcode_handler"/>
+            </form>
+            <xpath expr="//button[@name='save']" position="attributes">
+                <attribute name="barcode_trigger">save</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_product_produce_wizard_inherit_mrp_barcode" model="ir.ui.view">
+        <field name="name">mrp.product.produce.wizard.inherit.barcode</field>
+        <field name="model">mrp.product.produce</field>
+        <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>
+        <field name="arch" type="xml">
+            <form position="inside">
+                <field name="_barcode_scanned" widget="barcode_handler"/>
+            </form>
+            <xpath expr="//button[@name='do_produce']" position="attributes">
+                <attribute name="barcode_trigger">do_produce</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

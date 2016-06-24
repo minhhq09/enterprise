@@ -17,13 +17,15 @@ LOT-000001
 LOT-000002
 BARCODES
 
-barcode -t 2x5+20+40 -m 30x30 -p A4 -e code128b -o barcodes_actions.ps <<BARCODES
+barcode -t 2x7+40+40 -m 50x30 -p A4 -e code128b -o barcodes_actions.ps <<BARCODES
 O-CMD.MAIN-MENU
 O-CMD.CANCEL
 O-CMD.EDIT
 O-BTN.validate
 O-BTN.print
 O-BTN.put-in-pack
+O-BTN.button_scrap
+O-BTN.save
 O-CMD.PAGER-PREV
 O-CMD.PAGER-NEXT
 O-CMD.PAGER-FIRST
