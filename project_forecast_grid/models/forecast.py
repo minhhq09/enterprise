@@ -144,8 +144,9 @@ class Forecast(models.Model):
         }
         return action
 
-    @api.model
-    def _read_forecast_tasks(self, task_ids, domain, read_group_order=None, access_rights_uid=None):
+    @api.multi
+    def _read_forecast_tasks(self, domain, read_group_order=None, access_rights_uid=None):
+        task_ids = self.ids # not actually forecast ids despite being on self…
         Tasks = self.env['project.task']
         if access_rights_uid:
             Tasks = Tasks.sudo(access_rights_uid)
