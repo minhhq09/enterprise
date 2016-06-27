@@ -470,7 +470,7 @@ var GridView = View.extend({
         // which will select all records of the model... that is *not* what
         // we want
         if (cells === 0) {
-            return $.async_when([]);
+            return $.when([]);
         }
 
         while (--cells > 0) {
