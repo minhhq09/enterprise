@@ -40,6 +40,8 @@ class report_account_generic_tax_report(models.AbstractModel):
         sql = """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
                     FROM %s
                     WHERE %s GROUP BY "account_move_line".tax_line_id"""
+        if self.env.context.get('cash_basis'):
+            sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
         query = sql % (tables, where_clause)
         self.env.cr.execute(query, where_params)

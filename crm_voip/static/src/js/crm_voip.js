@@ -864,7 +864,8 @@ core.form_widget_registry.get('phone').include({
                 var phone_number = this.get('value');
                 
                 if(this.getParent().datarecord.phone === phone_number || this.getParent().datarecord.mobile === phone_number) {
-                    this.do_notify(_t('Start Calling'), _t('Calling ' + phone_number));
+                    this.do_notify(_t('Start Calling'),
+                        _t('Calling ') + ' ' + phone_number);
                     if(this.DialingPanel) {
                         do_call();
                     } else {

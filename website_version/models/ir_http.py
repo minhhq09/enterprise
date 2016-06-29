@@ -16,6 +16,8 @@ class ir_http(orm.AbstractModel):
 
     def get_page_key(self):
         key = super(ir_http, self).get_page_key()
+        if hasattr(request, 'website'):
+            key += (request.website.id,)
         seq_ver = [int(ver) for ver in request.context.get('website_version_experiment', {}).values()]
         key += (str(sorted(seq_ver)),)
         return key

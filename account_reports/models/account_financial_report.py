@@ -4,6 +4,7 @@
 from openerp import models, fields, api, _
 from openerp.tools.safe_eval import safe_eval
 from openerp.tools.misc import formatLang
+from openerp.tools import float_is_zero
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.exceptions import ValidationError
@@ -150,7 +151,17 @@ class AccountFinancialReportLine(models.Model):
         res = dict((fn, 0.0) for fn in field_names)
         if self.domain:
             amls = self.env['account.move.line'].search(safe_eval(self.domain))
-            compute = amls._compute_fields(field_names, currency_table, group_by=self.groupby)
+            strict_range = self.special_date_changer == 'strict_range'
+            period_from = self._context['date_from']
+            period_to = self._context['date_to']
+            if self.special_date_changer == 'from_beginning':
+                period_from = False
+            if self.special_date_changer == 'to_beginning_of_period' and self._context.get('date_from'):
+                date_tmp = datetime.strptime(self._context['date_from'], "%Y-%m-%d") - relativedelta(days=1)
+                period_to = date_tmp.strftime('%Y-%m-%d')
+                period_from = False
+
+            compute = amls.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to)._compute_fields(field_names, currency_table, group_by=self.groupby)
             for aml in amls:
                 if compute.get(aml.id):
                     for field in field_names:
@@ -279,10 +290,12 @@ class AccountFinancialReportLine(models.Model):
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
             else:
                 results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2]}) for k in results])
-            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table)
+            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, only_sum=True)
             if formulas:
                 for key in results:
                     c['sum'] = FormulaLine(results[key], currency_table, type='not_computed')
+                    c['sum_if_pos'] = FormulaLine(results[key]['balance'] >= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
+                    c['sum_if_neg'] = FormulaLine(results[key]['balance'] <= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
                     for col, formula in formulas.items():
                         if col in results[key]:
                             results[key][col] = safe_eval(formula, c, nocopy=True)
@@ -335,6 +348,7 @@ class AccountFinancialReportLine(models.Model):
     def get_lines(self, financial_report, context, currency_table, linesDicts):
         final_result_table = []
         comparison_table = context.get_periods()
+        currency_precision = self.env.user.company_id.currency_id.rounding
         # build comparison table
 
         for line in self:
@@ -359,9 +373,8 @@ class AccountFinancialReportLine(models.Model):
                 res.append(r)
                 domain_ids.update(set(r.keys()))
                 k += 1
-
             res = self._put_columns_together(res, domain_ids)
-            if line.hide_if_zero and sum([k == 0 and [True] or [] for k in res['line']], []):
+            if line.hide_if_zero and all([float_is_zero(k, precision_rounding=currency_precision) for k in res['line']]):
                 continue
 
             # Post-processing ; creating line dictionnary, building comparison, computing total for extended, formatting
@@ -478,20 +491,25 @@ class FormulaLine(object):
             for field in fields:
                 fields[field] = obj.get(field, 0)
             self.amount_residual = obj.get('amount_residual', 0)
+        elif type == 'null':
+            self.amount_residual = 0.0
         self.balance = fields['balance']
         self.credit = fields['credit']
         self.debit = fields['debit']
 
 
 class FormulaContext(dict):
-    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, *data):
+    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, only_sum=False, *data):
         self.reportLineObj = reportLineObj
         self.curObj = curObj
         self.linesDict = linesDict
         self.currency_table = currency_table
+        self.only_sum = only_sum
         return super(FormulaContext, self).__init__(data)
 
     def __getitem__(self, item):
+        if self.only_sum and item not in ['sum', 'sum_if_pos', 'sum_if_neg']:
+            return FormulaLine(self.curObj, self.currency_table, type='null')
         if self.get(item):
             return super(FormulaContext, self).__getitem__(item)
         if self.linesDict.get(item):
