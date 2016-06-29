@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- This group is meant to manage quality stages -->
+    <record id="quality.group_quality_manager" model="res.groups">
+        <field name="name">Quality Manager</field>
+        <field name="category_id" ref="base.module_category_warehouse_management"/>
+        <field name="implied_ids" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="comment">The quality manager manages the quality process</field>
+    </record>
+</odoo>
