@@ -22,7 +22,7 @@ class ActWindowView(models.Model):
 
     view_mode = fields.Selection(selection_add=_GRID_TUP)
 
-class Model(models.Model):
+class Base(models.AbstractModel):
     _inherit = 'base'
 
     @api.model

@@ -53,7 +53,8 @@ class account_invoice(models.Model):
             line2 = self.env['account.invoice.line'].with_context(context).sudo(intercompany_uid).new(inv_line_data)
             line2.invoice_id = invoice.id
             line2._onchange_product_id()
-            line_data = line2._convert_to_write(line2._cache)
+            new_vals = {k: v or False for k, v in dict(line2._cache).items()}
+            line_data = line2._convert_to_write(new_vals)
             line.with_context(context).sudo(intercompany_uid).create(line_data)
         invoice.compute_taxes()
         return invoice.id
@@ -92,7 +93,8 @@ class account_invoice(models.Model):
             'auto_invoice_id': self.id,}
         inv = self.env['account.invoice'].with_context(context).new(vals)
         inv._onchange_partner_id()
-        return inv._convert_to_write(inv._cache)
+        new_vals = {k: v or False for k, v in dict(inv._cache).items()}
+        return inv._convert_to_write(new_vals)
 
     @api.model
     def _prepare_invoice_line_data(self, line):
