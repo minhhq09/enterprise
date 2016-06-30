@@ -7,7 +7,7 @@
     'name': 'Belgium - Import Bank CODA Statements',
     'version': '2.1',
     'author': 'Noviat',
-    'category': 'Accounting & Finance',
+    'category': 'Accounting',
     'description': '''
 Module to import CODA bank statements.
 ======================================

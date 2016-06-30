@@ -12,7 +12,7 @@ Accounting reports for France
 
     """,
     'website': 'http://www.openerp.com',
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_fr', 'account_reports'],
     'data':[
         'account_financial_html_report.xml'

@@ -4,6 +4,7 @@
     'name': 'Account Contract Dashboard',
     'version': '1.0',
     'depends': ['sale_contract_asset', 'account_deferred_revenue'],
+    'category': 'Accounting',
     'description': """
 Accounting Contract Dashboard
 ========================

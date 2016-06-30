@@ -9,7 +9,7 @@
     """,
 
     'website': "http://www.odoo.com",
-    'category': 'Uncategorized',
+    'category': 'Accounting',
     'version': '0.1',
     'depends': ['account'],
 

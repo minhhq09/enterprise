@@ -3,7 +3,7 @@
     'name': 'Print Provider : DocsAway',
     'summary': 'Print and Send Invoices with DocsAway.com',
     'version': '1.0',
-    'category': 'Tools',
+    'category': 'Document Management',
     'description': """
 This module allows you to send your documents through postal mail, thanks to Docsaway.
 ======================================================================================

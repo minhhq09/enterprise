@@ -8,7 +8,7 @@
     "version": '1.1',
     "author": 'General Solutions',
     'website': 'https://gscom.vn',
-    "category": 'Localization/Account Reports',
+    'category': 'Localization',
     "description": """
 This is the module to manage the accounting reports for Vietnam in Odoo.
 =========================================================================

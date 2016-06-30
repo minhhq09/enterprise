@@ -2,7 +2,7 @@
 {
     'name': 'US Check Printing',
     'version': '1.0',
-    'category': 'Localization/Checks Printing',
+    'category': 'Localization',
     'summary': 'Print US Checks',
     'description': """
 This module allows to print your payments on pre-printed check paper.

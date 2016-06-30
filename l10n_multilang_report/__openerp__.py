@@ -4,7 +4,7 @@
 {
     'name': 'Multi Language Accounting Reports - Deprecated',
     'version': '1.1',
-    'category': 'Hidden/Dependency',
+    'category': 'Hidden',
     'description': """
     * Multi language support for Financial Reports
     """,

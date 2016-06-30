@@ -5,7 +5,7 @@
 {
     'name': 'Subscription Management (without frontend)',
     'version': '1.1',
-    'category': 'Sales Management',
+    'category': 'Sales',
     'description': """
 This module allows you to manage susbcriptions.
 Features:

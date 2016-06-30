@@ -9,9 +9,7 @@
         Use Plaid.com to retrieve bank statements.
     """,
 
-    'website': "http://www.odoo.com",
-
-    'category': 'Uncategorized',
+    'category': 'Accounting',
     'version': '0.1',
 
     'depends': ['account_online_sync'],

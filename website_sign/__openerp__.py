@@ -2,7 +2,7 @@
 {
     'name': 'Digital Signatures',
     'version': '1.0',
-    'category': 'Website',
+    'category': 'Document Management',
     'summary': "Send documents to sign online, receive and archive filled copies (esign)",
     'description': """
 Sign and complete your documents easily. Customize your documents with text and signature fields and send them to your recipients.\n
