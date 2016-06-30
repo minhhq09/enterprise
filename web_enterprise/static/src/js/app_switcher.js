@@ -202,10 +202,11 @@ var AppSwitcher = Widget.extend({
             $focused.focus();
             this.$el.scrollTo($focused, {offset: {top:-0.5*this.$el.height()}});
         }
-        this.$el.css({
-            "align-items": "flex-start",
-            "padding-left": (window.innerWidth - this.$menu_search.width()) / 2,
-        });
+
+        var offset = window.innerWidth - (this.$main_content.offset().left * 2 + this.$main_content.outerWidth());
+        if (offset) {
+            this.$el.css('padding-left', "+=" + offset);
+        }
     },
     open_menu: function(menu) {
         this.trigger_up(menu.is_app ? 'app_clicked' : 'menu_clicked', {
