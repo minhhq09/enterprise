@@ -8,7 +8,6 @@
 Sign and complete your documents easily. Customize your documents with text and signature fields and send them to your recipients.\n
 Let your customers follow the signature process easily.
     """,
-    'author': 'Odoo SA',
     'website': 'http://www.odoo.com',
     'depends': ['mail', 'document', 'website'],
     'data': [

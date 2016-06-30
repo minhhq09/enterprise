@@ -2,7 +2,6 @@
 {
     'name': 'Batch Deposit',
     'version': '1.0',
-    'author': 'Odoo SA',
     'category': 'Generic Modules/Accounting',
     'description': """
 Batch Deposit

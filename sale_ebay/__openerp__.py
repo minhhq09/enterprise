@@ -20,7 +20,6 @@ Key Features
 
   """,
 
-  'author': "Odoo SA",
   'website': "https://www.odoo.com",
 
   # Categories can be used to filter modules in modules listing

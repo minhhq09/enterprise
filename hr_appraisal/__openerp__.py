@@ -4,7 +4,6 @@
 {
     'name': 'Employee Appraisals',
     'version': '1.0',
-    'author': 'Odoo S.A',
     'category': 'Human Resources',
     'sequence': 31,
     'website': 'https://www.odoo.com',

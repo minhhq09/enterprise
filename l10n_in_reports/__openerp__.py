@@ -8,7 +8,6 @@
 Accounting reports for India
 ================================
     """,
-    'author': ['OpenERP SA'],
     'category': 'Localization/Account Charts',
     'depends': ['l10n_in', 'account_reports'],
     'data': [

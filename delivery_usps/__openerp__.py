@@ -3,7 +3,6 @@
 {
     'name': "United States Postal Service (USPS) Shipping",
     'description': "Send your shippings through USPS and track them online",
-    'author': "Odoo S.A.",
     'website': "https://www.odoo.com",
     'category': 'Technical Settings',
     'version': '1.0',

@@ -3,7 +3,6 @@
 {
     'name': "Temando Shipping",
     'description': "Send your shippings through Temando and track them online",
-    'author': "Odoo SA",
     'website': "https://www.odoo.com",
     'category': 'Technical Settings',
     'version': '1.0',

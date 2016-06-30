@@ -3,7 +3,6 @@
 {
     'name': "DHL Shipping",
     'description': "Send your shippings through DHL and track them online",
-    'author': "Odoo SA",
     'website': "https://www.odoo.com",
     'category': 'Technical Settings',
     'version': '1.0',

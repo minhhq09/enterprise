@@ -8,7 +8,6 @@
         This module is used for Online bank synchronization. It provides basic methods to synchronize bank statement.
     """,
 
-    'author': "OpenERP S.A.",
     'website': "http://www.odoo.com",
     'category': 'Uncategorized',
     'version': '0.1',

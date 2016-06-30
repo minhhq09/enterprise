@@ -3,7 +3,6 @@
 {
     'name': 'Live Currency Exchange Rate',
     'version': '1.0',
-    'author': 'Odoo S.A.',
     'category': 'Financial Management/Configuration',
     'description': """Import exchange rates from the Internet.
 """,

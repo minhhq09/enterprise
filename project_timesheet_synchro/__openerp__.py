@@ -11,7 +11,6 @@ Synchronization of timesheet entries with the external timesheet application.
 
 If you use the external timesheet application, this module alows you to synchronize timesheet entries between Odoo and the application.
     """,
-    'author': 'Odoo SA',
     'website': 'https://www.odoo.com/page/project-management',
     'images': ['images/invoice_task_work.jpeg', 'images/my_timesheet.jpeg', 'images/working_hour.jpeg'],
     'depends': ['project_timesheet', 'hr_timesheet_sheet'],

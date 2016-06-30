@@ -8,7 +8,6 @@
         This module follow the implementation guidelines issued by the European Payment Council.
         For more informations about the SEPA standards : http://www.iso20022.org/ and http://www.europeanpaymentscouncil.eu/
     """,
-    'author': "Odoo SA",
     'category': 'Accounting &amp; Finance',
     'version': '1.0',
     'depends': ['account', 'base_iban'],

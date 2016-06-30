@@ -4,7 +4,6 @@
     'name': 'Revenue Recognitions Management',
     'version': '1.0',
     'depends': ['account_asset'],
-    'author': 'Odoo S.A.',
     'description': """
 
 Revenue recognitions

@@ -6,7 +6,6 @@
     'description': """
         This module adds support for barcodes scanning to the warehouse management system.
     """,
-    'author': "Odoo SA",
     'category': 'Usability',
     'version': '1.0',
     'depends': ['barcodes', 'stock'],

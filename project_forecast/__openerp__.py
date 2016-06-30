@@ -9,7 +9,6 @@
     """,
     'category': 'Project Management',
 
-    'author': "OpenERP SA",
     'website': "http://www.odoo.com",
 
     # Categories can be used to filter modules in modules listing

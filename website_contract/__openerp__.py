@@ -11,7 +11,6 @@ Features:
     - Generate invoice and credit card payments automatically at fixed intervals
     - Let your customer edit their subscriptions themselves (options, close their contract) with granular control
         """,
-    'author': 'Odoo SA',
     'website': 'https://www.odoo.com/',
     'depends': [
         'sale_contract',

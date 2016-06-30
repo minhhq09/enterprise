@@ -8,7 +8,6 @@
 This module allows you to send your documents through postal mail, thanks to Docsaway.
 ======================================================================================
     """,
-    'author': 'Odoo SA',
     'depends': ['print'],
     'data': [
         'views/print_docsaway_views.xml',
