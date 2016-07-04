@@ -13,7 +13,7 @@ Accounting reports for Ethiopia
     """,
     'author': ['Michael Telahun Makonnen <mmakonnen@gmail.com>'],
     'website': 'http://miketelahun.wordpress.com',
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_et', 'account_reports'],
     'data':[
         'account_financial_html_report.xml'

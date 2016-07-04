@@ -2,8 +2,7 @@
 {
     'name': "Yodlee",
     'summary': "Yodlee Finance",
-    'website': "https://www.odoo.com",
-    'category': 'Accounting &amp; Finance',
+    'category': 'Accounting',
     'version': '1.0',
     'depends': ['account_online_sync'],
     'description': '''

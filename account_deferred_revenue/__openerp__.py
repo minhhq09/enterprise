@@ -4,6 +4,7 @@
     'name': 'Revenue Recognitions Management',
     'version': '1.0',
     'depends': ['account_asset'],
+    'category': 'Accounting',
     'description': """
 
 Revenue recognitions

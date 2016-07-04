@@ -2,7 +2,7 @@
 {
     'name': 'Print Sale',
     'summary': 'Print and Send Sale Orders',
-    'category': 'Tools',
+    'category': 'Sales',
     'version': '1.0',
     'description': """Print and Send your Sale Order by Post""",
     'depends': ['print', 'sale'],

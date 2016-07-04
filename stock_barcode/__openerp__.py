@@ -6,7 +6,7 @@
     'description': """
         This module adds support for barcodes scanning to the warehouse management system.
     """,
-    'category': 'Usability',
+    'category': 'Warehouse',
     'version': '1.0',
     'depends': ['barcodes', 'stock'],
     'data': [
