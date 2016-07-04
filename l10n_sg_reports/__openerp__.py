@@ -6,7 +6,7 @@
     'version': '1.1',
     'author': 'Tech Receptives',
     'website': 'http://www.techreceptives.com',
-    'category': 'Localization/Account Report',
+    'category': 'Localization',
     'description': """
 Accounting reports for Singapore
 ================================

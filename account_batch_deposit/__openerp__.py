@@ -2,7 +2,7 @@
 {
     'name': 'Batch Deposit',
     'version': '1.0',
-    'category': 'Generic Modules/Accounting',
+    'category': 'Accounting',
     'description': """
 Batch Deposit
 =============

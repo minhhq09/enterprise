@@ -9,12 +9,10 @@
         Long description of module's purpose
     """,
 
-    'website': "https://www.odoo.com",
-    
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
     # for the full list
-    'category': 'Customer Relationship Management',
+    'category': 'Sales',
     'version': '1.0',
 
     # any module necessary for this one to work correctly

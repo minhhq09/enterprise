@@ -2,6 +2,7 @@
 {
     'name': "SEPA Credit Transfer",
     'summary': """Export payments as SEPA Credit Transfer files""",
+    'category': 'Accounting',
     'description': """
         Generate payment orders as recommended by the SEPA norm, thanks to pain.001 messages. Supported pain version (countries) are pain.001.001.03 (generic), pain.001.001.03.ch.02 (Switzerland) and pain.001.003.03 (Germany). The generated XML file can then be uploaded to your bank.
 

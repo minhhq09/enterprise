@@ -119,6 +119,78 @@ class AccountFinancialReportLine(models.Model):
     hide_if_zero = fields.Boolean(default=False)
     action_id = fields.Many2one('ir.actions.actions')
 
+    def _query_get_select_sum(self, currency_table):
+        """ Little function to help building the SELECT statement when computing the report lines.
+
+            @param currency_table: dictionary containing the foreign currencies (key) and their factor (value)
+                compared to the current user's company currency
+            @returns: the string and parameters to use for the SELECT
+        """
+        extra_params = []
+        select = '''
+            COALESCE(SUM(\"account_move_line\".balance), 0) AS balance,
+            SUM(\"account_move_line\".amount_residual) AS amount_residual,
+            SUM(\"account_move_line\".debit) AS debit,
+            SUM(\"account_move_line\".credit) AS credit
+        '''
+        if currency_table:
+            select = 'COALESCE(SUM(CASE '
+            for currency_id, rate in currency_table.items():
+                extra_params += [currency_id, rate]
+                select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".balance * %s '
+            select += 'ELSE \"account_move_line\".balance END), 0) AS balance, SUM(CASE '
+            for currency_id, rate in currency_table.items():
+                extra_params += [currency_id, rate]
+                select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".amount_residual * %s '
+            select += 'ELSE \"account_move_line\".amount_residual END) AS amount_residual, SUM(CASE '
+            for currency_id, rate in currency_table.items():
+                extra_params += [currency_id, rate]
+                select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".debit * %s '
+            select += 'ELSE \"account_move_line\".debit END) AS debit, SUM(CASE '
+            for currency_id, rate in currency_table.items():
+                extra_params += [currency_id, rate]
+                select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".credit * %s '
+            select += 'ELSE \"account_move_line\".credit END) AS credit'
+
+        if self.env.context.get('cash_basis'):
+            for field in ['debit', 'credit', 'balance']:
+                select = select.replace(field, field + '_cash_basis')
+        return select, extra_params
+
+    def _compute_line(self, currency_table, group_by=None, domain=[]):
+        """ Computes the sum that appeas on report lines when they aren't unfolded. It is using _query_get() function
+            of account.move.line which is based on the context, and an additional domain (the field domain on the report
+            line) to build the query that will be used.
+
+            @param currency_table: dictionary containing the foreign currencies (key) and their factor (value)
+                compared to the current user's company currency
+            @param group_by: used in case of conditionnal sums on the report line
+            @param domain: domain on the report line to consider in the query_get() call
+
+            @returns : a dictionnary that has for each aml in the domain a dictionnary of the values of the fields
+        """
+        tables, where_clause, where_params = self.env['account.move.line']._query_get(domain=domain)
+
+        select, params = self._query_get_select_sum(currency_table)
+        where_params = params + where_params
+
+        if (self.env.context.get('sum_if_pos') or self.env.context.get('sum_if_neg')) and group_by:
+            sql = "SELECT account_move_line." + group_by + " as " + group_by + "," + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY account_move_line." + group_by
+            self.env.cr.execute(sql, where_params)
+            res = {'balance': 0, 'debit': 0, 'credit': 0, 'amount_residual': 0}
+            for row in self.env.cr.dictfetchall():
+                if (row['balance'] > 0 and self.env.context.get('sum_if_pos')) or (row['balance'] < 0 and self.env.context.get('sum_if_neg')):
+                    for field in ['debit', 'credit', 'balance', 'amount_residual']:
+                        res[field] += row[field]
+            res['currency_id'] = self.env.user.company_id.currency_id.id
+            return res
+
+        sql = "SELECT " + select + " FROM " + tables + " WHERE " + where_clause
+        self.env.cr.execute(sql, where_params)
+        results = self.env.cr.dictfetchall()[0]
+        results['currency_id'] = self.env.user.company_id.currency_id.id
+        return results
+
     @api.multi
     def report_move_lines_action(self):
         domain = safe_eval(self.domain)
@@ -150,7 +222,6 @@ class AccountFinancialReportLine(models.Model):
             field_names = ['debit', 'credit', 'balance', 'amount_residual']
         res = dict((fn, 0.0) for fn in field_names)
         if self.domain:
-            amls = self.env['account.move.line'].search(safe_eval(self.domain))
             strict_range = self.special_date_changer == 'strict_range'
             period_from = self._context['date_from']
             period_to = self._context['date_to']
@@ -161,11 +232,7 @@ class AccountFinancialReportLine(models.Model):
                 period_to = date_tmp.strftime('%Y-%m-%d')
                 period_from = False
 
-            compute = amls.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to)._compute_fields(field_names, currency_table, group_by=self.groupby)
-            for aml in amls:
-                if compute.get(aml.id):
-                    for field in field_names:
-                        res[field] += compute[aml.id][field]
+            res = self.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to)._compute_line(currency_table, group_by=self.groupby, domain=self.domain)
         return res
 
     @api.one
@@ -248,48 +315,16 @@ class AccountFinancialReportLine(models.Model):
             tables, where_clause, where_params = aml_obj._query_get(domain=self.domain)
             params = []
 
-            if currency_table.keys():
-                groupby = self.groupby or 'id'
-                if groupby not in self.env['account.move.line']._columns:
-                    raise ValueError('Groupby should be a field from account.move.line')
-                select = ',COALESCE(SUM(CASE '
-                for currency_id in currency_table.keys():
-                    params += [currency_id, currency_table[currency_id]]
-                    select += 'WHEN \"account_move_line\".company_currency_id = %s THEN (\"account_move_line\".debit-\"account_move_line\".credit) * %s '
-                select += 'ELSE \"account_move_line\".debit-\"account_move_line\".credit END), 0),SUM(CASE '
-                for currency_id in currency_table.keys():
-                    params += [currency_id, currency_table[currency_id]]
-                    select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".amount_residual * %s '
-                select += 'ELSE \"account_move_line\".amount_residual END)'
-                if financial_report.debit_credit and debit_credit:
-                    select += ',SUM(CASE '
-                    for currency_id in currency_table.keys():
-                        params += [currency_id, currency_table[currency_id]]
-                        select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".debit * %s '
-                    select += 'ELSE \"account_move_line\".debit END),SUM(CASE '
-                    for currency_id in currency_table.keys():
-                        params += [currency_id, currency_table[currency_id]]
-                        select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".credit * %s '
-                    select += 'ELSE \"account_move_line\".credit END)'
-                if self.env.context.get('cash_basis'):
-                    select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-                sql = "SELECT \"account_move_line\"." + groupby + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
-            else:
-                groupby = self.groupby or 'id'
-                select = ',COALESCE(SUM(\"account_move_line\".debit-\"account_move_line\".credit), 0),SUM(\"account_move_line\".amount_residual)'
-                if financial_report.debit_credit and debit_credit:
-                    select += ',SUM(\"account_move_line\".debit),SUM(\"account_move_line\".credit)'
-                if self.env.context.get('cash_basis'):
-                    select = select.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
-                sql = "SELECT \"account_move_line\"." + groupby + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY \"account_move_line\".company_currency_id,\"account_move_line\"." + groupby
+            groupby = self.groupby or 'id'
+            if groupby not in self.env['account.move.line']._columns:
+                raise ValueError('Groupby should be a field from account.move.line')
+            select, params = self._query_get_select_sum(currency_table)
+            sql = "SELECT \"account_move_line\"." + groupby + ", " + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY \"account_move_line\"." + groupby
 
             params += where_params
             self.env.cr.execute(sql, params)
             results = self.env.cr.fetchall()
-            if financial_report.debit_credit and debit_credit:
-                results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
-            else:
-                results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2]}) for k in results])
+            results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
             c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, only_sum=True)
             if formulas:
                 for key in results:
@@ -482,11 +517,10 @@ class FormulaLine(object):
             elif obj._name == 'account.move.line':
                 self.amount_residual = 0.0
                 field_names = ['debit', 'credit', 'balance', 'amount_residual']
-                res = obj._compute_fields(field_names, currency_table)
-                if res.get(obj.id):
-                    for field in field_names:
-                        fields[field] = res[obj.id][field]
-                    self.amount_residual = fields['amount_residual']
+                res = obj.env['account.financial.html.report.line']._compute_line(currency_table)
+                for field in field_names:
+                    fields[field] = res[field]
+                self.amount_residual = fields['amount_residual']
         elif type == 'not_computed':
             for field in fields:
                 fields[field] = obj.get(field, 0)

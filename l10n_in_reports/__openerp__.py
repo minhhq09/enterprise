@@ -8,7 +8,7 @@
 Accounting reports for India
 ================================
     """,
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_in', 'account_reports'],
     'data': [
         'account_financial_html_report.xml'

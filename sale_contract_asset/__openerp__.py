@@ -3,7 +3,7 @@
 {
     'name': 'Deferred revenue management for contracts',
     'version': '1.0',
-    'category': 'Sales Management',
+    'category': 'Sales',
     'description': """
 This module allows you to set a deferred revenue on your subscription contracts.
 """,

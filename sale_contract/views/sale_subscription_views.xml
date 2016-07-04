@@ -20,7 +20,7 @@
                 <separator/>
                 <filter
                     string="Expired"
-                    domain="[('state','in',('open','draft','pending')), '|', '&amp;', ('date', '!=', False), ('date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"
+                    domain="[('state','in',('open','draft','pending')), '|', ('date', '!=', False), ('date', '&lt;=', time.strftime('%%Y-%%m-%%d'))]"
                     help="End date passed" />
                 <filter
                     string="Expiring soon"

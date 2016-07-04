@@ -8,7 +8,7 @@
     'version': '1.1',
     'author': 'Mentis d.o.o.',
     'website': 'https://www.mentis.si',
-    'category': 'Localization/Account Reports',
+    'category': 'Localization',
     'description': """
         Accounting reports for Slovenian
     """,

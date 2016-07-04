@@ -7,7 +7,7 @@
     'description': """
     Resource management for Project
     """,
-    'category': 'Project Management',
+    'category': 'Project',
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml

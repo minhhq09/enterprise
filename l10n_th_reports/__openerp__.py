@@ -10,7 +10,7 @@ Accounting reports for Thailand
     """,
     'author': ['Almacom'],
     'website': 'http://almacom.co.th/',
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_th', 'account_reports'],
     'data': [
         'account_financial_html_report.xml',

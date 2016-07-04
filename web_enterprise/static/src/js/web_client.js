@@ -17,6 +17,7 @@ return AbstractWebClient.extend({
     custom_events: _.extend({}, AbstractWebClient.prototype.custom_events, {
         app_clicked: 'on_app_clicked',
         menu_clicked: 'on_menu_clicked',
+        scrollTo: 'scrollTo',
         show_app_switcher: function () {
             this.toggle_app_switcher(true);
         },

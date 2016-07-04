@@ -10,15 +10,13 @@
         Contains the library needed in order to make the VOIP usable by other modules.
     """,
 
-    'website': "https://www.odoo.com",
-
     'price': 399,
     'currency': 'EUR',
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
     # for the full list
-    'category': 'Hidden/Dependency',
+    'category': 'Hidden',
     'version': '1.1',
 
     # any module necessary for this one to work correctly

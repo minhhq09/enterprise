@@ -56,7 +56,7 @@
     'version': '1.1',
     'author': 'openbig.org',
     'website': 'http://www.openbig.org',
-    'category': 'Localization/Account Reports',
+    'category': 'Localization',
     'description': """
 Accounting reports for Deutschland
     """,
