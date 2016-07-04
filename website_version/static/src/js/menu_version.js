@@ -25,11 +25,10 @@ var EditorVersion = Widget.extend({
         });
 
         this.$el.find('#version-menu-button').click(function() {
-            var view_id = parseInt($('html').attr('data-view-xmlid'));
+            var view_id = parseInt($('html').attr('data-main-object').match(/\d+/));
             ajax.jsonRpc( '/website_version/all_versions', 'call', {'view_id': view_id}).then(function (result) {
                 self.$el.find(".o_version_choice").remove();
                 self.$el.find(".first_divider").before(qweb.render("website_version.all_versions", {versions:result}));
-
             });
             ajax.jsonRpc( '/website_version/has_experiments', 'call', {'view_id': view_id}).then(function (result) {
                 self.$el.find(".o_experiment").remove();
@@ -37,11 +36,10 @@ var EditorVersion = Widget.extend({
                     self.$el.find(".create_experiment").after(qweb.render("website_version.experiment_menu"));
                 }
             });
-            
         });
         return this._super();
     },
-    
+
     duplicate_version: function(event) {
         var version_id = base.get_context().version_id;
         var wizardA = $(qweb.render("website_version.new_version",{'default_name': moment().format('L')}));
@@ -73,7 +71,7 @@ var EditorVersion = Widget.extend({
         });
         wizardA.on('hidden.bs.modal', function () {$(this).remove();});
     },
-    
+
     change_version: function(event) {
         var version_id = parseInt($(event.target).closest("li").data("version_id"));
         if(! version_id){
@@ -172,30 +170,29 @@ var EditorVersion = Widget.extend({
     },
 
     create_experiment: function() {
-        var self = this;
-        var view_id = parseInt($('html').attr('data-view-xmlid'));
+        var view_id = parseInt($('html').attr('data-main-object').match(/\d+/));
         ajax.jsonRpc( '/website_version/all_versions_all_goals', 'call', { 'view_id': view_id }).then(function (result) {
             var wizardA = $(qweb.render("website_version.create_experiment",{versions:result.tab_version, goals:result.tab_goal, config:result.check_conf}));
             wizardA.appendTo($('body')).modal({"keyboard" :true});
-        
+
             wizardA.on('click','.o_launch', function(){
                 wizardA.find('.o_message').remove();
                 var name = wizardA.find('.o_name').val();
                 var tab = wizardA.find('.o_version');
                 var result = [];
                 var i;
-                for (var i = 0; i < tab.length; i++){
+                for (i = 0; i < tab.length; i++){
                     if ($(tab[i]).is(':checked')) {
                         result.push(parseInt($(tab[i]).attr('data-version_id')));
                     }
                 }
                 var goal_id = wizardA.find('.box').val();
                 var check = true;
-                if (name.length == 0){
+                if (name.length === 0){
                     wizardA.find(".o_name").after("<p class='o_message' style='color : red'> *"+_t("This field is required")+"</p>");
                     check = false;
                 }
-                if (result.length == 0 && check){
+                if (result.length === 0 && check){
                     wizardA.find(".o_versions").after("<p class='o_message' style='color : red'> *"+_t("You must select at least one version which is not Master.")+"</p>");
                     check = false;
                 }
@@ -281,7 +278,7 @@ var EditorVersion = Widget.extend({
     statistics: function() {
         window.open('https://www.google.com/analytics/web/?authuser=0#report/siteopt-experiments/','_blank');
     }
-    
+
 });
 
 $(document).ready(function() {
