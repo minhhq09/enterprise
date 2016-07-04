@@ -15,7 +15,6 @@ Tour.register({
     mode: 'tutorial',
     steps: [
         //1.
-
         {
             title:      _t("Welcome to the tutorial"),
             content:   _t("This tutorial will guide you to build a version of your home page."),
@@ -62,22 +61,20 @@ Tour.register({
         {
             snippet:   '#snippet_structure .oe_snippet:eq(1)',
             placement: 'bottom',
-            title:     _t("Drag & Drop a Banner"),
-            content:   _t("Drag the Banner block and drop it in your page."),
+            title:     _t("Drag & Drop a Cover"),
+            content:   _t("Drag the Cover block and drop it in your page."),
             popover:   { fixed: true },
         },
         {
             waitFor:   '.oe_overlay_options .oe_options:visible',
-            element:   '#wrapwrap .carousel:first div.carousel-content',
+            element:   '#wrapwrap .s_text_block_image_fw h2',
             placement: 'top',
             title:     _t("Customize banner's text"),
-            content:   _t("Click in the text and start editing it."),
+            content:   _t("Click in the title text and start editing it."),
             sampleText: 'Here, a customized text',
         },
         {
-            waitNot:   '#wrap .carousel:first div.carousel-content:has(h2:'+
-                'containsExact('+_t('Your Banner Title')+')):has(h3:'+
-                'containsExact('+_t('Click to customize this text')+'))',
+            waitFor:   "#wrapwrap .s_text_block_image_fw h2:not(:containsExact(\"Headline\"))",
             element:   '.oe_snippet_parent:visible',
             placement: 'bottom',
             title:     _t("Get banner properties"),
@@ -114,39 +111,33 @@ Tour.register({
         },
 
         //2.
-
         {
             title:     _t("Publish the version"),
             content:   _t("Now we will publish your version in production."),
             popover:   { next: _t("Start Tutorial"), end: _t("Skip It") },
         },
-
         {
             title:     _t("Click on Version"),
             element:   'a#version-menu-button',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Click on Publish Version"),
             placement: 'left',
             element:   'a[data-action="publish_version"]:first',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Click on Publish button"),
             element:   '.modal button.o_confirm',
             placement: 'right',
         },
-
         {
             title:     _t("Confirm"),
             placement: 'right',
             element:   '.modal button.o_confirm[data-dismiss]',
             popover:   { fixed: true },
         },
-
 
         //3.
         {
@@ -155,39 +146,33 @@ Tour.register({
             waitNot:   'a[data-action="publish_version"]:first',
             popover:   { next: _t("Start Tutorial"), end: _t("Skip It") },
         },
-
         {
             title:     _t("Click on Version"),
             element:   'a#version-menu-button',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Delete Version Test"),
             element:   'li > a[data-action="delete_version"]:last',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Click on delete version button"),
             placement: 'right',
             element:   '.modal:has(.cancel) button.o_confirm',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Confirm"),
             placement: 'right',
             element:   '.modal:not(:has(.cancel)) button.o_confirm[data-dismiss]',
             popover:   { fixed: true },
         },
-
         {
             title:     _t("Finish"),
             content:   _t("Felicitation, now you are able to edit and manage your versions."),
             waitNot:   '.modal button.o_confirm[data-dismiss]',
         },
-
     ]
 });
 });
