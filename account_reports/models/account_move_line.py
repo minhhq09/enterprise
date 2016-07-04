@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import api, fields, models, _
-from itertools import groupby
 
 
 class AccountMoveLine(models.Model):
@@ -12,45 +11,6 @@ class AccountMoveLine(models.Model):
     expected_pay_date = fields.Date('Expected Payment Date', help="Expected payment date as manually set through the customer statement (e.g: if you had the customer on the phone and want to remember the date he promised he would pay)")
     internal_note = fields.Text('Internal Note', help="Note you can set through the customer statement about a receivable journal item")
     next_action_date = fields.Date('Next Action Date', help="Date where the next action should be taken for a receivable item. Usually, automatically set when sending reminders through the customer statement.")
-
-    def _compute_fields(self, field_names, currency_table, group_by=None):
-        """ Computes the required fields with the options given in the context using _query_get()
-            @param field_names: a list of the fields to compute
-            @returns : a dictionnary that has for each aml in the domain a dictionnary of the values of the fields
-        """
-        if len(self) == 0:
-            return []
-        select = ','.join(['\"account_move_line\".' + k + ((self.env.context.get('cash_basis') and k in ['balance', 'credit', 'debit']) and '_cash_basis' or '') for k in field_names])
-        tables, where_clause, where_params = self._query_get()
-
-        if (self.env.context.get('sum_if_pos') or self.env.context.get('sum_if_neg')) and group_by:
-            sql = "SELECT account_move_line.id,account_move_line." + group_by + " as " + group_by + "," + select + " FROM " + tables + " WHERE " + where_clause + " AND account_move_line.id IN %s GROUP BY account_move_line.id"
-            where_params += [tuple(self.ids)]
-            self.env.cr.execute(sql, where_params)
-            ret = {}
-            results = self.env.cr.fetchall()
-            results = [(dict([(field_names[i], l) for i, l in enumerate(k[2:])] + [('groupby', k[1]), ('id', k[0])])) for k in results]
-            results = sorted(results, key=lambda r: r['groupby'])
-            for groupby_value, values in groupby(results, key=lambda r: r['groupby']):
-                values = list(values)
-                total = sum([k['balance'] for k in values])
-                if (total > 0 and self.env.context.get('sum_if_pos')) or (total < 0 and self.env.context.get('sum_if_neg')):
-                    values = dict([k['id'], k] for k in values)
-                    ret.update(values)
-            return ret
-
-        sql = "SELECT account_move_line.id,account_move_line.company_currency_id," + select + " FROM " + tables + " WHERE " + where_clause + " AND account_move_line.id IN %s GROUP BY account_move_line.id"
-
-        where_params += [tuple(self.ids)]
-        self.env.cr.execute(sql, where_params)
-        results = self.env.cr.fetchall()
-        results = dict([(k[0], dict([(field_names[i], j) for i, j in enumerate(k[2:])] + [('currency_id', k[1])])) for k in results])
-        for result in results.keys():
-            currency_id = results[result]['currency_id']
-            for field in results[result].keys():
-                if currency_id in currency_table:
-                    results[result][field] = results[result][field] * currency_table[currency_id]
-        return results
 
     @api.multi
     def get_model_id_and_name(self):

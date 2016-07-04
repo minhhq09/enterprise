@@ -2,6 +2,7 @@
 {
     'name': "SEPA Credit Transfer",
     'summary': """Export payments as SEPA Credit Transfer files""",
+    'category': 'Accounting',
     'description': """
         Generate payment orders as pain.001.001.03 messages. The generated XML file can then be uploaded to your bank.
 

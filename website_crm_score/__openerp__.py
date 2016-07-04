@@ -1,6 +1,6 @@
 {
     'name': "Lead Scoring",
-    'category': "CRM",
+    'category': "Sales",
     'version': "1.0",
     'depends': ['base', 'sales_team', 'marketing_campaign', 'website_crm'],
     'description': """\

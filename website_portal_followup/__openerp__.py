@@ -3,7 +3,7 @@
 
 {
     'name': 'Website Followup',
-    'category': 'Tools',
+    'category': 'Accounting',
     'complexity': 'easy',
     'description': """
 This module adds a followup menu and features to your portal if followup and portal are installed.

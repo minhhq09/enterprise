@@ -5,13 +5,14 @@
 # Translators:
 # Bole <bole@dajmi5.com>, 2016
 # Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2015
+# Jasmina Otročak <jasmina@uvid.hr>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-18 10:15+0000\n"
-"PO-Revision-Date: 2016-05-06 13:28+0000\n"
-"Last-Translator: Bole <bole@dajmi5.com>\n"
+"PO-Revision-Date: 2016-07-01 14:22+0000\n"
+"Last-Translator: Jasmina Otročak <jasmina@uvid.hr>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +48,7 @@ msgstr "Dnevnik '%s' (dnevnik %s) zahtijeva Identifikacijski kod banke (BIC) za 
 msgid ""
 "The partner account '%s' requires a Bank Identification Code (BIC) to pay "
 "via SEPA. Please configure it first."
-msgstr ""
+msgstr "Žiro račun partnera '%s' nema upisan BIC broj za plaćanje preko SEPA. Unesite BIC broj kako bi mogli nastaviti sa plaćanjem. "
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id
@@ -64,7 +65,7 @@ msgstr "Odustani"
 msgid ""
 "Click on the file to save it somewhere on your computer. Then upload that "
 "file on your bank's homebanking website to order the credit transfer."
-msgstr ""
+msgstr "Pritisnite na datoteku kako bi je spremili na vaše računalo. Nakon toga datoteku uvezite u internet bankarstvo vaše banke kako bi izvršili kreditni prijenos sredstava."
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_res_company
@@ -188,18 +189,18 @@ msgstr "Plaćanja"
 msgid ""
 "Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' "
 "selected as payment method and be posted"
-msgstr ""
+msgstr "Plaćanja koja želite izvesti kao SEPA kreditni prijenos moraju imati odabranu 'SEPA kreditni prijenos' metodu plaćanja i moraju biti knjižena."
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.account_journal_dashboard_kanban_view_inherited
 msgid "Payments to send via SEPA"
-msgstr ""
+msgstr "Plaćanja za poslati preko SEPA"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_payment_partner_bank_account_id
 #: model:ir.model.fields,field_description:account_sepa.field_account_register_payments_partner_bank_account_id
 msgid "Recipient Bank Account"
-msgstr ""
+msgstr "Žiro račun primatelja"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_register_payments
@@ -215,7 +216,7 @@ msgstr "SEPA"
 #: code:addons/account_sepa/account_journal_dashboard.py:23
 #, python-format
 msgid "SEPA Credit Transfers to Send"
-msgstr ""
+msgstr "SEPA kreditni prijenosi za slanje"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
@@ -225,7 +226,7 @@ msgstr "SEPA XML datoteka"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
 msgid "Sepa Payments To Send"
-msgstr ""
+msgstr "SEPA plaćaja za slanje"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -234,7 +235,7 @@ msgid ""
 "be 'generic' if it cannot be considered as a standard european credit "
 "transfer. That is if the bank journal is not in €, a transaction is not in €"
 " or a payee is not identified by an IBAN account number and a bank BIC."
-msgstr ""
+msgstr "Tehničke značajke koje se koriste prilikom kreiranja datoteke. Oznaka 'Opća' se stavlja u SEPA datoteku, ako se ne može tretirati kaouobičajeni kreditni prijenos i to u slučaju ako dnevnik banke nije u eurima, transakcija nije u eurima ili za primatelja uplate nije definiran IBAN format žiro računa i BIC broj banke."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:306
@@ -242,7 +243,7 @@ msgstr ""
 msgid ""
 "The account %s, linked to partner '%s', is not of type IBAN.\n"
 "A valid IBAN account is required to use SEPA features."
-msgstr ""
+msgstr "Žiro račun partnera '%s' broj %s nije u IBAN formatu.\nZa korištenje SEPA značajki potreban vam je ispravan žiro račun u IBAN formatu."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:74
@@ -250,14 +251,14 @@ msgstr ""
 msgid ""
 "The account %s, of journal '%s', is not of type IBAN.\n"
 "A valid IBAN account is required to use SEPA features."
-msgstr ""
+msgstr "Žiro račun broj %s, dnevnika '%s', nije u IBAN formatu.\nZa korištenje SEPA značajki potreban vam je ispravan žiro račun u IBAN formatu."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:260
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
-msgstr ""
+msgstr "Iznos plaćanja '%s' je previsok. Maksimalno dozvoljeni iznos je %s."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:17
@@ -269,13 +270,13 @@ msgid ""
 "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"
 "0 1 2 3 4 5 6 7 8 9\n"
 "/ - ? : ( ) . , ' + (space)"
-msgstr ""
+msgstr "Tekst koji se koristi u SEPA datotekama može sadržavati samo slijedeće znakove:\n\n a b c d e f g h i j k l m n o p q r s t u v w x y z\n A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n 0 1 2 3 4 5 6 7 8 9\n / - ? : ( ) . , ' + (space)"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:290
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
-msgstr ""
+msgstr "Za žiro račun broj '%s' nije upisan BIC broj banke"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:167
@@ -283,31 +284,31 @@ msgstr ""
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
 "'%s'"
-msgstr ""
+msgstr "Za žiro račun broj '%s' koji je povezan sa dnevnikom '%s' nije upisan BIC broj banke"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:77
 #, python-format
 msgid "There is no bank account selected for payment '%s'"
-msgstr ""
+msgstr "Za plaćanje '%s' nije odabran žiro račun"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:141
 #, python-format
 msgid "Too many transactions for a single file."
-msgstr ""
+msgstr "Previše transakcija za jednu datoteku."
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_initiating_party_name
 msgid ""
 "Will appear in SEPA payments as the name of the party initiating the "
 "payment. Limited to 70 characters."
-msgstr ""
+msgstr "Unutar SEPA plaćanja pojaviti će se kao naziv platitelja. Unos je ograničen na 70 znakova. "
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_initiating_party_name
 msgid "Your Company Name"
-msgstr ""
+msgstr "Naziv vaše tvrtke"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download

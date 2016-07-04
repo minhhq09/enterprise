@@ -4,7 +4,7 @@
 {
     'name': 'Romania - Accounting Reports',
     'version': '1.1',
-    'category': 'Localization/Account Reports',
+    'category': 'Localization',
     'author': 'ERPsystems Solutions',
     'description': """
         Accounting reports for Romania

@@ -5,7 +5,7 @@
     'name': 'Uruguay - Accounts Reports',
     'version': '1.1',
     'author': 'Uruguay l10n Team & Guillem Barba',
-    'category': 'Localization/Account Reports',
+    'category': 'Localization',
     'website': 'https://launchpad.net/openerp-uruguay',
     'description': """
         Accounting reports for Uruguay

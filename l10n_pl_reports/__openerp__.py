@@ -11,7 +11,7 @@ Accounting reports for Poland
 ================================
     """,
     'author': ['Grzegorz Grzelak (OpenGLOBE)'],
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_pl', 'account_reports'],
     'data': [
         'account_financial_html_report.xml'

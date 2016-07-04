@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
     'name': 'Import OFX Bank Statement',
-    'category': 'Accounting & Finance',
+    'category': 'Accounting',
     'version': '1.0',
     'depends': ['account_bank_statement_import'],
     'description': """

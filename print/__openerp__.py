@@ -2,7 +2,7 @@
 {
     'name': 'Print Invoice',
     'summary': 'Print and Send Provider Base Module',
-    'category': 'Tools',
+    'category': 'Document Management',
     'version': '1.0',
     'description': """Print and Send Provider Base Module. Print and send your invoice with a Postal Provider. This required to install a module implementing a provider.""",
     'depends': ['base_setup', 'account'],

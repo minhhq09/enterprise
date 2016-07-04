@@ -12,7 +12,7 @@ Accounting reports for Maroc
     """,
     'author': ['kazacube'],
     'website': 'http://www.kazacube.com',
-    'category': 'Localization/Account Charts',
+    'category': 'Localization',
     'depends': ['l10n_ma', 'account_reports'],
     'data': [
         'account_financial_html_report.xml'
