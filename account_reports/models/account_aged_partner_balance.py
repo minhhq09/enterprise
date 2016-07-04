@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _
+from openerp import models, api, _, fields
 from openerp.tools.misc import formatLang
 
 
@@ -19,10 +19,12 @@ class report_account_aged_partner(models.AbstractModel):
         return formatLang(self.env, value, currency_obj=currency_id)
 
     @api.model
-    def _lines(self, context):
+    def _lines(self, context, line_id=None):
         lines = []
-        results, total = self.env['report.account.report_agedpartnerbalance']._get_partner_move_lines([self._context['account_type']], self._context['date_to'], 'posted', 30)
+        results, total, amls = self.env['report.account.report_agedpartnerbalance']._get_partner_move_lines([self._context['account_type']], self._context['date_to'], 'posted', 30)
         for values in results:
+            if line_id and values['partner_id'] != line_id:
+                continue
             vals = {
                 'id': values['partner_id'],
                 'name': values['name'],
@@ -31,10 +33,36 @@ class report_account_aged_partner(models.AbstractModel):
                 'footnotes': context._get_footnotes('partner_id', values['partner_id']),
                 'columns': [values['direction'], values['4'], values['3'], values['2'], values['1'], values['0'], values['total']],
                 'trust': values['trust'],
+                'unfoldable': True,
+                'unfolded': values['partner_id'] in context.unfolded_partners.ids,
             }
             vals['columns'] = map(self._format, vals['columns'])
             lines.append(vals)
-        if total:
+            if values['partner_id'] in context.unfolded_partners.ids:
+                for line in amls[values['partner_id']]:
+                    aml = line['line']
+                    vals = {
+                        'id': aml.id,
+                        'name': aml.move_id.name if aml.move_id.name else '/',
+                        'move_id': aml.move_id.id,
+                        'action': aml.get_model_id_and_name(),
+                        'level': 1,
+                        'type': 'move_line_id',
+                        'footnotes': context._get_footnotes('move_line_id', aml.id),
+                        'columns': [line['period'] == 6-i and self._format(line['amount']) or '' for i in range(7)],
+                    }
+                    lines.append(vals)
+                vals = {
+                    'id': values['partner_id'],
+                    'type': 'o_account_reports_domain_total',
+                    'name': _('Total '),
+                    'footnotes': self.env.context['context_id']._get_footnotes('o_account_reports_domain_total', values['partner_id']),
+                    'columns': [values['direction'], values['4'], values['3'], values['2'], values['1'], values['0'], values['total']],
+                    'level': 1,
+                }
+                vals['columns'] = map(self._format, vals['columns'])
+                lines.append(vals)
+        if total and not line_id:
             total_line = {
                 'id': 0,
                 'name': _('Total'),
@@ -64,7 +92,7 @@ class report_account_aged_receivable(models.AbstractModel):
             'company_ids': context_id.company_ids.ids,
             'account_type': 'receivable',
         })
-        return self.with_context(new_context)._lines(context_id)
+        return self.with_context(new_context)._lines(context_id, line_id)
 
     @api.model
     def get_title(self):
@@ -86,6 +114,9 @@ class account_context_aged_receivable(models.TransientModel):
     _name = "account.context.aged.receivable"
     _description = "A particular context for the aged receivable"
     _inherit = "account.report.context.common"
+
+    fold_field = 'unfolded_partners'
+    unfolded_partners = fields.Many2many('res.partner', 'aged_receivable_context_to_partner', string='Unfolded lines')
 
     def get_report_obj(self):
         return self.env['account.aged.receivable']
@@ -115,7 +146,7 @@ class report_account_aged_payable(models.AbstractModel):
             'company_ids': context_id.company_ids.ids,
             'account_type': 'payable',
         })
-        return self.with_context(new_context)._lines(context_id)
+        return self.with_context(new_context)._lines(context_id, line_id)
 
     @api.model
     def get_title(self):
@@ -137,6 +168,9 @@ class account_context_aged_payable(models.TransientModel):
     _name = "account.context.aged.payable"
     _description = "A particular context for the aged payable"
     _inherit = "account.report.context.common"
+
+    fold_field = 'unfolded_partners'
+    unfolded_partners = fields.Many2many('res.partner', 'aged_payable_context_to_partner', string='Unfolded lines')
 
     def get_report_obj(self):
         return self.env['account.aged.payable']

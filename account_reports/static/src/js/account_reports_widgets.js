@@ -209,6 +209,9 @@ var ReportWidget = Widget.extend({
         });
     },
     fold: function(e) {
+        if ($(e.target).hasClass('caret')) {
+            return;
+        }
         e.stopPropagation();
         e.preventDefault();
         var context_id = $(e.target).parents("div.o_account_reports_page").data("context");
@@ -230,6 +233,9 @@ var ReportWidget = Widget.extend({
         return this.context_model.call('remove_line', [[parseInt(context_id, 10)], parseInt(active_id, 10)]);
     },
     unfold: function(e) {
+        if ($(e.target).hasClass('caret'))  {
+            return;
+        }
         e.stopPropagation();
         e.preventDefault();
         var self = this;
