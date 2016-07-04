@@ -128,32 +128,34 @@ class AccountFinancialReportLine(models.Model):
         extra_params = []
         select = '''
             COALESCE(SUM(\"account_move_line\".balance), 0) AS balance,
-            SUM(\"account_move_line\".amount_residual) AS amount_residual,
-            SUM(\"account_move_line\".debit) AS debit,
-            SUM(\"account_move_line\".credit) AS credit
+            COALESCE(SUM(\"account_move_line\".amount_residual), 0) AS amount_residual,
+            COALESCE(SUM(\"account_move_line\".debit), 0) AS debit,
+            COALESCE(SUM(\"account_move_line\".credit), 0) AS credit
         '''
         if currency_table:
             select = 'COALESCE(SUM(CASE '
             for currency_id, rate in currency_table.items():
                 extra_params += [currency_id, rate]
                 select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".balance * %s '
-            select += 'ELSE \"account_move_line\".balance END), 0) AS balance, SUM(CASE '
+            select += 'ELSE \"account_move_line\".balance END), 0) AS balance, COALESCE(SUM(CASE '
             for currency_id, rate in currency_table.items():
                 extra_params += [currency_id, rate]
                 select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".amount_residual * %s '
-            select += 'ELSE \"account_move_line\".amount_residual END) AS amount_residual, SUM(CASE '
+            select += 'ELSE \"account_move_line\".amount_residual END), 0) AS amount_residual, COALESCE(SUM(CASE '
             for currency_id, rate in currency_table.items():
                 extra_params += [currency_id, rate]
                 select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".debit * %s '
-            select += 'ELSE \"account_move_line\".debit END) AS debit, SUM(CASE '
+            select += 'ELSE \"account_move_line\".debit END), 0) AS debit, COALESCE(SUM(CASE '
             for currency_id, rate in currency_table.items():
                 extra_params += [currency_id, rate]
                 select += 'WHEN \"account_move_line\".company_currency_id = %s THEN \"account_move_line\".credit * %s '
-            select += 'ELSE \"account_move_line\".credit END) AS credit'
+            select += 'ELSE \"account_move_line\".credit END), 0) AS credit'
 
         if self.env.context.get('cash_basis'):
             for field in ['debit', 'credit', 'balance']:
-                select = select.replace(field, field + '_cash_basis')
+                #replace the columns selected but not the final column name (... AS <field>)
+                number_of_occurence = len(select.split(field)) - 1
+                select = select.replace(field, field + '_cash_basis', number_of_occurence - 1)
         return select, extra_params
 
     def _compute_line(self, currency_table, group_by=None, domain=[]):
