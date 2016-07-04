@@ -2,7 +2,7 @@
 from lxml import etree
 from openerp import tools, fields, models, api
 
-class Qweb(models.Model):
+class Qweb(models.AbstractModel):
 
     _inherit = "ir.qweb"
 
