@@ -172,7 +172,9 @@ class SaleSubscription(osv.osv):
         if not partner:
             raise UserError(_("You must first select a Customer for Subscription %s!") % contract.name)
 
-        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.id, context=context)
+        fpos_context = context.copy()
+        fpos_context['force_company'] = contract.company_id.id
+        fpos_id = fpos_obj.get_fiscal_position(cr, uid, partner.id, context=fpos_context)
         journal_ids = journal_obj.search(cr, uid, [('type', '=', 'sale'), ('company_id', '=', contract.company_id.id or False)], limit=1)
         if not journal_ids:
             raise UserError(_('Please define a sale journal for the company "%s".') % (contract.company_id.name or '', ))
@@ -215,10 +217,7 @@ class SaleSubscription(osv.osv):
             account_id = res.categ_id.property_account_income_categ_id.id
         account_id = fpos_obj.map_account(cr, uid, fiscal_position, account_id)
 
-        if context.get('force_company'):
-            taxes = res.taxes_id.filtered(lambda r: r.company_id.id == context.get('force_company')) or False
-        else:
-            taxes = res.taxes_id or False
+        taxes = res.taxes_id.filtered(lambda r: r.company_id == line.analytic_account_id.company_id)
 
         tax_id = fpos_obj.map_tax(cr, uid, fiscal_position, taxes)
         values = {
