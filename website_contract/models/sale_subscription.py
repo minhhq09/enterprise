@@ -452,10 +452,10 @@ class SaleSubscriptionLine(models.Model):
         val = 0.0
         product = self.product_id
         product_tmp = product.sudo().product_tmpl_id
-        for tax in product_tmp.taxes_id:
+        for tax in product_tmp.taxes_id.filtered(lambda t: t.company_id == self.analytic_account_id.company_id):
             fpos_obj = self.env['account.fiscal.position']
             partner = self.analytic_account_id.partner_id
-            fpos_id = fpos_obj.get_fiscal_position(partner.id)
+            fpos_id = fpos_obj.with_context(force_company=self.analytic_account_id.company_id.id).get_fiscal_position(partner.id)
             fpos = fpos_obj.browse(fpos_id)
             if fpos:
                 tax = fpos.map_tax(tax)
