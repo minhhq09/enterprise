@@ -759,40 +759,6 @@
         </t>
     </template>
 
-    <!-- Modify website_sale templates -->
-    <template id="cart" name="Shopping Cart" inherit_id="website_sale.cart_lines">
-        <xpath expr="//td[@name='price']" position="replace">
-            <!-- Normal price display (discount comes from using different pricelists-->
-            <td class="text-center" name="price" t-if="not line.discount">
-                <t t-if="(compute_currency(line.product_id.lst_price) - website_sale_order.pricelist_id.price_get(line.product_id.id,1)[website_sale_order.pricelist_id.id]) &gt; 1">
-                    <del class="text-danger" style="white-space: nowrap;"
-                        t-esc="line.product_id.lst_price" t-esc-options='{
-                        "widget": "monetary",
-                        "from_currency": "line.order_id.pricelist_id.currency_id",
-                        "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                        }'/>&amp;nbsp;
-                </t>
-                <span t-esc="website_sale_order.pricelist_id.price_get(line.product_id.id,1)[website_sale_order.pricelist_id.id]" style="white-space: nowrap;" t-esc-options='{
-                    "widget": "monetary",
-                    "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                    }'/>
-            </td>
-            <!-- Price display with discount directly in the sale_order_line -->
-            <td class="text-center" name="price" t-if="line.discount">
-                <del class="text-danger" style="white-space: nowrap;"
-                    t-esc="line.price_unit" t-esc-options='{
-                    "widget": "monetary",
-                    "from_currency": "line.order_id.pricelist_id.currency_id",
-                    "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                    }'/>&amp;nbsp;
-                <span t-esc="line.price_subtotal" style="white-space: nowrap;" t-esc-options='{
-                    "widget": "monetary",
-                    "display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
-                    }'/>
-            </td>
-        </xpath>
-    </template>
-
     <!-- Modify website_quote templates -->
     <template id="so_quotation" inherit_id="website_quote.so_quotation">
         <xpath expr="//div[@id='modalaccept']" position="before">
