@@ -65,25 +65,6 @@
       </field>
     </record>
   
-    <record model="ir.ui.view" id="custom_phonecall_wizard_view">
-      <field name="name">Schedule a Phonecall</field>
-      <field name="model">crm.custom.phonecall.wizard</field>
-      <field name="arch" type="xml">
-        <form string="Schedule a Phonecall">
-          <group col="4">
-            <field name="name"/>
-            <field name="date" string="Planned Date"/>
-            <field name="partner_id" readonly="True"/>
-            <field name="user_id"/>
-          </group>
-          <footer>
-            <button name="action_schedule" type="object" string="Schedule Call" class="oe_highlight"/>
-            or
-            <button string="Cancel" class="oe_link" special="cancel" />
-          </footer>
-        </form>
-      </field>
-    </record>
   </data>
 </openerp>
 
