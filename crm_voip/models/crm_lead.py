@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
+from odoo import models, fields, api
+from odoo.tools.translate import _
 
 
-class crm_lead(models.Model):
+class CrmLead(models.Model):
     _inherit = "crm.lead"
     in_call_center_queue = fields.Boolean("Is in the Call Queue", compute='compute_is_call_center')
 

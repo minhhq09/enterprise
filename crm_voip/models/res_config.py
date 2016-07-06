@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
 
-class crm_configuration(models.TransientModel):
+class CrmConfiguration(models.TransientModel):
     _name = 'sale.config.settings'
     _inherit = 'sale.config.settings'
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import models, fields, api, tools
 from openerp.tools.translate import _
@@ -13,14 +14,14 @@ from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 # ----------------------------------------------------------
 
 
-class crm_phonecall(models.Model):
+class CrmPhonecall(models.Model):
     _name = "crm.phonecall"
 
     _order = "sequence, id"
 
     name = fields.Char('Call Summary', required=True)
-    date = fields.Datetime('Date')
-    user_id = fields.Many2one('res.users', 'Responsible')
+    date = fields.Datetime('Date', default=lambda self: fields.Datetime.now())
+    user_id = fields.Many2one('res.users', 'Responsible', default=lambda self: self.env.uid)
     partner_id = fields.Many2one('res.partner', 'Contact')
     company_id = fields.Many2one('res.company', 'Company')
     description = fields.Text('Description')
@@ -31,8 +32,9 @@ class crm_phonecall(models.Model):
         ('0', 'Low'),
         ('1', 'Normal'),
         ('2', 'High')
-        ], string='priority')
+        ], string='priority', default='1')
     team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+        default=lambda self: self.env['crm.team']._get_default_team_id(self.env.uid),
         help="Sales team to which Case belongs to.")
     categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     in_queue = fields.Boolean('In Call Queue', default=True)
@@ -44,122 +46,74 @@ class crm_phonecall(models.Model):
         ('cancel', 'Cancelled'),
         ('open', 'To Do'),
         ('done', 'Held'),
-        ], string='Status', readonly=True, track_visibility='onchange',
+        ], string='Status', default='open', readonly=True, track_visibility='onchange',
         help='The status is set to To Do, when a case is created.\n'
              'When the call is over, the status is set to Held.\n'
              'If the call is not applicable anymore, the status can be set to Cancelled.')
-    opportunity_id = fields.Many2one('crm.lead', 'Lead/Opportunity', ondelete='cascade', track_visibility='onchange')
-
-    _defaults = {
-        'date': fields.Datetime.now,
-        'priority': '1',
-        'state':  'open',
-        'user_id': lambda self, cr, uid, ctx: uid,
-        'team_id': lambda self, cr, uid, ctx: self.pool['crm.team']._get_default_team_id(cr, uid, context=ctx),
-        'active': 1
-    }
+    opportunity_id = fields.Many2one('crm.lead', 'Lead/Opportunity',
+        ondelete='cascade', track_visibility='onchange')
 
     @api.onchange('partner_id')
-    def on_change_partner_id(self):
-        self.ensure_one()
+    def _onchange_partner_id(self):
         if self.partner_id:
-            partner = self.env['res.partner'].browse(self.partner_id.id)
-            self.partner_phone = partner.phone
-            self.partner_mobile = partner.mobile
+            self.partner_phone = self.partner_id.phone
+            self.partner_mobile = self.partner_id.mobile
 
-    def write(self, cr, uid, ids, values, context=None):
-        return super(crm_phonecall, self).write(cr, uid, ids, values, context=context)
+    @api.onchange('opportunity_id')
+    def _onchange_opportunity(self):
+        if self.opportunity_id:
+            self.team_id = self.opportunity_id.team_id
+            self.partner_id = self.opportunity_id.partner_id
+            self.partner_phone = self.opportunity_id.phone\
+                or self.partner_id.phone
+            self.partner_mobile = self.opportunity_id.mobile\
+                or self.partner_id.mobile
 
-    def schedule_another_phonecall(self, cr, uid, ids, schedule_time, call_summary,
-                                   user_id=False, team_id=False, categ_id=False, context=None):
-        model_data = self.pool.get('ir.model.data')
-        phonecall_dict = {}
-        if not categ_id:
+    @api.multi
+    def schedule_another_phonecall(self, schedule_time, call_summary,
+                                   res_user=False, team=False, categ=False):
+        self.ensure_one()
+        ModelData = self.env['ir.model.data']
+        #To Do move this into the default value of categ_id
+        if not categ:
             try:
-                res_id = model_data._get_id(cr, uid, 'crm', 'categ_phone2')
-                categ_id = model_data.browse(cr, uid, res_id, context=context).res_id
+                res_id = ModelData._get_id('crm', 'categ_phone2')
+                categ = ModelData.browse(res_id).res_id
             except ValueError:
                 pass
-        for call in self.browse(cr, uid, ids, context=context):
-            if(call.state != "done"):
-                call.state = "cancel"
-                call.in_queue = False
-            if not team_id:
-                team_id = call.team_id and call.team_id.id or False
-            if not user_id:
-                user_id = call.user_id and call.user_id.id or False
-            if not schedule_time:
-                schedule_time = call.date
-            vals = {
-                'name': call_summary,
-                'user_id': user_id or False,
-                'categ_id': categ_id or False,
-                'description': False,
-                'date': schedule_time,
-                'team_id': team_id or False,
-                'partner_id': call.partner_id and call.partner_id.id or False,
-                'partner_phone': call.partner_phone,
-                'partner_mobile': call.partner_mobile,
-                'priority': call.priority,
-                'opportunity_id': call.opportunity_id and call.opportunity_id.id or False,
-            }
-            new_id = self.create(cr, uid, vals, context=context)
-            phonecall_dict[call.id] = new_id
-        return phonecall_dict
+        if(self.state != "done"):
+            self.state = "cancel"
+            self.in_queue = False
+        self.create({
+            'name': call_summary,
+            'user_id': res_user.id,
+            'categ_id': categ.id,
+            'date': schedule_time if schedule_time else self.date,
+            'team_id': team.id,
+            'partner_id': self.partner_id.id,
+            'partner_phone': self.partner_phone,
+            'partner_mobile': self.partner_mobile,
+            'priority': self.priority,
+            'opportunity_id': self.opportunity_id.id,
+        })
 
-    def on_change_opportunity(self, cr, uid, ids, opportunity_id, context=None):
-            values = {}
-            if opportunity_id:
-                opportunity = self.pool.get('crm.lead').browse(cr, uid, opportunity_id, context=context)
-                values = {
-                    'team_id': opportunity.team_id and opportunity.team_id.id or False,
-                    'partner_phone': opportunity.phone,
-                    'partner_mobile': opportunity.mobile,
-                    'partner_id': opportunity.partner_id and opportunity.partner_id.id or False,
-                }
-            return {'value': values}
-
-    def redirect_phonecall_view(self, cr, uid, phonecall_id, context=None):
-        model_data = self.pool.get('ir.model.data')
-        # Select the view
-        tree_view = model_data.get_object_reference(cr, uid, 'crm', 'crm_case_phone_tree_view')
-        form_view = model_data.get_object_reference(cr, uid, 'crm', 'crm_case_phone_form_view')
-        search_view = model_data.get_object_reference(cr, uid, 'crm', 'view_crm_case_phonecalls_filter')
-        value = {
-                'name': _('Phone Call'),
-                'view_type': 'form',
-                'view_mode': 'tree,form',
-                'res_model': 'crm.phonecall',
-                'res_id' : int(phonecall_id),
-                'views': [(form_view and form_view[1] or False, 'form'), (tree_view and tree_view[1] or False, 'tree'), (False, 'calendar')],
-                'type': 'ir.actions.act_window',
-                'search_view_id': search_view and search_view[1] or False,
-        }
-        return value
-
-    def action_button_to_opportunity(self, cr, uid, ids, context=None):
-        if len(ids) != 1:
-            raise UserError(_('It\'s only possible to convert one phone call at a time.'))
-
-        opportunity_dict = {}
-        opportunity = self.pool.get('crm.lead')
-        for call in self.browse(cr, uid, ids, context=context):
-            opportunity_id = opportunity.browse(cr, uid, call.opportunity_id.id)
-            if not opportunity_id:
-                opportunity_id = opportunity.create(cr, uid, {
-                    'name': call.name,
-                    'partner_id': call.partner_id.id,
-                    'mobile': call.partner_mobile or call.partner_id.mobile,
-                    'team_id': call.team_id and call.team_id.id or False,
-                    'description': call.description or False,
-                    'priority': call.priority,
-                    'type': 'opportunity',
-                    'phone': call.partner_phone or call.partner_id.phone,
-                    'email_from': call.partner_id.email,
-                })
-            call.opportunity_id = opportunity_id
-            opportunity_dict[call.id] = opportunity_id
-        return self.pool.get('crm.lead').redirect_opportunity_view(cr, uid, opportunity_dict[ids[0]], context)
+    @api.multi
+    def action_button_to_opportunity(self):
+        self.ensure_one()
+        CrmLead = self.env['crm.lead']
+        if not self.opportunity_id:
+            self.opportunity_id = CrmLead.create({
+                'name': self.name,
+                'partner_id': self.partner_id.id,
+                'phone': self.partner_phone,
+                'mobile': self.partner_mobile,
+                'team_id': self.team_id,
+                'description': self.description,
+                'priority': self.priority,
+                'type': 'opportunity',
+                'email_from': self.partner_id.email,
+            })
+        return self.opportunity_id.redirect_opportunity_view()
 
     @api.multi
     def init_call(self):

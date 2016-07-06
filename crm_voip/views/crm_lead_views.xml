@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
+<odoo>
 
     <!-- server action used to create the call from the menu "more" in the lead's list view -->
     <record id="action_create_call_in_queue" model="ir.actions.server">
@@ -20,7 +19,7 @@
     </record>
 
     <!-- insertion of the action "Add to Call Queue" in the "more" menu in the lead's list view -->
-    <record model="ir.values" id="ir_create_call_in_queue">
+    <record id="ir_create_call_in_queue" model="ir.values">
       <field name="model_id" ref="crm.model_crm_lead" />
       <field name="name">Add to Call Queue</field>
       <field name="key2">client_action_multi</field>
@@ -30,7 +29,7 @@
     </record>
 
     <!-- Add the button in the kaban view of the opportunities-->
-    <record model="ir.ui.view" id="lead_button_call_kanban_view">
+    <record id="lead_button_call_kanban_view" model="ir.ui.view">
       <field name="name">crm.lead.tocall</field>
       <field name="model">crm.lead</field>
       <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
@@ -49,7 +48,7 @@
       </field>
     </record>
 
-    <record model="ir.ui.view" id="lead_button_voip_view">
+    <record id="lead_button_voip_view" model="ir.ui.view">
       <field name="name">crm.lead_button_voip</field>
       <field name="model">crm.lead</field>
       <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
@@ -65,6 +64,5 @@
       </field>
     </record>
   
-  </data>
-</openerp>
+</odoo>
 

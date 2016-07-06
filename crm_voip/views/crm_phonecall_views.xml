@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
+<odoo>
 
     <!--Phonecalls Tree View -->
-    <record model="ir.ui.view" id="crm_phonecall_tree_view">
+    <record id="crm_phonecall_tree_view" model="ir.ui.view">
       <field name="name">CRM - Phonecalls Tree</field>
       <field name="model">crm.phonecall</field>
       <field name="arch" type="xml">
@@ -17,7 +16,7 @@
           <field name="state"/>
           <field name="duration"/>
           <field name="categ_id"/>
-          <field name="opportunity_id" on_change="on_change_opportunity(opportunity_id)"/>
+          <field name="opportunity_id"/>
           <button string="Schedule Other Call"
             icon="fa-phone text-success"
             name="%(phonecall_to_phonecall_act)d"
@@ -31,7 +30,7 @@
     </record>
 
     <!-- Phonecalls Calendar View -->
-    <record model="ir.ui.view" id="crm_phonecall_calendar_view">
+    <record id="crm_phonecall_calendar_view" model="ir.ui.view">
       <field name="name">CRM - Phone Calls Calendar</field>
       <field name="model">crm.phonecall</field>
       <field name="priority" eval="2"/>
@@ -73,7 +72,7 @@
     </record>
 
     <!-- Add the menu to reach the phonecall's view-->
-    <record model="ir.actions.act_window" id="crm_phonecall_view">
+    <record id="crm_phonecall_view" model="ir.actions.act_window">
       <field name="name">Phonecalls</field>
       <field name="res_model">crm.phonecall</field>
       <field name="view_type">form</field>
@@ -98,5 +97,5 @@
     
     <menuitem id="menu_crm_phonecall_view" name="Phonecalls" sequence="5"
         parent="sales_team.menu_sales" action="crm_phonecall_view" />
-  </data>
-</openerp>
+
+</odoo>

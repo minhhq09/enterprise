@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
+from odoo import models, fields, api
+from odoo.tools.translate import _
 
 
-class crm_phonecall_log_wizard(models.TransientModel):
+class CrmPhonecallLogWizard(models.TransientModel):
     _name = 'crm.phonecall.log.wizard'
 
     description = fields.Text('Description')
@@ -65,7 +66,8 @@ class crm_phonecall_log_wizard(models.TransientModel):
 
     @api.multi
     def modify_phonecall(self, phonecall):
-        phonecall.description = self.description
+        values = {}
+        values.update(description=self.description)
         if(self.opportunity_id):
             opportunity = self.env['crm.lead'].browse(self.opportunity_id)
             if self.next_activity_id:
@@ -78,12 +80,13 @@ class crm_phonecall_log_wizard(models.TransientModel):
                 sec = '%.2f' % sec
                 time = str(mins) + ":" + sec[-2:]
                 message = "Call " + time + " min(s)"
-                phonecall.duration = self.custom_duration
+                values.update(duration=self.custom_duration)
             else:
                 message = "Call " + self.duration + " min(s)"
             if(phonecall.description):
                 message += " about " + phonecall.description
             opportunity.message_post(message)
+        phonecall.write(values)
         if self.reschedule_option != "no_reschedule":
             self.schedule_again()
 
@@ -110,27 +113,7 @@ class crm_phonecall_log_wizard(models.TransientModel):
         }
 
 
-class crm_custom_phonecall_wizard(models.TransientModel):
-    _name = 'crm.custom.phonecall.wizard'
-
-    name = fields.Char('Call summary', required=True)
-    user_id = fields.Many2one('res.users', "Assign To")
-    date = fields.Datetime('Date', required=True, default=lambda *a: datetime.now())
-    partner_id = fields.Many2one('res.partner', "Partner")
-
-    @api.multi
-    def action_schedule(self):
-        phonecall = self.env['crm.phonecall'].browse(self._context.get('phonecall_id'))
-        phonecall.name = self.name
-        phonecall.date = self.date
-        phonecall.partner_id = self.partner_id
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'reload_panel',
-        }
-
-
-class crm_phonecall_transfer_wizard(models.TransientModel):
+class CrmPhonecallTransferWizard(models.TransientModel):
     _name = 'crm.phonecall.transfer.wizard'
 
     transfer_number = fields.Char('transfer To')
@@ -164,8 +147,8 @@ class crm_phonecall_transfer_wizard(models.TransientModel):
         return action
 
 
-class crm_phonecall2phonecall(models.TransientModel):
-    _name = "crm.phonecall2phonecall"
+class CrmSchedulePhonecall(models.TransientModel):
+    _name = "crm.schedule_phonecall"
 
     name = fields.Char('Call Summary', required=True)
     date = fields.Datetime('Date', required=True)
@@ -178,43 +161,44 @@ class crm_phonecall2phonecall(models.TransientModel):
     partner_id = fields.Many2one('res.partner', "Partner")
     note = fields.Text('Note')
 
-    def action_cancel(self, cr, uid, ids, context=None):
+    def action_cancel(self):
             """
             Closes Phonecall to Phonecall form
             """
             return {'type': 'ir.actions.act_window_close'}
 
-    def action_schedule(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        phonecall = self.pool.get('crm.phonecall')
-        phonecall_ids = context and context.get('active_ids') or []
-        for this in self.browse(cr, uid, ids, context=context):
-            phocall_ids = phonecall.schedule_another_phonecall(
-                cr, uid, phonecall_ids, this.date, this.name,
-                this.user_id and this.user_id.id or False,
-                this.team_id and this.team_id.id or False,
-                this.categ_id and this.categ_id.id or False,
-                context=context)
+    @api.multi
+    def action_schedule(self):
+        Phonecall = self.env['crm.phonecall']
+        phonecall = Phonecall.browse(self.env.context.get('active_id'))
+        phonecall.schedule_another_phonecall(
+            self.date,
+            self.name,
+            self.user_id,
+            self.team_id,
+            self.categ_id,
+        )
         return {
             'type': 'ir.actions.client',
             'tag': 'reload_panel',
         }
 
-    def default_get(self, cr, uid, fields, context=None):
+    @api.model
+    def default_get(self, fields):
         """
         This function gets default values
         """
-        res = super(crm_phonecall2phonecall, self).default_get(cr, uid, fields, context=context)
-        record_id = context and context.get('active_id', False) or False
+        res = super(crm_phonecall2phonecall, self).default_get(fields)
+
+        record_id = self._context and self._context.get('active_id', False) or False
         if record_id:
-            phonecall = self.pool.get('crm.phonecall').browse(cr, uid, record_id, context=context)
+            phonecall = self.env['crm.phonecall'].browse(record_id)
 
             categ_id = False
-            data_obj = self.pool.get('ir.model.data')
+            ModelData = self.env['ir.model.data']
             try:
-                res_id = data_obj._get_id(cr, uid, 'crm', 'categ_phone2')
-                categ_id = data_obj.browse(cr, uid, res_id, context=context).res_id
+                res_id = ModelData._get_id('crm', 'categ_phone2')
+                categ_id = ModelData.browse(res_id).res_id
             except ValueError:
                 pass
 

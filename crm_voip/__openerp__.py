@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     'name': "Odoo VOIP",
 
@@ -21,6 +23,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'wizard/crm_phonecall_wizard.xml',
         'views/crm_voip.xml',
         'views/crm_phonecall_views.xml',
         'views/crm_lead_views.xml',

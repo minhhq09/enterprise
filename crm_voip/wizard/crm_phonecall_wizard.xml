@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<openerp>
-  <data>
-    <record model="ir.ui.view" id="phonecall_to_phonecall_view">
+<odoo>
+
+    <record id="phonecall_to_phonecall_view" model="ir.ui.view">
       <field name="name">phonecall2phonecall</field>
       <field name="model">crm.phonecall2phonecall</field>
       <field name="arch" type="xml">
@@ -24,7 +24,7 @@
     </record>
 
     <!-- Phonecall to Phonecall action -->
-    <record model="ir.actions.act_window" id="phonecall_to_phonecall_act">
+    <record id="phonecall_to_phonecall_act" model="ir.actions.act_window">
       <field name="name">Schedule Other Call</field>
       <field name="res_model">crm.phonecall2phonecall</field>
       <field name="view_type">form</field>
@@ -33,7 +33,7 @@
       <field name="target">new</field>
     </record>
 
-    <record model="ir.ui.view" id="custom_phonecall_wizard_view">
+    <record id="custom_phonecall_wizard_view" model="ir.ui.view">
       <field name="name">Schedule a Phonecall</field>
       <field name="model">crm.custom.phonecall.wizard</field>
       <field name="arch" type="xml">
@@ -54,7 +54,7 @@
     </record>
 
     <!-- wizard to change the log of calls -->
-    <record model="ir.ui.view" id="wizard_change_log_form_view">
+    <record id="wizard_change_log_form_view" model="ir.ui.view">
       <field name="name">phonecall.log.wizard.form</field>
       <field name="model">crm.phonecall.log.wizard</field>
       <field name="arch" type="xml">
@@ -113,7 +113,7 @@
     </record>
 
     <!-- wizard diplaying the transfer's option -->
-    <record model="ir.ui.view" id="wizard_transfer_call_form_view">
+    <record id="wizard_transfer_call_form_view" model="ir.ui.view">
       <field name="name">Transfer the Call</field>
       <field name="model">crm.phonecall.transfer.wizard</field>
       <field name="arch" type="xml">
@@ -132,5 +132,5 @@
         </form>
       </field>
     </record>
-  </data>
-</openerp>
+
+</odoo>
