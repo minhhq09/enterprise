@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, tools
-from openerp.tools.translate import _
-from openerp.exceptions import UserError
 import time
-from datetime import datetime
-from datetime import timedelta
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+
+from odoo import models, fields, api
 
 # ----------------------------------------------------------
 # Models
@@ -28,15 +24,9 @@ class CrmPhonecall(models.Model):
     duration = fields.Float('Duration', help="Duration in minutes and seconds.")
     partner_phone = fields.Char('Phone')
     partner_mobile = fields.Char('Mobile')
-    priority = fields.Selection([
-        ('0', 'Low'),
-        ('1', 'Normal'),
-        ('2', 'High')
-        ], string='priority', default='1')
     team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
         default=lambda self: self.env['crm.team']._get_default_team_id(self.env.uid),
         help="Sales team to which Case belongs to.")
-    categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     in_queue = fields.Boolean('In Call Queue', default=True)
     sequence = fields.Integer('Sequence', select=True,
         help="Gives the sequence order when displaying a list of Phonecalls.")
@@ -46,7 +36,7 @@ class CrmPhonecall(models.Model):
         ('cancel', 'Cancelled'),
         ('open', 'To Do'),
         ('done', 'Held'),
-        ], string='Status', default='open', readonly=True, track_visibility='onchange',
+        ], string='Status', default='open', track_visibility='onchange',
         help='The status is set to To Do, when a case is created.\n'
              'When the call is over, the status is set to Held.\n'
              'If the call is not applicable anymore, the status can be set to Cancelled.')
@@ -70,32 +60,27 @@ class CrmPhonecall(models.Model):
                 or self.partner_id.mobile
 
     @api.multi
-    def schedule_another_phonecall(self, schedule_time, call_summary,
-                                   res_user=False, team=False, categ=False):
+    def schedule_another_phonecall(self):
         self.ensure_one()
-        ModelData = self.env['ir.model.data']
-        #To Do move this into the default value of categ_id
-        if not categ:
-            try:
-                res_id = ModelData._get_id('crm', 'categ_phone2')
-                categ = ModelData.browse(res_id).res_id
-            except ValueError:
-                pass
-        if(self.state != "done"):
-            self.state = "cancel"
-            self.in_queue = False
-        self.create({
-            'name': call_summary,
-            'user_id': res_user.id,
-            'categ_id': categ.id,
-            'date': schedule_time if schedule_time else self.date,
-            'team_id': team.id,
-            'partner_id': self.partner_id.id,
-            'partner_phone': self.partner_phone,
-            'partner_mobile': self.partner_mobile,
-            'priority': self.priority,
-            'opportunity_id': self.opportunity_id.id,
-        })
+        return {
+            'type': 'ir.actions.act_window',
+            'key2': 'client_action_multi',
+            'src_model': "crm.phonecall",
+            'res_model': "crm.schedule_phonecall",
+            'multi': "True",
+            'target': 'new',
+            'context': {
+                'phonecall_to_cancel': self.id,
+                'default_name': self.name,
+                'default_partner_id': self.partner_id.id,
+                'default_user_id': self.user_id.id,
+                'default_opportunity_id': self.opportunity_id.id,
+                'default_partner_phone': self.partner_phone,
+                'default_partner_mobile': self.partner_mobile,
+                'default_team_id': self.team_id.id,
+            },
+            'views': [[False, 'form']],
+        }
 
     @api.multi
     def action_button_to_opportunity(self):
@@ -109,7 +94,6 @@ class CrmPhonecall(models.Model):
                 'mobile': self.partner_mobile,
                 'team_id': self.team_id,
                 'description': self.description,
-                'priority': self.priority,
                 'type': 'opportunity',
                 'email_from': self.partner_id.email,
             })
@@ -167,11 +151,10 @@ class CrmPhonecall(models.Model):
 
     @api.model
     def get_list(self):
-        date_today = datetime.now()
         return {"phonecalls": self.search([
             ('in_queue', '=', True),
-            ('user_id', '=', self.env.user[0].id),
-            ('date', '<=', date_today.strftime(DEFAULT_SERVER_DATE_FORMAT))],
+            ('user_id', '=', self.env.user.id),
+            ('date', '<=', fields.Datetime.now())],
             order='sequence,id')
             .get_info()}
 
@@ -182,11 +165,3 @@ class CrmPhonecall(models.Model):
             'partner_phone': number,
         })
         return {"phonecall": phonecall.get_info()}
-
-
-class crm_phonecall_category(models.Model):
-    _name = "crm.phonecall.category"
-    _description = "Category of phone call"
-
-    name = fields.Char('Name', required=True, translate=True)
-    team_id = fields.Many2one('crm.team', 'Sales Team')

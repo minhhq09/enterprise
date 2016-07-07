@@ -35,7 +35,7 @@
             <field name="model_id">crm.phonecall.report</field>
             <field name="domain">[('state','=','done')]</field>
             <field name="user_id" eval="False"/>
-            <field name="context">{'group_by': ['team_id'], 'col_group_by': ['categ_id'], 'measures': ['nbr', 'duration']}</field>
+            <field name="context">{'group_by': ['team_id'], 'measures': ['nbr', 'duration']}</field>
         </record>
         <record id="filter_crm_phonecall_phone_call_to_do" model="ir.filters">
             <field name="name">Phone Calls To Do</field>

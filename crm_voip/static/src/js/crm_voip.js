@@ -113,19 +113,8 @@ var PhonecallWidget = Widget.extend({
     },
 
     schedule_call: function(){
-        web_client.action_manager.do_action({
-            name: 'Schedule Other Call',
-            type: 'ir.actions.act_window',
-            key2: 'client_action_multi',
-            src_model: "crm.phonecall",
-            res_model: "crm.phonecall2phonecall",
-            multi: "True",
-            target: 'new',
-            context: {'active_id': this.id, 'active_ids': [this.id]},
-            views: [[false, 'form']],
-            flags: {
-                'headless': true,
-            }
+        new Model("crm.phonecall").call('schedule_another_phonecall', [this.id]).then(function(action){
+            web_client.action_manager.do_action(action);
         });
     },
 

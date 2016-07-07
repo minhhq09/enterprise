@@ -9,21 +9,28 @@ class CrmLead(models.Model):
     _inherit = "crm.lead"
     in_call_center_queue = fields.Boolean("Is in the Call Queue", compute='compute_is_call_center')
 
-    @api.one
+    @api.multi
     def compute_is_call_center(self):
-        phonecall = self.env['crm.phonecall'].search([('opportunity_id','=',self.id),('in_queue','=',True),('state','!=','done'),('user_id','=',self.env.user[0].id)])
-        if phonecall:
-            self.in_call_center_queue = True
-        else:
-            self.in_call_center_queue = False
+        for lead in self:
+            phonecall = self.env['crm.phonecall'].search([
+                ('opportunity_id', '=', lead.id),
+                ('in_queue', '=', True),
+                ('state', '!=', 'done'),
+                ('user_id', '=', self.env.user.id)
+            ])
+            if phonecall:
+                lead.in_call_center_queue = True
+            else:
+                lead.in_call_center_queue = False
 
+    # Function called in the menu "more"
     @api.multi
     def create_call_in_queue(self):
         for opp in self:
-            phonecall = self.env['crm.phonecall'].create({
+            self.env['crm.phonecall'].create({
                 'name': opp.name,
                 'duration': 0,
-                'user_id': self.env.user[0].id,
+                'user_id': self.env.user.id,
                 'opportunity_id': opp.id,
                 'partner_id': opp.partner_id.id,
                 'state': 'open',
@@ -36,37 +43,35 @@ class CrmLead(models.Model):
             'tag': 'reload_panel',
         }
 
+    # Function call by the stat button
     @api.multi
-    def create_custom_call_center_call(self):
-        phonecall = self.env['crm.phonecall'].create({
-            'name': self.name,
-            'duration': 0,
-            'user_id': self.env.user[0].id,
-            'opportunity_id': self.id,
-            'partner_id': self.partner_id.id,
-            'state': 'open',
-            'partner_phone': self.phone or self.partner_id.phone,
-            'in_queue': True,
-        })
+    def create_custom_call_in_queue(self):
         return {
             'type': 'ir.actions.act_window',
             'key2': 'client_action_multi',
             'src_model': "crm.phonecall",
-            'res_model': "crm.custom.phonecall.wizard",
+            'res_model': "crm.schedule_phonecall",
             'multi': "True",
             'target': 'new',
-            'context': {'phonecall_id': phonecall.id,
-                        'default_name': phonecall.name,
-                        'default_partner_id': phonecall.partner_id.id,
-                        'default_user_id': self.env.user[0].id,
-                        },
+            'context': {
+                'default_name': self.name,
+                'default_partner_id': self.partner_id.id,
+                'default_user_id': self.env.uid,
+                'default_opportunity_id': self.id,
+                'default_partner_phone': self.phone or self.partner_id.phone,
+                'default_partner_mobile': self.mobile or self.partner_id.mobile,
+                'default_team_id': self.team_id.id,
+            },
             'views': [[False, 'form']],
         }
 
     @api.multi
     def delete_call_center_call(self):
-        phonecall = self.env['crm.phonecall'].search([('opportunity_id','=',self.id),('in_queue','=',True),('user_id','=',self.env.user[0].id)])
-        phonecall.unlink()
+        phonecalls = self.env['crm.phonecall'].search([
+            ('opportunity_id', '=', self.id),
+            ('in_queue', '=', True),
+            ('user_id', '=', self.env.user.id)])
+        phonecalls.unlink()
         return {
             'type': 'ir.actions.client',
             'tag': 'reload_panel',
@@ -76,7 +81,7 @@ class CrmLead(models.Model):
     def log_new_phonecall(self):
         phonecall = self.env['crm.phonecall'].create({
             'name': self.name,
-            'user_id': self.env.user[0].id,
+            'user_id': self.env.user.id,
             'opportunity_id': self.id,
             'partner_id': self.partner_id.id,
             'state': 'done',

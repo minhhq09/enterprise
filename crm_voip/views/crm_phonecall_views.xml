@@ -9,18 +9,20 @@
       <field name="arch" type="xml">
         <tree string="Phonecalls" editable="top">
           <field name="date"/>
-          <field name="name"/>
           <field name="partner_id"/>
+          <field name="name"/>
+          <field name="description"/>
           <field name="partner_phone"/>
+          <field name="partner_mobile"/>
           <field name="user_id"/>
           <field name="state"/>
           <field name="duration"/>
-          <field name="categ_id"/>
           <field name="opportunity_id"/>
           <button string="Schedule Other Call"
             icon="fa-phone text-success"
-            name="%(phonecall_to_phonecall_act)d"
-            type="action"/>
+            type="object"
+            name="schedule_another_phonecall"
+          />
           <button string="To Opportunity"
             name="action_button_to_opportunity"
             icon="fa-file-text-o"

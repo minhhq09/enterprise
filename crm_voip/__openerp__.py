@@ -34,7 +34,6 @@
     ],
     # only loaded in demonstration mode
     'demo': [
-        'data/demo.xml',
     ],
     'js': ['static/src/js/*.js'],
     'css': ['static/src/css/*.css'],

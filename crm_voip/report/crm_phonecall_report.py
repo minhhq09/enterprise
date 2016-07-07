@@ -15,7 +15,6 @@ class CrmPhonecallReport(models.Model):
     duration = fields.Float('Duration', digits=(16, 2), group_operator="avg", readonly=True)
     team_id = fields.Many2one('crm.team', 'Sales Team', index=True,
         help="Sales team to which Case belongs to.")
-    categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     state = fields.Selection([
         ('pending', 'Not Held'),
         ('cancel', 'Cancelled'),
@@ -35,14 +34,11 @@ class CrmPhonecallReport(models.Model):
             create or replace view crm_phonecall_report as (
                 select
                     id,
-                    c.state,
                     c.user_id,
                     c.team_id,
-                    c.categ_id,
                     c.partner_id,
                     c.duration,
                     c.company_id,
-                    c.priority,
                     1 as nbr,
                     c.date
                 from
