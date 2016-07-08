@@ -22,7 +22,7 @@ This is the base module to manage the accounting chart for Dominican Republic.
     'website': 'http://marcos.do',
     'depends': ['l10n_do', 'account_reports'],
     'data': [
-        'account_financial_report.xml',
+        'data/account_financial_html_report_data.xml',
     ],
     'demo': [],
     'installable': True,

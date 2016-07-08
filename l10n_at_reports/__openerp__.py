@@ -16,7 +16,7 @@ This module provides the standard Accounting Chart for Austria which is based on
 Please keep in mind that you should review and adapt it with your Accountant, before using it in a live Environment.
 """,
     'demo': [],
-    'data': ['report_vat_statement.xml'],
+    'data': ['data/account_financial_html_report_data.xml'],
     'auto_install': True,
     'installable': True,
     'license': 'OEEL-1',

@@ -15,7 +15,7 @@ Accounting reports for Norway
         'l10n_no', 'account_reports',
     ],
     'data': [
-        'account_financial_report.xml'
+        'data/account_financial_html_report_data.xml'
     ],
     'demo': [],
     'auto_install': True,

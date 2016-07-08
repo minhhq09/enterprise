@@ -18,7 +18,7 @@ GST Reporting for Australian Accounting.
     'depends': ['l10n_au',
                 'account_reports'],
     'data': [
-        'report_gst_worksheet.xml',
+        'data/account_financial_html_report_data.xml',
      ],
     'demo': [],
     'auto_install': True,

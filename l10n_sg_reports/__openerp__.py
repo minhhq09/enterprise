@@ -15,7 +15,7 @@ Accounting reports for Singapore
         'l10n_sg', 'account_reports'
     ],
     'data': [
-        'account_financial_html_report.xml',
+        'data/account_financial_html_report_data.xml',
     ],
     'installable': True,
     'auto_install': True,

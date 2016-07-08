@@ -16,7 +16,7 @@ Accounting reports for Argentina
     'category': 'Localization',
     'depends': ['l10n_ar', 'account_reports'],
     'data':[
-        'report_vat_statement.xml'
+        'data/account_financial_html_report_data.xml'
     ],
     'demo': [],
     'auto_install': True,

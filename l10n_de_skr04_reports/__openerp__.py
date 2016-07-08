@@ -66,7 +66,7 @@ Accounting reports for Deutschland SKR04
         'l10n_de_skr04', 'account_reports',
     ],
     'data': [
-        'account_financial_report.xml',
+        'data/account_financial_html_report_data.xml',
     ],
     'installable': True,
     'auto_install': True,

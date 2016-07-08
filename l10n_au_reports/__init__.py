@@ -1,2 +1,4 @@
 # -*- encoding: utf-8 -*-
-import report_gst_worksheet
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+import models

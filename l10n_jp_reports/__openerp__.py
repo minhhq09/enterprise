@@ -15,7 +15,7 @@ Accounting reports for Japan
     'category': 'Localization',
     'depends': ['l10n_jp', 'account_reports'],
     'data': [
-        'account_financial_html_report.xml'
+        'data/account_financial_html_report_data.xml'
     ],
     'demo': [],
     'auto_install': True,

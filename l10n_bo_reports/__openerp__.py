@@ -16,7 +16,7 @@ Accounting reports for Bolivia
     'category': 'Localization',
     "depends": ["l10n_bo", 'account_reports'],
     "data": [
-        "account_financial_html_report.xml",
+        "data/account_financial_html_report_data.xml",
     ],
     "auto_install": True,
     "installable": True,

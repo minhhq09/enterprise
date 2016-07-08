@@ -14,7 +14,7 @@ Accounting reports for France
     'category': 'Localization',
     'depends': ['l10n_fr', 'account_reports'],
     'data':[
-        'account_financial_html_report.xml'
+        'data/account_financial_html_report_data.xml'
     ],
     'demo': [],
     'auto_install': True,

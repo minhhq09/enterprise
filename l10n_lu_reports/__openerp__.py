@@ -14,7 +14,7 @@ Accounting reports for Luxembourg
     'category': 'Localization',
     'depends': ['l10n_lu', 'account_reports'],
     'data': [
-        'account_financial_html_report_mensuel.xml',
+        'data/account_financial_html_report_mensuel_data.xml',
     ],
     'demo': [],
     'auto_install': True,
