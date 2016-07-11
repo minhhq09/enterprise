@@ -100,7 +100,7 @@ class SaleSubscription(osv.osv):
         'user_id': fields.many2one('res.users', 'Responsible', track_visibility='onchange'),
         'manager_id': fields.many2one('res.users', 'Sales Rep', track_visibility='onchange'),
         # Fields that only matters on template
-        'plan_description': fields.html(string='Plan Description', help="Describe this subscription in a few lines",),
+        'plan_description': fields.html(string='Plan Description', help="Describe this subscription in a few lines", sanitize=False),
         'user_selectable': fields.boolean(string='Allow Online Order', help="""Leave this unchecked if you don't want this subscription template to be available to the customer in the frontend (for a free trial, for example)"""),
     }
 
