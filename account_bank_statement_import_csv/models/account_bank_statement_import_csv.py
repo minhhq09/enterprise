@@ -71,10 +71,12 @@ class AccountBankStmtImportCSV(models.TransientModel):
     def _convert_to_float(self, value):
         return float(value) if value else 0.0
 
-    def _parse_import_data(self, cr, uid, data, import_fields, record, options, context=None):
-        data = super(AccountBankStmtImportCSV, self)._parse_import_data(cr, uid, data, import_fields, record, options, context)
+    def _parse_import_data(self, cr, uid, ids, data, import_fields, options, context=None):
+        data = super(AccountBankStmtImportCSV, self)._parse_import_data(cr, uid, ids, data, import_fields, options, context)
         statement_id = context.get('bank_statement_id', False)
         ret_data = []
+
+        vals = {}
         if statement_id:
             import_fields.append('statement_id/.id')
             import_fields.append('sequence')
@@ -91,17 +93,17 @@ class AccountBankStmtImportCSV(models.TransientModel):
             if 'balance' in import_fields:
                 index_balance = import_fields.index('balance')
                 self._parse_float_from_data(cr, uid, data, index_balance, 'balance', options, context=context)
-                context['starting_balance'] = self._convert_to_float(data[0][index_balance])
-                context['starting_balance'] -= self._convert_to_float(data[0][import_fields.index('amount')]) \
+                vals['balance_start'] = self._convert_to_float(data[0][index_balance])
+                vals['balance_start'] -= self._convert_to_float(data[0][import_fields.index('amount')]) \
                                                 if not convert_to_amount \
                                                 else self._convert_to_float(data[0][index_debit])-self._convert_to_float(data[0][index_credit])
-                context['ending_balance'] = data[len(data)-1][index_balance]
+                vals['balance_end_real'] = data[len(data)-1][index_balance]
                 import_fields.remove('balance')
             # Remove debit/credit field from import_fields
             if convert_to_amount:
                 import_fields.remove('debit')
                 import_fields.remove('credit')
-                
+
             for index, line in enumerate(data):
                 line.append(statement_id)
                 line.append(index)
@@ -117,7 +119,12 @@ class AccountBankStmtImportCSV(models.TransientModel):
                 if line[import_fields.index('amount')]:
                     ret_data.append(line)
             if 'date' in import_fields:
-                context['date'] = data[len(data)-1][import_fields.index('date')]
+                vals['date'] = data[len(data)-1][import_fields.index('date')]
+
+            # add starting balance and date if there is one set in fields
+            if vals:
+                self.pool['account.bank.statement'].write(cr, uid, statement_id, vals, context=context)
+
         return ret_data
 
     def parse_preview(self, cr, uid, id, options, count=10, context=None):
@@ -127,7 +134,7 @@ class AccountBankStmtImportCSV(models.TransientModel):
         if options.get('bank_stmt_import', False):
             updated_context.update({'bank_stmt_import': True})
         return super(AccountBankStmtImportCSV, self).parse_preview(cr, uid, id, options, count=count, context=updated_context)
-                
+
 
     def do(self, cr, uid, id, fields, options, dryrun=False, context=None):
         if options.get('bank_stmt_import', False):
@@ -137,13 +144,7 @@ class AccountBankStmtImportCSV(models.TransientModel):
             ctx = context.copy()
             ctx['bank_statement_id'] = statement_id
             res = super(AccountBankStmtImportCSV, self).do(cr, uid, id, fields, options, dryrun=dryrun, context=ctx)
-            # add starting balance and date if there is one set in fields
-            if ctx.get('starting_balance', False):
-                vals = {'balance_start': ctx.get('starting_balance'), 'balance_end_real': ctx.get('ending_balance')}
-            if ctx.get('date', False):
-                vals.update({'date': ctx.get('date')})
-            if ctx.get('starting_balance', False) or ctx.get('date', False):
-                self.pool.get('account.bank.statement').write(cr, uid, statement_id, vals, context=ctx)
+
             try:
                 if dryrun:
                     cr.execute('ROLLBACK TO SAVEPOINT import_bank_stmt')
