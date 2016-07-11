@@ -40,7 +40,7 @@ class website_account(website_account):
 
         archive_groups = self._get_archive_groups('sale.subscription', domain)
         if date_begin and date_end:
-            domain += [('create_date', '>=', date_begin), ('create_date', '<', date_end)]
+            domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
 
         filters = {
             'all': {'label': _('All'), 'domain': []},
