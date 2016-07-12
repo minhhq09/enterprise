@@ -23,7 +23,9 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'wizard/crm_phonecall_wizard.xml',
+        'wizard/crm_phonecall_log_wizard_views.xml',
+        'wizard/crm_phonecall_schedule_wizard_views.xml',
+        'wizard/crm_phonecall_transfer_wizard_views.xml',
         'views/crm_voip.xml',
         'views/crm_phonecall_views.xml',
         'views/crm_lead_views.xml',
