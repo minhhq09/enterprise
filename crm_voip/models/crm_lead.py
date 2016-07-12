@@ -7,10 +7,10 @@ from odoo.tools.translate import _
 
 class CrmLead(models.Model):
     _inherit = "crm.lead"
-    in_call_center_queue = fields.Boolean("Is in the Call Queue", compute='compute_is_call_center')
+    in_call_center_queue = fields.Boolean("Is in the Call Queue", compute='_compute_has_call_in_queue')
 
     @api.multi
-    def compute_is_call_center(self):
+    def _compute_has_call_in_queue(self):
         for lead in self:
             phonecall = self.env['crm.phonecall'].search([
                 ('opportunity_id', '=', lead.id),
@@ -66,7 +66,7 @@ class CrmLead(models.Model):
         }
 
     @api.multi
-    def delete_call_center_call(self):
+    def delete_call_in_queue(self):
         phonecalls = self.env['crm.phonecall'].search([
             ('opportunity_id', '=', self.id),
             ('in_queue', '=', True),
