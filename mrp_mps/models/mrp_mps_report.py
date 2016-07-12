@@ -22,7 +22,7 @@ class MrpMpsReport(models.TransientModel):
     company_id = fields.Many2one('res.company', string="Company",
         default=lambda self: self.env['res.company']._company_default_get('mrp.mps.report'), required=True)
     period = fields.Selection([('month', 'Monthly'), ('week', 'Weekly'), ('day', 'Daily')], default=_default_manufacturing_period, string="Period")
-    product_id = fields.Many2one('product.product', string='Product', required=True)
+    product_id = fields.Many2one('product.product', string='Product') # TODO: this object should not be used as wizard and as report
 
     @api.multi
     def add_product_mps(self):
@@ -57,34 +57,52 @@ class MrpMpsReport(models.TransientModel):
     def _set_indirect(self, product, data):
         self.env['sale.forecast.indirect'].search([('product_origin_id', '=', product.id)]).unlink()
         BoM = self.env['mrp.bom']
+        #products_to_calculate = [(product, datas),]
 
-        bom = BoM._bom_find(product=product)
-        if not bom:
-            return True
-
-        explored_boms, explored_lines = bom.explode(product, 1)
-        products_to_calculate = set()
+        products_to_calculate = {product: []}
         for inner_data in data:
-            if inner_data['to_supply'] <= 0:
-                continue
-            date = datetime.datetime.strptime(inner_data['date'], '%Y-%m-%d')
-            lead = product.produce_delay
+            products_to_calculate[product].append({'lead': 0.0, 
+                                           'qty': inner_data['to_supply'],
+                                           'date': datetime.datetime.strptime(inner_data['date'], '%Y-%m-%d'),
+                                           })
+        original_product = product
+        while products_to_calculate:
+            product = products_to_calculate.keys()[0]
+            product_lines = products_to_calculate.pop(products_to_calculate.keys()[0])
+            bom = BoM._bom_find(product=product) #TODO: how is it possible not to find a BoM here?
+            if not bom:
+                break
+            # TODO: convert product UoM / Take into account security days on company level
+            explored_boms, explored_lines = bom.explode(product, 1.0 / bom.product_qty)
             for bom_line, line_data in explored_lines:
+                
+                # If the product is in the report, add it to the objects of the report immediately, 
+                # else search further and add to products_to_calculate if you find something
                 if bom_line.product_id.mps_active:
-                    self.env['sale.forecast.indirect'].create({
-                        'product_origin_id': product.id,
-                        'product_id': bom_line.product_id.id,
-                        'quantity': line_data['qty'] * inner_data['to_supply'],
-                        'date': date - relativedelta.relativedelta(days=lead)
-                    })
-                if bom_line.child_bom_id:
-                    products_to_calculate.add(bom_line.product_id)
-
-        for prod in products_to_calculate:
-            datas = self.get_data(prod)
-            self._set_indirect(prod, datas)
-        product.write({'mps_apply': fields.Datetime.now()})
+                    for supply_line in product_lines:
+                        lead = product.produce_delay + supply_line['lead']
+                        self.env['sale.forecast.indirect'].create({
+                            'product_origin_id': original_product.id,
+                            'product_id': bom_line.product_id.id,
+                            'quantity': line_data['qty'] * supply_line['qty'],
+                            'date': supply_line['date'] - relativedelta.relativedelta(days=bom_line.product_id.produce_delay)
+                            #The date the product is needed (don't calculate its own lead time)
+                        })
+                    if BoM._bom_find(product=bom_line.product_id):
+                        bom_line.product_id.apply_active = True
+                else:
+                    bom = BoM._bom_find(product=bom_line.product_id) #If there is a child BoM, add them to the dictionary
+                    if bom:
+                        products_to_calculate.setdefault(bom_line.product_id, [])
+                        for supply_line in product_lines:
+                            lead = supply_line['lead'] + bom_line.product_id.produce_delay
+                            products_to_calculate[bom_line.product_id].append({
+                                  'lead': lead,
+                                  'qty': line_data['qty'] * supply_line['qty'],
+                                  'date': supply_line['date'] - relativedelta.relativedelta(days=bom_line.product_id.produce_delay),
+                                })
         return True
+
 
     @api.model
     def update_indirect(self, product):
@@ -137,6 +155,7 @@ class MrpMpsReport(models.TransientModel):
             state = 'draft'
             mode = 'auto'
             proc_dec = False
+            
             for f in forecasts:
                 if f.mode == 'manual':
                     mode = 'manual'
@@ -157,6 +176,8 @@ class MrpMpsReport(models.TransientModel):
             # Need to compute auto and manual separately as forecasts are still important
             if mode == 'manual':
                 to_supply = sum(forecasts.filtered(lambda x: x.mode == 'manual').mapped('to_supply'))
+            if proc_dec:
+                to_supply = sum(forecasts.filtered(lambda x: x.procurement_id).mapped('procurement_id').mapped('product_qty'))
             forecasted = to_supply - demand + initial - indirect_total
             result.append({
                 'period': name,
