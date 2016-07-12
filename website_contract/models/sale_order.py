@@ -12,13 +12,11 @@ class SaleOrder(models.Model):
     contract_template = fields.Many2one('sale.subscription', 'Contract Template', domain="[('type', '=', 'template')]",
         help="If set, all recurring products in this Sales Order will be included in a new Subscription with the selected template")
 
-    @api.v7
-    def onchange_template_id(self, cr, uid, ids, template_id, partner=False, fiscal_position_id=False, pricelist_id=False, context=None):
-        res = super(SaleOrder, self).onchange_template_id(cr, uid, ids, template_id, partner=partner, fiscal_position_id=fiscal_position_id, pricelist_id=pricelist_id, context=context)
-        contract_template = self.pool['sale.quote.template'].browse(cr, uid, template_id, context=context).contract_template
-        if contract_template:
-            res['value']['contract_template'] = contract_template.id
-        return res
+    @api.onchange('template_id')
+    def onchange_template_id(self):
+        super(SaleOrder, self).onchange_template_id()
+        if self.template_id.contract_template:
+            self.contract_template = self.template_id.contract_template.id
 
     @api.onchange('contract_template')
     def onchange_contract_template(self):
@@ -112,7 +110,7 @@ class SaleOrder(models.Model):
         recurring_next_date = today + invoicing_period
         values['recurring_next_date'] = fields.Date.to_string(recurring_next_date)
         if 'asset_category_id' in contract_tmp._fields:
-            values.update({'asset_category_id': contract_tmp.asset_category_id and contract_tmp.asset_category_id.id})            
+            values['asset_category_id'] = contract_tmp.asset_category_id.id
         return values
 
     @api.one
