@@ -24,6 +24,8 @@ class ProductProduct(models.Model):
             self.env['sale.forecast.indirect'].search([('product_origin_id', '=', self.id)]).unlink()
             boms = self.env['mrp.bom.line'].search([('product_id','=',self.id)])
             boms.mapped('product_id').write({'apply_active': True})
+        else:
+            self.write({'apply_active': True})
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',
