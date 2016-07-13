@@ -141,7 +141,8 @@ class SaleForecast(models.Model):
 
     @api.model
     def change_forecast_mode(self, product_id=False, date=False, date_to=False, quantity=0.0):
-        #TODO FIXME QDP date_to unused?
+        if date and date_to:
+            self.search([('date', '>=', date), ('date', '<', date_to), ('mode', '=', 'manual')]).unlink()
         self.create({'date': date, 'product_id': product_id, 'to_supply': quantity, 'mode': 'manual'})
         return True
 
