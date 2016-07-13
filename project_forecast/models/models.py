@@ -158,8 +158,8 @@ class ProjectForecast(models.Model):
             duration = timedelta(days=1)
             self.start_date = end - duration
 
-    @api.model
-    def all_users(self, present_ids, domain, **kwargs):
+    @api.multi
+    def all_users(self, domain, read_group_order=None, access_rights_uid=None):
         group = self.env.ref('project.group_project_user') or self.env.ref('base.group_user')
         name = group.users.name_get()
         return name, None
