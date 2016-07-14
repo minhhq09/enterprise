@@ -1,5 +1,8 @@
-from openerp.tests.common import TransactionCase
-from openerp.modules.module import get_module_resource
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo.tests.common import TransactionCase
+from odoo.modules.module import get_module_resource
 
 
 class TestQifFile(TransactionCase):
@@ -13,7 +16,7 @@ class TestQifFile(TransactionCase):
         self.BankStatementLine = self.env['account.bank.statement.line']
 
     def test_qif_file_import(self):
-        from openerp.tools import float_compare
+        from odoo.tools import float_compare
         qif_file_path = get_module_resource('account_bank_statement_import_qif', 'test_qif_file', 'test_qif.qif')
         qif_file = open(qif_file_path, 'rb').read().encode('base64')
         bank_statement_id = self.BankStatementImport.create(dict(data_file=qif_file,))
