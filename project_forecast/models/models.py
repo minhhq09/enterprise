@@ -80,7 +80,7 @@ class ProjectForecast(models.Model):
         calendar = self.mapped('user_id.resource_ids.calendar_id')
         if calendar:
             hours = calendar[0].get_working_hours(start, stop)
-            self.time = self.resource_hours * 100.0 / hours[0]
+            self.time = self.resource_hours * 100.0 / hours
         else:
             self.time = 0
 
