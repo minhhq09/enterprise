@@ -15,7 +15,7 @@ class MrpRouting(models.Model):
 
     @api.one
     def _compute_revision_ids(self):
-        previous_routings = self.env['mrp.routing(']
+        previous_routings = self.env['mrp.routing']
         current = self
         while current.old_routing_id:
             previous_routings |= current
