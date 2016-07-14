@@ -4,7 +4,7 @@
 from lxml import etree
 from StringIO import StringIO
 
-from openerp import models
+from odoo import models
 
 
 class AccountBankStatementImport(models.TransientModel):
