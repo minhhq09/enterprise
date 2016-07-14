@@ -18,7 +18,7 @@ Whenever possible, you should use a more appropriate file format like OFX.
 ''',
     'depends': ['account_bank_statement_import', 'base_import'],
     'data': [
-        'views/account_bank_statement_import_views.xml',
+        'wizard/account_bank_statement_import_views.xml',
         'views/account_bank_statement_import_templates.xml',
     ],
     'installable': True,
