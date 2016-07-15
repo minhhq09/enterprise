@@ -14,4 +14,5 @@
     'data': [
         'views/views.xml',
     ],
+    'auto_install': True,
 }

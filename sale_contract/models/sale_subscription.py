@@ -37,7 +37,7 @@ class SaleSubscription(models.Model):
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
     manager_id = fields.Many2one('res.users', string='Sales Rep', track_visibility='onchange')
         # Fields that only matters on template
-    plan_description = fields.Html(help="Describe this subscription in a few lines")
+    plan_description = fields.Html(help="Describe this subscription in a few lines", sanitize=False)
     user_selectable = fields.Boolean(string='Allow Online Order', default=True, help="""Leave this unchecked if you don't want this subscription template to be available to the customer in the frontend (for a free trial, for example)""")
 
     @api.depends('recurring_invoice_line_ids')

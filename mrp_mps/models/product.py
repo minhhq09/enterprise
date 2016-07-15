@@ -17,7 +17,13 @@ class ProductProduct(models.Model):
 
     @api.multi
     def do_forecast(self):
-        # This is just the save button
+        # This is just the save button...
+        self.ensure_one()
+        if not self.mps_active:
+            #... But it is good to delete the indirect when necessary
+            self.env['sale.forecast.indirect'].search([('product_origin_id', '=', self.id)]).unlink()
+            boms = self.env['mrp.bom.line'].search([('product_id','=',self.id)])
+            boms.mapped('product_id').write({'apply_active': True})
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',

@@ -29,7 +29,7 @@ class SaleSubscription(models.Model):
     recurring_amount_tax = fields.Float('Taxes', compute="_amount_all")
     recurring_amount_total = fields.Float('Total', compute="_amount_all")
     # Fields that only matters on template
-    plan_description = fields.Html(string='Plan Description', help="Describe this contract in a few lines",)
+    plan_description = fields.Html(string='Plan Description', help="Describe this contract in a few lines", sanitize=False)
     user_selectable = fields.Boolean(string='Allow Online Order', default="True", help="""Leave this unchecked if you don't want this contract template to be available to the customer in the frontend (for a free trial, for example)""")
     option_invoice_line_ids = fields.One2many('sale.subscription.line.option', inverse_name='analytic_account_id', string='Optional Lines', copy=True)
     partial_invoice = fields.Boolean(string="Prorated Invoice", help="If set, option upgrades are invoiced for the remainder of the current invoicing period.")
