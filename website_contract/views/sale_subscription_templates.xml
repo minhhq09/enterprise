@@ -228,7 +228,7 @@
                                                     <t t-call="website_contract.modal_add"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="format(pricelist.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id,1)[pricelist.id], 'monetary', pricelist.currency_id)"/> / <span t-field="line.uom_id" data-oe-readonly="1"/>
+                                                    <span t-esc="format(pricelist.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False), 'monetary', pricelist.currency_id)"/> / <span t-field="line.uom_id" data-oe-readonly="1"/>
                                                 </td>
                                             </t>
                                         </tr>
@@ -662,7 +662,7 @@
                             </tr>
                             <tr t-foreach="template.recurring_invoice_line_ids" t-as="invoice_line" class="line-description">
                                 <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                <td><span t-esc="format(pricelist.with_context({'uom': invoice_line.uom_id.id}).price_get(invoice_line.product_id.id,1)[pricelist.id], 'monetary', pricelist.currency_id)"/></td>
+                                <td><span t-esc="format(pricelist.with_context({'uom': invoice_line.uom_id.id}).get_product_price(invoice_line.product_id, 1, False), 'monetary', pricelist.currency_id)"/></td>
                             </tr>
                             <tr>
                                 <td><h4>Options</h4></td>
@@ -671,7 +671,7 @@
                             <tr t-foreach="template.option_invoice_line_ids" t-as="invoice_line" class="line-description">
                                 <t t-if="invoice_line.portal_access != 'invisible'">
                                     <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                    <td><span t-esc="format(pricelist.with_context({'uom': invoice_line.uom_id.id}).price_get(invoice_line.product_id.id,1)[pricelist.id], 'monetary', pricelist.currency_id)"/></td>
+                                    <td><span t-esc="format(pricelist.with_context({'uom': invoice_line.uom_id.id}).get_product_price(invoice_line.product_id, 1, False), 'monetary', pricelist.currency_id)"/></td>
                                 </t>
                             </tr>
                         </tbody>

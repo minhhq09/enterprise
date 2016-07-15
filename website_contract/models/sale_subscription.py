@@ -91,7 +91,7 @@ class SaleSubscription(models.Model):
             'name': option.name,
             'sold_quantity': option.quantity,
             'uom_id': option.uom_id.id,
-            'price_unit': self.pricelist_id.with_context({'uom': option.uom_id.id}).price_get(option.product_id.id, 1)[self.pricelist_id.id]
+            'price_unit': self.pricelist_id.with_context({'uom': option.uom_id.id}).get_product_price(option.product_id, 1, False)
         }
         self.write({'recurring_invoice_line_ids': [(0, 0, values)]})
         return True
@@ -120,13 +120,13 @@ class SaleSubscription(models.Model):
         new_template = self.browse(new_template_id)
         new_options = {
             line.product_id: {
-                'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.pricelist_id.id],
+                'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False),
                 'uom_id': line.uom_id.id
             } for line in new_template.option_invoice_line_ids
         }
         new_mandatory = {
             line.product_id: {
-                'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.pricelist_id.id],
+                'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False),
                 'uom_id': line.uom_id.id
             } for line in new_template.recurring_invoice_line_ids
         }
@@ -154,7 +154,7 @@ class SaleSubscription(models.Model):
                     'uom_id': line.uom_id.id,
                     'name': line.name,
                     'sold_quantity': line.quantity,
-                    'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.pricelist_id.id],
+                    'price_unit': self.pricelist_id.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False),
                     'analytic_account_id': self.id,
                 })]
         values = {
@@ -191,7 +191,7 @@ class SaleSubscription(models.Model):
             'product_uom_qty': option_line.quantity,
             'product_uom': option_line.uom_id.id,
             'discount': (1 - self.partial_recurring_invoice_ratio()) * 100,
-            'price_unit': self.pricelist_id.with_context({'uom': option_line.uom_id.id}).price_get(option_line.product_id.id, 1)[self.pricelist_id.id],
+            'price_unit': self.pricelist_id.with_context({'uom': option_line.uom_id.id}).get_product_price(option_line.product_id, 1, False),
             'force_price': True,
             'name': option_line.name,
         }
