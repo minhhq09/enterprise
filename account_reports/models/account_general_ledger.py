@@ -140,8 +140,19 @@ class report_account_general_ledger(models.AbstractModel):
                 'colspan': 4,
             })
             if account in context['context_id']['unfolded_accounts'] or unfold_all:
-                progress = 0
-                domain_lines = []
+                initial_debit = grouped_accounts[account]['initial_bal']['debit']
+                initial_credit = grouped_accounts[account]['initial_bal']['credit']
+                initial_balance = grouped_accounts[account]['initial_bal']['balance']
+                initial_currency = '' if not account.currency_id else self._format(grouped_accounts[account]['initial_bal']['amount_currency'], currency=account.currency_id)
+                domain_lines = [{
+                    'id': account.id,
+                    'type': 'initial_balance',
+                    'name': _('Initial Balance'),
+                    'footnotes': self.env.context['context_id']._get_footnotes('initial_balance', account.id),
+                    'columns': ['', '', '', initial_currency, self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
+                    'level': 1,
+                }]
+                progress = initial_balance
                 amls = grouped_accounts[account]['lines']
                 too_many = False
                 if len(amls) > 80 and not context.get('print_mode'):
@@ -178,18 +189,6 @@ class report_account_general_ledger(models.AbstractModel):
                                     self._format(progress)],
                         'level': 1,
                     })
-                initial_debit = grouped_accounts[account]['initial_bal']['debit']
-                initial_credit = grouped_accounts[account]['initial_bal']['credit']
-                initial_balance = grouped_accounts[account]['initial_bal']['balance']
-                initial_currency = '' if not account.currency_id else self._format(grouped_accounts[account]['initial_bal']['amount_currency'], currency=account.currency_id)
-                domain_lines[:0] = [{
-                    'id': account.id,
-                    'type': 'initial_balance',
-                    'name': _('Initial Balance'),
-                    'footnotes': self.env.context['context_id']._get_footnotes('initial_balance', account.id),
-                    'columns': ['', '', '', initial_currency, self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
-                    'level': 1,
-                }]
                 domain_lines.append({
                     'id': account.id,
                     'type': 'o_account_reports_domain_total',

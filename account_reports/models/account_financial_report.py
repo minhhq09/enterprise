@@ -571,7 +571,16 @@ class FormulaContext(dict):
             return res
         line_id = self.reportLineObj.search([('code', '=', item)], limit=1)
         if line_id:
-            res = FormulaLine(line_id, self.currency_table, linesDict=self.linesDict)
+            strict_range = line_id.special_date_changer == 'strict_range'
+            period_from = line_id._context['date_from']
+            period_to = line_id._context['date_to']
+            if line_id.special_date_changer == 'from_beginning':
+                period_from = False
+            if line_id.special_date_changer == 'to_beginning_of_period' and line_id._context.get('date_from'):
+                date_tmp = datetime.strptime(line_id._context['date_from'], "%Y-%m-%d") - relativedelta(days=1)
+                period_to = date_tmp.strftime('%Y-%m-%d')
+                period_from = False
+            res = FormulaLine(line_id.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to), self.currency_table, linesDict=self.linesDict)
             self.linesDict[item] = res
             return res
         return super(FormulaContext, self).__getitem__(item)
