@@ -14,6 +14,7 @@ evaluation_context = {
     'context_today': datetime.datetime.now,
 }
 
+_flanker_warning = False
 try:
     from flanker.addresslib import address
 
@@ -21,9 +22,10 @@ try:
         return bool(address.validate_address(mail))
 
 except ImportError:
-    _logger.warning('flanker not found, email validation disabled.')
-
     def checkmail(mail):
+        if not _flanker_warning:
+            _logger.warning("The `flanker` Python module is not installed, so email validation is unavailable. Use 'pip install flanker' to install it")
+            _flanker_warning = True
         return True
 
 
