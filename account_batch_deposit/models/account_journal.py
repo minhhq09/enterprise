@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
+
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
@@ -57,3 +59,16 @@ class AccountJournal(models.Model):
                 'inbound_payment_method_ids': [(4, batch_deposit.id, None)],
                 'batch_deposit_sequence_id': batch_deposit_sequence.id,
             })
+
+    @api.multi
+    def open_action_batch_deposit(self):
+        ctx = self._context.copy()
+        ctx.update({'journal_id': self.id, 'default_journal_id': self.id})
+        return {
+            'name': _('Create Batch Deposit'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'account.batch.deposit',
+            'context': ctx,
+        }

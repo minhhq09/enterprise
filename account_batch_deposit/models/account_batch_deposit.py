@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api
-from openerp.exceptions import ValidationError
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+
 
 class AccountBatchDeposit(models.Model):
     _name = "account.batch.deposit"

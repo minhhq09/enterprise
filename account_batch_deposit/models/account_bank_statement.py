@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api
-from openerp.tools.misc import formatLang
+from odoo import models, api
+from odoo.tools.misc import formatLang
+
 
 class AccountBankStatement(models.Model):
     _inherit = "account.bank.statement"
@@ -44,6 +46,7 @@ class AccountBankStatement(models.Model):
                 'amount_currency_str': amount_deposit_currency,
             })
         return batch_deposits
+
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import time
 
-from openerp.addons.account.tests.account_test_classes import AccountingTestCase
-from openerp.modules.module import get_module_resource
+from odoo.addons.account.tests.account_test_classes import AccountingTestCase
+
 
 class TestBatchDeposit(AccountingTestCase):
 

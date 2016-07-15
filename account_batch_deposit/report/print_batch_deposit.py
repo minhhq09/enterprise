@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import time
 
 from openerp.osv import osv
 from openerp.report import report_sxw
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.tools.translate import _
 
 PAY_LINES_PER_PAGE = 20
 
-class report_print_batch_deposit(report_sxw.rml_parse):
+
+class ReportPrintBatchDeposit(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
-        super(report_print_batch_deposit, self).__init__(cr, uid, name, context)
+        super(ReportPrintBatchDeposit, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'pages': self.get_pages,
         })
@@ -36,8 +36,9 @@ class report_print_batch_deposit(report_sxw.rml_parse):
             'footer': deposit.journal_id.company_id.rml_footer,
         } for payments in payment_slices]
 
-class print_batch_deposit(osv.AbstractModel):
+
+class PrintBatchDeposit(osv.AbstractModel):
     _name = 'report.account_batch_deposit.print_batch_deposit'
     _inherit = 'report.abstract_report'
     _template = 'account_batch_deposit.print_batch_deposit'
-    _wrapped_report_class = report_print_batch_deposit
+    _wrapped_report_class = ReportPrintBatchDeposit

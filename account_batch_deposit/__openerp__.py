@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Batch Deposit',
     'version': '1.0',
@@ -13,14 +14,13 @@ When you proceed with the reconciliation, simply select the corresponding batch 
     'website': 'https://www.odoo.com/page/accounting',
     'depends' : ['account_accountant'],
     'data': [
-        'security/account_security.xml',
+        'security/account_batch_deposit_security.xml',
         'security/ir.model.access.csv',
-        'data/batch_deposit.xml',
-        'report/print_batch_deposit.xml',
-        'views/batch_deposit.xml',
-        'views/batch_deposit_view.xml',
-        'views/account_journal_view.xml',
-        'views/account_journal_dashboard_view.xml',
+        'data/account_batch_deposit_data.xml',
+        'report/print_batch_deposit_templates.xml',
+        'views/account_batch_deposit_templates.xml',
+        'views/account_batch_deposit_views.xml',
+        'views/account_journal_views.xml',
     ],
     'qweb': [
         "static/src/xml/account_reconciliation.xml",
