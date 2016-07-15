@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import time
-
-from openerp.osv import osv
-from openerp.report import report_sxw
+from odoo import api, models
 
 PAY_LINES_PER_PAGE = 20
 
 
-class ReportPrintBatchDeposit(report_sxw.rml_parse):
-
-    def __init__(self, cr, uid, name, context):
-        super(ReportPrintBatchDeposit, self).__init__(cr, uid, name, context)
-        self.localcontext.update({
-            'pages': self.get_pages,
-        })
+class PrintBatchDeposit(models.AbstractModel):
+    _name = 'report.account_batch_deposit.print_batch_deposit'
+    _template = 'account_batch_deposit.print_batch_deposit'
 
     def get_pages(self, deposit):
         """ Returns the data structure used by the template
@@ -36,9 +29,15 @@ class ReportPrintBatchDeposit(report_sxw.rml_parse):
             'footer': deposit.journal_id.company_id.rml_footer,
         } for payments in payment_slices]
 
-
-class PrintBatchDeposit(osv.AbstractModel):
-    _name = 'report.account_batch_deposit.print_batch_deposit'
-    _inherit = 'report.abstract_report'
-    _template = 'account_batch_deposit.print_batch_deposit'
-    _wrapped_report_class = ReportPrintBatchDeposit
+    @api.multi
+    def render_html(self, data=None):
+        report_obj = self.env['report']
+        report_name = 'account_batch_deposit.print_batch_deposit'
+        report = report_obj._get_report_from_name(report_name)
+        docargs = {
+            'doc_ids': self._ids,
+            'doc_model': report.model,
+            'docs': self.env[report.model].browse(self._ids),
+            'pages': self.get_pages,
+        }
+        return report_obj.render(report_name, docargs)

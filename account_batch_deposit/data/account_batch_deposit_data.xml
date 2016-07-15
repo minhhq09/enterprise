@@ -12,9 +12,6 @@
 
         <function model="account.journal" name="_enable_batch_deposit_on_bank_journals"/>
 
-
-        <!-- Report -->
-
         <record id="paperformat_batch_deposit" model="report.paperformat">
             <field name="name">US Batch Deposit</field>
             <field name="default" eval="False" />
@@ -29,17 +26,6 @@
             <field name="header_line" eval="False" />
             <field name="header_spacing">0</field>
             <field name="dpi">90</field>
-        </record>
-
-        <report id="action_print_batch_deposit"
-            string="Print Batch Deposit"
-            model="account.batch.deposit"
-            name="account_batch_deposit.print_batch_deposit"
-            file="account_batch_deposit.print_batch_deposit"
-            report_type="qweb-pdf" />
-
-        <record id="account_batch_deposit.action_print_batch_deposit" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="account_batch_deposit.paperformat_batch_deposit"/>
         </record>
 
     </data>

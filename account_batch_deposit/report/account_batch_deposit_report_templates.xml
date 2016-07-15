@@ -24,13 +24,13 @@
                     </tr></thead>
                     <tr t-foreach="page['payments']" t-as="payment">
                         <td class="text-left"><t t-esc="payment.partner_id.name"/></td>
-                        <td class="text-left"><t t-esc="formatLang(payment.payment_date, date=True)"/></td>
+                        <td class="text-left"><t t-esc="payment.payment_date" t-options='{"widget": "date"}'/></td>
                         <td class="text-left"><t t-esc="payment.communication"/></td>
-                        <td class="text-right"><t t-esc="formatLang(payment.amount, monetary=True, currency_obj=payment.currency_id)"/></td>
+                        <td class="text-right"><t t-esc="payment.amount" t-options="{'widget': 'monetary', 'display_currency': payment.currency_id}"/></td>
                     </tr>
                     <tfoot><tr>
                         <td></td><td></td><td></td>
-                        <td class="text-right"><t t-esc="formatLang(page['total_amount'], monetary=True, currency_obj=page['currency'])"/></td>
+                        <td class="text-right"><t t-esc="page['total_amount']" t-options="{'widget': 'monetary', 'display_currency': page['currency']}"/></td>
                     </tr></tfoot>
                 </table>
             </div>
