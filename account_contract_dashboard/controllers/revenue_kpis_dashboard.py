@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 from math import floor
-from openerp import http, _
-from openerp.http import request
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import http, _
+from odoo.http import request
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from stat_types import STAT_TYPES, FORECAST_STAT_TYPES, compute_mrr_growth_values
 
 # We need to use the same formatting as the one in read_group (see models.py)

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from dateutil.relativedelta import relativedelta
-from datetime import datetime, date
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.http import request
-from openerp import _
+from odoo.http import request
+from odoo import _
 
 
 def _execute_sql_query(fields, tables, conditions, query_args, filters, groupby=None):

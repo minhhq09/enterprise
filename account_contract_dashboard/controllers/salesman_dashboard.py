@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 from itertools import groupby
 import calendar
 
-from openerp import http
-from openerp.http import request
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import http
+from odoo.http import request
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class SalemanDashboard(http.Controller):

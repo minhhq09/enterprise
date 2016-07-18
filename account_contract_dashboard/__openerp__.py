@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
     'name': 'Account Contract Dashboard',
@@ -15,12 +16,10 @@ It adds dashboards to :
     'website': 'https://www.odoo.com/page/accounting',
     'category': 'Accounting & Finance',
     'data': [
-        'views/account_contract_dashboard_report_view.xml',
-        'templates/assets.xml',
+        'views/account_contract_dashboard_views.xml',
+        'views/account_contract_dashboard_templates.xml',
     ],
     'demo': [
-        #if any, demo data should be created using yml files, in the same flavour then in account_asset
-        #'demo/account_contract_dashboard_demo.xml',
     ],
     'qweb': [
         "static/src/xml/account_contract_dashboard.xml",
