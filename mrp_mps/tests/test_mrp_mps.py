@@ -53,7 +53,9 @@ class TestMpsReport(TestMpsCommon):
         # Testing for all sale forecast product with both mode (auto and manual) ...
         # ------------------------------------------------------------------------
         def mps_calculate_forecast(product):
-            initial = product.qty_available
+            now = datetime.datetime.now()
+            date = datetime.datetime(now.year, now.month, 1)
+            initial = product.with_context(to_date=date.strftime('%Y-%m-%d')).qty_available
             indirect = self.Mps.get_indirect(product)[product.id]
             for data in self.Mps.get_data(product):
                 self.assertEqual(data['initial'], initial, 'Wrong calculation of initial demand.')
