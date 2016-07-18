@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, RedirectWarning
 
 
-from openerp import models, fields, api, _
-from datetime import datetime
-from openerp.exceptions import UserError, RedirectWarning
-
-
-class ebay_category(models.Model):
+class EbayCategory(models.Model):
     _name = 'ebay.category'
 
     name = fields.Char('Name')
@@ -181,7 +180,7 @@ class ebay_category(models.Model):
                 cat.leaf_category = True
 
 
-class ebay_policy(models.Model):
+class EbayPolicy(models.Model):
     _name = 'ebay.policy'
 
     name = fields.Char('Name')
@@ -215,14 +214,14 @@ class ebay_policy(models.Model):
             })
 
 
-class ebay_item_condition(models.Model):
+class EbayItemCondition(models.Model):
     _name = 'ebay.item.condition'
 
     name = fields.Char('Name')
     code = fields.Integer('Code')
 
 
-class ebay_site(models.Model):
+class EbaySite(models.Model):
     _name = "ebay.site"
 
     name = fields.Char("Name", readonly=True)

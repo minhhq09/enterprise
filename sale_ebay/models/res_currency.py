@@ -4,7 +4,7 @@
 from odoo import models, fields
 
 
-class currency(models.Model):
+class ResCurrency(models.Model):
     _inherit = "res.currency"
 
     ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)

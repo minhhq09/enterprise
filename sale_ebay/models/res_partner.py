@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields
+from odoo import models, fields
 
 
-class res_partner(models.Model):
+class ResPartner(models.Model):
     _inherit = "res.partner"
 
     ebay_id = fields.Char('eBay User ID')

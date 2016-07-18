@@ -1,10 +1,12 @@
-from openerp import models, fields, api, _
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
-from openerp.exceptions import UserError, RedirectWarning
+from odoo import models, fields, api
 
 
-class ebay_configuration(models.TransientModel):
+class EbayConfiguration(models.TransientModel):
     _name = 'sale.config.settings'
     _inherit = 'sale.config.settings'
 
