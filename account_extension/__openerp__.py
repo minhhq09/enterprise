@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     'name': "Account Extension",
     'description': """
@@ -11,7 +13,6 @@
     'depends': ['account'],
     'data': [
         'views/account_report_menu_invisible.xml',
-        'views/res_config_view.xml',
     ],
     'auto_install': True,
     'license': 'OEEL-1',
