@@ -184,22 +184,3 @@ class ebay_configuration(models.TransientModel):
                 })
             else:
                 record.name = site['Site']
-
-
-class country(models.Model):
-    _inherit = "res.country"
-
-    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
-
-
-class currency(models.Model):
-    _inherit = "res.currency"
-
-    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
-
-
-class ebay_site(models.Model):
-    _name = "ebay.site"
-
-    name = fields.Char("Name", readonly=True)
-    ebay_id = fields.Char("eBay ID", readonly=True)
