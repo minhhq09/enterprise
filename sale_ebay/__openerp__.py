@@ -33,15 +33,13 @@ Key Features
   # always loaded
   'data': [
       'security/ir.model.access.csv',
-
-      'views/product.xml',
-      'views/res_config.xml',
-      'views/res_partner.xml',
-      'views/ebay_category.xml',
-      'views/stock_picking.xml',
-      'views/data_template.xml',
-      'sale_ebay_cron.xml',
-      'ebay_data.xml',
+      'views/product_views.xml',
+      'views/sale_config_settings_views.xml',
+      'views/res_partner_views.xml',
+      'views/stock_picking_views.xml',
+      'data/mail_template_data.xml',
+      'data/ir_cron_data.xml',
+      'data/sale_ebay_data.xml',
       'data/product_data.xml'
   ],
   # only loaded in demonstration mode
