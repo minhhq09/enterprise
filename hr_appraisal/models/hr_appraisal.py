@@ -103,7 +103,7 @@ class HrAppraisal(models.Model):
             If users edit the already entered date, created meeting is updated accordingly.
         """
         CalendarEvent = self.env['calendar.event']
-        values = {'start_date': interview_deadline, 'stop_date': interview_deadline}
+        values = {'start': interview_deadline, 'stop': interview_deadline}
         for appraisal in self:
             if appraisal.meeting_id and appraisal.meeting_id.allday:
                 appraisal.meeting_id.write(values)
