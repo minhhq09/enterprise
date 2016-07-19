@@ -14,7 +14,7 @@
                 display: block;
                 max-width: 100%;
                 padding: 0;
-                
+
                 width: auto!important;  // !important is required to override the width computed in JS
                 &.o_td_label {
                     width: 94%!important; // The label must be on its own line except if the form field is small enough (checkbox)
@@ -47,7 +47,6 @@
         display: block;
         height: 100%;
         .o-webclient-padding(@top: @odoo-sheet-vpadding, @bottom: @odoo-sheet-vpadding);
-        overflow: auto;
 
         .o_form_statusbar {
             margin: -@odoo-sheet-vpadding -@odoo-horizontal-padding 0 -@odoo-horizontal-padding;
@@ -161,7 +160,7 @@
     }
     .oe_avatar {
         margin-bottom: 10px;
-        
+
         > img {
             max-width: @odoo-avatar-size;
             max-height: @odoo-avatar-size;
@@ -245,7 +244,7 @@
     }
     &.modal-sm .o_form_view {
         .o_group {
-            .form-break-table();    
+            .form-break-table();
         }
     }
 }
