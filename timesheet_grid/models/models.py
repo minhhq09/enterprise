@@ -106,11 +106,17 @@ class Validation(models.TransientModel):
     validate_to = fields.Date()
     validable_ids = fields.One2many('timesheet_grid.validable', 'validation_id')
 
+    # Recompute SO Lines delivered at validation
     @api.multi
     def validate(self):
-        self.validable_ids \
-            .filtered('validate').mapped('employee_id') \
-            .write({'timesheet_validated': self.validate_to})
+        employees = self.validable_ids.filtered('validate').mapped('employee_id')
+        mdate = min(employees.mapped('timesheet_validated'))
+        employees.write({'timesheet_validated': self.validate_to})
+        # could be improved by filtering on date delta only
+        self.env['account.analytic.line'].search(['&', ('date','>',mdate), ('is_timesheet', '=', True), ('user_id', 'in', employees.mapped('user_id').ids)]) \
+            .mapped('so_line') \
+            .sudo() \
+            ._compute_analytic()
         return ()
 
 class Validable(models.TransientModel):
