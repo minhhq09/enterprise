@@ -34,5 +34,5 @@ procure.
         'data/mps_demo.xml',
     ],
     'qweb': ['static/src/xml/mps_backend.xml'],
-    'application': True,
+    'application': False,
 }
