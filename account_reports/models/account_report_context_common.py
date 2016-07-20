@@ -2,12 +2,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import models, fields, api, _, osv
-from xlwt import Workbook, easyxf
 from openerp.exceptions import Warning
 from datetime import timedelta, datetime
 import calendar
 import json
 from openerp.tools import config
+from openerp.tools.misc.xlwt import Workbook, easyxf
 
 
 class AccountReportFootnotesManager(models.TransientModel):
