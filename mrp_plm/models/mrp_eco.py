@@ -252,20 +252,20 @@ class MrpEco(models.Model):
                 old_op = old_routing_lines.pop(key, None)
                 if old_op and tools.float_compare(old_op.time_cycle_manual, operation.time_cycle_manual, 2) != 0:
                     new_routing_commands += [(0, 0, {
-                        'type': 'update',
+                        'change_type': 'update',
                         'workcenter_id': operation.workcenter_id.id,
                         'new_time_cycle_manual': operation.time_cycle_manual,
                         'old_time_cycle_manual': old_op.time_cycle_manual
                     })]
                 elif not old_op:
                     new_routing_commands += [(0, 0, {
-                        'type': 'add',
+                        'change_type': 'add',
                         'workcenter_id': operation.workcenter_id.id,
                         'new_time_cycle_manual': operation.time_cycle_manual
                     })]
             for key, old_op in old_routing_lines.iteritems():
                 new_routing_commands += [(0, 0, {
-                    'type': 'remove',
+                    'change_type': 'remove',
                     'workcenter_id': old_op.workcenter_id.id,
                     'old_time_cycle_manual': old_op.time_cycle_manual
                 })]
@@ -516,7 +516,7 @@ class MrpEcoBomChange(models.Model):
     _name = 'mrp.eco.bom.change'
     _description = 'ECO Material changes'
 
-    eco_id = fields.Many2one('mrp.eco', 'Engineering Change', ondelete='cascade', required=True)
+    eco_id = fields.Many2one('mrp.eco', 'Engineering Change') #TODO: ondelete cascade and required True
     change_type = fields.Selection([('add', 'Add'), ('remove', 'Remove'), ('update', 'Update')], string='Type', required=True)
     product_id = fields.Many2one('product.product', 'Product', required=True)
     product_uom_id = fields.Many2one('product.uom', 'Product  UoM', required=True)
@@ -534,7 +534,7 @@ class MrpEcoRoutingChange(models.Model):
     _name = 'mrp.eco.routing.change'
     _description = 'Eco Routing changes'
 
-    eco_id = fields.Many2one('mrp.eco', 'Engineering Change', ondelete='cascade', required=True)
+    eco_id = fields.Many2one('mrp.eco', 'Engineering Change') #TODO: ondelete cascade and required True
     change_type = fields.Selection([('add', 'Add'), ('remove', 'Remove'), ('update', 'Update')], string='Type', required=True)
     workcenter_id = fields.Many2one('mrp.workcenter', 'Work Center')
     old_time_cycle_manual = fields.Float('Old manual duration', default=0)
