@@ -113,7 +113,6 @@ var EventScanView = Widget.extend(BarcodeHandlerMixin, {
         });
     },
     open_event_form: function() {
-        debugger;
         this.do_action({
             name: 'Event',
             type: 'ir.actions.act_window',
