@@ -12,8 +12,8 @@
         'l10n_be', 'account_reports'
     ],
     'data': [
-        'account_financial_report.xml',
-        'report_vat_statement.xml',
+        'data/account_financial_html_report_data.xml',
+        'views/l10n_be_vat_statement_views.xml',
     ],
     'installable': True,
     'auto_install': True,
