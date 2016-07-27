@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from openerp import models, api, _
-from openerp.exceptions import UserError
+from odoo import api, models, _
+from odoo.exceptions import UserError
 import calendar
 import time
 from itertools import groupby

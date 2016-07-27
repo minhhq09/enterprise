@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _
-from openerp.tools.misc import formatLang
+from odoo import api, models, _
+from odoo.tools.misc import formatLang
 
 
 class ReportL10nBePartnerVatIntra(models.AbstractModel):
