@@ -25,8 +25,8 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/voip_view.xml',
-        'views/res_users_view.xml',
+        'views/voip_templates.xml',
+        'views/res_users_views.xml',
     ],
     'js': ['static/src/js/*.js'],
     'css': ['static/src/css/*.css'],
