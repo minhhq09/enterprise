@@ -22,11 +22,3 @@ class VoipConfigurator(models.Model):
                 'ring_number': self.env.user[0].sip_ring_number,
                 'mode': self.env['ir.config_parameter'].get_param('crm.voip.mode', default="demo"),
                 }
-
-    #not deleted yet waiting to be sure about the error management.
-    # @api.model
-    # def error_config(self):
-    #     print(self.env.user[0].groups_id)
-    #     action = self.env.ref('base.action_res_users_my')
-    #     msg = "Wrong configuration for the call. Verify the user's configuration.\nIf you still have issues, please contact your administrator";
-    #     raise openerp.exceptions.RedirectWarning(_(msg), action.id, _('Configure The User Now'))
