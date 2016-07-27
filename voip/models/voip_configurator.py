@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api
-from openerp.tools.translate import _
-import openerp
+from odoo import api, models
 
 # ----------------------------------------------------------
 # Models
 # ----------------------------------------------------------
 
 
-class voip_configurator(models.Model):
+class VoipConfigurator(models.Model):
     _name = 'voip.configurator'
 
     @api.model
