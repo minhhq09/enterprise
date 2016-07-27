@@ -31,12 +31,3 @@ class voip_configurator(models.Model):
     #     action = self.env.ref('base.action_res_users_my')
     #     msg = "Wrong configuration for the call. Verify the user's configuration.\nIf you still have issues, please contact your administrator";
     #     raise openerp.exceptions.RedirectWarning(_(msg), action.id, _('Configure The User Now'))
-
-class res_users(models.Model):
-    _inherit = 'res.users'
-
-    sip_login = fields.Char("SIP Login / Browser's Extension")
-    sip_password = fields.Char('SIP Password')
-    sip_external_phone = fields.Char("The extension of  your office's phone.")
-    sip_always_transfer = fields.Boolean("Always redirect to physical phone", default=False)
-    sip_ring_number = fields.Integer("Number of rings", default=6, help="The number of rings before cancelling the call")
