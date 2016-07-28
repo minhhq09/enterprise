@@ -5,7 +5,7 @@
         <record model="crm.team" id="sales_team.team_sales_department">
             <field name="score_team_domain">[['country_id', '=', 'France']]</field>
         </record>
-        <record model="crm.team" id="website.salesteam_website_sales">
+        <record model="crm.team" id="sales_team.salesteam_website_sales">
             <field name="score_team_domain">[['country_id', '=', 'Belgium']]</field>
         </record>
 
@@ -101,12 +101,12 @@
         <!-- Team 1 -->
         <record id="website_crm_score_team_user_3" model="team.user">
             <field name="user_id" ref="website_crm_score_user_1"/>
-            <field name="team_id" ref="website.salesteam_website_sales"/>
+            <field name="team_id" ref="sales_team.salesteam_website_sales"/>
             <field name="maximum_user_leads">1</field>
         </record>
         <record id="website_crm_score_team_user_4" model="team.user">
             <field name="user_id" ref="website_crm_score_user_3"/>
-            <field name="team_id" ref="website.salesteam_website_sales"/>
+            <field name="team_id" ref="sales_team.salesteam_website_sales"/>
             <field name="maximum_user_leads">2</field>
             <field name="team_user_domain">['&amp;', ['lang_id', '=', 'English'], ['country_id', '=', 'Belgium']]</field>
         </record>

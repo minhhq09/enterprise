@@ -53,7 +53,7 @@ class NewWebsite(models.Model):
         context = dict(website_version_experiment=EXP, website_id=website.id)
         if 'version_id' in request.session:
             context['version_id'] = request.session.get('version_id')
-        elif self.env['res.users'].has_group('base.group_website_publisher'):
+        elif self.env['res.users'].has_group('website.group_website_publisher'):
             context['version_id'] = 0
         else:
             context['experiment_id'] = 1
