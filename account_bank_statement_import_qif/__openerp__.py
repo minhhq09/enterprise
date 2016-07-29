@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
     'name': 'Import QIF Bank Statement',
@@ -18,8 +19,7 @@ Whenever possible, you should use a more appropriate file format like OFX.
 ''',
     'depends': ['account_bank_statement_import'],
     'data': [
-        'account_bank_statement_import_qif_view.xml',
-        'account_qif.xml'
+        'wizard/account_bank_statement_import_views.xml',
     ],
     'installable': True,
     'license': 'OEEL-1',

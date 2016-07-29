@@ -1,5 +1,8 @@
-from openerp.tests.common import TransactionCase
-from openerp.modules.module import get_module_resource
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+from odoo.tests.common import TransactionCase
+from odoo.modules.module import get_module_resource
 
 
 class TestCSVFile(TransactionCase):
@@ -21,17 +24,18 @@ class TestCSVFile(TransactionCase):
                                                 'file_name': 'test_csv.csv',
                                                 'file_type': 'text/csv'})
 
-        options = {'date_format': '%m %d %y', 
-                    'keep_matches': False, 
-                    'encoding': 'utf-8', 
-                    'fields': [], 
-                    'quoting': '"', 
-                    'bank_stmt_import': True, 
-                    'headers': True, 
-                    'separator': ';', 
-                    'float_thousand_separator': ',', 
-                    'float_decimal_separator': '.', 
-                    'advanced': False}
+        options = {
+            'date_format': '%m %d %y',
+            'keep_matches': False,
+            'encoding': 'utf-8',
+            'fields': [],
+            'quoting': '"',
+            'bank_stmt_import': True,
+            'headers': True,
+            'separator': ';',
+            'float_thousand_separator': ',',
+            'float_decimal_separator': '.',
+            'advanced': False}
         fields = ['date', False, 'name', 'amount', 'balance']
         import_wizard.with_context(journal_id=bank_journal_id).do(fields, options, dryrun=False)
 

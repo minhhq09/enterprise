@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
     'name': 'Import CSV Bank Statement',
@@ -18,7 +19,7 @@ Whenever possible, you should use a more appropriate file format like OFX.
 ''',
     'depends': ['account_bank_statement_import', 'base_import'],
     'data': [
-        'views/account_bank_statement_import_views.xml',
+        'wizard/account_bank_statement_import_views.xml',
         'views/account_bank_statement_import_templates.xml',
     ],
     'installable': True,

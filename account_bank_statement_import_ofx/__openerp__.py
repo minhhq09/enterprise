@@ -1,4 +1,6 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     'name': 'Import OFX Bank Statement',
     'category': 'Accounting',
@@ -15,7 +17,7 @@ Bank Statements may be generated containing a subset of the OFX information (onl
 creation of the Financial Accounting records).
     """,
     'data': [
-        'account_ofx.xml'
+        'wizard/account_bank_statement_import_views.xml',
     ],
     'installable': True,
     'auto_install': True,

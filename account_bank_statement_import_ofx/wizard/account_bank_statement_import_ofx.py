@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
 import StringIO
 from xml.etree import ElementTree
 
-from openerp import models, _
-from openerp.exceptions import UserError
 try:
     from ofxparse import OfxParser
     from ofxparse.ofxparse import OfxParserException
@@ -14,6 +13,10 @@ except ImportError:
     logging.getLogger(__name__).warning("The ofxparse python library is not installed, ofx import will not work.")
     OfxParser = OfxParserException = None
     OfxParserClass = object
+
+from odoo import models, _
+from odoo.exceptions import UserError
+
 
 class PatchedOfxParser(OfxParserClass):
     """ This class monkey-patches the ofxparse library in order to fix the following known bug: ',' is a valid
