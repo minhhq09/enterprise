@@ -448,7 +448,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
             case 418:
                 return "Problem Updating Account(418): We could not update your account because the site is experiencing technical difficulties. Please try later.";
             case 423:
-                return "No Account Found (423): We were unable to detect an account. Please verify that you account information is available at this time and If the problem persists, please contact customer support at online@odoo.com for further assistance.";
+                return "No Account Found (423): We were unable to detect an account. Please verify that you account information is available at this time and If the problem persists, please contact customer support at http://www.odoo.com/help for further assistance.";
             case 424:
                 return "Site Down for Maintenance(424):We were unable to update your account as the site is temporarily down for maintenance. We apologize for the inconvenience.  This problem is typically resolved in a few hours. Please try later.";
             case 425:
@@ -538,7 +538,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
             case 525:
                 return "MFA error: Problem Updating Account (525): We could not update your account for technical reasons. This type of error is usually resolved in a few days. We apologize for the inconvenience. Please try again later.";
             default:
-                return "An Error has Occurred ("+errorCode+"). Please contact support at online@odoo.com"
+                return "An Error has Occurred ("+errorCode+"). Please contact support at http://www.odoo.com/help"
         }
     },
 

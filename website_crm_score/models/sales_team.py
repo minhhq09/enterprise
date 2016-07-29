@@ -23,6 +23,7 @@ try:
 
 except ImportError:
     def checkmail(mail):
+        global _flanker_warning
         if not _flanker_warning:
             _logger.warning("The `flanker` Python module is not installed, so email validation is unavailable. Use 'pip install flanker' to install it")
             _flanker_warning = True
