@@ -59,6 +59,7 @@ class SaleSubscription(models.Model):
                         'product_id': x.product_id.id,
                         'uom_id': x.uom_id.id,
                         'name': x.name,
+                        'sold_quantity': x.sold_quantity,
                         'actual_quantity': x.quantity,
                         'price_unit': x.price_unit,
                         'analytic_account_id': x.analytic_account_id and x.analytic_account_id.id or False,

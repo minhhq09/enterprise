@@ -13,13 +13,13 @@ class SaleOrderLine(models.Model):
                 'sale.invoiced_timesheet', DEFAULT_INVOICED_TIMESHEET)
         if invoice_approved_only:
             domain = [
-                '&',
-                    ('validated', '=', True),
                     '&',
                         ('so_line', 'in', self.ids),
                         '|',
                             ('amount', '<=', 0.0),
-                            ('project_id', '!=', False)
+                            '&',
+                                ('is_timesheet', '=', True),
+                                ('validated', '=', True),
             ]
 
         return super(SaleOrderLine, self)._compute_analytic(domain=domain)

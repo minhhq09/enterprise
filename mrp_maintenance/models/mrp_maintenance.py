@@ -15,8 +15,8 @@ class MrpWorkcenter(models.Model):
 class MaintenanceEquipment(models.Model):
     _inherit = "maintenance.equipment"
 
-    expected_mtbf = fields.Integer(string='Expected MTBF', help='Expected Mean Time Before Failure')
-    mtbf = fields.Integer(compute='_compute_maintenance_request',string='MTBF', help='Mean Time Before Failure, computed based on done corrective maintenances.')
+    expected_mtbf = fields.Integer(string='Expected MTBF', help='Expected Mean Time Between Failure')
+    mtbf = fields.Integer(compute='_compute_maintenance_request',string='MTBF', help='Mean Time Between Failure, computed based on done corrective maintenances.')
     mttr = fields.Integer(compute='_compute_maintenance_request', string='MTTR', help='Mean Time To Repair')
     estimated_next_failure = fields.Datetime(compute='_compute_maintenance_request', string='Estimated time before next failure (in days)', help='Computed as Latest Failure Date + MTBF')
     latest_failure_date = fields.Datetime(compute='_compute_maintenance_request', string='Latest Failure Date')
