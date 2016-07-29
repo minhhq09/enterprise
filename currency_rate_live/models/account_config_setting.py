@@ -64,6 +64,7 @@ class ResCompany(models.Model):
                 base_currency = company.currency_id.name
                 base_currency_rates = [(x['attrs']['currency'], x['attrs']['rate']) for x in node['children'] if x['attrs']['currency'] == base_currency]
                 base_currency_rate = len(base_currency_rates) and base_currency_rates[0][1] or 1
+                currency_node += [('EUR', '1.0000')]
 
             for currency_code, rate in currency_node:
                 rate = float(rate) / float(base_currency_rate)
