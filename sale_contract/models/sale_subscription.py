@@ -377,7 +377,7 @@ class SaleSubscriptionLine(models.Model):
             if not self.uom_id:
                 self.uom_id = product.uom_id.id
             if self.uom_id.id != product.uom_id.id:
-                self.price_unit = product.uom_id._compute_price(product.uom_id.id, self.price_unit, self.uom_id.id)
+                self.price_unit = product.uom_id._compute_price(self.price_unit, self.uom_id)
             domain['uom_id'] = [('category_id', '=', product.uom_id.category_id.id)]
 
         return {'domain': domain}

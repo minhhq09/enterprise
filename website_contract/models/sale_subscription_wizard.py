@@ -54,7 +54,7 @@ class SaleSubscriptionWizard(models.TransientModel):
                                    'name': line.name,
                                    'sold_quantity': line.quantity,
                                    'uom_id': line.uom_id.id,
-                                   'price_unit': self.subscription_id.pricelist_id.with_context({'uom': line.uom_id.id}).price_get(line.product_id.id, 1)[self.subscription_id.pricelist_id.id]
+                                   'price_unit': self.subscription_id.pricelist_id.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False)
                                    })
             rec_lines.append(rec_line)
         return rec_lines
