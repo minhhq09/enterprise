@@ -9,12 +9,12 @@ FormView.include({
     defaults: _.extend({}, FormView.prototype.defaults, {
         disable_autofocus: config.device.touch,
     }),
-	init: function () {
-		this._super.apply(this, arguments);
-		if (config.device.size_class <= config.device.SIZES.XS) {
-			this.rendering_engine = new FormRenderingEngineMobile(this); 
-		}
-	},
+    init: function () {
+        this._super.apply(this, arguments);
+        if (config.device.size_class <= config.device.SIZES.XS) {
+            this.rendering_engine = new FormRenderingEngineMobile(this);
+        }
+    },
 });
 
 });
@@ -30,8 +30,8 @@ var FormRenderingEngine = require('web.FormRenderingEngine');
 var _t = core._t;
 
 FormRenderingEngine.include({
-	process: function($tag) {
-		var self = this;
+    process: function($tag) {
+        var self = this;
         // Add button box post rendering when window resize and record loaded events
         if($tag.attr("name") === 'button_box') {
             this.view.is_initialized.then(function() {
@@ -101,8 +101,8 @@ FormRenderingEngine.include({
     fill_statusbar_buttons: function($statusbar_buttons, $buttons) {
         $statusbar_buttons.append($buttons);
     },
-	process_button: function ($button) {
-		$button = this._super($button);
+    process_button: function ($button) {
+        $button = this._super($button);
         if ($button.hasClass('oe_highlight')) {
             $button.addClass('btn-primary');
         } else if ($button.hasClass('o_in_statusbar')) {
@@ -110,7 +110,7 @@ FormRenderingEngine.include({
         }
         $button.removeClass('o_in_statusbar oe_highlight');
         return $button;
-	}
+    }
 });
 
 });
