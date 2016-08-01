@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 from odoo.tools.translate import _
 
 
@@ -9,21 +9,15 @@ class CrmLead(models.Model):
     _inherit = "crm.lead"
     in_call_center_queue = fields.Boolean("Is in the Call Queue", compute='_compute_has_call_in_queue')
 
-    @api.multi
+    @api.one
     def _compute_has_call_in_queue(self):
-        for lead in self:
-            phonecall = self.env['crm.phonecall'].search([
-                ('opportunity_id', '=', lead.id),
-                ('in_queue', '=', True),
-                ('state', '!=', 'done'),
-                ('user_id', '=', self.env.user.id)
-            ])
-            if phonecall:
-                lead.in_call_center_queue = True
-            else:
-                lead.in_call_center_queue = False
+        self.in_call_center_queue = bool(self.env['crm.phonecall'].search_count([
+            ('opportunity_id', '=', self.id),
+            ('in_queue', '=', True),
+            ('state', '!=', 'done'),
+            ('user_id', '=', self.env.user.id)
+        ]))
 
-    # Function called in the menu "more"
     @api.multi
     def create_call_in_queue(self):
         for opp in self:
@@ -67,11 +61,10 @@ class CrmLead(models.Model):
 
     @api.multi
     def delete_call_in_queue(self):
-        phonecalls = self.env['crm.phonecall'].search([
+        self.env['crm.phonecall'].search([
             ('opportunity_id', '=', self.id),
             ('in_queue', '=', True),
-            ('user_id', '=', self.env.user.id)])
-        phonecalls.unlink()
+            ('user_id', '=', self.env.user.id)]).unlink()
         return {
             'type': 'ir.actions.client',
             'tag': 'reload_panel',

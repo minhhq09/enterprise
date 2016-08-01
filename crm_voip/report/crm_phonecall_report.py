@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models, fields, tools
+from odoo import api, models, fields, tools
 
 
 class CrmPhonecallReport(models.Model):
@@ -24,13 +24,13 @@ class CrmPhonecallReport(models.Model):
     date = fields.Datetime('Date', readonly=True, index=True)
     nbr = fields.Integer('# of Cases', readonly=True)
 
-    def init(self, cr):
+    @api.model_cr
+    def init(self):
 
         """ Phone Calls By User And Team
-            @param cr: the current row, from the database cursor,
         """
-        tools.drop_view_if_exists(cr, 'crm_phonecall_report')
-        cr.execute("""
+        tools.drop_view_if_exists(self._cr, 'crm_phonecall_report')
+        self._cr.execute("""
             create or replace view crm_phonecall_report as (
                 select
                     id,

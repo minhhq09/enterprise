@@ -3,7 +3,7 @@
 
 import time
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 # ----------------------------------------------------------
 # Models
@@ -24,11 +24,11 @@ class CrmPhonecall(models.Model):
     duration = fields.Float('Duration', help="Duration in minutes and seconds.")
     partner_phone = fields.Char('Phone')
     partner_mobile = fields.Char('Mobile')
-    team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+    team_id = fields.Many2one('crm.team', 'Sales Team', index=True,
         default=lambda self: self.env['crm.team']._get_default_team_id(self.env.uid),
         help="Sales team to which Case belongs to.")
     in_queue = fields.Boolean('In Call Queue', default=True)
-    sequence = fields.Integer('Sequence', select=True,
+    sequence = fields.Integer('Sequence', index=True,
         help="Gives the sequence order when displaying a list of Phonecalls.")
     start_time = fields.Integer("Start time")
     state = fields.Selection([
@@ -85,9 +85,8 @@ class CrmPhonecall(models.Model):
     @api.multi
     def action_button_to_opportunity(self):
         self.ensure_one()
-        CrmLead = self.env['crm.lead']
         if not self.opportunity_id:
-            self.opportunity_id = CrmLead.create({
+            self.opportunity_id = self.env['crm.lead'].create({
                 'name': self.name,
                 'partner_id': self.partner_id.id,
                 'phone': self.partner_phone,

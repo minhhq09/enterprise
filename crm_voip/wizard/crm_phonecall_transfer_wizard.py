@@ -22,18 +22,17 @@ class CrmPhonecallTransferWizard(models.TransientModel):
                 'tag': 'transfer_call',
                 'params': {'number': self.transfer_number},
             }
-        else:
-            if self.env.user.sip_external_phone:
+        elif self.env.user.sip_external_phone:
                 action = {
                     'type': 'ir.actions.client',
                     'tag': 'transfer_call',
                     'params': {'number': self.env.user.sip_external_phone},
                 }
-            else:
-                action = {
-                    'warning': {
-                        'title': _("Warning"),
-                        'message': _("Wrong configuration for the call. There is no external phone number configured"),
-                    },
-                }
+        else:
+            action = {
+                'warning': {
+                    'title': _("Warning"),
+                    'message': _("Wrong configuration for the call. There is no external phone number configured"),
+                },
+            }
         return action

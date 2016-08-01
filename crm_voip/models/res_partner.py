@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models, api
+from odoo import api, models
 
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    @api.one
+    @api.multi
     def create_call_in_queue(self, number):
+        self.ensure_one()
         phonecall = self.env['crm.phonecall'].create({
             'name': 'Call for ' + self.name,
             'duration': 0,

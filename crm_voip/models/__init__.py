@@ -3,5 +3,5 @@
 
 import crm_lead
 import crm_phonecall
-import res_config
 import res_partner
+import sale_config_settings
