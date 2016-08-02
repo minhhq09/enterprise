@@ -23,6 +23,7 @@ Keeps track of the revenue recognition installments, and creates corresponding j
         'report/account_deferred_revenue_report_view.xml',
         'views/account_deferred_revenue.xml',
         'views/account_deferred_revenue_invoice_view.xml',
+        'views/account_deferred_revenue_product_view.xml',
     ],
     'installable': True,
     'application': False,

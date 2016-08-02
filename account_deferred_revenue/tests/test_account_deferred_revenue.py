@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from openerp import tools
-from openerp.tests import common
-from openerp.modules.module import get_module_resource
+from odoo import tools
+from odoo.tests import common
+from odoo.modules.module import get_module_resource
 
 
 class TestDeferredRevenue(common.TransactionCase):
@@ -32,7 +32,6 @@ class TestDeferredRevenue(common.TransactionCase):
 
         from datetime import datetime
         from dateutil.relativedelta import relativedelta
-        line_obj = self.env['account.asset.depreciation.line']
         recognition_ids = self.env['account.asset.asset'].search([('code', '=', invoice.number)])
         self.assertTrue(recognition_ids,
             'Revenue recognition has been not created from invoice.')
@@ -61,12 +60,11 @@ class TestDeferredRevenue(common.TransactionCase):
         first_move = first_installment_line.move_id
         self.assertEqual(first_installment_line.amount, first_move.amount,
             'First installment line amount is incorrect.')
-        remaining_value = recognition.value - first_installment_line.amount
         self.assertEqual(first_installment_line.remaining_value, recognition.value - first_installment_line.amount,
             'Remaining value is incorrect.')
 
         # I check next installment date.
         last_installment_date = datetime.strptime(first_installment_line.depreciation_date, '%Y-%m-%d')
-        installment_date = (last_installment_date+relativedelta(months=+recognition.method_period))
+        installment_date = (last_installment_date + relativedelta(months=+recognition.method_period))
         self.assertEqual(recognition.depreciation_line_ids[1].depreciation_date, str(installment_date.date()),
             'Installment date is incorrect.')
