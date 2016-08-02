@@ -6,15 +6,16 @@
 import time
 import re
 
-from openerp import models, tools, _
-from openerp.exceptions import UserError
+from odoo import models, tools, _
+from odoo.exceptions import UserError
+
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
     def _check_coda(self, data_file):
         # Matches the first 24 characters of a CODA file, as defined by the febelfin specifications
-        return re.match('0{5}\d{9}05[ D] +', data_file) != None
+        return re.match('0{5}\d{9}05[ D] +', data_file) is not None
 
     def _parse_file(self, data_file):
         if not self._check_coda(data_file):
