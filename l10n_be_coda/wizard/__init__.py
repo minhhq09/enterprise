@@ -3,4 +3,4 @@
 
 # Copyright (c) 2011 Noviat nv/sa (www.noviat.be). All rights reserved.
 
-import account_coda_import
+import account_bank_statement_import_coda
