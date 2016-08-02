@@ -3,14 +3,14 @@
 
 # Copyright (c) 2011 Noviat nv/sa (www.noviat.be). All rights reserved.
 
-from openerp.osv import osv, fields
-from openerp import models
+from odoo import fields, models
 
-class account_bank_statement(osv.osv):
+
+class AccountBankStatement(models.Model):
     _inherit = 'account.bank.statement'
-    _columns = {
-        'coda_note': fields.text('CODA Notes'),
-    }
+
+    coda_note = fields.Text('CODA Notes')
+
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
