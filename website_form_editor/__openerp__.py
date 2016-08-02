@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Website Form Builder',
     'category': 'Website',
@@ -11,11 +13,10 @@ Allows you to build web forms on the website using the website builder.
         """,
     'depends': ['website_form'],
     'data': [
-        'views/assets.xml',
+        'data/mail_mail_data.xml',
+        'views/website_form_editor_templates.xml',
         'views/snippets.xml',
-        'views/ir_model_view.xml',
-        'views/snippet_options.xml',
-        'data/website_form_mail.xml',
+        'views/ir_model_views.xml',
     ],
     'installable': True,
     'auto_install': False,
