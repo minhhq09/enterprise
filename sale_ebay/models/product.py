@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import base64
 import re
+
 from datetime import datetime, timedelta
-from openerp import models, fields, api, _
-from datetime import datetime, timedelta
-from openerp.exceptions import UserError, RedirectWarning
-from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
+from ebaysdk.trading import Connection as Trading
 from StringIO import StringIO
 from xml.sax.saxutils import escape
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
-# eBay api limits ItemRevise calls to 150 per day 
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, RedirectWarning
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+
+# eBay api limits ItemRevise calls to 150 per day
 MAX_REVISE_CALLS = 150
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     ebay_id = fields.Char('eBay ID')
@@ -761,7 +763,8 @@ class product_template(models.Model):
         self._sync_recent_product_status(1)
         self._sync_old_product_status()
 
-class product_product(models.Model):
+
+class ProductProduct(models.Model):
     _inherit = "product.product"
 
     ebay_use = fields.Boolean('Publish On eBay', default=False)

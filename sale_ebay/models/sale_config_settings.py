@@ -1,10 +1,12 @@
-from openerp import models, fields, api, _
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
-from openerp.exceptions import UserError, RedirectWarning
+from odoo import models, fields, api
 
 
-class ebay_configuration(models.TransientModel):
+class EbayConfiguration(models.TransientModel):
     _name = 'sale.config.settings'
     _inherit = 'sale.config.settings'
 
@@ -184,22 +186,3 @@ class ebay_configuration(models.TransientModel):
                 })
             else:
                 record.name = site['Site']
-
-
-class country(models.Model):
-    _inherit = "res.country"
-
-    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
-
-
-class currency(models.Model):
-    _inherit = "res.currency"
-
-    ebay_available = fields.Boolean("Availability To Use For eBay API", readonly=True)
-
-
-class ebay_site(models.Model):
-    _name = "ebay.site"
-
-    name = fields.Char("Name", readonly=True)
-    ebay_id = fields.Char("eBay ID", readonly=True)
