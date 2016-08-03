@@ -125,7 +125,7 @@ class website_contract(http.Controller):
         }
         render_context = dict(values.items() + render_context.items())
         for acquirer in acquirers:
-            acquirer.form = acquirer.sudo()._registration_render(account.partner_id.id, render_context)[0]
+            acquirer.form = acquirer.sudo()._registration_render(account.partner_id.id, render_context)
         return request.website.render("website_contract.contract", values)
 
     payment_succes_msg = 'message=Thank you, your payment has been validated.&message_class=alert-success'
