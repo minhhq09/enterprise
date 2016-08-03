@@ -1,139 +1,108 @@
 odoo.define('project_timesheet_synchro.test_screen_navigation', function (require) {
 'use strict';
 
-var Tour = require('web.Tour');
+var tour = require('web_tour.tour');
 
-Tour.register({
-    id:   'activity_creation',
-    name: "Record an activity",
-    path: '/project_timesheet_synchro/timesheet_app',
-    mode: 'test',
-    steps: [
-    	{
-            title:     "Wait for it",
-            waitFor:   '.pt_toggle',
+tour.register('activity_creation', { test: true, url: '/project_timesheet_synchro/timesheet_app' },
+    [
+        {
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper"
         },
         {
-            title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper"
+            content: "Close the menu",
+            trigger: '.pt_drawer_menu_wrapper .menu_text:contains(Today)',
+            extra_trigger: '.pt_app:has(.pt_drawer_menu_wrapper.shown):has(.pt_btn_start_timer)',
         },
         {
-            title:     "Close the menu",
-            element:   '.pt_drawer_menu_wrapper',
-            waitFor: '.pt_btn_start_timer',
+            content: "Start the timer",
+            extra_trigger: '.pt_drawer_menu_wrapper:not(.shown)',
+            trigger: '.pt_btn_start_timer',
         },
         {
-            title:     "Wait a bit",
-            wait:   '100',
+            content: "Stop the timer",
+            trigger: '.pt_btn_stop_timer',
         },
         {
-            title:     "Start the timer",
-            element:   '.pt_btn_start_timer',
+            content: "Insert a work summary",
+            trigger: 'textarea',
+            run: 'text A work summary'
         },
         {
-            title:     "Stop the timer",
-            element:   '.pt_btn_stop_timer',
+            content: "Open the project selection",
+            trigger: '.pt_activity_project .select2-choice',
+            run: 'click'
         },
         {
-            title:     "Wait a bit",
-            wait:   '100',
+            content: "Enter a project name",
+            trigger: '.select2-input',
+            run: "text A project Name",
         },
         {
-            title:     "Open the project selection",
-            element:   '.pt_activity_project .select2-choice',
+            content: "Create the project",
+            trigger: '.select2-result-label:contains("A project Name")',
         },
         {
-        	title: "Enter a project name",
-        	element : '.select2-input',
-        	sampleText: "A project Name",
-        },
-		{
-        	title: "Create the project",
-        	element : '.select2-result-label:contains("A project Name")',
-        },
-        {
-            title:     "Wait a bit",
-            wait:   '400',
-        },
-        {
-            title:     "Save the activity",
-            element:   '.pt_validate_edit_btn',
-        },
-        {
-            title:     "Wait a bit",
-            wait:   '100',
+            content: "Save the activity",
+            trigger: '.pt_validate_edit_btn',
         },
     ]
-});
+);
 
-Tour.register({
-    id:   'test_screen_navigation',
-    name: "Test screen navigation",
-    path: '/project_timesheet_synchro/timesheet_app',
-    mode: 'test',
-    steps: [
-    	{
-            title:     "Wait for it",
-            waitFor:   '.pt_toggle',
+tour.register('test_screen_navigation', { test: true, url: '/project_timesheet_synchro/timesheet_app' },
+    [
+        {
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper"
         },
         {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper"
+            content: '"Go to screen This week"',
+            trigger: '.pt_menu_item:contains("This Week")',
         },
         {
-        	title: '"Go to screen This week"',
-        	element: '.pt_menu_item:contains("This Week")',
-        	wait: 100,
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper"
         },
         {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper"
+            content: '"Go to screen Settings"',
+            trigger: '.pt_menu_item:contains("Settings")',
         },
         {
-        	title: '"Go to screen Settings"',
-        	element: '.pt_menu_item:contains("Settings")',
-        	wait: 100,
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper"
         },
         {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper"
+            content: '"Go to screen Day Plan"',
+            trigger: '.pt_menu_item:contains("Plan")',
         },
         {
-        	title: '"Go to screen Day Plan"',
-        	element: '.pt_menu_item:contains("Plan")',
-        	wait: 100,
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper",
         },
         {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper",
+            content: '"Go to screen Synchronize"',
+            trigger: '.pt_menu_item:contains("Synchronize")',
         },
         {
-        	title: '"Go to screen Synchronize"',
-        	element: '.pt_menu_item:contains("Synchronize")',
-        	wait: 100,
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper",
         },
         {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper",
+            content: '"Go to screen Statistics"',
+            trigger: '.pt_menu_item:contains("Statistics")',
         },
         {
-        	title: '"Go to screen Statistics"',
-        	element: '.pt_menu_item:contains("Statistics")',
-        	wait: 100,
-        },
-        {
-        	title:     "Open the menu",
-            element:   '.pt_toggle',
-            waitFor: ".pt_drawer_menu_wrapper"
+            content: "Open the menu",
+            trigger: '.pt_toggle',
+            extra_trigger: ".pt_drawer_menu_wrapper"
         },
     ]
-});
-
+);
 
 });
