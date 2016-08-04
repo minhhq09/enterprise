@@ -28,7 +28,7 @@ class TestDeferredRevenue(common.TransactionCase):
             'quantity': 1,
             'asset_category_id': self.ref("account_deferred_revenue.account_asset_category_sale1"),
         })
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
 
         from datetime import datetime
         from dateutil.relativedelta import relativedelta

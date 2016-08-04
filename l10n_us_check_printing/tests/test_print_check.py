@@ -45,7 +45,7 @@ class TestPrintCheck(AccountingTestCase):
             'name': 'something',
             'account_id': self.account_expenses.id,
         })
-        invoice.signal_workflow('invoice_open')
+        invoice.action_invoice_open()
         return invoice
 
     def create_payment(self, invoices):

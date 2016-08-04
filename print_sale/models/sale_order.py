@@ -29,5 +29,4 @@ class SaleOrder(models.Model):
         super(SaleOrder, self).print_validate_sending()
 
         # make the transition to the sent state
-        self.signal_workflow('quotation_sent')
-
+        self.write({'state': 'sent'})

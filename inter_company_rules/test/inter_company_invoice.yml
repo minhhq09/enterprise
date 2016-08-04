@@ -49,7 +49,8 @@
 -
   I validate the invoice.
 -
-  !workflow {model: account.invoice, action: invoice_open, ref: account_invoice_0}
+  !python {model: account.invoice, id: account_invoice_0}:
+    self.action_invoice_open()
 -
   Now apply account user group to User B and test with that user.
 -

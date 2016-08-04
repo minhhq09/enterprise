@@ -244,7 +244,7 @@ class SaleSubscription(models.Model):
         if tx.state == 'done':
             invoice.write({'reference': tx.reference, 'name': tx.reference})
             if tx.acquirer_id.journal_id:
-                invoice.signal_workflow('invoice_open')
+                invoice.action_invoice_open()
                 journal = tx.acquirer_id.journal_id
                 invoice.with_context(default_ref=tx.reference, default_currency_id=tx.currency_id.id).pay_and_reconcile(journal, pay_amount=tx.amount)
             contract.increment_period()

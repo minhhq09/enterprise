@@ -25,5 +25,5 @@
                 'account_id': rev_account_id,
             }
             self._update('account.invoice.line', 'website_portal_followup', vals, 'followup_demo_invoice_line_1')
-            self.env['account.invoice'].browse(ref('followup_demo_invoice_1')).signal_workflow('invoice_open')
+            self.env['account.invoice'].browse(ref('followup_demo_invoice_1')).action_invoice_open()
             self.env['account.invoice'].browse(ref('followup_demo_invoice_1')).message_subscribe([ref('portal.partner_demo_portal')])
