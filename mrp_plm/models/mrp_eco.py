@@ -516,7 +516,7 @@ class MrpEcoBomChange(models.Model):
     _name = 'mrp.eco.bom.change'
     _description = 'ECO Material changes'
 
-    eco_id = fields.Many2one('mrp.eco', 'Engineering Change') #TODO: ondelete cascade and required True
+    eco_id = fields.Many2one('mrp.eco', 'Engineering Change', ondelete='cascade', required=True)
     change_type = fields.Selection([('add', 'Add'), ('remove', 'Remove'), ('update', 'Update')], string='Type', required=True)
     product_id = fields.Many2one('product.product', 'Product', required=True)
     product_uom_id = fields.Many2one('product.uom', 'Product  UoM', required=True)
@@ -534,7 +534,7 @@ class MrpEcoRoutingChange(models.Model):
     _name = 'mrp.eco.routing.change'
     _description = 'Eco Routing changes'
 
-    eco_id = fields.Many2one('mrp.eco', 'Engineering Change') #TODO: ondelete cascade and required True
+    eco_id = fields.Many2one('mrp.eco', 'Engineering Change', ondelete='cascade', required=True)
     change_type = fields.Selection([('add', 'Add'), ('remove', 'Remove'), ('update', 'Update')], string='Type', required=True)
     workcenter_id = fields.Many2one('mrp.workcenter', 'Work Center')
     old_time_cycle_manual = fields.Float('Old manual duration', default=0)
