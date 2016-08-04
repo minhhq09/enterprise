@@ -59,7 +59,7 @@ class website_account(website_account):
             'archive_groups': archive_groups,
             'default_url': '/my/contract',
         })
-        return request.website.render("website_contract.portal_my_contracts", values)
+        return request.render("website_contract.portal_my_contracts", values)
 
 
 class website_contract(http.Controller):
@@ -126,7 +126,7 @@ class website_contract(http.Controller):
         render_context = dict(values.items() + render_context.items())
         for acquirer in acquirers:
             acquirer.form = acquirer.sudo()._registration_render(account.partner_id.id, render_context)
-        return request.website.render("website_contract.contract", values)
+        return request.render("website_contract.contract", values)
 
     payment_succes_msg = 'message=Thank you, your payment has been validated.&message_class=alert-success'
     payment_fail_msg = 'message=There was an error with your payment, please try with another payment method or contact us.&message_class=alert-danger'
@@ -222,7 +222,7 @@ class website_contract(http.Controller):
             'inactive_templates': account_templates,
             'user': request.env.user,
         }
-        return request.website.render("website_contract.change_template", values)
+        return request.render("website_contract.change_template", values)
 
     @http.route(['/my/contract/<int:account_id>/close'], type='http', methods=["POST"], auth="public", website=True)
     def close_account(self, account_id, uuid=None, **kw):
@@ -305,7 +305,7 @@ class website_contract(http.Controller):
             'action': action
         }
         if template.type == 'template':
-            return request.website.render('website_contract.preview_template', values)
+            return request.render('website_contract.preview_template', values)
         else:
             raise NotFound()
 

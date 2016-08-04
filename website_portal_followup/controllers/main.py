@@ -38,4 +38,4 @@ class website_account_followup(website_account):
         values = self._prepare_portal_layout_values()
         rcontext = self._get_followup_values()
         values.update(rcontext)
-        return request.website.render("website_portal_followup.portal_my_followup", values)
+        return request.render("website_portal_followup.portal_my_followup", values)
