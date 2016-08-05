@@ -14,21 +14,15 @@
                     <ZipDestination t-esc="ZipDestination"/>
                     <Pounds t-esc="Pounds"/>
                     <Ounces t-esc="Ounces"/>
-
-                    <t t-if="Container == 'Regular'">
-                        <Container t-esc='DomesticRegularContainer'/>
-                    </t>
-                    <t t-if="Container != 'Regular'">
-                        <Container t-esc='Container'/>
-                    </t>
+                    <Container t-esc='Container'/>
                     <Size t-esc="Size"/>
-                    <t t-if="Container != 'Regular'">
+                    <t t-if="Container != 'VARIABLE'">
                         <Width t-esc="Width" />
                         <Length t-esc="Length" />
                         <Height t-esc="Height" />
                         <Girth t-esc="Girth" />
                     </t>
-                    <t t-if="Container == 'Regular'">
+                    <t t-if="Container == 'VARIABLE'">
                         <Width />
                         <Length />
                         <Height />
@@ -49,20 +43,15 @@
                     <MailType t-esc="MailType"/>
                     <ValueOfContents t-esc="ValueOfContents"/>
                     <Country t-esc="Country"/>
-                    <t t-if="Container == 'Regular'">
-                        <Container t-esc="InternationalRegularContainer" />
-                    </t>
-                    <t t-if="Container != 'Regular'">
-                        <Container t-esc='Container'/>
-                    </t>
+                    <Container t-esc='Container'/>
                     <Size t-esc="Size" />
-                    <t t-if="Container != 'Regular'">
+                    <t t-if="Container != 'VARIABLE'">
                         <Width t-esc="Width" />
                         <Length t-esc="Length" />
                         <Height t-esc="Height" />
                         <Girth t-esc="Girth" />
                     </t>
-                    <t t-if="Container == 'Regular'">
+                    <t t-if="Container == 'VARIABLE'">
                         <Width />
                         <Length />
                         <Height />
@@ -186,12 +175,7 @@
                 <AltReturnCountry t-esc="AltReturnCountry"/>
             </t>
             <t t-if="api not in ['FirstClassMailIntlCertify', 'FirstClassMailIntl']">
-                <t t-if="Container == 'Regular'">
-                    <Container t-esc="international_Regular_container" />
-                </t>
-                <t t-if="Container != 'Regular'">
-                    <Container t-esc='Container'/>
-                </t>
+                <Container t-esc='Container'/>
             </t>
             <t t-if="api in ['FirstClassMailIntlCertify', 'FirstClassMailIntl'] and MailType == 'LargeEnvelope'">
                 <FirstClassMailType t-esc="FirstClassMailType" />
@@ -220,14 +204,14 @@
             <ImageType t-esc="ImageType"/>
             <ImageLayout t-esc="ImageLayout"/>
             <Size t-esc="Size"/>
-            <t t-if="Container != 'Regular'">
+            <t t-if="Container != 'VARIABLE'">
                 <Length t-esc="Length" />
                 <Width t-esc="Width" />
 
                 <Height t-esc="Height" />
                 <Girth t-esc="Girth" />
             </t>
-            <t t-if="Container == 'Regular'">
+            <t t-if="Container == 'VARIABLE'">
                 <Length />
                 <Width />
 
@@ -300,20 +284,15 @@
             <WeightInOunces t-esc="WeightInOunces"/>
             <POZipCode />
             <ImageType t-esc="ImageType"/>
-            <t t-if="Container == 'Regular'">
-                <Container t-esc='domestic_regular_container'/>
-            </t>
-            <t t-if="Container != 'Regular'">
-                <Container t-esc='Container'/>
-            </t>
+            <Container t-esc='Container'/>
             <Size t-esc="Size"/>
-            <t t-if="Container != 'Regular'">
+            <t t-if="Container != 'VARIABLE'">
                 <Width t-esc="Width" />
                 <Length t-esc="Length" />
                 <Height t-esc="Height" />
                 <Girth t-esc="Girth" />
             </t>
-            <t t-if="Container == 'Regular'">
+            <t t-if="Container == 'VARIABLE'">
                 <Width />
                 <Length />
                 <Height />
@@ -382,20 +361,15 @@
             <ServiceType t-esc="ServiceType" />
 
             <ImageType t-esc="ImageType"/>
-            <t t-if="Container == 'Regular'">
-                <Container t-esc='domestic_regular_container'/>
-            </t>
-            <t t-if="Container != 'Regular'">
-                <Container t-esc='Container'/>
-            </t>
+            <Container t-esc='Container'/>
             <Size t-esc="Size"/>
-            <t t-if="Container != 'Regular'">
+            <t t-if="Container != 'VARIABLE'">
                 <Width t-esc="Width" />
                 <Length t-esc="Length" />
                 <Height t-esc="Height" />
                 <Girth t-esc="Girth" />
             </t>
-            <t t-if="Container == 'Regular'">
+            <t t-if="Container == 'VARIABLE'">
                 <Width />
                 <Length />
                 <Height />

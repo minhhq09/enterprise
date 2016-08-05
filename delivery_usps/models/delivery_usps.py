@@ -23,7 +23,7 @@ class ProviderUSPS(models.Model):
     @api.one
     @api.depends('usps_container')
     def _compute_size_container(self):
-        if self.usps_container == 'Regular':
+        if self.usps_container == 'VARIABLE':
             self.usps_size_container = 'REGULAR'
         else:
             self.usps_size_container = 'LARGE'
@@ -41,10 +41,10 @@ class ProviderUSPS(models.Model):
                                                    ('POSTCARD', 'Postcard'),
                                                    ('PACKAGE SERVICE', 'Package Service')],
                                                   string="USPS First Class Mail Type", default="LETTER")
-    usps_container = fields.Selection([('Regular', 'Regular < 12 inch'),
+    usps_container = fields.Selection([('VARIABLE', 'Regular < 12 inch'),
                                        ('RECTANGULAR', 'Rectangular'),
                                        ('NONRECTANGULAR', 'Non-rectangular')],
-                                      required=True, default='Regular', string="Type of container")
+                                      required=True, default='VARIABLE', string="Type of container")
     usps_domestic_regular_container = fields.Selection([('Flat Rate Envelope', 'Flat Rate Envelope'),
                                                         ('Sm Flat Rate Envelope', 'Small Flat Rate Envelope'),
                                                         ('Legal Flat Rate Envelope', 'Legal Flat Rate Envelope'),
