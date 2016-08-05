@@ -64,8 +64,7 @@ class TestContract(TestContractCommon):
             'template_id': self.quote_template.id,
         })
 
-        update = self.registry['sale.order'].onchange_template_id(self.cr, self.uid, order.id, self.quote_template.id, self.env.context)
-        order.write(update.get('value'))
+        order.onchange_template_id()
         order.action_confirm()
         self.assertTrue(order.subscription_id, 'website_contract: subscription is not created at so confirmation')
         self.assertEqual(order.subscription_management, 'create', 'website_contract: subscription creation should set the so to "create"')
