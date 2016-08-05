@@ -560,6 +560,51 @@
         </field>
     </record>
 
+    <!-- mrp.eco.bom.change -->
+    <record id="mrp_eco_bom_change_view_form" model="ir.ui.view">
+        <field name="name">mrp.eco.bom.change.view.form</field>
+        <field name="model">mrp.eco.bom.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Product">
+                        <field name="product_id"/>
+                        <label for="upd_product_qty"/>
+                        <div class="o_row">
+                            <field name="upd_product_qty"/>
+                            <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="product.group_uom"/>
+                        </div>
+                    </group>
+                    <group string="ECO details">
+                        <field name="change_type"/>
+                        <field name="old_product_qty"/>
+                        <field name="new_product_qty"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- mrp.eco.routing.change -->
+    <record id="mrp_eco_routing_change_view_form" model="ir.ui.view">
+        <field name="name">mrp.eco.routing.change.view.form</field>
+        <field name="model">mrp.eco.routing.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Duration">
+                        <field name="upd_time_cycle_manual"/>
+                        <field name="old_time_cycle_manual"/>
+                        <field name="new_time_cycle_manual"/>
+                    </group>
+                    <group string="ECO details">
+                        <field name="change_type"/>
+                        <field name="workcenter_id"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
 
     <!-- MRP.ECO.STAGE -->
     <record id="mrp_eco_stage_view_tree" model="ir.ui.view">
