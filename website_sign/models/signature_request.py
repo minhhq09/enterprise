@@ -35,7 +35,7 @@ class SignatureRequest(models.Model):
 
     follower_ids = fields.Many2many('res.partner', string="Document Followers")
 
-    completed_document = fields.Binary(readonly=True, string="Completed Document")
+    completed_document = fields.Binary(readonly=True, string="Completed Document", attachment=True)
 
     nb_draft = fields.Integer(string="Draft Requests", compute="_compute_count", store=True)
     nb_wait = fields.Integer(string="Sent Requests", compute="_compute_count", store=True)
@@ -382,7 +382,7 @@ class SignatureRequestItem(models.Model):
     access_token = fields.Char('Security Token', required=True, default=_default_access_token, readonly=True)
     role_id = fields.Many2one('signature.item.party', string="Role")
 
-    signature = fields.Binary()
+    signature = fields.Binary(attachment=True)
     signing_date = fields.Date('Signed on', readonly=True)
     state = fields.Selection([
         ("draft", "Draft"),
