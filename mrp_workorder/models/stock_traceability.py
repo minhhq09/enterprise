@@ -37,6 +37,10 @@ class MrpStockReport(models.TransientModel):
         context_ids = []
         if context.get('active_id') and not context.get('model') or context.get('model') == 'stock.production.lot':
             context_ids = StockQuant.search([['lot_id', '=', context.get('active_id')]])
+        elif context.get('active_id') and context.get('model') == 'mrp.production':
+            context_ids = self.env['mrp.production'].browse(context['active_id']).move_finished_ids.mapped('quant_ids')
+        elif context.get('active_id') and context.get('model') == 'stock.picking':
+            context_ids = self.env['stock.picking'].browse(context['active_id']).move_lines.mapped('quant_ids')
         context.update({
             'context_ids': context_ids or context.get('model') == 'stock.quant' and self.env[context.get('model')].browse(context.get('active_id')) or [],
             'stream': stream

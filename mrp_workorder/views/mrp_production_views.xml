@@ -79,6 +79,7 @@
 
     <record id="mrp.mrp_production_action_planning" model="ir.actions.act_window">
         <field name="domain">[('state', '=', 'confirmed'), ('routing_id', '!=', False), ('date_planned_start_wo', '=', False), ('date_planned_finished_wo', '=', False)]</field>
+        <field name="view_id" ref="mrp_production_tree_view_planning"/>
     </record>
 
     <menuitem id="mrp_planning_menu_root"

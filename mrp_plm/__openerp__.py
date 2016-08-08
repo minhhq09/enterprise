@@ -29,4 +29,5 @@ Product Life Management
         'static/src/xml/mrp_plm_templates.xml'
     ],
     'demo': [],
+    'application': True,
 }

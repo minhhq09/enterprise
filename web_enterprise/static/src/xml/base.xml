@@ -81,11 +81,13 @@
                                 <a class="oe_instance_register_show" href="#">Register your subscription</a> or <a class="oe_instance_buy" href="#">buy a subscription</a>.
                             </t>
                             <t t-if="dbexpiration_reason == 'renewal'">
-                                <a class="oe_instance_renew" href="#">Renew your subscription</a>.
+                                <a class="oe_instance_renew" href="#">Renew your subscription</a>
+                                <a class="check_enterprise_status" href="#" title="Refresh subscription status"><i class="fa fa-refresh"></i></a>
                             </t>
                             <t t-if="dbexpiration_reason == 'upsell'">
                                 You have more users than your subscription allows.<br/>
-                                <a class="oe_instance_upsell" href="#">Add more users</a>
+                                <a class="oe_instance_upsell" href="#">Upgrade your subscription</a>
+                                <a class="check_enterprise_status" href="#" title="Refresh subscription status"><i class="fa fa-refresh"></i></a>
                             </t>
                         </t>
                         <t t-if="warning=='user'">
@@ -97,8 +99,11 @@
             <span class="oe_instance_register oe_instance_success">
                 Thank you, your registration was successful! Your database is valid until <span class="valid_date"/>.
             </span>
+            <span class="oe_instance_register oe_subscription_updated">
+                Your subscription was updated and is valid until <span class="valid_date"/>.
+            </span>
             <span class="oe_instance_register oe_instance_error">
-                Something went wrong while registering your database. You can try again or contact our support at <a href='mailto:help@odoo.com' t-translation="off">help@odoo.com</a>.
+              Something went wrong while registering your database. You can try again or contact <a href="https://www.odoo.com/help" target="_blank">Odoo Help</a>.
             </span>
             <form class="form-inline oe_instance_register oe_instance_register_form">
                 <br/>
