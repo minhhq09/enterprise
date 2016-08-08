@@ -18,7 +18,7 @@ class StockInventory(models.Model):
     @api.model
     def open_new_inventory(self):
         action = self.env.ref('stock_barcode.stock_inventory_action_new_inventory').read()[0]
-        if self.env['stock.inventory']._default_stock_location():
+        if self.env.ref('stock.warehouse0', raise_if_not_found=False):
             new_inv = self.env['stock.inventory'].create({
                 'filter': 'partial',
                 'name': fields.Date.context_today(self),

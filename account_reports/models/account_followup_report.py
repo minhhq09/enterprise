@@ -320,7 +320,7 @@ class account_report_context_followup(models.TransientModel):
                 'base_url': base_url,
                 'css': '',
                 'o': self.env.user,
-                'today': datetime.today().strftime('%Y-%m-%d'),
+                'today': context._formatLangDate(datetime.today()),
                 'company': self.env.user.company_id,
                 'res_company': self.env.user.company_id,
             }
@@ -379,3 +379,11 @@ class account_report_context_followup(models.TransientModel):
             'res_company': self.env['res.users'].browse(self.env.uid).company_id,
         }
         return self.env['ir.model.data'].xmlid_to_object('account_reports.report_followup').render(rcontext)
+
+    def _formatLangDate(self, date):
+        # Get date format for the lang
+        lang_code = self.partner_id.lang or self.env.user.lang or 'en_US'
+        lang_ids = self.env['res.lang'].search([('code', '=', lang_code)], limit=1)
+        date_format = lang_ids.date_format or DEFAULT_SERVER_DATE_FORMAT
+
+        return date.strftime(date_format)

@@ -20,7 +20,7 @@ class website_account(website_account):
         account_res = request.env['sale.subscription']
         contract_count = account_res.search_count([
             ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
-            ('state', '!=', 'cancelled'),
+            ('state', '!=', 'cancel'),
         ])
         response.qcontext.update({'contract_count': contract_count})
 

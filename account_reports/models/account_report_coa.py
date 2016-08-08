@@ -123,7 +123,9 @@ class account_context_coa(models.TransientModel):
 
     def get_columns_names(self):
         temp = self.get_full_date_names(self.date_to)
-        columns = [_('Debit') + '<br/>' + temp.decode("utf-8"), _('Credit')]
+        if not isinstance(temp, unicode):
+            temp = temp.decode("utf-8")
+        columns = [_('Debit') + '<br/>' + temp, _('Credit')]
         if self.comparison and (self.periods_number == 1 or self.date_filter_cmp == 'custom'):
             columns += [_('Debit') + '<br/>' + self.get_cmp_date(), _('Credit')]
         else:
