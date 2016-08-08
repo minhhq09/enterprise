@@ -244,6 +244,7 @@ AppSwitcher.include({
         },
         'click #confirm_enterprise_code': 'enterprise_code_submit',
         'click .oe_instance_hide_panel': 'enterprise_hide_panel',
+        'click .check_enterprise_status': 'enterprise_check_status',
     }),
     start: function () {
         this._super();
@@ -302,6 +303,34 @@ AppSwitcher.include({
             });
         }
     },
+    enterprise_check_status: function(ev) {
+        ev.preventDefault();
+        var Publisher = new Model('publisher_warranty.contract');
+        var P = new Model('ir.config_parameter');
+        P.call('get_param', ['database.expiration_date']).then(function(old_date) {
+            var dbexpiration_date = new moment(old_date);
+            var duration = moment.duration(dbexpiration_date.diff(new moment()));
+            if (Math.round(duration.asDays()) < 30) {
+                Publisher.call('update_notification', [[]]).then(function() {
+                    $.when(
+                        P.call('get_param', ['database.expiration_date']))
+                    .then(function(dbexpiration_date) {
+                        $('.oe_instance_register').hide();
+                        $('.database_expiration_panel .alert').removeClass('alert-info alert-warning alert-danger');
+                        if (dbexpiration_date != old_date && new moment(dbexpiration_date) > new moment()) {
+                            $.unblockUI();
+                            $('.oe_instance_hide_panel').show();
+                            $('.database_expiration_panel .alert').addClass('alert-success');
+                            $('.valid_date').html(moment(dbexpiration_date).format('LL'));
+                            $('.oe_subscription_updated').show();
+                        } else {
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
+        });
+    },
     enterprise_show_panel: function(options) {
         //Show expiration panel 30 days before the expiry
         var self = this;
@@ -323,6 +352,7 @@ AppSwitcher.include({
                 expiration_panel.find('.oe_instance_renew').on('click.widget_events', self.proxy('enterprise_renew'));
                 expiration_panel.find('.oe_instance_upsell').on('click.widget_events', self.proxy('enterprise_upsell'));
                 expiration_panel.find('#confirm_enterprise_code').on('click.widget_events', self.proxy('enterprise_code_submit'));
+                expiration_panel.find('.check_enterprise_status').on('click.widget_events', self.proxy('enterprise_check_status'));
                 expiration_panel.find('.oe_instance_hide_panel').hide();
                 $.blockUI({message: expiration_panel.find('.database_expiration_panel')[0],
                            css: { cursor : 'auto' },

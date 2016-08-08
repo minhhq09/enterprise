@@ -200,11 +200,11 @@ var GanttView = View.extend({
         // add the date range to the domain.
         var from_date = self.focus_date.clone().subtract(1, self.scale).startOf(self.scale);
         var to_date = self.focus_date.clone().add(3, self.scale).endOf(self.scale);
-        domains = domains.concat([ [self.fields_view.arch.attrs.date_start, '<', to_date.format("YYYY-MM-DD")] ]);
+        domains = domains.concat([ [self.fields_view.arch.attrs.date_start, '<', to_date.lang('en').format("YYYY-MM-DD")] ]);
         if (self.fields_view.arch.attrs.date_stop) {
             domains = domains.concat([
                 '|',
-                [self.fields_view.arch.attrs.date_stop, ">", from_date.format("YYYY-MM-DD")],
+                [self.fields_view.arch.attrs.date_stop, ">", from_date.lang('en').format("YYYY-MM-DD")],
                 [self.fields_view.arch.attrs.date_stop, '=', false]
             ]);
         }
