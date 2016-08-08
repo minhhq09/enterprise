@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-07-22 08:38+0000\n"
-"Last-Translator: 高木正勝 <masakatsu.takagi@pro-spire.co.jp>\n"
+"PO-Revision-Date: 2016-08-06 12:04+0000\n"
+"Last-Translator: Yoshi Tashiro <tashiro@roomsfor.hk>\n"
 "Language-Team: Japanese (http://www.transifex.com/odoo/odoo-9/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,13 +51,13 @@ msgstr "予定日"
 #: code:addons/account_reports/models/account_followup_report.py:272
 #, python-format
 msgid " Total Due "
-msgstr "合計金額"
+msgstr "未払合計"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_report_context_common.py:311
 #, python-format
 msgid "%s - %s days ago"
-msgstr ""
+msgstr "%s - %s 日前"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:342
@@ -131,7 +131,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_followup
 msgid ""
 "<strong>Warning!</strong> No action needs to be taken for this partner."
-msgstr ""
+msgstr "<strong>警告！</strong> この取引先へのアクションは不要です。"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
@@ -213,13 +213,13 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Aged Payable"
-msgstr "延滞買掛金"
+msgstr "買掛金年齢表"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_ap
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Payables"
-msgstr "延滞買掛金"
+msgstr "買掛金年齢表"
 
 #. module: account_reports
 #. openerp-web
@@ -235,7 +235,7 @@ msgstr "売掛金年齢表"
 #: model:ir.actions.client,name:account_reports.action_account_report_ar
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Receivables"
-msgstr ""
+msgstr "売掛金年齢表"
 
 #. module: account_reports
 #: selection:account.report.context.followup.all,partner_filter:0
@@ -286,7 +286,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Annotate"
-msgstr ""
+msgstr "注釈追加"
 
 #. module: account_reports
 #. openerp-web
@@ -318,7 +318,7 @@ msgstr "8月"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Auto"
-msgstr ""
+msgstr "自動"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_available_company_ids
@@ -389,7 +389,7 @@ msgstr "銀行 / 現金 口座"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_bank_reconciliation_report
 msgid "Bank reconciliation report"
-msgstr ""
+msgstr "銀行消込レポート"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
@@ -549,7 +549,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "Click to add an introductory explanation"
-msgstr "クリックして凡例を追加する"
+msgstr "クリックして概況説明を追加してください。"
 
 #. module: account_reports
 #. openerp-web
@@ -579,7 +579,7 @@ msgstr "列"
 #: code:addons/account_reports/models/account_general_ledger.py:195
 #, python-format
 msgid "Communication"
-msgstr "通信"
+msgstr "コミュニケーション"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_res_company
@@ -626,7 +626,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:96
 #, python-format
 msgid "Comparison:"
-msgstr "比較："
+msgstr "比較:"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_report_context_common.py:219
@@ -713,13 +713,13 @@ msgstr "通貨"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets_view0
 msgid "Current Assets"
-msgstr "現有資産"
+msgstr "流動資産"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:88
 #, python-format
 msgid "Current Balance in Odoo"
-msgstr "Odoo 内の経常収支"
+msgstr "Odoo現在残高"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
@@ -744,14 +744,14 @@ msgstr "カスタム"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Customer Statement"
-msgstr ""
+msgstr "顧客取引明細書"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_followup
 #: model:ir.actions.client,name:account_reports.action_account_followup_all
 #: model:ir.ui.menu,name:account_reports.menu_action_followups
 msgid "Customers Statement"
-msgstr ""
+msgstr "顧客取引明細書"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
@@ -766,7 +766,7 @@ msgstr "日付"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:127
 #, python-format
 msgid "Date :"
-msgstr "日付 :"
+msgstr "日付:"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_filter
@@ -864,7 +864,7 @@ msgstr "ドメイン"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:148
 #, python-format
 msgid "Don't follow-up before :"
-msgstr ""
+msgstr "フォロー解禁日:"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -954,7 +954,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
 #, python-format
 msgid "End of Last Financial Year"
-msgstr ""
+msgstr "前年度末"
 
 #. module: account_reports
 #. openerp-web
@@ -988,7 +988,7 @@ msgstr "エグゼクティブ・サマリー"
 #: model:ir.model.fields,field_description:account_reports.field_account_move_line_expected_pay_date
 #, python-format
 msgid "Expected Payment Date"
-msgstr "支払い予定日"
+msgstr "支払予定日"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_move_line_expected_pay_date
@@ -1219,7 +1219,7 @@ msgstr "期首残高"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:157
 #, python-format
 msgid "Insert foot note here"
-msgstr "ここに脚注を挿入"
+msgstr "ここに注釈を挿入してください。"
 
 #. module: account_reports
 #. openerp-web
@@ -1322,7 +1322,7 @@ msgstr "前四半期"
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:158
 #, python-format
 msgid "Last Statement Balance"
-msgstr "最新の請求書残高"
+msgstr "最新の取引明細書残高"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_write_uid
@@ -1378,13 +1378,13 @@ msgstr "直近の取引明細書"
 #. module: account_reports
 #: model:ir.ui.menu,name:account_reports.account_reports_legal_statements_menu
 msgid "Legal Statements"
-msgstr ""
+msgstr "財務諸表等"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:141
 #, python-format
 msgid "Less Outstanding Receipt"
-msgstr ""
+msgstr "減算: 未消込支払"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
@@ -1416,7 +1416,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Log a Note"
-msgstr ""
+msgstr "メモを記録"
 
 #. module: account_reports
 #: model:mail.message.subtype,name:account_reports.followup_logged_action
@@ -1479,7 +1479,7 @@ msgstr ""
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_assets0
 msgid "NET ASSETS"
-msgstr ""
+msgstr "正味資産"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_net_profit0
@@ -1513,7 +1513,7 @@ msgstr ""
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_net_assets0
 msgid "Net assets"
-msgstr "純資産"
+msgstr "正味資産"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_net_increase0
@@ -1677,14 +1677,14 @@ msgstr "さらに前"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:144
 #, python-format
 msgid "One month"
-msgstr ""
+msgstr "1ヶ月"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:142
 #, python-format
 msgid "One week"
-msgstr ""
+msgstr "1週間"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_financial_html_report_context_report_id
@@ -1696,7 +1696,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:140
 #, python-format
 msgid "Options:"
-msgstr "オプション："
+msgstr "オプション:"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_other_income0
@@ -1770,12 +1770,12 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:55
 #, python-format
 msgid "Period:"
-msgstr ""
+msgstr "期間:"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_fixed_assets_view0
 msgid "Plus Fixed Assets"
-msgstr ""
+msgstr "加算 固定資産"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_assets_view0
@@ -1786,7 +1786,7 @@ msgstr ""
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
 #, python-format
 msgid "Plus Outstanding Payment"
-msgstr ""
+msgstr "加算: 未消込入金"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
@@ -1798,7 +1798,7 @@ msgstr "+ 消込未了の銀行取引明細書"
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
 #, python-format
 msgid "Plus Unencoded Statements"
-msgstr ""
+msgstr "加算: 未登録取引明細書"
 
 #. module: account_reports
 #. openerp-web
@@ -1877,7 +1877,7 @@ msgstr "売掛金"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Reconciliation Report"
-msgstr ""
+msgstr "消込レポート"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
@@ -1947,7 +1947,7 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "See bank statement"
-msgstr ""
+msgstr "銀行取引明細書を見る"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -2002,7 +2002,7 @@ msgstr ""
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:119
 #, python-format
 msgid "Start Date :"
-msgstr ""
+msgstr "開始日:"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_from
@@ -2071,7 +2071,7 @@ msgstr "税明細"
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
-msgstr ""
+msgstr "税レポート"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_text
@@ -2150,13 +2150,13 @@ msgstr "合計"
 #: code:addons/account_reports/models/account_followup_report.py:66
 #, python-format
 msgid "Total Due"
-msgstr "合計金額"
+msgstr "未払合計"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:78
 #, python-format
 msgid "Total Overdue"
-msgstr "合計遅延"
+msgstr "延滞合計"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_coa
@@ -2169,14 +2169,14 @@ msgstr "試算表"
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:145
 #, python-format
 msgid "Two months"
-msgstr ""
+msgstr "2ヶ月"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:143
 #, python-format
 msgid "Two weeks"
-msgstr ""
+msgstr "2週間"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_figure_type
