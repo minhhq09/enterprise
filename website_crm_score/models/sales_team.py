@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from openerp import fields, api, models
-from openerp.osv import osv
 from openerp.tools.safe_eval import safe_eval
 from random import randint, shuffle
 import datetime
@@ -32,6 +31,7 @@ except ImportError:
 
 class team_user(models.Model):
     _name = 'team.user'
+    _inherit = ['mail.thread']
 
     @api.one
     def _count_leads(self):
@@ -65,7 +65,7 @@ class team_user(models.Model):
     user_id = fields.Many2one('res.users', string='Saleman', required=True)
     name = fields.Char(related='user_id.partner_id.display_name')
     running = fields.Boolean(string='Running', default=True)
-    team_user_domain = fields.Char('Domain')
+    team_user_domain = fields.Char('Domain', track_visibility='onchange')
     maximum_user_leads = fields.Integer('Leads Per Month')
     leads_count = fields.Integer('Assigned Leads', compute='_count_leads', help='Assigned Leads this last month')
     percentage_leads = fields.Float(compute='_get_percentage', string='Percentage leads')
@@ -76,8 +76,9 @@ class team_user(models.Model):
             self.running = not self.running
 
 
-class crm_team(osv.osv):
-    _inherit = "crm.team"
+class crm_team(models.Model):
+    _name = 'crm.team'
+    _inherit = ['crm.team', 'mail.thread']
 
     @api.model
     @api.returns('self', lambda value: value.id if value else False)
@@ -125,7 +126,7 @@ class crm_team(osv.osv):
             raise Warning('The domain is incorrectly formatted')
 
     ratio = fields.Float(string='Ratio')
-    score_team_domain = fields.Char('Domain')
+    score_team_domain = fields.Char('Domain', track_visibility='onchange')
     leads_count = fields.Integer(compute='_count_leads')
     assigned_leads = fields.Integer(compute='_assigned_leads')
     unassigned_leads = fields.Integer(compute='_unassigned_leads')

@@ -15,6 +15,7 @@ evaluation_context = {
 
 class website_crm_score(models.Model):
     _name = 'website.crm.score'
+    _inherit = ['mail.thread']
 
     @api.one
     def _count_leads(self):
@@ -45,7 +46,7 @@ class website_crm_score(models.Model):
                                  'Delete will delete definitively the lead\n\n'
                                  'Actions are done in sql and bypass the access rights and orm mechanism (create `score`, write `active`, unlink `crm_lead`)')
     value = fields.Float('Value', default=0, required=True)
-    domain = fields.Char('Domain', required=True)
+    domain = fields.Char('Domain', track_visibility='onchange', required=True)
     event_based = fields.Boolean(
         'Event-based rule',
         help='When checked, the rule will be re-evaluated every time, even for leads '
