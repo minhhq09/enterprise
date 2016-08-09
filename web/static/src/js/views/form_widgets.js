@@ -981,7 +981,7 @@ var FieldRadio = common.AbstractField.extend(common.ReinitializeFieldMixin, {
         if(this.get('effective_readonly')) {
             this.$el.html(this.get('value')? this.get('value')[1] : "");
         } else {
-            this.$("input").filter(function() {return this.value == self.get_value();}).prop("checked", true);
+            this.$("input").prop("checked", false).filter(function() {return this.value == self.get_value();}).prop("checked", true);
         }
     }
 });
