@@ -9,7 +9,7 @@ class AnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
     # don't keep existing description (if any) when copying a line
-    name = fields.Char(required=False, copy=False)
+    name = fields.Char(required=False)
     # reset amount on copy
     amount = fields.Monetary(copy=False)
     validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
