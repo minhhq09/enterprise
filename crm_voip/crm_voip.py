@@ -32,11 +32,11 @@ class crm_phonecall(models.Model):
         ('1', 'Normal'),
         ('2', 'High')
         ], string='priority')
-    team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+    team_id = fields.Many2one('crm.team', 'Sales Team', index=True,
         help="Sales team to which Case belongs to.")
     categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     in_queue = fields.Boolean('In Call Queue', default=True)
-    sequence = fields.Integer('Sequence', select=True,
+    sequence = fields.Integer('Sequence', index=True,
         help="Gives the sequence order when displaying a list of Phonecalls.")
     start_time = fields.Integer("Start time")
     state = fields.Selection([
@@ -512,7 +512,7 @@ class crm_phonecall_report(models.Model):
     partner_id = fields.Many2one('res.partner', 'Contact', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     duration = fields.Float('Duration', digits=(16, 2), group_operator="avg", readonly=True)
-    team_id = fields.Many2one('crm.team', 'Sales Team', select=True,
+    team_id = fields.Many2one('crm.team', 'Sales Team', index=True,
         help="Sales team to which Case belongs to.")
     categ_id = fields.Many2one('crm.phonecall.category', 'Category')
     state = fields.Selection([
@@ -521,7 +521,7 @@ class crm_phonecall_report(models.Model):
         ('open', 'To Do'),
         ('done', 'Held')
     ], 'Status', readonly=True)
-    date = fields.Datetime('Date', readonly=True, select=True)
+    date = fields.Datetime('Date', readonly=True, index=True)
     nbr = fields.Integer('# of Cases', readonly=True)
 
     def init(self, cr):
@@ -556,7 +556,7 @@ class crm_phonecall2phonecall(models.TransientModel):
 
     name = fields.Char('Call Summary', required=True)
     date = fields.Datetime('Date', required=True)
-    name = fields.Char('Call summary', required=True, select=1)
+    name = fields.Char('Call summary', required=True, index=True)
     user_id = fields.Many2one('res.users', "Assign To")
     contact_name = fields.Char('Contact')
     phone = fields.Char('Phone')
