@@ -21,8 +21,8 @@
 -
   I confirm the order.
 -
-  !python {model: sale.order}: |
-    self.action_confirm(cr, uid, [ref('sale_order_cmpa')], context=context)
+  !python {model: sale.order, id: sale_order_cmpa}: |
+    self.action_confirm()
 -
   I login with user company B.
 -
@@ -31,9 +31,8 @@
 -
   I check that Quotation of purchase order and order line is same as sale order
 -
-  !python {model: purchase.order}: |
-    order_ids = self.search(cr, uid, [('company_id','=',ref("company_b"))], context=context)
-    purchase_order = self.browse(cr, uid, order_ids[0], context=context)
+  !python {model: purchase.order, id: False}: |
+    purchase_order = self.search([('company_id','=',ref("company_b"))], limit=1)
     assert purchase_order.state == "draft", "Invoice should be in draft state."
     assert purchase_order.partner_id.id == ref("partner_company_a"),"Vendor does not correspond to Company A."
     assert purchase_order.company_id.id == ref("company_b"),"Company is not correspond to purchase order."
