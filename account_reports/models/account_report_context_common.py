@@ -425,21 +425,18 @@ class AccountReportContextCommon(models.TransientModel):
             'company': self.env.user.company_id,
         }
 
-        body = self.pool['ir.ui.view'].render_template(
-            self._cr, self._uid, "account_reports.report_financial_letter",
+        body = self.env['ir.ui.view'].render_template(
+            "account_reports.report_financial_letter",
             values=dict(rcontext, lines=lines, footnotes=footnotes, report=report_obj, context=self),
-            context=self.env.context
         )
 
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.internal_layout",
+        header = self.env['report'].render(
+            "report.internal_layout",
             values=rcontext,
-            context=self.env.context
         )
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.minimal_layout",
+        header = self.env['report'].render(
+            "report.minimal_layout",
             values=dict(rcontext, subst=True, body=header),
-            context=self.env.context
         )
 
         landscape = False

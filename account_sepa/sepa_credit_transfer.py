@@ -57,13 +57,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
     file = fields.Binary('SEPA XML File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
 
-    @api.v7
-    def create_sepa_credit_transfer(self, cr, uid, payment_ids, context=None):
-        recs = self.browse(cr, uid, [], context=context)
-        payments = self.pool['account.payment'].browse(cr, uid, payment_ids, context=context)
-        return AccountSepaCreditTransfer.create_sepa_credit_transfer(recs, payments)
-
-    @api.v8
+    @api.model
     def create_sepa_credit_transfer(self, payments):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """

@@ -6,7 +6,7 @@
             <field name="model_id" ref="account_batch_deposit.model_account_batch_deposit"/>
             <field name="code">
                 if context.get('active_model') == 'account.batch.deposit' and context.get('active_ids'):
-                    action = self.pool['account.batch.deposit'].print_batch_deposit(cr, uid, context['active_ids'], context=context)
+                    action = env['account.batch.deposit'].browse(context['active_ids']).print_batch_deposit()
             </field>
         </record>
 
@@ -24,7 +24,7 @@
             <field name="model_id" ref="account.model_account_payment"/>
             <field name="code">
                 if context.get('active_model') == 'account.payment' and context.get('active_ids'):
-                    action = self.pool['account.payment'].create_batch_deposit(cr, uid, context['active_ids'], context=context)
+                    action = env['account.payment'].browse(context['active_ids']).create_batch_deposit()
             </field>
         </record>
 
