@@ -6,9 +6,9 @@ import time
 import traceback
 import uuid
 
-from openerp import api, fields, models
-from openerp.exceptions import ValidationError
-from openerp.osv.query import Query
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.osv.query import Query
 
 _logger = logging.getLogger(__name__)
 

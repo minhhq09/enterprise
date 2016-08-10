@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import itertools
 
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 from odoo.addons.grid.models import END_OF
 
 

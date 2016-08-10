@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 
-from openerp import api, fields, models, tools, _
-from openerp.exceptions import UserError
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
 
 class MrpEcoType(models.Model):

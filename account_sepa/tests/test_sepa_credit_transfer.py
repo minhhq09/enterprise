@@ -3,8 +3,8 @@
 import base64
 from lxml import etree
 
-from openerp.addons.account.tests.account_test_classes import AccountingTestCase
-from openerp.modules.module import get_module_resource
+from odoo.addons.account.tests.account_test_classes import AccountingTestCase
+from odoo.modules.module import get_module_resource
 
 class TestSEPACreditTransfer(AccountingTestCase):
 

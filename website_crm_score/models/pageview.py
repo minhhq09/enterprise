@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, SUPERUSER_ID, tools, api
+from odoo import fields, models, SUPERUSER_ID, tools, api
 from psycopg2 import IntegrityError
-from openerp.tools import html_escape
+from odoo.tools import html_escape
 
 
 class pageview(models.Model):

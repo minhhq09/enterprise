@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, api, models
-from openerp.tools.safe_eval import safe_eval
+from odoo import fields, api, models
+from odoo.tools.safe_eval import safe_eval
 from random import randint, shuffle
 import datetime
 import logging

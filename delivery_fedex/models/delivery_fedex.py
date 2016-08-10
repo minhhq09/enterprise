@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 
-from openerp import models, fields, _
-from openerp.exceptions import ValidationError
+from odoo import models, fields, _
+from odoo.exceptions import ValidationError
 
 from fedex_request import FedexRequest
 

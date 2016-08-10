@@ -3,10 +3,10 @@
 
 import os
 
-from openerp import http
-from openerp.http import request
+from odoo import http
+from odoo.http import request
 
-from openerp.addons.point_of_sale.controllers.main import PosController
+from odoo.addons.point_of_sale.controllers.main import PosController
 
 class GovCertificationController(http.Controller):
     @http.route('/fdm_source', auth='public')

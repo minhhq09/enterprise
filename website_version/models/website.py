@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
-from openerp import fields, models, api
-from openerp.http import request
+from odoo import fields, models, api
+from odoo.http import request
 import random
 
 

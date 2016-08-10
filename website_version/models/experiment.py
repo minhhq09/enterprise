@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from openerp.exceptions import Warning
-from openerp import models, fields, api
-from openerp.exceptions import ValidationError
-from openerp.tools.translate import _
+from odoo.exceptions import Warning
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
+from odoo.tools.translate import _
 
 TOO_MUCH_EXPERIMENTS = 2
 OVERLAP_EXPERIMENT = 1

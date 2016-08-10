@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import http
-from openerp.http import request
-from openerp.addons.web.controllers.main import _serialize_exception
-from openerp.tools import html_escape
+from odoo import http
+from odoo.http import request
+from odoo.addons.web.controllers.main import _serialize_exception
+from odoo.tools import html_escape
 
 import json
 

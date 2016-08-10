@@ -3,12 +3,12 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from werkzeug.exceptions import NotFound
 
-from openerp import http
-from openerp.http import request
-from openerp.tools.translate import _
+from odoo import http
+from odoo.http import request
+from odoo.tools.translate import _
 
-from openerp.addons.website_portal.controllers.main import website_account
-from openerp.addons.website_quote.controllers.main import sale_quote
+from odoo.addons.website_portal.controllers.main import website_account
+from odoo.addons.website_quote.controllers.main import sale_quote
 
 
 class website_account(website_account):

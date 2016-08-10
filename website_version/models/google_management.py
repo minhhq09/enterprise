@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timedelta
 import logging
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.exceptions import Warning
-from openerp import models, exceptions, api
-from openerp.tools.translate import _
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.exceptions import Warning
+from odoo import models, exceptions, api
+from odoo.tools.translate import _
 import json
 
 _logger = logging.getLogger(__name__)

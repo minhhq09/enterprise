@@ -3,10 +3,10 @@
 Website-context rendering needs to add some metadata to rendered fields,
 as well as render a few fields differently.
 
-Also, adds methods to convert values back to openerp models.
+Also, adds methods to convert values back to odoo models.
 """
 
-from openerp import models
+from odoo import models
 
 
 class QWeb(models.AbstractModel):

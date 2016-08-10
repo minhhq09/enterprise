@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
-from openerp import http
-from openerp.http import request
-from openerp.addons.website.controllers.main import Website
-from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import http
+from odoo.http import request
+from odoo.addons.website.controllers.main import Website
+from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 GOOGLE_ANALYTICS_CONFIGURED = 2
 GOOGLE_ANALYTICS_PARTIALLY_CONFIGURED = 1

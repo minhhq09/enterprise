@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _, fields
-from openerp.tools.misc import formatLang
+from odoo import models, api, _, fields
+from odoo.tools.misc import formatLang
 
 
 class report_account_aged_partner(models.AbstractModel):

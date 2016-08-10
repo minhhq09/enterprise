@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import date, datetime, time, timedelta
 
-from openerp import models, fields, api, _
-from openerp.exceptions import ValidationError
-from openerp.osv import expression
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+from odoo.osv import expression
 
 class User(models.Model):
     _inherit = 'res.users'

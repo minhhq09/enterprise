@@ -1,5 +1,5 @@
-from openerp import http, _
-from openerp.http import request
+from odoo import http, _
+from odoo.http import request
 
 class StockBarcodeController(http.Controller):
 

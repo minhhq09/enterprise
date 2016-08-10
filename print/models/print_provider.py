@@ -3,9 +3,9 @@ import base64
 import re
 import time
 
-from openerp import api, fields, models
-from openerp.tools.safe_eval import safe_eval
-from openerp.tools.translate import _
+from odoo import api, fields, models
+from odoo.tools.safe_eval import safe_eval
+from odoo.tools.translate import _
 
 
 class PrintProvider(models.Model):

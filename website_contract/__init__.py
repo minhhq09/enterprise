@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp.release import version_info
+from odoo.release import version_info
 try:
     import models       # noqa
     import controllers  # noqa

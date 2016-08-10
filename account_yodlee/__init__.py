@@ -5,7 +5,7 @@ import models
 def _load_csv(cr, registry):
     import os
     import csv
-    from openerp.tools import misc
+    from odoo.tools import misc
     pathname = os.path.join('account_yodlee', 'data', 'online.institution.csv')
     vals = []
     with misc.file_open(pathname) as f:

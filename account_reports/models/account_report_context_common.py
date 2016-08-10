@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, _, osv
+from odoo import models, fields, api, _, osv
 import xlsxwriter
-from openerp.exceptions import Warning
+from odoo.exceptions import Warning
 from datetime import timedelta, datetime
 import calendar
 import json
 import StringIO
-from openerp.tools import config
+from odoo.tools import config
 
 
 class AccountReportFootnotesManager(models.TransientModel):

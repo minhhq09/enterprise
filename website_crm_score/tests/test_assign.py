@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp.addons.website_crm_score.tests.common import TestScoring
-from openerp.tools import mute_logger
+from odoo.addons.website_crm_score.tests.common import TestScoring
+from odoo.tools import mute_logger
 
 
 class test_assign(TestScoring):

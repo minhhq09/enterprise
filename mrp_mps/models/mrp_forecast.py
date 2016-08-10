@@ -4,7 +4,7 @@
 import datetime
 
 from odoo import api, fields, models
-from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 # FIXME QDP TODO need to document all these methods. Please add docstrings
 

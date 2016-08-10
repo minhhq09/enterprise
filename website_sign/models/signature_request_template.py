@@ -2,7 +2,7 @@
 import re
 import uuid
 
-from openerp import api, fields, models, _
+from odoo import api, fields, models, _
 
 class SignatureRequestTemplate(models.Model):
     _name = "signature.request.template"

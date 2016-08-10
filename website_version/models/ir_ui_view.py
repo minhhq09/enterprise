@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from lxml import etree
-from openerp import tools, fields, models, api
+from odoo import tools, fields, models, api
 
 class Qweb(models.AbstractModel):
 

@@ -7,9 +7,9 @@ import base64
 
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.tools import float_round, DEFAULT_SERVER_DATE_FORMAT
-from openerp.exceptions import UserError, ValidationError
+from odoo import models, fields, api, _
+from odoo.tools import float_round, DEFAULT_SERVER_DATE_FORMAT
+from odoo.exceptions import UserError, ValidationError
 
 
 def check_valid_SEPA_str(string):

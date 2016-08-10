@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-from openerp import api, fields, models
-from openerp.tools.translate import _
-from openerp.exceptions import UserError
+from odoo import api, fields, models
+from odoo.tools.translate import _
+from odoo.exceptions import UserError
 
 """
 This module manage an "online account" for a journal. It can't be used in standalone,

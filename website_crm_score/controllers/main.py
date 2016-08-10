@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
-from openerp import http, SUPERUSER_ID, fields
-from openerp.http import request
-from openerp.tools import html_escape
-from openerp.addons.website.controllers.main import Website
-from openerp.addons.website_form.controllers.main import WebsiteForm
+from odoo import http, SUPERUSER_ID, fields
+from odoo.http import request
+from odoo.tools import html_escape
+from odoo.addons.website.controllers.main import Website
+from odoo.addons.website_form.controllers.main import WebsiteForm
 
 class PageController(Website):
 

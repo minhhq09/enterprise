@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api, _, fields
-from openerp.tools.misc import formatLang
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import models, api, _, fields
+from odoo.tools.misc import formatLang
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime, timedelta
 
 

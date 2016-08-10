@@ -4,8 +4,8 @@ import os
 
 from lxml import etree
 
-from openerp.loglevels import ustr
-from openerp.tools import misc, view_validation
+from odoo.loglevels import ustr
+from odoo.tools import misc, view_validation
 
 _logger = logging.getLogger(__name__)
 

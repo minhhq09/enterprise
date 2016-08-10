@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 import logging
 
-from openerp import fields, models, _
-from openerp.exceptions import ValidationError
+from odoo import fields, models, _
+from odoo.exceptions import ValidationError
 
 from temando_request import TemandoRequest
 

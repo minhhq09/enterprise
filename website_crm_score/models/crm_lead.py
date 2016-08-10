@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp.http import request
-from openerp import api, fields, models, SUPERUSER_ID
+from odoo.http import request
+from odoo import api, fields, models, SUPERUSER_ID
 import md5
 
 

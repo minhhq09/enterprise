@@ -7,10 +7,10 @@ from dateutil.relativedelta import relativedelta
 import requests
 import urllib
 
-from openerp import api, fields, models
-from openerp.addons.web.controllers.main import xml2json_from_elementtree
-from openerp.exceptions import UserError
-from openerp.tools.translate import _
+from odoo import api, fields, models
+from odoo.addons.web.controllers.main import xml2json_from_elementtree
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
 
 class ResCompany(models.Model):

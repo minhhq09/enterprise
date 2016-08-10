@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from openerp.http import request
-from openerp.osv import orm
+from odoo.http import request
+from odoo.osv import orm
 import json
 
 class ir_http(orm.AbstractModel):
