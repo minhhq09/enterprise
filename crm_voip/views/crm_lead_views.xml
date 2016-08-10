@@ -14,7 +14,7 @@
               ids = context['active_ids']
           else:
               ids = context['opportunity_id']
-          self.create_call_in_queue(cr, uid, ids, context=context)
+          env['crm.lead'].browse(ids).create_call_in_queue()
       </field>
     </record>
 

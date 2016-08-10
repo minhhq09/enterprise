@@ -133,7 +133,7 @@
     <field name="state">code</field>
     <field name="code">
       if context.get('active_ids'):
-      self.toggle_active(cr, uid, context.get('active_ids'), context=context)
+          env['project.forecast'].browse(context.get('active_ids')).toggle_active()
     </field>
 </record>
 
@@ -241,18 +241,19 @@
     <field name="model_id" ref="model_project_task"/>
     <field name="state">code</field>
     <field name="code">
-task_obj = pool['project.task']
-forecast_obj = pool['project.forecast']
-tasks = task_obj.browse(cr, uid, context.get('active_ids'), context=context)
+task_obj = env['project.task']
+forecast_obj = env['project.forecast']
+tasks = task_obj.browse(context.get('active_ids'))
 forecast_ids = []
 for task in tasks:
-    forecast_ids.append(forecast_obj.create(cr, uid, {
+    forecast_ids.append(forecast_obj.create({
         'project_id': task.project_id.id,
         'task_id': task.id,
         'user_id': task.user_id.id if task.user_id else uid
-        }, context=context))
+        }).id
+      )
 
-view_id = pool['ir.model.data'].get_object_reference(cr, uid, 'project_forecast', 'project_forecast_view_gantt')[1]
+view_id = env['ir.model.data'].get_object_reference('project_forecast', 'project_forecast_view_gantt')[1]
 
 action = {
     "type": "ir.actions.act_window",

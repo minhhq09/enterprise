@@ -117,7 +117,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self.push_product_ebay(cr, uid, ids, context=context)
+          env['product.template'].browse(ids).push_product_ebay()
       </field>
     </record>
 
@@ -139,7 +139,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self.revise_product_ebay(cr, uid, ids, context=context)
+          env['product.template'].browse(ids).revise_product_ebay()
       </field>
     </record>
 
@@ -161,7 +161,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self.relist_product_ebay(cr, uid, ids, context=context)
+          env['product.template'].browse(ids).relist_product_ebay()
       </field>
     </record>
 
@@ -183,7 +183,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self.end_listing_product_ebay(cr, uid, ids, context=context)
+          env['product.template'].browse(ids).end_listing_product_ebay()
       </field>
     </record>
 
@@ -205,7 +205,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self.unlink_listing_product_ebay(cr, uid, ids, context=context)
+          env['product.template'].browse(ids).unlink_listing_product_ebay()
       </field>
     </record>
 

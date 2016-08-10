@@ -232,21 +232,18 @@ class MrpStockReport(models.TransientModel):
             'base_url': base_url,
         }
 
-        body = self.pool['ir.ui.view'].render_template(
-            self._cr, self._uid, "mrp_workorder.report_stock_inventory_print",
+        body = self.env['ir.ui.view'].render_template(
+            "mrp_workorder.report_stock_inventory_print",
             values=dict(rcontext, lines=lines, report=self, context=self),
-            context=self.env.context
         )
 
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.internal_layout",
+        header = self.env['report'].render(
+            "report.internal_layout",
             values=rcontext,
-            context=self.env.context
         )
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.minimal_layout",
+        header = self.env['report'].render(
+            "report.minimal_layout",
             values=dict(rcontext, subst=True, body=header),
-            context=self.env.context
         )
         landscape = True
         return self.env['report']._run_wkhtmltopdf([header], [''], [(0, body)], landscape, self.env.user.company_id.paperformat_id, spec_paperformat_args={'data-report-margin-top': 10, 'data-report-header-spacing': 10})

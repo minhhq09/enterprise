@@ -38,21 +38,22 @@ class SaleSubscription(models.Model):
         ('uuid_uniq', 'unique (uuid)', """UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be unique!"""),
     ]
 
-    def _init_column(self, cr, column_name, context=None):
+    @api.model_cr_context
+    def _init_column(self, column_name):
         # to avoid generating a single default uuid when installing the module,
         # we need to set the default row by row for this column
         if column_name == "uuid":
             _logger.debug("Table '%s': setting default value of new column %s to unique values for each row",
                           self._table, column_name)
-            cr.execute("SELECT id FROM %s WHERE uuid IS NULL" % self._table)
-            acc_ids = cr.dictfetchall()
+            self.env.cr.execute("SELECT id FROM %s WHERE uuid IS NULL" % self._table)
+            acc_ids = self.env.cr.dictfetchall()
             query_list = [{'id': acc_id['id'], 'uuid': str(uuid.uuid4())} for acc_id in acc_ids]
             query = 'UPDATE ' + self._table + ' SET uuid = %(uuid)s WHERE id = %(id)s;'
-            cr._obj.executemany(query, query_list)
-            cr.commit()
+            self.env.cr._obj.executemany(query, query_list)
+            self.env.cr.commit()
 
         else:
-            super(SaleSubscription, self)._init_column(cr, column_name, context=context)
+            super(SaleSubscription, self)._init_column(column_name)
 
     @api.depends('recurring_invoice_line_ids')
     def _amount_all(self):

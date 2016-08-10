@@ -42,14 +42,11 @@ class GovCertificationController(http.Controller):
 class BlackboxPOSController(PosController):
     @http.route()
     def a(self, debug=False, **k):
-        cr, uid, context, session = request.cr, request.uid, request.context, request.session
-
         response = super(BlackboxPOSController, self).a(debug, **k)
 
         if response.status_code == 200:
-            pos_session = request.registry['pos.session']
-            active_pos_session_id = pos_session.search(cr, uid, [('state','=','opened'), ('user_id','=',session.uid)], limit=1, context=context)[0]
-            active_pos_session = pos_session.browse(cr, uid, active_pos_session_id, context=context)
+            pos_session = request.env['pos.session']
+            active_pos_session = pos_session.search([('state', '=', 'opened'), ('user_id', '=', request.session.uid)], limit=1)
             response.qcontext.update({
                 'blackbox': active_pos_session.config_id.blackbox_pos_production_id
             })

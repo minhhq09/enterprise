@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import fields, models, tools
+from openerp import api, fields, models, tools
 
 from openerp.addons.hr_appraisal.models.hr_appraisal import HrAppraisal
 
@@ -20,9 +20,10 @@ class HrAppraisalReport(models.Model):
 
     _order = 'create_date desc'
 
-    def init(self, cr):
-        tools.drop_view_if_exists(cr, 'hr_appraisal_report')
-        cr.execute("""
+    @api.model_cr
+    def init(self):
+        tools.drop_view_if_exists(self.env.cr, 'hr_appraisal_report')
+        self.env.cr.execute("""
             create or replace view hr_appraisal_report as (
                  select
                      min(a.id) as id,

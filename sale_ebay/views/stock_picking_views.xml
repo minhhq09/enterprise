@@ -11,7 +11,7 @@
               ids = context['active_ids']
           else:
               ids = context['active_id']
-          self._ebay_update_carrier(cr, uid, ids, context=context)
+          env['stock.picking'].browse(ids)._ebay_update_carrier()
       </field>
     </record>
 
