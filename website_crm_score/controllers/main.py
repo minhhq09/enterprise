@@ -20,12 +20,11 @@ class PageController(Website):
                 pass  # view not found
             else:
                 if view.track:  # avoid tracking redirected page
-                    cr, uid, context = request.cr, request.uid, request.context
                     lead_id = request.env["crm.lead"].decode(request)
                     url = request.httprequest.url
                     vals = {'lead_id': lead_id, 'user_id': request.session.get('uid'), 'url': url}
 
-                    if not lead_id or request.registry['website.crm.pageview'].create_pageview(cr, uid, vals, context=context):
+                    if not lead_id or request.env['website.crm.pageview'].create_pageview(vals):
                         # create_pageview failed
                         response.delete_cookie('lead_id')
                         request.session.setdefault('pages_viewed', {})[url] = fields.Datetime.now()
@@ -45,7 +44,7 @@ class ContactController(WebsiteForm):
         # the cookie is written here because the response is not available in the create_lead function
         response_data = json.loads(response.data)  # controller is json now
         if 'id' in response_data:  # a new lead has been created
-            lead_model = request.registry['crm.lead']
+            lead_model = request.env['crm.lead']
             # sign the lead_id
             sign = lead_model.encode(response_data['id'])
             response.set_cookie('lead_id', sign, domain=lead_model.get_score_domain_cookies())
@@ -59,9 +58,7 @@ class ContactController(WebsiteForm):
         if model.model != 'crm.lead':
             return super(ContactController, self).insert_record(request, model, values, custom, meta)
 
-        cr, context = request.cr, request.context
-
-        lead_model = request.registry["crm.lead"]
+        lead_model = request.env["crm.lead"]
         lead_id = lead_model.decode(request)
 
         # domain: leads that are still open:
@@ -75,11 +72,11 @@ class ContactController(WebsiteForm):
             ('stage_id.probability', '!=', 0),
             ('stage_id.probability', '!=', 100)
         ]
-        lead_instance = lead_model.search(cr, SUPERUSER_ID, domain, context=context)
+        lead_instance = lead_model.sudo().search(domain)
 
         if lead_instance:
             # a lead_id cookie exists and it has not been altered and the lead is not closed
-            lead = lead_model.browse(cr, SUPERUSER_ID, lead_id, context=context)
+            lead = lead_model.sudo().browse(lead_id)
 
             # NOTE: the following should be changed when dynamic forms exist
             changed_values = {}
@@ -94,15 +91,14 @@ class ContactController(WebsiteForm):
                 body = 'Other value given for field '
                 for fieldname in changed_values.keys():
                     body += '<br/><b>%s</b>: <b>%s</b>' % (fieldname, html_escape(changed_values[fieldname]))
-                request.registry['crm.lead'].message_post(cr, SUPERUSER_ID, [lead_id], body=body, subject="Field value changed", context=context)
+                request.env['crm.lead'].browse(lead_id).sudo().message_post(body=body, subject="Field value changed")
 
             return lead_id
 
         else:
             # either no lead_id cookie OR the lead_id doesn't exist in db OR the current one is closed -> a lead is created
-            lang = context.get('lang', False)
-            lang_id = request.registry["res.lang"].search(cr, SUPERUSER_ID, [('code', '=', lang)], context=context)
-            lang_id = lang_id and lang_id[0] or False
+            lang = request.context.get('lang', False)
+            lang_id = request.env["res.lang"].sudo().search([('code', '=', lang)], limit=1).id
             values['lang_id'] = lang_id
             body = None
 
@@ -126,6 +122,6 @@ class ContactController(WebsiteForm):
 
             # if pages were seen, a message is posted
             if body:
-                request.registry['crm.lead'].message_post(cr, SUPERUSER_ID, [new_lead_id], body=body, subject="Pages visited", context=context)
+                request.env['crm.lead'].browse(new_lead_id).sudo().message_post(body=body, subject="Pages visited")
 
             return new_lead_id

@@ -7,18 +7,17 @@ class test_assign(TestScoring):
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
     def test_00_assign(self):
-        cr, uid = self.cr, self.uid
         all_lead_ids = [self.lead0, self.lead1, self.lead2, self.lead3, self.lead4]
 
-        count = self.crm_lead.search_count(cr, uid, [('id', 'in', all_lead_ids)], None)
+        count = self.crm_lead.search_count([('id', 'in', all_lead_ids)])
         self.assertEqual(count, len(all_lead_ids), 'Some leads are missing for test %s vs %s' % (count, len(all_lead_ids)))
         # scoring
-        self.website_crm_score.assign_scores_to_leads(cr, uid)
+        self.website_crm_score.assign_scores_to_leads()
 
-        l0 = self.crm_lead.read(cr, uid, [self.lead0], ['score'], None)[0]
-        l1 = self.crm_lead.read(cr, uid, [self.lead1], ['score'], None)[0]
-        l2 = self.crm_lead.read(cr, uid, [self.lead2], ['score', 'active'], None)[0]
-        l3 = self.crm_lead.read(cr, uid, [self.lead3], ['score', 'active'], dict(test_active=False))[0]
+        [l0] = self.crm_lead.browse(self.lead0).read(['score'])
+        [l1] = self.crm_lead.browse(self.lead1).read(['score'])
+        [l2] = self.crm_lead.browse(self.lead2).read(['score', 'active'])
+        [l3] = self.crm_lead.browse(self.lead3).with_context(dict(test_active=False)).read(['score', 'active'])
 
         self.assertEqual(l0['score'], 1000, 'scoring failed')
         self.assertEqual(l1['score'], 900, 'scoring failed')
@@ -27,20 +26,20 @@ class test_assign(TestScoring):
         self.assertEqual(l2['active'], True, ' should NOT be archived')
         self.assertEqual(l3['active'], False, ' should be archived')
 
-        count = self.crm_lead.search_count(cr, uid, [('id', 'in', all_lead_ids)], None)
+        count = self.crm_lead.search_count([('id', 'in', all_lead_ids)])
         self.assertEqual(count, len(all_lead_ids) - 2, 'One lead should be deleted and one archived')
 
         # assignation
-        self.team.direct_assign_leads(cr, uid, None)
+        self.team.direct_assign_leads()
 
-        l0 = self.crm_lead.read(cr, uid, [self.lead0], ['team_id', 'user_id'], None)[0]
-        l1 = self.crm_lead.read(cr, uid, [self.lead1], ['team_id', 'user_id'], None)[0]
-        l2 = self.crm_lead.read(cr, uid, [self.lead2], ['team_id', 'user_id'], None)[0]
+        [l0] = self.crm_lead.browse(self.lead0).read(['team_id', 'user_id'])
+        [l1] = self.crm_lead.browse(self.lead1).read(['team_id', 'user_id'])
+        [l2] = self.crm_lead.browse(self.lead2).read(['team_id', 'user_id'])
 
-        self.assertEqual(l0['team_id'], self.team0, 'assignation failed')
-        self.assertEqual(l1['team_id'], self.team1, 'assignation failed')
+        self.assertEqual(l0['team_id'][0], self.team0, 'assignation failed')
+        self.assertEqual(l1['team_id'][0], self.team1, 'assignation failed')
         self.assertEqual(l2['team_id'], False, 'assignation failed')
 
-        self.assertEqual(l0['user_id'], self.salesmen0, 'assignation failed')
-        self.assertEqual(l1['user_id'], self.salesmen1, 'assignation failed')
+        self.assertEqual(l0['user_id'][0], self.salesmen0, 'assignation failed')
+        self.assertEqual(l1['user_id'][0], self.salesmen1, 'assignation failed')
         self.assertEqual(l2['user_id'], False, 'assignation failed')
