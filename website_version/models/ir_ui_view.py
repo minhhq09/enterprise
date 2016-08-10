@@ -99,12 +99,16 @@ class view(models.Model):
         return [x for x in arch if x[1] in chosen_view_ids]
 
     #To active or desactive the right views according to the key
-    def toggle(self, cr, uid, ids, context=None):
+    @api.multi
+    def toggle(self):
         """ Switches between enabled and disabled statuses
         """
-        for view in self.browse(cr, uid, ids, context=dict(context or {}, active_test=False)):
-            all_id = self.search(cr, uid, [('key', '=', view.key)], context=dict(context or {}, active_test=False))
-            for v in self.browse(cr, uid, all_id, context=dict(context or {}, active_test=False)):
+        ctx = self.env.context.copy()
+        ctx['active_test'] = False
+
+        for view in self:
+            all_records = self.with_context(ctx).search([('key', '=', view.key)])
+            for v in all_records:
                 v.write({'active': not v.active})
 
     @api.model

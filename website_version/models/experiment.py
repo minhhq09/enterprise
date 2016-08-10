@@ -62,11 +62,11 @@ class Experiment(models.Model):
                 if not exp_ver.version_id.website_id.id == exp.website_id.id:
                     raise ValidationError('This experiment must have versions which are in the same website')
 
-    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         """ Override read_group to always display all states. """
         if groupby and groupby[0] == "state":
             # Default result structure
-            # states = self._get_state_list(cr, uid, context=context)
             states = [('running', 'Running'), ('paused', 'Paused'), ('ended', 'Ended')]
             read_group_all_states = [{
                 '__context': {'group_by': groupby[1:]},
@@ -75,7 +75,7 @@ class Experiment(models.Model):
                 'state_count': 0,
             } for state_value, state_name in states]
             # Get standard results
-            read_group_res = super(Experiment, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby)
+            read_group_res = super(Experiment, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby)
             # Update standard results with default results
             result = []
             for state_value, state_name in states:
@@ -86,7 +86,7 @@ class Experiment(models.Model):
                 result.append(res[0])
             return result
         else:
-            return super(Experiment, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby)
+            return super(Experiment, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby)
 
     @api.one
     def _get_version_number(self):

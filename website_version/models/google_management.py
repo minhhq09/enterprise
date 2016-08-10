@@ -136,11 +136,10 @@ class google_management(models.AbstractModel):
     # Should be called at configuration
     def get_management_scope(self):
         return 'https://www.googleapis.com/auth/analytics https://www.googleapis.com/auth/analytics.edit'
-        
+
     @api.model
     def authorize_google_uri(self, from_url='http://www.odoo.com', context=None):
-        url = self.pool['google.service']._get_authorize_uri(self.env.cr, self.env.uid, from_url, self.STR_SERVICE, scope=self.get_management_scope(), context=self.env.context)
-        return url
+        return self.env['google.service']._get_authorize_uri(from_url, self.STR_SERVICE, scope=self.get_management_scope())
 
     # convert code from authorize into token
     @api.model
