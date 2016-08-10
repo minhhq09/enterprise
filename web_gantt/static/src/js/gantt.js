@@ -1052,7 +1052,7 @@ var GanttView = View.extend({
                 //content
                 var content;
                 if (self.type === 'consolidate') {
-                    var label = self.fields_view.arch.attrs.consolidation_label || self.fields[self.fields_view.arch.attrs.consolidation].string;
+                    var label = self.fields_view.arch.attrs.string || self.fields[self.fields_view.arch.attrs.consolidation].string;
                     content = acc + "<span class=\"half_opacity\"> " + label + "</span>";
                     if (acc === 0 || width < 15 || (self.consolidation_max && acc === self.consolidation_max)) content = "";
                 } else {
