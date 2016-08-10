@@ -1,3 +1,6 @@
 # -*- coding: utf-8 -*-
-import crm_voip
-import res_config
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+import models
+import report
+import wizard

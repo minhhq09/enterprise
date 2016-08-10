@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     'name': "Odoo VOIP",
 
@@ -21,17 +23,19 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/crm_phonecall_to_phonecall_view.xml',
-        'views/crm_voip.xml',
-        'views/phonecall.xml',
-        'views/opportunities.xml',
-        'views/res_config_view.xml',
-        'views/res_partner_view.xml',
-        'views/crm_phonecall_report_view.xml',
+        'wizard/crm_phonecall_log_wizard_views.xml',
+        'wizard/crm_phonecall_schedule_wizard_views.xml',
+        'wizard/crm_phonecall_transfer_wizard_views.xml',
+        'views/crm_voip_templates.xml',
+        'views/crm_phonecall_views.xml',
+        'views/crm_lead_views.xml',
+        'views/res_config_views.xml',
+        'views/res_partner_views.xml',
+        'views/crm_phonecall_report_views.xml',
+        'data/mail_template_data.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo.xml',
     ],
     'js': ['static/src/js/*.js'],
     'css': ['static/src/css/*.css'],
