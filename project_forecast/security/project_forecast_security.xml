@@ -15,5 +15,15 @@
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
     </record>
 
+    <record model="ir.rule" id="forecast_project_multi_company_rule">
+      <field name="name">Forecast in multi company</field>
+      <field name="model_id" ref="project_forecast.model_project_forecast"/>
+      <field name="domain_force">[
+      '&amp;',
+          '|',('task_id.company_id','=',False),('task_id.company_id', 'child_of', [user.company_id.id]),
+          '|', ('project_id.company_id','=', False),('project_id.company_id', 'child_of', [user.company_id.id])
+      ]</field>
+    </record>
+
 </data>
 </openerp>

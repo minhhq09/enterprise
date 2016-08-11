@@ -96,9 +96,15 @@ class ProviderUPS(models.Model):
             if picking.weight_bulk:
                 packages.append(Package(self, picking.weight_bulk))
 
+            invoice_line_total = 0
+            for move in picking.move_lines:
+                invoice_line_total += picking.company_id.currency_id.round(move.product_id.lst_price * move.product_qty)
+
             shipment_info = {
                 'description': picking.origin,
-                'total_qty': total_qty
+                'total_qty': total_qty,
+                'ilt_monetary_value': '%d' % invoice_line_total,
+                'itl_currency_code': self.env.user.company_id.currency_id.name,
             }
             srm.check_required_value(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id, picking=picking)
 
