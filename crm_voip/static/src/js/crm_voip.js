@@ -791,6 +791,17 @@ var VoipTopButton = Widget.extend({
         "click": "toggle_display",
     },
 
+    // TODO remove and replace with session_info mechanism
+    willStart: function(){
+        var ready = this.session.user_has_group('base.group_user').then(
+            function(is_employee){
+                if (!is_employee) {
+                    return $.Deferred().reject();
+                }
+            });
+        return $.when(this._super.apply(this, arguments), ready);
+    },
+
     toggle_display: function (ev){
         ev.preventDefault();
         core.bus.trigger('voip_toggle_display');

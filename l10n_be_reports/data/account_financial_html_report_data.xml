@@ -1302,7 +1302,7 @@
         <record id="account_financial_report_l10n_be_tva_61_0" model="account.financial.html.report.line">
             <field name="name">61 - Diverses régularisations en faveur de l'Etat</field>
             <field name="code">BETAX61</field>
-            <field name="formulas">balance = sum.credit</field>
+            <field name="formulas">balance = sum.debit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_61')])]" />
             <field name="action_id" ref="action_be_vat_statement_new_move_61" />
@@ -1347,7 +1347,7 @@
         <record id="account_financial_report_l10n_be_tva_62_0" model="account.financial.html.report.line">
             <field name="name">62 - Diverses régularisations en faveur du déclarant</field>
             <field name="code">BETAX62</field>
-            <field name="formulas">balance = sum.debit</field>
+            <field name="formulas">balance = sum.credit</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_deductibles0'/>
             <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_62')])]" />
             <field name="action_id" ref="action_be_vat_statement_new_move_62" />
