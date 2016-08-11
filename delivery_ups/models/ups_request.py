@@ -407,6 +407,11 @@ class UPSRequest():
         shipment.ShipmentServiceOptions = ''
         shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = suds.null()
 
+        # Shipments from US to CA or PR require extra info
+        if ship_from.country_id.code == 'US' and ship_to.country_id.code in ['CA', 'PR']:
+            shipment.InvoiceLineTotal.CurrencyCode = shipment_info.get('itl_currency_code')
+            shipment.InvoiceLineTotal.MonetaryValue = shipment_info.get('ilt_monetary_value')
+
         # set the default method for payment using shipper account
         payment_info = client.factory.create('ns3:PaymentInformation')
         shipcharge = client.factory.create('ns3:ShipmentCharge')
