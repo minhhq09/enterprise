@@ -103,10 +103,7 @@ class Package():
         self.weight_unit = carrier.ups_package_weight_unit
         self.name = name
         self.dimension_unit = carrier.ups_package_dimension_unit
-        if quant_pack:
-            self.dimension = {'length': quant_pack.ul.length, 'width': quant_pack.ul.width, 'height': quant_pack.ul.height}
-        else:
-            self.dimension = {'length': carrier.ups_package_length, 'width': carrier.ups_package_width, 'height': carrier.ups_package_height}
+        self.dimension = {'length': carrier.ups_package_length, 'width': carrier.ups_package_width, 'height': carrier.ups_package_height}
 
     def _convert_weight(self, weight, unit='KGS'):
         ''' Convert picking weight (always expressed in KGS) into the specified unit '''
