@@ -167,7 +167,7 @@ var AppSwitcher = Widget.extend({
                 is_searching: true,
             });
         }
-        if ('focus' in data) {
+        if (this.state.focus !== null && 'focus' in data) {
             var state = this.state;
             var app_nbr = state.apps.length;
             var new_index = data.focus + (state.focus || 0);
