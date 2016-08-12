@@ -10,6 +10,7 @@ class TaxCloudConfigSettings(models.TransientModel):
 
     taxcloud_api_id = fields.Char(string='TaxCloud API ID')
     taxcloud_api_key = fields.Char(string='TaxCloud API KEY')
+    tic_category_id = fields.Many2one(related='company_id.tic_category_id', string="Default TIC Code *")
 
     @api.multi
     def set_default_taxcloud(self):

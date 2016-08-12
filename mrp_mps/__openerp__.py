@@ -25,10 +25,10 @@ procure.
 """,
     'data': [
         'security/ir.model.access.csv',
-        'views/res_company_views.xml',
         'views/product_views.xml',
         'views/mrp_mps_report_views.xml',
         'report/mrp_mps_report_templates.xml',
+        'views/mrp_config_settings_views.xml'
     ],
     'demo': [
         'data/mps_demo.xml',

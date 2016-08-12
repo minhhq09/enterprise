@@ -9,6 +9,9 @@
                <xpath expr="//label[@for='module_account_reports_followup']" position="after">
                     <button type="object" name="open_followup_level_form" string="Configure your follow-up levels" class="oe_link"/>
                 </xpath>
+                <xpath expr="//field[@name='days_between_two_followups']" position="replace">
+                    <field name="min_days_between_followup"/>
+                </xpath>
             </field>
         </record>
     </data>

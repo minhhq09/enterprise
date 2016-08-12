@@ -17,7 +17,7 @@
         'views/account_journal_dashboard_view.xml',
         'views/sepa_credit_transfer_view.xml',
         'views/account_payment.xml',
-        'views/res_company_view.xml',
+        'views/res_config_view.xml',
     ],
     'license': 'OEEL-1',
 }
