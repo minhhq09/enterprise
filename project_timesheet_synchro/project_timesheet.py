@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api
-from openerp.exceptions import UserError, AccessError
+from odoo import models, api
+from odoo.exceptions import UserError, AccessError
 
 import time
 import datetime
 from dateutil.relativedelta import relativedelta
-from openerp import tools
-from openerp.tools.translate import _
+from odoo import tools
+from odoo.tools.translate import _
 
 
 class account_analytic_line(models.Model):

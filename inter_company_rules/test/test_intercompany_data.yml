@@ -103,14 +103,14 @@
 -
   Install COA for new companies.
 -
-  !python {model: account.installer}: |
-    wiz_comp_a = self.create(cr, uid, {'charts': 'configurable', 'company_id': ref("company_a")})
-    self.execute(cr, uid, [wiz_comp_a])
-    wiz_comp_b = self.create(cr, uid, {'charts': 'configurable', 'company_id': ref("company_b")})
-    self.execute(cr, uid, [wiz_comp_b])
+  !python {model: account.installer, id: False}: |
+    wiz_comp_a = self.create({'charts': 'configurable', 'company_id': ref("company_a")})
+    wiz_comp_a.execute()
+    wiz_comp_b = self.create({'charts': 'configurable', 'company_id': ref("company_b")})
+    wiz_comp_b.execute()
 -
-  !python {model: wizard.multi.charts.accounts}: |
-    wiz_comp_a = self.create(cr, uid, {
+  !python {model: wizard.multi.charts.accounts, id: False}: |
+    wiz_comp_a = self.create({
         'chart_template_id': '1',
         'company_id': ref("company_a"),
         'currency_id': ref("base.EUR"),
@@ -119,8 +119,8 @@
         'purchase_tax_id': False,
         'bank_account_code_prefix': 'COMP_A',
         'sale_tax_id': False})
-    self.execute(cr, uid, [wiz_comp_a])
-    wiz_comp_b = self.create(cr, uid, {
+    wiz_comp_a.execute()
+    wiz_comp_b = self.create({
         'chart_template_id': '1',
         'company_id': ref("company_b"),
         'currency_id': ref("base.EUR"),
@@ -129,23 +129,31 @@
         'purchase_tax_id': False,
         'bank_account_code_prefix': 'COMP_B',
         'sale_tax_id': False})
-    self.execute(cr, uid, [wiz_comp_b])
+    wiz_comp_b.execute()
 -
   Now remove company from related partners of company and apply default accounts.
 -
-  !python {model: res.partner}: |
-    account_obj = self.pool.get("account.account")
-    account_receivable_a = account_obj.search(cr, uid, [('company_id', '=', ref("company_a")), ('user_type_id.type', '=', 'receivable')], limit=1, context=context)
-    account_payable_a = account_obj.search(cr, uid, [('company_id', '=', ref("company_a")), ('user_type_id.type', '=', 'payable')], limit=1, context=context)
-    self.write(cr, uid, [ref("partner_company_a")], {
+  !python {model: res.partner, id: False}: |
+    account_obj = self.env["account.account"]
+    account_receivable_a = account_obj.search([
+        ('company_id', '=', ref("company_a")),
+        ('user_type_id.type', '=', 'receivable')], limit=1).id
+    account_payable_a = account_obj.search([
+        ('company_id', '=', ref("company_a")),
+        ('user_type_id.type', '=', 'payable')], limit=1).id
+    self.browse(ref("partner_company_a")).write({
         'company_id': False,
         'property_account_receivable_id': account_receivable_a,
         'property_account_payable_id': account_payable_a
-    }, context=context)
-    account_receivable_b = account_obj.search(cr, uid, [('company_id', '=', ref("company_b")), ('user_type_id.type', '=', 'receivable')], limit=1, context=context)
-    account_payable_b = account_obj.search(cr, uid, [('company_id', '=', ref("company_b")), ('user_type_id.type', '=', 'payable')], limit=1, context=context)
-    self.write(cr, uid, [ref("partner_company_b")], {
+    })
+    account_receivable_b = account_obj.search([
+        ('company_id', '=', ref("company_b")),
+        ('user_type_id.type', '=', 'receivable')], limit=1).id
+    account_payable_b = account_obj.search([
+        ('company_id', '=', ref("company_b")),
+        ('user_type_id.type', '=', 'payable')], limit=1).id
+    self.browse(ref("partner_company_b")).write({
         'company_id': False,
         'property_account_receivable_id': account_receivable_b,
         'property_account_payable_id': account_payable_b
-    }, context=context)
+    })

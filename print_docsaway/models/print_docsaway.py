@@ -3,11 +3,11 @@ import json
 import urllib2
 from ssl import SSLError
 
-from openerp import api, fields, models
-from openerp.exceptions import UserError
-from openerp.tools.translate import _
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
-from openerp.addons.print_docsaway.data.print_docsaway_error import _DOCSAWAY_ERROR_ACCOUNT, _DOCSAWAY_ERROR_STATION, _DOCSAWAY_ERROR_PRICE, _DOCSAWAY_ERROR_MAIL
+from odoo.addons.print_docsaway.data.print_docsaway_error import _DOCSAWAY_ERROR_ACCOUNT, _DOCSAWAY_ERROR_STATION, _DOCSAWAY_ERROR_PRICE, _DOCSAWAY_ERROR_MAIL
 
 # URLs for requests
 _DOCSAWAY_GETACCOUNT_URL = 'https://www.docsaway.com/app/api/rest/account.json'

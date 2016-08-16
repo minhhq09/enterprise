@@ -4,8 +4,8 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
-from openerp import fields
-from openerp.tests.common import TransactionCase
+from odoo import fields
+from odoo.tests.common import TransactionCase
 
 
 class TestHrAppraisal(TransactionCase):
@@ -26,7 +26,7 @@ class TestHrAppraisal(TransactionCase):
             job_id=self.env.ref('hr.job_developer').id,
             work_location="Grand-Rosière",
             work_phone="+3281813700",
-            work_email='michael@openerp.com',
+            work_email='michael@odoo.com',
             appraisal_by_manager=True,
             appraisal_manager_ids=[self.env.ref('hr.employee_al').id],
             appraisal_manager_survey_id=self.env.ref('survey.feedback_form').id,

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, api
-from openerp.exceptions import Warning
-from openerp.http import request
-from openerp.tools.translate import _
+from odoo import fields, models, api
+from odoo.exceptions import Warning
+from odoo.http import request
+from odoo.tools.translate import _
 
 
 class version(models.Model):

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<openerp>
+<odoo>
 
     <data noupdate="1">
         <!-- Scheduler for Lead Scoring and Assignation -->
@@ -38,7 +38,7 @@
             <field name="model_id" ref="model_website_crm_score"/>
             <field name="state">code</field>
             <field name="code">
-    self.assign_scores_to_leads(cr, uid, context['active_ids'], context=context)
+    self.env['website.crm.score'].assign_scores_to_leads(context['active_ids'])
             </field>
         </record>
 
@@ -248,4 +248,4 @@
         <menuitem id="team" name="Teams Assignation" parent="leads_menu" action="team_action" />
 
     </data>
-</openerp>
+</odoo>

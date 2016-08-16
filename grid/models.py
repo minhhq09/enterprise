@@ -6,8 +6,8 @@ from functools import partial
 import babel.dates
 from dateutil.relativedelta import relativedelta, MO, SU
 
-from openerp import _, api, fields, models
-from openerp.osv import expression
+from odoo import _, api, fields, models
+from odoo.osv import expression
 
 _GRID_TUP = [('grid', "Grid")]
 

@@ -5,7 +5,7 @@ import datetime
 from dateutil import relativedelta
 
 from odoo import api, fields, models, _
-from openerp.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 NUMBER_OF_COLS = 12

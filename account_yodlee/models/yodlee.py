@@ -7,10 +7,10 @@ import time
 import logging
 import uuid
 
-from openerp import models, api, fields
-from openerp.exceptions import UserError
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import models, api, fields
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 _logger = logging.getLogger(__name__)
 

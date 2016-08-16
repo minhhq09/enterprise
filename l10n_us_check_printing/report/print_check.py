@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from openerp.osv import osv
-from openerp.report import report_sxw
-from openerp.tools.translate import _
+from odoo.osv import osv
+from odoo.report import report_sxw
+from odoo.tools.translate import _
 
 LINE_FILLER = '*'
 INV_LINES_PER_STUB = 9

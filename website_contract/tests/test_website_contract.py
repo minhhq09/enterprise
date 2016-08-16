@@ -3,8 +3,8 @@ import calendar
 import datetime
 
 from .test_common import TestContractCommon
-from openerp.exceptions import ValidationError
-from openerp.tools import mute_logger, float_utils
+from odoo.exceptions import ValidationError
+from odoo.tools import mute_logger, float_utils
 
 
 class TestContract(TestContractCommon):

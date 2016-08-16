@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp import api, models
-from openerp.tools.translate import _
+from odoo import api, models
+from odoo.tools.translate import _
 
 
 class SaleOrder(models.Model):

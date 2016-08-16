@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 
-from openerp import models, fields, api, _
-import openerp.exceptions
-from openerp.osv import expression
+from odoo import models, fields, api, _
+import odoo.exceptions
+from odoo.osv import expression
 
 
 class Project(models.Model):
@@ -19,7 +19,7 @@ class Project(models.Model):
         """, [self.id])
         [count] = self.env.cr.fetchone()
         if count:
-            raise openerp.exceptions.UserError(
+            raise odoo.exceptions.UserError(
                 _("Can only be used for forecasts not spanning multiple months, "
                   "found %(forecast_count)d forecast(s) spanning across "
                   "months in %(project_name)s") % {
@@ -63,11 +63,11 @@ class Forecast(models.Model):
         project = self.env['project.project'].browse(self.env.context['default_project_id'])
 
         if step != 'month':
-            raise openerp.exceptions.UserError(
+            raise odoo.exceptions.UserError(
                 _("Forecasting over a project only supports monthly forecasts (got step {})").format(step)
             )
         if not project.date_start:
-            raise openerp.exceptions.UserError(
+            raise odoo.exceptions.UserError(
                 _("A project must have a start date to use a forecast grid, "
                   "found no start date for {project.display_name}").format(
                     project=project
@@ -81,7 +81,7 @@ class Forecast(models.Model):
 
         project = self.env['project.project'].browse(self.env.context['default_project_id'])
         if not project.date:
-            raise openerp.exceptions.UserError(
+            raise odoo.exceptions.UserError(
                 _("A project must have an end date to use a forecast grid, "
                   "found no end date for {project.display_name").format(
                     project=project
@@ -97,7 +97,7 @@ class Forecast(models.Model):
     @api.multi
     def adjust_grid(self, row_domain, column_field, column_value, cell_field, change):
         if column_field != 'start_date' or cell_field != 'resource_hours':
-            raise openerp.exceptions.UserError(
+            raise odoo.exceptions.UserError(
                 _("Grid adjustment for project forecasts only supports the "
                   "'start_date' columns field and the 'resource_hours' cell "
                   "field, got respectively %(column_field)r and "

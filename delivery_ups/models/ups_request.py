@@ -19,8 +19,8 @@ from suds.sax.element import Element
 
 SUDS_VERSION = suds.__version__
 
-from openerp import _
-from openerp.exceptions import ValidationError
+from odoo import _
+from odoo.exceptions import ValidationError
 
 
 _logger = logging.getLogger(__name__)

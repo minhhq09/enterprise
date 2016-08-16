@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, _, osv
+from odoo import models, fields, api, _, osv
 import xlsxwriter
-from openerp.exceptions import Warning
+from odoo.exceptions import Warning
 from datetime import timedelta, datetime
 import calendar
 import json
 import StringIO
-from openerp.tools import config
+from odoo.tools import config
 
 
 class AccountReportFootnotesManager(models.TransientModel):
@@ -425,21 +425,18 @@ class AccountReportContextCommon(models.TransientModel):
             'company': self.env.user.company_id,
         }
 
-        body = self.pool['ir.ui.view'].render_template(
-            self._cr, self._uid, "account_reports.report_financial_letter",
+        body = self.env['ir.ui.view'].render_template(
+            "account_reports.report_financial_letter",
             values=dict(rcontext, lines=lines, footnotes=footnotes, report=report_obj, context=self),
-            context=self.env.context
         )
 
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.internal_layout",
+        header = self.env['report'].render(
+            "report.internal_layout",
             values=rcontext,
-            context=self.env.context
         )
-        header = self.pool['report'].render(
-            self._cr, self._uid, [], "report.minimal_layout",
+        header = self.env['report'].render(
+            "report.minimal_layout",
             values=dict(rcontext, subst=True, body=header),
-            context=self.env.context
         )
 
         landscape = False

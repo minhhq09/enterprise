@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, api
+from odoo import fields, models, api
 
 # TODO: To remove in v10
 class PlaidConfigSettings(models.TransientModel):

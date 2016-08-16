@@ -7,9 +7,9 @@ import base64
 
 from lxml import etree
 
-from openerp import models, fields, api, _
-from openerp.tools import float_round, DEFAULT_SERVER_DATE_FORMAT
-from openerp.exceptions import UserError, ValidationError
+from odoo import models, fields, api, _
+from odoo.tools import float_round, DEFAULT_SERVER_DATE_FORMAT
+from odoo.exceptions import UserError, ValidationError
 
 
 def check_valid_SEPA_str(string):
@@ -57,13 +57,7 @@ class AccountSepaCreditTransfer(models.TransientModel):
     file = fields.Binary('SEPA XML File', readonly=True)
     filename = fields.Char(string='Filename', size=256, readonly=True)
 
-    @api.v7
-    def create_sepa_credit_transfer(self, cr, uid, payment_ids, context=None):
-        recs = self.browse(cr, uid, [], context=context)
-        payments = self.pool['account.payment'].browse(cr, uid, payment_ids, context=context)
-        return AccountSepaCreditTransfer.create_sepa_credit_transfer(recs, payments)
-
-    @api.v8
+    @api.model
     def create_sepa_credit_transfer(self, payments):
         """ Create a new instance of this model then open a wizard allowing to download the file
         """

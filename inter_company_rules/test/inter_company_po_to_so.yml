@@ -25,11 +25,10 @@
 -
   I check that the Quotation of sale order is created with proper data.
 -
-  !python {model: sale.order}: |
+  !python {model: sale.order, id: False}: |
     #NOTE: Browse PO with superuser id because of different company of user.
-    po_name = self.pool.get('purchase.order').browse(cr, 1, ref("purchase_order_cmpa"), context=context).name
-    sale_order_ids = self.search(cr, uid, [('client_order_ref', '=', po_name)], context=context)
-    sale_order= self.browse(cr, uid, sale_order_ids[0], context=context)
+    po_name = self.env['purchase.order'].sudo().browse(ref("purchase_order_cmpa")).name
+    sale_order = self.search([('client_order_ref', '=', po_name)], limit=1)
     assert sale_order.state == "draft", "sale order should be in draft state."
     assert sale_order.partner_id.id == ref("partner_company_a"), "Vendor does not correspond to Company A."
     assert sale_order.company_id.id == ref("company_b"), "Applied company in created sale order is incorrect."

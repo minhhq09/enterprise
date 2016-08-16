@@ -1,8 +1,8 @@
 # Make sure / performs a floating point division even if environment is python 2
 from __future__ import division
 
-from openerp.addons.account.tests.account_test_classes import AccountingTestCase
-from openerp.addons.l10n_us_check_printing.report import print_check
+from odoo.addons.account.tests.account_test_classes import AccountingTestCase
+from odoo.addons.l10n_us_check_printing.report import print_check
 import time
 
 import math

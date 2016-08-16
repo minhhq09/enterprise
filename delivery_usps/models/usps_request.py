@@ -6,8 +6,8 @@ import re
 from lxml import etree
 from urllib2 import Request, urlopen, URLError, quote
 
-from openerp import _
-from openerp.exceptions import ValidationError
+from odoo import _
+from odoo.exceptions import ValidationError
 
 # This demo data is only used for the cancel shipping.
 # https://www.usps.com/business/web-tools-apis/package-pickup-api.htm#_Toc289864484

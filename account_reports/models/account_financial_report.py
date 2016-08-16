@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api, _
-from openerp.tools.safe_eval import safe_eval
-from openerp.tools.misc import formatLang
-from openerp.tools import float_is_zero
+from odoo import models, fields, api, _
+from odoo.tools.safe_eval import safe_eval
+from odoo.tools.misc import formatLang
+from odoo.tools import float_is_zero
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from openerp.exceptions import ValidationError
-from openerp.osv import expression
+from odoo.exceptions import ValidationError
+from odoo.osv import expression
 
 
 class ReportAccountFinancialReport(models.Model):

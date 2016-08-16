@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import requests
 import json
-from openerp import api, fields, models
-from openerp.exceptions import UserError
-from openerp.tools.translate import _
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools.translate import _
 
 # TODO: To remove in v10
 class YodleeConfigSettings(models.TransientModel):

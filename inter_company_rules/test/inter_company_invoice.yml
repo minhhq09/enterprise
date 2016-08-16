@@ -62,9 +62,8 @@
 -
   I check that the vendor bill is created with proper data.
 -
-  !python {model: account.invoice}: |
-    supplier_invoices = self.search(cr, uid, [('type','=','in_invoice')], context=context)
-    supplier_invoice = self.browse(cr, uid, supplier_invoices[0], context=context)
+  !python {model: account.invoice, id: False}: |
+    supplier_invoice = self.search([('type','=','in_invoice')], limit=1)
 
     #check invoice line is created with proper data
     assert supplier_invoice.invoice_line_ids[0].quantity == 1, "Quantity in invoice line is incorrect."

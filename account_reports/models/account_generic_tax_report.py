@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, api
-from openerp.tools.translate import _
-from openerp.tools.misc import formatLang
+from odoo import models, api
+from odoo.tools.translate import _
+from odoo.tools.misc import formatLang
 
 
 class report_account_generic_tax_report(models.AbstractModel):

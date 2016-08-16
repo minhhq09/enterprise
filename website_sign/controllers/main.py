@@ -4,8 +4,8 @@ import mimetypes
 import os
 import re
 
-from openerp import http, _
-from openerp.addons.web.controllers.main import content_disposition
+from odoo import http, _
+from odoo.addons.web.controllers.main import content_disposition
 
 class WebsiteSign(http.Controller):
 

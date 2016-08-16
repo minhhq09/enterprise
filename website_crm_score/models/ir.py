@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models
-from openerp.http import request
-from openerp.osv import osv
+from odoo import fields, models
+from odoo.http import request
+from odoo.osv import osv
 
 
 class ir_http(models.AbstractModel):

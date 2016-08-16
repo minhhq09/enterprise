@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, api
-from openerp.tools.safe_eval import safe_eval
-from openerp.osv.expression import expression
+from odoo import fields, models, api
+from odoo.tools.safe_eval import safe_eval
+from odoo.osv.expression import expression
 import datetime
 import logging
 

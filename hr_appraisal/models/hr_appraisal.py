@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 
-from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class HrAppraisal(models.Model):
@@ -205,7 +205,8 @@ class HrAppraisal(models.Model):
                 raise UserError(_("You cannot delete appraisal which is in '%s' state") % (appraisal_state[appraisal.state]))
         return super(HrAppraisal, self).unlink()
 
-    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         """ Override read_group to always display all states and order them appropriatly. """
         if groupby and groupby[0] == "state":
             states = [('new', _('To Start')), ('pending', _('Appraisal Sent')), ('done', _('Done')), ('cancel', _('Cancelled'))]
@@ -216,7 +217,7 @@ class HrAppraisal(models.Model):
                 'state_count': 0,
             } for state_value, state_name in states]
             # Get standard results
-            read_group_res = super(HrAppraisal, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby)
+            read_group_res = super(HrAppraisal, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby)
             # Update standard results with default results
             result = []
             for state_value, state_name in states:
@@ -229,7 +230,7 @@ class HrAppraisal(models.Model):
                 result.append(res[0])
             return result
         else:
-            return super(HrAppraisal, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby)
+            return super(HrAppraisal, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby)
 
     @api.multi
     def action_get_users_input(self):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp import fields, models, SUPERUSER_ID, tools, api
+from odoo import fields, models, SUPERUSER_ID, tools, api
 from psycopg2 import IntegrityError
-from openerp.tools import html_escape
+from odoo.tools import html_escape
 
 
 class pageview(models.Model):
@@ -44,7 +44,7 @@ class pageview(models.Model):
                         url = html_escape(url)
                         body = '<a href="%s" target="_blank"><b>%s</b></a>' % (url, url)
                         ctx = dict(self._context, mail_notify_noemail=True)
-                        self.pool['crm.lead'].message_post(self._cr, SUPERUSER_ID, [lead_id], body=body, subject="Page visited", context=ctx)
+                        self.env['crm.lead'].browse(lead_id).sudo().with_context(ctx).message_post(body=body, subject="Page visited")
                         return True
                 except IntegrityError:
                     return False

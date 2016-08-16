@@ -457,7 +457,6 @@ var DialingPanel = Widget.extend({
         this.$big_call_button.html(_t("Call"));
         this.$hangup_transfer_buttons.attr('disabled','disabled');
         this.$(".popover").remove();
-        //new openerp.web.Model("crm.phonecall").call("error_config");
         if(temporary){
             this.$().block({message: message});
             this.$('.blockOverlay').on("click",function(){self.sip_error_resolved();});

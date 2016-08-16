@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp.http import request
-from openerp import api, fields, models, SUPERUSER_ID
+from odoo.http import request
+from odoo import api, fields, models, SUPERUSER_ID
 import md5
 
 
@@ -51,7 +51,7 @@ class Lead(models.Model):
                 return None
 
     def get_key(self):
-        return self.pool['ir.config_parameter'].get_param(request.cr, SUPERUSER_ID, 'database.secret')
+        return self.env['ir.config_parameter'].sudo().get_param('database.secret')
 
     def get_score_domain_cookies(self):
         return request.httprequest.host

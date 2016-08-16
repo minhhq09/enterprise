@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from dhl_request import DHLProvider
 
-from openerp import models, fields, _
+from odoo import models, fields, _
 
 
 class Providerdhl(models.Model):

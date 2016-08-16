@@ -9,8 +9,8 @@ from suds.client import Client
 from suds.wsse import Security, UsernameToken
 from urllib2 import URLError
 
-from openerp import _
-from openerp.exceptions import ValidationError
+from odoo import _
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 # uncomment to enable logging of SOAP requests and responses

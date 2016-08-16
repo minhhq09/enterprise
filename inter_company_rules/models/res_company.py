@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from openerp import api, fields, models, _, SUPERUSER_ID
-from openerp.exceptions import Warning
+from odoo import api, fields, models, _, SUPERUSER_ID
+from odoo.exceptions import Warning
 
 
 class res_company(models.Model):

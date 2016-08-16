@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from openerp import models, fields, api
+from odoo import models, fields, api
 
-from openerp.exceptions import UserError
-from openerp.exceptions import ValidationError
-from openerp.tools.translate import _
+from odoo.exceptions import UserError
+from odoo.exceptions import ValidationError
+from odoo.tools.translate import _
 
 class AccountTax(models.Model):
     _inherit = 'account.tax'

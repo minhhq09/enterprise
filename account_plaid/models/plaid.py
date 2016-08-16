@@ -4,10 +4,10 @@ import json
 import datetime
 import logging
 
-from openerp import models, api, fields
-from openerp.tools.translate import _
-from openerp.exceptions import UserError
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo import models, api, fields
+from odoo.tools.translate import _
+from odoo.exceptions import UserError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 _logger = logging.getLogger(__name__)
 

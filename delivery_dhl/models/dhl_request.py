@@ -7,8 +7,8 @@ from urllib2 import Request, urlopen, URLError
 import xml.etree.ElementTree as etree
 import unicodedata
 
-from openerp import _
-from openerp.exceptions import ValidationError
+from odoo import _
+from odoo.exceptions import ValidationError
 
 
 class DHLProvider():
