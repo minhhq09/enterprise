@@ -181,9 +181,17 @@
     </t>
 </t>
 
-<t t-extend="UserMenu.about">
+<t t-extend="DashboardShare">
     <t t-jquery=".user-heading h3" t-operation="replace">
-        Version <t t-esc="db_info.server_version"/> (Enterprise Edition)
+        <h3>
+            Odoo <t t-esc="server_version"/> (Enterprise Edition)
+        </h3>
+    </t>
+    <t t-jquery=".user-heading h3" t-operation="after">
+        <t t-set="expiration_date" t-value="new moment(widget.data.expiration_date).format('LL')"/>
+        <t t-if="expiration_date">
+            <h5>Database expiration: <t t-esc="expiration_date"/></h5>
+        </t>
     </t>
 </t>
 
