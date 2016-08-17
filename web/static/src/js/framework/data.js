@@ -320,6 +320,7 @@ var DataSet =  Class.extend(mixins.PropertiesMixin, {
         this.index = null;
         this._sort = [];
         this._model = new Model(model, context);
+        this.orderer = new utils.DropMisordered();
     },
     previous: function () {
         this.index -= 1;
@@ -408,10 +409,11 @@ var DataSet =  Class.extend(mixins.PropertiesMixin, {
     read_slice: function (fields, options) {
         var self = this;
         options = options || {};
-        return this._model.query(fields)
+        var query = this._model.query(fields)
                 .limit(options.limit || false)
                 .offset(options.offset || 0)
-                .all().done(function (records) {
+                .all();
+        return this.orderer.add(query).done(function (records) {
             self.ids = _(records).pluck('id');
         });
     },
@@ -686,7 +688,7 @@ var DataSetSearch = DataSet.extend({
             .limit(options.limit || false);
         q = q.order_by.apply(q, this._sort);
 
-        return q.all().done(function (records) {
+        return this.orderer.add(q.all()).done(function (records) {
             // FIXME: not sure about that one, *could* have discarded count
             q.count().done(function (count) { self._length = count; });
             self.ids = _(records).pluck('id');
