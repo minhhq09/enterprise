@@ -25,7 +25,7 @@ function is_mobile() {
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
     events: {
-        'input input': function(e) {
+        'input input.o_menu_search_input': function(e) {
             if(!e.target.value) {
                 this.state = this.get_initial_state();
                 this.state.is_searching = true;
