@@ -9,7 +9,7 @@ import openerp
 import openerp.modules.registry
 from openerp import http
 from openerp.http import request
-from openerp.addons.web.controllers.main import ensure_db
+from openerp.addons.web.controllers.main import ensure_db, Home
 
 #----------------------------------------------------------
 # Monkey patch release to set the edition as 'enterprise'
@@ -42,7 +42,7 @@ def db_info():
         'warning': warn_enterprise,
     }
 
-class Home(http.Controller):
+class InheritedHome(Home):
 
     # ideally, this route should be `auth="user"` but that don't work in non-monodb mode.
     @http.route('/web', type='http', auth="none")
