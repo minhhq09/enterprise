@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_reports
-# 
+#
 # Translators:
 # Kostas Goutoudis <goutoudis@gmail.com>, 2015-2016
 # Kostas Goutoudis <goutoudis@gmail.com>, 2016
@@ -9,59 +9,64 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-08 09:33+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-06-13 13:23+0000\n"
 "Last-Translator: Kostas Goutoudis <goutoudis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/odoo/odoo-9/language/el/)\n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:271
-#: code:addons/account_reports/models/account_followup_report.py:272
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Date "
 msgstr "Ημερομηνία"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:271
-#: code:addons/account_reports/models/account_followup_report.py:272
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Due Date "
 msgstr "Προθεσμία"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:272
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Excluded "
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:272
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Expected Date "
 msgstr "Αναμενόμενη Ημερομηνία"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:271
-#: code:addons/account_reports/models/account_followup_report.py:272
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Total Due "
 msgstr "Σύνολο Οφειλής"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:311
+#: code:addons/account_reports/models/account_report_context_common.py:328
 #, python-format
 msgid "%s - %s days ago"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:342
+#: code:addons/account_reports/models/account_followup_report.py:351
 #, python-format
 msgid "%s Payment Reminder"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "&amp;nbsp;"
 msgstr ""
 
 #. module: account_reports
@@ -74,31 +79,19 @@ msgid "&times;"
 msgstr "&times;"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:189
-#, python-format
-msgid "(As of %s)"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:190
-#, python-format
-msgid "(From %s <br/> to  %s)"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:318
+#: code:addons/account_reports/models/account_report_context_common.py:335
 #, python-format
 msgid "(as of %s)"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:149
+#: code:addons/account_reports/models/account_followup_report.py:158
 #, python-format
 msgid "10% remaining!"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:347
+#: code:addons/account_reports/models/account_followup_report.py:356
 #, python-format
 msgid ": Sent a followup email"
 msgstr ""
@@ -108,6 +101,21 @@ msgstr ""
 msgid ""
 "<br/>\n"
 "            Customer ref:"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_followup_body
+msgid "<i class=\"fa fa-circle\" style=\"color: green;\"/> Good Debtor"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_followup_body
+msgid "<i class=\"fa fa-circle\" style=\"color: grey;\"/> Normal Debtor"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_followup_body
+msgid "<i class=\"fa fa-circle\" style=\"color: red;\"/> Bad Debtor"
 msgstr ""
 
 #. module: account_reports
@@ -128,8 +136,7 @@ msgstr ""
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup
-msgid ""
-"<strong>Warning!</strong> No action needs to be taken for this partner."
+msgid "<strong>Warning!</strong> No action needs to be taken for this partner."
 msgstr ""
 
 #. module: account_reports
@@ -193,8 +200,13 @@ msgid "Account Report Line"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
+msgid "Accrual Basis"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:154
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:159
 #, python-format
 msgid "Accrual Basis,"
 msgstr ""
@@ -202,6 +214,16 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_action_id
 msgid "Action id"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_prepayments_received0
+msgid "Advance Payments received from customers"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_paid0
+msgid "Advance payments made to suppliers"
 msgstr ""
 
 #. module: account_reports
@@ -269,7 +291,7 @@ msgid "Always"
 msgstr "Πάντα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
 #, python-format
 msgid "Amount"
 msgstr "Ποσό"
@@ -289,19 +311,25 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:90
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:107
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:114
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:134
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:103
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:123
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:130
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:150
 #, python-format
 msgid "Apply"
 msgstr "Εφαρμογή"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:15
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "April"
 msgstr "Απρίλιος"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:200
+#, python-format
+msgid "As of %s"
+msgstr ""
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
@@ -309,7 +337,7 @@ msgid "At the beginning of the period"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:19
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "August"
 msgstr "Αύγουστος"
@@ -332,6 +360,11 @@ msgid "Available company ids"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_available_journal_ids
+msgid "Available journal ids"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_avgcre0
 msgid "Average creditors days"
 msgstr ""
@@ -347,7 +380,7 @@ msgid "BALANCE SHEET"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:199
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Balance"
 msgstr "Ισοζύγιο"
@@ -359,14 +392,14 @@ msgid "Balance Sheet"
 msgstr "Υπόλοιπο"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:188
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:189
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journals
 #, python-format
 msgid "Bank Accounts"
 msgstr "Τραπεζικοί Λογαριασμοί"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:164
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:165
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation
 #: model:ir.actions.client,name:account_reports.action_account_report_bank_reconciliation_with_journal
 #, python-format
@@ -374,7 +407,7 @@ msgid "Bank Reconciliation"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:187
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:188
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_journal_id
 #, python-format
 msgid "Bank account"
@@ -402,8 +435,7 @@ msgstr "Με βάση τα χρονικά διαστήματα"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
-msgid ""
-"Based on date ranges with 'older' and 'total' columns and last 3 months"
+msgid "Based on date ranges with 'older' and 'total' columns and last 3 months"
 msgstr ""
 
 #. module: account_reports
@@ -427,15 +459,20 @@ msgid "CURRENT YEAR EARNINGS"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
+msgid "Cash Basis"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:146
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:166
 #, python-format
 msgid "Cash Basis Method"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:153
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:158
 #, python-format
 msgid "Cash Basis,"
 msgstr ""
@@ -448,7 +485,7 @@ msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
-msgid "Cash and cash equivalents, beginning of year"
+msgid "Cash and cash equivalents, beginning of period"
 msgstr ""
 
 #. module: account_reports
@@ -491,6 +528,11 @@ msgid "Cash out"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
+msgid "Cash paid for"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_cash_received0
 msgid "Cash received"
 msgstr ""
@@ -516,7 +558,7 @@ msgid "Change expected payment date/note"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:74
+#: code:addons/account_reports/models/account_report_coa.py:98
 #, python-format
 msgid "Chart of Account"
 msgstr "Λογιστικό Σχέδιο"
@@ -537,7 +579,7 @@ msgid "Children Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_coa.py:52
+#: code:addons/account_reports/models/account_report_coa.py:76
 #, python-format
 msgid "Class %s"
 msgstr ""
@@ -573,9 +615,9 @@ msgid "Column"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:271
-#: code:addons/account_reports/models/account_followup_report.py:272
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Communication"
 msgstr "Επικοινωνία"
@@ -587,7 +629,8 @@ msgstr "Εταιρείες"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:152
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:173
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "Companies:"
 msgstr ""
@@ -622,13 +665,13 @@ msgstr "Χρησιμοποιείται φίλτρο Σύγκρισης Ημερ�
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:96
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:109
 #, python-format
 msgid "Comparison:"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:219
+#: code:addons/account_reports/models/account_report_context_common.py:236
 #, python-format
 msgid "Comparison<br />"
 msgstr ""
@@ -688,11 +731,11 @@ msgid "Created on"
 msgstr "Δημιουργήθηκε στις"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:508
-#: code:addons/account_reports/models/account_general_ledger.py:195
-#: code:addons/account_reports/models/account_report_coa.py:97
-#: code:addons/account_reports/models/account_report_coa.py:99
-#: code:addons/account_reports/models/account_report_coa.py:102
+#: code:addons/account_reports/models/account_financial_report.py:627
+#: code:addons/account_reports/models/account_general_ledger.py:251
+#: code:addons/account_reports/models/account_report_coa.py:128
+#: code:addons/account_reports/models/account_report_coa.py:130
+#: code:addons/account_reports/models/account_report_coa.py:133
 #, python-format
 msgid "Credit"
 msgstr "Πίστωση"
@@ -703,7 +746,7 @@ msgid "Creditors"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:199
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Currency"
 msgstr "Νόμισμα"
@@ -715,13 +758,14 @@ msgid "Current Assets"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:88
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:89
 #, python-format
 msgid "Current Balance in Odoo"
 msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities1
 msgid "Current Liabilities"
 msgstr ""
 
@@ -732,16 +776,17 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:108
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:128
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:86
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:113
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:133
 #, python-format
 msgid "Custom"
 msgstr "Προσωποποιημένο"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "Customer Statement"
 msgstr ""
 
@@ -753,16 +798,16 @@ msgid "Customers Statement"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:193
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Date"
 msgstr "Ημερομηνία"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:83
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:127
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:96
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:143
 #, python-format
 msgid "Date :"
 msgstr "Ημερομηνία :"
@@ -787,17 +832,17 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:54
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
 #, python-format
 msgid "Date:"
 msgstr "Ημερομηνία:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:529
-#: code:addons/account_reports/models/account_general_ledger.py:199
-#: code:addons/account_reports/models/account_report_coa.py:97
-#: code:addons/account_reports/models/account_report_coa.py:99
-#: code:addons/account_reports/models/account_report_coa.py:102
+#: code:addons/account_reports/models/account_financial_report.py:627
+#: code:addons/account_reports/models/account_general_ledger.py:251
+#: code:addons/account_reports/models/account_report_coa.py:128
+#: code:addons/account_reports/models/account_report_coa.py:130
+#: code:addons/account_reports/models/account_report_coa.py:133
 #, python-format
 msgid "Debit"
 msgstr "Χρέωση"
@@ -808,7 +853,7 @@ msgid "Debtors"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:23
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "December"
 msgstr "Δεκέμβριος"
@@ -877,14 +922,14 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:34
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:39
 #, python-format
-msgid "EXPORT (XLS)"
+msgid "EXPORT (XLSX)"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:35
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:40
 #, python-format
 msgid "EXPORT (XML)"
 msgstr ""
@@ -920,8 +965,8 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:82
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:126
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:95
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:142
 #, python-format
 msgid "End Date :"
 msgstr ""
@@ -950,28 +995,28 @@ msgstr "Ημερομηνία λήξης για σύγκριση"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:75
 #, python-format
 msgid "End of Last Financial Year"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:73
 #, python-format
 msgid "End of Last Month"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:61
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:74
 #, python-format
 msgid "End of Last Quarter"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:42
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:47
 #, python-format
 msgid "Error"
 msgstr "Σφάλμα"
@@ -1005,7 +1050,7 @@ msgid "Expenses"
 msgstr "Έξοδα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:13
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "February"
 msgstr "Φεβρουάριος"
@@ -1032,7 +1077,7 @@ msgid "Foldable"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:88
+#: code:addons/account_reports/models/account_followup_report.py:97
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -1082,18 +1127,19 @@ msgid "Formulas"
 msgstr ""
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:201
+#, python-format
+msgid "From %s <br/> to  %s"
+msgstr ""
+
+#. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
 msgid "From the beginning"
 msgstr ""
 
 #. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_gross_profit0
-msgid "GROSS PROFIT"
-msgstr ""
-
-#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_general_ledger.py:173
+#: code:addons/account_reports/models/account_general_ledger.py:215
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:101
 #: model:ir.actions.client,name:account_reports.action_account_general_ledger_force_account
 #: model:ir.actions.client,name:account_reports.action_account_report_general_ledger
@@ -1115,13 +1161,19 @@ msgid "Generic Tax Report"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_gross_profit0
+#, fuzzy
+msgid "Gross Profit"
+msgstr "Κέρδος"
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
 msgid "Gross profit"
 msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gpmargin0
-msgid "Gross profit margin (gross profit / income)"
+msgid "Gross profit margin (gross profit / operating income)"
 msgstr ""
 
 #. module: account_reports
@@ -1135,13 +1187,13 @@ msgid "Group by"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:138
+#: code:addons/account_reports/models/account_followup_report.py:153
 #, python-format
 msgid "Halfway through!"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:144
+#: code:addons/account_reports/models/account_followup_report.py:159
 #, python-format
 msgid "Hang in there, you're nearly done."
 msgstr ""
@@ -1149,6 +1201,20 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_hide_if_zero
 msgid "Hide if zero"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:168
+#, python-format
+msgid "Hierarchy"
+msgstr ""
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:168
+#, python-format
+msgid "Hierarchy and Subtotals"
 msgstr ""
 
 #. module: account_reports
@@ -1180,34 +1246,39 @@ msgid "ID"
 msgstr "ID"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_totalincome0
+msgid "INCOME"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:12
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:8
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:17
 #, python-format
 msgid "In Need of Action"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include Unposted Entries"
 msgstr "Να συμπεριληφθούν Μη δημοσιευμένες Καταχωρήσεις"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include unposted entries"
 msgstr "Να συμπεριληφθούν Μη δημοσιευμένες Καταχωρήσεις"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
 msgid "Income"
 msgstr "Έσοδα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:145
+#: code:addons/account_reports/models/account_general_ledger.py:150
 #, python-format
 msgid "Initial Balance"
 msgstr "Αρχικό Ισοζύγιο"
@@ -1244,7 +1315,7 @@ msgid "Is growth good when positive"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:12
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "January"
 msgstr "Ιανουάριος"
@@ -1255,13 +1326,33 @@ msgid "Journal Item"
 msgstr "Στοιχείο Ημερολογίου"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:18
+#: model:ir.actions.server,name:account_reports.action_journal_items
+#, fuzzy
+msgid "Journal Items by tax"
+msgstr "Στοιχείο Ημερολογίου"
+
+#. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_journal_ids
+#, fuzzy
+msgid "Journal ids"
+msgstr "Στοιχείο Ημερολογίου"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:183
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
+#, fuzzy, python-format
+msgid "Journals:"
+msgstr "Στοιχείο Ημερολογίου"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "July"
 msgstr "Ιούλιος"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:17
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "June"
 msgstr "Ιούνιος"
@@ -1273,7 +1364,7 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:70
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:83
 #, python-format
 msgid "Last Financial Year"
 msgstr ""
@@ -1303,22 +1394,22 @@ msgstr "Τελευταία αλλαγή στις"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:57
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:76
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:62
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
 #, python-format
 msgid "Last Month"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:58
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:77
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:63
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:82
 #, python-format
 msgid "Last Quarter"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:158
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:160
 #, python-format
 msgid "Last Statement Balance"
 msgstr ""
@@ -1359,7 +1450,7 @@ msgstr "Τελευταία Ενημέρωση στις"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:59
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:64
 #, python-format
 msgid "Last Year"
 msgstr ""
@@ -1380,19 +1471,19 @@ msgid "Legal Statements"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:141
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:143
 #, python-format
 msgid "Less Outstanding Receipt"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:116
 #, python-format
 msgid "Less Un-Reconciled Bank Statement Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:156
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:158
 #, python-format
 msgid "Less Unencoded Statements"
 msgstr ""
@@ -1438,13 +1529,13 @@ msgid "Manual"
 msgstr "Χειροκίνητα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:14
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "March"
 msgstr "Μάρτιος"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:16
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "May"
 msgstr "Μάιος"
@@ -1457,6 +1548,12 @@ msgstr ""
 #. module: account_reports
 #: model:mail.message.subtype,description:account_reports.followup_logged_action
 msgid "Messages created after a followup action has been executed"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_regulator0
+msgid ""
+"Minus previously recorded advance payments (already in the starting balance)"
 msgstr ""
 
 #. module: account_reports
@@ -1491,9 +1588,9 @@ msgid "Name"
 msgstr "Όνομα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:157
 #: code:addons/account_reports/models/account_generic_tax_report.py:159
-#: code:addons/account_reports/models/account_generic_tax_report.py:162
+#: code:addons/account_reports/models/account_generic_tax_report.py:161
+#: code:addons/account_reports/models/account_generic_tax_report.py:164
 #, python-format
 msgid "Net"
 msgstr ""
@@ -1504,7 +1601,13 @@ msgid "Net Audit"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
+#, fuzzy
+msgid "Net Profit"
+msgstr "Κέρδος"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:178
 #, python-format
 msgid "Net Tax Lines"
 msgstr ""
@@ -1546,7 +1649,7 @@ msgid "Next Reminder:"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:242
+#: code:addons/account_reports/models/account_followup_report.py:268
 #, python-format
 msgid "Next action date: "
 msgstr ""
@@ -1564,7 +1667,7 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:101
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:117
 #, python-format
 msgid "No Comparison"
 msgstr ""
@@ -1587,19 +1690,14 @@ msgid "No followup to send !"
 msgstr ""
 
 #. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
-msgid "Non-current Liabilities"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:522
+#: code:addons/account_reports/models/account_financial_report.py:625
 #, python-format
 msgid "Non-issued"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
 #, python-format
 msgid "None"
 msgstr "Κανένα"
@@ -1625,7 +1723,7 @@ msgid ""
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:22
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "November"
 msgstr "Νοέμβριος"
@@ -1653,20 +1751,20 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:112
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:121
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:128
 #, python-format
 msgid "Number of periods :"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:21
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "October"
 msgstr "Οκτώβριος"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:549
+#: code:addons/account_reports/models/account_financial_report.py:635
 #, python-format
 msgid "Older"
 msgstr ""
@@ -1691,8 +1789,13 @@ msgid "Only if financial report"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
+msgid "Operating Income"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:140
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
 #, python-format
 msgid "Options:"
 msgstr ""
@@ -1714,7 +1817,7 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:33
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:38
 #, python-format
 msgid "PRINT PREVIEW"
 msgstr ""
@@ -1735,7 +1838,7 @@ msgid "Parent id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:195
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #: model:ir.model,name:account_reports.model_res_partner
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_partner_id
 #, python-format
@@ -1748,10 +1851,21 @@ msgid "Partner Filter"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+#, fuzzy
+msgid "Partner Ledger"
+msgstr "Γενικό Καθολικό"
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:7
 #, python-format
 msgid "Partners:"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities_payable
+msgid "Payables"
 msgstr ""
 
 #. module: account_reports
@@ -1766,7 +1880,7 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:55
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
 #, python-format
 msgid "Period:"
 msgstr "Περίοδος:"
@@ -1782,26 +1896,32 @@ msgid "Plus Non-current Assets"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
+msgid "Plus Non-current Liabilities"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:129
 #, python-format
 msgid "Plus Outstanding Payment"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
 #, python-format
 msgid "Plus Un-Reconciled Bank Statement Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:156
 #, python-format
 msgid "Plus Unencoded Statements"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:162
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "Posted Entries Only"
 msgstr ""
@@ -1813,14 +1933,14 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:103
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:119
 #, python-format
 msgid "Previous Period"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:106
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:111
 #, python-format
 msgid "Previous Periods"
 msgstr ""
@@ -1829,11 +1949,6 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Print Letter"
 msgstr ""
-
-#. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
-msgid "Profit"
-msgstr "Κέρδος"
 
 #. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_report_pnl
@@ -1847,7 +1962,7 @@ msgid "Profit and Loss"
 msgstr "Κέρδη και Ζημίες"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:99
+#: code:addons/account_reports/models/account_generic_tax_report.py:101
 #, python-format
 msgid "Purchase"
 msgstr "Αγορά"
@@ -1858,7 +1973,8 @@ msgid "Put back in the list"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:264
+#: code:addons/account_reports/models/account_report_context_common.py:193
+#: code:addons/account_reports/models/account_report_context_common.py:281
 #, python-format
 msgid "Quarter #"
 msgstr ""
@@ -1879,7 +1995,7 @@ msgid "Reconciliation Report"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:194
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
 #, python-format
 msgid "Reference"
 msgstr "Αναφορά"
@@ -1910,21 +2026,21 @@ msgid "Return on investments (net profit / assets)"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:99
+#: code:addons/account_reports/models/account_generic_tax_report.py:101
 #, python-format
 msgid "Sale"
 msgstr "Πώληση"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:107
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:112
 #, python-format
 msgid "Same Last Year"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:121
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:126
 #, python-format
 msgid "Same Period Last Year"
 msgstr ""
@@ -1954,13 +2070,13 @@ msgid "Send by email"
 msgstr "Αποστολή με Email"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:332
+#: code:addons/account_reports/models/account_followup_report.py:341
 #, python-format
 msgid "Sent a followup letter"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:20
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "September"
 msgstr "Σεπτέμβριος"
@@ -1986,6 +2102,17 @@ msgid "Show domain"
 msgstr ""
 
 #. module: account_reports
+#: model:ir.model.fields,field_description:account_reports.field_account_context_coa_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_hierarchy_3
+#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_hierarchy_3
+msgid "Show hierarchies"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_skipped_partners_ids
 msgid "Skipped partners"
 msgstr ""
@@ -1997,8 +2124,8 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:75
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:119
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:88
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:135
 #, python-format
 msgid "Start Date :"
 msgstr ""
@@ -2047,9 +2174,9 @@ msgid "Target id"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:157
 #: code:addons/account_reports/models/account_generic_tax_report.py:159
-#: code:addons/account_reports/models/account_generic_tax_report.py:162
+#: code:addons/account_reports/models/account_generic_tax_report.py:161
+#: code:addons/account_reports/models/account_generic_tax_report.py:164
 #, python-format
 msgid "Tax"
 msgstr "Φόρος"
@@ -2060,13 +2187,13 @@ msgid "Tax Audit"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#: code:addons/account_reports/models/account_generic_tax_report.py:178
 #, python-format
 msgid "Tax Lines"
 msgstr "Γραμμές Φόρου"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:132
+#: code:addons/account_reports/models/account_generic_tax_report.py:134
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_gt
 #, python-format
 msgid "Tax Report"
@@ -2083,7 +2210,7 @@ msgid "The date before which no action should be taken."
 msgstr "Η ημερομηνία πριν από την οποία δεν πρέπει να γίνει κάποια ενέργεια."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:139
+#: code:addons/account_reports/models/account_followup_report.py:154
 #, python-format
 msgid "The first half took you %ss."
 msgstr ""
@@ -2096,7 +2223,7 @@ msgid "The followup report was successfully emailed !"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:158
+#: code:addons/account_reports/models/account_general_ledger.py:204
 #, python-format
 msgid ""
 "There are more than 80 items in this list, click here to see all of them"
@@ -2104,55 +2231,56 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:66
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:79
 #, python-format
 msgid "This Financial Year"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:65
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:66
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:78
 #, python-format
 msgid "This Month"
 msgstr "Αυτόν τον μήνα"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:60
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:65
 #, python-format
 msgid "This Year"
 msgstr "Αυτό το Έτος"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:56
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:61
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:72
 #, python-format
 msgid "Today"
 msgstr "Σήμερα"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:291
-#: code:addons/account_reports/models/account_financial_report.py:360
-#: code:addons/account_reports/models/account_financial_report.py:516
+#: code:addons/account_reports/models/account_financial_report.py:374
+#: code:addons/account_reports/models/account_financial_report.py:451
+#: code:addons/account_reports/models/account_financial_report.py:635
 #, python-format
 msgid "Total"
 msgstr "Σύνολο"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:149
+#: code:addons/account_reports/models/account_general_ledger.py:195
 #, python-format
 msgid "Total "
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:66
+#: code:addons/account_reports/models/account_followup_report.py:79
 #, python-format
 msgid "Total Due"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:78
+#: code:addons/account_reports/models/account_followup_report.py:91
 #, python-format
 msgid "Total Overdue"
 msgstr ""
@@ -2212,13 +2340,13 @@ msgid "Use given dates"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_move_line.py:36
+#: code:addons/account_reports/models/account_move_line.py:19
 #, python-format
 msgid "View Bank Statement"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_move_line.py:40
+#: code:addons/account_reports/models/account_move_line.py:24
 #, python-format
 msgid "View Invoice"
 msgstr "Προβολή Τιμολογίου"
@@ -2233,13 +2361,13 @@ msgid "View Journal Entry"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_move_line.py:41
+#: code:addons/account_reports/models/account_move_line.py:25
 #, python-format
 msgid "View Move"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_move_line.py:38
+#: code:addons/account_reports/models/account_move_line.py:21
 #, python-format
 msgid "View Payment"
 msgstr "Προβολή Πληρωμής"
@@ -2253,14 +2381,16 @@ msgstr "Προειδοποίηση"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:161
+#: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "With Draft Entries"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:13
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:11
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:18
 #, python-format
 msgid "With Overdue Invoices"
 msgstr ""
@@ -2276,23 +2406,18 @@ msgid "Your Statement"
 msgstr ""
 
 #. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
-msgid "cash paid for"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuenow
 msgid "current amount of invoices done"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:170
+#: code:addons/account_reports/models/account_report_context_common.py:181
 #, python-format
 msgid "get_columns_names not implemented"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:109
+#: code:addons/account_reports/models/account_report_context_common.py:111
 #, python-format
 msgid "get_report_obj not implemented"
 msgstr ""
@@ -2332,4 +2457,9 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuemax
 msgid "total amount of invoices to do"
+msgstr ""
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.report_financial_line
+msgid "⇒ journal entries"
 msgstr ""

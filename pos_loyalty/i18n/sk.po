@@ -1,21 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * pos_loyalty
-# 
+#
 # Translators:
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-03-09 19:23+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: pos_loyalty
@@ -109,7 +109,9 @@ msgstr "Koľko vernostných bodov je daných zákazníkovi za predanú menu"
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_order
 msgid ""
 "How many loyalty points are given to the customer for each sale or order"
-msgstr "Koľko vernostných bodov je daných zákazníkovi za každý predaj alebo objednávku"
+msgstr ""
+"Koľko vernostných bodov je daných zákazníkovi za každý predaj alebo "
+"objednávku"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_pp_product
@@ -160,7 +162,6 @@ msgstr "Vernostné body"
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
-#: model:ir.ui.view,arch_db:pos_loyalty.view_partner_property_form
 #: model:ir.ui.view,arch_db:pos_loyalty.view_pos_config_form
 msgid "Loyalty Program"
 msgstr "Vernostný program"
@@ -184,7 +185,9 @@ msgstr "Vernostné programy"
 msgid ""
 "Loyalty Programs allows you customer to earn points\n"
 "                    and rewards when doing business at your shops."
-msgstr "Vernostné programy umožňujú vašim zákazníkom získavať body\na odmeny pri obchodovaní vo vašich predajniach."
+msgstr ""
+"Vernostné programy umožňujú vašim zákazníkom získavať body\n"
+"a odmeny pri obchodovaní vo vašich predajniach."
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_reward_form
@@ -250,9 +253,23 @@ msgstr "Použité body"
 
 #. module: pos_loyalty
 #. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
+#, fuzzy, python-format
+msgid "Points Spent:"
+msgstr "Použité body"
+
+#. module: pos_loyalty
+#. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:54
 #, python-format
 msgid "Points Won"
+msgstr "Vyhrané body"
+
+#. module: pos_loyalty
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:100
+#, fuzzy, python-format
+msgid "Points Won:"
 msgstr "Vyhrané body"
 
 #. module: pos_loyalty
@@ -317,7 +334,9 @@ msgstr "Pravidlá"
 msgid ""
 "Rules change how loyalty points are earned for specific products or "
 "categories"
-msgstr "Pravidlá menia ako sú získavané vernostné body za špecifické produkty alebo kategórie"
+msgstr ""
+"Pravidlá menia ako sú získavané vernostné body za špecifické produkty alebo "
+"kategórie"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_category_id
@@ -342,7 +361,9 @@ msgstr "Vernostný program ku ktorému patrí táto odmena"
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_pos_order_loyalty_points
 msgid "The amount of Loyalty points the customer won or lost with this order"
-msgstr "Množstvo vernostných bodov ktoré zákazník získal alebo stratil pri jeho objednávke"
+msgstr ""
+"Množstvo vernostných bodov ktoré zákazník získal alebo stratil pri jeho "
+"objednávke"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_category_id
@@ -389,7 +410,9 @@ msgstr "Vernostný program používaný týmto point_of_sale"
 msgid ""
 "The minimum amount of points the customer must have to qualify for this "
 "reward"
-msgstr "Minimálne množstvo bodov ktoré musí mať zákazník aby sa kvalifikoval na túto odmenu"
+msgstr ""
+"Minimálne množstvo bodov ktoré musí mať zákazník aby sa kvalifikoval na túto "
+"odmenu"
 
 #. module: pos_loyalty
 #: constraint:loyalty.reward:0
@@ -399,7 +422,8 @@ msgstr "Pole bodov produktu je povinné pre body odmeny ďalšieho predaja"
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_cumulative
 msgid "The points won from this rule will be won in addition to other rules"
-msgstr "Body získané z tohoto pravidla budú získané v prídavku k ďalším pravidlám"
+msgstr ""
+"Body získané z tohoto pravidla budú získané v prídavku k ďalším pravidlám"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_product_id
@@ -431,6 +455,13 @@ msgstr "Typ odmeny"
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:60
 #, python-format
 msgid "Total Points"
+msgstr "Body celkovo"
+
+#. module: pos_loyalty
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:122
+#, fuzzy, python-format
+msgid "Total Points:"
 msgstr "Body celkovo"
 
 #. module: pos_loyalty

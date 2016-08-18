@@ -1,7 +1,8 @@
+# #-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_fedex
-# 
+#
 # Translators:
 # fausthuang, 2015
 # fausthuang, 2015
@@ -9,18 +10,30 @@
 # Jeffery Chenn <jeffery9@gmail.com>, 2015-2016
 # liAnGjiA <liangjia@qq.com>, 2016
 # liAnGjiA <liangjia@qq.com>, 2016
+# #-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * delivery_fedex
+#
+# Translators:
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-28 10:46+0000\n"
-"PO-Revision-Date: 2016-08-03 02:34+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/"
+"zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
+"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: delivery_fedex
@@ -71,19 +84,14 @@ msgid "DROP_BOX"
 msgstr "DROP_BOX"
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_default_packaging_id
+msgid "Default Package Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "开发者密钥"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_10KG_BOX"
-msgstr "FEDEX_10KG_箱子"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_25KG_BOX"
-msgstr "FEDEX_25KG_箱子"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -96,29 +104,9 @@ msgid "FEDEX_2_DAY_AM"
 msgstr "FEDEX_2_天_上午"
 
 #. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_BOX"
-msgstr "FEDEX_箱"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_ENVELOPE"
-msgstr "FEDEX_信封"
-
-#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "FEDEX_GROUND"
 msgstr "FEDEX_路运"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_PAK"
-msgstr "FEDEX_袋"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_TUBE"
-msgstr "FEDEX_盒"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -166,11 +154,6 @@ msgstr "Fedex 投递类型"
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_stock_type
 msgid "Fedex label stock type"
 msgstr "Fedex 标签库存类型"
-
-#. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_packaging_type
-msgid "Fedex packaging type"
-msgstr "Fedex 包装类型"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_service_type
@@ -258,6 +241,11 @@ msgid "PRIORITY_OVERNIGHT"
 msgstr "PRIORITY_OVERNIGHT"
 
 #. module: delivery_fedex
+#: model:ir.model,name:delivery_fedex.model_product_packaging
+msgid "Packaging"
+msgstr "包装"
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_password
 msgid "Password"
 msgstr "密码"
@@ -283,20 +271,20 @@ msgid "STATION"
 msgstr "站"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:309
+#: code:addons/delivery_fedex/models/delivery_fedex.py:323
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "装运N° %s已经被取消"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:229
-#: code:addons/delivery_fedex/models/delivery_fedex.py:271
+#: code:addons/delivery_fedex/models/delivery_fedex.py:242
+#: code:addons/delivery_fedex/models/delivery_fedex.py:284
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "装运创建成Fedex <br/> <b>跟踪号码 : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:233
+#: code:addons/delivery_fedex/models/delivery_fedex.py:246
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "装运的包装标签%s"
@@ -307,11 +295,6 @@ msgid "Standard Services"
 msgstr "标准服务"
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_test_mode
-msgid "Test Mode"
-msgstr "测试模式"
-
-#. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "The last step is the"
 msgstr "最后一步是"
@@ -319,21 +302,44 @@ msgstr "最后一步是"
 #. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid ""
-"These certifications usually require that you contact the FedEx support team"
-" by email."
+"These certifications usually require that you contact the FedEx support team "
+"by email."
 msgstr "这些认证通常需要你通过邮件联系Fedex支持团队"
-
-#. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_fedex_test_mode
-msgid "Uncheck this box to use production Fedex Web Services"
-msgstr "取消复选框而使用Fedex 网站服务"
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "YOUR_PACKAGING"
-msgstr "YOUR_PACKAGING"
 
 #. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr "创建如下类型的一个Fedex 账号"
+
+#~ msgid "FEDEX_10KG_BOX"
+#~ msgstr "FEDEX_10KG_箱子"
+
+#~ msgid "FEDEX_25KG_BOX"
+#~ msgstr "FEDEX_25KG_箱子"
+
+#~ msgid "FEDEX_BOX"
+#~ msgstr "FEDEX_箱"
+
+#~ msgid "FEDEX_ENVELOPE"
+#~ msgstr "FEDEX_信封"
+
+#~ msgid "FEDEX_PAK"
+#~ msgstr "FEDEX_袋"
+
+#~ msgid "FEDEX_TUBE"
+#~ msgstr "FEDEX_盒"
+
+#~ msgid "Fedex packaging type"
+#~ msgstr "Fedex 包装类型"
+
+#~ msgid "Test Mode"
+#~ msgstr "测试模式"
+
+#~ msgid "Uncheck this box to use production Fedex Web Services"
+#~ msgstr "取消复选框而使用Fedex 网站服务"
+
+#~ msgid "YOUR_PACKAGING"
+#~ msgstr "YOUR_PACKAGING"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

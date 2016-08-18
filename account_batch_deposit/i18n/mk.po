@@ -1,25 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_batch_deposit
-# 
+#
 # Translators:
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:51+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2015-11-02 12:04+0000\n"
 "Last-Translator: Aleksandar Vangelovski <aleksandarv@hbee.eu>\n"
-"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/mk/)\n"
+"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/"
+"mk/)\n"
+"Language: mk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:31
+#: code:addons/account_batch_deposit/account_payment.py:40
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
@@ -72,7 +73,7 @@ msgid "Batch Deposit Sequence"
 msgstr "Секвенца на групен депозит"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal.py:37
+#: code:addons/account_batch_deposit/account_journal.py:41
 #, python-format
 msgid "Batch Deposits Sequence"
 msgstr "Секвенца на групни депозити"
@@ -90,10 +91,19 @@ msgstr "Избран плаќачки метод на групен депози�
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
 msgid ""
-"Batch deposits allows you to group received checks before you deposit them to the bank.\n"
-"                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
-"                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
-msgstr "Групните депозити ви овозможуваат да ги групирате добиените уплатници пред да ги депозирате во банка.\nИзносот депозиран во вашата банка тогаш ќе биде прикажан како единечна трансакција на вашиот извод од банка.\nКога ќе продолжете со порамнувањето, едноставно одберете го соодветниот групен депозит за да се порамни со плаќањата."
+"Batch deposits allows you to group received checks before you deposit them "
+"to the bank.\n"
+"                    The amount deposited to your bank will then appear as a "
+"single transaction on your bank statement.\n"
+"                    When you proceed with the reconciliation, simply select "
+"the corresponding batch deposit to reconcile the payments."
+msgstr ""
+"Групните депозити ви овозможуваат да ги групирате добиените уплатници пред "
+"да ги депозирате во банка.\n"
+"Износот депозиран во вашата банка тогаш ќе биде прикажан како единечна "
+"трансакција на вашиот извод од банка.\n"
+"Кога ќе продолжете со порамнувањето, едноставно одберете го соодветниот "
+"групен депозит за да се порамни со плаќањата."
 
 #. module: account_batch_deposit
 #: code:addons/account_batch_deposit/account_journal_dashboard.py:13
@@ -192,13 +202,16 @@ msgid "Payments"
 msgstr "Плаќања"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:27
+#: code:addons/account_batch_deposit/account_payment.py:36
 #, python-format
 msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
 "payment method, not be part of an existing batch deposit and not have "
 "already been reconciled"
-msgstr "За да се испринтаат плаќања како депозит, мора да: се има \"Групен депозит\" селектирано како плаќачки метод, да не бидат дел од веќе постоечки групен депозит и да не бидат веќе порамнети."
+msgstr ""
+"За да се испринтаат плаќања како депозит, мора да: се има \"Групен депозит\" "
+"селектирано како плаќачки метод, да не бидат дел од веќе постоечки групен "
+"депозит и да не бидат веќе порамнети."
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
@@ -249,7 +262,9 @@ msgstr "Селектирај групен депозит"
 msgid ""
 "Some journal items from the selected batch deposit are already selected in "
 "another reconciliation : "
-msgstr "Некои ставки во дневникот од селектираниот групен депозит, се веќе селектирани во друго порамнување :"
+msgstr ""
+"Некои ставки во дневникот од селектираниот групен депозит, се веќе "
+"селектирани во друго порамнување :"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_state

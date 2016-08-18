@@ -1,21 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_usps
-# 
+#
 # Translators:
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-03-25 17:37+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: delivery_usps
@@ -39,10 +39,12 @@ msgid "Check this box if your account is validated by USPS"
 msgstr "Zaškrtnite toto políčko ak je váš účet overený USPS"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:50
+#: code:addons/delivery_usps/models/usps_request.py:63
 #, python-format
 msgid "Company phone number is invalid. Please insert a US phone number."
-msgstr "Telefónne číslo spoločnosti je neplatné. Prosím vložte platné US telefónne číslo."
+msgstr ""
+"Telefónne číslo spoločnosti je neplatné. Prosím vložte platné US telefónne "
+"číslo."
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_content_type
@@ -212,42 +214,45 @@ msgid "Parcel"
 msgstr "Zásielka"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:68
+#: code:addons/delivery_usps/models/usps_request.py:80
 #, python-format
 msgid "Please Change the Service Max. weight of this Service is 4 pounds"
 msgstr "Prosím zmenťe službu max. hmotnosť tejto služby sú 4 libry"
 
 #. module: delivery_usps
 #: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_machinable
-msgid ""
-"Please check on USPS website to ensure that your package is machinable."
-msgstr "Prosím skontrolujte na webstránke USPS aby ste sa ubezpečili že váš balík je spracovateľný."
+msgid "Please check on USPS website to ensure that your package is machinable."
+msgstr ""
+"Prosím skontrolujte na webstránke USPS aby ste sa ubezpečili že váš balík je "
+"spracovateľný."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:55
+#: code:addons/delivery_usps/models/usps_request.py:68
 #, python-format
 msgid "Please enter a valid ZIP code in recipient address"
 msgstr "Prosím zadajte platné PSČ v adrese príjemcu"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:48
+#: code:addons/delivery_usps/models/usps_request.py:61
 #, python-format
 msgid "Please enter a valid ZIP code in your Company address"
 msgstr "Prosím zadajte platné PSČ v adrese vašej spoločnosti"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:63
+#: code:addons/delivery_usps/models/usps_request.py:75
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Prosím poskytnite aspoň jednu položku na poslanie."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:46
+#: code:addons/delivery_usps/models/usps_request.py:59
 #, python-format
 msgid ""
 "Please set country U.S.A in your company address, Service is only available "
 "for U.S.A"
-msgstr "Prosím zadajte krajinu U.S.A. v adrese vašej spoločnosti, služba je dostupná iba pre U.S.A."
+msgstr ""
+"Prosím zadajte krajinu U.S.A. v adrese vašej spoločnosti, služba je dostupná "
+"iba pre U.S.A."
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -296,13 +301,13 @@ msgid "Sample"
 msgstr "Vzorka"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:153
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Zásielka N° %s bola zrušená"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:130
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Zásielka vytvorená v USPS  <br/> <b>Sledovacie číslo : </b>%s"
@@ -318,47 +323,51 @@ msgid "Small Flat Rate Envelope"
 msgstr "Malá obálka s jednotnou sadzbou"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Test Mode"
-msgstr "Testovací režim"
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:149
+#: code:addons/delivery_usps/models/usps_request.py:161
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
-msgstr "Zvolená USPS služba (%s) nemôźe byť použitá na doručenieho tohto balíka. "
+msgstr ""
+"Zvolená USPS služba (%s) nemôźe byť použitá na doručenieho tohto balíka. "
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:44
+#: code:addons/delivery_usps/models/usps_request.py:57
 #, python-format
 msgid ""
 "The address of your company is missing or wrong (Missing field(s) :  \n"
 " %s)"
-msgstr "Adresa vašej spoločnosti chýba alebo je nesprávna (Chýbajúce pole(polia) : \n%s)"
+msgstr ""
+"Adresa vašej spoločnosti chýba alebo je nesprávna (Chýbajúce pole(polia) : \n"
+"%s)"
+
+#. module: delivery_usps
+#: code:addons/delivery_usps/models/usps_request.py:78
+#, python-format
+msgid ""
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
+msgstr ""
+"Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
+
+#. module: delivery_usps
+#: code:addons/delivery_usps/models/usps_request.py:367
+#, python-format
+msgid ""
+"The recepient address can't be found. Please check that your recepient has "
+"an existing address."
+msgstr ""
+"Adresa príjemcu sa nedá nájsť. Prosím skontrolujte či má váś príjemca "
+"existujúcu\n"
+"adresu."
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:66
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
-msgstr "Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:346
-#, python-format
-msgid ""
-"The recepient address can't be found. Please check that your recepient has "
-"an existing address."
-msgstr "Adresa príjemcu sa nedá nájsť. Prosím skontrolujte či má váś príjemca existujúcu\nadresu."
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:53
-#, python-format
-msgid ""
 "The recipient address is missing or wrong (Missing field(s) :  \n"
 " %s)"
-msgstr "Adresa príjmateľa chýba alebo je nesprávna (Chýbajúce pole(polia) : \n%s)"
+msgstr ""
+"Adresa príjmateľa chýba alebo je nesprávna (Chýbajúce pole(polia) : \n"
+"%s)"
 
 #. module: delivery_usps
 #: model:ir.ui.view,arch_db:delivery_usps.usps_shipping_request
@@ -384,16 +393,19 @@ msgstr "USPS konfigurácia"
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
-msgid "USPS Domestic Flat Rate Box"
+#, fuzzy
+msgid "USPS Domestic Flat Rate Envelope"
 msgstr "USPS domáci box s pevnou sadzbou"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:60
+#: code:addons/delivery_usps/models/usps_request.py:72
 #, python-format
 msgid ""
 "USPS Domestic is used only to ship  inside of the U.S.A. Please change the "
 "delivery method into USPS International."
-msgstr "USPS domáce sa pouźíva iba na prepravu v rámci U.S.A.. Prosím zmenťe doručovaciu metódu na USPS medzinárodné."
+msgstr ""
+"USPS domáce sa pouźíva iba na prepravu v rámci U.S.A.. Prosím zmenťe "
+"doručovaciu metódu na USPS medzinárodné."
 
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
@@ -402,17 +414,14 @@ msgid "USPS International Flat Rate Box"
 msgstr "USPS medzinárodné box s pevnou sadzbou"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:58
+#: code:addons/delivery_usps/models/usps_request.py:70
 #, python-format
 msgid ""
-"USPS International is used only to ship  outside of the U.S.A. Please change"
-" the delivery method into USPS Domestic."
-msgstr "USPS medzinárodné sa pouźíva iba na prepravu v rámci U.S.A.. Prosím zmenťe doručovaciu metódu na USPS domáce."
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_passwd
-msgid "USPS Password"
-msgstr "USPS heslo"
+"USPS International is used only to ship  outside of the U.S.A. Please change "
+"the delivery method into USPS Domestic."
+msgstr ""
+"USPS medzinárodné sa pouźíva iba na prepravu v rámci U.S.A.. Prosím zmenťe "
+"doručovaciu metódu na USPS domáce."
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_service
@@ -425,17 +434,21 @@ msgid "USPS User ID"
 msgstr "USPS ID používateľa"
 
 #. module: delivery_usps
-#: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Uncheck this box to use production UPS Web Services"
-msgstr "Zrušte označenie tohto políčka pre používanie UPS web služby"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_size_container
 msgid "Usps size container"
 msgstr "USPS veľkosť kontajnera"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:348
+#: code:addons/delivery_usps/models/usps_request.py:369
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Vaša spoločnosť alebo psč príjemcu nie su správne."
+
+#~ msgid "Test Mode"
+#~ msgstr "Testovací režim"
+
+#~ msgid "USPS Password"
+#~ msgstr "USPS heslo"
+
+#~ msgid "Uncheck this box to use production UPS Web Services"
+#~ msgstr "Zrušte označenie tohto políčka pre používanie UPS web služby"

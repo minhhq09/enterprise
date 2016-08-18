@@ -1,7 +1,8 @@
+# #-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_ups
-# 
+#
 # Translators:
 # Eddie Lim <bhweelim@yahoo.com>, 2016
 # Gary Wei <Gary.wei@elico-corp.com>, 2015
@@ -13,29 +14,31 @@
 # lttlsnk <lttlsnk@gmail.com>, 2016
 # Melody <alangwansui@gmail.com>, 2016
 # jiangzhixiao <zhixiao.jiang1984@gmail.com>, 2016
+# #-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * delivery_ups
+#
+# Translators:
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-07-22 04:11+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/"
+"zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
+"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "10KG Box"
-msgstr "10公斤盒子"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "25KG Box"
-msgstr "25公斤盒子"
+"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_delivery_carrier
@@ -48,29 +51,10 @@ msgid "Centimeters"
 msgstr "厘米"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Express Box"
-msgstr "快递盒子"
-
-#. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_height
-msgid "Fixed height if not provided on the product packaging."
-msgstr "固定高度，假如产品包装没有提供。"
-
-#. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_length
-msgid "Fixed length if not provided on the product packaging."
-msgstr "固定长度，假如产品包装没有提供。"
-
-#. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_width
-msgid "Fixed width if not provided on the product packaging."
-msgstr "固定宽度，假如产品包装没有提供。"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Flat Pack"
-msgstr "平装"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+#, fuzzy
+msgid "Default Packaging Type"
+msgstr "UPS包装类型"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
@@ -83,37 +67,12 @@ msgid "Kilograms"
 msgstr "千克"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Medium Express Box"
-msgstr "中等大小的筷子盒子"
+#: model:ir.model,name:delivery_ups.model_product_packaging
+msgid "Packaging"
+msgstr "包装"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_height
-msgid "Package Height"
-msgstr "包装高度"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_length
-msgid "Package Length"
-msgstr "包装长度"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_width
-msgid "Package Width"
-msgstr "包装宽度"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Package/customer supplied"
-msgstr "打包/顾客提供"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Pallet"
-msgstr "垫板"
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:196
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "请至少提供一个项目去发货"
@@ -124,35 +83,25 @@ msgid "Pounds"
 msgstr "英镑"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:162
+#: code:addons/delivery_ups/models/delivery_ups.py:171
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "装运N° %s已经被取消"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:130
+#: code:addons/delivery_ups/models/delivery_ups.py:135
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:134
+#: code:addons/delivery_ups/models/delivery_ups.py:142
 #, python-format
 msgid "Shipping label for packages"
 msgstr "装运的包装标签"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Small Express Box"
-msgstr ""
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_test_mode
-msgid "Test Mode"
-msgstr "测试模式"
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:181
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -160,7 +109,7 @@ msgid ""
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:187
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -168,27 +117,29 @@ msgid ""
 msgstr "公司仓库的地址缺失或者错误（缺失字段：%s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:201
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "因为产品重量缺失所以交货无法完成"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:198
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
 msgstr "因为产品重量缺失所以估计价格不能被计算"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:193
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
 "(Missing field(s) : %s)"
-msgstr "收件人地址缺失或错误\n(丢失字段: %s)"
+msgstr ""
+"收件人地址缺失或错误\n"
+"(丢失字段: %s)"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -227,11 +178,6 @@ msgid "UPS Ground"
 msgstr "UPS陆运"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Letter"
-msgstr "UPS信纸"
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Next Day"
 msgstr "UPS次日达"
@@ -244,16 +190,6 @@ msgstr "UPS次日达早晨"
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Next Day Air Saver"
-msgstr ""
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_type
-msgid "UPS Packaging Type"
-msgstr "UPS包装类型"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Pak"
 msgstr ""
 
 #. module: delivery_ups
@@ -280,11 +216,6 @@ msgstr "UPS运单号"
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Standard"
 msgstr "UPS 标准"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Tube"
-msgstr ""
 
 #. module: delivery_ups
 #: model:delivery.carrier,name:delivery_ups.delivery_carrier_ups_us
@@ -318,11 +249,6 @@ msgid "UPS Worldwide Express Plus"
 msgstr "UPS全球特快加急"
 
 #. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_test_mode
-msgid "Uncheck this box to use production UPS Web Services"
-msgstr "取消该复选框而使用UPS网站服务"
-
-#. module: delivery_ups
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_dimension_unit
 msgid "Units for UPS Package Size"
 msgstr "UPS包装尺寸单位"
@@ -331,3 +257,54 @@ msgstr "UPS包装尺寸单位"
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_weight_unit
 msgid "Ups package weight unit"
 msgstr "UPS包装重量单位"
+
+#~ msgid "10KG Box"
+#~ msgstr "10公斤盒子"
+
+#~ msgid "25KG Box"
+#~ msgstr "25公斤盒子"
+
+#~ msgid "Express Box"
+#~ msgstr "快递盒子"
+
+#~ msgid "Fixed height if not provided on the product packaging."
+#~ msgstr "固定高度，假如产品包装没有提供。"
+
+#~ msgid "Fixed length if not provided on the product packaging."
+#~ msgstr "固定长度，假如产品包装没有提供。"
+
+#~ msgid "Fixed width if not provided on the product packaging."
+#~ msgstr "固定宽度，假如产品包装没有提供。"
+
+#~ msgid "Flat Pack"
+#~ msgstr "平装"
+
+#~ msgid "Medium Express Box"
+#~ msgstr "中等大小的筷子盒子"
+
+#~ msgid "Package Height"
+#~ msgstr "包装高度"
+
+#~ msgid "Package Length"
+#~ msgstr "包装长度"
+
+#~ msgid "Package Width"
+#~ msgstr "包装宽度"
+
+#~ msgid "Package/customer supplied"
+#~ msgstr "打包/顾客提供"
+
+#~ msgid "Pallet"
+#~ msgstr "垫板"
+
+#~ msgid "Test Mode"
+#~ msgstr "测试模式"
+
+#~ msgid "UPS Letter"
+#~ msgstr "UPS信纸"
+
+#~ msgid "Uncheck this box to use production UPS Web Services"
+#~ msgstr "取消该复选框而使用UPS网站服务"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

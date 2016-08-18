@@ -1,246 +1,378 @@
+# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_contract
-# 
+#
 # Translators:
 # krnkris, 2016
 # krnkris, 2016
 # Zsofia Biro <zsbiro1205@gmail.com>, 2016
+# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * website_contract
+#
+# Translators:
+# Martin Trigaux <mat@odoo.com>, 2016
+# krnkris <krnkris@freemail.hu>, 2016
+# Zsofia Biro <zsbiro1205@gmail.com>, 2016
+# Kovács Tibor <kovika@gmail.com>, 2016
+# Oregional <geza.nagy@oregional.hu>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-06-17 12:53+0000\n"
-"Last-Translator: krnkris\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. module: website_contract
-#: model:mail.template,body_html:website_contract.email_contract_open
-msgid ""
-"\n"
-"            \n"
-"    <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>Your new Odoo Online Subscription is ready!</p>\n"
-"\n"
-"        <p>You can view your subscription online by going to our <a href=\"/my/home\">Online Portal</a> or by following this link:</p>\n"
-"        <a style=\"display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #a24689; border-radius: 5px 5px; background-repeat: repeat no-repeat;\"\n"
-"            href=\"/my/contract/${object.id}/${object.uuid}\">View Subscription</a>\n"
-"\n"
-"\n"
-"        <p>With this page, you can easily manage your contracts:</p>\n"
-"        <ul>\n"
-"            <li>Add or remove options</li>\n"
-"            <li>Change your recurring period from monthly to annually</li>\n"
-"            <li>Contact your sales representative</li>\n"
-"        </ul>\n"
-"        <p>You can access this link publicly or share it with someone else to give him/her the right to manage this subscription.</p>\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 0px; background-color: #a24689; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #fff;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #333; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
-"                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
-"                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
-msgstr ""
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"            Your subscription (${ctx.get('code')}) has just been renewed\n"
-"            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-"                via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_method']}\n"
-"                .\n"
-"            %endif\n"
-"        </p>\n"
-"\n"
-"        <p>You will find your invoice attached.</p>\n"
-"\n"
-"        %if ctx.get('next_date'):\n"
-"        <p>\n"
-"          Your next invoice will be on ${ctx.get('next_date')}.\n"
-"        </p>\n"
-"        %endif\n"
-"\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
-msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p> A\n             (${ctx.get('code')}) feliratkozását megújítottuk\n            %if ctx.get('total_amount') és ctx.get('payment_method'):\n                 a kifizetett összeg ${ctx['total_amount']} ${ctx['currency']}  terhelve erre  ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Mellékelve megtalálja a számláját.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n           Következő számlájának várható dátuma ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>További felmerülő kérdésekben állunk szíves rendelkezésükre.</p>\n        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Dear ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                    Your subscription (${ctx.get('code')}) has just been "
+"renewed\n"
+"                    %if ctx.get('total_amount') and ctx."
+"get('payment_method'):\n"
+"                        via a payment of ${ctx['total_amount']} "
+"${ctx['currency']} charged on ${ctx['payment_method']}\n"
+"                        .\n"
+"                    %endif\n"
+"                </p>\n"
+"                <p>You will find your invoice attached.</p>\n"
+"                %if ctx.get('next_date'):\n"
+"                <p>\n"
+"                  Your next invoice will be on ${ctx.get('next_date')}.\n"
+"                </p>\n"
+"                %endif\n"
+"                <br/>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
+
+#. module: website_contract
+#: model:mail.template,body_html:website_contract.email_contract_open
+msgid ""
+"\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
+"                <div>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                </div>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Dear ${object.subscription_id.partner_id.name},</p>\n"
+"                <p>Your subscription ${object.subscription_id.name} is "
+"active!</p>\n"
+"\n"
+"                <p>You can view your subscription online by going to our <a "
+"style=\"text-decoration:none; color: #a24689;\" href=\"/my/home\">Online "
+"Portal</a> or by following this link\n"
+"                <p style=\"text-align: center;\"><a style=\"padding: 5px "
+"10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:"
+"#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#a24689; border: 1px solid #a24689; border-radius:3px\" href=\"/my/contract/"
+"${object.subscription_id.id}/${object.subscription_id.uuid}\">View "
+"Subscription</a></p>\n"
+"\n"
+"                <p>With this page, you can easily manage your contracts:</"
+"p>\n"
+"                <ul>\n"
+"                    <li>Add or remove options</li>\n"
+"                    <li>Change your recurring period from monthly to "
+"annually</li>\n"
+"                    <li>Contact your sales representative</li>\n"
+"                </ul>\n"
+"                <p>You can access this link publicly or share it with "
+"someone else to give him/her the right to manage this subscription.</p>\n"
+"\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.subscription_id."
+"company_id.name or 'us'}!</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"          Our final attempt to process a payment for your subscription using your payment method\n"
-"          ${ctx['payment_method']}\n"
-"          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-"          % if ctx.get('error'):\n"
-"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
-"          %endif\n"
-"        % else:\n"
-"          Our final attempt to process a payment for your subscription failed because we have no payment method recorded for you.\n"
-"        % endif \n"
-"        </p>\n"
-"\n"
-"        <p>\n"
-"          As your payment should have been made <strong>15 days ago</strong>, your subscription has been terminated.\n"
-"        </p>\n"
-"\n"
-"        <br/>\n"
-"        <p>Should you wish to resolve this issue, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
-msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') és ctx.get('total_amount'):\n           Utoljára megpróbáljuk az előfizetéséhez tartozó befizetést elvégezni a választott fizetés módjával\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Az előfizetéséhez tartozó utolsó próbája meghiusult, mivel nem volt beállítva fizertési mód.\n        % endif \n        </p>\n\n        <p>\n           Mivel a befizetést  <strong>15 napja</strong> meg kellet volna tennie, ezért a feliratkozását szüneteltetjük.\n        </p>\n\n        <br/>\n        <p>Ha megoldást szeretne találni z ügyben, kéjük vegye fel velünk a kapcsolatot.</p>\n        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  Our final attempt to process a payment for your "
+"subscription using your payment method\n"
+"                  ${ctx['payment_method']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  Our final attempt to process a payment for your "
+"subscription failed because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  As your payment should have been made <strong>15 days ago</"
+"strong>, your subscription has been terminated.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>Should you wish to resolve this issue, do not hesitate to "
+"contact us.</p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"          We were unable to process a payment for your subscription using your payment method\n"
-"          ${ctx['payment_method']}\n"
-"          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
-"          % if ctx.get('error'):\n"
-"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
-"          %endif\n"
-"        % else:\n"
-"          We were unable to process a payment for your subscription because we have no payment method recorded for you.\n"
-"        % endif \n"
-"        </p>\n"
-"\n"
-"        <p>\n"
-"          Your subscription ${ctx.get('code')} is still valid but will be <b>suspended</b>\n"
-"          on ${ctx.get('date_close')} unless the payment succeeds in the mean time (we will retry once every day).\n"
-"          Please double-check that you have sufficient funds.\n"
-"        </p>\n"
-"\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
-msgstr "\n            \n    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Tisztelt ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') és ctx.get('total_amount'):\n           Nem tudtuk végrehajtani a feliratkozásához tartozó befizetést a fizetési módjával \n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            A bank vagy hitel intézete a következő részleteket közölte erről:  <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Feliratkozására nem tudjuk végrehajtani a befizetési műveletet, mivel nem került rögzítésre fizetési mód.\n        % endif \n        </p>\n\n        <p>\n           A feliratkozás  ${ctx.get('code')} még érvényes, de időközben szüneteltetésre került <b>suspended</b>\n           ${ctx.get('date_close')} dátummal hacsak, időközben sikerül a befizetés (minden nap egyszer kísérletet teszünk). Kérem ellenőrizze, hogy megvan rá a fedezete\n         </p>\n\n        <br/>\n        <p>További felmerülő kérdésekben, állunk szíves rendelkezésükre.</p>\n        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Phone:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  We were unable to process a payment for your subscription "
+"using your payment method\n"
+"                  ${ctx['payment_method']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  We were unable to process a payment for your subscription "
+"because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  Your subscription ${ctx.get('code')} is still valid but "
+"will be <b>suspended</b>\n"
+"                  on ${ctx.get('date_close')} unless the payment succeeds in "
+"the mean time (we will retry once every day).\n"
+"                  Please double-check that you have sufficient funds.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
@@ -296,11 +428,6 @@ msgid "&amp;bull; <b>Template</b>:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.cart
-msgid "&amp;nbsp;"
-msgstr "&amp;nbsp;"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_change_contract
 msgid "&amp;rarr;"
 msgstr ""
@@ -328,13 +455,22 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
-"<abbr title=\"You need to be logged in as this contract's customer to change"
-" country\">Taxes</abbr>:"
+"<abbr title=\"You need to be logged in as this contract's customer to change "
+"country\">Taxes</abbr>:"
 msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "<i class=\"fa fa-fw fa-arrow-circle-right\"/> Select"
+msgstr ""
+
+#. module: website_contract
+#. openerp-web
+#: code:addons/website_contract/static/src/js/website_contract.js:45
+#, python-format
+msgid ""
+"<p>We are not able to add your payment method at the moment.<br/> Please try "
+"again later or contact us.</p>"
 msgstr ""
 
 #. module: website_contract
@@ -386,8 +522,13 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
+#, fuzzy
 msgid "Account Analytic Lines"
-msgstr "Könyvelési elemző/analitikai sorok"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Könyvelési elemző/analitikai sorok\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Könyvelési elemző/elemző sorok"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
@@ -417,15 +558,14 @@ msgid "Activities"
 msgstr "Tevékenységek"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Actual Quantity"
-msgstr "Aktuális mennyiség"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+#, fuzzy
 msgid "Add"
-msgstr "Hozzáadás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Hozzáadás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Hozzáad"
 
 #. module: website_contract
 #: model:ir.actions.act_window,name:website_contract.wizard_action
@@ -436,8 +576,8 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid ""
-"Add an option directly or create a sale order with prorated discount for the"
-" current invoicing period (options are added on confirmation)"
+"Add an option directly or create a sale order with prorated discount for the "
+"current invoicing period (options are added on confirmation)"
 msgstr ""
 
 #. module: website_contract
@@ -447,8 +587,13 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
+#, fuzzy
 msgid "Analytic Account"
-msgstr "Gyűjtő/elemző könyvelés"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Gyűjtő/elemző könyvelés\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Analitikus/elemző könyvelés"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
@@ -480,8 +625,13 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.modal_remove
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
+#, fuzzy
 msgid "Cancel"
-msgstr "Megszakítás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Megszakítás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Mégse"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -513,8 +663,13 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
+#, fuzzy
 msgid "Close"
-msgstr "Bezár"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Bezár\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Bezárás"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -539,8 +694,13 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.modal_remove
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.template_panel
+#, fuzzy
 msgid "Confirm"
-msgstr "Jóváhagyás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Jóváhagyás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Megerősít"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_add
@@ -606,88 +766,33 @@ msgid "Current:"
 msgstr ""
 
 #. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_domain
-#: model:product.template,name:website_contract.odoo_custom_domain_product_template
-msgid "Custom Domain"
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_domain
-#: model:product.template,description_sale:website_contract.odoo_custom_domain_product_template
-#: model:sale.quote.option,name:website_contract.sugg_line_13
-#: model:sale.quote.option,name:website_contract.sugg_line_23
-msgid ""
-"Custom Domain\n"
-"Access your Odoo Instance using your own domain."
-msgstr ""
-
-#. module: website_contract
-#: model:sale.quote.option,name:website_contract.sugg_line_12
-#: model:sale.quote.option,name:website_contract.sugg_line_22
-msgid ""
-"Customize View\n"
-"Customize one or more views (in a single module) to better suit your needs."
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_module
-#: model:product.template,name:website_contract.odoo_custom_module_product_template
-msgid "Customized Module"
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_module
-#: model:product.template,description_sale:website_contract.odoo_custom_module_product_template
-#: model:sale.quote.option,name:website_contract.sugg_line_11
-#: model:sale.quote.option,name:website_contract.sugg_line_21
-msgid ""
-"Customized Module\n"
-"Customize a module to better match your business process."
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_view
-#: model:product.template,description_sale:website_contract.odoo_custom_view_product_template
-msgid ""
-"Customized View\n"
-"Customize one or more views (in a single module) to better suit your needs."
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_view
-#: model:product.template,name:website_contract.odoo_custom_view_product_template
-msgid "Customized Views"
-msgstr "Testreszabott nézetek"
-
-#. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_sale_subscription_dashboard
-msgid "Dashboard"
-msgstr "Műszerfal"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Date"
 msgstr "Dátum"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_name
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_name
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Description"
 msgstr "Leírás"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_discount
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_discount
-msgid "Discount (%)"
-msgstr "Árengedmény (%)"
-
-#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
+#, fuzzy
 msgid "Display Name"
-msgstr "Név megjelenítése"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Név megjelenítése\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Megjelenített név"
+
+#. module: website_contract
+#. openerp-web
+#: code:addons/website_contract/static/src/js/website_contract.js:44
+#, python-format
+msgid "Error"
+msgstr "Hiba"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -708,8 +813,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_id
+#, fuzzy
 msgid "ID"
-msgstr "ID"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"ID\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Azonosító ID"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_user_closable
@@ -734,14 +844,6 @@ msgstr ""
 msgid ""
 "If set, payments will be made automatically and invoices will not be "
 "generated if payment attempts are unsuccessful."
-msgstr ""
-
-#. module: website_contract
-#: code:addons/website_contract/controllers/main.py:299
-#, python-format
-msgid ""
-"If we store your payment information on our server, subscription payments "
-"will be made automatically."
 msgstr ""
 
 #. module: website_contract
@@ -773,8 +875,13 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_payment_transaction_invoice_id
+#, fuzzy
 msgid "Invoice"
-msgstr "Számlázás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Számlázás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Számla"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_success
@@ -796,15 +903,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
+#, fuzzy
 msgid "Last Modified on"
-msgstr "Utolsó frissítés dátuma"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Utolsó frissítés dátuma\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Utoljára frissítve ekkor"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_uid
+#, fuzzy
 msgid "Last Updated by"
-msgstr "Utoljára frissítve, által"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Utoljára frissítve, által\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Utoljára frissítette"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_date
@@ -814,15 +931,11 @@ msgid "Last Updated on"
 msgstr "Utoljára frissítve "
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr "Az aktuális és az értékesített mennyiségek közti maximum; ez kerül számlázásra"
-
-#. module: website_contract
-#: model:product.uom,name:website_contract.contract_uom_month
-msgid "Month(s)"
-msgstr "Hónap(ok)"
+msgstr ""
+"Az aktuális és az értékesített mennyiségek közti maximum; ez kerül "
+"számlázásra"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -853,26 +966,10 @@ msgid "Next invoice:"
 msgstr ""
 
 #. module: website_contract
-#: model:product.product,name:website_contract.odoo_saas
-#: model:product.template,name:website_contract.odoo_saas_product_template
-msgid "Odoo SAAS"
-msgstr ""
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_saas
-#: model:product.template,description_sale:website_contract.odoo_saas_product_template
-#: model:sale.quote.line,name:website_contract.sale_line_11
-#: model:sale.quote.line,name:website_contract.sale_line_21
-msgid ""
-"Odoo SAAS\n"
-"Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups."
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid ""
-"One-time Fees <small>- These products will not be part of your "
-"subscription</small>"
+"One-time Fees <small>- These products will not be part of your subscription</"
+"small>"
 msgstr ""
 
 #. module: website_contract
@@ -902,17 +999,6 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid "Options"
 msgstr "Lehetőségek"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
-msgid "Partial Invoice"
-msgstr ""
-
-#. module: website_contract
-#: code:addons/website_contract/controllers/main.py:290
-#, python-format
-msgid "Pay & Confirm"
-msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -957,34 +1043,30 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+#, fuzzy
 msgid "Price"
-msgstr "Érték"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Érték\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Ár"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_product_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_product_id
 msgid "Product"
 msgstr "Termék"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
+msgid "Prorated Invoice"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Quantity"
 msgstr "Mennyiség"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Quantity actually used by the customer"
-msgstr "A vásárló részéről felhasznált aktuális mennyiség"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Quantity sold to the customer"
-msgstr "Vásárló részére értékesített mennyiség"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
@@ -1032,15 +1114,12 @@ msgstr ""
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid ""
 "Restricted: The customer must ask a Sales Rep to add or remove this option\n"
-"Upgrade Only: The customer can add the option himself but must ask to remove it\n"
+"Upgrade Only: The customer can add the option himself but must ask to remove "
+"it\n"
 "Upgrade and Downgrade: The customer can add or remove this option himself\n"
-"Invisible: The customer doesn't see the option; however it gets carried away when switching subscription template"
+"Invisible: The customer doesn't see the option; however it gets carried away "
+"when switching subscription template"
 msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_main
-msgid "Revenue KPIs"
-msgstr "Bevétel KPI - teljesítménymutató"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_quote_template
@@ -1054,8 +1133,13 @@ msgstr "Értékesítés előjegyzés"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
+#, fuzzy
 msgid "Sales"
-msgstr "Értékesítés"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Értékesítés\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Értékesítések"
 
 #. module: website_contract
 #: model:ir.actions.act_window,name:website_contract.action_contract_sales_all
@@ -1064,13 +1148,23 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_order
+#, fuzzy
 msgid "Sales Order"
-msgstr "Vevői megrendelés"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Vevői megrendelés\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Vásárlói megrendelés"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_order_line
+#, fuzzy
 msgid "Sales Order Line"
-msgstr "Vevői megrendelés sor"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Vevői megrendelés sor\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Vásárlói megrendelés tételsor"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1079,39 +1173,25 @@ msgid "Sales Representative"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_salesman
-msgid "Salesman Dashboard"
-msgstr "Értékesítő műszerfala"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Sold Quantity"
-msgstr "Értékesített mennyiség"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Start date:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_subtotal
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_subtotal
-msgid "Sub Total"
-msgstr "Részösszeg"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_analytic_account_id
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_analytic_account_id
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid "Subscription"
 msgstr "Feliratkozás"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+#, fuzzy
 msgid "Subtotal"
-msgstr "Nettó érték"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Nettó érték\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Részösszeg"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1151,20 +1231,21 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
+#, fuzzy
 msgid "The full URL to access the document through the website."
-msgstr "A teljes URL elérési út a weboldalon keresztüli belépéshez a szerver eléréséhez."
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"A teljes URL elérési út a weboldalon keresztüli belépéshez a szerver "
+"eléréséhez.\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"A teljes elérési út/URL  a dokumentum weboldalon keresztüli eléréséhez."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid ""
-"These modifications will be active immedialy, however your next invoice date"
-" will not be changed. Your next invoice will arrive on:"
+"These modifications will be active immediately, however your next invoice "
+"date will not be changed. Your next invoice will arrive on:"
 msgstr ""
-
-#. module: website_contract
-#: model:product.uom.categ,name:website_contract.uom_categ_time
-msgid "Time"
-msgstr "Idő"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
@@ -1179,17 +1260,9 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_unit
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_unit
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Unit Price"
 msgstr "Egységár"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_uom_id
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_uom_id
-msgid "Unit of Measure"
-msgstr "Mértékegység"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -1256,16 +1329,11 @@ msgid "Wizard id"
 msgstr ""
 
 #. module: website_contract
-#: model:product.uom,name:website_contract.contract_uom_year
-msgid "Year(s)"
-msgstr "Év(ek)"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "You can either create a quotation that will be discounted for the current "
-"invoicing period (the options will be added when the quotation is confirmed)"
-" or directly insert them in the subscription to invoice it on the next "
+"invoicing period (the options will be added when the quotation is confirmed) "
+"or directly insert them in the subscription to invoice it on the next "
 "invoice date."
 msgstr ""
 
@@ -1285,7 +1353,7 @@ msgstr ""
 #: model:ir.actions.act_window,help:website_contract.action_contract_sales_all
 msgid ""
 "You will find here all the quotations and sales orders related to this "
-"subscriptions."
+"subscription."
 msgstr ""
 
 #. module: website_contract
@@ -1317,8 +1385,8 @@ msgstr ""
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_contract_open
-msgid "Your subscription ${object.code}is active!"
-msgstr "Feliratkozása ${object.code} aktív!"
+msgid "Your subscription ${object.subscription_id.code} is active!"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1367,17 +1435,501 @@ msgid "week(s)"
 msgstr "het(ek)"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "year(s)"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "years(s)"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Hello ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "            Your subscription (${ctx.get('code')}) has just been renewed\n"
+#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
+#~ "                via a payment of ${ctx['total_amount']} "
+#~ "${ctx['currency']} charged on ${ctx['payment_method']}\n"
+#~ "                .\n"
+#~ "            %endif\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>You will find your invoice attached.</p>\n"
+#~ "\n"
+#~ "        %if ctx.get('next_date'):\n"
+#~ "        <p>\n"
+#~ "          Your next invoice will be on ${ctx.get('next_date')}.\n"
+#~ "        </p>\n"
+#~ "        %endif\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
+#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p> A\n"
+#~ "             (${ctx.get('code')}) feliratkozását megújítottuk\n"
+#~ "            %if ctx.get('total_amount') és ctx.get('payment_method'):\n"
+#~ "                 a kifizetett összeg ${ctx['total_amount']} "
+#~ "${ctx['currency']}  terhelve erre  ${ctx['payment_method']}\n"
+#~ "                .\n"
+#~ "            %endif\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>Mellékelve megtalálja a számláját.</p>\n"
+#~ "\n"
+#~ "        %if ctx.get('next_date'):\n"
+#~ "        <p>\n"
+#~ "           Következő számlájának várható dátuma ${ctx.get('next_date')}.\n"
+#~ "        </p>\n"
+#~ "        %endif\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>További felmerülő kérdésekben állunk szíves rendelkezésükre.</"
+#~ "p>\n"
+#~ "        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!"
+#~ "</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Hello ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+#~ "          Our final attempt to process a payment for your subscription "
+#~ "using your payment method\n"
+#~ "          ${ctx['payment_method']}\n"
+#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+#~ "          % if ctx.get('error'):\n"
+#~ "            Your bank or credit institution gave the following details "
+#~ "about the issue: <pre>${ctx['error']}</pre>.\n"
+#~ "          %endif\n"
+#~ "        % else:\n"
+#~ "          Our final attempt to process a payment for your subscription "
+#~ "failed because we have no payment method recorded for you.\n"
+#~ "        % endif \n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "          As your payment should have been made <strong>15 days ago</"
+#~ "strong>, your subscription has been terminated.\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>Should you wish to resolve this issue, do not hesitate to "
+#~ "contact us.</p>\n"
+#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "        % if ctx.get('payment_method') és ctx.get('total_amount'):\n"
+#~ "           Utoljára megpróbáljuk az előfizetéséhez tartozó befizetést "
+#~ "elvégezni a választott fizetés módjával\n"
+#~ "          ${ctx['payment_method']}\n"
+#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+#~ "          % if ctx.get('error'):\n"
+#~ "            A bank vagy hitel intézete a következő részleteket közölte "
+#~ "erről: <pre>${ctx['error']}</pre>.\n"
+#~ "          %endif\n"
+#~ "        % else:\n"
+#~ "          Az előfizetéséhez tartozó utolsó próbája meghiusult, mivel nem "
+#~ "volt beállítva fizertési mód.\n"
+#~ "        % endif \n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "           Mivel a befizetést  <strong>15 napja</strong> meg kellet volna "
+#~ "tennie, ezért a feliratkozását szüneteltetjük.\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>Ha megoldást szeretne találni z ügyben, kéjük vegye fel velünk "
+#~ "a kapcsolatot.</p>\n"
+#~ "        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!"
+#~ "</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+
+#~ msgid ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Hello ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+#~ "          We were unable to process a payment for your subscription using "
+#~ "your payment method\n"
+#~ "          ${ctx['payment_method']}\n"
+#~ "          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+#~ "          % if ctx.get('error'):\n"
+#~ "            Your bank or credit institution gave the following details "
+#~ "about the issue: <pre>${ctx['error']}</pre>.\n"
+#~ "          %endif\n"
+#~ "        % else:\n"
+#~ "          We were unable to process a payment for your subscription "
+#~ "because we have no payment method recorded for you.\n"
+#~ "        % endif \n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "          Your subscription ${ctx.get('code')} is still valid but will be "
+#~ "<b>suspended</b>\n"
+#~ "          on ${ctx.get('date_close')} unless the payment succeeds in the "
+#~ "mean time (we will retry once every day).\n"
+#~ "          Please double-check that you have sufficient funds.\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
+#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "        % if ctx.get('payment_method') és ctx.get('total_amount'):\n"
+#~ "           Nem tudtuk végrehajtani a feliratkozásához tartozó befizetést "
+#~ "a fizetési módjával \n"
+#~ "          ${ctx['payment_method']}\n"
+#~ "          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+#~ "          % if ctx.get('error'):\n"
+#~ "            A bank vagy hitel intézete a következő részleteket közölte "
+#~ "erről:  <pre>${ctx['error']}</pre>.\n"
+#~ "          %endif\n"
+#~ "        % else:\n"
+#~ "          Feliratkozására nem tudjuk végrehajtani a befizetési műveletet, "
+#~ "mivel nem került rögzítésre fizetési mód.\n"
+#~ "        % endif \n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "           A feliratkozás  ${ctx.get('code')} még érvényes, de időközben "
+#~ "szüneteltetésre került <b>suspended</b>\n"
+#~ "           ${ctx.get('date_close')} dátummal hacsak, időközben sikerül a "
+#~ "befizetés (minden nap egyszer kísérletet teszünk). Kérem ellenőrizze, "
+#~ "hogy megvan rá a fedezete\n"
+#~ "         </p>\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>További felmerülő kérdésekben, állunk szíves rendelkezésükre.</"
+#~ "p>\n"
+#~ "        <p>Köszönjük, hogy a ${object.company_id.name or 'us'}választotta!"
+#~ "</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+
+#~ msgid "&amp;nbsp;"
+#~ msgstr "&amp;nbsp;"
+
+#~ msgid "Actual Quantity"
+#~ msgstr "Aktuális mennyiség"
+
+#~ msgid "Customized Views"
+#~ msgstr "Testreszabott nézetek"
+
+#~ msgid "Dashboard"
+#~ msgstr "Műszerfal"
+
+#~ msgid "Discount (%)"
+#~ msgstr "Árengedmény (%)"
+
+#~ msgid "Month(s)"
+#~ msgstr "Hónap(ok)"
+
+#~ msgid "Quantity actually used by the customer"
+#~ msgstr "A vásárló részéről felhasznált aktuális mennyiség"
+
+#~ msgid "Quantity sold to the customer"
+#~ msgstr "Vásárló részére értékesített mennyiség"
+
+#~ msgid "Revenue KPIs"
+#~ msgstr "Bevétel KPI - teljesítménymutató"
+
+#~ msgid "Salesman Dashboard"
+#~ msgstr "Értékesítő műszerfala"
+
+#~ msgid "Sold Quantity"
+#~ msgstr "Értékesített mennyiség"
+
+#~ msgid "Sub Total"
+#~ msgstr "Részösszeg"
+
+#~ msgid "Time"
+#~ msgstr "Idő"
+
+#~ msgid "Unit of Measure"
+#~ msgstr "Mértékegység"
+
+#~ msgid "Year(s)"
+#~ msgstr "Év(ek)"
+
+#~ msgid "Your subscription ${object.code}is active!"
+#~ msgstr "Feliratkozása ${object.code} aktív!"
+
+#~ msgid "Back"
+#~ msgstr "Vissza"
+
+#~ msgid "Contracts"
+#~ msgstr "Szerződések"
+
+#~ msgid "Order Number"
+#~ msgstr "Megrendelés szám"
+
+#~ msgid "Reference:"
+#~ msgstr "Hivatkozás:"
+
+#~ msgid "Sales Orders"
+#~ msgstr "Vevői megrendelések"
+
+#~ msgid "Total Tax Included"
+#~ msgstr "Végösszeg adókkal együtt"

@@ -1,21 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_temando
-# 
+#
 # Translators:
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-18 12:36+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-02-11 09:49+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: delivery_temando
@@ -55,11 +55,6 @@ msgid "Allied Express via Temando"
 msgstr "Allied Express cez Temando"
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Box"
-msgstr "Krabica"
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54432
 #: model:product.product,name:delivery_temando.temando_54432_product_product
 msgid "Capital Transport HDS via Temando"
@@ -69,11 +64,6 @@ msgstr "Capital Transport HDS cez Temando"
 #: model:ir.model,name:delivery_temando.model_delivery_carrier
 msgid "Carrier"
 msgstr "Prepavca"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Carton"
-msgstr "Kartón"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -111,14 +101,21 @@ msgid "Couriers Please via Temando"
 msgstr "Couriers Please cez Temando"
 
 #. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
+#, fuzzy
+msgid "Default HS Code"
+msgstr "HS kód"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_id
+#, fuzzy
+msgid "Default Packaging Type"
+msgstr "Temando prednastavený typ balenia"
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_type:0
 msgid "Depot to Depot"
 msgstr "Z Depa do Depa"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Document Envelope"
-msgstr "Dokumentová obálka"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_nature:0
@@ -153,21 +150,6 @@ msgid "Feet"
 msgstr "Stopa"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Fix Height if not provided on the product packaging."
-msgstr "Fixná výška ak nie je uvedená na balení produktu."
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Fix Length if not provided on the product packaging."
-msgstr "Fixná dĺžka ak nie je uvedená na balení produktu."
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Fix Width if not provided on the product packaging."
-msgstr "Fixná šírka ak nie je uvedená na balení produktu."
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54329
 #: model:product.product,name:delivery_temando.temando_54329_product_product
 msgid "Followmont Transport via Temando"
@@ -189,11 +171,6 @@ msgid "Grams"
 msgstr "Gramy"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
-msgid "HS Code"
-msgstr "HS kód"
-
-#. module: delivery_temando
 #: selection:delivery.carrier,temando_subclass:0
 msgid "Household Goods"
 msgstr "Domáce potreby"
@@ -209,7 +186,9 @@ msgstr "Hunter Express. cez Temando"
 msgid ""
 "If set, Temando fetch quotations only for this carrier. If not set, the "
 "cheapest one is selected."
-msgstr "Ak je nastavené, Temando načíta cenové ponuky len pre tohto dopravcu. Ak nie je nastavené, je vybraný najlacnejší."
+msgstr ""
+"Ak je nastavené, Temando načíta cenové ponuky len pre tohto dopravcu. Ak nie "
+"je nastavené, je vybraný najlacnejší."
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -225,11 +204,6 @@ msgstr "Medzinárodný"
 #: selection:delivery.carrier,temando_weight_measurement_type:0
 msgid "Kilograms"
 msgstr "Kilogramy"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Letter"
-msgstr "Dopis"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
@@ -249,7 +223,7 @@ msgid "Mainfreight via Temando"
 msgstr "Mainfreight cez Temando"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:174
+#: code:addons/delivery_temando/models/delivery_temando.py:173
 #, python-format
 msgid "Manifest for this shipping"
 msgstr "Súpis pre túto zásielku"
@@ -275,18 +249,20 @@ msgid "Nearest by Priority"
 msgstr "Najbližšie podľa priority"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:167
+#: code:addons/delivery_temando/models/delivery_temando.py:166
 #, python-format
 msgid "No CarrierID found for this delivery order"
 msgstr "ID dopravcu nebolo nájdené pre túto dodaciu objednávku"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:165
+#: code:addons/delivery_temando/models/delivery_temando.py:164
 #, python-format
 msgid ""
 "No Temando location is associated to this warehouse, Manifest collection is "
 "not available"
-msgstr "Žiadn Temando lokácia nie je spojená s týmto skladiskom, kolekcia súpisu nie je k dispozícii"
+msgstr ""
+"Žiadn Temando lokácia nie je spojená s týmto skladiskom, kolekcia súpisu nie "
+"je k dispozícii"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
@@ -305,34 +281,23 @@ msgid "Ounces"
 msgstr "Unce"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Package Height"
+#: model:ir.model,name:delivery_temando.model_product_packaging
+#, fuzzy
+msgid "Packaging"
 msgstr "Výška balíka"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Package Length"
-msgstr "Dĺžka balíka"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Package Width"
-msgstr "Šírka balíka"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Pallet"
-msgstr "Paleta"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Parcel"
-msgstr "Zásielka"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
 msgid "Plain"
 msgstr "Obyčajný"
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/temando_request.py:109
+#, python-format
+msgid ""
+"Please provide Height, Width and Length on product packaging or delivery "
+"method."
+msgstr ""
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:52
@@ -362,18 +327,32 @@ msgid "Sales Order"
 msgstr "Predajná objednávka"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:150
+#: model:ir.model.fields,help:delivery_temando.field_stock_warehouse_temando_location
+msgid ""
+"Set this field with your Temando Location reference to enable manifesting "
+"from this location."
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:152
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Zásielka N° %s bola zrušená"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:120
+#: code:addons/delivery_temando/models/delivery_temando.py:118
 #, python-format
 msgid ""
 "Shipment created into Temando <br/> <b>Carrier: </b>%s <br/> <b>Tracking "
 "Number: </b>%s"
-msgstr "Zásielka vytvorená v Temando <br/> <b>Doručovateľ: </b>%s <br/> <b>Sledovacie číslo: </b>%s"
+msgstr ""
+"Zásielka vytvorená v Temando <br/> <b>Doručovateľ: </b>%s <br/> "
+"<b>Sledovacie číslo: </b>%s"
+
+#. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Standard"
+msgstr ""
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54396
@@ -448,6 +427,7 @@ msgstr "Temando ID doručovateľa"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_carrier_name
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_carrier_name
 msgid "Temando Carrier Name"
 msgstr "Temando názov doručovateľa"
 
@@ -463,8 +443,15 @@ msgstr "Temando konfigurácia"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_delivery_method
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_delivery_method
 msgid "Temando Delivery Method"
 msgstr "Temando doručovacia metóda"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_warehouse_temando_location
+#, fuzzy
+msgid "Temando Location"
+msgstr "Temando konfigurácia"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_password
@@ -472,7 +459,10 @@ msgid "Temando Password"
 msgstr "Temando heslo"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:329
+#: code:addons/delivery_temando/models/temando_request.py:160
+#: code:addons/delivery_temando/models/temando_request.py:303
+#: code:addons/delivery_temando/models/temando_request.py:336
+#: code:addons/delivery_temando/models/temando_request.py:353
 #, python-format
 msgid "Temando Server Not Found"
 msgstr "Temando server nebol nájdený"
@@ -481,11 +471,6 @@ msgstr "Temando server nebol nájdený"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_username
 msgid "Temando Username"
 msgstr "Temando používateľské meno "
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_type
-msgid "Temando default packaging type"
-msgstr "Temando prednastavený typ balenia"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_delivery_nature
@@ -498,7 +483,7 @@ msgid "Temando delivery type"
 msgstr "Temando typ doručovania"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:325
+#: code:addons/delivery_temando/models/temando_request.py:349
 #, python-format
 msgid "Temando did not return any manifest"
 msgstr "Temando nevrátil žiadny súpis"
@@ -507,6 +492,12 @@ msgstr "Temando nevrátil žiadny súpis"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_distance_measurement_type
 msgid "Temando distance measurement type"
 msgstr "Temando typ merania vzdialenosti"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_label_printer_type
+#, fuzzy
+msgid "Temando label printer type"
+msgstr "Temando typ doručovania"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_location_selection
@@ -546,16 +537,12 @@ msgid "Temando's Cheapest - International"
 msgstr "Temando najlacnejšie - Medzinárodné"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Test Mode"
-msgstr "Testovací režim"
-
-#. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:49
 #, python-format
 msgid ""
 "The address of your company is missing or wrong (Missing fields : %s...)."
-msgstr "Adresa vašej spoločnosti chýba alebo je nesprávna (Chýbajúce polia : %s...)."
+msgstr ""
+"Adresa vašej spoločnosti chýba alebo je nesprávna (Chýbajúce polia : %s...)."
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:59
@@ -568,9 +555,10 @@ msgstr "Doručenie nemožno vykonať, pretože hmotnosť niektorých výrobkov c
 #: code:addons/delivery_temando/models/temando_request.py:54
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
-msgstr "Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
+msgstr ""
+"Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:44
@@ -579,11 +567,18 @@ msgid "The recipient address is missing or wrong (Missing fields : %s...)."
 msgstr "Adresa príjemcu chýba alebo je nesprávna (Chýbajúce polia : %s...)."
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:86
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Thermal"
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:84
 #, python-format
 msgid ""
 "This picking cannot be sent through Temando, as it has no linked sale order"
-msgstr "Tento výber nemôže byť poslaný cez Temando, pretože nemá žiadnu súvisiacu predajnú objednávku"
+msgstr ""
+"Tento výber nemôže byť poslaný cez Temando, pretože nemá žiadnu súvisiacu "
+"predajnú objednávku"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
@@ -592,14 +587,14 @@ msgid "Transfer"
 msgstr "Prevod"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Uncheck this box to use production Temando Web Services"
-msgstr "Zrušte označenie tohto políčka pre používanie produkcie Temando Web služby"
+#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_hs_code
+msgid "Used only if a HS code is not set on the product."
+msgstr ""
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Unpackage or N/A"
-msgstr "Rozbaliť alebo Nedostupné"
+#: model:ir.model,name:delivery_temando.model_stock_warehouse
+msgid "Warehouse"
+msgstr ""
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_60434
@@ -608,6 +603,54 @@ msgid "XPS_UPS via Temando"
 msgstr "XPS_UPS cez Temando"
 
 #. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "ZPL"
+msgstr ""
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
 msgid "chep"
 msgstr "chep"
+
+#~ msgid "Box"
+#~ msgstr "Krabica"
+
+#~ msgid "Carton"
+#~ msgstr "Kartón"
+
+#~ msgid "Document Envelope"
+#~ msgstr "Dokumentová obálka"
+
+#~ msgid "Fix Height if not provided on the product packaging."
+#~ msgstr "Fixná výška ak nie je uvedená na balení produktu."
+
+#~ msgid "Fix Length if not provided on the product packaging."
+#~ msgstr "Fixná dĺžka ak nie je uvedená na balení produktu."
+
+#~ msgid "Fix Width if not provided on the product packaging."
+#~ msgstr "Fixná šírka ak nie je uvedená na balení produktu."
+
+#~ msgid "Letter"
+#~ msgstr "Dopis"
+
+#~ msgid "Package Length"
+#~ msgstr "Dĺžka balíka"
+
+#~ msgid "Package Width"
+#~ msgstr "Šírka balíka"
+
+#~ msgid "Pallet"
+#~ msgstr "Paleta"
+
+#~ msgid "Parcel"
+#~ msgstr "Zásielka"
+
+#~ msgid "Test Mode"
+#~ msgstr "Testovací režim"
+
+#~ msgid "Uncheck this box to use production Temando Web Services"
+#~ msgstr ""
+#~ "Zrušte označenie tohto políčka pre používanie produkcie Temando Web služby"
+
+#~ msgid "Unpackage or N/A"
+#~ msgstr "Rozbaliť alebo Nedostupné"

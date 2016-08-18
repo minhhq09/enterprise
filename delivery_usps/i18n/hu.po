@@ -1,21 +1,34 @@
+# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_usps
-# 
+#
 # Translators:
 # Kris Krnacs, 2015-2016
+# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * delivery_usps
+#
+# Translators:
+# krnkris <krnkris@freemail.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-03-09 15:55+0000\n"
-"Last-Translator: Kris Krnacs\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_usps
@@ -39,7 +52,7 @@ msgid "Check this box if your account is validated by USPS"
 msgstr "Jelölje be a négyzetet, ha az USPS által jóváhagyott a fiókja"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:50
+#: code:addons/delivery_usps/models/usps_request.py:63
 #, python-format
 msgid "Company phone number is invalid. Please insert a US phone number."
 msgstr "Vállalat telefonszáma nem létező. Kérem US telefonszám megadását."
@@ -212,42 +225,46 @@ msgid "Parcel"
 msgstr "Árutétel"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:68
+#: code:addons/delivery_usps/models/usps_request.py:80
 #, python-format
 msgid "Please Change the Service Max. weight of this Service is 4 pounds"
-msgstr "Kérem változtassa meg a szolgáltatás max. súlyát  4 fontra ehhez a szolgáltatáshoz"
+msgstr ""
+"Kérem változtassa meg a szolgáltatás max. súlyát  4 fontra ehhez a "
+"szolgáltatáshoz"
 
 #. module: delivery_usps
 #: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_machinable
-msgid ""
-"Please check on USPS website to ensure that your package is machinable."
-msgstr "Kérem ellenőrizze az USPS weboldalán, hogy a csomagja géppel továbbítható."
+msgid "Please check on USPS website to ensure that your package is machinable."
+msgstr ""
+"Kérem ellenőrizze az USPS weboldalán, hogy a csomagja géppel továbbítható."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:55
+#: code:addons/delivery_usps/models/usps_request.py:68
 #, python-format
 msgid "Please enter a valid ZIP code in recipient address"
 msgstr "Kérem adjon meg egy érvényes Irányító számot a címzett címénél"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:48
+#: code:addons/delivery_usps/models/usps_request.py:61
 #, python-format
 msgid "Please enter a valid ZIP code in your Company address"
 msgstr "Kérem adjon meg egy érvényes Irányító számot a vállalkozása  címénél"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:63
+#: code:addons/delivery_usps/models/usps_request.py:75
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Kérem válasszon legalább egy szállítandó tételt."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:46
+#: code:addons/delivery_usps/models/usps_request.py:59
 #, python-format
 msgid ""
 "Please set country U.S.A in your company address, Service is only available "
 "for U.S.A"
-msgstr "Kérem állítsa be az U.S.A államát a vállalata címénél, Ez a szolgáltatás csak az U.S.A területén vehető igénybe."
+msgstr ""
+"Kérem állítsa be az U.S.A államát a vállalata címénél, Ez a szolgáltatás "
+"csak az U.S.A területén vehető igénybe."
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -256,8 +273,13 @@ msgstr "Képeslap"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
+#, fuzzy
 msgid "Priority"
-msgstr "Prioritás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Prioritás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Elsőbbségi"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_container:0
@@ -296,13 +318,13 @@ msgid "Sample"
 msgstr "Minta"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:153
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "N° %s sz. szállítmányt érvénytelenítettük"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:130
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Szállítmány létrehozva az USPS-ben <br/> <b>Követési szám : </b>%s"
@@ -318,47 +340,50 @@ msgid "Small Flat Rate Envelope"
 msgstr "Kicsi átalány áras boríték"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Test Mode"
-msgstr "Teszt mód"
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:149
+#: code:addons/delivery_usps/models/usps_request.py:161
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
-msgstr "Az USPS kiválasztott (%s) szolgáltatást nem használhatja ennek a csomagnak a szállításához."
+msgstr ""
+"Az USPS kiválasztott (%s) szolgáltatást nem használhatja ennek a csomagnak a "
+"szállításához."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:44
+#: code:addons/delivery_usps/models/usps_request.py:57
 #, python-format
 msgid ""
 "The address of your company is missing or wrong (Missing field(s) :  \n"
 " %s)"
-msgstr "A vállalata címe hiányzik vagy rosszul kitöltött. (Hiányzó mező(k) : \n%s)"
+msgstr ""
+"A vállalata címe hiányzik vagy rosszul kitöltött. (Hiányzó mező(k) : \n"
+"%s)"
+
+#. module: delivery_usps
+#: code:addons/delivery_usps/models/usps_request.py:78
+#, python-format
+msgid ""
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
+msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súlya."
+
+#. module: delivery_usps
+#: code:addons/delivery_usps/models/usps_request.py:367
+#, python-format
+msgid ""
+"The recepient address can't be found. Please check that your recepient has "
+"an existing address."
+msgstr ""
+"A  címzett íme nem található. Kérem ellenőrizze, hogy a címzettnek  létezik "
+"címe."
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:66
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
-msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súlya."
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:346
-#, python-format
-msgid ""
-"The recepient address can't be found. Please check that your recepient has "
-"an existing address."
-msgstr "A  címzett íme nem található. Kérem ellenőrizze, hogy a címzettnek  létezik címe."
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:53
-#, python-format
-msgid ""
 "The recipient address is missing or wrong (Missing field(s) :  \n"
 " %s)"
-msgstr "A címzett hiányzik vagy rosszul kitöltött (Hiányzó mező(k) : \n%s)"
+msgstr ""
+"A címzett hiányzik vagy rosszul kitöltött (Hiányzó mező(k) : \n"
+"%s)"
 
 #. module: delivery_usps
 #: model:ir.ui.view,arch_db:delivery_usps.usps_shipping_request
@@ -384,16 +409,18 @@ msgstr "USPS beállítás"
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
-msgid "USPS Domestic Flat Rate Box"
-msgstr "USPS belföldi átalány áras doboz"
+msgid "USPS Domestic Flat Rate Envelope"
+msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:60
+#: code:addons/delivery_usps/models/usps_request.py:72
 #, python-format
 msgid ""
 "USPS Domestic is used only to ship  inside of the U.S.A. Please change the "
 "delivery method into USPS International."
-msgstr "USPS Belföldi szállítást csak az U.S.A területén belül használja. Kérem változtassa meg a szállítási módot USPS Nemzetközire."
+msgstr ""
+"USPS Belföldi szállítást csak az U.S.A területén belül használja. Kérem "
+"változtassa meg a szállítási módot USPS Nemzetközire."
 
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
@@ -402,17 +429,14 @@ msgid "USPS International Flat Rate Box"
 msgstr "USPS Nemzetközi átalány áras doboz"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:58
+#: code:addons/delivery_usps/models/usps_request.py:70
 #, python-format
 msgid ""
-"USPS International is used only to ship  outside of the U.S.A. Please change"
-" the delivery method into USPS Domestic."
-msgstr "USPS Nemzetközi szállítást csak az U.S.A területén kívül használja. Kérem változtassa meg a szállítási módot USPS Belföldire."
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_passwd
-msgid "USPS Password"
-msgstr "USPS Jelszó"
+"USPS International is used only to ship  outside of the U.S.A. Please change "
+"the delivery method into USPS Domestic."
+msgstr ""
+"USPS Nemzetközi szállítást csak az U.S.A területén kívül használja. Kérem "
+"változtassa meg a szállítási módot USPS Belföldire."
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_service
@@ -425,17 +449,31 @@ msgid "USPS User ID"
 msgstr "USPS felhasználó azonosító ID"
 
 #. module: delivery_usps
-#: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Uncheck this box to use production UPS Web Services"
-msgstr "Ne jelölje be ezt a négyzetet az UPS Web szolgáltatások használatához"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_size_container
 msgid "Usps size container"
 msgstr "USPS méretes tároló"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:348
+#: code:addons/delivery_usps/models/usps_request.py:369
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Vállalkozása vagy a címzett irányító száma nem megfelelő."
+
+#~ msgid "Test Mode"
+#~ msgstr "Teszt mód"
+
+#~ msgid "USPS Domestic Flat Rate Box"
+#~ msgstr "USPS belföldi átalány áras doboz"
+
+#~ msgid "USPS Password"
+#~ msgstr "USPS Jelszó"
+
+#~ msgid "Uncheck this box to use production UPS Web Services"
+#~ msgstr ""
+#~ "Ne jelölje be ezt a négyzetet az UPS Web szolgáltatások használatához"
+
+#~ msgid "DHL Configuration"
+#~ msgstr "DHL Beállítások"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

@@ -1,21 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * pos_loyalty
-# 
+#
 # Translators:
 # David Hernandez <davidhernandez.ctam@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-01-20 18:42+0000\n"
 "Last-Translator: David Hernandez <davidhernandez.ctam@gmail.com>\n"
-"Language-Team: Spanish (Mexico) (http://www.transifex.com/odoo/odoo-9/language/es_MX/)\n"
+"Language-Team: Spanish (Mexico) (http://www.transifex.com/odoo/odoo-9/"
+"language/es_MX/)\n"
+"Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es_MX\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: pos_loyalty
@@ -98,7 +99,8 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_product
 msgid "How many loyalty points are given to the customer by product sold"
-msgstr "¿Cuántos puntos se otorgan de fidelidad al cliente por producto vendido?"
+msgstr ""
+"¿Cuántos puntos se otorgan de fidelidad al cliente por producto vendido?"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_currency
@@ -160,7 +162,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
-#: model:ir.ui.view,arch_db:pos_loyalty.view_partner_property_form
 #: model:ir.ui.view,arch_db:pos_loyalty.view_pos_config_form
 msgid "Loyalty Program"
 msgstr "Programa Loaylty"
@@ -250,9 +251,23 @@ msgstr ""
 
 #. module: pos_loyalty
 #. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
+#, fuzzy, python-format
+msgid "Points Spent:"
+msgstr "Puntos Ganados"
+
+#. module: pos_loyalty
+#. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:54
 #, python-format
 msgid "Points Won"
+msgstr "Puntos Ganados"
+
+#. module: pos_loyalty
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:100
+#, fuzzy, python-format
+msgid "Points Won:"
 msgstr "Puntos Ganados"
 
 #. module: pos_loyalty
@@ -342,7 +357,8 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_pos_order_loyalty_points
 msgid "The amount of Loyalty points the customer won or lost with this order"
-msgstr "La cantidad de puntos de fidelidad del cliente ganado o perdido con este fin"
+msgstr ""
+"La cantidad de puntos de fidelidad del cliente ganado o perdido con este fin"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_category_id
@@ -367,12 +383,14 @@ msgstr ""
 #. module: pos_loyalty
 #: constraint:loyalty.reward:0
 msgid "The gift product field is mandatory for gift rewards"
-msgstr "El campo producto del regalo es obligatorio para las recompensas de regalo"
+msgstr ""
+"El campo producto del regalo es obligatorio para las recompensas de regalo"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_rounding
 msgid "The loyalty point amounts are rounded to multiples of this value."
-msgstr "Los montos de puntos de lealtad se redondean al múltiplo de este valor."
+msgstr ""
+"Los montos de puntos de lealtad se redondean al múltiplo de este valor."
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_res_partner_loyalty_points
@@ -431,6 +449,13 @@ msgstr ""
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:60
 #, python-format
 msgid "Total Points"
+msgstr "Puntos Totales"
+
+#. module: pos_loyalty
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:122
+#, fuzzy, python-format
+msgid "Total Points:"
 msgstr "Puntos Totales"
 
 #. module: pos_loyalty

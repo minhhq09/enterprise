@@ -1,21 +1,34 @@
+# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_temando
-# 
+#
 # Translators:
 # Kris Krnacs, 2015-2016
+# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * delivery_temando
+#
+# Translators:
+# krnkris <krnkris@freemail.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-18 12:36+0000\n"
-"PO-Revision-Date: 2016-01-06 09:32+0000\n"
-"Last-Translator: Kris Krnacs\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/hu/)\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_temando
@@ -34,13 +47,15 @@ msgstr "Szövetségi Expressz (légi), Temando-val"
 #: model:delivery.carrier,name:delivery_temando.temando_60334
 #: model:product.product,name:delivery_temando.temando_60334_product_product
 msgid "Allied Express - Adhoc Air (Business Delivery) via Temando"
-msgstr "Szövetségi Expressz - Véletlenszerű légi (Üzleti szállítmány), Temando-val"
+msgstr ""
+"Szövetségi Expressz - Véletlenszerű légi (Üzleti szállítmány), Temando-val"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_60330
 #: model:product.product,name:delivery_temando.temando_60330_product_product
 msgid "Allied Express - Adhoc Road (Business Delivery) via Temando"
-msgstr "Szövetségi Expressz - Véletlenszerű közúti (Üzleti szállítmány), Temando-val"
+msgstr ""
+"Szövetségi Expressz - Véletlenszerű közúti (Üzleti szállítmány), Temando-val"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_60020
@@ -55,11 +70,6 @@ msgid "Allied Express via Temando"
 msgstr "Szövetségi Expressz, Temando-val"
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Box"
-msgstr "Doboz"
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54432
 #: model:product.product,name:delivery_temando.temando_54432_product_product
 msgid "Capital Transport HDS via Temando"
@@ -69,11 +79,6 @@ msgstr "Lényeges szállítmány HDS, Temando-val"
 #: model:ir.model,name:delivery_temando.model_delivery_carrier
 msgid "Carrier"
 msgstr "Fuvarozó"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Carton"
-msgstr "Karton"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -111,14 +116,20 @@ msgid "Couriers Please via Temando"
 msgstr "Futár igény, Temando-val"
 
 #. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
+msgid "Default HS Code"
+msgstr ""
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_id
+#, fuzzy
+msgid "Default Packaging Type"
+msgstr "Temando alapértelmezett csomagolás típus"
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_type:0
 msgid "Depot to Depot"
 msgstr "Raktártól raktárig"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Document Envelope"
-msgstr "Dokumentum boríték"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_nature:0
@@ -153,21 +164,6 @@ msgid "Feet"
 msgstr "Láb"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Fix Height if not provided on the product packaging."
-msgstr "Fix magasság, ha nincs megadva a termék csomagolásán."
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Fix Length if not provided on the product packaging."
-msgstr "Fix hossz, ha nincs megadva a termék csomagolásán."
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Fix Width if not provided on the product packaging."
-msgstr "Fix szélesség, ha nincs megadva a termék csomagolásán."
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54329
 #: model:product.product,name:delivery_temando.temando_54329_product_product
 msgid "Followmont Transport via Temando"
@@ -189,11 +185,6 @@ msgid "Grams"
 msgstr "Gramm"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
-msgid "HS Code"
-msgstr "HS Kód"
-
-#. module: delivery_temando
 #: selection:delivery.carrier,temando_subclass:0
 msgid "Household Goods"
 msgstr "Háztartási eszközök"
@@ -209,7 +200,9 @@ msgstr "Vadász Expressz, Temando-val"
 msgid ""
 "If set, Temando fetch quotations only for this carrier. If not set, the "
 "cheapest one is selected."
-msgstr "Ha beállított, Temando csak ettől a szállítótól kér be  árajánlatot. Ha nincs beállítva, a legolcsóbbat választja."
+msgstr ""
+"Ha beállított, Temando csak ettől a szállítótól kér be  árajánlatot. Ha "
+"nincs beállítva, a legolcsóbbat választja."
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -225,11 +218,6 @@ msgstr "Nemzetközi"
 #: selection:delivery.carrier,temando_weight_measurement_type:0
 msgid "Kilograms"
 msgstr "Kilogramm"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Letter"
-msgstr "Levél"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
@@ -249,7 +237,7 @@ msgid "Mainfreight via Temando"
 msgstr "Főszállítás, Temando-val"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:174
+#: code:addons/delivery_temando/models/delivery_temando.py:173
 #, python-format
 msgid "Manifest for this shipping"
 msgstr "Bizonylat erre a szállításra"
@@ -275,18 +263,20 @@ msgid "Nearest by Priority"
 msgstr "Közelebbi prioritásos"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:167
+#: code:addons/delivery_temando/models/delivery_temando.py:166
 #, python-format
 msgid "No CarrierID found for this delivery order"
 msgstr "Nincs szállítási ID azonosító ehhez a szállító levélhez"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:165
+#: code:addons/delivery_temando/models/delivery_temando.py:164
 #, python-format
 msgid ""
 "No Temando location is associated to this warehouse, Manifest collection is "
 "not available"
-msgstr "Nincs Temando helyszín hozzárendelve ehhez a raktárhoz, Bizonylatolt árufelvétel nem lehetésges"
+msgstr ""
+"Nincs Temando helyszín hozzárendelve ehhez a raktárhoz, Bizonylatolt "
+"árufelvétel nem lehetésges"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
@@ -305,29 +295,9 @@ msgid "Ounces"
 msgstr "Ounces"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Package Height"
-msgstr "Csomag magassága"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Package Length"
-msgstr "Csomag hossza"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Package Width"
-msgstr "Csomag szélessége"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Pallet"
-msgstr "Raklap"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Parcel"
-msgstr "Árutétel"
+#: model:ir.model,name:delivery_temando.model_product_packaging
+msgid "Packaging"
+msgstr "Csomagolás"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
@@ -335,11 +305,23 @@ msgid "Plain"
 msgstr "Egyszerű"
 
 #. module: delivery_temando
+#: code:addons/delivery_temando/models/temando_request.py:109
+#, python-format
+msgid ""
+"Please provide Height, Width and Length on product packaging or delivery "
+"method."
+msgstr ""
+
+#. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:52
 #: code:addons/delivery_temando/models/temando_request.py:57
-#, python-format
+#, fuzzy, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Kérem válasszon legalább egy szállítandó tételt"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Kérem válasszon legalább egy szállítandó tételt\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Kérem válasszon legalább egy szállítandó tételt."
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_weight_measurement_type:0
@@ -353,8 +335,13 @@ msgstr "Előnyben részesített szállító ID "
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_location_selection:0
+#, fuzzy
 msgid "Priority"
-msgstr "Prioritás"
+msgstr ""
+"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
+"Prioritás\n"
+"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Elsőbbségi"
 
 #. module: delivery_temando
 #: model:ir.model,name:delivery_temando.model_sale_order
@@ -362,18 +349,32 @@ msgid "Sales Order"
 msgstr "Vásárlói megrendelés"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:150
+#: model:ir.model.fields,help:delivery_temando.field_stock_warehouse_temando_location
+msgid ""
+"Set this field with your Temando Location reference to enable manifesting "
+"from this location."
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:152
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "N° %s sz. szállítmányt érvénytelenítettük"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:120
+#: code:addons/delivery_temando/models/delivery_temando.py:118
 #, python-format
 msgid ""
 "Shipment created into Temando <br/> <b>Carrier: </b>%s <br/> <b>Tracking "
 "Number: </b>%s"
-msgstr "Szállítmány létrehozva a Temando-ban <br/> <b>Szállító: </b>%s <br/> <b>Követési szám : </b>%s"
+msgstr ""
+"Szállítmány létrehozva a Temando-ban <br/> <b>Szállító: </b>%s <br/> "
+"<b>Követési szám : </b>%s"
+
+#. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Standard"
+msgstr "Általános"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54396
@@ -448,6 +449,7 @@ msgstr "Temando Szálítói ID"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_carrier_name
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_carrier_name
 msgid "Temando Carrier Name"
 msgstr "Temando Szállító neve"
 
@@ -463,8 +465,14 @@ msgstr "Temando Beállítások"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_delivery_method
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_delivery_method
 msgid "Temando Delivery Method"
 msgstr "Temando Szállítási mód"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_warehouse_temando_location
+msgid "Temando Location"
+msgstr ""
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_password
@@ -472,7 +480,10 @@ msgid "Temando Password"
 msgstr "Temando Jelszó"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:329
+#: code:addons/delivery_temando/models/temando_request.py:160
+#: code:addons/delivery_temando/models/temando_request.py:303
+#: code:addons/delivery_temando/models/temando_request.py:336
+#: code:addons/delivery_temando/models/temando_request.py:353
 #, python-format
 msgid "Temando Server Not Found"
 msgstr "Temando szerver nem található"
@@ -481,11 +492,6 @@ msgstr "Temando szerver nem található"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_username
 msgid "Temando Username"
 msgstr "Temando Felhasználói név"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_type
-msgid "Temando default packaging type"
-msgstr "Temando alapértelmezett csomagolás típus"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_delivery_nature
@@ -498,7 +504,7 @@ msgid "Temando delivery type"
 msgstr "Temando Szállítási mód"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:325
+#: code:addons/delivery_temando/models/temando_request.py:349
 #, python-format
 msgid "Temando did not return any manifest"
 msgstr "Temando nem küldött vissza semmilyen bizonylatot"
@@ -507,6 +513,11 @@ msgstr "Temando nem küldött vissza semmilyen bizonylatot"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_distance_measurement_type
 msgid "Temando distance measurement type"
 msgstr "Temando távolság mérés típus"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_label_printer_type
+msgid "Temando label printer type"
+msgstr ""
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_location_selection
@@ -546,11 +557,6 @@ msgid "Temando's Cheapest - International"
 msgstr "Temando's legolcsóbb - Nemzetközi"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Test Mode"
-msgstr "Teszt mód"
-
-#. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:49
 #, python-format
 msgid ""
@@ -568,8 +574,8 @@ msgstr "A szállítás nem végezhető el, mert hiányzik a termékének a súly
 #: code:addons/delivery_temando/models/temando_request.py:54
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
 msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súlya."
 
 #. module: delivery_temando
@@ -579,11 +585,18 @@ msgid "The recipient address is missing or wrong (Missing fields : %s...)."
 msgstr "A címzett hiányzik vagy rosszul kitöltött. (Hiányzó mezők : %s...)"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:86
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Thermal"
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:84
 #, python-format
 msgid ""
 "This picking cannot be sent through Temando, as it has no linked sale order"
-msgstr "Ez a kiválogatást nem tudja a Temando szállításon keresztül elküldeni, mivel nincs hozzá kapcsolódó vásárlói megrendelés "
+msgstr ""
+"Ez a kiválogatást nem tudja a Temando szállításon keresztül elküldeni, mivel "
+"nincs hozzá kapcsolódó vásárlói megrendelés "
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
@@ -592,14 +605,14 @@ msgid "Transfer"
 msgstr "Átvitel"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Uncheck this box to use production Temando Web Services"
-msgstr "Ne jelölje be ezt a négyzetet az Temando Web szolgáltatás használatához"
+#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_hs_code
+msgid "Used only if a HS code is not set on the product."
+msgstr ""
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Unpackage or N/A"
-msgstr "Kicsimagolt vagy N/A"
+#: model:ir.model,name:delivery_temando.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Raktár"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_60434
@@ -608,6 +621,60 @@ msgid "XPS_UPS via Temando"
 msgstr "XPS_UPS, Temando-val"
 
 #. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "ZPL"
+msgstr ""
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
 msgid "chep"
 msgstr "olcsó"
+
+#~ msgid "Box"
+#~ msgstr "Doboz"
+
+#~ msgid "Carton"
+#~ msgstr "Karton"
+
+#~ msgid "Document Envelope"
+#~ msgstr "Dokumentum boríték"
+
+#~ msgid "Fix Height if not provided on the product packaging."
+#~ msgstr "Fix magasság, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "Fix Length if not provided on the product packaging."
+#~ msgstr "Fix hossz, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "Fix Width if not provided on the product packaging."
+#~ msgstr "Fix szélesség, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "HS Code"
+#~ msgstr "HS Kód"
+
+#~ msgid "Letter"
+#~ msgstr "Levél"
+
+#~ msgid "Package Height"
+#~ msgstr "Csomag magassága"
+
+#~ msgid "Package Length"
+#~ msgstr "Csomag hossza"
+
+#~ msgid "Package Width"
+#~ msgstr "Csomag szélessége"
+
+#~ msgid "Pallet"
+#~ msgstr "Raklap"
+
+#~ msgid "Parcel"
+#~ msgstr "Árutétel"
+
+#~ msgid "Test Mode"
+#~ msgstr "Teszt mód"
+
+#~ msgid "Uncheck this box to use production Temando Web Services"
+#~ msgstr ""
+#~ "Ne jelölje be ezt a négyzetet az Temando Web szolgáltatás használatához"
+
+#~ msgid "Unpackage or N/A"
+#~ msgstr "Kicsimagolt vagy N/A"

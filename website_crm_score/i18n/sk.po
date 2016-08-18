@@ -1,27 +1,37 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_crm_score
-# 
+#
 # Translators:
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 08:43+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-04-13 09:21+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_pageviews_count
 msgid "# Page Views"
 msgstr "# Zobrazení stránky"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_order_count
+msgid "# of Purchase Order"
+msgstr ""
 
 #. module: website_crm_score
 #. openerp-web
@@ -38,7 +48,8 @@ msgstr "Aktívny"
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_ir_ui_view_track
 msgid "Allow to specify for one page of the website to be trackable or not"
-msgstr "Povoliť špecifikovať pre jednu stranu webstránky či je sledovatelná alebo nie"
+msgstr ""
+"Povoliť špecifikovať pre jednu stranu webstránky či je sledovatelná alebo nie"
 
 #. module: website_crm_score
 #: model:ir.actions.server,name:website_crm_score.action_score_now
@@ -110,8 +121,7 @@ msgstr "Vytvorené"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_assign_date
-msgid ""
-"Date when the lead has been assigned via the auto-assignation mechanism"
+msgid "Date when the lead has been assigned via the auto-assignation mechanism"
 msgstr "Dátum keď bola iniciatíva pridelená cez samoprideľovací mechanizmus"
 
 #. module: website_crm_score
@@ -229,7 +239,10 @@ msgstr "Počet iniciatív"
 msgid ""
 "Link users to salesteam, set a per 30 days lead capacity for each of them "
 "and set filters to auto assign your leads."
-msgstr "Prepojte používateľa  s predajným tímom, nastavte kapacitu iniciatív za 30 dní pre každého z nich, a nastavte filtre na automatické prideľovanie na vaše iniciatívy."
+msgstr ""
+"Prepojte používateľa  s predajným tímom, nastavte kapacitu iniciatív za 30 "
+"dní pre každého z nich, a nastavte filtre na automatické prideľovanie na "
+"vaše iniciatívy."
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_score_pageview_ids
@@ -339,11 +352,6 @@ msgid "Score"
 msgstr "Skóre"
 
 #. module: website_crm_score
-#: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
-msgid "Score Now"
-msgstr "Skóre teraz"
-
-#. module: website_crm_score
 #: model:ir.actions.act_window,name:website_crm_score.score_action
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_tree
@@ -372,9 +380,21 @@ msgid "Search PageViews"
 msgstr "Vyhľadať zobrazenia stránok"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_property_purchase_currency_id
+msgid "Supplier Currency"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.ui.menu,name:website_crm_score.team
 msgid "Teams Assignation"
 msgstr "Tímové prideľovanie"
+
+#. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_res_users_property_purchase_currency_id
+msgid ""
+"This currency will be used, instead of the default one, for purchases from "
+"the current partner"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_ir_ui_view_track
@@ -422,10 +442,13 @@ msgstr "Strany webstránky"
 #: model:ir.model.fields,help:website_crm_score.field_website_crm_score_event_based
 msgid ""
 "When checked, the rule will be re-evaluated every time, even for leads that "
-"have already been checked previously. This option incurs a large performance"
-" penalty, so it should be checked only for rules that depend on dynamic "
-"events"
-msgstr "Ak zaškrtnuté, pravidlo bude zakaždým prehodnotené, dokonca aj pre iniciatívy ktoré už boli predtým skontrolované. Táto voľba utrpí veľké zníženie výkonnosti, takže by to malo byť zaškrtnuté len na pravidlách, ktoré sú závislé na dynamickej akcii."
+"have already been checked previously. This option incurs a large performance "
+"penalty, so it should be checked only for rules that depend on dynamic events"
+msgstr ""
+"Ak zaškrtnuté, pravidlo bude zakaždým prehodnotené, dokonca aj pre "
+"iniciatívy ktoré už boli predtým skontrolované. Táto voľba utrpí veľké "
+"zníženie výkonnosti, takže by to malo byť zaškrtnuté len na pravidlách, "
+"ktoré sú závislé na dynamickej akcii."
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_crm_leads_dry_run
@@ -433,9 +456,33 @@ msgid "crm.leads.dry.run"
 msgstr "crm.leads.dry.run"
 
 #. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "fa-check"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "fa-times"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_ir_ui_view
 msgid "ir.ui.view"
 msgstr "ir.ui.view"
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "o_assignation_button_active"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "o_assignation_button_inactive"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_team_user
@@ -458,3 +505,6 @@ msgstr "website.crm.pageview"
 #: model:ir.model,name:website_crm_score.model_website_crm_score
 msgid "website.crm.score"
 msgstr "website.crm.score"
+
+#~ msgid "Score Now"
+#~ msgstr "Skóre teraz"

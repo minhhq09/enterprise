@@ -1,20 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * hr_appraisal
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 15:34+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
-"Language-Team: Mongolian (http://www.transifex.com/odoo/odoo-9/language/mn/)\n"
+"Language-Team: Mongolian (http://www.transifex.com/odoo/odoo-9/language/"
+"mn/)\n"
+"Language: mn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: mn\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: hr_appraisal
@@ -22,15 +23,20 @@ msgstr ""
 msgid ""
 "\n"
 "                \n"
-"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, "
+"Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
 "                    <p>Dear ${ctx.get('employee').name},</p>\n"
 "                    % if ctx.get('employee').id == object.employee_id.id:\n"
-"                        <p>Please fill out the following survey related to your appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"your appraisal.</p>\n"
 "                    % else:\n"
-"                        <p>Please fill out the following survey related to ${object.employee_id.name}'s appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"${object.employee_id.name}'s appraisal.</p>\n"
 "                    % endif\n"
-"                    <p><a href=\"__URL__\">Click here to access the survey.</a></p>\n"
-"                    <p>Post your response for the appraisal till : ${object.date_close}</p>\n"
+"                    <p><a href=\"__URL__\">Click here to access the survey.</"
+"a></p>\n"
+"                    <p>Post your response for the appraisal till : ${object."
+"date_close}</p>\n"
 "                    <p>Thank you for your participation.</p>\n"
 "                </div>\n"
 "                \n"
@@ -68,11 +74,6 @@ msgid "Ability to manage planning resources, risks, budgets and deadlines"
 msgstr "Нөөц, эрсдэл, төсөв, товлосон хугацааны төлөвлөлтийг удирдах чадвар"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "Action Needed"
-msgstr "Үйлдэл Шаардлагатай"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_action_plan
 msgid "Action Plan"
 msgstr "Үйлдлийн төлөвлөгөө"
@@ -89,7 +90,9 @@ msgstr "Ажилтны сайн сайхны төлөө менежментийн
 msgid ""
 "Adaptability: Ability to adapt oneself to organizational changes while "
 "keeping efficiency"
-msgstr "Дасан зохицох чадвар: Оновчтой ажиллах байдлаа алдалгүйгээр байгууллагын өөрчлөлтөнд өөрийгөө дасгах чадвар"
+msgstr ""
+"Дасан зохицох чадвар: Оновчтой ажиллах байдлаа алдалгүйгээр байгууллагын "
+"өөрчлөлтөнд өөрийгөө дасгах чадвар"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_3
@@ -325,7 +328,9 @@ msgstr "Компани"
 msgid ""
 "Compared to similar jobs in other companies where I could work, my total "
 "compensation..."
-msgstr "Миний ажиллаж чадах өөр компани дахь ижил ажлын цалинтай миний цалинг харьцуулбал..."
+msgstr ""
+"Миний ажиллаж чадах өөр компани дахь ижил ажлын цалинтай миний цалинг "
+"харьцуулбал..."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_3
@@ -386,11 +391,6 @@ msgid "Date of review"
 msgstr "Шүүмжийн огноо"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Date of the last message posted on the record."
-msgstr "Бичлэгт хамгийн сүүлд илгээгдсэн зурвасын огноо."
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_deadline
 msgid "Deadline"
 msgstr "Дуусгах огноо"
@@ -421,6 +421,7 @@ msgid "Demonstrates genuine concern for me as a person"
 msgstr "Хувь хүнийхээ хувьд үлгэр дууриалал үзүүлдэг"
 
 #. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_department_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_department_id
 msgid "Department"
@@ -561,21 +562,6 @@ msgid "Final Interview Date"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_follower_ids
-msgid "Followers"
-msgstr "Дагагчид"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Дагагчид (Сувагууд)"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Дагагчид (Харилцагчид)"
-
-#. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Group By"
 msgstr "Бүлэглэх"
@@ -584,11 +570,6 @@ msgstr "Бүлэглэх"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 msgid "Group by..."
 msgstr "Бүлэглэх..."
-
-#. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
-msgid "HR Department"
-msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -609,7 +590,9 @@ msgstr "Би бусдад энд ажилладагаа хэлэхдээ бах�
 msgid ""
 "I am willing to put in a great deal of effort beyond what is expected to "
 "help my workgroup succeed"
-msgstr "Миний ажлын хэсгийн амжилтанд хувь нэмрээ оруулахаар хүлээлтээс хэтэрсэн их хэмжээний хүч хөдөлмөрөө оруулах хүсэл сонирхолтой байдаг"
+msgstr ""
+"Миний ажлын хэсгийн амжилтанд хувь нэмрээ оруулахаар хүлээлтээс хэтэрсэн их "
+"хэмжээний хүч хөдөлмөрөө оруулах хүсэл сонирхолтой байдаг"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_4
@@ -621,7 +604,10 @@ msgstr "Би тайлагнадаг хүнээсээ авдаг мэдээлэл
 msgid ""
 "I consistently acquire new knowledge, skills or understanding through "
 "contact with my supervisor. He helps me growing my compete"
-msgstr "Би тогтмол шинэ мэдлэг, ур чадвар, ойлголтыг удирдагчтайгаа харилцахдаа олж авч байдаг. Тэр миний өсөлт, хөгжилтөнд туслаж өрсөлдөх чадварыг нэмэгдүүлдэг."
+msgstr ""
+"Би тогтмол шинэ мэдлэг, ур чадвар, ойлголтыг удирдагчтайгаа харилцахдаа олж "
+"авч байдаг. Тэр миний өсөлт, хөгжилтөнд туслаж өрсөлдөх чадварыг "
+"нэмэгдүүлдэг."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_2
@@ -633,7 +619,9 @@ msgstr "Надад хангалттай ажил бий"
 msgid ""
 "I have the same opportunity to succeed as others with similar experiences, "
 "performance and educational background"
-msgstr "Надтай ижил туршлага, гүйцэтгэл, боловсролын суурьтай хүмүүстэй ижил боломж надад бий"
+msgstr ""
+"Надтай ижил туршлага, гүйцэтгэл, боловсролын суурьтай хүмүүстэй ижил боломж "
+"надад бий"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_5_1
@@ -645,24 +633,30 @@ msgstr "Компанийн үнэт зүйлийг би мэддэг, мөрдд
 msgid ""
 "I mostly work on value-added tasks for the company, the products or the "
 "services"
-msgstr "Компанийн, бүтээгдэхүүний, үйлчилгээний нэмүү өртөгт ажлууд дээр би голдуу ажилладаг"
+msgstr ""
+"Компанийн, бүтээгдэхүүний, үйлчилгээний нэмүү өртөгт ажлууд дээр би голдуу "
+"ажилладаг"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_6_4
 msgid "I understand the company strategy and how my workgroup supports it"
-msgstr "Би компанийн стратегийг ойлгодог, манай ажлын хэсэг яаж үүнийг дэмждэгийг мөн ойлгодог"
+msgstr ""
+"Би компанийн стратегийг ойлгодог, манай ажлын хэсэг яаж үүнийг дэмждэгийг "
+"мөн ойлгодог"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_3
 msgid ""
 "I would prefer to remain with this company even if a comparable job were "
 "available in another company"
-msgstr "Өөр компанид ижил төстэй ажил байсан ч би энэ компанидаа үлдэхийг илүүд үзнэ"
+msgstr ""
+"Өөр компанид ижил төстэй ажил байсан ч би энэ компанидаа үлдэхийг илүүд үзнэ"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_1
 msgid "I'm efficient at work and my achievements are successful"
-msgstr "Би ажил дээрээ үр бүтээлтэй байдаг бөгөөд миний хүрэх үр дүн амжилттай байдаг"
+msgstr ""
+"Би ажил дээрээ үр бүтээлтэй байдаг бөгөөд миний хүрэх үр дүн амжилттай байдаг"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_id
@@ -673,19 +667,10 @@ msgstr "ID"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_4
 msgid ""
-"Identify professional, performance, or project objectives you recommend for employee’s continued career development\n"
+"Identify professional, performance, or project objectives you recommend for "
+"employee’s continued career development\n"
 "over the coming year."
 msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread
-msgid "If checked new messages require your attention."
-msgstr "Хэрэв тэмдэглэгдсэн бол таныг шинэ зурвасуудад анхаарал хандуулахыг шаардана."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "If checked, new messages require your attention."
-msgstr "Хэрэв сонгосон бол, шинэ зурвасуудад анхаарал хандуулахыг шаардана."
 
 #. module: hr_appraisal
 #: model:survey.question,comments_message:hr_appraisal.appraisal_1_1
@@ -711,7 +696,8 @@ msgstr "Хэрэв сонгосон бол, шинэ зурвасуудад ан
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_5
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_6
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_7
-msgid "If other, precise:"
+#, fuzzy
+msgid "If other, please specify:"
 msgstr "Хэрэв бусад бол тодорхой:"
 
 #. module: hr_appraisal
@@ -719,7 +705,9 @@ msgstr "Хэрэв бусад бол тодорхой:"
 msgid ""
 "If the evaluation does not meet the expectations, you can propose an action "
 "plan"
-msgstr "Хэрэв үнэлгээ хүлээлтэнд хүрээгүй бол авах арга хэмжээний төлөвлөгөөг та санал болгож болно"
+msgstr ""
+"Хэрэв үнэлгээ хүлээлтэнд хүрээгүй бол авах арга хэмжээний төлөвлөгөөг та "
+"санал болгож болно"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
@@ -737,30 +725,25 @@ msgid "Interview"
 msgstr "Ярилцлага"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_is_follower
-msgid "Is Follower"
-msgstr "Дагагч эсэх"
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the joint responsibility of the employee and the supervisor (appraiser) to establish a feasible work plan for the\n"
-"coming year, including major employee responsibilities and corresponding benchmarks against which results will be\n"
+"It is the joint responsibility of the employee and the supervisor "
+"(appraiser) to establish a feasible work plan for the\n"
+"coming year, including major employee responsibilities and corresponding "
+"benchmarks against which results will be\n"
 "evaluated."
 msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the primary responsibility of the supervisor to gather the necessary input from the appropriate sources of feedback\n"
-"(internal and/or external customers, peers). In case of collaboration with Odoo SA Belgium, the supervisor must\n"
-"receive completed evaluation form from the employee's Belgian project manager."
+"It is the primary responsibility of the supervisor to gather the necessary "
+"input from the appropriate sources of feedback\n"
+"(internal and/or external customers, peers). In case of collaboration with "
+"Odoo SA Belgium, the supervisor must\n"
+"receive completed evaluation form from the employee's Belgian project "
+"manager."
 msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Last Message Date"
-msgstr "Сүүлийн зурвасын огноо"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal___last_update
@@ -788,7 +771,9 @@ msgstr "Манлайлал"
 msgid ""
 "Leadership: create a challenging and motivating work environment aligned "
 "with the company's strategy"
-msgstr "Манлайлал: компаний стратегитай нийцсэн сорилттой бөгөөд өдөөлттэй ажлын орчинг үүсгэх"
+msgstr ""
+"Манлайлал: компаний стратегитай нийцсэн сорилттой бөгөөд өдөөлттэй ажлын "
+"орчинг үүсгэх"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_2_4
@@ -798,9 +783,11 @@ msgstr "Манлайлал: мэргэжлийн хөгжилд нь тогтв�
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_3
 msgid ""
-"Listens and takes into account all ideas and do his best to put in place the"
-" best of these"
-msgstr "Бүх санааг сонсож анхааралдаа авдаг бөгөөд үүний шилдгийг хэрэгжүүлэхээр чадах бүхнээ хийдэг"
+"Listens and takes into account all ideas and do his best to put in place the "
+"best of these"
+msgstr ""
+"Бүх санааг сонсож анхааралдаа авдаг бөгөөд үүний шилдгийг хэрэгжүүлэхээр "
+"чадах бүхнээ хийдэг"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_appraisal
@@ -841,11 +828,6 @@ msgid "Meeting Scheduled"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_ids
-msgid "Messages"
-msgstr "Зурвасууд"
-
-#. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_6
 msgid "Miscellaneous"
 msgstr "Олон төрлийн"
@@ -861,7 +843,9 @@ msgstr "Сар"
 msgid ""
 "My best achievements have been communicated to the community, internally or "
 "to customers"
-msgstr "Миний хамгийн сайн хүрсэн үр дүн коммюнити болон дотоод гадаад захиалагчдад дамжуулагдан хүрсэн."
+msgstr ""
+"Миний хамгийн сайн хүрсэн үр дүн коммюнити болон дотоод гадаад захиалагчдад "
+"дамжуулагдан хүрсэн."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_2
@@ -873,7 +857,9 @@ msgstr "Миний ажил хувийн амжилтын утгыг өгдөг.
 msgid ""
 "My work contributes towards the continuous improvement of the company, our "
 "services or products"
-msgstr "Миний ажил компанийн, бүтээгдэхүү үйлчилгээний сайжруулалтад тогтмол хувь нэмэр болдог."
+msgstr ""
+"Миний ажил компанийн, бүтээгдэхүү үйлчилгээний сайжруулалтад тогтмол хувь "
+"нэмэр болдог."
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_tree
@@ -892,11 +878,6 @@ msgid "Next Appraisal Date"
 msgstr "Дараагийн Үнэлгээний Огноо"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of Actions"
-msgstr "Үйлдлийн тоо"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_completed_survey
 msgid "Number of Answers"
 msgstr ""
@@ -905,16 +886,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_sent_survey
 msgid "Number of Sent Forms"
 msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Үйлдэл шаардлагатай зурвасын тоо"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Number of unread messages"
-msgstr "Уншаагүй зурвасын тоо"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_1
@@ -931,7 +902,9 @@ msgstr "Нээлттэй байдал"
 msgid ""
 "Our workgroup identifies and reduces waste of time in our activities and "
 "processes"
-msgstr "Манай ажлын бүлэг үйл ажиллагааны болон процессийн үргүй цагийг илрүүлж багасгаж байдаг"
+msgstr ""
+"Манай ажлын бүлэг үйл ажиллагааны болон процессийн үргүй цагийг илрүүлж "
+"багасгаж байдаг"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -943,7 +916,9 @@ msgstr ""
 msgid ""
 "Overall, I believe the quality of products and/or services my workgroup "
 "delivers is improving"
-msgstr "Эцсийн эцэст бүтээгдэхүүний чанар, үйлчилгээний чанарт итгэдэг бөгөөд манай ажлын хэсэг сайжруулалт хийдэг гэдэгт итгэдэг."
+msgstr ""
+"Эцсийн эцэст бүтээгдэхүүний чанар, үйлчилгээний чанарт итгэдэг бөгөөд манай "
+"ажлын хэсэг сайжруулалт хийдэг гэдэгт итгэдэг."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal
@@ -1022,7 +997,9 @@ msgstr "Үр дүн"
 msgid ""
 "Results of the bottom-up survey and mitigation actions to face technical, "
 "organizational, structural and/or relational issues"
-msgstr "Доороос дээш судалгааний үр дүн болон технкийн, байгууллагын, бүтэцийн, харилцааны асуудлуудыг залруулах арга хэмжээнүүд"
+msgstr ""
+"Доороос дээш судалгааний үр дүн болон технкийн, байгууллагын, бүтэцийн, "
+"харилцааны асуудлуудыг залруулах арга хэмжээнүүд"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -1100,14 +1077,17 @@ msgstr ""
 #: model:survey.label,value:hr_appraisal.oprow_2_1_4
 msgid ""
 "Taking everything into account, how satisfied are you with your current job?"
-msgstr "Бүх зүйлийг анхааралдаа авч одоогийн ажилдаа хэр сэтгэл ханамжтай байна вэ?"
+msgstr ""
+"Бүх зүйлийг анхааралдаа авч одоогийн ажилдаа хэр сэтгэл ханамжтай байна вэ?"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_4
 msgid ""
 "Team spirit: ability to work efficiently with peers, manage the conflicts "
 "with diplomacy"
-msgstr "Багийн сэтгэл: хамтран ажиллагстайгаа үр бүтээлтэй ажиллаж зөрчлийг дипломат аргаар шийдвэрлэдэг"
+msgstr ""
+"Багийн сэтгэл: хамтран ажиллагстайгаа үр бүтээлтэй ажиллаж зөрчлийг дипломат "
+"аргаар шийдвэрлэдэг"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_10
@@ -1159,7 +1139,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 msgid ""
-"The appraiser should rate the employee’s major work accomplishments and performance according to the metric provided\n"
+"The appraiser should rate the employee’s major work accomplishments and "
+"performance according to the metric provided\n"
 "below:"
 msgstr ""
 
@@ -1174,7 +1155,9 @@ msgstr ""
 msgid ""
 "The date of the next appraisal is computed by the appraisal plan's dates "
 "(first appraisal + periodicity)."
-msgstr "Үнэлгээний төлөвлөгөөний огноогоор тооцоологдсон дараагийн үнэлгээний огноо (анхны үнэлгээ + тогмол хугацаа)"
+msgstr ""
+"Үнэлгээний төлөвлөгөөний огноогоор тооцоологдсон дараагийн үнэлгээний огноо "
+"(анхны үнэлгээ + тогмол хугацаа)"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1186,8 +1169,10 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
-"point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
+"The employee will be responsible for completing a draft of the Appraisal "
+"Form as a tool for self-appraisal and a starting\n"
+"point for the supervisor’s evaluation. The employee can add examples of "
+"achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
 msgstr ""
 
@@ -1195,8 +1180,8 @@ msgstr ""
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The employees will send back their anonymous answers to Odoo. The data will "
-"be handled by the HR manager and a brief summary of the data will be sent to"
-" the concerned supervisor, to his team and to the supervisor's supervisor."
+"be handled by the HR manager and a brief summary of the data will be sent to "
+"the concerned supervisor, to his team and to the supervisor's supervisor."
 msgstr ""
 
 #. module: hr_appraisal
@@ -1208,8 +1193,9 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The supervisor synthesizes and integrates all input into the completed appraisal. He motivates his evaluation in the ad\n"
-"hoc fields."
+"The supervisor synthesizes and integrates all input into the completed "
+"appraisal. The motivation of the evaluation\n"
+"is explained in the ad hoc fields."
 msgstr ""
 
 #. module: hr_appraisal
@@ -1280,7 +1266,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"To assist employees in their professional growth, through the identification of strengths and opportunities for\n"
+"To assist employees in their professional growth, through the identification "
+"of strengths and opportunities for\n"
 "development"
 msgstr ""
 
@@ -1290,38 +1277,22 @@ msgid "To initiate a clear and open communication of performance expectations"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread
-msgid "Unread Messages"
-msgstr "Уншаагүй Зурвасууд"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Уншаагүй зурвасын тоолуур"
-
-#. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_5_1
 msgid ""
-"Use the following space to make any comments regarding the above performance"
-" evaluation."
-msgstr "Дээрх гүйцэтгэлийн үнэлгээний дагууд ямарваа сэтгэгдэл байгаа бол доорх зайд бичнэ үү."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website Messages"
-msgstr "Вебсайтын зурвасууд"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website communication history"
-msgstr "Вебсайтын харилцааны түүх"
+"Use the following space to make any comments regarding the above performance "
+"evaluation."
+msgstr ""
+"Дээрх гүйцэтгэлийн үнэлгээний дагууд ямарваа сэтгэгдэл байгаа бол доорх зайд "
+"бичнэ үү."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_4_2
 msgid ""
 "What I did several months ago is still of use to the company, the services "
 "or the products today"
-msgstr "Миний хэдэн сарын өмнө хийсэн зүйл маань одоо ч компани, бүтээгдэхүүн үйлчилгээнд хэрэглэгдсээр байгаа"
+msgstr ""
+"Миний хэдэн сарын өмнө хийсэн зүйл маань одоо ч компани, бүтээгдэхүүн "
+"үйлчилгээнд хэрэглэгдсээр байгаа"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.appraisal_2
@@ -1342,7 +1313,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid ""
-"You will be able to choose which forms will be sent (Employee,Managers,Collaborators or Colleagues),\n"
+"You will be able to choose which forms will be sent (Employee,Managers,"
+"Collaborators or Colleagues),\n"
 "            to whom and the evaluation deadline. Once you have defined it,\n"
 "            change the stage to send it and view the results."
 msgstr ""
@@ -1356,3 +1328,56 @@ msgstr ""
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "oe_kanban_text_red"
 msgstr "oe_kanban_text_red"
+
+#~ msgid "Action Needed"
+#~ msgstr "Үйлдэл Шаардлагатай"
+
+#~ msgid "Date of the last message posted on the record."
+#~ msgstr "Бичлэгт хамгийн сүүлд илгээгдсэн зурвасын огноо."
+
+#~ msgid "Followers"
+#~ msgstr "Дагагчид"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Дагагчид (Сувагууд)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Дагагчид (Харилцагчид)"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr ""
+#~ "Хэрэв тэмдэглэгдсэн бол таныг шинэ зурвасуудад анхаарал хандуулахыг "
+#~ "шаардана."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Хэрэв сонгосон бол, шинэ зурвасуудад анхаарал хандуулахыг шаардана."
+
+#~ msgid "Is Follower"
+#~ msgstr "Дагагч эсэх"
+
+#~ msgid "Last Message Date"
+#~ msgstr "Сүүлийн зурвасын огноо"
+
+#~ msgid "Messages"
+#~ msgstr "Зурвасууд"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Үйлдлийн тоо"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Үйлдэл шаардлагатай зурвасын тоо"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Уншаагүй зурвасын тоо"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Уншаагүй Зурвасууд"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Уншаагүй зурвасын тоолуур"
+
+#~ msgid "Website Messages"
+#~ msgstr "Вебсайтын зурвасууд"
+
+#~ msgid "Website communication history"
+#~ msgstr "Вебсайтын харилцааны түүх"

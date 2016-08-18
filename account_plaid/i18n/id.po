@@ -1,21 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_plaid
-# 
+#
 # Translators:
 # Lorenz Adam Damara <lorenzrenz@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2015-12-06 01:46+0000\n"
 "Last-Translator: Lorenz Adam Damara <lorenzrenz@gmail.com>\n"
-"Language-Team: Indonesian (http://www.transifex.com/odoo/odoo-9/language/id/)\n"
+"Language-Team: Indonesian (http://www.transifex.com/odoo/odoo-9/language/"
+"id/)\n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_plaid
@@ -24,25 +25,21 @@ msgid "Access Token"
 msgstr "Token akses"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:52
-#: code:addons/account_plaid/models/plaid.py:63
+#: code:addons/account_plaid/models/plaid.py:72
+#: code:addons/account_plaid/models/plaid.py:74
+#: code:addons/account_plaid/models/plaid.py:89
 #, python-format
 msgid "An error has occurred while trying to connect to plaid service"
 msgstr "Galat ketika mencoba menghubungi layanan plaid"
 
 #. module: account_plaid
-#: model:ir.model,name:account_plaid.model_online_account
-msgid "Email Thread"
-msgstr "Untaian email"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:129
+#: code:addons/account_plaid/models/plaid.py:155
 #, python-format
 msgid "Error in synchronization"
 msgstr "Galat saat sinkronisasi"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:136
+#: code:addons/account_plaid/models/plaid.py:162
 #, python-format
 msgid "Error with Plaid.com"
 msgstr "Galat dengan Plaid.com"
@@ -63,11 +60,6 @@ msgid "Plaid Account"
 msgstr "Akun Plaid"
 
 #. module: account_plaid
-#: model:ir.ui.view,arch_db:account_plaid.account_config_settings_view_inherit_plaid
-msgid "Plaid Configuration"
-msgstr "Konfigurasi Plaid"
-
-#. module: account_plaid
 #: model:ir.model.fields,field_description:account_plaid.field_account_config_settings_plaid_id
 msgid "Plaid ID"
 msgstr "ID Plaid"
@@ -78,27 +70,31 @@ msgid "Plaid Secret"
 msgstr "Rahasia Plaid"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:130
+#: code:addons/account_plaid/models/plaid.py:156
 #, python-format
 msgid ""
-"The synchronization of the journal %s with the plaid account %s has "
-"failed.<br>The error message is :<br>%s"
-msgstr "Sinkronisasi jurnal %s dengan akun plaid %s gagal.<br>Pesan kesalahan adalah:<br>%s"
+"The synchronization of the journal %s with the plaid account %s has failed."
+"<br>The error message is :<br>%s"
+msgstr ""
+"Sinkronisasi jurnal %s dengan akun plaid %s gagal.<br>Pesan kesalahan adalah:"
+"<br>%s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:137
+#: code:addons/account_plaid/models/plaid.py:163
 #, python-format
 msgid ""
 "The synchronization with Plaid.com failed. Please check the error : <br> %s"
 msgstr "Sinkronisasi dengan Plaid.com gagal. Mohon periksa kesalahan:<br> %s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:38
+#: code:addons/account_plaid/models/plaid.py:57
 #, python-format
 msgid ""
 "You haven't configure your plaid account, please go to accounting/settings "
 "to configure it"
-msgstr "Anda belum mengkonfigurasi akun plaid, mohon buka akunting/pengaturan untuk mengkonfigurasi akun"
+msgstr ""
+"Anda belum mengkonfigurasi akun plaid, mohon buka akunting/pengaturan untuk "
+"mengkonfigurasi akun"
 
 #. module: account_plaid
 #: model:ir.model,name:account_plaid.model_account_config_settings
@@ -111,6 +107,18 @@ msgid "account.journal.onlinesync.config"
 msgstr "account.journal.onlinesync.confih"
 
 #. module: account_plaid
+#: model:ir.model,name:account_plaid.model_online_account
+#, fuzzy
+msgid "online.account"
+msgstr "Akun Daring"
+
+#. module: account_plaid
 #: model:ir.model,name:account_plaid.model_online_institution
 msgid "online.institution"
 msgstr "online.institution"
+
+#~ msgid "Email Thread"
+#~ msgstr "Untaian email"
+
+#~ msgid "Plaid Configuration"
+#~ msgstr "Konfigurasi Plaid"

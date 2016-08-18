@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_plaid
-# 
+#
 # Translators:
 # Grazziano Duarte <g.negocios@outlook.com.br>, 2015
 # Mateus Cerqueira Lopes <mateus1@gmail.com>, 2015
@@ -9,14 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-18 14:59+0000\n"
 "PO-Revision-Date: 2015-12-08 12:23+0000\n"
 "Last-Translator: Grazziano Duarte <g.negocios@outlook.com.br>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
+"language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_plaid
@@ -25,25 +26,21 @@ msgid "Access Token"
 msgstr "Token de Acesso"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:52
-#: code:addons/account_plaid/models/plaid.py:63
+#: code:addons/account_plaid/models/plaid.py:72
+#: code:addons/account_plaid/models/plaid.py:74
+#: code:addons/account_plaid/models/plaid.py:89
 #, python-format
 msgid "An error has occurred while trying to connect to plaid service"
 msgstr "Ocorreu um erro ao tentar conectar-se ao serviço Plaid"
 
 #. module: account_plaid
-#: model:ir.model,name:account_plaid.model_online_account
-msgid "Email Thread"
-msgstr "Tópico do E-mail"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:129
+#: code:addons/account_plaid/models/plaid.py:155
 #, python-format
 msgid "Error in synchronization"
 msgstr "Erro em Sincronização"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:136
+#: code:addons/account_plaid/models/plaid.py:162
 #, python-format
 msgid "Error with Plaid.com"
 msgstr "Erro em Plaid.com"
@@ -64,11 +61,6 @@ msgid "Plaid Account"
 msgstr "Conta Plaid"
 
 #. module: account_plaid
-#: model:ir.ui.view,arch_db:account_plaid.account_config_settings_view_inherit_plaid
-msgid "Plaid Configuration"
-msgstr "Configuração Plaid"
-
-#. module: account_plaid
 #: model:ir.model.fields,field_description:account_plaid.field_account_config_settings_plaid_id
 msgid "Plaid ID"
 msgstr "ID do Plano"
@@ -79,27 +71,32 @@ msgid "Plaid Secret"
 msgstr "Segredo Plaid"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:130
+#: code:addons/account_plaid/models/plaid.py:156
 #, python-format
 msgid ""
-"The synchronization of the journal %s with the plaid account %s has "
-"failed.<br>The error message is :<br>%s"
-msgstr "A sincronização do diário %s com a conta Plaid %s falhou.<br>A mensagem de erro é:<br> %s"
+"The synchronization of the journal %s with the plaid account %s has failed."
+"<br>The error message is :<br>%s"
+msgstr ""
+"A sincronização do diário %s com a conta Plaid %s falhou.<br>A mensagem de "
+"erro é:<br> %s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:137
+#: code:addons/account_plaid/models/plaid.py:163
 #, python-format
 msgid ""
 "The synchronization with Plaid.com failed. Please check the error : <br> %s"
-msgstr "A sincronização com Plaid.com falhou. Por favor, cheque o erro : <br> %s"
+msgstr ""
+"A sincronização com Plaid.com falhou. Por favor, cheque o erro : <br> %s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:38
+#: code:addons/account_plaid/models/plaid.py:57
 #, python-format
 msgid ""
 "You haven't configure your plaid account, please go to accounting/settings "
 "to configure it"
-msgstr "Você não configurou sua conta Plaid, por favor, vá para contabilidade/configurações para configurá-la"
+msgstr ""
+"Você não configurou sua conta Plaid, por favor, vá para contabilidade/"
+"configurações para configurá-la"
 
 #. module: account_plaid
 #: model:ir.model,name:account_plaid.model_account_config_settings
@@ -112,6 +109,18 @@ msgid "account.journal.onlinesync.config"
 msgstr "account.journal.onlinesync.config"
 
 #. module: account_plaid
+#: model:ir.model,name:account_plaid.model_online_account
+#, fuzzy
+msgid "online.account"
+msgstr "Conta Online"
+
+#. module: account_plaid
 #: model:ir.model,name:account_plaid.model_online_institution
 msgid "online.institution"
 msgstr "online.institution"
+
+#~ msgid "Email Thread"
+#~ msgstr "Tópico do E-mail"
+
+#~ msgid "Plaid Configuration"
+#~ msgstr "Configuração Plaid"
