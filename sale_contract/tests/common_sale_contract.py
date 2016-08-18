@@ -30,7 +30,6 @@ class TestContractCommon(AccountingTestCase):
         self.user_portal = TestUsersEnv.create({
             'name': 'Beatrice Portal',
             'login': 'Beatrice',
-            'alias_name': 'beatrice',
             'email': 'beatrice.employee@example.com',
             'groups_id': [(6, 0, [group_portal_id])]
         })

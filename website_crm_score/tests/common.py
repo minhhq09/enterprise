@@ -117,14 +117,12 @@ class TestScoring(common.TransactionCase):
         self.salesmen0 = self.res_users.with_context({'no_reset_password': True}).create({
             'name': 'salesmen0',
             'login': 'salesmen0',
-            'alias_name': 'salesmen0',
             'email': 'salesmen0@example.com',
             # 'groups_id': [(6, 0, [self.group_employee_id])]
         }).id
         self.salesmen1 = self.res_users.with_context({'no_reset_password': True}).create({
             'name': 'salesmen1',
             'login': 'salesmen1',
-            'alias_name': 'salesmen1',
             'email': 'salesmen1@example.com',
             # 'groups_id': [(6, 0, [self.group_employee_id])]
         }).id
