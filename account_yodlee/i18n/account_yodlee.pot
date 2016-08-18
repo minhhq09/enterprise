@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-02 14:38+0000\n"
-"PO-Revision-Date: 2015-11-02 14:38+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,19 +21,19 @@ msgid "Account"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:152
+#: code:addons/account_yodlee/models/yodlee.py:227
 #, python-format
 msgid "An Error has occurred"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:238
+#: code:addons/account_yodlee/models/yodlee.py:344
 #, python-format
 msgid "An error has occured while trying to get transactions, try again later"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:213
+#: code:addons/account_yodlee/models/yodlee.py:290
 #, python-format
 msgid "An error has occured while trying to get transactions, try again later.\n"
 "Error code: %s\n"
@@ -41,8 +41,30 @@ msgid "An error has occured while trying to get transactions, try again later.\n
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:120
-#: code:addons/account_yodlee/models/yodlee.py:122
+#: code:addons/account_yodlee/models/yodlee.py:94
+#, python-format
+msgid "An error has occured while trying to refresh the site.\n"
+"Error code: %s\n"
+"Error message: %s"
+msgstr ""
+
+#. module: account_yodlee
+#: code:addons/account_yodlee/models/yodlee.py:97
+#, python-format
+msgid "An error has occured while trying to refresh the site.\n"
+"Message: %s"
+msgstr ""
+
+#. module: account_yodlee
+#: code:addons/account_yodlee/models/yodlee.py:52
+#, python-format
+msgid "An error has occured while trying to remove/update account.\n"
+"Message: %s"
+msgstr ""
+
+#. module: account_yodlee
+#: code:addons/account_yodlee/models/yodlee.py:195
+#: code:addons/account_yodlee/models/yodlee.py:197
 #, python-format
 msgid "An error has occurred while trying to connect to Yodlee service "
 msgstr ""
@@ -50,13 +72,13 @@ msgstr ""
 #. module: account_yodlee
 #: code:addons/account_yodlee/models/res_config.py:47
 #: code:addons/account_yodlee/models/res_config.py:62
-#: code:addons/account_yodlee/models/yodlee.py:42
+#: code:addons/account_yodlee/models/yodlee.py:43
 #, python-format
 msgid "An error has occurred while trying to connect to yodlee service"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:66
+#: code:addons/account_yodlee/models/yodlee.py:141
 #, python-format
 msgid "An error occured while trying to register new user on yodlee: "
 msgstr ""
@@ -67,8 +89,9 @@ msgid "Companies"
 msgstr ""
 
 #. module: account_yodlee
-#: model:ir.model,name:account_yodlee.model_online_account
-msgid "Email Thread"
+#: code:addons/account_yodlee/models/yodlee.py:113
+#, python-format
+msgid "Incorrect Refresh status received: %s (expected REFRESH_TRIGGERED)"
 msgstr ""
 
 #. module: account_yodlee
@@ -78,7 +101,7 @@ msgid "Incorrect Yodlee login/password, please check your credentials"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:129
+#: code:addons/account_yodlee/models/yodlee.py:204
 #, python-format
 msgid "Incorrect Yodlee login/password, please check your credentials in accounting/settings"
 msgstr ""
@@ -99,15 +122,21 @@ msgid "Online Account"
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:50
+#: code:addons/account_yodlee/models/yodlee.py:125
 #, python-format
 msgid "Please configure an email in the company settings."
 msgstr ""
 
 #. module: account_yodlee
-#: code:addons/account_yodlee/models/yodlee.py:110
+#: code:addons/account_yodlee/models/yodlee.py:185
 #, python-format
 msgid "Please configure your yodlee account first in accounting>settings"
+msgstr ""
+
+#. module: account_yodlee
+#: code:addons/account_yodlee/models/yodlee.py:108
+#, python-format
+msgid "Please execute manual synchronization every few minutes"
 msgstr ""
 
 #. module: account_yodlee
@@ -164,6 +193,12 @@ msgid "Yodlee password"
 msgstr ""
 
 #. module: account_yodlee
+#: code:addons/account_yodlee/models/yodlee.py:83
+#, python-format
+msgid "You must first link your bank account to this journal before attempting a refresh"
+msgstr ""
+
+#. module: account_yodlee
 #: model:ir.model.fields,field_description:account_yodlee.field_res_company_yodlee_access_token
 msgid "access_token"
 msgstr ""
@@ -181,6 +216,11 @@ msgstr ""
 #. module: account_yodlee
 #: model:ir.model.fields,field_description:account_yodlee.field_res_company_yodlee_user_last_login
 msgid "last login"
+msgstr ""
+
+#. module: account_yodlee
+#: model:ir.model,name:account_yodlee.model_online_account
+msgid "online.account"
 msgstr ""
 
 #. module: account_yodlee

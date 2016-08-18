@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -141,13 +141,6 @@ msgid "Barcode"
 msgstr ""
 
 #. module: stock_barcode
-#: model:ir.model.fields,field_description:stock_barcode.field_stock_inventory__barcode_scanned
-#: model:ir.model.fields,field_description:stock_barcode.field_stock_pack_operation__barcode_scanned
-#: model:ir.model.fields,field_description:stock_barcode.field_stock_picking__barcode_scanned
-msgid "Barcode Scanned"
-msgstr ""
-
-#. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:8
 #, python-format
@@ -171,7 +164,7 @@ msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "Choose an USB barcode scanner if you plan to scan products at the computer station"
+msgid "Choose a USB barcode scanner if you plan to scan products at the computer station"
 msgstr ""
 
 #. module: stock_barcode
@@ -192,6 +185,21 @@ msgstr ""
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Congratulations, you're ready to go live!"
+msgstr ""
+
+#. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/js/stock_barcode.js:42
+#, python-format
+msgid "Do you want to permanently remove this message ?\n"
+"                It won't appear anymore, so make sure you don't need the barcodes sheet or you have a copy."
+msgstr ""
+
+#. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/js/stock_barcode.js:45
+#, python-format
+msgid "Don't show this message again"
 msgstr ""
 
 #. module: stock_barcode
@@ -248,7 +256,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:12
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:18
 #: model:ir.model,name:stock_barcode.model_stock_inventory
 #, python-format
 msgid "Inventory"
@@ -262,6 +270,13 @@ msgstr ""
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Keyboard layout"
+msgstr ""
+
+#. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/js/stock_barcode.js:51
+#, python-format
+msgid "Leave it"
 msgstr ""
 
 #. module: stock_barcode
@@ -310,26 +325,32 @@ msgid "New Inventory"
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/controllers/main.py:50
+#: code:addons/stock_barcode/controllers/main.py:69
 #, python-format
 msgid "No internal picking type. Please configure one in warehouse settings."
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/models/inherited_stock_picking.py:49
+#: code:addons/stock_barcode/models/inherited_stock_picking.py:54
 #, python-format
 msgid "No lot found"
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/controllers/main.py:52
+#: code:addons/stock_barcode/controllers/main.py:23
+#, python-format
+msgid "No picking corresponding to barcode %(barcode)s"
+msgstr ""
+
+#. module: stock_barcode
+#: code:addons/stock_barcode/controllers/main.py:21
 #, python-format
 msgid "No picking or location corresponding to barcode %(barcode)s"
 msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "Note that Bluetooth connections are suitable for maximum 30 feets (10 meters) so you will have to scan products nearby the computer station."
+msgid "Note that Bluetooth connections are suitable for maximum 30 feet (10 meters) so you will have to scan products nearby the computer station."
 msgstr ""
 
 #. module: stock_barcode
@@ -339,7 +360,7 @@ msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "Odoo supports most USB, Wireless and Bluetooth barcode scanners (as they all emulates a keyboard)."
+msgid "Odoo supports most USB, Wireless and Bluetooth barcode scanners (as they all emulate a keyboard)."
 msgstr ""
 
 #. module: stock_barcode
@@ -368,13 +389,8 @@ msgid "Once you start processing your delivery orders, scan the barcode on the t
 msgstr ""
 
 #. module: stock_barcode
-#: model:ir.actions.client,name:stock_barcode.action_client_barcode_app
-msgid "Open Barcode App"
-msgstr ""
-
-#. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:11
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:17
 #: model:ir.actions.act_window,name:stock_barcode.stock_picking_action_kanban
 #: model:ir.actions.act_window,name:stock_barcode.stock_picking_type_action_kanban
 #, python-format
@@ -403,7 +419,7 @@ msgstr ""
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/js/picking_barcode_handler.js:31
+#: code:addons/stock_barcode/static/src/js/picking_barcode_handler.js:39
 #, python-format
 msgid "Picking %s"
 msgstr ""
@@ -431,14 +447,21 @@ msgstr ""
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:10
+#: code:addons/stock_barcode/static/src/js/stock_barcode.js:48
+#, python-format
+msgid "Remove it"
+msgstr ""
+
+#. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:16
 #, python-format
 msgid "Scan a document to open it."
 msgstr ""
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:10
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:16
 #, python-format
 msgid "Scan a location to create a new transfer from this location."
 msgstr ""
@@ -485,18 +508,18 @@ msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "Set barcodes at the initial importation of your products or"
+msgid "Set barcodes at the initial import of your products or"
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/models/inherited_stock_picking.py:264
+#: code:addons/stock_barcode/models/inherited_stock_picking.py:275
 #, python-format
 msgid "The barcode \"%(barcode)s\" doesn't correspond to a proper product, package or location."
 msgstr ""
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/js/picking_barcode_handler.js:31
+#: code:addons/stock_barcode/static/src/js/picking_barcode_handler.js:39
 #, python-format
 msgid "The picking is %s and cannot be edited."
 msgstr ""
@@ -517,7 +540,7 @@ msgid "There are two approaches to process delivery orders: you can either work 
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/models/inherited_stock_picking.py:50
+#: code:addons/stock_barcode/models/inherited_stock_picking.py:55
 #, python-format
 msgid "There is no production lot for \"%(product)s\" corresponding to \"%(barcode)s\""
 msgstr ""
@@ -554,7 +577,7 @@ msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "USB only, omnidirectional (eliminates the need to align bar code and scanner), rugged design, about 250$"
+msgid "USB only, omnidirectional (eliminates the need to align bar code and scanner), rugged design, about $250"
 msgstr ""
 
 #. module: stock_barcode
@@ -573,10 +596,10 @@ msgid "Validate the Transfer to finish it"
 msgstr ""
 
 #. module: stock_barcode
-#: model:ir.model.fields,help:stock_barcode.field_stock_inventory__barcode_scanned
-#: model:ir.model.fields,help:stock_barcode.field_stock_pack_operation__barcode_scanned
-#: model:ir.model.fields,help:stock_barcode.field_stock_picking__barcode_scanned
-msgid "Value of the last barcode scanned."
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:10
+#, python-format
+msgid "We have created a few demo data and barcodes for you to explore the features. Print the"
 msgstr ""
 
 #. module: stock_barcode
@@ -596,18 +619,18 @@ msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "Wireless and USB, laser, rational choice, about 50$"
+msgid "Wireless and USB, laser, rational choice, about $50"
 msgstr ""
 
 #. module: stock_barcode
-#: code:addons/stock_barcode/models/inherited_stock_picking.py:263
+#: code:addons/stock_barcode/models/inherited_stock_picking.py:274
 #, python-format
 msgid "Wrong barcode"
 msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "You can setup a computer station or have the worker use a mobile device connected through wireless (phone, tablet or scanner with integrated screen)."
+msgid "You can set up a computer station or have the worker use a mobile device connected through wireless (phone, tablet or scanner with integrated screen)."
 msgstr ""
 
 #. module: stock_barcode
@@ -635,13 +658,27 @@ msgid "Your barcode scanner needs to be configured to use the same keyboard layo
 msgstr ""
 
 #. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:13
+#, python-format
+msgid "and check out what this module can do !"
+msgstr ""
+
+#. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "available here"
 msgstr ""
 
 #. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:13
+#, python-format
+msgid "barcodes sheet"
+msgstr ""
+
+#. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
-msgid "compact wireless, about 250$"
+msgid "compact wireless, about $250"
 msgstr ""
 
 #. module: stock_barcode
