@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-08 09:33+0000\n"
-"PO-Revision-Date: 2016-03-08 09:33+0000\n"
+"POT-Creation-Date: 2016-08-18 07:30+0000\n"
+"PO-Revision-Date: 2016-08-18 07:30+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -194,6 +194,16 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_action_id
 msgid "Action id"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_prepayments_received0
+msgid "Advance Payments received from customers"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_paid0
+msgid "Advance payments made to suppliers"
 msgstr ""
 
 #. module: account_reports
@@ -439,7 +449,7 @@ msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_opening_balance0
-msgid "Cash and cash equivalents, beginning of year"
+msgid "Cash and cash equivalents, beginning of period"
 msgstr ""
 
 #. module: account_reports
@@ -479,6 +489,11 @@ msgstr ""
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_investing_out0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_unclassified_out0
 msgid "Cash out"
+msgstr ""
+
+#. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
+msgid "Cash paid for"
 msgstr ""
 
 #. module: account_reports
@@ -706,13 +721,14 @@ msgid "Current Assets"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:88
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:89
 #, python-format
 msgid "Current Balance in Odoo"
 msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities1
 msgid "Current Liabilities"
 msgstr ""
 
@@ -1100,13 +1116,18 @@ msgid "Generic Tax Report"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_gross_profit0
+msgid "Gross Profit"
+msgstr ""
+
+#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gross_profit0
 msgid "Gross profit"
 msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_gpmargin0
-msgid "Gross profit margin (gross profit / income)"
+msgid "Gross profit margin (gross profit / operating income)"
 msgstr ""
 
 #. module: account_reports
@@ -1165,34 +1186,39 @@ msgid "ID"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_totalincome0
+msgid "INCOME"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:12
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:8
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:17
 #, python-format
 msgid "In Need of Action"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include Unposted Entries"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:147
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include unposted entries"
 msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
 msgid "Income"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:145
+#: code:addons/account_reports/models/account_general_ledger.py:147
 #, python-format
 msgid "Initial Balance"
 msgstr ""
@@ -1240,13 +1266,18 @@ msgid "Journal Item"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:18
+#: model:ir.actions.server,name:account_reports.action_journal_items
+msgid "Journal Items by tax"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_report_context_common.py:196
 #, python-format
 msgid "July"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:17
+#: code:addons/account_reports/models/account_report_context_common.py:195
 #, python-format
 msgid "June"
 msgstr ""
@@ -1445,6 +1476,11 @@ msgid "Messages created after a followup action has been executed"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_regulator0
+msgid "Minus previously recorded advance payments (already in the starting balance)"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model,name:account_reports.model_ir_module_module
 msgid "Module"
 msgstr ""
@@ -1489,7 +1525,12 @@ msgid "Net Audit"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_generic_tax_report.py:176
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
+msgid "Net Profit"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_generic_tax_report.py:178
 #, python-format
 msgid "Net Tax Lines"
 msgstr ""
@@ -1572,19 +1613,14 @@ msgid "No followup to send !"
 msgstr ""
 
 #. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
-msgid "Non-current Liabilities"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:522
+#: code:addons/account_reports/models/account_financial_report.py:623
 #, python-format
 msgid "Non-issued"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
 #, python-format
 msgid "None"
 msgstr ""
@@ -1674,8 +1710,13 @@ msgid "Only if financial report"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_income0
+msgid "Operating Income"
+msgstr ""
+
+#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:140
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:156
 #, python-format
 msgid "Options:"
 msgstr ""
@@ -1738,6 +1779,11 @@ msgid "Partners:"
 msgstr ""
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities_payable
+msgid "Payables"
+msgstr ""
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_percentage
 msgid "Percentage"
 msgstr ""
@@ -1765,26 +1811,31 @@ msgid "Plus Non-current Assets"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:128
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
+msgid "Plus Non-current Liabilities"
+msgstr ""
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:129
 #, python-format
 msgid "Plus Outstanding Payment"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:113
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
 #, python-format
 msgid "Plus Un-Reconciled Bank Statement Lines"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:155
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:156
 #, python-format
 msgid "Plus Unencoded Statements"
 msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:157
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:162
 #, python-format
 msgid "Posted Entries Only"
 msgstr ""
@@ -1811,11 +1862,6 @@ msgstr ""
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
 msgid "Print Letter"
-msgstr ""
-
-#. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_profit0
-msgid "Profit"
 msgstr ""
 
 #. module: account_reports
@@ -2258,23 +2304,18 @@ msgid "Your Statement"
 msgstr ""
 
 #. module: account_reports
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_spent0
-msgid "cash paid for"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuenow
 msgid "current amount of invoices done"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:170
+#: code:addons/account_reports/models/account_report_context_common.py:171
 #, python-format
 msgid "get_columns_names not implemented"
 msgstr ""
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:109
+#: code:addons/account_reports/models/account_report_context_common.py:110
 #, python-format
 msgid "get_report_obj not implemented"
 msgstr ""
