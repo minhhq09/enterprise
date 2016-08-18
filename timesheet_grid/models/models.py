@@ -8,7 +8,6 @@ from odoo.addons.grid.models import END_OF
 class AnalyticLine(models.Model):
     _inherit = 'account.analytic.line'
 
-    # don't keep existing description (if any) when copying a line
     name = fields.Char(required=False)
     # reset amount on copy
     amount = fields.Monetary(copy=False)
@@ -69,6 +68,7 @@ class AnalyticLine(models.Model):
         day = column_value.split('/')[0]
 
         self.search(row_domain, limit=1).copy({
+            name: False,
             column_field: day,
             cell_field: change
         })
