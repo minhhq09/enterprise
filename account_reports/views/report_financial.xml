@@ -106,7 +106,7 @@
     </tr>
 </template>
 <template id="report_financial_body">
-    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or None])">
+    <div t-att-data-report-name="str(report.get_name())" t-att-data-context="str(context.id)" t-att-class="' '.join(['container', 'o_account_reports_page', 'o_account_reports_widgets', mode != 'print' and 'o_account_reports_no_print' or ''])">
         <h2 t-esc="report.get_title()"/>
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div class="row" t-if="mode == 'print'" style='margin-top: 20px; margin-bottom: 20px;'>
