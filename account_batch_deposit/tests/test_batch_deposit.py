@@ -60,6 +60,7 @@ class TestBatchDeposit(AccountingTestCase):
         self.assertTrue(deposit.state == 'sent')
         # Create a bank statement
         bank_statement = self.env['account.bank.statement'].create({
+            'name': 'test deposit life cycle',
             'balance_start': 0.0,
             'balance_end_real': 800.0,
             'date': time.strftime('%Y') + '-08-01',

@@ -30,7 +30,7 @@ class AccountBankStatementImport(models.TransientModel):
         statement_list = []
         for statement in root[0].findall('ns:Stmt', ns):
             statement_vals = {}
-            statement_vals['reference'] = statement.xpath('ns:Id/text()', namespaces=ns)[0]
+            statement_vals['name'] = statement.xpath('ns:Id/text()', namespaces=ns)[0]
 
             # Transaction Entries 0..n
             transactions = []
@@ -78,7 +78,7 @@ class AccountBankStatementImport(models.TransientModel):
                                       """, namespaces=ns)
                 entry_vals['ref'] = ref and ref[0] or False
                 unique_import_ref = entry.xpath('ns:AcctSvcrRef/text()', namespaces=ns)
-                entry_vals['unique_import_id'] = unique_import_ref and unique_import_ref[0] or statement_vals['reference'] + '-' + str(sequence)
+                entry_vals['unique_import_id'] = unique_import_ref and unique_import_ref[0] or statement_vals['name'] + '-' + str(sequence)
 
                 transactions.append(entry_vals)
             statement_vals['transactions'] = transactions
