@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * hr_appraisal
-# 
+#
 # Translators:
 # Cristina Loureiro <cloureiro@live.com>, 2015
 # Manuela Silva <h_manuela_rodsilva@gmail.com>, 2015
@@ -9,14 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 15:34+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
-"Language-Team: Portuguese (http://www.transifex.com/odoo/odoo-9/language/pt/)\n"
+"Language-Team: Portuguese (http://www.transifex.com/odoo/odoo-9/language/"
+"pt/)\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: hr_appraisal
@@ -24,15 +25,20 @@ msgstr ""
 msgid ""
 "\n"
 "                \n"
-"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, "
+"Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
 "                    <p>Dear ${ctx.get('employee').name},</p>\n"
 "                    % if ctx.get('employee').id == object.employee_id.id:\n"
-"                        <p>Please fill out the following survey related to your appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"your appraisal.</p>\n"
 "                    % else:\n"
-"                        <p>Please fill out the following survey related to ${object.employee_id.name}'s appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"${object.employee_id.name}'s appraisal.</p>\n"
 "                    % endif\n"
-"                    <p><a href=\"__URL__\">Click here to access the survey.</a></p>\n"
-"                    <p>Post your response for the appraisal till : ${object.date_close}</p>\n"
+"                    <p><a href=\"__URL__\">Click here to access the survey.</"
+"a></p>\n"
+"                    <p>Post your response for the appraisal till : ${object."
+"date_close}</p>\n"
 "                    <p>Thank you for your participation.</p>\n"
 "                </div>\n"
 "                \n"
@@ -67,12 +73,8 @@ msgstr "Capacidade de acompanhar e concluir o trabalho conforme as instruções"
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_2_5
 msgid "Ability to manage planning resources, risks, budgets and deadlines"
-msgstr "Capacidade de gerir recursos de planeamento, riscos, orçamentos e prazos"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "Action Needed"
-msgstr "Ação Necessária"
+msgstr ""
+"Capacidade de gerir recursos de planeamento, riscos, orçamentos e prazos"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_action_plan
@@ -84,14 +86,24 @@ msgstr "Plano de Ação"
 msgid ""
 "Actions by Executive management show genuine interest in the well-being of "
 "employees"
-msgstr "Ações por Gerência Executiva mostra interesse genuíno no bem-estar dos funcionários"
+msgstr ""
+"Ações por Gerência Executiva mostra interesse genuíno no bem-estar dos "
+"funcionários"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_active
+#, fuzzy
+msgid "Active"
+msgstr "Objectivos"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_13
 msgid ""
 "Adaptability: Ability to adapt oneself to organizational changes while "
 "keeping efficiency"
-msgstr "Adaptabilidade: Capacidade de adaptar-se a mudanças organizacionais, mantendo a eficiência"
+msgstr ""
+"Adaptabilidade: Capacidade de adaptar-se a mudanças organizacionais, "
+"mantendo a eficiência"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_3
@@ -152,7 +164,7 @@ msgid "Appraisal Form..."
 msgstr "Formulário de Avaliação"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:117
+#: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
 msgstr "Entrevista de Avaliação para %s"
@@ -168,7 +180,7 @@ msgid "Appraisal Regarding"
 msgstr "Avaliação Referente a "
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
@@ -217,7 +229,7 @@ msgid "Appraisal(s)"
 msgstr "Avaliação(ões)"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:160
+#: code:addons/hr_appraisal/models/hr_appraisal.py:161
 #, python-format
 msgid "Appraisal(s) form have been sent"
 msgstr "O(s) formulário(s) de Avaliação foi /foram enviado(s)"
@@ -237,6 +249,11 @@ msgstr "Avaliações a serem processadas"
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
 msgid "Appraiser"
 msgstr "Avaliador"
+
+#. module: hr_appraisal
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
+msgid "Archived"
+msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -259,7 +276,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #, python-format
 msgid "Cancelled"
@@ -315,7 +332,8 @@ msgstr "Índice de Cor"
 #: model:survey.label,value:hr_appraisal.arow_3_1_9
 msgid ""
 "Communication skills (written & verbally): clearness, concision, exactitude"
-msgstr "As habilidades de comunicação (escrita e verbal): clareza, concisão, precisão"
+msgstr ""
+"As habilidades de comunicação (escrita e verbal): clareza, concisão, precisão"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_company_id
@@ -327,13 +345,17 @@ msgstr "Empresa"
 msgid ""
 "Compared to similar jobs in other companies where I could work, my total "
 "compensation..."
-msgstr "Em comparação com trabalhos semelhantes em outras empresas onde eu poderia trabalhar, minha remuneração total ..."
+msgstr ""
+"Em comparação com trabalhos semelhantes em outras empresas onde eu poderia "
+"trabalhar, minha remuneração total ..."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_3
 msgid ""
 "Compliance to internal rules and processes (timesheets completion, etc.)"
-msgstr "Em conformidade com as regras e os processos internos (conclusão das folhas de horas, etc.)"
+msgstr ""
+"Em conformidade com as regras e os processos internos (conclusão das folhas "
+"de horas, etc.)"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_4
@@ -370,7 +392,10 @@ msgstr "Espírito Criativo e aptidão para Inovar"
 msgid ""
 "Critical or key elements of performance and professional development needs "
 "(if any), should also be noted at this time"
-msgstr "Elementos de desempenho chave ou críticos e as necessidades de desenvolvimento profissional (se os houver), também devem ser anotados neste momento"
+msgstr ""
+"Elementos de desempenho chave ou críticos e as necessidades de "
+"desenvolvimento profissional (se os houver), também devem ser anotados neste "
+"momento"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_8
@@ -386,11 +411,6 @@ msgstr "Data"
 #: model:survey.question,question:hr_appraisal.appraisal_1_4
 msgid "Date of review"
 msgstr "Data de revisão"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Date of the last message posted on the record."
-msgstr "Data da Ultmia Mensagem Inserida no Registo"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_deadline
@@ -410,7 +430,8 @@ msgstr "Tomando uma decisão"
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_2_2
 msgid "Delegation: Ability to efficiently assign tasks to other people"
-msgstr "Delegação: Capacidade de atribuir tarefas a outras pessoas de forma eficiente"
+msgstr ""
+"Delegação: Capacidade de atribuir tarefas a outras pessoas de forma eficiente"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -441,7 +462,7 @@ msgid "Display Name"
 msgstr "Nome a Mostrar"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -563,21 +584,6 @@ msgid "Final Interview Date"
 msgstr "Data da Entrevista Final"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_follower_ids
-msgid "Followers"
-msgstr "Seguidores"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Seguidores (Canais)"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Seguidores (Parceiros)"
-
-#. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Group By"
 msgstr "Agrupar por"
@@ -586,11 +592,6 @@ msgstr "Agrupar por"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 msgid "Group by..."
 msgstr "Grupo por..."
-
-#. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
-msgid "HR Department"
-msgstr "Departamento de RH"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
@@ -602,6 +603,12 @@ msgid ""
 msgstr ""
 
 #. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
+#, fuzzy
+msgid "Hr Department"
+msgstr "Departamento de RH"
+
+#. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
 msgid "I am proud to tell others I work here"
 msgstr "Tenho orgulho de dizer aos outros que eu trabalho aqui"
@@ -611,7 +618,9 @@ msgstr "Tenho orgulho de dizer aos outros que eu trabalho aqui"
 msgid ""
 "I am willing to put in a great deal of effort beyond what is expected to "
 "help my workgroup succeed"
-msgstr "Estou disposto a colocar um grande esforço para além do que é esperado para ajudar o meu grupo de trabalho a ter sucesso"
+msgstr ""
+"Estou disposto a colocar um grande esforço para além do que é esperado para "
+"ajudar o meu grupo de trabalho a ter sucesso"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_4
@@ -623,7 +632,9 @@ msgstr "Eu acredito na informação que obtenho da pessoa que eu reporto."
 msgid ""
 "I consistently acquire new knowledge, skills or understanding through "
 "contact with my supervisor. He helps me growing my compete"
-msgstr "Nunca deixei de adquirir novos conhecimentos, habilidades ou compreensão através do contato com o meu supervisor. Ele ajuda-me a ser mais competitivo"
+msgstr ""
+"Nunca deixei de adquirir novos conhecimentos, habilidades ou compreensão "
+"através do contato com o meu supervisor. Ele ajuda-me a ser mais competitivo"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_2
@@ -635,7 +646,9 @@ msgstr "Tenho trabalho suficiente"
 msgid ""
 "I have the same opportunity to succeed as others with similar experiences, "
 "performance and educational background"
-msgstr "Eu tenho a mesma oportunidade de ter sucesso como outras pessoas com experiências semelhantes, desempenho e formação"
+msgstr ""
+"Eu tenho a mesma oportunidade de ter sucesso como outras pessoas com "
+"experiências semelhantes, desempenho e formação"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_5_1
@@ -647,19 +660,24 @@ msgstr "Eu sei que os valores da empresa e sinto-as"
 msgid ""
 "I mostly work on value-added tasks for the company, the products or the "
 "services"
-msgstr "Eu trabalho principalmente em tarefas de valor acrescentado para a empresa, produtos ou serviços"
+msgstr ""
+"Eu trabalho principalmente em tarefas de valor acrescentado para a empresa, "
+"produtos ou serviços"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_6_4
 msgid "I understand the company strategy and how my workgroup supports it"
-msgstr "Eu entendo a estratégia da empresa e como o meu grupo de trabalho a apoia"
+msgstr ""
+"Eu entendo a estratégia da empresa e como o meu grupo de trabalho a apoia"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_3
 msgid ""
 "I would prefer to remain with this company even if a comparable job were "
 "available in another company"
-msgstr "Eu preferiria permanecer nesta empresa, mesmo que um trabalho comparável estivesse disponível noutra empresa"
+msgstr ""
+"Eu preferiria permanecer nesta empresa, mesmo que um trabalho comparável "
+"estivesse disponível noutra empresa"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_1
@@ -675,19 +693,10 @@ msgstr "ID"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_4
 msgid ""
-"Identify professional, performance, or project objectives you recommend for employee’s continued career development\n"
+"Identify professional, performance, or project objectives you recommend for "
+"employee’s continued career development\n"
 "over the coming year."
 msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread
-msgid "If checked new messages require your attention."
-msgstr "Se marcado, há novas mensagens que pedem a sua atenção."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "If checked, new messages require your attention."
-msgstr "Se marcado, as novas mensagens requerem a sua atenção."
 
 #. module: hr_appraisal
 #: model:survey.question,comments_message:hr_appraisal.appraisal_1_1
@@ -713,7 +722,8 @@ msgstr "Se marcado, as novas mensagens requerem a sua atenção."
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_5
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_6
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_7
-msgid "If other, precise:"
+#, fuzzy
+msgid "If other, please specify:"
 msgstr "Se outro, indique:"
 
 #. module: hr_appraisal
@@ -721,7 +731,9 @@ msgstr "Se outro, indique:"
 msgid ""
 "If the evaluation does not meet the expectations, you can propose an action "
 "plan"
-msgstr "Se a avaliação não coincidir com as expectativas, pode propôr um plano de ação"
+msgstr ""
+"Se a avaliação não coincidir com as expectativas, pode propôr um plano de "
+"ação"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
@@ -739,30 +751,25 @@ msgid "Interview"
 msgstr "Entrevista"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_is_follower
-msgid "Is Follower"
-msgstr "É um Seguidor"
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the joint responsibility of the employee and the supervisor (appraiser) to establish a feasible work plan for the\n"
-"coming year, including major employee responsibilities and corresponding benchmarks against which results will be\n"
+"It is the joint responsibility of the employee and the supervisor "
+"(appraiser) to establish a feasible work plan for the\n"
+"coming year, including major employee responsibilities and corresponding "
+"benchmarks against which results will be\n"
 "evaluated."
 msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the primary responsibility of the supervisor to gather the necessary input from the appropriate sources of feedback\n"
-"(internal and/or external customers, peers). In case of collaboration with Odoo SA Belgium, the supervisor must\n"
-"receive completed evaluation form from the employee's Belgian project manager."
+"It is the primary responsibility of the supervisor to gather the necessary "
+"input from the appropriate sources of feedback\n"
+"(internal and/or external customers, peers). In case of collaboration with "
+"Odoo SA Belgium, the supervisor must\n"
+"receive completed evaluation form from the employee's Belgian project "
+"manager."
 msgstr ""
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Last Message Date"
-msgstr "Data da Última Mensagem"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal___last_update
@@ -790,7 +797,9 @@ msgstr "Liderança"
 msgid ""
 "Leadership: create a challenging and motivating work environment aligned "
 "with the company's strategy"
-msgstr "Liderança: criar um ambiente de trabalho desafiador e motivador alinhado com a estratégia da empresa"
+msgstr ""
+"Liderança: criar um ambiente de trabalho desafiador e motivador alinhado com "
+"a estratégia da empresa"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_2_4
@@ -800,9 +809,11 @@ msgstr "Liderança: sustentar funcionários no seu crescimento profissional"
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_3
 msgid ""
-"Listens and takes into account all ideas and do his best to put in place the"
-" best of these"
-msgstr "Escuta e leva em conta todas as ideias e faz o seu melhor para colocar as melhores em prática"
+"Listens and takes into account all ideas and do his best to put in place the "
+"best of these"
+msgstr ""
+"Escuta e leva em conta todas as ideias e faz o seu melhor para colocar as "
+"melhores em prática"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_appraisal
@@ -843,11 +854,6 @@ msgid "Meeting Scheduled"
 msgstr "Reunião Marcada"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_ids
-msgid "Messages"
-msgstr "Mensagens"
-
-#. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_6
 msgid "Miscellaneous"
 msgstr "Diversos"
@@ -863,7 +869,9 @@ msgstr "Mês"
 msgid ""
 "My best achievements have been communicated to the community, internally or "
 "to customers"
-msgstr "Meus melhores resultados foram comunicados à comunidade, internamente ou para clientes"
+msgstr ""
+"Meus melhores resultados foram comunicados à comunidade, internamente ou "
+"para clientes"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_2
@@ -875,7 +883,9 @@ msgstr "O meu trabalho realiza-me pessoalmente"
 msgid ""
 "My work contributes towards the continuous improvement of the company, our "
 "services or products"
-msgstr "Meu trabalho contribui para a melhoria contínua da empresa, nossos serviços ou produtos"
+msgstr ""
+"Meu trabalho contribui para a melhoria contínua da empresa, nossos serviços "
+"ou produtos"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_tree
@@ -894,11 +904,6 @@ msgid "Next Appraisal Date"
 msgstr "Data da Próxima Avaliação"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of Actions"
-msgstr "Número de Ações"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_completed_survey
 msgid "Number of Answers"
 msgstr "Número de Respostas"
@@ -907,16 +912,6 @@ msgstr "Número de Respostas"
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_sent_survey
 msgid "Number of Sent Forms"
 msgstr "Número de formulários enviados"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Número de mensagens que requerem uma ação"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Number of unread messages"
-msgstr "Número de mensagens por ler"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_1
@@ -933,7 +928,9 @@ msgstr "Abertura"
 msgid ""
 "Our workgroup identifies and reduces waste of time in our activities and "
 "processes"
-msgstr "Nosso grupo de trabalho identifica e reduz o desperdício de tempo nas nossas atividades e processos"
+msgstr ""
+"Nosso grupo de trabalho identifica e reduz o desperdício de tempo nas nossas "
+"atividades e processos"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -945,7 +942,9 @@ msgstr "Finalidade Global da Avaliação de Funcionários"
 msgid ""
 "Overall, I believe the quality of products and/or services my workgroup "
 "delivers is improving"
-msgstr "No geral, eu acredito que a qualidade dos produtos e/ou serviços que o meu grupo de trabalho proporciona está a melhorar"
+msgstr ""
+"No geral, eu acredito que a qualidade dos produtos e/ou serviços que o meu "
+"grupo de trabalho proporciona está a melhorar"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal
@@ -1024,7 +1023,10 @@ msgstr "Resultados"
 msgid ""
 "Results of the bottom-up survey and mitigation actions to face technical, "
 "organizational, structural and/or relational issues"
-msgstr "Resultados das ações de pesquisa e de mitigação de baixo para cima para enfrentar questões técnicas , organizacionais , estruturais e / ou relacionais"
+msgstr ""
+"Resultados das ações de pesquisa e de mitigação de baixo para cima para "
+"enfrentar questões técnicas , organizacionais , estruturais e / ou "
+"relacionais"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -1069,7 +1071,8 @@ msgstr "Significativamente abaixo das normas e das expectativas"
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "Significantly exceeds standards and expectations required of the position"
-msgstr "Significativamente excede as normas e expectativas necessárias à função"
+msgstr ""
+"Significativamente excede as normas e expectativas necessárias à função"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -1109,7 +1112,9 @@ msgstr "Levando tudo em conta, está satisfeito com seu trabalho atual?"
 msgid ""
 "Team spirit: ability to work efficiently with peers, manage the conflicts "
 "with diplomacy"
-msgstr "Espírito de equipa: a capacidade de trabalhar de forma eficiente com os colegas, gerir os conflitos com diplomacia"
+msgstr ""
+"Espírito de equipa: a capacidade de trabalhar de forma eficiente com os "
+"colegas, gerir os conflitos com diplomacia"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_10
@@ -1144,14 +1149,6 @@ msgid "The answer you entered has an invalid format."
 msgstr "A resposta que inseriu tem um formato inválido"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:192
-#, python-format
-msgid ""
-"The appraisal deadline must be in the future to allow employees to answer "
-"the survey."
-msgstr ""
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
@@ -1161,7 +1158,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 msgid ""
-"The appraiser should rate the employee’s major work accomplishments and performance according to the metric provided\n"
+"The appraiser should rate the employee’s major work accomplishments and "
+"performance according to the metric provided\n"
 "below:"
 msgstr ""
 
@@ -1176,7 +1174,9 @@ msgstr ""
 msgid ""
 "The date of the next appraisal is computed by the appraisal plan's dates "
 "(first appraisal + periodicity)."
-msgstr "A data da próxima avaliação é calculada pelos planos das datas de avaliação (primeira avaliação + periodicidade)."
+msgstr ""
+"A data da próxima avaliação é calculada pelos planos das datas de avaliação "
+"(primeira avaliação + periodicidade)."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1188,8 +1188,10 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
-"point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
+"The employee will be responsible for completing a draft of the Appraisal "
+"Form as a tool for self-appraisal and a starting\n"
+"point for the supervisor’s evaluation. The employee can add examples of "
+"achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
 msgstr ""
 
@@ -1197,8 +1199,8 @@ msgstr ""
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The employees will send back their anonymous answers to Odoo. The data will "
-"be handled by the HR manager and a brief summary of the data will be sent to"
-" the concerned supervisor, to his team and to the supervisor's supervisor."
+"be handled by the HR manager and a brief summary of the data will be sent to "
+"the concerned supervisor, to his team and to the supervisor's supervisor."
 msgstr ""
 
 #. module: hr_appraisal
@@ -1210,8 +1212,9 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The supervisor synthesizes and integrates all input into the completed appraisal. He motivates his evaluation in the ad\n"
-"hoc fields."
+"The supervisor synthesizes and integrates all input into the completed "
+"appraisal. The motivation of the evaluation\n"
+"is explained in the ad hoc fields."
 msgstr ""
 
 #. module: hr_appraisal
@@ -1272,7 +1275,7 @@ msgid "Time management: projects/tasks are completed on time"
 msgstr "A gestão do tempo: Projetos/Tarefas são concluídas a tempo"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #, python-format
@@ -1282,7 +1285,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"To assist employees in their professional growth, through the identification of strengths and opportunities for\n"
+"To assist employees in their professional growth, through the identification "
+"of strengths and opportunities for\n"
 "development"
 msgstr ""
 
@@ -1292,38 +1296,22 @@ msgid "To initiate a clear and open communication of performance expectations"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread
-msgid "Unread Messages"
-msgstr "Mensagens por ler"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contador de Mensagens por Ler"
-
-#. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_5_1
 msgid ""
-"Use the following space to make any comments regarding the above performance"
-" evaluation."
-msgstr "Use o espaço abaixo para fazer quaisquer comentários sobre a avaliação de desempenho acima."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website Messages"
-msgstr "Mensagens do Website"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website communication history"
-msgstr "Histórico de Comunicação do Website"
+"Use the following space to make any comments regarding the above performance "
+"evaluation."
+msgstr ""
+"Use o espaço abaixo para fazer quaisquer comentários sobre a avaliação de "
+"desempenho acima."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_4_2
 msgid ""
 "What I did several months ago is still of use to the company, the services "
 "or the products today"
-msgstr "O que eu fiz há alguns meses atrás é de alguma utilidade para a empresa, serviços e produtos dos dias de hoje."
+msgstr ""
+"O que eu fiz há alguns meses atrás é de alguma utilidade para a empresa, "
+"serviços e produtos dos dias de hoje."
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.appraisal_2
@@ -1336,7 +1324,7 @@ msgid "Year"
 msgstr "Ano"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:206
+#: code:addons/hr_appraisal/models/hr_appraisal.py:205
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
 msgstr ""
@@ -1344,7 +1332,8 @@ msgstr ""
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid ""
-"You will be able to choose which forms will be sent (Employee,Managers,Collaborators or Colleagues),\n"
+"You will be able to choose which forms will be sent (Employee,Managers,"
+"Collaborators or Colleagues),\n"
 "            to whom and the evaluation deadline. Once you have defined it,\n"
 "            change the stage to send it and view the results."
 msgstr ""
@@ -1358,3 +1347,54 @@ msgstr "Avaliação do colaborador"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "oe_kanban_text_red"
 msgstr "oe_kanban_text_red"
+
+#~ msgid "Action Needed"
+#~ msgstr "Ação Necessária"
+
+#~ msgid "Date of the last message posted on the record."
+#~ msgstr "Data da Ultmia Mensagem Inserida no Registo"
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Seguidores (Parceiros)"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Se marcado, há novas mensagens que pedem a sua atenção."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Se marcado, as novas mensagens requerem a sua atenção."
+
+#~ msgid "Is Follower"
+#~ msgstr "É um Seguidor"
+
+#~ msgid "Last Message Date"
+#~ msgstr "Data da Última Mensagem"
+
+#~ msgid "Messages"
+#~ msgstr "Mensagens"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Número de Ações"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requerem uma ação"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Número de mensagens por ler"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens por ler"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens por Ler"
+
+#~ msgid "Website Messages"
+#~ msgstr "Mensagens do Website"
+
+#~ msgid "Website communication history"
+#~ msgstr "Histórico de Comunicação do Website"

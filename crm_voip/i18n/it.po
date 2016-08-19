@@ -1,55 +1,46 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * crm_voip
-# 
+#
 # Translators:
 # Simone Bernini <simone@aperturelabs.it>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 14:10+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-04-20 09:41+0000\n"
 "Last-Translator: Simone Bernini <simone@aperturelabs.it>\n"
 "Language-Team: Italian (http://www.transifex.com/odoo/odoo-9/language/it/)\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. module: crm_voip
-#: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
-msgid ""
-"\n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"\n"
-"                    <p>Hello ${object.name},</p>\n"
-"\n"
-"                    <p>I just tried to call you.\n"
-"                        Can you please give me your availability in order to schedule a new call?</p>\n"
-"                    <p>Yours Sincerly</p>\n"
-"                    <p>${user.name}</p>\n"
-"\n"
-"                </div>\n"
-"            "
-msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n<p>Salve ${object.name},</p>\n\n<p>Ho appena provato a contattarti telefonicamente.\nPotresti aggiornarmi sulla tua disponibilità nei prossimi giorni, in modo da schedulare una nuova chiamata?</p>\n<p>Cordiali saluti</p>\n<p>${user.name}</p>\n\n</div>\n            "
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_interrupted
 msgid ""
 "\n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"                    <p>Hello ${object.name},</p>\n"
+"<p>Hello ${object.partner_id.name},</p>\n"
 "\n"
-"                    <p>It seems that we have been interrupted during our conversation. Can you please give me your availability in order to schedule \n"
-"                        a new call? </p>\n"
-"                    <p>Yours Sincerly</p>\n"
-"                    <p>${user.name}</p>\n"
+"<p>It seems that we have been interrupted during our conversation about\n"
+"    '${object.name}'. Can you please give me your availability in order to "
+"schedule \n"
+"    a new call? </p>\n"
+"<p>Best regards,</p>"
+msgstr ""
+
+#. module: crm_voip
+#: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
+msgid ""
 "\n"
-"                </div>\n"
-"            "
-msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n<p>Salve ${object.name},</p>\n\n<p>Sembra che la nostra comunicazione si sia interrotta. Potresti aggiornarmi sulla tua disponibilità nei prossimi giorni, in modo da schedulare una nuova chiamata? </p>\n<p>Cordiali saluti</p>\n<p>${user.name}</p>\n\n</div>\n            "
+"<p>Hello ${object.partner_id.name},</p>\n"
+"<p>I just tried to call you concerning the subject '${object.name}'. Can "
+"you\n"
+"    please give me your availability in order to schedule a new call?</p>\n"
+"<p>Best regards,</p>"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_nbr
@@ -59,8 +50,8 @@ msgstr "# di Casi"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
-"'required':[('show_duration', '=',True)]}\">min(s)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
+"[('show_duration', '=',True)]}\">min(s)</span>"
 msgstr ""
 
 #. module: crm_voip
@@ -86,32 +77,41 @@ msgid "Assign To"
 msgstr "Assegna A"
 
 #. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:111
+#, python-format
+msgid "Backspace"
+msgstr ""
+
+#. module: crm_voip
 #: model:ir.filters,name:crm_voip.filter_crm_phonecall_sales_team
 msgid "By Sales Team"
 msgstr "Per team di vendita"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:349
-#: code:addons/crm_voip/static/src/js/crm_voip.js:366
-#: code:addons/crm_voip/static/src/js/crm_voip.js:374
-#: code:addons/crm_voip/static/src/js/crm_voip.js:391
-#: code:addons/crm_voip/static/src/js/crm_voip.js:496
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:81
+#: code:addons/crm_voip/static/src/js/crm_voip.js:415
+#: code:addons/crm_voip/static/src/js/crm_voip.js:426
+#: code:addons/crm_voip/static/src/js/crm_voip.js:443
+#: code:addons/crm_voip/static/src/js/crm_voip.js:451
+#: code:addons/crm_voip/static/src/js/crm_voip.js:468
+#: code:addons/crm_voip/static/src/js/crm_voip.js:575
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:83
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:124
 #, python-format
 msgid "Call"
 msgstr "Avvia chiamata"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:87
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:89
 #, python-format
 msgid "Call All"
 msgstr "Chiama tutti"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:88
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:90
 #, python-format
 msgid "Call Next One"
 msgstr "Chiama il successivo"
@@ -130,15 +130,16 @@ msgstr "Riepilogo chiamata"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:802
+#: code:addons/crm_voip/static/src/js/crm_voip.js:879
 #, python-format
 msgid "Calling "
 msgstr "Chiamata in corso"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:332
-#: code:addons/crm_voip/static/src/js/crm_voip.js:500
+#: code:addons/crm_voip/static/src/js/crm_voip.js:397
+#: code:addons/crm_voip/static/src/js/crm_voip.js:409
+#: code:addons/crm_voip/static/src/js/crm_voip.js:579
 #, python-format
 msgid "Calling..."
 msgstr "Chiamata in corso..."
@@ -157,7 +158,7 @@ msgstr "Annulla"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:50
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:48
 #, python-format
 msgid "Cancel the call"
 msgstr "Annulla la chiamata"
@@ -184,7 +185,9 @@ msgstr "Categoria della chiamata"
 msgid ""
 "Changing the phone number will not change the phone numbers already in the "
 "call queue"
-msgstr "Modificare il numero di telefono non modificherà i numeri di telefono già presenti nella coda di chiamate da fare"
+msgstr ""
+"Modificare il numero di telefono non modificherà i numeri di telefono già "
+"presenti nella coda di chiamate da fare"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -198,14 +201,14 @@ msgstr "Clicca per inserire il riepilogo di una chiamata."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:398
+#: code:addons/crm_voip/static/src/js/crm_voip.js:475
 #, python-format
 msgid "Click to unblock"
 msgstr ""
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:73
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:74
 #, python-format
 msgid "Close the Panel"
 msgstr "Chiudi pannello"
@@ -265,7 +268,7 @@ msgstr ""
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:101
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:103
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 #, python-format
 msgid "Customer"
@@ -273,7 +276,7 @@ msgstr "Cliente"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:356
+#: code:addons/crm_voip/static/src/js/crm_voip.js:433
 #, python-format
 msgid "Customer unavailable"
 msgstr "Cliente non disponibile"
@@ -304,7 +307,7 @@ msgstr "Descrizione..."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:133
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:153
 #, python-format
 msgid "Description:"
 msgstr "Descrizione:"
@@ -316,10 +319,17 @@ msgstr "Annulla"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:7
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:5
 #, python-format
 msgid "Display Dialing Panel"
 msgstr "Mostra pannello chiamate"
+
+#. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:68
+#, fuzzy, python-format
+msgid "Display Keypad"
+msgstr "Visualizza Nome"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_display_name
@@ -356,7 +366,14 @@ msgstr ""
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:145
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:110
+#, python-format
+msgid "Enter the number..."
+msgstr ""
+
+#. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:165
 #, python-format
 msgid "Expected Revenue:"
 msgstr ""
@@ -373,7 +390,11 @@ msgid ""
 "on their phone calls. You can group or filter the information according to "
 "several criteria and drill down the information, by adding more groups in "
 "the report."
-msgstr "Con questo report è possibile analizzare le prestazioni del team di vendita in base alle loro telefonate. È possibile raggruppare o filtrare le informazioni secondo diversi criteri e successivi approfondimenti mediante l'aggiunta di ulteriori gruppi nel report."
+msgstr ""
+"Con questo report è possibile analizzare le prestazioni del team di vendita "
+"in base alle loro telefonate. È possibile raggruppare o filtrare le "
+"informazioni secondo diversi criteri e successivi approfondimenti mediante "
+"l'aggiunta di ulteriori gruppi nel report."
 
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_crm_phonecall_sequence
@@ -388,7 +409,7 @@ msgstr "Raggruppa per"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:92
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:94
 #, python-format
 msgid "Hang Up"
 msgstr ""
@@ -497,8 +518,8 @@ msgstr "Lead/Opportunità"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/crm_voip.py:305
-#: code:addons/crm_voip/static/src/js/crm_voip.js:435
+#: code:addons/crm_voip/crm_voip.py:313
+#: code:addons/crm_voip/static/src/js/crm_voip.js:512
 #, python-format
 msgid "Log a call"
 msgstr "Registra una chiamata"
@@ -567,7 +588,7 @@ msgstr "Data prossima azione"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:139
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:159
 #, python-format
 msgid "Next Action:"
 msgstr "Azione successiva:"
@@ -579,7 +600,7 @@ msgstr "Prossima attività"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:48
+#: code:addons/crm_voip/static/src/js/crm_voip.js:50
 #, python-format
 msgid "No opportunity linked"
 msgstr "Nessuna opportunità collegata"
@@ -606,11 +627,14 @@ msgid ""
 "Odoo allows you to log inbound calls on the fly to track the\n"
 "          history of the communication with a customer or to inform another\n"
 "          team member."
-msgstr "Odoo ti permette di tenere traccia delle chiamate in ingresso\nin modo da tenere uno storico delle comunicazioni con il cliente\no altri membri del tuo team."
+msgstr ""
+"Odoo ti permette di tenere traccia delle chiamate in ingresso\n"
+"in modo da tenere uno storico delle comunicazioni con il cliente\n"
+"o altri membri del tuo team."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:102
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:104
 #, python-format
 msgid "Opportunity"
 msgstr "Opportunità"
@@ -749,7 +773,7 @@ msgstr "Data pianificata"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:469
+#: code:addons/crm_voip/static/src/js/crm_voip.js:547
 #, python-format
 msgid "Please check if a phone number is given for the current phonecall"
 msgstr ""
@@ -761,8 +785,8 @@ msgstr "Produzione"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:65
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:70
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:63
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:71
 #, python-format
 msgid "Refresh the Panel"
 msgstr "Aggiorna il pannello"
@@ -774,14 +798,14 @@ msgstr "Rimuovi dalla coda delle chiamate da fare"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:47
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:45
 #, python-format
 msgid "Remove from the queue"
 msgstr "Rimuovi dalla coda chiamate"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:97
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:99
 #, python-format
 msgid "Reschedule Call"
 msgstr "Rischedula chiamata"
@@ -853,7 +877,7 @@ msgstr "Schedula una chiamata telefonica"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:119
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:139
 #, python-format
 msgid "Scheduled Date:"
 msgstr "Data pianificata:"
@@ -877,7 +901,7 @@ msgstr "Ricerca Telefonate"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:96
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:100
 #, python-format
 msgid "Send Email"
 msgstr "Invia Email"
@@ -900,7 +924,7 @@ msgstr ""
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:802
+#: code:addons/crm_voip/static/src/js/crm_voip.js:878
 #, python-format
 msgid "Start Calling"
 msgstr "Avvia chiamata"
@@ -919,7 +943,7 @@ msgstr "Stato"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:91
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:93
 #, python-format
 msgid "Stop Automatic Call"
 msgstr "Interrompi la composizione automatica"
@@ -936,14 +960,14 @@ msgstr "L'URL del tuo WebSocket"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:356
+#: code:addons/crm_voip/static/src/js/crm_voip.js:433
 #, python-format
 msgid "The customer is temporary unavailable. Please try later."
 msgstr "Il cliente è momentaneamente non disponibile. Riprova più tardi."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:469
+#: code:addons/crm_voip/static/src/js/crm_voip.js:547
 #, python-format
 msgid "The phonecall has no number"
 msgstr ""
@@ -974,7 +998,7 @@ msgstr "Da fare"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:84
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:86
 #, python-format
 msgid "Toggle Dropdown"
 msgstr "Verifica lista a discesa"
@@ -986,7 +1010,7 @@ msgstr "Domani"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:93
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:95
 #, python-format
 msgid "Transfer"
 msgstr "Trasferimento"
@@ -1003,7 +1027,7 @@ msgstr "Non assegnato"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:29
+#: code:addons/crm_voip/static/src/js/crm_voip.js:31
 #, python-format
 msgid "Unknown"
 msgstr "Sconosciuto"
@@ -1014,7 +1038,7 @@ msgid "VOIP Configuration"
 msgstr "Configurazione VOIP"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:499
+#: code:addons/crm_voip/crm_voip.py:507
 #, python-format
 msgid "Warning"
 msgstr "Avviso"
@@ -1025,16 +1049,18 @@ msgid "WebSocket"
 msgstr "WebSocket"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:500
+#: code:addons/crm_voip/crm_voip.py:508
 #, python-format
 msgid ""
 "Wrong configuration for the call. There is no external phone number "
 "configured"
-msgstr "Configurazione errata per la chiamata. Non è presente alcun numero di telefono esterno configurato"
+msgstr ""
+"Configurazione errata per la chiamata. Non è presente alcun numero di "
+"telefono esterno configurato"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:146
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:166
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 #, python-format
 msgid "at"
@@ -1064,11 +1090,6 @@ msgstr "crm.phonecall.transfer.wizard"
 #: model:ir.model,name:crm_voip.model_crm_phonecall2phonecall
 msgid "crm.phonecall2phonecall"
 msgstr "crm.phonecall2phonecall"
-
-#. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.click_to_dial_field
-msgid "e.g. +32.81.81.37.00"
-msgstr "es. +39.12.12.12.12"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -1116,3 +1137,71 @@ msgstr ""
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "\n"
+#~ "                    <p>Hello ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>I just tried to call you.\n"
+#~ "                        Can you please give me your availability in order "
+#~ "to schedule a new call?</p>\n"
+#~ "                    <p>Yours Sincerly</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
+#~ "serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "
+#~ "\">\n"
+#~ "\n"
+#~ "<p>Salve ${object.name},</p>\n"
+#~ "\n"
+#~ "<p>Ho appena provato a contattarti telefonicamente.\n"
+#~ "Potresti aggiornarmi sulla tua disponibilità nei prossimi giorni, in modo "
+#~ "da schedulare una nuova chiamata?</p>\n"
+#~ "<p>Cordiali saluti</p>\n"
+#~ "<p>${user.name}</p>\n"
+#~ "\n"
+#~ "</div>\n"
+#~ "            "
+
+#~ msgid ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "                    <p>Hello ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>It seems that we have been interrupted during our "
+#~ "conversation. Can you please give me your availability in order to "
+#~ "schedule \n"
+#~ "                        a new call? </p>\n"
+#~ "                    <p>Yours Sincerly</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
+#~ "serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "
+#~ "\">\n"
+#~ "<p>Salve ${object.name},</p>\n"
+#~ "\n"
+#~ "<p>Sembra che la nostra comunicazione si sia interrotta. Potresti "
+#~ "aggiornarmi sulla tua disponibilità nei prossimi giorni, in modo da "
+#~ "schedulare una nuova chiamata? </p>\n"
+#~ "<p>Cordiali saluti</p>\n"
+#~ "<p>${user.name}</p>\n"
+#~ "\n"
+#~ "</div>\n"
+#~ "            "
+
+#~ msgid "e.g. +32.81.81.37.00"
+#~ msgstr "es. +39.12.12.12.12"

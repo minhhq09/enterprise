@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_ups
-# 
+#
 # Translators:
 # Fabian Liesch <fabian.liesch@gmail.com>, 2015
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2016
@@ -9,25 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-06-02 17:03+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@openbig.org>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "10KG Box"
-msgstr "10 kg Box"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "25KG Box"
-msgstr "25 kg Box"
 
 #. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_delivery_carrier
@@ -40,29 +30,15 @@ msgid "Centimeters"
 msgstr "Zentimeter"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Express Box"
-msgstr "Express Box"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+#, fuzzy
+msgid "Default Packaging Type"
+msgstr "UPS Pakettyp"
 
 #. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_height
-msgid "Fixed height if not provided on the product packaging."
-msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
-
-#. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_length
-msgid "Fixed length if not provided on the product packaging."
-msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
-
-#. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_package_width
-msgid "Fixed width if not provided on the product packaging."
-msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Flat Pack"
-msgstr "Paket"
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
@@ -75,37 +51,23 @@ msgid "Kilograms"
 msgstr "Kilogramm"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Medium Express Box"
-msgstr "Medium Express Box"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "Label File Type"
+msgstr ""
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_height
-msgid "Package Height"
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_ups
+#: model:ir.model,name:delivery_ups.model_product_packaging
+#, fuzzy
+msgid "Packaging"
 msgstr "Höhe der Verpackung"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_length
-msgid "Package Length"
-msgstr "Länge der Verpackung"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_width
-msgid "Package Width"
-msgstr "Breite der Verpackung"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Package/customer supplied"
-msgstr "Paket/Kunde angegeben"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Pallet"
-msgstr "Palette"
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:196
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Bitte wählen Sie mindestens ein Eintrag zum Versenden"
@@ -116,71 +78,74 @@ msgid "Pounds"
 msgstr "Pfund"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:162
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Versand N° %s wurde storniert"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:130
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Versand erfolgreich in UPS erstellt <br/> <b>Tracking Nummer : </b>%s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:134
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Versandlabel für Pakete"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "Small Express Box"
-msgstr "Small Express Box"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_test_mode
-msgid "Test Mode"
-msgstr "Testmodus"
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:181
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
 "(Missing field(s) : %s)"
-msgstr "Fehlende oder falsche Adresse Ihrer Firma.\n(fehlende(s)  Feld(er) : %s)"
+msgstr ""
+"Fehlende oder falsche Adresse Ihrer Firma.\n"
+"(fehlende(s)  Feld(er) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:187
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
 "(Missing field(s) : %s)"
-msgstr "Die Adresse Ihres Lagers fehlt oder ist falsch.\n(Fehlende Felder : %s)"
+msgstr ""
+"Die Adresse Ihres Lagers fehlt oder ist falsch.\n"
+"(Fehlende Felder : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:201
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "Die Lieferung kann nicht erfolgen, da das Gewicht des Produkts fehlt. "
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:198
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
-msgstr "Der voraussichtliche Preis kann nicht ermittelt werden, da das Produkt keine Gewichtsangabe hat."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
+msgstr ""
+"Der voraussichtliche Preis kann nicht ermittelt werden, da das Produkt keine "
+"Gewichtsangabe hat."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:193
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
 "(Missing field(s) : %s)"
-msgstr "Die Empfängeradresse fehlt oder ist falsch.\n(Missing field(s) : %s)"
+msgstr ""
+"Die Empfängeradresse fehlt oder ist falsch.\n"
+"(Missing field(s) : %s)"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -219,11 +184,6 @@ msgid "UPS Ground"
 msgstr "UPS Ground"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Letter"
-msgstr "UPS Letter"
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Next Day"
 msgstr "UPS Next Day"
@@ -237,16 +197,6 @@ msgstr "UPS Next Day AM"
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Next Day Air Saver"
 msgstr "UPS Next Day Air Saver"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_type
-msgid "UPS Packaging Type"
-msgstr "UPS Pakettyp"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Pak"
-msgstr "UPS Paket"
 
 #. module: delivery_ups
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_passwd
@@ -272,11 +222,6 @@ msgstr "UPS Shipper Number"
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Standard"
 msgstr "UPS Standard"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_default_packaging_type:0
-msgid "UPS Tube"
-msgstr "UPS Tube"
 
 #. module: delivery_ups
 #: model:delivery.carrier,name:delivery_ups.delivery_carrier_ups_us
@@ -310,11 +255,6 @@ msgid "UPS Worldwide Express Plus"
 msgstr "UPS Worldwide Express Plus"
 
 #. module: delivery_ups
-#: model:ir.model.fields,help:delivery_ups.field_delivery_carrier_ups_test_mode
-msgid "Uncheck this box to use production UPS Web Services"
-msgstr "Deaktiviere die Checkbox, um den UPS Web Service produktiv zu nutzen"
-
-#. module: delivery_ups
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_dimension_unit
 msgid "Units for UPS Package Size"
 msgstr "Einheiten für UPS Paketgrößen"
@@ -323,3 +263,63 @@ msgstr "Einheiten für UPS Paketgrößen"
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_package_weight_unit
 msgid "Ups package weight unit"
 msgstr "UPS Gewichtseinheit"
+
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""
+
+#~ msgid "10KG Box"
+#~ msgstr "10 kg Box"
+
+#~ msgid "25KG Box"
+#~ msgstr "25 kg Box"
+
+#~ msgid "Express Box"
+#~ msgstr "Express Box"
+
+#~ msgid "Fixed height if not provided on the product packaging."
+#~ msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
+
+#~ msgid "Fixed length if not provided on the product packaging."
+#~ msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
+
+#~ msgid "Fixed width if not provided on the product packaging."
+#~ msgstr "Eine fixe Höhe, falls nicht beim Produktpaket mit angegeben. "
+
+#~ msgid "Flat Pack"
+#~ msgstr "Paket"
+
+#~ msgid "Medium Express Box"
+#~ msgstr "Medium Express Box"
+
+#~ msgid "Package Length"
+#~ msgstr "Länge der Verpackung"
+
+#~ msgid "Package Width"
+#~ msgstr "Breite der Verpackung"
+
+#~ msgid "Package/customer supplied"
+#~ msgstr "Paket/Kunde angegeben"
+
+#~ msgid "Pallet"
+#~ msgstr "Palette"
+
+#~ msgid "Small Express Box"
+#~ msgstr "Small Express Box"
+
+#~ msgid "Test Mode"
+#~ msgstr "Testmodus"
+
+#~ msgid "UPS Letter"
+#~ msgstr "UPS Letter"
+
+#~ msgid "UPS Pak"
+#~ msgstr "UPS Paket"
+
+#~ msgid "UPS Tube"
+#~ msgstr "UPS Tube"
+
+#~ msgid "Uncheck this box to use production UPS Web Services"
+#~ msgstr ""
+#~ "Deaktiviere die Checkbox, um den UPS Web Service produktiv zu nutzen"

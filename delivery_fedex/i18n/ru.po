@@ -1,26 +1,50 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_fedex
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-14 10:32+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-09-14 10:39+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ", click on \"Get Production Key\" and follow all the steps."
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ""
+"<br/>According to your needs, you will need to contact different "
+"certifications :"
+msgstr ""
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_account_number
 msgid "Account Number"
 msgstr "Номер счета"
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Advanced Services with Label Certification"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Advanced Services without Label Certification"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
@@ -33,8 +57,18 @@ msgid "Carrier"
 msgstr "Перевозчик"
 
 #. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Certification Process"
+msgstr ""
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
 msgid "DROP_BOX"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_default_packaging_id
+msgid "Default Package Type"
 msgstr ""
 
 #. module: delivery_fedex
@@ -43,13 +77,8 @@ msgid "Developer Key"
 msgstr ""
 
 #. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_10KG_BOX"
-msgstr ""
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_25KG_BOX"
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
 msgstr ""
 
 #. module: delivery_fedex
@@ -63,33 +92,18 @@ msgid "FEDEX_2_DAY_AM"
 msgstr ""
 
 #. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_BOX"
-msgstr ""
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_ENVELOPE"
-msgstr ""
-
-#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "FEDEX_GROUND"
 msgstr ""
 
 #. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_PAK"
-msgstr ""
-
-#. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "FEDEX_TUBE"
-msgstr ""
-
-#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "FIRST_OVERNIGHT"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "FedEx Web Services \"Move to Production\""
 msgstr ""
 
 #. module: delivery_fedex
@@ -104,9 +118,19 @@ msgid "Fedex International"
 msgstr ""
 
 #. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Fedex Tutorial"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:delivery.carrier,name:delivery_fedex.delivery_carrier_fedex_us
 #: model:product.product,name:delivery_fedex.delivery_carrier_fedex_us_product_product
 msgid "Fedex US"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Fedex Website"
 msgstr ""
 
 #. module: delivery_fedex
@@ -120,11 +144,6 @@ msgid "Fedex label stock type"
 msgstr ""
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_packaging_type
-msgid "Fedex packaging type"
-msgstr ""
-
-#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_service_type
 msgid "Fedex service type"
 msgstr ""
@@ -135,9 +154,9 @@ msgid "Fedex weight unit"
 msgstr ""
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_attachment_count
-msgid "File"
-msgstr "Файл"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Go to"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -147,12 +166,6 @@ msgstr ""
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "INTERNATIONAL_PRIORITY"
-msgstr ""
-
-#. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_recurring_invoice
-msgid ""
-"If set, confirming a sale order with this product will create a subscription"
 msgstr ""
 
 #. module: delivery_fedex
@@ -166,14 +179,19 @@ msgid "LB"
 msgstr ""
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_meter_number
 msgid "Meter Number"
 msgstr ""
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_optional_product_ids
-msgid "Optional Products"
-msgstr "Дополнительные товары"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Once your account is created, go to"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_label_stock_type:0
@@ -211,19 +229,29 @@ msgid "PAPER_LETTER"
 msgstr ""
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr ""
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.model,name:delivery_fedex.model_product_packaging
+msgid "Packaging"
 msgstr ""
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_password
 msgid "Password"
 msgstr "Пароль"
-
-#. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_optional_product_ids
-msgid "Products to propose when add to cart."
-msgstr "Предложить товары при добавлении в корзину."
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
@@ -246,40 +274,89 @@ msgid "STATION"
 msgstr ""
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:297
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr ""
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:218
-#: code:addons/delivery_fedex/models/delivery_fedex.py:260
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr ""
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:222
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr ""
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_recurring_invoice
-msgid "Subscription Product"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "Standard Services"
 msgstr ""
 
 #. module: delivery_fedex
-#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_test_mode
-msgid "Test Mode"
-msgstr "Тестовый режим"
-
-#. module: delivery_fedex
-#: model:ir.model.fields,help:delivery_fedex.field_delivery_carrier_fedex_test_mode
-msgid "Uncheck this box to use production Fedex Web Services"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "The last step is the"
 msgstr ""
 
 #. module: delivery_fedex
-#: selection:delivery.carrier,fedex_packaging_type:0
-msgid "YOUR_PACKAGING"
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid ""
+"These certifications usually require that you contact the FedEx support team "
+"by email."
 msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
+msgid "to create a FedEx account of the following type:"
+msgstr ""
+
+#~ msgid "File"
+#~ msgstr "Файл"
+
+#~ msgid "Optional Products"
+#~ msgstr "Дополнительные товары"
+
+#~ msgid "Products to propose when add to cart."
+#~ msgstr "Предложить товары при добавлении в корзину."
+
+#~ msgid "Test Mode"
+#~ msgstr "Тестовый режим"

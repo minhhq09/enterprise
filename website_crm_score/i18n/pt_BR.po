@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_crm_score
-# 
+#
 # Translators:
 # Grazziano Duarte <g.negocios@outlook.com.br>, 2015
 # Rodrigo Macedo <rodrigomacedo@rmsolucoeseminformatica.com>, 2015
@@ -9,20 +9,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 08:43+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2016-01-13 15:08+0000\n"
 "Last-Translator: Martin Trigaux\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
+"language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_pageviews_count
 msgid "# Page Views"
 msgstr "# Visualizações de Página"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_order_count
+msgid "# of Purchase Order"
+msgstr ""
 
 #. module: website_crm_score
 #. openerp-web
@@ -47,6 +58,11 @@ msgid "Apply marked scores"
 msgstr "Aplicar pontuações marcadas"
 
 #. module: website_crm_score
+#: selection:website.crm.score,rule_type:0
+msgid "Archive"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_assign_date
 msgid "Assign Date"
 msgstr "Data Associada"
@@ -55,18 +71,6 @@ msgstr "Data Associada"
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
 msgid "Assignation"
 msgstr "Atribuição"
-
-#. module: website_crm_score
-#: model:ir.ui.view,arch_db:website_crm_score.view_crm_lead_dry_run_form
-#: model:ir.ui.view,arch_db:website_crm_score.view_lead_dry_run_tree
-msgid "Assignation Dry Run"
-msgstr "Atribuição de execução a seco"
-
-#. module: website_crm_score
-#: model:ir.actions.act_window,name:website_crm_score.lead_dry_run_action
-#: model:ir.ui.menu,name:website_crm_score.leads_dry_run
-msgid "Assignation dry run"
-msgstr "Atribuição de execução a seco"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_leads_count
@@ -94,7 +98,6 @@ msgid "Click to create a salesmen."
 msgstr "Clique para criar vendedores."
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_uid
@@ -102,7 +105,6 @@ msgid "Created by"
 msgstr "Criado por"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_date
@@ -111,12 +113,17 @@ msgstr "Criado em"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_assign_date
-msgid ""
-"Date when the lead has been assigned via the auto-assignation mechanism"
-msgstr "Data em que a oportunidade foi atribuída através do mecanismo de auto-atribuição"
+msgid "Date when the lead has been assigned via the auto-assignation mechanism"
+msgstr ""
+"Data em que a oportunidade foi atribuída através do mecanismo de auto-"
+"atribuição"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_display_name
+#: selection:website.crm.score,rule_type:0
+msgid "Delete"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_display_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_display_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_display_name
@@ -141,7 +148,6 @@ msgid "HTTP routing"
 msgstr "Rota HTTP"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_id
@@ -159,7 +165,6 @@ msgid "Language from the website when lead has been created"
 msgstr "Idioma do site quando a oportunidade foi criada"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score___last_update
@@ -167,7 +172,6 @@ msgid "Last Modified on"
 msgstr "Última modificação em"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_uid
@@ -175,7 +179,6 @@ msgid "Last Updated by"
 msgstr "Última atualização por"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_date
@@ -183,15 +186,9 @@ msgid "Last Updated on"
 msgstr "Última atualização em"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_lead_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_lead_id
 msgid "Lead"
 msgstr "Prospecto"
-
-#. module: website_crm_score
-#: model:ir.actions.server,name:website_crm_score.action_lead_dry_run
-msgid "Lead Dry Run"
-msgstr "Levar execução a seco"
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_crm_lead
@@ -230,16 +227,25 @@ msgstr "Contagem de oportunidades"
 msgid ""
 "Link users to salesteam, set a per 30 days lead capacity for each of them "
 "and set filters to auto assign your leads."
-msgstr "Relacionar usuários a vendedores, definir uma capacidade de oportunidade por 30 dias para cada um deles e definir filtros para auto atribuir suas oportunidades."
+msgstr ""
+"Relacionar usuários a vendedores, definir uma capacidade de oportunidade por "
+"30 dias para cada um deles e definir filtros para auto atribuir suas "
+"oportunidades."
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_score_pageview_ids
 msgid "List of (tracked) pages seen by the owner of this lead"
-msgstr "Lista (controlada) de páginas vistas pelo proprietário desta oportunidade"
+msgstr ""
+"Lista (controlada) de páginas vistas pelo proprietário desta oportunidade"
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_team_user_form
 msgid "Maximum Leads / 30 days"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_warn_msg
+msgid "Message for Purchase Order"
 msgstr ""
 
 #. module: website_crm_score
@@ -255,6 +261,7 @@ msgstr "Pontuação mínima para atribuir automaticamente (>=)"
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_name
+#: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 msgid "Name"
 msgstr "Nome"
 
@@ -285,9 +292,19 @@ msgid "Percentage leads"
 msgstr "Percentagem de oportunidades"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_warn
+msgid "Purchase Order"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_team_ratio
 msgid "Ratio"
 msgstr "Proporção"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_rule_type
+msgid "Rule type"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_running
@@ -295,13 +312,11 @@ msgid "Running"
 msgstr "Em execução"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_team_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_team_id
 msgid "SaleTeam"
 msgstr "Equipe de Vendas"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_user_id
 msgid "Saleman"
 msgstr "Vendedor"
@@ -340,11 +355,6 @@ msgid "Score"
 msgstr "Pontos"
 
 #. module: website_crm_score
-#: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
-msgid "Score Now"
-msgstr "Pontuar Agora"
-
-#. module: website_crm_score
 #: model:ir.actions.act_window,name:website_crm_score.score_action
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_tree
@@ -354,6 +364,7 @@ msgstr "Pontos"
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.lead_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.score_opp_form_view
+#: selection:website.crm.score,rule_type:0
 msgid "Scoring"
 msgstr "Pontuação"
 
@@ -368,14 +379,45 @@ msgid "Scoring Rules"
 msgstr "Regras de Pontuação"
 
 #. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_website_crm_score_rule_type
+msgid ""
+"Scoring will add a score of `value` for this lead.\n"
+"Archive will set active = False on the lead (archived)\n"
+"Delete will delete definitively the lead\n"
+"\n"
+"Actions are done in sql and bypass the access rights and orm mechanism "
+"(create `score`, write `active`, unlink `crm_lead`)"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.crm_score_pageview_filter
 msgid "Search PageViews"
 msgstr "Localizar Visualizações de Página"
 
 #. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_res_users_purchase_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_property_purchase_currency_id
+msgid "Supplier Currency"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.ui.menu,name:website_crm_score.team
 msgid "Teams Assignation"
 msgstr "Atribuição de Equipes"
+
+#. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_res_users_property_purchase_currency_id
+msgid ""
+"This currency will be used, instead of the default one, for purchases from "
+"the current partner"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_ir_ui_view_track
@@ -423,20 +465,42 @@ msgstr "Páginas do Site"
 #: model:ir.model.fields,help:website_crm_score.field_website_crm_score_event_based
 msgid ""
 "When checked, the rule will be re-evaluated every time, even for leads that "
-"have already been checked previously. This option incurs a large performance"
-" penalty, so it should be checked only for rules that depend on dynamic "
-"events"
-msgstr "Quando selecionado, a regra será reavaliada toda vez, até mesmo para oportunidades que já foram verificados anteriormente. Esta opção incorre em uma alta penalidade de desempenho, por isso deve ser selecionada apenas para as regras que dependem de eventos dinâmicos"
+"have already been checked previously. This option incurs a large performance "
+"penalty, so it should be checked only for rules that depend on dynamic events"
+msgstr ""
+"Quando selecionado, a regra será reavaliada toda vez, até mesmo para "
+"oportunidades que já foram verificados anteriormente. Esta opção incorre em "
+"uma alta penalidade de desempenho, por isso deve ser selecionada apenas para "
+"as regras que dependem de eventos dinâmicos"
 
 #. module: website_crm_score
-#: model:ir.model,name:website_crm_score.model_crm_leads_dry_run
-msgid "crm.leads.dry.run"
-msgstr "crm.leads.dry.run"
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "fa-check"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "fa-times"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_ir_ui_view
 msgid "ir.ui.view"
 msgstr "ir.ui.view"
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "o_assignation_button_active"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
+#: model:ir.ui.view,arch_db:website_crm_score.team_user_kanban
+msgid "o_assignation_button_inactive"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_team_user
@@ -459,3 +523,18 @@ msgstr "website.crm.pageview"
 #: model:ir.model,name:website_crm_score.model_website_crm_score
 msgid "website.crm.score"
 msgstr "website.crm.score"
+
+#~ msgid "Assignation Dry Run"
+#~ msgstr "Atribuição de execução a seco"
+
+#~ msgid "Assignation dry run"
+#~ msgstr "Atribuição de execução a seco"
+
+#~ msgid "Lead Dry Run"
+#~ msgstr "Levar execução a seco"
+
+#~ msgid "Score Now"
+#~ msgstr "Pontuar Agora"
+
+#~ msgid "crm.leads.dry.run"
+#~ msgstr "crm.leads.dry.run"

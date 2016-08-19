@@ -1,25 +1,40 @@
+# #-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_temando
-# 
+#
 # Translators:
 # Eric Geens <eric.geens@vitabiz.be>, 2015
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # GP Nicolai <kameleon1987@hotmail.com>, 2015
 # Volluta <volluta@tutanota.com>, 2015
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
+# #-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * delivery_temando
+#
+# Translators:
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
+# Eric Geens <eric.geens@vitabiz.be>, 2016
+# GP Nicolai <kameleon1987@hotmail.com>, 2016
+# Volluta <volluta@tutanota.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-18 12:36+0000\n"
-"PO-Revision-Date: 2016-03-08 19:02+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
-"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Volluta <volluta@tutanota.com>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_temando
@@ -59,11 +74,6 @@ msgid "Allied Express via Temando"
 msgstr "Allied Express via Temando"
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Box"
-msgstr "Doos"
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54432
 #: model:product.product,name:delivery_temando.temando_54432_product_product
 msgid "Capital Transport HDS via Temando"
@@ -73,11 +83,6 @@ msgstr "Capital Transport HDS via Temando"
 #: model:ir.model,name:delivery_temando.model_delivery_carrier
 msgid "Carrier"
 msgstr "Vervoerder"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Carton"
-msgstr "Karton"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -115,14 +120,20 @@ msgid "Couriers Please via Temando"
 msgstr "Couriers Please via Temando"
 
 #. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
+msgid "Default HS Code"
+msgstr ""
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_id
+#, fuzzy
+msgid "Default Packaging Type"
+msgstr "Temando standaard verpakkingstype"
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_type:0
 msgid "Depot to Depot"
 msgstr "Van depot tot depot"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Document Envelope"
-msgstr "Document Enveloppe"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_nature:0
@@ -157,21 +168,6 @@ msgid "Feet"
 msgstr "Voet"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Fix Height if not provided on the product packaging."
-msgstr "Vaste hoogte indien niet opgegeven op product verpakking"
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Fix Length if not provided on the product packaging."
-msgstr "Vaste lengte indien niet opgegeven op product verpakking"
-
-#. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Fix Width if not provided on the product packaging."
-msgstr "Vaste breedte indien niet opgegeven op product verpakking"
-
-#. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54329
 #: model:product.product,name:delivery_temando.temando_54329_product_product
 msgid "Followmont Transport via Temando"
@@ -193,11 +189,6 @@ msgid "Grams"
 msgstr "Grammen"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_hs_code
-msgid "HS Code"
-msgstr "HS Code"
-
-#. module: delivery_temando
 #: selection:delivery.carrier,temando_subclass:0
 msgid "Household Goods"
 msgstr "Huishoudelijke goederen"
@@ -213,7 +204,9 @@ msgstr "Hunter Express. via Temando"
 msgid ""
 "If set, Temando fetch quotations only for this carrier. If not set, the "
 "cheapest one is selected."
-msgstr "Indien geselecteerd zal Temando enkel offertes opvragen bij deze vervoerder. Indien niet geselecteerd, dan wordt de goedkoopste gekozen."
+msgstr ""
+"Indien geselecteerd zal Temando enkel offertes opvragen bij deze vervoerder. "
+"Indien niet geselecteerd, dan wordt de goedkoopste gekozen."
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -229,11 +222,6 @@ msgstr "Internationaal"
 #: selection:delivery.carrier,temando_weight_measurement_type:0
 msgid "Kilograms"
 msgstr "Kilogram"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Letter"
-msgstr "Brief"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
@@ -253,7 +241,7 @@ msgid "Mainfreight via Temando"
 msgstr "Mainfreight via Temando"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:174
+#: code:addons/delivery_temando/models/delivery_temando.py:173
 #, python-format
 msgid "Manifest for this shipping"
 msgstr "Manifest voor deze verzending"
@@ -279,18 +267,20 @@ msgid "Nearest by Priority"
 msgstr "Dichtstbijzijnde op prioriteit"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:167
+#: code:addons/delivery_temando/models/delivery_temando.py:166
 #, python-format
 msgid "No CarrierID found for this delivery order"
 msgstr "Geen vervoerder gevonden voor dit order"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:165
+#: code:addons/delivery_temando/models/delivery_temando.py:164
 #, python-format
 msgid ""
 "No Temando location is associated to this warehouse, Manifest collection is "
 "not available"
-msgstr "Er is geen Temando-locatie voor dit magazijn aangeduid; het opvragen van het manifest is mislukt "
+msgstr ""
+"Er is geen Temando-locatie voor dit magazijn aangeduid; het opvragen van het "
+"manifest is mislukt "
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
@@ -309,29 +299,9 @@ msgid "Ounces"
 msgstr "Onzen"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_height
-msgid "Package Height"
-msgstr "Pakkethoogte"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_length
-msgid "Package Length"
-msgstr "Pakketlengte"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_package_width
-msgid "Package Width"
-msgstr "Pakketbreedte"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Pallet"
-msgstr "Pallet"
-
-#. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Parcel"
-msgstr "Pakket"
+#: model:ir.model,name:delivery_temando.model_product_packaging
+msgid "Packaging"
+msgstr "Verpakking"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
@@ -339,11 +309,23 @@ msgid "Plain"
 msgstr "Kaal"
 
 #. module: delivery_temando
+#: code:addons/delivery_temando/models/temando_request.py:109
+#, python-format
+msgid ""
+"Please provide Height, Width and Length on product packaging or delivery "
+"method."
+msgstr ""
+
+#. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:52
 #: code:addons/delivery_temando/models/temando_request.py:57
-#, python-format
+#, fuzzy, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Voorzie minimaal één item om te verzenden aub."
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Voorzie minimaal één item om te verzenden aub.\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Voorzie minimaal één item om te verzend aub."
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_weight_measurement_type:0
@@ -362,22 +344,45 @@ msgstr "Prioriteit"
 
 #. module: delivery_temando
 #: model:ir.model,name:delivery_temando.model_sale_order
+#, fuzzy
 msgid "Sales Order"
-msgstr "Verkooporders"
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Verkooporders\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Verkooporder"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:150
-#, python-format
+#: model:ir.model.fields,help:delivery_temando.field_stock_warehouse_temando_location
+msgid ""
+"Set this field with your Temando Location reference to enable manifesting "
+"from this location."
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:152
+#, fuzzy, python-format
 msgid "Shipment N° %s has been cancelled"
-msgstr "Levering n° %s werd geannuleerd"
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Levering n° %s werd geannuleerd\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Levering N° %s werd geannuleerd"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:120
+#: code:addons/delivery_temando/models/delivery_temando.py:118
 #, python-format
 msgid ""
 "Shipment created into Temando <br/> <b>Carrier: </b>%s <br/> <b>Tracking "
 "Number: </b>%s"
-msgstr "Levering gemaakt in Temando <br/> <b>Vervoerder: </b>%s <br/> <b>Traceer Nummer: </b>%s"
+msgstr ""
+"Levering gemaakt in Temando <br/> <b>Vervoerder: </b>%s <br/> <b>Traceer "
+"Nummer: </b>%s"
+
+#. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Standard"
+msgstr "Standaard"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_54396
@@ -452,6 +457,7 @@ msgstr "Temando Carrier ID"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_carrier_name
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_carrier_name
 msgid "Temando Carrier Name"
 msgstr "Temando Vervoer Naam"
 
@@ -467,8 +473,14 @@ msgstr "Temando Configuratie"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_delivery_method
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_delivery_method
 msgid "Temando Delivery Method"
 msgstr "Temando Verzend Methode"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_stock_warehouse_temando_location
+msgid "Temando Location"
+msgstr ""
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_password
@@ -476,7 +488,10 @@ msgid "Temando Password"
 msgstr "Temando Wachtwoord"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:329
+#: code:addons/delivery_temando/models/temando_request.py:160
+#: code:addons/delivery_temando/models/temando_request.py:303
+#: code:addons/delivery_temando/models/temando_request.py:336
+#: code:addons/delivery_temando/models/temando_request.py:353
 #, python-format
 msgid "Temando Server Not Found"
 msgstr "Temando server werd niet gevonden"
@@ -485,11 +500,6 @@ msgstr "Temando server werd niet gevonden"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_username
 msgid "Temando Username"
 msgstr "Termando gebruikersnaam"
-
-#. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_type
-msgid "Temando default packaging type"
-msgstr "Temando standaard verpakkingstype"
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_delivery_nature
@@ -502,7 +512,7 @@ msgid "Temando delivery type"
 msgstr "Temando verzendtype"
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/temando_request.py:325
+#: code:addons/delivery_temando/models/temando_request.py:349
 #, python-format
 msgid "Temando did not return any manifest"
 msgstr "Temando kon geen manifest vinden"
@@ -511,6 +521,11 @@ msgstr "Temando kon geen manifest vinden"
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_distance_measurement_type
 msgid "Temando distance measurement type"
 msgstr "Temando afstandseenheid"
+
+#. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_label_printer_type
+msgid "Temando label printer type"
+msgstr ""
 
 #. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_location_selection
@@ -550,60 +565,74 @@ msgid "Temando's Cheapest - International"
 msgstr "Temando's goedkoopste - Internationaal"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Test Mode"
-msgstr "Testmodus"
-
-#. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:49
 #, python-format
 msgid ""
 "The address of your company is missing or wrong (Missing fields : %s...)."
-msgstr "Het adres van uw bedrijf is niet correct ingevuld. (Foutive velden : %s...)."
+msgstr ""
+"Het adres van uw bedrijf is niet correct ingevuld. (Foutive velden : %s...)."
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:59
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of some products is missing."
-msgstr "De levering kan niet afgerond worden, omdat het gewicht van bepaalde producten mist."
+msgstr ""
+"De levering kan niet afgerond worden, omdat het gewicht van bepaalde "
+"producten mist."
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:54
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
-msgstr "De geschatte prijs kan niet berekend worden omdat het gewicht op uw product ontbreekt."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
+msgstr ""
+"De geschatte prijs kan niet berekend worden omdat het gewicht op uw product "
+"ontbreekt."
 
 #. module: delivery_temando
 #: code:addons/delivery_temando/models/temando_request.py:44
 #, python-format
 msgid "The recipient address is missing or wrong (Missing fields : %s...)."
-msgstr "De ontvanger zijn adres ontbreekt of is foutief (mist velden:\n%s ...)."
+msgstr ""
+"De ontvanger zijn adres ontbreekt of is foutief (mist velden:\n"
+"%s ...)."
 
 #. module: delivery_temando
-#: code:addons/delivery_temando/models/delivery_temando.py:86
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "Thermal"
+msgstr ""
+
+#. module: delivery_temando
+#: code:addons/delivery_temando/models/delivery_temando.py:84
 #, python-format
 msgid ""
 "This picking cannot be sent through Temando, as it has no linked sale order"
-msgstr "Deze levering kan niet via Temando verstuurd worden omdat het niet gelinkt is aan een verkooporder"
+msgstr ""
+"Deze levering kan niet via Temando verstuurd worden omdat het niet gelinkt "
+"is aan een verkooporder"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_nature:0
 #: model:ir.model,name:delivery_temando.model_stock_picking
+#, fuzzy
 msgid "Transfer"
-msgstr "Verplaatsing"
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Verplaatsing\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Overplaatsing"
 
 #. module: delivery_temando
-#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_test_mode
-msgid "Uncheck this box to use production Temando Web Services"
-msgstr "Vink dit vakje uit om de Temando Web Services in productie te nemen"
+#: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_hs_code
+msgid "Used only if a HS code is not set on the product."
+msgstr ""
 
 #. module: delivery_temando
-#: selection:delivery.carrier,temando_default_packaging_type:0
-msgid "Unpackage or N/A"
-msgstr "Uit verpakking nemen of NVT"
+#: model:ir.model,name:delivery_temando.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Magazijn"
 
 #. module: delivery_temando
 #: model:delivery.carrier,name:delivery_temando.temando_60434
@@ -612,6 +641,59 @@ msgid "XPS_UPS via Temando"
 msgstr "XPS_UPS via Temando"
 
 #. module: delivery_temando
+#: selection:delivery.carrier,temando_label_printer_type:0
+msgid "ZPL"
+msgstr "ZPL"
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_pallet_type:0
 msgid "chep"
 msgstr "chep"
+
+#~ msgid "Box"
+#~ msgstr "Doos"
+
+#~ msgid "Carton"
+#~ msgstr "Karton"
+
+#~ msgid "Document Envelope"
+#~ msgstr "Document Enveloppe"
+
+#~ msgid "Fix Height if not provided on the product packaging."
+#~ msgstr "Vaste hoogte indien niet opgegeven op product verpakking"
+
+#~ msgid "Fix Length if not provided on the product packaging."
+#~ msgstr "Vaste lengte indien niet opgegeven op product verpakking"
+
+#~ msgid "Fix Width if not provided on the product packaging."
+#~ msgstr "Vaste breedte indien niet opgegeven op product verpakking"
+
+#~ msgid "HS Code"
+#~ msgstr "HS Code"
+
+#~ msgid "Letter"
+#~ msgstr "Brief"
+
+#~ msgid "Package Height"
+#~ msgstr "Pakkethoogte"
+
+#~ msgid "Package Length"
+#~ msgstr "Pakketlengte"
+
+#~ msgid "Package Width"
+#~ msgstr "Pakketbreedte"
+
+#~ msgid "Pallet"
+#~ msgstr "Pallet"
+
+#~ msgid "Parcel"
+#~ msgstr "Pakket"
+
+#~ msgid "Test Mode"
+#~ msgstr "Testmodus"
+
+#~ msgid "Uncheck this box to use production Temando Web Services"
+#~ msgstr "Vink dit vakje uit om de Temando Web Services in productie te nemen"
+
+#~ msgid "Unpackage or N/A"
+#~ msgstr "Uit verpakking nemen of NVT"

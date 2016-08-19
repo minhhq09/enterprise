@@ -1,22 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-# 
+#
 # Translators:
 # mohammed albasha <m.albasha.ma@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:52+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2016-03-17 10:02+0000\n"
 "Last-Translator: mohammed albasha <m.albasha.ma@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/odoo/odoo-9/language/ar/)\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
@@ -222,13 +223,24 @@ msgid "Task"
 msgstr "المهمة"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:122
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_stage_id
+msgid "Task stage"
+msgstr ""
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_tag_ids
+#, fuzzy
+msgid "Task tags"
+msgstr "المهمة"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:136
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:110
+#: code:addons/project_forecast/models/models.py:124
 #, python-format
 msgid "The time must be positive"
 msgstr ""
@@ -250,7 +262,7 @@ msgid "User"
 msgstr "المستخدم"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:116
+#: code:addons/project_forecast/models/models.py:130
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr ""
@@ -261,7 +273,7 @@ msgid "project.forecast"
 msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:54
+#: code:addons/project_forecast/models/models.py:59
 #, python-format
 msgid "undefined"
 msgstr ""

@@ -1,245 +1,368 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_contract
-# 
+#
 # Translators:
 # Bohdan Lisnenko, 2015-2016
 # Bohdan Lisnenko, 2016
 # ТАрас <tratatuta@i.ua>, 2015-2016
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-05-06 12:24+0000\n"
 "Last-Translator: Bohdan Lisnenko\n"
-"Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/uk/)\n"
+"Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/"
+"uk/)\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-
-#. module: website_contract
-#: model:mail.template,body_html:website_contract.email_contract_open
-msgid ""
-"\n"
-"            \n"
-"    <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>Your new Odoo Online Subscription is ready!</p>\n"
-"\n"
-"        <p>You can view your subscription online by going to our <a href=\"/my/home\">Online Portal</a> or by following this link:</p>\n"
-"        <a style=\"display:block; width: 150px; height:20px; margin-left: 120px; color: #DDD; font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; text-align: center; text-decoration: none !important; line-height: 1; padding: 5px 0px 0px 0px; background-color: #a24689; border-radius: 5px 5px; background-repeat: repeat no-repeat;\"\n"
-"            href=\"/my/contract/${object.id}/${object.uuid}\">View Subscription</a>\n"
-"\n"
-"\n"
-"        <p>With this page, you can easily manage your contracts:</p>\n"
-"        <ul>\n"
-"            <li>Add or remove options</li>\n"
-"            <li>Change your recurring period from monthly to annually</li>\n"
-"            <li>Contact your sales representative</li>\n"
-"        </ul>\n"
-"        <p>You can access this link publicly or share it with someone else to give him/her the right to manage this subscription.</p>\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 0px; background-color: #a24689; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #fff;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #333; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
-"                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
-"                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
-msgstr ""
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"            Your subscription (${ctx.get('code')}) has just been renewed\n"
-"            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-"                via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_method']}\n"
-"                .\n"
-"            %endif\n"
-"        </p>\n"
-"\n"
-"        <p>You will find your invoice attached.</p>\n"
-"\n"
-"        %if ctx.get('next_date'):\n"
-"        <p>\n"
-"          Your next invoice will be on ${ctx.get('next_date')}.\n"
-"        </p>\n"
-"        %endif\n"
-"\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Dear ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                    Your subscription (${ctx.get('code')}) has just been "
+"renewed\n"
+"                    %if ctx.get('total_amount') and ctx."
+"get('payment_method'):\n"
+"                        via a payment of ${ctx['total_amount']} "
+"${ctx['currency']} charged on ${ctx['payment_method']}\n"
+"                        .\n"
+"                    %endif\n"
+"                </p>\n"
+"                <p>You will find your invoice attached.</p>\n"
+"                %if ctx.get('next_date'):\n"
+"                <p>\n"
+"                  Your next invoice will be on ${ctx.get('next_date')}.\n"
+"                </p>\n"
+"                %endif\n"
+"                <br/>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
+
+#. module: website_contract
+#: model:mail.template,body_html:website_contract.email_contract_open
+msgid ""
+"\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
+"                <div>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                </div>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Dear ${object.subscription_id.partner_id.name},</p>\n"
+"                <p>Your subscription ${object.subscription_id.name} is "
+"active!</p>\n"
+"\n"
+"                <p>You can view your subscription online by going to our <a "
+"style=\"text-decoration:none; color: #a24689;\" href=\"/my/home\">Online "
+"Portal</a> or by following this link\n"
+"                <p style=\"text-align: center;\"><a style=\"padding: 5px "
+"10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:"
+"#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#a24689; border: 1px solid #a24689; border-radius:3px\" href=\"/my/contract/"
+"${object.subscription_id.id}/${object.subscription_id.uuid}\">View "
+"Subscription</a></p>\n"
+"\n"
+"                <p>With this page, you can easily manage your contracts:</"
+"p>\n"
+"                <ul>\n"
+"                    <li>Add or remove options</li>\n"
+"                    <li>Change your recurring period from monthly to "
+"annually</li>\n"
+"                    <li>Contact your sales representative</li>\n"
+"                </ul>\n"
+"                <p>You can access this link publicly or share it with "
+"someone else to give him/her the right to manage this subscription.</p>\n"
+"\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.subscription_id."
+"company_id.name or 'us'}!</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
 msgstr ""
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"          Our final attempt to process a payment for your subscription using your payment method\n"
-"          ${ctx['payment_method']}\n"
-"          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-"          % if ctx.get('error'):\n"
-"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
-"          %endif\n"
-"        % else:\n"
-"          Our final attempt to process a payment for your subscription failed because we have no payment method recorded for you.\n"
-"        % endif \n"
-"        </p>\n"
-"\n"
-"        <p>\n"
-"          As your payment should have been made <strong>15 days ago</strong>, your subscription has been terminated.\n"
-"        </p>\n"
-"\n"
-"        <br/>\n"
-"        <p>Should you wish to resolve this issue, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  Our final attempt to process a payment for your "
+"subscription using your payment method\n"
+"                  ${ctx['payment_method']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  Our final attempt to process a payment for your "
+"subscription failed because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  As your payment should have been made <strong>15 days ago</"
+"strong>, your subscription has been terminated.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>Should you wish to resolve this issue, do not hesitate to "
+"contact us.</p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
 msgstr ""
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
 msgid ""
 "\n"
-"            \n"
-"    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"\n"
-"        <p>Hello ${object.partner_id.name},</p>\n"
-"        \n"
-"        <p>\n"
-"        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"          We were unable to process a payment for your subscription using your payment method\n"
-"          ${ctx['payment_method']}\n"
-"          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
-"          % if ctx.get('error'):\n"
-"            Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
-"          %endif\n"
-"        % else:\n"
-"          We were unable to process a payment for your subscription because we have no payment method recorded for you.\n"
-"        % endif \n"
-"        </p>\n"
-"\n"
-"        <p>\n"
-"          Your subscription ${ctx.get('code')} is still valid but will be <b>suspended</b>\n"
-"          on ${ctx.get('date_close')} unless the payment succeeds in the mean time (we will retry once every day).\n"
-"          Please double-check that you have sufficient funds.\n"
-"        </p>\n"
-"\n"
-"        <br/>\n"
-"        <p>If you have any question, do not hesitate to contact us.</p>\n"
-"        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"        <br/>\n"
-"        <br/>\n"
-"        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n"
-"            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n"
-"                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n"
-"        </div>\n"
-"        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n"
-"            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n"
-"                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n"
-"            </span>\n"
-"            % if object.company_id.phone:\n"
-"                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n"
-"                    Phone:&nbsp; ${object.company_id.phone}\n"
-"                </div>\n"
-"            % endif\n"
-"            % if object.company_id.website:\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
-"            % endif\n"
-"            <p></p>\n"
-"        </div>\n"
-"    </div>\n"
-"                \n"
-"        "
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  We were unable to process a payment for your subscription "
+"using your payment method\n"
+"                  ${ctx['payment_method']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  We were unable to process a payment for your subscription "
+"because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  Your subscription ${ctx.get('code')} is still valid but "
+"will be <b>suspended</b>\n"
+"                  on ${ctx.get('date_close')} unless the payment succeeds in "
+"the mean time (we will retry once every day).\n"
+"                  Please double-check that you have sufficient funds.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
 msgstr ""
 
 #. module: website_contract
@@ -296,11 +419,6 @@ msgid "&amp;bull; <b>Template</b>:"
 msgstr "&amp;bull; <b>Шаблон</b>:"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.cart
-msgid "&amp;nbsp;"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_change_contract
 msgid "&amp;rarr;"
 msgstr ""
@@ -328,14 +446,25 @@ msgstr "). З цього дня Ви зможете перевідкривати
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
-"<abbr title=\"You need to be logged in as this contract's customer to change"
-" country\">Taxes</abbr>:"
-msgstr "<abbr title=\"Вам потрібно увійти як контрагент договору, щоб змінити країну\">Податки</abbr>:"
+"<abbr title=\"You need to be logged in as this contract's customer to change "
+"country\">Taxes</abbr>:"
+msgstr ""
+"<abbr title=\"Вам потрібно увійти як контрагент договору, щоб змінити країну"
+"\">Податки</abbr>:"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "<i class=\"fa fa-fw fa-arrow-circle-right\"/> Select"
 msgstr "<i class=\"fa fa-fw fa-arrow-circle-right\"/> Вибрати"
+
+#. module: website_contract
+#. openerp-web
+#: code:addons/website_contract/static/src/js/website_contract.js:45
+#, python-format
+msgid ""
+"<p>We are not able to add your payment method at the moment.<br/> Please try "
+"again later or contact us.</p>"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -344,7 +473,9 @@ msgstr "<i class=\"fa fa-fw fa-arrow-circle-right\"/> Вибрати"
 msgid ""
 "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
 "Closed</span>"
-msgstr "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> Закритий</span>"
+msgstr ""
+"<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
+"Закритий</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -358,7 +489,9 @@ msgstr "<span class=\"label label-default\">Поточний план</span>"
 msgid ""
 "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> In "
 "Progress</span>"
-msgstr "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> Діючий</span>"
+msgstr ""
+"<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> Діючий</"
+"span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -367,7 +500,9 @@ msgstr "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> Д�
 msgid ""
 "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> To "
 "Renew</span>"
-msgstr "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> Продовжити</span>"
+msgstr ""
+"<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> "
+"Продовжити</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -417,12 +552,6 @@ msgid "Activities"
 msgstr "Дії"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Actual Quantity"
-msgstr "Дійсна кількість"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Add"
 msgstr "Додати"
@@ -436,9 +565,11 @@ msgstr "Додати опціони"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid ""
-"Add an option directly or create a sale order with prorated discount for the"
-" current invoicing period (options are added on confirmation)"
-msgstr "Додати опціон безпосередньо чи створити замовлення на продаж із частковою знижкою на поточний розрахунковий період (опціони додано на підтверження)"
+"Add an option directly or create a sale order with prorated discount for the "
+"current invoicing period (options are added on confirmation)"
+msgstr ""
+"Додати опціон безпосередньо чи створити замовлення на продаж із частковою "
+"знижкою на поточний розрахунковий період (опціони додано на підтверження)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -454,6 +585,12 @@ msgstr "Аналітичний рахунок"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
 msgid "Automatic Payment"
 msgstr "Автоматична оплата"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
+msgid "Back"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -472,7 +609,9 @@ msgstr "Розрахунковий термін:"
 msgid ""
 "Billing:\n"
 "                                    Every"
-msgstr "Розрахунок:\nкожні"
+msgstr ""
+"Розрахунок:\n"
+"кожні"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -504,7 +643,10 @@ msgid ""
 "Click here to view this contract in the frontend. Your customers can access "
 "the same page from their portal to manage their subscription. You can also "
 "send them the secure url by e-mail, no login needed!"
-msgstr "Натисніть тут, щоб показувати цей договір першим. Ваші покупці мали доступ до тієї ж сторінуи зі свого порталу для управління їх підписками. Ви також можете безпечно надсилати їм URL по e-mail, без входу в систему!"
+msgstr ""
+"Натисніть тут, щоб показувати цей договір першим. Ваші покупці мали доступ "
+"до тієї ж сторінуи зі свого порталу для управління їх підписками. Ви також "
+"можете безпечно надсилати їм URL по e-mail, без входу в систему!"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
@@ -513,8 +655,13 @@ msgstr "Закривається покупцем"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
+#, fuzzy
 msgid "Close"
-msgstr "Close"
+msgstr ""
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Закрити\n"
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Close"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -528,7 +675,7 @@ msgid "Close your contract"
 msgstr "Закрити договір"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:204
+#: code:addons/website_contract/controllers/main.py:203
 #, python-format
 msgid "Closing text : "
 msgstr "Кінцевий текст:"
@@ -566,6 +713,7 @@ msgid "Contract Details"
 msgstr "Деталі договору"
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Шаблон договору"
@@ -606,81 +754,14 @@ msgid "Current:"
 msgstr "Поточний:"
 
 #. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_domain
-#: model:product.template,name:website_contract.odoo_custom_domain_product_template
-msgid "Custom Domain"
-msgstr "Спеціальний домен"
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_domain
-#: model:product.template,description_sale:website_contract.odoo_custom_domain_product_template
-#: model:sale.quote.option,name:website_contract.sugg_line_13
-#: model:sale.quote.option,name:website_contract.sugg_line_23
-msgid ""
-"Custom Domain\n"
-"Access your Odoo Instance using your own domain."
-msgstr "Користуйтеся своїм Odoo з власним доменом."
-
-#. module: website_contract
-#: model:sale.quote.option,name:website_contract.sugg_line_12
-#: model:sale.quote.option,name:website_contract.sugg_line_22
-msgid ""
-"Customize View\n"
-"Customize one or more views (in a single module) to better suit your needs."
-msgstr "Налаштуйте вигляд\nНалаштуйте один чи більше виглядів (в одному модулі), які краще відповідатимуть Вашим потребам."
-
-#. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_module
-#: model:product.template,name:website_contract.odoo_custom_module_product_template
-msgid "Customized Module"
-msgstr "Налаштований модуль"
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_module
-#: model:product.template,description_sale:website_contract.odoo_custom_module_product_template
-#: model:sale.quote.option,name:website_contract.sugg_line_11
-#: model:sale.quote.option,name:website_contract.sugg_line_21
-msgid ""
-"Customized Module\n"
-"Customize a module to better match your business process."
-msgstr "Налаштований модуль\nНалаштуйте модуль згідно своїх бізнес-процесів."
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_custom_view
-#: model:product.template,description_sale:website_contract.odoo_custom_view_product_template
-msgid ""
-"Customized View\n"
-"Customize one or more views (in a single module) to better suit your needs."
-msgstr "Налаштуйте вигляд\nНалаштуйте один чи більше виглядів (в одному модулі), які краще відповідатимуть Вашим потребам."
-
-#. module: website_contract
-#: model:product.product,name:website_contract.odoo_custom_view
-#: model:product.template,name:website_contract.odoo_custom_view_product_template
-msgid "Customized Views"
-msgstr "Створені види"
-
-#. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_sale_subscription_dashboard
-msgid "Dashboard"
-msgstr "Панель приладів"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Date"
 msgstr "Дата"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_name
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_name
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Description"
 msgstr "Опис"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_discount
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_discount
-msgid "Discount (%)"
-msgstr "Знижка (%)"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_display_name
@@ -688,6 +769,13 @@ msgstr "Знижка (%)"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
 msgid "Display Name"
 msgstr "Назва для відображення"
+
+#. module: website_contract
+#. openerp-web
+#: code:addons/website_contract/static/src/js/website_contract.js:44
+#, python-format
+msgid "Error"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -720,36 +808,43 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
-msgstr "Якщо не встановлено, буде використано спосіб оплати за замовчуванням партнера."
+msgstr ""
+"Якщо не встановлено, буде використано спосіб оплати за замовчуванням "
+"партнера."
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
+msgid ""
+"If set, all recurring products in this Sales Order will be included in a new "
+"Subscription with the selected template"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
 msgid ""
 "If set, option upgrades are invoiced for the remainder of the current "
 "invoicing period."
-msgstr "Якщо встановлено, оновлення опціону враховуються в залишку за поточний розрахунковий період."
+msgstr ""
+"Якщо встановлено, оновлення опціону враховуються в залишку за поточний "
+"розрахунковий період."
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_mandatory
 msgid ""
 "If set, payments will be made automatically and invoices will not be "
 "generated if payment attempts are unsuccessful."
-msgstr "Якщо встановлено, плата зніматиметься автоматично, а рахунки не генеруватимуться якщо спроби оплати не будуть успішними."
-
-#. module: website_contract
-#: code:addons/website_contract/controllers/main.py:299
-#, python-format
-msgid ""
-"If we store your payment information on our server, subscription payments "
-"will be made automatically."
-msgstr "При збереженні Ваших платіжних реквізитів на нашому сервері, абонентська плата зніматиметься автоматично."
+msgstr ""
+"Якщо встановлено, плата зніматиметься автоматично, а рахунки не "
+"генеруватимуться якщо спроби оплати не будуть успішними."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
 "If you close your account, it will remain active until your next invoice "
 "date ("
-msgstr "Якщо Ви закриєте свій рахунок, він залишатиметься активним до наступної дати проплати ("
+msgstr ""
+"Якщо Ви закриєте свій рахунок, він залишатиметься активним до наступної дати "
+"проплати ("
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -757,7 +852,9 @@ msgstr "Якщо Ви закриєте свій рахунок, він зали�
 msgid ""
 "If you confirm, you contract will be closed right away. Your current "
 "invoicing period is valid until"
-msgstr "При підтвердженні, договір буде негайно закрито. Ваш поточний розрахунковий період дійсний до"
+msgstr ""
+"При підтвердженні, договір буде негайно закрито. Ваш поточний розрахунковий "
+"період дійсний до"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -814,15 +911,11 @@ msgid "Last Updated on"
 msgstr "Останнє оновлення"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr "Максимальна різниця між наявним і проданим товаром; ця кількість буде в рахунку"
-
-#. module: website_contract
-#: model:product.uom,name:website_contract.contract_uom_month
-msgid "Month(s)"
-msgstr "Місяць (місяці)"
+msgstr ""
+"Максимальна різниця між наявним і проданим товаром; ця кількість буде в "
+"рахунку"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -853,27 +946,12 @@ msgid "Next invoice:"
 msgstr "Наступний рахунок:"
 
 #. module: website_contract
-#: model:product.product,name:website_contract.odoo_saas
-#: model:product.template,name:website_contract.odoo_saas_product_template
-msgid "Odoo SAAS"
-msgstr "Odoo SAAS"
-
-#. module: website_contract
-#: model:product.product,description_sale:website_contract.odoo_saas
-#: model:product.template,description_sale:website_contract.odoo_saas_product_template
-#: model:sale.quote.line,name:website_contract.sale_line_11
-#: model:sale.quote.line,name:website_contract.sale_line_21
-msgid ""
-"Odoo SAAS\n"
-"Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups."
-msgstr "Odoo SAAS\nДоступ до Вашого Odoo Instance. Зберігається на наших серверах: високошвидкісних, надійних та з щоденним резервним копіюванням."
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid ""
-"One-time Fees <small>- These products will not be part of your "
-"subscription</small>"
-msgstr "Одноразовий збір <small>- Ці товари не будуть частиною Вашої підписки</small>"
+"One-time Fees <small>- These products will not be part of your subscription</"
+"small>"
+msgstr ""
+"Одноразовий збір <small>- Ці товари не будуть частиною Вашої підписки</small>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -904,15 +982,9 @@ msgid "Options"
 msgstr "Опції"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
-msgid "Partial Invoice"
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Order Number"
 msgstr ""
-
-#. module: website_contract
-#: code:addons/website_contract/controllers/main.py:290
-#, python-format
-msgid "Pay & Confirm"
-msgstr "Оплатити і підтвердити"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -961,30 +1033,22 @@ msgid "Price"
 msgstr "Ціна"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_product_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_product_id
 msgid "Product"
 msgstr "Товар"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_quantity
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
+#, fuzzy
+msgid "Prorated Invoice"
+msgstr "Invoice"
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Quantity"
 msgstr "Кількість"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Quantity actually used by the customer"
-msgstr "Кількість, фактично використана клієнтом"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Quantity sold to the customer"
-msgstr "Кількість, продана покупцеві"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
@@ -1013,6 +1077,11 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Reference:"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "Вилучити"
 
@@ -1032,15 +1101,12 @@ msgstr "Обмежено"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid ""
 "Restricted: The customer must ask a Sales Rep to add or remove this option\n"
-"Upgrade Only: The customer can add the option himself but must ask to remove it\n"
+"Upgrade Only: The customer can add the option himself but must ask to remove "
+"it\n"
 "Upgrade and Downgrade: The customer can add or remove this option himself\n"
-"Invisible: The customer doesn't see the option; however it gets carried away when switching subscription template"
+"Invisible: The customer doesn't see the option; however it gets carried away "
+"when switching subscription template"
 msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_main
-msgid "Revenue KPIs"
-msgstr "КПЕ прибутку"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_quote_template
@@ -1073,21 +1139,16 @@ msgid "Sales Order Line"
 msgstr "Рядок замовлення на продаж"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+#, fuzzy
+msgid "Sales Orders"
+msgstr "Sales Order"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Sales Representative"
 msgstr "Торговий представник"
-
-#. module: website_contract
-#: model:ir.ui.menu,name:website_contract.menu_action_contract_dashboard_report_salesman
-msgid "Salesman Dashboard"
-msgstr "Панель приладів продавця"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Sold Quantity"
-msgstr "Продана кількість"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1096,14 +1157,6 @@ msgid "Start date:"
 msgstr "Дата початку:"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_subtotal
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_subtotal
-msgid "Sub Total"
-msgstr "Підсумок"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_analytic_account_id
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_analytic_account_id
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid "Subscription"
 msgstr "Передплата"
@@ -1120,8 +1173,13 @@ msgstr "Підсумок:"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_tax
+#, fuzzy
 msgid "Taxes"
-msgstr "Taxes"
+msgstr ""
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Податки\n"
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Taxes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1157,14 +1215,9 @@ msgstr "URL-адреса повністю, для доступу до докум
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid ""
-"These modifications will be active immedialy, however your next invoice date"
-" will not be changed. Your next invoice will arrive on:"
+"These modifications will be active immediately, however your next invoice "
+"date will not be changed. Your next invoice will arrive on:"
 msgstr ""
-
-#. module: website_contract
-#: model:product.uom.categ,name:website_contract.uom_categ_time
-msgid "Time"
-msgstr "Час"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
@@ -1172,24 +1225,23 @@ msgid "Total"
 msgstr "Разом"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Total Tax Included"
+msgstr ""
+
+#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
 "unique!"
-msgstr "UUID (універсальний унікальний іденифікатор) торгових підписок повинен бути унікальним!"
+msgstr ""
+"UUID (універсальний унікальний іденифікатор) торгових підписок повинен бути "
+"унікальним!"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_price_unit
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_price_unit
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Unit Price"
 msgstr "Ціна одиниці"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_uom_id
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_uom_id
-msgid "Unit of Measure"
-msgstr "Одиниця виміру"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -1225,14 +1277,12 @@ msgid "Valid until:"
 msgstr "Дійсний до:"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Показати договір"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Показати шаблон"
@@ -1243,7 +1293,9 @@ msgstr "Показати шаблон"
 msgid ""
 "We always listen to our customer. Could you specify the reason for "
 "cancelling your subscription?"
-msgstr "Ми завжди дослухаємося до своїх клієнтів. Чи не могли б Ви назвати причину скасування передплати?"
+msgstr ""
+"Ми завжди дослухаємося до своїх клієнтів. Чи не могли б Ви назвати причину "
+"скасування передплати?"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_website_url
@@ -1256,16 +1308,11 @@ msgid "Wizard id"
 msgstr "ID майстра"
 
 #. module: website_contract
-#: model:product.uom,name:website_contract.contract_uom_year
-msgid "Year(s)"
-msgstr "Рік(роки)"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "You can either create a quotation that will be discounted for the current "
-"invoicing period (the options will be added when the quotation is confirmed)"
-" or directly insert them in the subscription to invoice it on the next "
+"invoicing period (the options will be added when the quotation is confirmed) "
+"or directly insert them in the subscription to invoice it on the next "
 "invoice date."
 msgstr ""
 
@@ -1285,7 +1332,7 @@ msgstr ""
 #: model:ir.actions.act_window,help:website_contract.action_contract_sales_all
 msgid ""
 "You will find here all the quotations and sales orders related to this "
-"subscriptions."
+"subscription."
 msgstr ""
 
 #. module: website_contract
@@ -1317,7 +1364,7 @@ msgstr ""
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_contract_open
-msgid "Your subscription ${object.code}is active!"
+msgid "Your subscription ${object.subscription_id.code} is active!"
 msgstr ""
 
 #. module: website_contract
@@ -1367,17 +1414,116 @@ msgid "week(s)"
 msgstr "тиждень(тижні)"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "year(s)"
 msgstr "рік(роки)"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "years(s)"
-msgstr "роки ()"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr ""
+
+#~ msgid "Actual Quantity"
+#~ msgstr "Дійсна кількість"
+
+#~ msgid "Custom Domain"
+#~ msgstr "Спеціальний домен"
+
+#~ msgid ""
+#~ "Custom Domain\n"
+#~ "Access your Odoo Instance using your own domain."
+#~ msgstr "Користуйтеся своїм Odoo з власним доменом."
+
+#~ msgid ""
+#~ "Customize View\n"
+#~ "Customize one or more views (in a single module) to better suit your "
+#~ "needs."
+#~ msgstr ""
+#~ "Налаштуйте вигляд\n"
+#~ "Налаштуйте один чи більше виглядів (в одному модулі), які краще "
+#~ "відповідатимуть Вашим потребам."
+
+#~ msgid "Customized Module"
+#~ msgstr "Налаштований модуль"
+
+#~ msgid ""
+#~ "Customized Module\n"
+#~ "Customize a module to better match your business process."
+#~ msgstr ""
+#~ "Налаштований модуль\n"
+#~ "Налаштуйте модуль згідно своїх бізнес-процесів."
+
+#~ msgid ""
+#~ "Customized View\n"
+#~ "Customize one or more views (in a single module) to better suit your "
+#~ "needs."
+#~ msgstr ""
+#~ "Налаштуйте вигляд\n"
+#~ "Налаштуйте один чи більше виглядів (в одному модулі), які краще "
+#~ "відповідатимуть Вашим потребам."
+
+#~ msgid "Customized Views"
+#~ msgstr "Створені види"
+
+#~ msgid "Dashboard"
+#~ msgstr "Панель приладів"
+
+#~ msgid "Discount (%)"
+#~ msgstr "Знижка (%)"
+
+#~ msgid ""
+#~ "If we store your payment information on our server, subscription payments "
+#~ "will be made automatically."
+#~ msgstr ""
+#~ "При збереженні Ваших платіжних реквізитів на нашому сервері, абонентська "
+#~ "плата зніматиметься автоматично."
+
+#~ msgid "Month(s)"
+#~ msgstr "Місяць (місяці)"
+
+#~ msgid "Odoo SAAS"
+#~ msgstr "Odoo SAAS"
+
+#~ msgid ""
+#~ "Odoo SAAS\n"
+#~ "Access to your Odoo Instance. Stored on our servers: high speed, high "
+#~ "reliability and daily backups."
+#~ msgstr ""
+#~ "Odoo SAAS\n"
+#~ "Доступ до Вашого Odoo Instance. Зберігається на наших серверах: "
+#~ "високошвидкісних, надійних та з щоденним резервним копіюванням."
+
+#~ msgid "Pay & Confirm"
+#~ msgstr "Оплатити і підтвердити"
+
+#~ msgid "Quantity actually used by the customer"
+#~ msgstr "Кількість, фактично використана клієнтом"
+
+#~ msgid "Quantity sold to the customer"
+#~ msgstr "Кількість, продана покупцеві"
+
+#~ msgid "Revenue KPIs"
+#~ msgstr "КПЕ прибутку"
+
+#~ msgid "Salesman Dashboard"
+#~ msgstr "Панель приладів продавця"
+
+#~ msgid "Sold Quantity"
+#~ msgstr "Продана кількість"
+
+#~ msgid "Sub Total"
+#~ msgstr "Підсумок"
+
+#~ msgid "Time"
+#~ msgstr "Час"
+
+#~ msgid "Unit of Measure"
+#~ msgstr "Одиниця виміру"
+
+#~ msgid "Year(s)"
+#~ msgstr "Рік(роки)"
+
+#~ msgid "years(s)"
+#~ msgstr "роки ()"

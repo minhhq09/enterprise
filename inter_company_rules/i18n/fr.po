@@ -1,28 +1,42 @@
+# #-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * inter_company_rules
-# 
+#
 # Translators:
 # Loic <loic.richard2@gmail.com>, 2015
 # Lucas Deliege <lud@odoo.com>, 2015
 # Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
 # Olivier Lenoir <olivier.lenoir@free.fr>, 2015
+# #-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * inter_company_rules
+#
+# Translators:
+# Martin Trigaux <mat@odoo.com>, 2016
+# Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2016
+# Olivier Lenoir <olivier.lenoir@free.fr>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-01-08 22:18+0000\n"
-"Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Olivier Lenoir <olivier.lenoir@free.fr>, 2016\n"
+"Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: fr\n"
+"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:86
+#: code:addons/inter_company_rules/models/account_invoice.py:84
 #, python-format
 msgid " Invoice: "
 msgstr "Facture :"
@@ -48,13 +62,15 @@ msgid "Companies"
 msgstr "Sociétés"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/purchase_order.py:82
 #: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
-"Configure correct warehouse for company(%s) from Menu: "
-"Settings/Users/Companies"
-msgstr "Configurer le bon entrepôt pour la société (%s) à partir du menu : Paramètres/Utilisateurs/Sociétés"
+"Configure correct warehouse for company(%s) from Menu: Settings/Users/"
+"Companies"
+msgstr ""
+"Configurer le bon entrepôt pour la société (%s) à partir du menu : "
+"Paramètres/Utilisateurs/Sociétés"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
@@ -65,7 +81,9 @@ msgstr "Créer des factures/avoirs lors de la saisie de factures/avoirs"
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
 "Create Invoices/Refunds when encoding invoices/refunds made to this company"
-msgstr "Créer des factures/avoirs lors de la saisie de factures/avoirs faits à cette société."
+msgstr ""
+"Créer des factures/avoirs lors de la saisie de factures/avoirs faits à cette "
+"société."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
@@ -80,53 +98,74 @@ msgid "Create Sale Orders when buying to this company"
 msgstr "Créer des bons de commande de ventes lors d'achats à cette société"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
-msgid ""
-"Default value to set on Purchase Orders that will be created based on Sale "
-"Orders made to this company"
-msgstr "La valeur par défaut à mettre sur les bons de commande qui seront créés en fonction des commandes de ventes faites à cette société"
-
-#. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
 msgid ""
 "Default value to set on Purchase Orders that will be created based on Sale "
 "Orders made to this company."
-msgstr "La valeur par défaut à mettre sur les bons de commande qui seront créés en fonction des commandes de ventes faits à cette société."
+msgstr ""
+"La valeur par défaut à mettre sur les bons de commande qui seront créés en "
+"fonction des commandes de ventes faits à cette société."
+
+#. module: inter_company_rules
+#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
+msgid ""
+"Default value to set on Purchase(Sales) Orders that will be created based on "
+"Sale(Purchase) Orders made to this company"
+msgstr ""
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
-"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
-" e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr "Générer des factures clients/fournisseurs (et des avoirs) lors de la saisie des factures (ou des avoirs) faites à cette société.\nEx. : Générer une facture client quand une facture fournisseur est créée avec cette société en tant que fournisseur."
+"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or "
+"refunds) made to this company.\n"
+" e.g: Generate a Customer Invoice when a Vendor Bill with this company as "
+"vendor is created."
+msgstr ""
+"Générer des factures clients/fournisseurs (et des avoirs) lors de la saisie "
+"des factures (ou des avoirs) faites à cette société.\n"
+"Ex. : Générer une facture client quand une facture fournisseur est créée "
+"avec cette société en tant que fournisseur."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is"
-" created."
-msgstr "Générer un Bon de Commande quand est créé un ordre de vente avec cette société en tant que client."
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created."
+msgstr ""
+"Générer un Bon de Commande quand est créé un ordre de vente avec cette "
+"société en tant que client."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is created.\n"
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created.\n"
 " The intercompany user must at least be Purchase User."
-msgstr "Générer un bon de commande quand est créé un ordre de vente avec cette société en tant que client.\nL'utilisateur inter-sociétés doit être au moins un utilisateur du module Achat."
+msgstr ""
+"Générer un bon de commande quand est créé un ordre de vente avec cette "
+"société en tant que client.\n"
+"L'utilisateur inter-sociétés doit être au moins un utilisateur du module "
+"Achat."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_so_from_po
 msgid ""
 "Generate a Sale Order when a Purchase Order with this company as vendor is "
 "created."
-msgstr "Générer un ordre de vente quand est créé un bon de commande avec cette société en tant que vendeur."
+msgstr ""
+"Générer un ordre de vente quand est créé un bon de commande avec cette "
+"société en tant que vendeur."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_so_from_po
 msgid ""
-"Generate a Sale Order when a Purchase Order with this company as vendor is created.\n"
+"Generate a Sale Order when a Purchase Order with this company as vendor is "
+"created.\n"
 " The intercompany user must at least be Sale User."
-msgstr "Générer un ordre de vente quand est créé un bon de commande avec cette société en tant que vendeur.\nL'utilisateur inter-sociétés doit être au moins utilisateur du module Vente."
+msgstr ""
+"Générer un ordre de vente quand est créé un bon de commande avec cette "
+"société en tant que vendeur.\n"
+"L'utilisateur inter-sociétés doit être au moins utilisateur du module Vente."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_intercompany_user_id
@@ -138,7 +177,9 @@ msgstr "Utilisateur Inter Compagny"
 #: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
-msgstr "L'utilisateur Inter-société de la société %s n'a pas de droits d'accès suffisants"
+msgstr ""
+"L'utilisateur Inter-société de la société %s n'a pas de droits d'accès "
+"suffisants"
 
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
@@ -151,7 +192,7 @@ msgid "Invoice"
 msgstr "Facture"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:77
+#: code:addons/inter_company_rules/models/account_invoice.py:75
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr "SVP, définir le journal %s pour cette société : \"%s\" (id : %d)"
@@ -163,7 +204,7 @@ msgid "Provide at least one user for inter company relation for % "
 msgstr "Indiquer au moins un utilisateur pour la relation inter-société %"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:44
+#: code:addons/inter_company_rules/models/account_invoice.py:40
 #: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
@@ -178,7 +219,9 @@ msgstr "Commande fournisseur"
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_intercompany_user_id
 msgid ""
 "Responsible user for creation of documents triggered by intercompany rules."
-msgstr "Utilisateur responsable de la création des documents déclenchés par les règles inter-sociétés."
+msgstr ""
+"Utilisateur responsable de la création des documents déclenchés par les "
+"règles inter-sociétés."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
@@ -188,7 +231,9 @@ msgstr "Type de règle"
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "SO and PO setting for inter company"
-msgstr "Paramétrage des commandes d'achats et de ventes pour les relations inter-sociétés"
+msgstr ""
+"Paramétrage des commandes d'achats et de ventes pour les relations inter-"
+"sociétés"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_auto_validation
@@ -214,7 +259,9 @@ msgstr "Choisir une société pour mettre à jour les règles inter-société."
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_rule_type
 msgid "Select the type to setup inter company rules in selected company."
-msgstr "Choisir le type pour mettre à jour les règles inter-société de la société choisie."
+msgstr ""
+"Choisir le type pour mettre à jour les règles inter-société de la société "
+"choisie."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
@@ -232,8 +279,12 @@ msgid "Source Sale Order"
 msgstr "Origine de la commande de vente"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
+msgid "Warehouse"
+msgstr "Entrepôt"
+
+#. module: inter_company_rules
+#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 msgid "Warehouse For Purchase Orders"
 msgstr "Entrepôt pour les bons de commande"
 
@@ -242,14 +293,18 @@ msgstr "Entrepôt pour les bons de commande"
 msgid ""
 "When a Sale Order or a Purchase Order is created by a multi\n"
 "            company rule for this company, it will automatically validate it."
-msgstr "Quand un ordre de vente ou un bon de commande est créé par une règle\nmulti-société pour cette société, il est automatiquement validé."
+msgstr ""
+"Quand un ordre de vente ou un bon de commande est créé par une règle\n"
+"multi-société pour cette société, il est automatiquement validé."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_validation
 msgid ""
-"When a Sale Order or a Purchase Order is created by a multi company rule for"
-" this company, it will automatically validate it"
-msgstr "Quand un ordre de vente ou un bon d'achat est créé par une règle multi-société pour cette société, il est automatiquement validé"
+"When a Sale Order or a Purchase Order is created by a multi company rule for "
+"this company, it will automatically validate it"
+msgstr ""
+"Quand un ordre de vente ou un bon d'achat est créé par une règle multi-"
+"société pour cette société, il est automatiquement validé"
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/purchase_order.py:47
@@ -257,18 +312,35 @@ msgstr "Quand un ordre de vente ou un bon d'achat est créé par une règle mult
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "
 "than purchase price list currency."
-msgstr "Vous ne pouvez pas créer de commandes de ventes depuis celles des achats parce que les devises des listes de prix d'achat et de vente sont différentes."
+msgstr ""
+"Vous ne pouvez pas créer de commandes de ventes depuis celles des achats "
+"parce que les devises des listes de prix d'achat et de vente sont "
+"différentes."
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/res_company.py:32
 #, python-format
 msgid ""
 "You cannot select to create invoices based on other invoices\n"
-"                    simultaneously with another option ('Create Sale Orders when buying to this\n"
-"                    company' or 'Create Purchase Orders when selling to this company')!"
-msgstr "On ne peut pas sélectionner la création des factures sur la base d'autres factures\nsimultanément avec une autre option (\"Créer des ordres de vente lors l'achat à cette société\" ou \"Créer des bons d'achat lors de la vente à cette société\") !"
+"                    simultaneously with another option ('Create Sale Orders "
+"when buying to this\n"
+"                    company' or 'Create Purchase Orders when selling to this "
+"company')!"
+msgstr ""
+"On ne peut pas sélectionner la création des factures sur la base d'autres "
+"factures\n"
+"simultanément avec une autre option (\"Créer des ordres de vente lors "
+"l'achat à cette société\" ou \"Créer des bons d'achat lors de la vente à "
+"cette société\") !"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_base_config_settings
 msgid "base.config.settings"
 msgstr "base.config.settings"
+
+#~ msgid ""
+#~ "Default value to set on Purchase Orders that will be created based on "
+#~ "Sale Orders made to this company"
+#~ msgstr ""
+#~ "La valeur par défaut à mettre sur les bons de commande qui seront créés "
+#~ "en fonction des commandes de ventes faites à cette société"
