@@ -7,7 +7,8 @@ class Users(models.Model):
     _name = 'res.users'
     _inherit = ['res.users']
 
-    def init(self, cr):
+    @api.model_cr
+    def init(self):
         # Migration script to automatically create `team.user` records
         # according to the teams and salesmen configuration in the regular crm.
         # This is necessary:
@@ -15,7 +16,7 @@ class Users(models.Model):
         #    this module after having configured his teams in the regular crm
         #  - As the below computed field `sale_team_id` isn't recomputed on
         #    installation as the column is already in the `res_users` table
-        res = cr.execute("""
+        res = self._cr.execute("""
             INSERT INTO team_user(user_id, team_id, running)
             SELECT id, sale_team_id, 't'
             FROM res_users u
