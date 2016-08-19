@@ -3,6 +3,7 @@ import itertools
 
 from odoo import models, fields, api, _
 from odoo.addons.grid.models import END_OF
+from odoo.exceptions import UserError
 
 
 class AnalyticLine(models.Model):
@@ -36,13 +37,19 @@ class AnalyticLine(models.Model):
         span = self.env.context['grid_range']['span']
         validate_to = fields.Date.to_string(anchor + END_OF[span])
 
+        if not self:
+            raise UserError(_("There aren't any timesheet to validate"))
+
+        employees = self.mapped('user_id.employee_ids')
+        validable_employees = employees.filtered(lambda e: not e.timesheet_validated or e.timesheet_validated < validate_to)
+        if not validable_employees:
+            raise UserError(_('All selected timesheets are already validated'))
+
         validation = self.env['timesheet_grid.validation'].create({
             'validate_to': validate_to,
             'validable_ids': [
                 (0, None, {'employee_id': employee.id})
-                for employee in self.mapped('user_id.employee_ids')
-                if not employee.timesheet_validated \
-                    or employee.timesheet_validated < validate_to
+                for employee in validable_employees
             ]
         })
 
@@ -109,14 +116,9 @@ class Validation(models.TransientModel):
     # Recompute SO Lines delivered at validation
     @api.multi
     def validate(self):
-        employees = self.validable_ids.filtered('validate').mapped('employee_id')
-        mdate = min(employees.mapped('timesheet_validated'))
-        employees.write({'timesheet_validated': self.validate_to})
-        # could be improved by filtering on date delta only
-        self.env['account.analytic.line'].search(['&', ('date','>',mdate), ('is_timesheet', '=', True), ('user_id', 'in', employees.mapped('user_id').ids)]) \
-            .mapped('so_line') \
-            .sudo() \
-            ._compute_analytic()
+        self.validable_ids \
+            .filtered('validate').mapped('employee_id') \
+            .write({'timesheet_validated': self.validate_to})
         return ()
 
 class Validable(models.TransientModel):
