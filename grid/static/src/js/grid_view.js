@@ -65,7 +65,8 @@ function into(object, path) {
 }
 
 var GridView = View.extend({
-    icon: 'fa-th-list',
+    icon: 'fa-th',
+    display_name: _lt("Grid"),
     view_type: 'grid',
     add_label: _lt("Add a Line"),
     events: {

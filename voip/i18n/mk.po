@@ -1,21 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-# 
+#
 # Translators:
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2016-05-20 13:19+0000\n"
 "Last-Translator: Aleksandar Vangelovski <aleksandarv@hbee.eu>\n"
-"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/mk/)\n"
+"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/"
+"mk/)\n"
+"Language: mk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: mk\n"
+"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
+"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
 #. module: voip
@@ -39,31 +44,35 @@ msgid "Display Name"
 msgstr "Прикажи име"
 
 #. module: voip
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:57
+#, python-format
+msgid "From "
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
 msgstr "ID"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:90
-#, python-format
-msgid "Incomming call from "
+#: code:addons/voip/static/src/js/sip_js.js:58
+#, fuzzy, python-format
+msgid "Incoming call"
 msgstr "Доаѓачки повик од"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn
-msgid "Invoice"
-msgstr "Фактура"
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:88
+#, fuzzy, python-format
+msgid "Incoming call from "
+msgstr "Доаѓачки повик од"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
 msgid "Last Modified on"
 msgstr "Последна промена на"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_last_website_so_id
-msgid "Last Online Sale Order"
-msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
@@ -76,33 +85,13 @@ msgid "Last Updated on"
 msgstr "Последно ажурирање на"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn_msg
-msgid "Message for Invoice"
-msgstr "Порака за фактура"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_purchase_warn_msg
-msgid "Message for Purchase Order"
-msgstr "Порака за налог за набавка"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sale_warn_msg
-msgid "Message for Sales Order"
-msgstr "Порака за налог за продажба"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_picking_warn_msg
-msgid "Message for Stock Picking"
-msgstr ""
-
-#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
 msgid "Number of rings"
 msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:23
+#: code:addons/voip/static/src/js/sip_js.js:27
 #, python-format
 msgid "One or more parameter is missing. Please check your configuration."
 msgstr ""
@@ -115,24 +104,19 @@ msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:85
+#: code:addons/voip/static/src/js/sip_js.js:153
 #, python-format
 msgid "Please check your configuration.</br> (Reason receives :"
 msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:209
+#: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access"
-" your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access "
+"your microphone from your browser."
 msgstr ""
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_purchase_warn
-msgid "Purchase Order"
-msgstr "Налог за набавка"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_login
@@ -145,30 +129,19 @@ msgid "SIP Password"
 msgstr ""
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sale_warn
-msgid "Sales Order"
-msgstr "Налог за продажба"
-
-#. module: voip
-#: model:ir.model.fields,help:voip.field_res_users_invoice_warn
-#: model:ir.model.fields,help:voip.field_res_users_picking_warn
-#: model:ir.model.fields,help:voip.field_res_users_purchase_warn
-#: model:ir.model.fields,help:voip.field_res_users_sale_warn
-msgid ""
-"Selecting the \"Warning\" option will notify user with the message, "
-"Selecting \"Blocking Message\" will throw an exception with the message and "
-"block the flow. The Message has to be written in the next field."
-msgstr "Селектирањето на опцијата \"Внимание\" ќе го извести корисникот со порака, селектирањето на \"Блокирање на порака\" ќе го отврли исклучокот со порака и ќе го блокира текот. Пораката треба да биде напишана во наредното поле."
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_picking_warn
-msgid "Stock Picking"
-msgstr ""
-
-#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
 msgid "The extension of  your office's phone."
 msgstr "Екстензијата на телефонот во вашата канцеларија."
+
+#. module: voip
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:179
+#, python-format
+msgid ""
+"The number is incorrect, the user credentials could be wrong or the "
+"connection cannot be made. Please check your configuration.</br> (Reason "
+"receives :%s)"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
@@ -177,7 +150,7 @@ msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:49
+#: code:addons/voip/static/src/js/sip_js.js:51
 #, python-format
 msgid ""
 "The server configuration could be wrong. Please check your configuration."
@@ -185,16 +158,7 @@ msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:118
-#, python-format
-msgid ""
-"The user credentials could be wrong or the connection cannot be made. Please"
-" check your configuration.</br> (Reason receives :%d"
-msgstr ""
-
-#. module: voip
-#. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:44
+#: code:addons/voip/static/src/js/sip_js.js:47
 #, python-format
 msgid "The websocket uri could be wrong. Please check your configuration."
 msgstr ""
@@ -205,26 +169,48 @@ msgid "Users"
 msgstr "Корисници"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_website_tag_ids
-msgid "Website tags"
-msgstr ""
-
-#. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:201
+#: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid ""
-"Your browser could not support WebRTC. Please check your configuration."
+msgid "Your browser could not support WebRTC. Please check your configuration."
 msgstr ""
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:84
+#: code:addons/voip/static/src/js/sip_js.js:152
 #, python-format
 msgid "the connection cannot be made. "
-msgstr ""
+msgstr "конекцијата не може да биде воспоставена."
 
 #. module: voip
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr ""
+
+#~ msgid "Invoice"
+#~ msgstr "Фактура"
+
+#~ msgid "Message for Invoice"
+#~ msgstr "Порака за фактура"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Порака за налог за набавка"
+
+#~ msgid "Message for Sales Order"
+#~ msgstr "Порака за налог за продажба"
+
+#~ msgid "Purchase Order"
+#~ msgstr "Налог за набавка"
+
+#~ msgid "Sales Order"
+#~ msgstr "Налог за продажба"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Селектирањето на опцијата \"Внимание\" ќе го извести корисникот со "
+#~ "порака, селектирањето на \"Блокирање на порака\" ќе го отврли исклучокот "
+#~ "со порака и ќе го блокира текот. Пораката треба да биде напишана во "
+#~ "наредното поле."

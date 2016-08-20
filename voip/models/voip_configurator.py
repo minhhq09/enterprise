@@ -19,6 +19,6 @@ class VoipConfigurator(models.Model):
                 'password': self.env.user[0].sip_password,
                 'external_phone': self.env.user[0].sip_external_phone,
                 'always_transfer': self.env.user[0].sip_always_transfer,
-                'ring_number': self.env.user[0].sip_ring_number,
+                'ring_number': self.env.user[0].sip_ring_number or 6,
                 'mode': self.env['ir.config_parameter'].get_param('crm.voip.mode', default="demo"),
                 }

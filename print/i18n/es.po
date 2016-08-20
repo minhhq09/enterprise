@@ -1,25 +1,52 @@
+# #-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-# 
+#
 # Translators:
 # Alejandro Die Sanchis <marketing@domatix.com>, 2016
 # Ana Juaristi <ajuaristio@gmail.com>, 2015
 # Cristóbal Martí Oliver <info@moblesmarti.com>, 2015
 # Ivan Nieto <ivan.nieto.sousa@gmail.com>, 2016
 # Sergio Hevia <sah@talleresbernesga.com>, 2015
+# #-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * print
+#
+# Translators:
+# José Vicente <txusev@gmail.com>, 2016
+# Sergio Hevia <sah@talleresbernesga.com>, 2016
+# Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
+# Ivan Nieto <ivan.n.s@tuta.io>, 2016
+# Cristóbal Martí Oliver <info@moblesmarti.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Ana Juaristi <ajuaristio@gmail.com>, 2016
+# Oihane Crucelaegui <oihanecruce@gmail.com>, 2016
+# Carles Antoli <carlesantoli@hotmail.com>, 2016
+# Alejandro Die Sanchis <marketing@domatix.com>, 2016
+# Jose Manuel <admin@jaboweb.com>, 2016
+# Albert Cabedo GAFIC <albertgafic@gmail.com>, 2016
+# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
+# Antonio Trueba <atgayol@gmail.com>, 2016
+# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2016-03-04 20:43+0000\n"
-"Last-Translator: Ivan Nieto <ivan.nieto.sousa@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016\n"
+"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: print
@@ -29,29 +56,56 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" "
+"documents, some mistakes appear. Here is a list of the failed Print Order "
+"you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can "
+"find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
-"                                        ${print_order_id}    |    ${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx."
+"get('print_errors'):\n"
+"                                        ${print_order_id}    |    "
+"${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
 "                </body>\n"
 "              \n"
 "            "
-msgstr "\n<body>\n<p>Estimado/a ${object.partner_id.name},</p>\n\n<p>Durante el último proceso de documentos \"Imprimir y Enviar\", han sucedido algunos errores. Aquí tiene una lista de la Impresión de Pedido que ha autorizado.\n<p>Por favor, algunos errores han sido detectados. Puede encontrarlos en <i>Configuración > Imprimir > Pedidos</i>.</p>\n\n% if ctx.get('print_errors'):\n<p>\nID Impresión de Pedido | Mensaje de Error <br/>\n-------------------------------------- <br/>\n% for print_order_id, error_text in ctx.get('print_errors'):\n${print_order_id} | ${error_text} <br/>\n% endfor\n</p>\n% endif\n</body>"
+msgstr ""
+"\n"
+"<body>\n"
+"<p>Estimado/a ${object.partner_id.name},</p>\n"
+"\n"
+"<p>Durante el último proceso de documentos \"Imprimir y Enviar\", han "
+"sucedido algunos errores. Aquí tiene una lista de la Impresión de Pedido que "
+"ha autorizado.\n"
+"<p>Por favor, algunos errores han sido detectados. Puede encontrarlos en "
+"<i>Configuración > Imprimir > Pedidos</i>.</p>\n"
+"\n"
+"% if ctx.get('print_errors'):\n"
+"<p>\n"
+"ID Impresión de Pedido | Mensaje de Error <br/>\n"
+"-------------------------------------- <br/>\n"
+"% for print_order_id, error_text in ctx.get('print_errors'):\n"
+"${print_order_id} | ${error_text} <br/>\n"
+"% endfor\n"
+"</p>\n"
+"% endif\n"
+"</body>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
-msgstr "<b> Error de crédito:</b> El Cŕedito de su cuenta de Proveedor es negativo. Por favor, recarge su cuenta de proovedor para enviar documentos."
+msgstr ""
+"<b> Error de crédito:</b> El Cŕedito de su cuenta de Proveedor es negativo. "
+"Por favor, recarge su cuenta de proovedor para enviar documentos."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:63
@@ -114,13 +168,23 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:print.field_print_order_sendnow_wizard_create_date
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_create_date
 #: model:ir.model.fields,field_description:print.field_print_provider_create_date
+#, fuzzy
 msgid "Created on"
-msgstr "Creado en"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Creado en\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Creado el"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_create_date
+#, fuzzy
 msgid "Creation Date"
-msgstr "Fecha creación"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Fecha creación\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Fecha de Creación"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_provider_balance
@@ -196,8 +260,13 @@ msgstr "Agrupar por..."
 #: model:ir.model.fields,field_description:print.field_print_order_sendnow_wizard_id
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_id
 #: model:ir.model.fields,field_description:print.field_print_provider_id
+#, fuzzy
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"ID (identificación)\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"ID"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_ink
@@ -228,6 +297,7 @@ msgstr "Última modificación en"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
 #: model:ir.model.fields,field_description:print.field_print_mixin_print_sent_date
+#: model:ir.model.fields,field_description:print.field_sale_order_print_sent_date
 msgid "Last Postal Sent Date"
 msgstr "Última fecha de envío postal"
 
@@ -242,8 +312,13 @@ msgstr "Última fecha de envío"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_write_uid
 #: model:ir.model.fields,field_description:print.field_print_order_write_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_write_uid
+#, fuzzy
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Última actualización de\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Última actualización por"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_write_date
@@ -251,8 +326,13 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_write_date
 #: model:ir.model.fields,field_description:print.field_print_order_write_date
 #: model:ir.model.fields,field_description:print.field_print_provider_write_date
+#, fuzzy
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Última actualización en\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Última actualización el"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_print_order_line_wizard_ids
@@ -360,8 +440,13 @@ msgstr ""
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_print_order_wizard_id
+#, fuzzy
 msgid "Print Order Wizard"
-msgstr "Asistente de "
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Asistente de \n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Asistente de impresión de pedido"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_action
@@ -433,13 +518,13 @@ msgstr "Cambiar a borrador"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
-msgid "Ressource ID"
-msgstr ""
+msgid "Resource ID"
+msgstr "ID del Recurso"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
-msgid "Ressource Model"
-msgstr ""
+msgid "Resource Model"
+msgstr "Modelo del recurso"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
@@ -490,8 +575,13 @@ msgstr "Enviado"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_state
 #: model:ir.model.fields,field_description:print.field_print_order_partner_state_id
+#, fuzzy
 msgid "State"
-msgstr "Provincia"
+msgstr ""
+"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
+"Provincia\n"
+"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Estado"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_state
@@ -531,8 +621,8 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report"
-" action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report "
+"action (ir.actions.report.xml) for the model %s."
 msgstr ""
 
 #. module: print
@@ -547,8 +637,9 @@ msgstr "El documento que desea enviar contiene el siguiente error: %s"
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
-"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
+"%(partner_street)s <br/> %(partner_city)s "
+"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
+"%s</i>"
 msgstr ""
 
 #. module: print

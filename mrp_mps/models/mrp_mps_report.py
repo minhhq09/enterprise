@@ -117,8 +117,6 @@ class MrpMpsReport(models.TransientModel):
     @api.multi
     def get_data(self, product):
         result = []
-        # TODO: to improve, get stock at date
-        initial = product.qty_available
         forecasted = product.mps_forecasted
         date = datetime.datetime.now()
         indirect = self.get_indirect(product)[product.id]
@@ -136,6 +134,11 @@ class MrpMpsReport(models.TransientModel):
             date = datetime.datetime(date.year, date.month, 1)
         elif self.period == 'week':
             date = date - relativedelta.relativedelta(days=date.weekday())
+            
+        if date < datetime.datetime.today():
+            initial = product.with_context(to_date=date.strftime('%Y-%m-%d')).qty_available
+        else:
+            initial = product.qty_available
         # Compute others cells
         for p in range(NUMBER_OF_COLS):
             if self.period == 'month':
@@ -155,7 +158,6 @@ class MrpMpsReport(models.TransientModel):
             state = 'draft'
             mode = 'auto'
             proc_dec = False
-            
             for f in forecasts:
                 if f.mode == 'manual':
                     mode = 'manual'

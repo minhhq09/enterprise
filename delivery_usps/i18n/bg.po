@@ -1,20 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_usps
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-07-27 20:36+0000\n"
 "Last-Translator: Martin Trigaux\n"
-"Language-Team: Bulgarian (http://www.transifex.com/odoo/odoo-9/language/bg/)\n"
+"Language-Team: Bulgarian (http://www.transifex.com/odoo/odoo-9/language/"
+"bg/)\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_usps
@@ -38,7 +39,7 @@ msgid "Check this box if your account is validated by USPS"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:50
+#: code:addons/delivery_usps/models/usps_request.py:63
 #, python-format
 msgid "Company phone number is invalid. Please insert a US phone number."
 msgstr ""
@@ -47,6 +48,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_content_type
 msgid "Content Type"
 msgstr "Вид съдържание"
+
+#. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "DHL Configuration"
+msgstr ""
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
@@ -70,7 +76,7 @@ msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First Class"
+msgid "First-Class"
 msgstr ""
 
 #. module: delivery_usps
@@ -109,6 +115,11 @@ msgstr ""
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
+msgstr ""
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
+msgid "Label File Type"
 msgstr ""
 
 #. module: delivery_usps
@@ -170,6 +181,11 @@ msgid "Non-rectangular"
 msgstr ""
 
 #. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
 msgid "Package"
 msgstr ""
@@ -211,37 +227,36 @@ msgid "Parcel"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:68
+#: code:addons/delivery_usps/models/usps_request.py:80
 #, python-format
 msgid "Please Change the Service Max. weight of this Service is 4 pounds"
 msgstr ""
 
 #. module: delivery_usps
 #: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_machinable
-msgid ""
-"Please check on USPS website to ensure that your package is machinable."
+msgid "Please check on USPS website to ensure that your package is machinable."
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:55
+#: code:addons/delivery_usps/models/usps_request.py:68
 #, python-format
 msgid "Please enter a valid ZIP code in recipient address"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:48
+#: code:addons/delivery_usps/models/usps_request.py:61
 #, python-format
 msgid "Please enter a valid ZIP code in your Company address"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:63
+#: code:addons/delivery_usps/models/usps_request.py:75
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:46
+#: code:addons/delivery_usps/models/usps_request.py:59
 #, python-format
 msgid ""
 "Please set country U.S.A in your company address, Service is only available "
@@ -295,13 +310,13 @@ msgid "Sample"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:153
+#: code:addons/delivery_usps/models/delivery_usps.py:154
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:130
+#: code:addons/delivery_usps/models/delivery_usps.py:131
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
@@ -317,18 +332,18 @@ msgid "Small Flat Rate Envelope"
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Test Mode"
-msgstr "Тестов режим"
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "TIF"
+msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:149
+#: code:addons/delivery_usps/models/usps_request.py:161
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:44
+#: code:addons/delivery_usps/models/usps_request.py:57
 #, python-format
 msgid ""
 "The address of your company is missing or wrong (Missing field(s) :  \n"
@@ -336,15 +351,15 @@ msgid ""
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:66
+#: code:addons/delivery_usps/models/usps_request.py:78
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:346
+#: code:addons/delivery_usps/models/usps_request.py:367
 #, python-format
 msgid ""
 "The recepient address can't be found. Please check that your recepient has "
@@ -352,7 +367,7 @@ msgid ""
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:53
+#: code:addons/delivery_usps/models/usps_request.py:66
 #, python-format
 msgid ""
 "The recipient address is missing or wrong (Missing field(s) :  \n"
@@ -376,18 +391,13 @@ msgid "Type of regular container"
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "USPS Configuration"
-msgstr ""
-
-#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
-msgid "USPS Domestic Flat Rate Box"
+msgid "USPS Domestic Flat Rate Envelope"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:60
+#: code:addons/delivery_usps/models/usps_request.py:72
 #, python-format
 msgid ""
 "USPS Domestic is used only to ship  inside of the U.S.A. Please change the "
@@ -401,16 +411,11 @@ msgid "USPS International Flat Rate Box"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:58
+#: code:addons/delivery_usps/models/usps_request.py:70
 #, python-format
 msgid ""
-"USPS International is used only to ship  outside of the U.S.A. Please change"
-" the delivery method into USPS Domestic."
-msgstr ""
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_passwd
-msgid "USPS Password"
+"USPS International is used only to ship  outside of the U.S.A. Please change "
+"the delivery method into USPS Domestic."
 msgstr ""
 
 #. module: delivery_usps
@@ -424,17 +429,15 @@ msgid "USPS User ID"
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_test_mode
-msgid "Uncheck this box to use production UPS Web Services"
-msgstr ""
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_size_container
 msgid "Usps size container"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:348
+#: code:addons/delivery_usps/models/usps_request.py:369
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr ""
+
+#~ msgid "Test Mode"
+#~ msgstr "Тестов режим"

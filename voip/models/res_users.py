@@ -33,10 +33,10 @@ class ResUsers(models.Model):
 
     sip_login = fields.Char("SIP Login / Browser's Extension", groups="base.group_user")
     sip_password = fields.Char('SIP Password', groups="base.group_user")
-    sip_external_phone = fields.Char("The extension of  your office's phone.",
-                                     groups="base.group_user")
-    sip_always_transfer = fields.Boolean("Always redirect to physical phone", default=False,
+    sip_external_phone = fields.Char("Handset Extension", groups="base.group_user")
+    sip_always_transfer = fields.Boolean("Always Redirect to Handset", default=False,
                                          groups="base.group_user")
-    sip_ring_number = fields.Integer("Number of rings", default=6,
-                                     help="The number of rings before cancelling the call",
-                                     groups="base.group_user")
+    sip_ring_number = fields.Integer(
+        "Number of rings", default=6,
+        help="The number of rings before the call is defined as refused by the customer.",
+        groups="base.group_user")

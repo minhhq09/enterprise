@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_deferred_revenue
-# 
+#
 # Translators:
 # Anja Funk <anja.funk@afimage.de>, 2015
 # Rudolf Schnapka <rs@techno-flex.de>, 2016
@@ -11,14 +11,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 14:51+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-06-08 10:53+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@openbig.org>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_deferred_revenue
@@ -48,13 +48,19 @@ msgstr "Unternehmen"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Compute Depreciation"
+#, fuzzy
+msgid "Compute Revenue"
 msgstr "Abschreibung berrechnen"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Confirm"
 msgstr "Bestätigen"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Cumulative Revenue"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_asset_sale_tree
@@ -105,21 +111,6 @@ msgstr "Arten der Rechnungsabgrenzung"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation"
-msgstr "Abschreibung"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Board"
-msgstr "Abschreibungsspiegel"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Information"
-msgstr "Informationen zur Abschreibung"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Depreciation Lines"
 msgstr "Abschreibungsbuchungen"
 
@@ -137,8 +128,13 @@ msgstr "Erweiterter Filter..."
 #: model:ir.actions.act_window,help:account_deferred_revenue.action_asset_revenue_report
 msgid ""
 "From this report, you can have an overview of your deferred revenue. The\n"
-"            search bar can also be used to personalize your revenue recognition reporting."
-msgstr "Aus diesem Bericht erhalten Sie eine Übersicht über Ihre Rechnungsabgrenzungsposten.\nDie Suchleiste kann auch zur individualisierten Auswertung Ihrer Ist-Umsätze genutzt werden."
+"            search bar can also be used to personalize your revenue "
+"recognition reporting."
+msgstr ""
+"Aus diesem Bericht erhalten Sie eine Übersicht über Ihre "
+"Rechnungsabgrenzungsposten.\n"
+"Die Suchleiste kann auch zur individualisierten Auswertung Ihrer Ist-Umsätze "
+"genutzt werden."
 
 #. module: account_deferred_revenue
 #: model:ir.ui.menu,name:account_deferred_revenue.menu_recognition_depreciation_confirmation_wizard
@@ -167,8 +163,15 @@ msgstr "Artikel"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Modify Depreciation"
+#, fuzzy
+msgid "Modify Revenue"
 msgstr "Abschreibung ändern"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+#, fuzzy
+msgid "Number of Revenues"
+msgstr "Datum für Einnahmen aus Verkauf"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -199,6 +202,30 @@ msgstr "Umsatzrealisierung im Entwurf"
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Residual"
 msgstr "Verbleibend"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+#, fuzzy
+msgid "Revenue"
+msgstr "Umsatzbezeichnung"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+#, fuzzy
+msgid "Revenue Board"
+msgstr "Umsatzbezeichnung"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+#, fuzzy
+msgid "Revenue Date"
+msgstr "Umsatzbezeichnung"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+#, fuzzy
+msgid "Revenue Information"
+msgstr "Informationen zur Abschreibung"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
@@ -240,3 +267,9 @@ msgstr "Verkaufen oder Veräußern"
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Set to Draft"
 msgstr "Auf 'Entwurf' setzen"
+
+#~ msgid "Depreciation"
+#~ msgstr "Abschreibung"
+
+#~ msgid "Depreciation Board"
+#~ msgstr "Abschreibungsspiegel"

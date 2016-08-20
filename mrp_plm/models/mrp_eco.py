@@ -29,7 +29,8 @@ class MrpEcoType(models.Model):
             eco.nb_ecos = MrpEco.search_count([('type_id', '=', eco.id)])
             eco.nb_validation = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('allow_apply_change', '=', True), ('state', '!=', 'done')])
             eco.nb_approvals = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('approval_ids.status', '=', 'none')])
-            eco.nb_approvals_my = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('approval_ids.status', '=', 'none'), ('approval_ids.required_user_ids', '=', self.env.user.id)])
+            eco.nb_approvals_my = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('approval_ids.status', '=', 'none'), 
+                                                       ('approval_ids.required_user_ids', '=', self.env.user.id)])
 
     def get_alias_model_name(self, vals):
         return vals.get('alias_model', 'mrp.eco')

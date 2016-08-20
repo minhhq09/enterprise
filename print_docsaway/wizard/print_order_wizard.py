@@ -6,7 +6,6 @@ class PrintOrderWizard(models.TransientModel):
 
     _inherit = 'print.order.wizard'
 
-    @api.one
     @api.onchange('provider_id')
     def _onchange_provider_id(self):
         if self.provider_id.provider == 'docsaway':

@@ -35,14 +35,14 @@ class SaleForecast(models.Model):
     def generate_procurement(self, product_id=False, limit=False):
         """ Create procurements related to """
         product = self.env['product.product'].browse(product_id)
-        date = datetime.datetime.now()
+        #date = fields.Datetime.from_string(fields.Datetime.now()) #necessary?
         mps_report = self.env['mrp.mps.report'].search([])[0]
         if not limit:
             result = [x for x in mps_report.get_data(product) if x['procurement_enable']]
             for data in result:
-                date_cmp = datetime.datetime.strptime(data['date'], '%Y-%m-%d')
-                if date_cmp < datetime.datetime.now():
-                    date = datetime.datetime.now()
+                date_cmp = data['date']
+                if date_cmp < fields.Datetime.now():
+                    date = fields.Datetime.now()
                 else:
                     date = date_cmp
                 procurement_id = self._action_procurement_create(product, data['to_supply'], date)
@@ -62,9 +62,9 @@ class SaleForecast(models.Model):
             result = [x for x in mps_report.get_data(product) if not x['procurement_done']]
             if result:
                 data = result[0]
-                date_cmp = datetime.datetime.strptime(data['date'], '%Y-%m-%d')
-                if date_cmp < datetime.datetime.now():
-                    date = datetime.datetime.now()
+                date_cmp = data['date']
+                if date_cmp < fields.Datetime.now():
+                    date = fields.Datetime.now()
                 else:
                     date = date_cmp
                 procurement_id = self._action_procurement_create(product, data['to_supply'], date)
@@ -88,7 +88,7 @@ class SaleForecast(models.Model):
         warehouse = self.env['stock.warehouse'].search([], limit=1)
         return {
             'name': product.name,
-            'date_planned': date.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+            'date_planned': date,
             'product_id': product.id,
             'product_uom': product.uom_id.id,
             'company_id': self.env.user.company_id.id,
@@ -141,7 +141,8 @@ class SaleForecast(models.Model):
 
     @api.model
     def change_forecast_mode(self, product_id=False, date=False, date_to=False, quantity=0.0):
-        #TODO FIXME QDP date_to unused?
+        if date and date_to:
+            self.search([('date', '>=', date), ('date', '<', date_to), ('mode', '=', 'manual')]).unlink()
         self.create({'date': date, 'product_id': product_id, 'to_supply': quantity, 'mode': 'manual'})
         return True
 

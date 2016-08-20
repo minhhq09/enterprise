@@ -1,21 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-# 
+#
 # Translators:
 # Alessandro Forte <a.forte1010@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2016-04-19 14:33+0000\n"
 "Last-Translator: Alessandro Forte <a.forte1010@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/odoo/odoo-9/language/it/)\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: voip
@@ -39,31 +39,35 @@ msgid "Display Name"
 msgstr "Visualizza Nome"
 
 #. module: voip
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:57
+#, python-format
+msgid "From "
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
 msgstr "ID"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:90
-#, python-format
-msgid "Incomming call from "
+#: code:addons/voip/static/src/js/sip_js.js:58
+#, fuzzy, python-format
+msgid "Incoming call"
 msgstr "Chiamata in arrivo da"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn
-msgid "Invoice"
-msgstr "Fattura"
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:88
+#, fuzzy, python-format
+msgid "Incoming call from "
+msgstr "Chiamata in arrivo da"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
 msgid "Last Modified on"
 msgstr "Data di ultima modifica"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_last_website_so_id
-msgid "Last Online Sale Order"
-msgstr "Ultimo Ordine di Vendita Online"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
@@ -76,33 +80,13 @@ msgid "Last Updated on"
 msgstr "Ultima modifica il"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn_msg
-msgid "Message for Invoice"
-msgstr "Messaggio per Fattura"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_purchase_warn_msg
-msgid "Message for Purchase Order"
-msgstr "Messaggio per l'Ordine di Acquisto"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sale_warn_msg
-msgid "Message for Sales Order"
-msgstr "Messaggio per ordine di vendita"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_picking_warn_msg
-msgid "Message for Stock Picking"
-msgstr "Messaggio per Prelievo Magazzino"
-
-#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
 msgid "Number of rings"
 msgstr "Numero di squilli"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:23
+#: code:addons/voip/static/src/js/sip_js.js:27
 #, python-format
 msgid "One or more parameter is missing. Please check your configuration."
 msgstr "Uno o più parametri sono persi. Ricontrolla la tua configurazione."
@@ -115,24 +99,21 @@ msgstr "Configurazione PXB"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:85
+#: code:addons/voip/static/src/js/sip_js.js:153
 #, python-format
 msgid "Please check your configuration.</br> (Reason receives :"
 msgstr "Per favore controlla la tua configurazione.</br> (Motivo:"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:209
+#: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access"
-" your microphone from your browser."
-msgstr "Problema durante la connessione. Controlla se l'applicazione ha il permesso di accedere al microfono dal tuo browser."
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_purchase_warn
-msgid "Purchase Order"
-msgstr "Ordine di Acquisto"
+"Problem during the connection. Check if the application is allowed to access "
+"your microphone from your browser."
+msgstr ""
+"Problema durante la connessione. Controlla se l'applicazione ha il permesso "
+"di accedere al microfono dal tuo browser."
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_login
@@ -145,30 +126,21 @@ msgid "SIP Password"
 msgstr "SIP Password"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sale_warn
-msgid "Sales Order"
-msgstr "Ordine di vendita"
-
-#. module: voip
-#: model:ir.model.fields,help:voip.field_res_users_invoice_warn
-#: model:ir.model.fields,help:voip.field_res_users_picking_warn
-#: model:ir.model.fields,help:voip.field_res_users_purchase_warn
-#: model:ir.model.fields,help:voip.field_res_users_sale_warn
-msgid ""
-"Selecting the \"Warning\" option will notify user with the message, "
-"Selecting \"Blocking Message\" will throw an exception with the message and "
-"block the flow. The Message has to be written in the next field."
-msgstr "Scegliendo l'opzione \"Avvisi\" si notificherà all'utente con il messaggio, Scegliendo \"Messaggio bloccante\" lancerà una eccezione con il messaggio e bloccherà il flusso. Il messaggio deve essere scritto nel campo successivo."
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_picking_warn
-msgid "Stock Picking"
-msgstr "Prelievo di Magazzino"
-
-#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
 msgid "The extension of  your office's phone."
 msgstr "Interno telefono del tuo ufficio"
+
+#. module: voip
+#. openerp-web
+#: code:addons/voip/static/src/js/sip_js.js:179
+#, fuzzy, python-format
+msgid ""
+"The number is incorrect, the user credentials could be wrong or the "
+"connection cannot be made. Please check your configuration.</br> (Reason "
+"receives :%s)"
+msgstr ""
+"Le credenziali dell'utente sono errate o potrebbe non essere possibile "
+"connettersi. Per favore controlla la configurazione.</br> (Motivo :%d"
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
@@ -177,24 +149,17 @@ msgstr "Numero di squilli prima di chiudere la chiamata"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:49
+#: code:addons/voip/static/src/js/sip_js.js:51
 #, python-format
 msgid ""
 "The server configuration could be wrong. Please check your configuration."
-msgstr "La configurazione del server è sbagliata. Per favore controlla la configurazione"
+msgstr ""
+"La configurazione del server è sbagliata. Per favore controlla la "
+"configurazione"
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:118
-#, python-format
-msgid ""
-"The user credentials could be wrong or the connection cannot be made. Please"
-" check your configuration.</br> (Reason receives :%d"
-msgstr "Le credenziali dell'utente sono errate o potrebbe non essere possibile connettersi. Per favore controlla la configurazione.</br> (Motivo :%d"
-
-#. module: voip
-#. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:44
+#: code:addons/voip/static/src/js/sip_js.js:47
 #, python-format
 msgid "The websocket uri could be wrong. Please check your configuration."
 msgstr "Il websocket uri è errato. Per favore controlla la configurazione."
@@ -205,21 +170,16 @@ msgid "Users"
 msgstr "Utenti"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_website_tag_ids
-msgid "Website tags"
-msgstr "Website tags"
-
-#. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:201
+#: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid ""
-"Your browser could not support WebRTC. Please check your configuration."
-msgstr "Il tuo browser non supporta WebRTC. Per favore controlla la configurazione."
+msgid "Your browser could not support WebRTC. Please check your configuration."
+msgstr ""
+"Il tuo browser non supporta WebRTC. Per favore controlla la configurazione."
 
 #. module: voip
 #. openerp-web
-#: code:addons/voip/static/src/js/sip_js.js:84
+#: code:addons/voip/static/src/js/sip_js.js:152
 #, python-format
 msgid "the connection cannot be made. "
 msgstr "Impossibile connettersi."
@@ -228,3 +188,43 @@ msgstr "Impossibile connettersi."
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr "voip.configurator"
+
+#~ msgid "Invoice"
+#~ msgstr "Fattura"
+
+#~ msgid "Last Online Sale Order"
+#~ msgstr "Ultimo Ordine di Vendita Online"
+
+#~ msgid "Message for Invoice"
+#~ msgstr "Messaggio per Fattura"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Messaggio per l'Ordine di Acquisto"
+
+#~ msgid "Message for Sales Order"
+#~ msgstr "Messaggio per ordine di vendita"
+
+#~ msgid "Message for Stock Picking"
+#~ msgstr "Messaggio per Prelievo Magazzino"
+
+#~ msgid "Purchase Order"
+#~ msgstr "Ordine di Acquisto"
+
+#~ msgid "Sales Order"
+#~ msgstr "Ordine di vendita"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Scegliendo l'opzione \"Avvisi\" si notificherà all'utente con il "
+#~ "messaggio, Scegliendo \"Messaggio bloccante\" lancerà una eccezione con "
+#~ "il messaggio e bloccherà il flusso. Il messaggio deve essere scritto nel "
+#~ "campo successivo."
+
+#~ msgid "Stock Picking"
+#~ msgstr "Prelievo di Magazzino"
+
+#~ msgid "Website tags"
+#~ msgstr "Website tags"
