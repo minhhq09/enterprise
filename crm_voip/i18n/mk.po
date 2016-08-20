@@ -1,55 +1,47 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * crm_voip
-# 
+#
 # Translators:
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 14:10+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-04-15 13:19+0000\n"
 "Last-Translator: Aleksandar Vangelovski <aleksandarv@hbee.eu>\n"
-"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/mk/)\n"
+"Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/"
+"mk/)\n"
+"Language: mk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
-
-#. module: crm_voip
-#: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
-msgid ""
-"\n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"\n"
-"                    <p>Hello ${object.name},</p>\n"
-"\n"
-"                    <p>I just tried to call you.\n"
-"                        Can you please give me your availability in order to schedule a new call?</p>\n"
-"                    <p>Yours Sincerly</p>\n"
-"                    <p>${user.name}</p>\n"
-"\n"
-"                </div>\n"
-"            "
-msgstr "\n                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n                    <p>Здраво ${object.name},</p>\n\n                    <p>Штотуку пробав да ве добијам на телефон.\n                        Ќе бидете ли во можност да ме информирате за кое би било вашето слободно време да исконтактираме, за да можеме да закажеме нов телефонски повик?</p>\n                    <p>Поздрав</p>\n                    <p>${user.name}</p>\n\n                </div>\n            "
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_interrupted
 msgid ""
 "\n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
-"                    <p>Hello ${object.name},</p>\n"
+"<p>Hello ${object.partner_id.name},</p>\n"
 "\n"
-"                    <p>It seems that we have been interrupted during our conversation. Can you please give me your availability in order to schedule \n"
-"                        a new call? </p>\n"
-"                    <p>Yours Sincerly</p>\n"
-"                    <p>${user.name}</p>\n"
+"<p>It seems that we have been interrupted during our conversation about\n"
+"    '${object.name}'. Can you please give me your availability in order to "
+"schedule \n"
+"    a new call? </p>\n"
+"<p>Best regards,</p>"
+msgstr ""
+
+#. module: crm_voip
+#: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
+msgid ""
 "\n"
-"                </div>\n"
-"            "
-msgstr "\n                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n                    <p>Здраво ${object.name},</p>\n\n                    <p>Изгледа дека ни беше прекинат нашиот телефонски разговор.\n                        Ќе бидете ли во можност да ме информирате за кое би било вашето слободно време да исконтактираме, за да можеме да закажеме нов телефонски повик?</p>\n                    <p>Поздрав</p>\n                    <p>${user.name}</p>\n\n                </div>\n            "
+"<p>Hello ${object.partner_id.name},</p>\n"
+"<p>I just tried to call you concerning the subject '${object.name}'. Can "
+"you\n"
+"    please give me your availability in order to schedule a new call?</p>\n"
+"<p>Best regards,</p>"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_nbr
@@ -59,9 +51,11 @@ msgstr "# од случаи"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
-"'required':[('show_duration', '=',True)]}\">min(s)</span>"
-msgstr "<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':[('show_duration', '=',True)]}\">минута(и)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
+"[('show_duration', '=',True)]}\">min(s)</span>"
+msgstr ""
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
+"[('show_duration', '=',True)]}\">минута(и)</span>"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_voip_view
@@ -86,32 +80,41 @@ msgid "Assign To"
 msgstr "Додели на"
 
 #. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:111
+#, python-format
+msgid "Backspace"
+msgstr ""
+
+#. module: crm_voip
 #: model:ir.filters,name:crm_voip.filter_crm_phonecall_sales_team
 msgid "By Sales Team"
 msgstr "Според тим на продажба"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:349
-#: code:addons/crm_voip/static/src/js/crm_voip.js:366
-#: code:addons/crm_voip/static/src/js/crm_voip.js:374
-#: code:addons/crm_voip/static/src/js/crm_voip.js:391
-#: code:addons/crm_voip/static/src/js/crm_voip.js:496
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:81
+#: code:addons/crm_voip/static/src/js/crm_voip.js:415
+#: code:addons/crm_voip/static/src/js/crm_voip.js:426
+#: code:addons/crm_voip/static/src/js/crm_voip.js:443
+#: code:addons/crm_voip/static/src/js/crm_voip.js:451
+#: code:addons/crm_voip/static/src/js/crm_voip.js:468
+#: code:addons/crm_voip/static/src/js/crm_voip.js:575
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:83
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:124
 #, python-format
 msgid "Call"
 msgstr "Повик"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:87
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:89
 #, python-format
 msgid "Call All"
 msgstr "Повикај ги сите"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:88
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:90
 #, python-format
 msgid "Call Next One"
 msgstr "Повикај го следниот"
@@ -130,15 +133,16 @@ msgstr "Резиме на разговор"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:802
+#: code:addons/crm_voip/static/src/js/crm_voip.js:879
 #, python-format
 msgid "Calling "
 msgstr "Повикување"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:332
-#: code:addons/crm_voip/static/src/js/crm_voip.js:500
+#: code:addons/crm_voip/static/src/js/crm_voip.js:397
+#: code:addons/crm_voip/static/src/js/crm_voip.js:409
+#: code:addons/crm_voip/static/src/js/crm_voip.js:579
 #, python-format
 msgid "Calling..."
 msgstr "Повикување..."
@@ -157,7 +161,7 @@ msgstr "Откажи"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:50
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:48
 #, python-format
 msgid "Cancel the call"
 msgstr "Откажи го повикот"
@@ -184,7 +188,9 @@ msgstr "Категорија на телефонски повик"
 msgid ""
 "Changing the phone number will not change the phone numbers already in the "
 "call queue"
-msgstr "Мењањето на телефонскиот број нема да ги смени телефонските броеви кои што се веќе во редицата на повици."
+msgstr ""
+"Мењањето на телефонскиот број нема да ги смени телефонските броеви кои што "
+"се веќе во редицата на повици."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -198,14 +204,14 @@ msgstr "Кликнете за да го запишете описот на ед�
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:398
+#: code:addons/crm_voip/static/src/js/crm_voip.js:475
 #, python-format
 msgid "Click to unblock"
 msgstr "Кликнете да облокирате"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:73
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:74
 #, python-format
 msgid "Close the Panel"
 msgstr "Затворете го панелот"
@@ -265,7 +271,7 @@ msgstr "Рачно подесено времетраење"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:101
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:103
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 #, python-format
 msgid "Customer"
@@ -273,7 +279,7 @@ msgstr "Купувач"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:356
+#: code:addons/crm_voip/static/src/js/crm_voip.js:433
 #, python-format
 msgid "Customer unavailable"
 msgstr "Недостапен клиент"
@@ -304,7 +310,7 @@ msgstr "Опис..."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:133
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:153
 #, python-format
 msgid "Description:"
 msgstr "Опис:"
@@ -316,10 +322,17 @@ msgstr "Отфрли"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:7
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:5
 #, python-format
 msgid "Display Dialing Panel"
 msgstr "Прикажи панел на ѕвонење"
+
+#. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:68
+#, fuzzy, python-format
+msgid "Display Keypad"
+msgstr "Прикажи име"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_display_name
@@ -356,7 +369,14 @@ msgstr "Подеси го логот"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:145
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:110
+#, python-format
+msgid "Enter the number..."
+msgstr ""
+
+#. module: crm_voip
+#. openerp-web
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:165
 #, python-format
 msgid "Expected Revenue:"
 msgstr "Очекуван приход:"
@@ -373,12 +393,17 @@ msgid ""
 "on their phone calls. You can group or filter the information according to "
 "several criteria and drill down the information, by adding more groups in "
 "the report."
-msgstr "Од овој извештај, може да ја анализирате изведбата на вашиот продажен тим, врз основа на нивните телефонски повици. Може да ги групирате или филтрирате информациите во согласност со неколку критериуми и да ја drill down информацијата, со додавање на повеќе групи во извештајот."
+msgstr ""
+"Од овој извештај, може да ја анализирате изведбата на вашиот продажен тим, "
+"врз основа на нивните телефонски повици. Може да ги групирате или филтрирате "
+"информациите во согласност со неколку критериуми и да ја drill down "
+"информацијата, со додавање на повеќе групи во извештајот."
 
 #. module: crm_voip
 #: model:ir.model.fields,help:crm_voip.field_crm_phonecall_sequence
 msgid "Gives the sequence order when displaying a list of Phonecalls."
-msgstr "Го дава редот на секвенци при прикажувањето на листата на телефонски повици."
+msgstr ""
+"Го дава редот на секвенци при прикажувањето на листата на телефонски повици."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
@@ -388,7 +413,7 @@ msgstr "Групирај по"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:92
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:94
 #, python-format
 msgid "Hang Up"
 msgstr "Спушти"
@@ -445,7 +470,9 @@ msgstr "Во автоматски мод"
 msgid ""
 "In order to follow up on the call, you can trigger a request for\n"
 "          another call, a meeting or an opportunity."
-msgstr "За да можете да проследите телефонски повик, можете да приклучите барање \nза нов повик, состанок или можност."
+msgstr ""
+"За да можете да проследите телефонски повик, можете да приклучите барање \n"
+"за нов повик, состанок или можност."
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_lead_in_call_center_queue
@@ -497,8 +524,8 @@ msgstr "Lead/Можност"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/crm_voip.py:305
-#: code:addons/crm_voip/static/src/js/crm_voip.js:435
+#: code:addons/crm_voip/crm_voip.py:313
+#: code:addons/crm_voip/static/src/js/crm_voip.js:512
 #, python-format
 msgid "Log a call"
 msgstr "Најави повик"
@@ -567,7 +594,7 @@ msgstr "Датум на следна акција"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:139
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:159
 #, python-format
 msgid "Next Action:"
 msgstr "Наредна акција:"
@@ -579,7 +606,7 @@ msgstr "Следна активност"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:48
+#: code:addons/crm_voip/static/src/js/crm_voip.js:50
 #, python-format
 msgid "No opportunity linked"
 msgstr "Ниедна можност немаме поврзана"
@@ -606,11 +633,14 @@ msgid ""
 "Odoo allows you to log inbound calls on the fly to track the\n"
 "          history of the communication with a customer or to inform another\n"
 "          team member."
-msgstr "Odoo Ви овозможува да запишувате/внесувате доаѓачки повици\n набрзина со цел да ја следите историјата од комуникацијата со\n клиент или за да информирате друг член од тимот."
+msgstr ""
+"Odoo Ви овозможува да запишувате/внесувате доаѓачки повици\n"
+" набрзина со цел да ја следите историјата од комуникацијата со\n"
+" клиент или за да информирате друг член од тимот."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:102
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:104
 #, python-format
 msgid "Opportunity"
 msgstr "Можност"
@@ -709,7 +739,9 @@ msgstr "Телефонски повици"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Phone calls that are assigned to one of the sale teams I manage"
-msgstr "Телефонски повици кои се доделени на еден од тимовите за продажба кој го управувам"
+msgstr ""
+"Телефонски повици кои се доделени на еден од тимовите за продажба кој го "
+"управувам"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
@@ -720,7 +752,9 @@ msgstr "Телефонски повици кои се во состојба за
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid ""
 "Phone calls which are in to do state and Phone calls which receive no answer"
-msgstr "Телефонски повици кои се во “Да се направат“ состојба и телефонски повици кои што не добиле одговор"
+msgstr ""
+"Телефонски повици кои се во “Да се направат“ состојба и телефонски повици "
+"кои што не добиле одговор"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
@@ -749,10 +783,12 @@ msgstr "Планиран датум"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:469
+#: code:addons/crm_voip/static/src/js/crm_voip.js:547
 #, python-format
 msgid "Please check if a phone number is given for the current phonecall"
-msgstr "Ве молиме да проверете дали бил телефонски број даден за тековниот телефонски повик"
+msgstr ""
+"Ве молиме да проверете дали бил телефонски број даден за тековниот "
+"телефонски повик"
 
 #. module: crm_voip
 #: selection:sale.config.settings,mode:0
@@ -761,8 +797,8 @@ msgstr "Производство"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:65
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:70
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:63
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:71
 #, python-format
 msgid "Refresh the Panel"
 msgstr "Рефреширајте го панелот"
@@ -774,14 +810,14 @@ msgstr "Одстрани од редица на повици"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:47
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:45
 #, python-format
 msgid "Remove from the queue"
 msgstr "Одстрани од редицата на чекање"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:97
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:99
 #, python-format
 msgid "Reschedule Call"
 msgstr "Презакажи повик"
@@ -853,7 +889,7 @@ msgstr "Закажи телефонски повик"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:119
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:139
 #, python-format
 msgid "Scheduled Date:"
 msgstr "Закажана дата:"
@@ -877,7 +913,7 @@ msgstr "Барај телефонски повици"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:96
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:100
 #, python-format
 msgid "Send Email"
 msgstr "Испрати е-пошта"
@@ -900,7 +936,7 @@ msgstr "Специфичен датум"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:802
+#: code:addons/crm_voip/static/src/js/crm_voip.js:878
 #, python-format
 msgid "Start Calling"
 msgstr "Започни со повикување"
@@ -919,7 +955,7 @@ msgstr "Статус"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:91
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:93
 #, python-format
 msgid "Stop Automatic Call"
 msgstr "Прекини автоматски повик"
@@ -936,14 +972,16 @@ msgstr "URL-то на вашиот WebSocket"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:356
+#: code:addons/crm_voip/static/src/js/crm_voip.js:433
 #, python-format
 msgid "The customer is temporary unavailable. Please try later."
-msgstr "Клиентот е моментално недостапен. Ве молиме по некое време да се обидете повторно."
+msgstr ""
+"Клиентот е моментално недостапен. Ве молиме по некое време да се обидете "
+"повторно."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:469
+#: code:addons/crm_voip/static/src/js/crm_voip.js:547
 #, python-format
 msgid "The phonecall has no number"
 msgstr "Телефонскиот повик нема број"
@@ -954,7 +992,11 @@ msgid ""
 "The status is set to To Do, when a case is created.\n"
 "When the call is over, the status is set to Held.\n"
 "If the call is not applicable anymore, the status can be set to Cancelled."
-msgstr "Состојбата е подесена на Да Се Направи, кога случајот ќе Ви биде креиран.\nКога повикот ќе биде завршен, статусот ќе биде подесен на Завршено.\nДоколку повикот не е апликабилен повеќе, тогаш состојбата може да Ви биде подесена на Откажано."
+msgstr ""
+"Состојбата е подесена на Да Се Направи, кога случајот ќе Ви биде креиран.\n"
+"Кога повикот ќе биде завршен, статусот ќе биде подесен на Завршено.\n"
+"Доколку повикот не е апликабилен повеќе, тогаш состојбата може да Ви биде "
+"подесена на Откажано."
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -974,7 +1016,7 @@ msgstr "ДаСеНаправи"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:84
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:86
 #, python-format
 msgid "Toggle Dropdown"
 msgstr ""
@@ -986,7 +1028,7 @@ msgstr "Утре"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:93
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:95
 #, python-format
 msgid "Transfer"
 msgstr "Трансфер"
@@ -1003,7 +1045,7 @@ msgstr "Недоделено"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:29
+#: code:addons/crm_voip/static/src/js/crm_voip.js:31
 #, python-format
 msgid "Unknown"
 msgstr "Непознато"
@@ -1014,7 +1056,7 @@ msgid "VOIP Configuration"
 msgstr "VOIP конфигурација"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:499
+#: code:addons/crm_voip/crm_voip.py:507
 #, python-format
 msgid "Warning"
 msgstr "Внимание"
@@ -1025,16 +1067,18 @@ msgid "WebSocket"
 msgstr ""
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:500
+#: code:addons/crm_voip/crm_voip.py:508
 #, python-format
 msgid ""
 "Wrong configuration for the call. There is no external phone number "
 "configured"
-msgstr "Погрешна конфигурација на повикот. Нема никаков надворешен телефонски број конфигуриран."
+msgstr ""
+"Погрешна конфигурација на повикот. Нема никаков надворешен телефонски број "
+"конфигуриран."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/xml/crm_voip.xml:146
+#: code:addons/crm_voip/static/src/xml/crm_voip.xml:166
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 #, python-format
 msgid "at"
@@ -1064,11 +1108,6 @@ msgstr ""
 #: model:ir.model,name:crm_voip.model_crm_phonecall2phonecall
 msgid "crm.phonecall2phonecall"
 msgstr ""
-
-#. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.click_to_dial_field
-msgid "e.g. +32.81.81.37.00"
-msgstr "пр. +32.81.81.37.00"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -1116,3 +1155,75 @@ msgstr "префрли на друг надворешен телефон"
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "\n"
+#~ "                    <p>Hello ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>I just tried to call you.\n"
+#~ "                        Can you please give me your availability in order "
+#~ "to schedule a new call?</p>\n"
+#~ "                    <p>Yours Sincerly</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "\n"
+#~ "                    <p>Здраво ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>Штотуку пробав да ве добијам на телефон.\n"
+#~ "                        Ќе бидете ли во можност да ме информирате за кое "
+#~ "би било вашето слободно време да исконтактираме, за да можеме да закажеме "
+#~ "нов телефонски повик?</p>\n"
+#~ "                    <p>Поздрав</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+
+#~ msgid ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "                    <p>Hello ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>It seems that we have been interrupted during our "
+#~ "conversation. Can you please give me your availability in order to "
+#~ "schedule \n"
+#~ "                        a new call? </p>\n"
+#~ "                    <p>Yours Sincerly</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
+#~ "color: #FFF; \">\n"
+#~ "\n"
+#~ "                    <p>Здраво ${object.name},</p>\n"
+#~ "\n"
+#~ "                    <p>Изгледа дека ни беше прекинат нашиот телефонски "
+#~ "разговор.\n"
+#~ "                        Ќе бидете ли во можност да ме информирате за кое "
+#~ "би било вашето слободно време да исконтактираме, за да можеме да закажеме "
+#~ "нов телефонски повик?</p>\n"
+#~ "                    <p>Поздрав</p>\n"
+#~ "                    <p>${user.name}</p>\n"
+#~ "\n"
+#~ "                </div>\n"
+#~ "            "
+
+#~ msgid "e.g. +32.81.81.37.00"
+#~ msgstr "пр. +32.81.81.37.00"

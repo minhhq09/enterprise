@@ -1,50 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_sepa
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-18 10:15+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-11-10 21:57+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Danish (http://www.transifex.com/odoo/odoo-9/language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
-msgstr ""
-
-#. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:50
-#, python-format
-msgid ""
-"The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
-"configure it first."
-msgstr ""
-
-#. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:52
-#, python-format
-msgid ""
-"The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
-"pay via SEPA. Please configure it first."
-msgstr ""
-
-#. module: account_sepa
-#: code:addons/account_sepa/account_payment.py:61
-#, python-format
-msgid ""
-"The partner account '%s' requires a Bank Identification Code (BIC) to pay "
-"via SEPA. Please configure it first."
 msgstr ""
 
 #. module: account_sepa
@@ -127,7 +103,7 @@ msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:69
+#: code:addons/account_sepa/sepa_credit_transfer.py:76
 #, python-format
 msgid ""
 "In order to export a SEPA Credit Transfer file, please only select payments "
@@ -181,7 +157,7 @@ msgid "Payments"
 msgstr "Betalinger"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:67
+#: code:addons/account_sepa/sepa_credit_transfer.py:74
 #, python-format
 msgid ""
 "Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' "
@@ -230,12 +206,12 @@ msgstr ""
 msgid ""
 "Technical feature used during the file creation. A SEPA message is said to "
 "be 'generic' if it cannot be considered as a standard european credit "
-"transfer. That is if the bank journal is not in €, a transaction is not in €"
-" or a payee is not identified by an IBAN account number and a bank BIC."
+"transfer. That is if the bank journal is not in €, a transaction is not in € "
+"or a payee is not identified by an IBAN account number and a bank BIC."
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:306
+#: code:addons/account_sepa/sepa_credit_transfer.py:322
 #, python-format
 msgid ""
 "The account %s, linked to partner '%s', is not of type IBAN.\n"
@@ -243,7 +219,7 @@ msgid ""
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:74
+#: code:addons/account_sepa/sepa_credit_transfer.py:81
 #, python-format
 msgid ""
 "The account %s, of journal '%s', is not of type IBAN.\n"
@@ -251,10 +227,60 @@ msgid ""
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:260
+#: code:addons/account_sepa/account_payment.py:52
+#, python-format
+msgid ""
+"The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
+"pay via SEPA. Please configure it first."
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:277
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:124
+#, python-format
+msgid ""
+"The creditor bank account %s used in payment %s is not identified by a BIC"
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:126
+#, python-format
+msgid ""
+"The creditor bank account %s used in payment %s is not identified by an IBAN"
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:48
+#, python-format
+msgid ""
+"The generated payment file is not a generic SEPA credit transfer. Be aware "
+"that some banks may reject it because it is not implemented on their side.\n"
+"\n"
+"In particular, the reason why it this payment file is not a generic is the "
+"following:\n"
+"   "
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:50
+#, python-format
+msgid ""
+"The journal '%s' requires a proper IBAN account to pay via SEPA. Please "
+"configure it first."
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/account_payment.py:61
+#, python-format
+msgid ""
+"The partner account '%s' requires a Bank Identification Code (BIC) to pay "
+"via SEPA. Please configure it first."
 msgstr ""
 
 #. module: account_sepa
@@ -270,13 +296,19 @@ msgid ""
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:290
+#: code:addons/account_sepa/sepa_credit_transfer.py:122
+#, python-format
+msgid "The transaction %s is instructed in another currency than EUR"
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:306
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:167
+#: code:addons/account_sepa/sepa_credit_transfer.py:152
 #, python-format
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
@@ -284,15 +316,20 @@ msgid ""
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:77
+#: code:addons/account_sepa/sepa_credit_transfer.py:84
 #, python-format
 msgid "There is no bank account selected for payment '%s'"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:141
+#: code:addons/account_sepa/sepa_credit_transfer.py:150
 #, python-format
 msgid "Too many transactions for a single file."
+msgstr ""
+
+#. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_warning_message
+msgid "Warning"
 msgstr ""
 
 #. module: account_sepa
@@ -305,6 +342,12 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_initiating_party_name
 msgid "Your Company Name"
+msgstr ""
+
+#. module: account_sepa
+#: code:addons/account_sepa/sepa_credit_transfer.py:118
+#, python-format
+msgid "Your bank account is not labelled in EUR"
 msgstr ""
 
 #. module: account_sepa

@@ -22,7 +22,11 @@ class SaleSubscription(models.Model):
         inv_lines = super(SaleSubscription, self)._prepare_invoice_lines(fiscal_position_id)
 
         for line in inv_lines:
-            line[2]['asset_category_id'] = self.asset_category_id.id
+            if self.asset_category_id:
+                line[2]['asset_category_id'] = self.asset_category_id.id
+            elif line[2].get('product_id'):
+                Product = self.env['product.product'].browse([line[2]['product_id']])
+                line[2]['asset_category_id'] = Product.product_tmpl_id.deferred_revenue_category_id.id
 
         return inv_lines
 

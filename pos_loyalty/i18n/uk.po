@@ -1,40 +1,56 @@
+# #-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * pos_loyalty
-# 
+#
 # Translators:
 # Bohdan Lisnenko, 2016
+# Yaroslav Molochko <onorua@gmail.com>, 2016
+# #-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * pos_loyalty
+#
+# Translators:
+# Bohdan Lisnenko, 2016
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-05-14 15:57+0000\n"
 "Last-Translator: Bohdan Lisnenko\n"
-"Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/uk/)\n"
+"Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/"
+"uk/)\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: uk\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"#-#-#-#-#  uk.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_name
 msgid "An internal identification for the loyalty program configuration"
-msgstr ""
+msgstr "Внутрішній ідентифікатор конфігурації програми лояльності"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_name
 msgid "An internal identification for this loyalty program rule"
-msgstr ""
+msgstr "Внутрішній ідентифікатор правила програми лояльності"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_name
 msgid "An internal identification for this loyalty reward"
-msgstr ""
+msgstr "Внутрішній ідентифікатор для нагороди програми лояльності"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Category"
 msgstr "Category"
 
@@ -64,7 +80,7 @@ msgstr "Накопичення"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Discount"
 msgstr "Знижка"
 
@@ -81,12 +97,12 @@ msgid "Display Name"
 msgstr "Назва для відображення"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
 msgid "Does this rule affects products, or a category of products ?"
-msgstr ""
+msgstr "Це правило впливає на товари чи категорії товарів? "
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Gift"
 msgstr "Подарунок"
 
@@ -98,28 +114,28 @@ msgstr "Товар подарунку"
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_product
 msgid "How many loyalty points are given to the customer by product sold"
-msgstr ""
+msgstr "Скільки бонусів нараховується клієнту за покупку"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_currency
 msgid "How many loyalty points are given to the customer by sold currency"
-msgstr ""
+msgstr "Скільки бонусів нараховується клієнту відповідно до валюти покупки"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_order
 msgid ""
 "How many loyalty points are given to the customer for each sale or order"
-msgstr ""
+msgstr "Скільки бонусів нараховано клієнту за кожну покупку чи замовлення"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_pp_product
 msgid "How many points the product will earn per product ordered"
-msgstr ""
+msgstr "Скільки очок товар отримує за кожне замовлення товару"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_pp_currency
 msgid "How many points the product will earn per value sold"
-msgstr ""
+msgstr "Скільки очок товар отримує за кожен продаж"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_id
@@ -150,17 +166,10 @@ msgid "Last Updated on"
 msgstr "Останнє оновлення"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-msgid "Loyalty Points"
-msgstr "Бали лояльності"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
-#: model:ir.ui.view,arch_db:pos_loyalty.view_partner_property_form
 #: model:ir.ui.view,arch_db:pos_loyalty.view_pos_config_form
 msgid "Loyalty Program"
 msgstr "Програма лояльності"
@@ -184,7 +193,9 @@ msgstr "Програми лояльності"
 msgid ""
 "Loyalty Programs allows you customer to earn points\n"
 "                    and rewards when doing business at your shops."
-msgstr "Програма лояльності дозволяє вашим клієнтам заробляти бали\nта отримувати нагороди при здійсненні покупок у ваших магазинах."
+msgstr ""
+"Програма лояльності дозволяє вашим клієнтам заробляти бали\n"
+"та отримувати нагороди при здійсненні покупок у ваших магазинах."
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_reward_form
@@ -197,8 +208,16 @@ msgid "Loyalty Rule"
 msgstr "Правило лояльності"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+#, fuzzy
+msgid "Loyalty points"
+msgstr "Бали лояльності"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-msgid "Minimum Points"
+#, fuzzy
+msgid "Minimum points"
 msgstr "Мінімум балів"
 
 #. module: pos_loyalty
@@ -213,14 +232,15 @@ msgid "Partner"
 msgstr "Партнер"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-msgid "Point Cost"
-msgstr "Вартість балу"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
 msgid "Point Product"
 msgstr "Товар балів"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+#, fuzzy
+msgid "Point cost"
+msgstr "Вартість балу"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_pos_order
@@ -250,9 +270,23 @@ msgstr "Витрачено балів"
 
 #. module: pos_loyalty
 #. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
+#, fuzzy, python-format
+msgid "Points Spent:"
+msgstr "Витрачено балів"
+
+#. module: pos_loyalty
+#. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:54
 #, python-format
 msgid "Points Won"
+msgstr "Отримано балів"
+
+#. module: pos_loyalty
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:100
+#, fuzzy, python-format
+msgid "Points Won:"
 msgstr "Отримано балів"
 
 #. module: pos_loyalty
@@ -273,12 +307,12 @@ msgid "Points per product"
 msgstr "Балів за 1 товар"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Product"
 msgstr "Товар"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Resale"
 msgstr "Перепродаж"
 
@@ -291,6 +325,12 @@ msgstr "Назва нагороди"
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid "Reward the customer with gifts or discounts for loyalty points"
 msgstr "Нагородіть клієнта подарунками або знижками за бали лояльності"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
+#, fuzzy
+msgid "Reward type"
+msgstr "Назва нагороди"
 
 #. module: pos_loyalty
 #. openerp-web
@@ -307,6 +347,12 @@ msgid "Rule Name"
 msgstr "Назва правила"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
+#, fuzzy
+msgid "Rule type"
+msgstr "Назва правила"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rule_ids
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid "Rules"
@@ -317,7 +363,9 @@ msgstr "Правила"
 msgid ""
 "Rules change how loyalty points are earned for specific products or "
 "categories"
-msgstr "Правила встановлюють як саме бали заробляються за відповідні товари або категорії товарів"
+msgstr ""
+"Правила встановлюють як саме бали заробляються за відповідні товари або "
+"категорії товарів"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_category_id
@@ -332,17 +380,18 @@ msgstr "Цільовий товар"
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_loyalty_program_id
 msgid "The Loyalty Program this exception belongs to"
-msgstr ""
+msgstr "Програма Лояльності до якої належить це виключення"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_loyalty_program_id
 msgid "The Loyalty Program this reward belongs to"
-msgstr ""
+msgstr "Програма Лояльності до якої належить ця винагорода"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_pos_order_loyalty_points
 msgid "The amount of Loyalty points the customer won or lost with this order"
-msgstr "Кількість балів лояльності, які клієнт отримав чи витратив за це замовлення"
+msgstr ""
+"Кількість балів лояльності, які клієнт отримав чи витратив за це замовлення"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_category_id
@@ -351,8 +400,9 @@ msgstr "Категорія, на яку діє це правило"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-msgid "The cost of the reward per monetary unit discounted"
-msgstr "Вартість нагороди за знижку на одиницю валюти"
+#, fuzzy
+msgid "The cost of the reward"
+msgstr "Тип нагороди"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_discount
@@ -360,29 +410,31 @@ msgid "The discount percentage"
 msgstr "Відсоток знижки"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:56
+#, python-format
 msgid "The discount product field is mandatory for discount rewards"
 msgstr "Необхідно вказати товар знижки для винагороди у вигляді знижки"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:50
+#, python-format
 msgid "The gift product field is mandatory for gift rewards"
 msgstr "Необхідно вказати товар подарунку для винагороди у вигляді подарунку"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_rounding
 msgid "The loyalty point amounts are rounded to multiples of this value."
-msgstr ""
+msgstr "Сумма очок лояльності округлених до кратного цьому значенню. "
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_res_partner_loyalty_points
 msgid "The loyalty points the user won as part of a Loyalty Program"
-msgstr ""
+msgstr "Очки лояльності користувач виграв в рамках програми лояльності. "
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_pos_config_loyalty_id
 msgid "The loyalty program used by this point_of_sale"
-msgstr ""
+msgstr "Програма лояльності що працює в цій точці продажу"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_minimum_points
@@ -390,9 +442,11 @@ msgid ""
 "The minimum amount of points the customer must have to qualify for this "
 "reward"
 msgstr ""
+"Мінімум очок лояльності клієнт повинен мати, щоб отримати цю винагороду"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:62
+#, python-format
 msgid "The point product field is mandatory for point resale rewards"
 msgstr ""
 
@@ -400,16 +454,17 @@ msgstr ""
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_cumulative
 msgid "The points won from this rule will be won in addition to other rules"
 msgstr ""
+"Очки отримані від цього правила будуть виграні на додаток до інших правил"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_product_id
 msgid "The product affected by the rule"
-msgstr ""
+msgstr "Товар на який впливає це правило"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_gift_product_id
 msgid "The product given as a reward"
-msgstr ""
+msgstr "Товар наданий як нагорода"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_product_id
@@ -419,12 +474,12 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_discount_product_id
 msgid "The product used to apply discounts"
-msgstr ""
+msgstr "Товар використаний для знижки"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
 msgid "The type of the reward"
-msgstr ""
+msgstr "Тип нагороди"
 
 #. module: pos_loyalty
 #. openerp-web
@@ -434,10 +489,11 @@ msgid "Total Points"
 msgstr "Всього балів"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
-msgid "Type"
-msgstr "Тип"
+#. openerp-web
+#: code:addons/pos_loyalty/static/src/xml/loyalty.xml:122
+#, fuzzy, python-format
+msgid "Total Points:"
+msgstr "Всього балів"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
@@ -458,3 +514,9 @@ msgstr "loyalty.rule"
 #: model:ir.model,name:pos_loyalty.model_pos_config
 msgid "pos.config"
 msgstr "pos.config"
+
+#~ msgid "The cost of the reward per monetary unit discounted"
+#~ msgstr "Вартість нагороди за знижку на одиницю валюти"
+
+#~ msgid "Type"
+#~ msgstr "Тип"

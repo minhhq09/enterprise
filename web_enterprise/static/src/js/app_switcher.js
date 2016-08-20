@@ -23,7 +23,7 @@ function is_mobile() {
 var AppSwitcher = Widget.extend({
     template: 'AppSwitcher',
     events: {
-        'input input': function(e) {
+        'input input.o_menu_search_input': function(e) {
             if(!e.target.value) {
                 this.state = this.get_initial_state();
                 this.state.is_searching = true;
@@ -167,7 +167,7 @@ var AppSwitcher = Widget.extend({
                 is_searching: true,
             });
         }
-        if ('focus' in data) {
+        if (this.state.focus !== null && 'focus' in data) {
             var state = this.state;
             var app_nbr = state.apps.length;
             var new_index = data.focus + (state.focus || 0);

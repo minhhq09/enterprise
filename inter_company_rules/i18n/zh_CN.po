@@ -1,28 +1,41 @@
+# #-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * inter_company_rules
-# 
+#
 # Translators:
 # fausthuang, 2016
 # Gary Wei <Gary.wei@elico-corp.com>, 2015-2016
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
 # Liping Wang <lynn.config@gmail.com>, 2015
+# #-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * inter_company_rules
+#
+# Translators:
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-06-16 05:40+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/"
+"zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
+"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:86
+#: code:addons/inter_company_rules/models/account_invoice.py:84
 #, python-format
 msgid " Invoice: "
 msgstr "发票"
@@ -48,12 +61,12 @@ msgid "Companies"
 msgstr "公司"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/purchase_order.py:82
 #: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
-"Configure correct warehouse for company(%s) from Menu: "
-"Settings/Users/Companies"
+"Configure correct warehouse for company(%s) from Menu: Settings/Users/"
+"Companies"
 msgstr "在菜单:设置/用户/公司中,为公司(%s)配置正确的仓库"
 
 #. module: inter_company_rules
@@ -80,13 +93,6 @@ msgid "Create Sale Orders when buying to this company"
 msgstr "在向该公司购买的时候创建销售订单"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
-msgid ""
-"Default value to set on Purchase Orders that will be created based on Sale "
-"Orders made to this company"
-msgstr "在本公司销售订单的基础上建立的采购订单的默认值"
-
-#. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
 msgid ""
 "Default value to set on Purchase Orders that will be created based on Sale "
@@ -94,25 +100,39 @@ msgid ""
 msgstr "在对于该公司销售订单的基础上建立的采购订单的默认值"
 
 #. module: inter_company_rules
+#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
+msgid ""
+"Default value to set on Purchase(Sales) Orders that will be created based on "
+"Sale(Purchase) Orders made to this company"
+msgstr ""
+
+#. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
-"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
-" e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr "在编码发票(或退款)给这家公司的时候生成客户/供应商的账单(退款)。\n例如：在该公司为供应商与供应商账单的时候，生成客户发票时。"
+"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or "
+"refunds) made to this company.\n"
+" e.g: Generate a Customer Invoice when a Vendor Bill with this company as "
+"vendor is created."
+msgstr ""
+"在编码发票(或退款)给这家公司的时候生成客户/供应商的账单(退款)。\n"
+"例如：在该公司为供应商与供应商账单的时候，生成客户发票时。"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is"
-" created."
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created."
 msgstr "在该公司作为客户时的销售订单生成一张采购订单"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is created.\n"
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created.\n"
 " The intercompany user must at least be Purchase User."
-msgstr "在该公司作为客户时的销售订单生成一张采购订单\n该公司间用户至少是一个采购用户"
+msgstr ""
+"在该公司作为客户时的销售订单生成一张采购订单\n"
+"该公司间用户至少是一个采购用户"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_so_from_po
@@ -124,9 +144,12 @@ msgstr "在该公司作为供应商的采购订单生成销售订单"
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_so_from_po
 msgid ""
-"Generate a Sale Order when a Purchase Order with this company as vendor is created.\n"
+"Generate a Sale Order when a Purchase Order with this company as vendor is "
+"created.\n"
 " The intercompany user must at least be Sale User."
-msgstr "在该公司作为供应商的采购订单生成销售订单\n该公司间用户至少是一个销售用户"
+msgstr ""
+"在该公司作为供应商的采购订单生成销售订单\n"
+"该公司间用户至少是一个销售用户"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_intercompany_user_id
@@ -151,7 +174,7 @@ msgid "Invoice"
 msgstr "发票"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:77
+#: code:addons/inter_company_rules/models/account_invoice.py:75
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr " 请定义%s日记账到该公司\"%s\" (id:%d)."
@@ -163,7 +186,7 @@ msgid "Provide at least one user for inter company relation for % "
 msgstr "请为%提供至少一个公司间用户"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:44
+#: code:addons/inter_company_rules/models/account_invoice.py:40
 #: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
@@ -232,8 +255,12 @@ msgid "Source Sale Order"
 msgstr "原始销售订单"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
+msgid "Warehouse"
+msgstr "仓库"
+
+#. module: inter_company_rules
+#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 msgid "Warehouse For Purchase Orders"
 msgstr "采购订单仓库"
 
@@ -247,8 +274,8 @@ msgstr "当该公司的销售订单或者采购订单由公司间的规则创建
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_validation
 msgid ""
-"When a Sale Order or a Purchase Order is created by a multi company rule for"
-" this company, it will automatically validate it"
+"When a Sale Order or a Purchase Order is created by a multi company rule for "
+"this company, it will automatically validate it"
 msgstr "当该公司的销售订单或者采购订单由公司间的规则创建，它就会自动验证它"
 
 #. module: inter_company_rules
@@ -264,11 +291,21 @@ msgstr "因为销售价格表和采购价格表的币种不一致，所以不能
 #, python-format
 msgid ""
 "You cannot select to create invoices based on other invoices\n"
-"                    simultaneously with another option ('Create Sale Orders when buying to this\n"
-"                    company' or 'Create Purchase Orders when selling to this company')!"
-msgstr "您不能选择以其他发票为基础创建发票\n另一个选项(’创建销售订单时在向这家公司购买”或“创建采购订单时在向这家公司销售)！"
+"                    simultaneously with another option ('Create Sale Orders "
+"when buying to this\n"
+"                    company' or 'Create Purchase Orders when selling to this "
+"company')!"
+msgstr ""
+"您不能选择以其他发票为基础创建发票\n"
+"另一个选项(’创建销售订单时在向这家公司购买”或“创建采购订单时在向这家公司销"
+"售)！"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_base_config_settings
 msgid "base.config.settings"
 msgstr "base.config.settings"
+
+#~ msgid ""
+#~ "Default value to set on Purchase Orders that will be created based on "
+#~ "Sale Orders made to this company"
+#~ msgstr "在本公司销售订单的基础上建立的采购订单的默认值"

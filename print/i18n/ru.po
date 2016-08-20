@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-# 
+#
 # Translators:
 # Denis Trepalin <zekarious@gmail.com>, 2015
 # SV <svilij@yahoo.com>, 2015
@@ -9,15 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2015-12-25 21:26+0000\n"
 "Last-Translator: SV <svilij@yahoo.com>\n"
 "Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ru\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: print
 #: model:mail.template,body_html:print.print_user_notify_failed_email_template
@@ -26,15 +28,20 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" "
+"documents, some mistakes appear. Here is a list of the failed Print Order "
+"you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can "
+"find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
-"                                        ${print_order_id}    |    ${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx."
+"get('print_errors'):\n"
+"                                        ${print_order_id}    |    "
+"${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -225,6 +232,7 @@ msgstr "Последний раз изменено"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
 #: model:ir.model.fields,field_description:print.field_print_mixin_print_sent_date
+#: model:ir.model.fields,field_description:print.field_sale_order_print_sent_date
 msgid "Last Postal Sent Date"
 msgstr "Последняя Дата Почтового Отправления"
 
@@ -430,12 +438,14 @@ msgstr "Вернуть в черновики"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
-msgid "Ressource ID"
+#, fuzzy
+msgid "Resource ID"
 msgstr "ID ресурса"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
-msgid "Ressource Model"
+#, fuzzy
+msgid "Resource Model"
 msgstr "Модель Ресурса"
 
 #. module: print
@@ -522,15 +532,19 @@ msgstr "Тест"
 msgid ""
 "The document has no associated PDF : you have to give select an Attachment "
 "file, or set up the Object ID and Model Name fields."
-msgstr "Документ не имеет связанного PDF: вы должны дать выбрать  Приложеный файл, или настроить ID объекта и название модели поля."
+msgstr ""
+"Документ не имеет связанного PDF: вы должны дать выбрать  Приложеный файл, "
+"или настроить ID объекта и название модели поля."
 
 #. module: print
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report"
-" action (ir.actions.report.xml) for the model %s."
-msgstr "Документ, который вы хотите распечатать и отправить не для печати. Там нет действия отчета (ir.actions.report.xml) для модели%s."
+"The document you want to print and send is not printable. There is no report "
+"action (ir.actions.report.xml) for the model %s."
+msgstr ""
+"Документ, который вы хотите распечатать и отправить не для печати. Там нет "
+"действия отчета (ir.actions.report.xml) для модели%s."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:61
@@ -544,9 +558,14 @@ msgstr "Документ, который вы хотите отправить с
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
-"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
-msgstr "Cчет-фактура была отправлена по почте с поставщиком %(provider_name)s по следующему адресу. <br/><br/> %(partner_name)s <br/> %(partner_street)s <br/> %(partner_city)s %(partner_zip)s <br/>%(partner_country)sprovider_name<i>%s</i>"
+"%(partner_street)s <br/> %(partner_city)s "
+"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
+"%s</i>"
+msgstr ""
+"Cчет-фактура была отправлена по почте с поставщиком %(provider_name)s по "
+"следующему адресу. <br/><br/> %(partner_name)s <br/> %(partner_street)s <br/"
+"> %(partner_city)s %(partner_zip)s <br/>%(partner_country)sprovider_name<i>"
+"%s</i>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
@@ -556,7 +575,9 @@ msgstr "Обновить"
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "When the error is resolved, please click on 'Reset to draft'."
-msgstr "Когда ошибка будет устранена, пожалуйста, нажмите на кнопку \"Сброс в черновик."
+msgstr ""
+"Когда ошибка будет устранена, пожалуйста, нажмите на кнопку \"Сброс в "
+"черновик."
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_zip

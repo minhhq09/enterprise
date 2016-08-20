@@ -1,7 +1,7 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_plaid
-# 
+#
 # Translators:
 # Anja Funk <anja.funk@afimage.de>, 2015
 # Ralf Hilgenstock <rh@dialoge.info>, 2016
@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-01 06:30+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-01-16 19:27+0000\n"
 "Last-Translator: Ralf Hilgenstock <rh@dialoge.info>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_plaid
@@ -25,25 +25,21 @@ msgid "Access Token"
 msgstr "Zugriffs-Token"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:52
-#: code:addons/account_plaid/models/plaid.py:63
+#: code:addons/account_plaid/models/plaid.py:72
+#: code:addons/account_plaid/models/plaid.py:74
+#: code:addons/account_plaid/models/plaid.py:89
 #, python-format
 msgid "An error has occurred while trying to connect to plaid service"
 msgstr "Beim Verbindungsaufbau zum plaid Service ist ein Fehler aufgetreten."
 
 #. module: account_plaid
-#: model:ir.model,name:account_plaid.model_online_account
-msgid "Email Thread"
-msgstr "E-Mail Thread"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:129
+#: code:addons/account_plaid/models/plaid.py:155
 #, python-format
 msgid "Error in synchronization"
 msgstr "Fehler in der Synchronisation"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:136
+#: code:addons/account_plaid/models/plaid.py:162
 #, python-format
 msgid "Error with Plaid.com"
 msgstr "Fehler auf Plaid.com"
@@ -64,11 +60,6 @@ msgid "Plaid Account"
 msgstr "Plaid Konto"
 
 #. module: account_plaid
-#: model:ir.ui.view,arch_db:account_plaid.account_config_settings_view_inherit_plaid
-msgid "Plaid Configuration"
-msgstr "Plaid Konfiguration"
-
-#. module: account_plaid
 #: model:ir.model.fields,field_description:account_plaid.field_account_config_settings_plaid_id
 msgid "Plaid ID"
 msgstr "Plaid ID"
@@ -79,27 +70,33 @@ msgid "Plaid Secret"
 msgstr "Plaid Secret"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:130
+#: code:addons/account_plaid/models/plaid.py:156
 #, python-format
 msgid ""
-"The synchronization of the journal %s with the plaid account %s has "
-"failed.<br>The error message is :<br>%s"
-msgstr "Der Abgleich vom Journal mit dem plaid Konto ist fehlgeschlagen.<br>Die Fehlermeldung lautet:<br>%s"
+"The synchronization of the journal %s with the plaid account %s has failed."
+"<br>The error message is :<br>%s"
+msgstr ""
+"Der Abgleich vom Journal mit dem plaid Konto ist fehlgeschlagen.<br>Die "
+"Fehlermeldung lautet:<br>%s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:137
+#: code:addons/account_plaid/models/plaid.py:163
 #, python-format
 msgid ""
 "The synchronization with Plaid.com failed. Please check the error : <br> %s"
-msgstr "Der Abgleich mit Plaid.com ist fehlgeschlagen. Bitte prüfen Sie die Fehlermeldung : <br> %s"
+msgstr ""
+"Der Abgleich mit Plaid.com ist fehlgeschlagen. Bitte prüfen Sie die "
+"Fehlermeldung : <br> %s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:38
+#: code:addons/account_plaid/models/plaid.py:57
 #, python-format
 msgid ""
 "You haven't configure your plaid account, please go to accounting/settings "
 "to configure it"
-msgstr "Sie haben Ihr plaid Konto nicht konfiguriert, bitte gehen Sie zu Finanzen/Einstellungen zum konfigurieren des Kontos"
+msgstr ""
+"Sie haben Ihr plaid Konto nicht konfiguriert, bitte gehen Sie zu Finanzen/"
+"Einstellungen zum konfigurieren des Kontos"
 
 #. module: account_plaid
 #: model:ir.model,name:account_plaid.model_account_config_settings
@@ -112,6 +109,18 @@ msgid "account.journal.onlinesync.config"
 msgstr "account.journal.onlinesync.config"
 
 #. module: account_plaid
+#: model:ir.model,name:account_plaid.model_online_account
+#, fuzzy
+msgid "online.account"
+msgstr "Online Konto"
+
+#. module: account_plaid
 #: model:ir.model,name:account_plaid.model_online_institution
 msgid "online.institution"
 msgstr "online.institution"
+
+#~ msgid "Email Thread"
+#~ msgstr "E-Mail Thread"
+
+#~ msgid "Plaid Configuration"
+#~ msgstr "Plaid Konfiguration"

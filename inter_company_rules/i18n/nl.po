@@ -1,27 +1,41 @@
+# #-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * inter_company_rules
-# 
+#
 # Translators:
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2015
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
+# #-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * inter_company_rules
+#
+# Translators:
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2016-01-11 16:11+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
-"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: nl\n"
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:86
+#: code:addons/inter_company_rules/models/account_invoice.py:84
 #, python-format
 msgid " Invoice: "
 msgstr "Factuur:"
@@ -47,13 +61,15 @@ msgid "Companies"
 msgstr "Bedrijven"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/purchase_order.py:82
 #: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid ""
-"Configure correct warehouse for company(%s) from Menu: "
-"Settings/Users/Companies"
-msgstr "Configureer een correct magazijn voor het bedrijf (%s) vanuit het menu: Instellingen/bedrijven/bedrijven"
+"Configure correct warehouse for company(%s) from Menu: Settings/Users/"
+"Companies"
+msgstr ""
+"Configureer een correct magazijn voor het bedrijf (%s) vanuit het menu: "
+"Instellingen/bedrijven/bedrijven"
 
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
@@ -64,7 +80,8 @@ msgstr "Maak factuur/credit wanneer u een factuur/credit encodeerd"
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
 "Create Invoices/Refunds when encoding invoices/refunds made to this company"
-msgstr "Maak factuur/credit wanneer u een factuur/credit encodeerd naar dit bedrijf"
+msgstr ""
+"Maak factuur/credit wanneer u een factuur/credit encodeerd naar dit bedrijf"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
@@ -79,53 +96,73 @@ msgid "Create Sale Orders when buying to this company"
 msgstr "Maak verkooporders wanneer u inkoopt voor dit bedrijf"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
-msgid ""
-"Default value to set on Purchase Orders that will be created based on Sale "
-"Orders made to this company"
-msgstr "Standaardwaarde om in te stellen op inkooporders die worden aangemaakt op basis van de verkooporders gemaakt voor dit bedrijf"
-
-#. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
 msgid ""
 "Default value to set on Purchase Orders that will be created based on Sale "
 "Orders made to this company."
-msgstr "Standaardwaarde om in te stellen op inkooporders die worden aangemaakt op basis van de verkooporders gemaakt voor dit bedrijf"
+msgstr ""
+"Standaardwaarde om in te stellen op inkooporders die worden aangemaakt op "
+"basis van de verkooporders gemaakt voor dit bedrijf"
+
+#. module: inter_company_rules
+#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
+msgid ""
+"Default value to set on Purchase(Sales) Orders that will be created based on "
+"Sale(Purchase) Orders made to this company"
+msgstr ""
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_generate_invoices
 msgid ""
-"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or refunds) made to this company.\n"
-" e.g: Generate a Customer Invoice when a Vendor Bill with this company as vendor is created."
-msgstr "Genereer klant/leverancier facturen (en credits) wanneer facturen (of terugbetalingen) worden gedecodeerd voor dit bedrijf.\nBv: Genereer een klantenfactuur wanneer een leveranciersfactuur met dit bedrijf als leverancier is aangemaakt."
+"Generate Customer/Vendor Bills (and refunds) when encoding invoices (or "
+"refunds) made to this company.\n"
+" e.g: Generate a Customer Invoice when a Vendor Bill with this company as "
+"vendor is created."
+msgstr ""
+"Genereer klant/leverancier facturen (en credits) wanneer facturen (of "
+"terugbetalingen) worden gedecodeerd voor dit bedrijf.\n"
+"Bv: Genereer een klantenfactuur wanneer een leveranciersfactuur met dit "
+"bedrijf als leverancier is aangemaakt."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is"
-" created."
-msgstr "Genereer een inkooporder wanneer een verkooporder voor dit bedrijf als klant is aangemaakt."
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created."
+msgstr ""
+"Genereer een inkooporder wanneer een verkooporder voor dit bedrijf als klant "
+"is aangemaakt."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_po_from_so
 msgid ""
-"Generate a Purchase Order when a Sale Order with this company as customer is created.\n"
+"Generate a Purchase Order when a Sale Order with this company as customer is "
+"created.\n"
 " The intercompany user must at least be Purchase User."
-msgstr "Genereer een inkooporder wanneer een verkooporder met dit bedrijf als klant is gedefinieerd.\nDe inter-bedrijf gebruiker moet minimaal een inkoopgebruiker zijn."
+msgstr ""
+"Genereer een inkooporder wanneer een verkooporder met dit bedrijf als klant "
+"is gedefinieerd.\n"
+"De inter-bedrijf gebruiker moet minimaal een inkoopgebruiker zijn."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_so_from_po
 msgid ""
 "Generate a Sale Order when a Purchase Order with this company as vendor is "
 "created."
-msgstr "Genereer een verkooporder wanneer een inkooporder met dit bedrijf als leverancier is aangemaakt."
+msgstr ""
+"Genereer een verkooporder wanneer een inkooporder met dit bedrijf als "
+"leverancier is aangemaakt."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_so_from_po
 msgid ""
-"Generate a Sale Order when a Purchase Order with this company as vendor is created.\n"
+"Generate a Sale Order when a Purchase Order with this company as vendor is "
+"created.\n"
 " The intercompany user must at least be Sale User."
-msgstr "Genereer een verkooporder wanneer een inkooporder met dit bedrijf als leverancier is aangemaakt.\nDe inter-bedrijf gebruiker moet minimaal een verkoopgebruiker zijn."
+msgstr ""
+"Genereer een verkooporder wanneer een inkooporder met dit bedrijf als "
+"leverancier is aangemaakt.\n"
+"De inter-bedrijf gebruiker moet minimaal een verkoopgebruiker zijn."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_intercompany_user_id
@@ -137,7 +174,8 @@ msgstr "Inter-bedrijf gebruiker"
 #: code:addons/inter_company_rules/models/sale_order.py:46
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
-msgstr "Inter-bedrijf gebruiker of bedrijf %s heeft niet genoeg toegangsrechten"
+msgstr ""
+"Inter-bedrijf gebruiker of bedrijf %s heeft niet genoeg toegangsrechten"
 
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
@@ -146,11 +184,16 @@ msgstr "Inter-bedrijf regels"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_account_invoice
+#, fuzzy
 msgid "Invoice"
-msgstr "Factuuradres"
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Factuuradres\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Factuur"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:77
+#: code:addons/inter_company_rules/models/account_invoice.py:75
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr "Definieer %s dagboek voor dit bedrijf; \"%s\" (id:%d) aub."
@@ -162,7 +205,7 @@ msgid "Provide at least one user for inter company relation for % "
 msgstr "Voorzie minimaal één gebruiker voor inter-bedrijf relatie voor %"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:44
+#: code:addons/inter_company_rules/models/account_invoice.py:40
 #: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
@@ -177,7 +220,9 @@ msgstr "Inkooporder"
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_intercompany_user_id
 msgid ""
 "Responsible user for creation of documents triggered by intercompany rules."
-msgstr "Verantwoordelijke gebruiker voor het aanmaken van documenten die afgaan bij inter-bedrijfsregels."
+msgstr ""
+"Verantwoordelijke gebruiker voor het aanmaken van documenten die afgaan bij "
+"inter-bedrijfsregels."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
@@ -197,8 +242,13 @@ msgstr "Verkoop/inkooporders automatische validatie"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_sale_order
+#, fuzzy
 msgid "Sales Order"
-msgstr "Verkooporders"
+msgstr ""
+"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Verkooporders\n"
+"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Verkooporder"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_company_id
@@ -213,7 +263,9 @@ msgstr "Selecteer bedrijf om inter-bedrijfsregels op te zetten."
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_rule_type
 msgid "Select the type to setup inter company rules in selected company."
-msgstr "Selecteer de soort om op te zetten voor inter-bedrijf regels in het geselecteerde bedrijf."
+msgstr ""
+"Selecteer de soort om op te zetten voor inter-bedrijf regels in het "
+"geselecteerde bedrijf."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
@@ -231,8 +283,12 @@ msgid "Source Sale Order"
 msgstr "Bron verkooporder"
 
 #. module: inter_company_rules
-#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
+msgid "Warehouse"
+msgstr "Magazijn"
+
+#. module: inter_company_rules
+#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 msgid "Warehouse For Purchase Orders"
 msgstr "Magazijn voor inkooporders"
 
@@ -241,14 +297,20 @@ msgstr "Magazijn voor inkooporders"
 msgid ""
 "When a Sale Order or a Purchase Order is created by a multi\n"
 "            company rule for this company, it will automatically validate it."
-msgstr "Wanneer een verkooporder of inkooporder is aangemaakt door een multi-bedrijfsregel\nvoor dit bedrijf wordt het automatisch gevalideerd."
+msgstr ""
+"Wanneer een verkooporder of inkooporder is aangemaakt door een multi-"
+"bedrijfsregel\n"
+"voor dit bedrijf wordt het automatisch gevalideerd."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_validation
 msgid ""
-"When a Sale Order or a Purchase Order is created by a multi company rule for"
-" this company, it will automatically validate it"
-msgstr "Wanneer een verkooporder of inkooporder is aangemaakt door een multi-bedrijfsregel\nvoor dit bedrijf wordt het automatisch gevalideerd."
+"When a Sale Order or a Purchase Order is created by a multi company rule for "
+"this company, it will automatically validate it"
+msgstr ""
+"Wanneer een verkooporder of inkooporder is aangemaakt door een multi-"
+"bedrijfsregel\n"
+"voor dit bedrijf wordt het automatisch gevalideerd."
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/purchase_order.py:47
@@ -256,18 +318,33 @@ msgstr "Wanneer een verkooporder of inkooporder is aangemaakt door een multi-bed
 msgid ""
 "You cannot create SO from PO because sale price list currency is different "
 "than purchase price list currency."
-msgstr "U kan geen SO of PO aanmaken omdat de valuta van de verkoopprijslijst anders is dan de valuta van de inkoopprijslijst."
+msgstr ""
+"U kan geen SO of PO aanmaken omdat de valuta van de verkoopprijslijst anders "
+"is dan de valuta van de inkoopprijslijst."
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/res_company.py:32
 #, python-format
 msgid ""
 "You cannot select to create invoices based on other invoices\n"
-"                    simultaneously with another option ('Create Sale Orders when buying to this\n"
-"                    company' or 'Create Purchase Orders when selling to this company')!"
-msgstr "U kan niet facturen aan maken op basis van andere facturen\nterwijl u simultaan een andere optie heeft aanstaan ('Maak verkooporders wanneer u koopt voor dit\nbedrijf' of 'Maak inkooporders wanneer u verkoopt aan dit bedrijf')!"
+"                    simultaneously with another option ('Create Sale Orders "
+"when buying to this\n"
+"                    company' or 'Create Purchase Orders when selling to this "
+"company')!"
+msgstr ""
+"U kan niet facturen aan maken op basis van andere facturen\n"
+"terwijl u simultaan een andere optie heeft aanstaan ('Maak verkooporders "
+"wanneer u koopt voor dit\n"
+"bedrijf' of 'Maak inkooporders wanneer u verkoopt aan dit bedrijf')!"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_base_config_settings
 msgid "base.config.settings"
 msgstr "base.config.settings"
+
+#~ msgid ""
+#~ "Default value to set on Purchase Orders that will be created based on "
+#~ "Sale Orders made to this company"
+#~ msgstr ""
+#~ "Standaardwaarde om in te stellen op inkooporders die worden aangemaakt op "
+#~ "basis van de verkooporders gemaakt voor dit bedrijf"

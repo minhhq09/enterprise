@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~11e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 09:22+0000\n"
-"PO-Revision-Date: 2015-10-09 09:22+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-19 11:34+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:86
+#: code:addons/inter_company_rules/models/account_invoice.py:84
 #, python-format
 msgid " Invoice: "
 msgstr ""
@@ -42,7 +42,7 @@ msgid "Companies"
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/purchase_order.py:81
+#: code:addons/inter_company_rules/models/purchase_order.py:82
 #: code:addons/inter_company_rules/models/sale_order.py:77
 #, python-format
 msgid "Configure correct warehouse for company(%s) from Menu: Settings/Users/Companies"
@@ -71,13 +71,13 @@ msgid "Create Sale Orders when buying to this company"
 msgstr ""
 
 #. module: inter_company_rules
-#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
-msgid "Default value to set on Purchase Orders that will be created based on Sale Orders made to this company"
+#: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
+msgid "Default value to set on Purchase Orders that will be created based on Sale Orders made to this company."
 msgstr ""
 
 #. module: inter_company_rules
-#: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_warehouse_id
-msgid "Default value to set on Purchase Orders that will be created based on Sale Orders made to this company."
+#: model:ir.model.fields,help:inter_company_rules.field_res_company_warehouse_id
+msgid "Default value to set on Purchase(Sales) Orders that will be created based on Sale(Purchase) Orders made to this company"
 msgstr ""
 
 #. module: inter_company_rules
@@ -131,7 +131,7 @@ msgid "Invoice"
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:77
+#: code:addons/inter_company_rules/models/account_invoice.py:75
 #, python-format
 msgid "Please define %s journal for this company: \"%s\" (id:%d)."
 msgstr ""
@@ -143,7 +143,7 @@ msgid "Provide at least one user for inter company relation for % "
 msgstr ""
 
 #. module: inter_company_rules
-#: code:addons/inter_company_rules/models/account_invoice.py:44
+#: code:addons/inter_company_rules/models/account_invoice.py:40
 #: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
@@ -211,8 +211,12 @@ msgid "Source Sale Order"
 msgstr ""
 
 #. module: inter_company_rules
-#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_warehouse_id
+msgid "Warehouse"
+msgstr ""
+
+#. module: inter_company_rules
+#: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_warehouse_id
 msgid "Warehouse For Purchase Orders"
 msgstr ""
 

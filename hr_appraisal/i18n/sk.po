@@ -1,21 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * hr_appraisal
-# 
+#
 # Translators:
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-13 15:34+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: hr_appraisal
@@ -23,20 +23,40 @@ msgstr ""
 msgid ""
 "\n"
 "                \n"
-"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, "
+"Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
 "                    <p>Dear ${ctx.get('employee').name},</p>\n"
 "                    % if ctx.get('employee').id == object.employee_id.id:\n"
-"                        <p>Please fill out the following survey related to your appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"your appraisal.</p>\n"
 "                    % else:\n"
-"                        <p>Please fill out the following survey related to ${object.employee_id.name}'s appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to "
+"${object.employee_id.name}'s appraisal.</p>\n"
 "                    % endif\n"
-"                    <p><a href=\"__URL__\">Click here to access the survey.</a></p>\n"
-"                    <p>Post your response for the appraisal till : ${object.date_close}</p>\n"
+"                    <p><a href=\"__URL__\">Click here to access the survey.</"
+"a></p>\n"
+"                    <p>Post your response for the appraisal till : ${object."
+"date_close}</p>\n"
 "                    <p>Thank you for your participation.</p>\n"
 "                </div>\n"
 "                \n"
 "            "
-msgstr "\n\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n<p>Vážený ${ctx.get('employee').name},</p>\n% if ctx.get('employee').id == object.employee_id.id:\n<p>Prosím, vyplňte nasledujúci prieskum týkajúci sa Vášho hodnotenia.</p>\n% else:\n<p>Prosím, vyplňte nasledujúci prieskum týkajúci sa ${object.employee_id.name} hodnotenia.</p>\n% endif\n<p><a href=\"__URL__\">Kliknite tu pre prístup k prieskumu.</a></p>\n<p>Prispejte Vašou odpoveďou na hodnotenie do : ${object.date_close}</p>\n<p>Ďakujeme za Vašu účasť.</p>\n</div>"
+msgstr ""
+"\n"
+"\n"
+"<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-"
+"serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"<p>Vážený ${ctx.get('employee').name},</p>\n"
+"% if ctx.get('employee').id == object.employee_id.id:\n"
+"<p>Prosím, vyplňte nasledujúci prieskum týkajúci sa Vášho hodnotenia.</p>\n"
+"% else:\n"
+"<p>Prosím, vyplňte nasledujúci prieskum týkajúci sa ${object.employee_id."
+"name} hodnotenia.</p>\n"
+"% endif\n"
+"<p><a href=\"__URL__\">Kliknite tu pre prístup k prieskumu.</a></p>\n"
+"<p>Prispejte Vašou odpoveďou na hodnotenie do : ${object.date_close}</p>\n"
+"<p>Ďakujeme za Vašu účasť.</p>\n"
+"</div>"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -69,11 +89,6 @@ msgid "Ability to manage planning resources, risks, budgets and deadlines"
 msgstr "Schopnosť spravovať plánovanie zdrojov, riziká, rozpočty a uzávierky"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "Action Needed"
-msgstr "Potrebná akcia"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_action_plan
 msgid "Action Plan"
 msgstr "Plán akcie"
@@ -83,14 +98,23 @@ msgstr "Plán akcie"
 msgid ""
 "Actions by Executive management show genuine interest in the well-being of "
 "employees"
-msgstr "Akcie výkonného manažmentu ukazujú skutočný záujem o blaho zamestnancov "
+msgstr ""
+"Akcie výkonného manažmentu ukazujú skutočný záujem o blaho zamestnancov "
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_active
+#, fuzzy
+msgid "Active"
+msgstr "Ciele"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_13
 msgid ""
 "Adaptability: Ability to adapt oneself to organizational changes while "
 "keeping efficiency"
-msgstr "Prispôsobivosť: Schopnosť prispôsobiť sa organizačným zmenám pri zachovaní efektívnosti"
+msgstr ""
+"Prispôsobivosť: Schopnosť prispôsobiť sa organizačným zmenám pri zachovaní "
+"efektívnosti"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_3
@@ -151,7 +175,7 @@ msgid "Appraisal Form..."
 msgstr "Hodnotenie od..."
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:117
+#: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
 msgstr "Hodnotiace stretnutie pre %s"
@@ -167,7 +191,7 @@ msgid "Appraisal Regarding"
 msgstr "Hodnotenie ohľadom"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
@@ -216,7 +240,7 @@ msgid "Appraisal(s)"
 msgstr "Hodnotenie(a)"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:160
+#: code:addons/hr_appraisal/models/hr_appraisal.py:161
 #, python-format
 msgid "Appraisal(s) form have been sent"
 msgstr "Formulár hodnotenia(í) bol poslaný"
@@ -236,6 +260,11 @@ msgstr "Hodnotenia na spracovanie"
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
 msgid "Appraiser"
 msgstr "Hodnotiaci"
+
+#. module: hr_appraisal
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
+msgid "Archived"
+msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -258,7 +287,7 @@ msgid "Cancel"
 msgstr "Zrušiť"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #, python-format
 msgid "Cancelled"
@@ -326,13 +355,17 @@ msgstr "Spoločnost"
 msgid ""
 "Compared to similar jobs in other companies where I could work, my total "
 "compensation..."
-msgstr "V porovnaní s podobnými prácami v iných spoločnostiach, pre ktoré by som mohol pracovať, moje celkové vyrovananie..."
+msgstr ""
+"V porovnaní s podobnými prácami v iných spoločnostiach, pre ktoré by som "
+"mohol pracovať, moje celkové vyrovananie..."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_3
 msgid ""
 "Compliance to internal rules and processes (timesheets completion, etc.)"
-msgstr "Dodržiavanie interných pravidiel a procesov (dokončenie časových rozvrhov, atď.)"
+msgstr ""
+"Dodržiavanie interných pravidiel a procesov (dokončenie časových rozvrhov, "
+"atď.)"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_4
@@ -369,7 +402,9 @@ msgstr "Kreativita a schopnosť pozerať vpred"
 msgid ""
 "Critical or key elements of performance and professional development needs "
 "(if any), should also be noted at this time"
-msgstr "Kritické alebo kľúčové prvky výkonu a potreba odborného rozvoja (ak existuje), by mali byť tiež poznamenané v tomto čase"
+msgstr ""
+"Kritické alebo kľúčové prvky výkonu a potreba odborného rozvoja (ak "
+"existuje), by mali byť tiež poznamenané v tomto čase"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_8
@@ -385,11 +420,6 @@ msgstr "Dátum"
 #: model:survey.question,question:hr_appraisal.appraisal_1_4
 msgid "Date of review"
 msgstr "Dátum zhodnotenia"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Date of the last message posted on the record."
-msgstr "Dátum poslednej správy zaslanej záznamu."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_deadline
@@ -440,7 +470,7 @@ msgid "Display Name"
 msgstr "Zobraziť meno"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -562,21 +592,6 @@ msgid "Final Interview Date"
 msgstr "Dátum záverečného pohovoru"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_follower_ids
-msgid "Followers"
-msgstr "Odberatelia"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Odberatelia (Kanály)"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Odberatelia (Partneri)"
-
-#. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Group By"
 msgstr "Zoskupiť podľa"
@@ -587,18 +602,22 @@ msgid "Group by..."
 msgstr "Zoskupiť podľa..."
 
 #. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
-msgid "HR Department"
-msgstr "HR oddelenie"
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "His direct reports will be invited through Odoo to express a feedback on "
 "their supervisor's leadership and to give their opinion about their own "
 "engagement and effectiveness, the continuous improvement and openness in "
 "action in thecompany..."
-msgstr "Jeho priami podriadení budú pozvaní prostredníctvom Odoo vyjadriť názor na vedenie svojim nadriadeným, a vyjadriť svoj názor o svojom vlastnom zapojení a efektivite, neustálom zlepšovaní sa a otvorenosti v akcii v spoločnosti..."
+msgstr ""
+"Jeho priami podriadení budú pozvaní prostredníctvom Odoo vyjadriť názor na "
+"vedenie svojim nadriadeným, a vyjadriť svoj názor o svojom vlastnom zapojení "
+"a efektivite, neustálom zlepšovaní sa a otvorenosti v akcii v spoločnosti..."
+
+#. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
+#, fuzzy
+msgid "Hr Department"
+msgstr "HR oddelenie"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
@@ -610,7 +629,9 @@ msgstr "Som hrdý keď hovorím ostatným že tu pracujem"
 msgid ""
 "I am willing to put in a great deal of effort beyond what is expected to "
 "help my workgroup succeed"
-msgstr "Som ochotný dať veľké úsilie nad rámec toho čo sa očakáva, pre pomoc úspechu mojej pracovnej skupiny "
+msgstr ""
+"Som ochotný dať veľké úsilie nad rámec toho čo sa očakáva, pre pomoc úspechu "
+"mojej pracovnej skupiny "
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_4
@@ -622,7 +643,9 @@ msgstr "Verím informácii ktorú dostanem od nadriadenej osoby."
 msgid ""
 "I consistently acquire new knowledge, skills or understanding through "
 "contact with my supervisor. He helps me growing my compete"
-msgstr "Neustále nadobúdam nové znalosti, schopnosti alebo porozumenie vďaka kontaktu s mojim nadriadeým. Pomáha rásť mojej súťaživosti"
+msgstr ""
+"Neustále nadobúdam nové znalosti, schopnosti alebo porozumenie vďaka "
+"kontaktu s mojim nadriadeým. Pomáha rásť mojej súťaživosti"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_2
@@ -634,7 +657,9 @@ msgstr "Mám dostatok práce"
 msgid ""
 "I have the same opportunity to succeed as others with similar experiences, "
 "performance and educational background"
-msgstr "Mám rovnakú príležitosť uspieť ako ostatní s podobnými skúsenosťami, výkonom a vzdelaním"
+msgstr ""
+"Mám rovnakú príležitosť uspieť ako ostatní s podobnými skúsenosťami, výkonom "
+"a vzdelaním"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_5_1
@@ -646,19 +671,24 @@ msgstr "Poznám hodnoty spoločnosti a žijm podľa nich"
 msgid ""
 "I mostly work on value-added tasks for the company, the products or the "
 "services"
-msgstr "Väčšinou pracujem na úlohách s pridanou hodnotou pre spoločnosť, produkty alebo služby"
+msgstr ""
+"Väčšinou pracujem na úlohách s pridanou hodnotou pre spoločnosť, produkty "
+"alebo služby"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_6_4
 msgid "I understand the company strategy and how my workgroup supports it"
-msgstr "Rozumiem stratégii spoločnosti a ako ich moja pracovná skupina podporuje"
+msgstr ""
+"Rozumiem stratégii spoločnosti a ako ich moja pracovná skupina podporuje"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_3
 msgid ""
 "I would prefer to remain with this company even if a comparable job were "
 "available in another company"
-msgstr "Radšej by som zostal v tejto spoločnosti, aj keby bola porovnateľná práca dostupná v inej spoločnosti"
+msgstr ""
+"Radšej by som zostal v tejto spoločnosti, aj keby bola porovnateľná práca "
+"dostupná v inej spoločnosti"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_1
@@ -674,19 +704,13 @@ msgstr "ID"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_4
 msgid ""
-"Identify professional, performance, or project objectives you recommend for employee’s continued career development\n"
+"Identify professional, performance, or project objectives you recommend for "
+"employee’s continued career development\n"
 "over the coming year."
-msgstr "Identifikujte profesijné, výkonnostné alebo projektov ciele ktoré odporúčate pre ďalší kariérny rozvoj zamestnancov\npočas nadchádzajúceho roku."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread
-msgid "If checked new messages require your attention."
-msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction
-msgid "If checked, new messages require your attention."
-msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+msgstr ""
+"Identifikujte profesijné, výkonnostné alebo projektov ciele ktoré odporúčate "
+"pre ďalší kariérny rozvoj zamestnancov\n"
+"počas nadchádzajúceho roku."
 
 #. module: hr_appraisal
 #: model:survey.question,comments_message:hr_appraisal.appraisal_1_1
@@ -712,7 +736,8 @@ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_5
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_6
 #: model:survey.question,comments_message:hr_appraisal.opinion_2_7
-msgid "If other, precise:"
+#, fuzzy
+msgid "If other, please specify:"
 msgstr "Ak iné, konkrétne:"
 
 #. module: hr_appraisal
@@ -738,30 +763,35 @@ msgid "Interview"
 msgstr "Pohovor"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_is_follower
-msgid "Is Follower"
-msgstr "Je odberateľ"
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the joint responsibility of the employee and the supervisor (appraiser) to establish a feasible work plan for the\n"
-"coming year, including major employee responsibilities and corresponding benchmarks against which results will be\n"
+"It is the joint responsibility of the employee and the supervisor "
+"(appraiser) to establish a feasible work plan for the\n"
+"coming year, including major employee responsibilities and corresponding "
+"benchmarks against which results will be\n"
 "evaluated."
-msgstr "Je spoločnou zodpovednosťou zamestnanca a nadriadeného (hodnotiaci) vytvoriť uskutočniteľný plán práce pre\nbudúci rok, vrátane hlavných povinností zamestnancov a zodpovedajúcich meradiel, v porovnaní s ktorými budú výsledky\nvyhodnocované."
+msgstr ""
+"Je spoločnou zodpovednosťou zamestnanca a nadriadeného (hodnotiaci) vytvoriť "
+"uskutočniteľný plán práce pre\n"
+"budúci rok, vrátane hlavných povinností zamestnancov a zodpovedajúcich "
+"meradiel, v porovnaní s ktorými budú výsledky\n"
+"vyhodnocované."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the primary responsibility of the supervisor to gather the necessary input from the appropriate sources of feedback\n"
-"(internal and/or external customers, peers). In case of collaboration with Odoo SA Belgium, the supervisor must\n"
-"receive completed evaluation form from the employee's Belgian project manager."
-msgstr "Je primárnou zodpovednosťou nadriadeného zhromaždiť potrebné informácie z príslušných zdrojov spätnej väzby\n(interných a / alebo externých zákazníkov). V prípade spolupráce s Odoo SA v Belgicku, musí nadriadený\nobdržať vyplnený hodnotiaci formulár od zamestnanca belgického projektu."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_last_post
-msgid "Last Message Date"
-msgstr "Dátum poslednej správy"
+"It is the primary responsibility of the supervisor to gather the necessary "
+"input from the appropriate sources of feedback\n"
+"(internal and/or external customers, peers). In case of collaboration with "
+"Odoo SA Belgium, the supervisor must\n"
+"receive completed evaluation form from the employee's Belgian project "
+"manager."
+msgstr ""
+"Je primárnou zodpovednosťou nadriadeného zhromaždiť potrebné informácie z "
+"príslušných zdrojov spätnej väzby\n"
+"(interných a / alebo externých zákazníkov). V prípade spolupráce s Odoo SA v "
+"Belgicku, musí nadriadený\n"
+"obdržať vyplnený hodnotiaci formulár od zamestnanca belgického projektu."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal___last_update
@@ -789,7 +819,9 @@ msgstr "Vedenie"
 msgid ""
 "Leadership: create a challenging and motivating work environment aligned "
 "with the company's strategy"
-msgstr "Vedenie: vytvorte podnetné a motivujúce pracovné prostredie v súlade so stratégiou spoločnosti "
+msgstr ""
+"Vedenie: vytvorte podnetné a motivujúce pracovné prostredie v súlade so "
+"stratégiou spoločnosti "
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_2_4
@@ -799,9 +831,11 @@ msgstr "Vedenie: podporiť podriadených v ich profesionálnom raste"
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_3
 msgid ""
-"Listens and takes into account all ideas and do his best to put in place the"
-" best of these"
-msgstr "Počúva a berie do úvahy všetky nápady a robí to najlepšie, aby vyuźil tie najlepšie z nich"
+"Listens and takes into account all ideas and do his best to put in place the "
+"best of these"
+msgstr ""
+"Počúva a berie do úvahy všetky nápady a robí to najlepšie, aby vyuźil tie "
+"najlepšie z nich"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_appraisal
@@ -842,11 +876,6 @@ msgid "Meeting Scheduled"
 msgstr "Stretnutie naplánované"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_ids
-msgid "Messages"
-msgstr "Správy"
-
-#. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_6
 msgid "Miscellaneous"
 msgstr "Všeobecný"
@@ -862,7 +891,8 @@ msgstr "Mesiac"
 msgid ""
 "My best achievements have been communicated to the community, internally or "
 "to customers"
-msgstr "Moje najlepšie úspechy boli oznámené komunite, interne alebo zákazníkom"
+msgstr ""
+"Moje najlepšie úspechy boli oznámené komunite, interne alebo zákazníkom"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_2
@@ -874,7 +904,9 @@ msgstr "Moja práca mi dáva pocit osobného úspechu"
 msgid ""
 "My work contributes towards the continuous improvement of the company, our "
 "services or products"
-msgstr "Moja práca prispieva k neustálemu zlepšovaniu spoločnosti, našich služieb alebo produktov"
+msgstr ""
+"Moja práca prispieva k neustálemu zlepšovaniu spoločnosti, našich služieb "
+"alebo produktov"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_tree
@@ -893,11 +925,6 @@ msgid "Next Appraisal Date"
 msgstr "Ďalší dátum hodnotenia"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of Actions"
-msgstr "Počet akcií"
-
-#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_completed_survey
 msgid "Number of Answers"
 msgstr "Počet odpovedí"
@@ -906,16 +933,6 @@ msgstr "Počet odpovedí"
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_sent_survey
 msgid "Number of Sent Forms"
 msgstr "Počet poslaných formulárov"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Počet správ ktoré vyžadujú akciu"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Number of unread messages"
-msgstr "Počet neprečítaných správ"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_1
@@ -932,7 +949,9 @@ msgstr "Otvorenosť"
 msgid ""
 "Our workgroup identifies and reduces waste of time in our activities and "
 "processes"
-msgstr "Naša pracovná skupina indentifiikuje a redukuje mrhanie času v našich aktivitách a procesoch"
+msgstr ""
+"Naša pracovná skupina indentifiikuje a redukuje mrhanie času v našich "
+"aktivitách a procesoch"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -944,7 +963,9 @@ msgstr "Celkový účel hodnotenia zamestnanca"
 msgid ""
 "Overall, I believe the quality of products and/or services my workgroup "
 "delivers is improving"
-msgstr "Celkovo sa domnievam, že kvalita výrobkov a / alebo služieb doručovanou mojeou pracovnou skupinou sa zlepšuje"
+msgstr ""
+"Celkovo sa domnievam, že kvalita výrobkov a / alebo služieb doručovanou "
+"mojeou pracovnou skupinou sa zlepšuje"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_periodic_appraisal
@@ -1023,7 +1044,9 @@ msgstr "Výsledky"
 msgid ""
 "Results of the bottom-up survey and mitigation actions to face technical, "
 "organizational, structural and/or relational issues"
-msgstr "Výsledky prieskumu robeného zdola nahor a zmierňujúce akcie čeliace technickým, organizačným, štrukturálnym a / alebo relačným problémom"
+msgstr ""
+"Výsledky prieskumu robeného zdola nahor a zmierňujúce akcie čeliace "
+"technickým, organizačným, štrukturálnym a / alebo relačným problémom"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
@@ -1108,7 +1131,9 @@ msgstr "Berúc všetko do úvahy, ako ste spokojný so svojou súčasnou prácou
 msgid ""
 "Team spirit: ability to work efficiently with peers, manage the conflicts "
 "with diplomacy"
-msgstr "Tímovy duch: schopnosť pracovať efektívne s kolegami, zvládať konflikty diplomaticky"
+msgstr ""
+"Tímovy duch: schopnosť pracovať efektívne s kolegami, zvládať konflikty "
+"diplomaticky"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_10
@@ -1143,26 +1168,24 @@ msgid "The answer you entered has an invalid format."
 msgstr "Odpoveď ktorú ste zadal má neplatný formát."
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:192
-#, python-format
-msgid ""
-"The appraisal deadline must be in the future to allow employees to answer "
-"the survey."
-msgstr "Uzávierka hodnotenia musí byť v budúcnosti aby bolo umožnené zamestnancom odpovedať na prieskum."
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
 "performance according to the metric provided below"
-msgstr "Hodnotiaci by mal hodnotiť významné pracovné úspechy a výkonu zamestnanca podľa  nižšie uvedenej metriky"
+msgstr ""
+"Hodnotiaci by mal hodnotiť významné pracovné úspechy a výkonu zamestnanca "
+"podľa  nižšie uvedenej metriky"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 msgid ""
-"The appraiser should rate the employee’s major work accomplishments and performance according to the metric provided\n"
+"The appraiser should rate the employee’s major work accomplishments and "
+"performance according to the metric provided\n"
 "below:"
-msgstr "Hodnotiaci by mal hodnotiť významné pracovné úspechy a výkonu zamestnanca podľa  nižšie uvedenej \nmetriky:"
+msgstr ""
+"Hodnotiaci by mal hodnotiť významné pracovné úspechy a výkonu zamestnanca "
+"podľa  nižšie uvedenej \n"
+"metriky:"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_employee.py:76
@@ -1175,30 +1198,44 @@ msgstr "Dátum budúceho hodnotenia nemôže byť v minulosti"
 msgid ""
 "The date of the next appraisal is computed by the appraisal plan's dates "
 "(first appraisal + periodicity)."
-msgstr "Dátum budúceho hodnotenia sa vypočíta dátumami plánov hodnotenia je (prvé hodnotenie + periodicita)."
+msgstr ""
+"Dátum budúceho hodnotenia sa vypočíta dátumami plánov hodnotenia je (prvé "
+"hodnotenie + periodicita)."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
 "The employee may choose to offer comments or explanation regarding the "
 "completed review."
-msgstr "Zamestnanec sa môže rozhodnúť ponúknuť pripomienky alebo vysvetlenia týkajúce sa ukončeného posudku."
+msgstr ""
+"Zamestnanec sa môže rozhodnúť ponúknuť pripomienky alebo vysvetlenia "
+"týkajúce sa ukončeného posudku."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
-"point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
+"The employee will be responsible for completing a draft of the Appraisal "
+"Form as a tool for self-appraisal and a starting\n"
+"point for the supervisor’s evaluation. The employee can add examples of "
+"achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
-msgstr "Pracovník bude zodpovedný za dokončenie konceptu príslušného Formulára hodnotenia ako nástroj na sebahodnotenie a spúšťacieho\nbodu pre hodnotenie nadriadeného. Zamestnanec môže pridať príklady úspechov pre každé kritérium.\nAkonáhle bude formulár vyplnený, zamestnanec ho odošle svojmu nadriadenému."
+msgstr ""
+"Pracovník bude zodpovedný za dokončenie konceptu príslušného Formulára "
+"hodnotenia ako nástroj na sebahodnotenie a spúšťacieho\n"
+"bodu pre hodnotenie nadriadeného. Zamestnanec môže pridať príklady úspechov "
+"pre každé kritérium.\n"
+"Akonáhle bude formulár vyplnený, zamestnanec ho odošle svojmu nadriadenému."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The employees will send back their anonymous answers to Odoo. The data will "
-"be handled by the HR manager and a brief summary of the data will be sent to"
-" the concerned supervisor, to his team and to the supervisor's supervisor."
-msgstr "Zamestnanci budú posielať svoje anonymné odpovede späť do Odoo. Dáta budú spracované HR manažérom a stručný súhrn údajov bude zaslaný príslušnému nadriadenému, jeho tímu a nadriadenému nadriadeného."
+"be handled by the HR manager and a brief summary of the data will be sent to "
+"the concerned supervisor, to his team and to the supervisor's supervisor."
+msgstr ""
+"Zamestnanci budú posielať svoje anonymné odpovede späť do Odoo. Dáta budú "
+"spracované HR manažérom a stručný súhrn údajov bude zaslaný príslušnému "
+"nadriadenému, jeho tímu a nadriadenému nadriadeného."
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1208,10 +1245,15 @@ msgstr "Nadriadný pošle formulár HR oddeleniu v Indii a Belgicku"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
+#, fuzzy
 msgid ""
-"The supervisor synthesizes and integrates all input into the completed appraisal. He motivates his evaluation in the ad\n"
-"hoc fields."
-msgstr "Nadriadený syntetizuje a integruje všetky vstupy do dokončeného hodnotenia. On podnecuje jeho vyhodnotenie v ad\nhoc poli."
+"The supervisor synthesizes and integrates all input into the completed "
+"appraisal. The motivation of the evaluation\n"
+"is explained in the ad hoc fields."
+msgstr ""
+"Nadriadený syntetizuje a integruje všetky vstupy do dokončeného hodnotenia. "
+"On podnecuje jeho vyhodnotenie v ad\n"
+"hoc poli."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_color
@@ -1271,7 +1313,7 @@ msgid "Time management: projects/tasks are completed on time"
 msgstr "Časový manažment: projekty / úlohy sú dokončené včas"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #, python-format
@@ -1281,48 +1323,37 @@ msgstr "Na začatie"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"To assist employees in their professional growth, through the identification of strengths and opportunities for\n"
+"To assist employees in their professional growth, through the identification "
+"of strengths and opportunities for\n"
 "development"
-msgstr "Pre pomoc zamestnancom v ich profesionálnom raste, a to prostredníctvom identifikácie silných stránok a príležitostí pre\nvývoj"
+msgstr ""
+"Pre pomoc zamestnancom v ich profesionálnom raste, a to prostredníctvom "
+"identifikácie silných stránok a príležitostí pre\n"
+"vývoj"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid "To initiate a clear and open communication of performance expectations"
-msgstr "Na začaie jasnej a otvorenej komunikácie ohľadom výkonnostných očakávaní"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread
-msgid "Unread Messages"
-msgstr "Neprečítané správy"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Počítadlo neprečítaných správ"
+msgstr ""
+"Na začaie jasnej a otvorenej komunikácie ohľadom výkonnostných očakávaní"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_5_1
 msgid ""
-"Use the following space to make any comments regarding the above performance"
-" evaluation."
-msgstr "Použite nasledujúce priestor pre vaše pripomienky týkajúce sa vyššie uvedeného hodnotenia výkonnosti."
-
-#. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website Messages"
-msgstr "Správy webovej stránky"
-
-#. module: hr_appraisal
-#: model:ir.model.fields,help:hr_appraisal.field_hr_appraisal_website_message_ids
-msgid "Website communication history"
-msgstr "História komunikácie webovej stránky"
+"Use the following space to make any comments regarding the above performance "
+"evaluation."
+msgstr ""
+"Použite nasledujúce priestor pre vaše pripomienky týkajúce sa vyššie "
+"uvedeného hodnotenia výkonnosti."
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_4_2
 msgid ""
 "What I did several months ago is still of use to the company, the services "
 "or the products today"
-msgstr "To, čo som urobil pred niekoľkými mesiacmi je stále užitočné pre spoločnosť, služby alebo produkty, aj dnes"
+msgstr ""
+"To, čo som urobil pred niekoľkými mesiacmi je stále užitočné pre spoločnosť, "
+"služby alebo produkty, aj dnes"
 
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.appraisal_2
@@ -1335,7 +1366,7 @@ msgid "Year"
 msgstr "Rok"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:206
+#: code:addons/hr_appraisal/models/hr_appraisal.py:205
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
 msgstr "Nemžete zmazaťhodnotenie ktoré je v stave '%s'"
@@ -1343,10 +1374,15 @@ msgstr "Nemžete zmazaťhodnotenie ktoré je v stave '%s'"
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid ""
-"You will be able to choose which forms will be sent (Employee,Managers,Collaborators or Colleagues),\n"
+"You will be able to choose which forms will be sent (Employee,Managers,"
+"Collaborators or Colleagues),\n"
 "            to whom and the evaluation deadline. Once you have defined it,\n"
 "            change the stage to send it and view the results."
-msgstr "Budete si môcť vybrať, ktoré formuláre budú zaslané (Zamestnanec, Manažéri, Spolupracovníci alebo Kolegovia),\nkomu a uzávierku hodnotenia. Potom, čo ste to definovali,\nzmente fázu pre jeho poslanie a zobrazenie výsledkov."
+msgstr ""
+"Budete si môcť vybrať, ktoré formuláre budú zaslané (Zamestnanec, Manažéri, "
+"Spolupracovníci alebo Kolegovia),\n"
+"komu a uzávierku hodnotenia. Potom, čo ste to definovali,\n"
+"zmente fázu pre jeho poslanie a zobrazenie výsledkov."
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_collaborators_survey_id
@@ -1357,3 +1393,61 @@ msgstr "spolupracovníkove hodnotenie"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "oe_kanban_text_red"
 msgstr "oe_kanban_text_red "
+
+#~ msgid "Action Needed"
+#~ msgstr "Potrebná akcia"
+
+#~ msgid "Date of the last message posted on the record."
+#~ msgstr "Dátum poslednej správy zaslanej záznamu."
+
+#~ msgid "Followers"
+#~ msgstr "Odberatelia"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Odberatelia (Kanály)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Odberatelia (Partneri)"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#~ msgid "Is Follower"
+#~ msgstr "Je odberateľ"
+
+#~ msgid "Last Message Date"
+#~ msgstr "Dátum poslednej správy"
+
+#~ msgid "Messages"
+#~ msgstr "Správy"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Počet akcií"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Počet správ ktoré vyžadujú akciu"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Počet neprečítaných správ"
+
+#~ msgid ""
+#~ "The appraisal deadline must be in the future to allow employees to answer "
+#~ "the survey."
+#~ msgstr ""
+#~ "Uzávierka hodnotenia musí byť v budúcnosti aby bolo umožnené zamestnancom "
+#~ "odpovedať na prieskum."
+
+#~ msgid "Unread Messages"
+#~ msgstr "Neprečítané správy"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Počítadlo neprečítaných správ"
+
+#~ msgid "Website Messages"
+#~ msgstr "Správy webovej stránky"
+
+#~ msgid "Website communication history"
+#~ msgstr "História komunikácie webovej stránky"
