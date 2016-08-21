@@ -639,8 +639,9 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="picking_type_id"/>
+                <field name="title"/>
                 <field name="product_tmpl_id"/>
+                <field name="picking_type_id"/>
             </tree>
         </field>
     </record>
@@ -664,12 +665,11 @@
                     <h2><field name="name"/></h2>
                     <group>
                         <group>
+                            <field name="title"/>
                             <field name="product_tmpl_id"/>
                             <field name="product_id" groups="product.group_product_variant"/>
                             <field name="picking_type_id" string="Operation"/>
                             <field name="company_id" groups="base.group_multi_company"/>
-                            <field name="team_id" widget="selection"/>
-                            <field name="user_id"/>
                         </group>
                         <group>
                             <field name="measure_frequency_type" string="Control Type"/>
@@ -692,6 +692,8 @@
                                 <span>from </span> <field name="tolerance_min"/>
                                 <span>to </span> <field name="tolerance_max"/>
                             </div>
+                            <field name="team_id" widget="selection"/>
+                            <field name="user_id"/>
                         </group>
                     </group>
                     <notebook>

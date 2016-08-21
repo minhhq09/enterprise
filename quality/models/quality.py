@@ -20,6 +20,7 @@ class QualityPoint(models.Model):
     name = fields.Char(
         'Reference', copy=False, default=lambda self: _('New'),
         readonly=True, required=True)
+    title = fields.Char('Title')
     team_id = fields.Many2one(
         'quality.alert.team', 'Team',
         default=__get_default_team_id, required=True)
