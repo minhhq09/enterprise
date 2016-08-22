@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-07-07 11:51+0000\n"
 "Last-Translator: Piotr Szlązak <szlazakpiotr@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/odoo/odoo-9/language/pl/)\n"
@@ -184,6 +184,12 @@ msgid "Appraisal Form..."
 msgstr "forma oceny..."
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#, fuzzy
+msgid "Appraisal Frequency"
+msgstr "ocena wysłana"
+
+#. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
@@ -198,6 +204,12 @@ msgstr "Proces oceny"
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
 msgstr "ocena w sprawie"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+#, fuzzy
+msgid "Appraisal Repeat Every"
+msgstr "Powtarzaj co"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:211
@@ -502,12 +514,12 @@ msgstr "szablon email do oceny"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "Pracownik"
 
@@ -541,6 +553,12 @@ msgstr "Formularz opinii pracownika"
 #: model:survey.page,title:hr_appraisal.appraisal_3
 msgid "Employee Performance in Key Areas"
 msgstr "Skuteczność pracownika w kluczowych obszarach"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+#, fuzzy
+msgid "Employee appraisal"
+msgstr "Ocena pracownika"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
@@ -1017,8 +1035,7 @@ msgid "Related partner id"
 msgstr ""
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
 msgstr "Powtarzaj co"
 
@@ -1375,11 +1392,17 @@ msgstr "oe_kanban_text_red"
 #~ msgid "Followers (Partners)"
 #~ msgstr "Obserwatorzy (partnerzy)"
 
+#~ msgid "HR Department"
+#~ msgstr "Dział kadr"
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Jeśli zaznaczone, to wiadomość wymaga twojej uwagi"
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Jeśli zaznaczone, to nowa wiadomość wymaga twojej uwagi."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Jeśli inne, opisz:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Jest obserwatorem"

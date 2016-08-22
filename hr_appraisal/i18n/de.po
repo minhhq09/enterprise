@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-06-01 14:48+0000\n"
 "Last-Translator: Thorsten Vocks <thorsten.vocks@openbig.org>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
@@ -181,6 +181,12 @@ msgid "Appraisal Form..."
 msgstr "Beurteilungsformular ..."
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#, fuzzy
+msgid "Appraisal Frequency"
+msgstr "Beurteilung versendet"
+
+#. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
@@ -195,6 +201,12 @@ msgstr "Beurteilungsablauf"
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
 msgstr "Bewertung in Bezug auf"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+#, fuzzy
+msgid "Appraisal Repeat Every"
+msgstr "Bewertung erstellt"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:211
@@ -501,12 +513,12 @@ msgstr "Email Vorlage für Beurteilung"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "Mitarbeiter"
 
@@ -540,6 +552,12 @@ msgstr "Selbstbeurteilungsformular"
 #: model:survey.page,title:hr_appraisal.appraisal_3
 msgid "Employee Performance in Key Areas"
 msgstr "Arbeitsleistung in wichtigen Bereichen"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+#, fuzzy
+msgid "Employee appraisal"
+msgstr "Mitarbeiter Beurteilung"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
@@ -1029,8 +1047,7 @@ msgid "Related partner id"
 msgstr "Zugehörige Partner-ID"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
 msgstr "Alle wiederholen"
 
@@ -1416,11 +1433,17 @@ msgstr "oe_kanban_text_red"
 #~ msgid "Followers (Partners)"
 #~ msgstr "Beobachter (Partner)"
 
+#~ msgid "HR Department"
+#~ msgstr "Personalabteilung"
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Falls markiert, benötigen neue Nachrichten Ihre Kenntnisnahme."
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Falls markiert, benötigen neue Nachrichten Ihre Kenntnisnahme."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Andere:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Ist Beobachter"
@@ -1446,6 +1469,15 @@ msgstr "oe_kanban_text_red"
 #~ msgstr ""
 #~ "Die Frist für die Beurteilung muss in der Zukunft liegen, um Ihren "
 #~ "Mitarbeitern die Beantwortung zu ermöglichen."
+
+#~ msgid ""
+#~ "The supervisor synthesizes and integrates all input into the completed "
+#~ "appraisal. He motivates his evaluation in the ad\n"
+#~ "hoc fields."
+#~ msgstr ""
+#~ "Der Beurteilende überführt sämtlichen Input in eine vollständige "
+#~ "Beurteilung. Er erläutert einzelne Bewertungen in den vorgesehenen ad-hoc "
+#~ "Feldern. "
 
 #~ msgid "Unread Messages"
 #~ msgstr "Ungelesene Mitteilungen"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-02-11 16:41+0000\n"
 "Last-Translator: ANDRES FELIPE NEGRETE GOMEZ <psi@nubark.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/odoo/odoo-9/"
@@ -184,6 +184,12 @@ msgid "Appraisal Form..."
 msgstr "Formulario de Evaluación..."
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#, fuzzy
+msgid "Appraisal Frequency"
+msgstr "Evaluación Enviada"
+
+#. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
@@ -198,6 +204,12 @@ msgstr "Proceso de Evaluación"
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
 msgstr "Respecto a su Evaluación"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+#, fuzzy
+msgid "Appraisal Repeat Every"
+msgstr "Evaluación Creada"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:211
@@ -506,12 +518,12 @@ msgstr "Plantilla de Correo Electrónico para la Evaluación"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "Empleado"
 
@@ -545,6 +557,12 @@ msgstr "Formulario de Opinión del Empleado"
 #: model:survey.page,title:hr_appraisal.appraisal_3
 msgid "Employee Performance in Key Areas"
 msgstr "Rendimiento del Empleado en Áreas Clave"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+#, fuzzy
+msgid "Employee appraisal"
+msgstr "Evaluación de Empleado"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
@@ -1040,8 +1058,7 @@ msgid "Related partner id"
 msgstr "ID de asociado relacionado"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
 msgstr "Repetir cada"
 
@@ -1432,11 +1449,17 @@ msgstr "oe_kanban_text_red"
 #~ msgid "Followers (Partners)"
 #~ msgstr "Seguidores (Asociados)"
 
+#~ msgid "HR Department"
+#~ msgstr "Departamento RR.HH."
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Si está marcado, los nuevos mensajes requerirán su atención."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Si otros, precisar:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Es Seguidor"
@@ -1462,6 +1485,14 @@ msgstr "oe_kanban_text_red"
 #~ msgstr ""
 #~ "El plazo de evaluación debe estar en el futuro para permitir a los "
 #~ "empleados para responder a la encuesta."
+
+#~ msgid ""
+#~ "The supervisor synthesizes and integrates all input into the completed "
+#~ "appraisal. He motivates his evaluation in the ad\n"
+#~ "hoc fields."
+#~ msgstr ""
+#~ "El supervisor sintetiza e integra todas las entradas en la evaluación "
+#~ "completada. Motiva a su evaluación en los campos ad hoc."
 
 #~ msgid "Unread Messages"
 #~ msgstr "Mensajes sin Leer"

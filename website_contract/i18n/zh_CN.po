@@ -1,4 +1,3 @@
-# #-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_contract
@@ -10,39 +9,19 @@
 # liAnGjiA <liangjia@qq.com>, 2015
 # Luke <cialuo@qq.com>, 2015
 # liAnGjiA <liangjia@qq.com>, 2015
-# #-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * website_contract
-#
-# Translators:
-# Jeffery Chenn <jeffery9@gmail.com>, 2016
-# Luke <cialuo@qq.com>, 2016
-# liAnGjiA <liangjia@qq.com>, 2016
-# fausthuang <faust_huang@hotmail.com>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Gary Wei <Gary.wei@elico-corp.com>, 2016
-# glovebx <ruinning@163.com>, 2016
-# mrshelly <mrshelly@hotmail.com>, 2016
-# waveyeung <waveyeung@qq.com>, 2016
-# Talway <9010446@qq.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Talway <9010446@qq.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/"
-"zh_CN/)\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-07-22 04:36+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
+"language/zh_CN/)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: website_contract
@@ -87,9 +66,9 @@ msgid ""
 "                    Your subscription (${ctx.get('code')}) has just been "
 "renewed\n"
 "                    %if ctx.get('total_amount') and ctx."
-"get('payment_method'):\n"
+"get('payment_token'):\n"
 "                        via a payment of ${ctx['total_amount']} "
-"${ctx['currency']} charged on ${ctx['payment_method']}\n"
+"${ctx['currency']} charged on ${ctx['payment_token']}\n"
 "                        .\n"
 "                    %endif\n"
 "                </p>\n"
@@ -213,90 +192,6 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:mail.template,body_html:website_contract.email_payment_close
-msgid ""
-"\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
-"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
-"collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
-"5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
-"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
-"collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
-"\">\n"
-"                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:"
-"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
-"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
-"                </div>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
-"background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
-"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
-"color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                <p>Hello ${object.partner_id.name},</p>\n"
-"                <p>\n"
-"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"                  Our final attempt to process a payment for your "
-"subscription using your payment method\n"
-"                  ${ctx['payment_method']}\n"
-"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-"                  % if ctx.get('error'):\n"
-"                    Your bank or credit institution gave the following "
-"details about the issue: <pre>${ctx['error']}</pre>.\n"
-"                  %endif\n"
-"                % else:\n"
-"                  Our final attempt to process a payment for your "
-"subscription failed because we have no payment method recorded for you.\n"
-"                % endif \n"
-"                </p>\n"
-"\n"
-"                <p>\n"
-"                  As your payment should have been made <strong>15 days ago</"
-"strong>, your subscription has been terminated.\n"
-"                </p>\n"
-"\n"
-"                <br/>\n"
-"                <p>Should you wish to resolve this issue, do not hesitate to "
-"contact us.</p>\n"
-"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
-"</p>\n"
-"            </td>\n"
-"        </tr><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                % if user.signature\n"
-"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
-"                </p>\n"
-"                % endif\n"
-"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-"
-"decoration:none; color: #a24689;\">\n"
-"                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
-"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
-"                </strong></p>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>"
-msgstr ""
-
-#. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
 msgid ""
 "\n"
@@ -335,10 +230,10 @@ msgid ""
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
 "                <p>Hello ${object.partner_id.name},</p>\n"
 "                <p>\n"
-"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                % if ctx.get('payment_token') and ctx.get('total_amount'):\n"
 "                  We were unable to process a payment for your subscription "
 "using your payment method\n"
-"                  ${ctx['payment_method']}\n"
+"                  ${ctx['payment_token']}\n"
 "                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
 "                  % if ctx.get('error'):\n"
 "                    Your bank or credit institution gave the following "
@@ -361,6 +256,90 @@ msgid ""
 "                <br/>\n"
 "                <p>If you have any question, do not hesitate to contact us.</"
 "p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
+
+#. module: website_contract
+#: model:mail.template,body_html:website_contract.email_payment_close
+msgid ""
+"\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
+"                <div>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                </div>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_token) and ctx.get('total_amount'):\n"
+"                  Our final attempt to process a payment for your "
+"subscription using your payment method\n"
+"                  ${ctx['payment_token']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  Our final attempt to process a payment for your "
+"subscription failed because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  As your payment should have been made <strong>15 days ago</"
+"strong>, your subscription has been terminated.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>Should you wish to resolve this issue, do not hesitate to "
+"contact us.</p>\n"
 "                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
 "</p>\n"
 "            </td>\n"
@@ -484,7 +463,7 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
@@ -500,7 +479,7 @@ msgstr "<span class=\"label label-default\">当前计划</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> In "
@@ -511,7 +490,7 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> To "
@@ -537,30 +516,13 @@ msgstr "链接到这个报价单的合约"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
-#, fuzzy
 msgid "Account Analytic Lines"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"账目分析记录\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"账户分析行"
+msgstr "账目分析记录"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
 msgid "Account UUID"
 msgstr "账户UUID"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_payment_acquirer_journal_id
-msgid ""
-"Account journal used for automatic payment reconciliation if you use "
-"automatic payment."
-msgstr "账户账簿用于自动支付和解如果使用自动付款。"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_payment_acquirer_journal_id
-msgid "Accounting Journal"
-msgstr "会计日记账"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -598,13 +560,8 @@ msgstr "在订阅添加"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
-#, fuzzy
 msgid "Analytic Account"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"分析账户\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"分析会计"
+msgstr "分析账户"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
@@ -663,14 +620,6 @@ msgid "Change plan"
 msgstr "更改方案"
 
 #. module: website_contract
-#: model:web.tip,description:website_contract.subscription_tip_1
-msgid ""
-"Click here to view this contract in the frontend. Your customers can access "
-"the same page from their portal to manage their subscription. You can also "
-"send them the secure url by e-mail, no login needed!"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
 msgid "Closable by customer"
 msgstr "被客户关闭"
@@ -692,7 +641,7 @@ msgid "Close your contract"
 msgstr "关闭您的合约"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:203
+#: code:addons/website_contract/controllers/main.py:242
 #, python-format
 msgid "Closing text : "
 msgstr "关张文本 : "
@@ -736,6 +685,11 @@ msgid "Contract Template"
 msgstr "合约模版"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_menu_contract
+msgid "Contracts"
+msgstr "合约"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid "Create & View Quotation"
 msgstr "创建并查看询价单"
@@ -751,13 +705,8 @@ msgstr "创建者"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_create_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_date
-#, fuzzy
 msgid "Created on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"创建时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"创建于"
+msgstr "创建时间"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -818,13 +767,8 @@ msgstr "强制价格"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_id
-#, fuzzy
 msgid "ID"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"ID\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"标识"
+msgstr "ID"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_user_closable
@@ -833,9 +777,9 @@ msgid ""
 msgstr "如果勾选此项,用户将能够从前端关闭他的帐户"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
-msgid "If not set, the default payment method of the partner will be used."
-msgstr "如果没有设置,默认将使用合作伙伴的付款方法。"
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_token_id
+msgid "If not set, the default payment token of the partner will be used."
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
@@ -874,6 +818,18 @@ msgid ""
 msgstr "如果你确认,合约将立即关闭。你目前的发票是有效的,直到时期"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "If you wish to reopen it, the"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid ""
+"If you wish to reopen it, you can pay your invoice for the current invoicing "
+"period."
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "Insert the options directly, they will be invoiced on the next invoice date."
@@ -910,37 +866,22 @@ msgstr "被授权"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
-#, fuzzy
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后修改时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最后修改日"
+msgstr "最后修改时间"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后更新者\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最后更新人"
+msgstr "最后更新者"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_date
-#, fuzzy
 msgid "Last Updated on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后更新时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最近更新时间"
+msgstr "最后更新时间"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
@@ -949,26 +890,25 @@ msgstr "实际和销售之间的最大数量,这个数量将被开票"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "My Account"
 msgstr "我的账户"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+msgid "My Contracts"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 msgid "Name"
 msgstr "名称"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#, fuzzy
 msgid "New"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"新建\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"新的"
+msgstr "新建"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_add_paid_option
@@ -1026,24 +966,14 @@ msgid "Pay Now"
 msgstr "现在付款"
 
 #. module: website_contract
-#: model:ir.model,name:website_contract.model_payment_acquirer
-msgid "Payment Acquirer"
-msgstr "付款收单方"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_method_id
-msgid "Payment Method"
-msgstr "付款方式"
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_token_id
+msgid "Payment Token"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_payment_transaction
-#, fuzzy
 msgid "Payment Transaction"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"支付交易\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"付款交易"
+msgstr "支付交易"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_reminder
@@ -1156,13 +1086,8 @@ msgstr "销售报价单模板"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription
-#, fuzzy
 msgid "Sale Subscription"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"认购\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"销售订阅"
+msgstr "认购"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -1223,13 +1148,8 @@ msgstr "税金"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#, fuzzy
 msgid "Taxes:"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"税金:\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"税金："
+msgstr "税金:"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
@@ -1256,6 +1176,11 @@ msgstr "以下选项将被删除从你的下一个发票:"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
 msgstr "通过网站访问单据的完整URL。"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
+msgid "There are currently no contracts for your account."
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -1293,13 +1218,8 @@ msgstr "件"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
-#, fuzzy
 msgid "Units Remaining"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"单位保留\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"剩余单元"
+msgstr "单位保留"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -1365,7 +1285,7 @@ msgstr ""
 "看您的订阅"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 msgid "You don't have any subscriptions yet."
 msgstr "您还没有任何订阅"
 
@@ -1384,7 +1304,8 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
 msgid "Your Contracts"
 msgstr "您的合约"
 
@@ -1392,18 +1313,6 @@ msgstr "您的合约"
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Your Plan"
 msgstr "您的计划"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid ""
-"Your account is closed. If you wish to reopen it, you can pay your invoice "
-"for the current invoicing period."
-msgstr "你的帐户已经关闭。如果你想打开它,你可以支付你的发票为当前的发票。"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Your contract is waiting for payment."
-msgstr "你的合约正在等待付款。"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -1417,6 +1326,16 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Your subscription is closed."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Your subscription is waiting for payment."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "by paying your invoice."
 msgstr "通过支付你的发票。"
 
@@ -1426,6 +1345,11 @@ msgstr "通过支付你的发票。"
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "day(s)"
 msgstr "天"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "missing payments (from"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1453,6 +1377,16 @@ msgstr "销售.订阅.向导"
 #: model:ir.model,name:website_contract.model_sale_subscription_wizard_option
 msgid "sale.subscription.wizard.option"
 msgstr "销售.订阅.行.可选"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "to this day) will be automatically processed."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "user_id.partner_id.property_product_pricelist.currency_id"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1607,6 +1541,14 @@ msgstr "⇒ 超售"
 #~ msgid "&amp;nbsp;"
 #~ msgstr "&amp;nbsp;"
 
+#~ msgid ""
+#~ "Account journal used for automatic payment reconciliation if you use "
+#~ "automatic payment."
+#~ msgstr "账户账簿用于自动支付和解如果使用自动付款。"
+
+#~ msgid "Accounting Journal"
+#~ msgstr "会计日记账"
+
 #~ msgid "Actual Quantity"
 #~ msgstr "实际的数量"
 
@@ -1649,6 +1591,9 @@ msgstr "⇒ 超售"
 #~ msgid "Discount (%)"
 #~ msgstr "折扣(%)"
 
+#~ msgid "If not set, the default payment method of the partner will be used."
+#~ msgstr "如果没有设置,默认将使用合作伙伴的付款方法。"
+
 #~ msgid ""
 #~ "If we store your payment information on our server, subscription payments "
 #~ "will be made automatically."
@@ -1673,6 +1618,12 @@ msgstr "⇒ 超售"
 
 #~ msgid "Pay & Confirm"
 #~ msgstr "支付&确认"
+
+#~ msgid "Payment Acquirer"
+#~ msgstr "付款收单方"
+
+#~ msgid "Payment Method"
+#~ msgstr "付款方式"
 
 #~ msgid "Quantity actually used by the customer"
 #~ msgstr "客户实际使用的数量"
@@ -1712,11 +1663,16 @@ msgstr "⇒ 超售"
 #~ "subscriptions."
 #~ msgstr "你会发现这里所有的报价和销售订单与此相关的订阅。"
 
+#~ msgid ""
+#~ "Your account is closed. If you wish to reopen it, you can pay your "
+#~ "invoice for the current invoicing period."
+#~ msgstr "你的帐户已经关闭。如果你想打开它,你可以支付你的发票为当前的发票。"
+
+#~ msgid "Your contract is waiting for payment."
+#~ msgstr "你的合约正在等待付款。"
+
 #~ msgid "Your subscription ${object.code}is active!"
 #~ msgstr "您的订阅 ${object.code}是有效的!"
 
 #~ msgid "years(s)"
 #~ msgstr "年"
-
-#~ msgid "Contracts"
-#~ msgstr "合约"

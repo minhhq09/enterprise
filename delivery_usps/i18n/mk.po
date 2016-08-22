@@ -4,13 +4,12 @@
 #
 # Translators:
 # Aleksandar Vangelovski <aleksandarv@hbee.eu>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-07-12 10:42+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-12 14:50+0000\n"
 "Last-Translator: Aleksandar Vangelovski <aleksandarv@hbee.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/odoo/odoo-9/language/"
 "mk/)\n"
@@ -18,9 +17,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
-"#-#-#-#-#  mk.po (Odoo 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
 #. module: delivery_usps
@@ -124,12 +120,6 @@ msgid "International"
 msgstr "Меѓународно"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-#, fuzzy
-msgid "Label File Type"
-msgstr "Тип на меил"
-
-#. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
 msgid "Large"
 msgstr "Големо"
@@ -160,12 +150,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_machinable
 msgid "Machinable"
 msgstr ""
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
-msgid "Mail Type"
-msgstr "Тип на меил"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
@@ -344,7 +328,7 @@ msgid "TIF"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:161
+#: code:addons/delivery_usps/models/usps_request.py:159
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
 msgstr ""
@@ -368,7 +352,7 @@ msgstr ""
 "производ недостасува."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:367
+#: code:addons/delivery_usps/models/usps_request.py:361
 #, python-format
 msgid ""
 "The recepient address can't be found. Please check that your recepient has "
@@ -389,14 +373,18 @@ msgid "To Company"
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
-msgid "Type of container"
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
+msgid "Type of USPS International regular container"
 msgstr ""
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
-msgid "Type of regular container"
+msgid "Type of USPS domestic regular container"
+msgstr ""
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
+msgid "Type of container"
 msgstr ""
 
 #. module: delivery_usps
@@ -414,6 +402,11 @@ msgid ""
 msgstr ""
 
 #. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
+msgid "USPS First Class Mail Type"
+msgstr ""
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_international_product_product
 msgid "USPS International Flat Rate Box"
@@ -426,6 +419,18 @@ msgid ""
 "USPS International is used only to ship  outside of the U.S.A. Please change "
 "the delivery method into USPS Domestic."
 msgstr ""
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
+#, fuzzy
+msgid "USPS Label File Type"
+msgstr "Тип на меил"
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
+#, fuzzy
+msgid "USPS Mail Type"
+msgstr "Тип на меил"
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_service
@@ -443,10 +448,13 @@ msgid "Usps size container"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:369
+#: code:addons/delivery_usps/models/usps_request.py:363
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr ""
+
+#~ msgid "First Class"
+#~ msgstr "Прва класа"
 
 #~ msgid "Test Mode"
 #~ msgstr "Тест мод"

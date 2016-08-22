@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-01-19 21:29+0000\n"
 "Last-Translator: SV <svilij@yahoo.com>\n"
 "Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
@@ -93,6 +93,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
 msgstr "Имя файла"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+#, fuzzy
+msgid "Generic"
+msgstr "Общий"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+msgid "German Version"
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -203,14 +214,32 @@ msgid "SEPA Credit Transfers to Send"
 msgstr "Кредитные Переводы SEPA Отправить"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_pain_version
+msgid "SEPA Pain Version"
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML Файл"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
+msgid ""
+"SEPA may be a generic format, some countries differ from the SEPA "
+"recommandations made by the EPC (European Payment Councile) and thus the XML "
+"created need some tweakenings."
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
 msgid "Sepa Payments To Send"
 msgstr "Sepa Платежи Отправить"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+msgid "Swiss Version"
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -227,7 +256,7 @@ msgstr ""
 "идентифицируется с помощью номера счета IBAN и BIC-кода банка."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:322
+#: code:addons/account_sepa/sepa_credit_transfer.py:356
 #, python-format
 msgid ""
 "The account %s, linked to partner '%s', is not of type IBAN.\n"
@@ -259,7 +288,7 @@ msgstr ""
 "через SEPA. Пожалуйста, формируйте его сначала."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:277
+#: code:addons/account_sepa/sepa_credit_transfer.py:311
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
@@ -268,14 +297,14 @@ msgstr ""
 "%s."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:124
+#: code:addons/account_sepa/sepa_credit_transfer.py:129
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:126
+#: code:addons/account_sepa/sepa_credit_transfer.py:131
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
@@ -333,13 +362,13 @@ msgstr ""
 "/ - ? : ( ) . , ' + (space)"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:122
+#: code:addons/account_sepa/sepa_credit_transfer.py:127
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:306
+#: code:addons/account_sepa/sepa_credit_transfer.py:340
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
 msgstr ""
@@ -347,7 +376,7 @@ msgstr ""
 "банковского счета '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:152
+#: code:addons/account_sepa/sepa_credit_transfer.py:186
 #, python-format
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
@@ -363,7 +392,7 @@ msgid "There is no bank account selected for payment '%s'"
 msgstr "Нет банковского счета, выбранного для платежа '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:150
+#: code:addons/account_sepa/sepa_credit_transfer.py:184
 #, python-format
 msgid "Too many transactions for a single file."
 msgstr "Слишком много транзакций для одного файла."
@@ -388,7 +417,7 @@ msgid "Your Company Name"
 msgstr "Наименование Вашей Компании"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:118
+#: code:addons/account_sepa/sepa_credit_transfer.py:123
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr ""

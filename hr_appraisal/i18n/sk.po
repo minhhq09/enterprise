@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -175,6 +175,12 @@ msgid "Appraisal Form..."
 msgstr "Hodnotenie od..."
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#, fuzzy
+msgid "Appraisal Frequency"
+msgstr "Hodnotenie poslané"
+
+#. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
@@ -189,6 +195,12 @@ msgstr "Proces hodnotenia"
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
 msgstr "Hodnotenie ohľadom"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+#, fuzzy
+msgid "Appraisal Repeat Every"
+msgstr "Hodnotenie vytvorené"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:211
@@ -495,12 +507,12 @@ msgstr "Email šablóna pre Hodnotenie"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "Zamestnanec"
 
@@ -534,6 +546,12 @@ msgstr "Formulár pre názor zamestnanca"
 #: model:survey.page,title:hr_appraisal.appraisal_3
 msgid "Employee Performance in Key Areas"
 msgstr "Výkon zamestnanca v kľúčových oblastiach"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+#, fuzzy
+msgid "Employee appraisal"
+msgstr "Hodnotenie zamestnanca"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
@@ -1024,8 +1042,7 @@ msgid "Related partner id"
 msgstr "ID súvisiaceho partnera"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
 msgstr "Opakovať každé"
 
@@ -1409,11 +1426,17 @@ msgstr "oe_kanban_text_red "
 #~ msgid "Followers (Partners)"
 #~ msgstr "Odberatelia (Partneri)"
 
+#~ msgid "HR Department"
+#~ msgstr "HR oddelenie"
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Ak zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Ak iné, konkrétne:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Je odberateľ"
@@ -1439,6 +1462,15 @@ msgstr "oe_kanban_text_red "
 #~ msgstr ""
 #~ "Uzávierka hodnotenia musí byť v budúcnosti aby bolo umožnené zamestnancom "
 #~ "odpovedať na prieskum."
+
+#~ msgid ""
+#~ "The supervisor synthesizes and integrates all input into the completed "
+#~ "appraisal. He motivates his evaluation in the ad\n"
+#~ "hoc fields."
+#~ msgstr ""
+#~ "Nadriadený syntetizuje a integruje všetky vstupy do dokončeného "
+#~ "hodnotenia. On podnecuje jeho vyhodnotenie v ad\n"
+#~ "hoc poli."
 
 #~ msgid "Unread Messages"
 #~ msgstr "Neprečítané správy"

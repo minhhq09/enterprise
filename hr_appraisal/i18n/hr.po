@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -183,6 +183,12 @@ msgid "Appraisal Form..."
 msgstr "Obrazac procjene"
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#, fuzzy
+msgid "Appraisal Frequency"
+msgstr "Procjena poslana"
+
+#. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
@@ -197,6 +203,12 @@ msgstr "Proces procjene"
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
 msgid "Appraisal Regarding"
 msgstr "Procjena se odnosi na"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+#, fuzzy
+msgid "Appraisal Repeat Every"
+msgstr "Procjena kreirana"
 
 #. module: hr_appraisal
 #: code:addons/hr_appraisal/models/hr_appraisal.py:211
@@ -502,12 +514,12 @@ msgstr "Email predložak za procjenu"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "Radnik"
 
@@ -541,6 +553,12 @@ msgstr "Obrazac za prijedloge djelatnika"
 #: model:survey.page,title:hr_appraisal.appraisal_3
 msgid "Employee Performance in Key Areas"
 msgstr "Učinak zaposlenika u ključnim područjima"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+#, fuzzy
+msgid "Employee appraisal"
+msgstr "Procjene zaposlenika"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
@@ -1027,8 +1045,7 @@ msgid "Related partner id"
 msgstr "ID povezanog partnera"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
 msgstr "Ponavljaj svakih"
 
@@ -1411,11 +1428,17 @@ msgstr "oe_kanban_text_red"
 #~ msgid "Followers (Partners)"
 #~ msgstr "Pratitelji (Partneri)"
 
+#~ msgid "HR Department"
+#~ msgstr "Odjel ljudskih resursa"
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Ako je odabrano, nove poruke zahtijevaju Vašu pažnju."
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Ostalo, precizirajte:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Je pratitelj"
@@ -1441,6 +1464,15 @@ msgstr "oe_kanban_text_red"
 #~ msgstr ""
 #~ "Rok procjene mora djelatnicima ostaviti dovoljno vremena da uspiju "
 #~ "odgovoriti na sva pitanja u anketi."
+
+#~ msgid ""
+#~ "The supervisor synthesizes and integrates all input into the completed "
+#~ "appraisal. He motivates his evaluation in the ad\n"
+#~ "hoc fields."
+#~ msgstr ""
+#~ "Supervizor objedinjuje i integrira sve informacije prikupljene u završnom "
+#~ "ocjenjivanju. On bilježi svoju procjenu u ad\n"
+#~ "hoc polja."
 
 #~ msgid "Unread Messages"
 #~ msgstr "Nepročitane poruke"

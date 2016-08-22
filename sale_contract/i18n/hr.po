@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-05-06 12:12+0000\n"
 "Last-Translator: Bole <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -30,48 +30,48 @@ msgid ""
 "% macro account_table(values):\n"
 "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
 "max-width:600px\">\n"
+"<tr>\n"
+"    <th>Customer</th>\n"
+"    <th>Contract</th>\n"
+"    <th>Dates</th>\n"
+"    <th>Prepaid Units</th>\n"
+"    <th>Contact</th>\n"
+"</tr>\n"
+"% for partner, accounts in values:\n"
+"    % for account in accounts:\n"
 "    <tr>\n"
-"        <th>Customer</th>\n"
-"        <th>Contract</th>\n"
-"        <th>Dates</th>\n"
-"        <th>Prepaid Units</th>\n"
-"        <th>Contact</th>\n"
-"    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td style=\"width:85px;\">${partner.name}</td>\n"
-"            <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/"
-"web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account."
-"name}</a></td>\n"
-"            <td style=\"width:150px;\">${account.date_start} to ${account."
-"date and account.date or '???'}</td>\n"
-"            <td style=\"width:80px;\">\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
+"        <td style=\"width:85px;\">${partner.name}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
+"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
+"td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
+"and account.date or '???'}</td>\n"
+"        <td style=\"width:80px;\">\n"
+"        % if account.quantity_max != 0.0:\n"
+"            ${account.remaining_hours}/${account.quantity_max} units\n"
+"        % endif\n"
+"        </td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
 "${account.partner_id.email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
+"    </tr>\n"
 "    % endfor\n"
+"% endfor\n"
 "</table>\n"
 "% endmacro\n"
 "\n"
 "% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts just expired: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+"<h2>The following contracts just expired: </h2>\n"
+"${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>The following expired contracts are still not processed: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+"<h2>The following expired contracts are still not processed: </h2>\n"
+"${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts will expire in less than one month: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+"<h2>The following contracts will expire in less than one month: </h2>\n"
+"${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "<p>You can check all contracts to be renewed using the menu <strong>Sales / "
@@ -95,7 +95,8 @@ msgstr "Aktivan"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Actual Quantity"
+#, fuzzy
+msgid "Actual quantity"
 msgstr "Stvarna količina"
 
 #. module: sale_contract
@@ -176,6 +177,7 @@ msgid "Click to define a new product."
 msgstr "Klikni za definiranje novog proizvoda."
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
@@ -196,7 +198,6 @@ msgstr "Zatvori pretplate"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #, fuzzy
 msgid "Close/Cancel Reason"
 msgstr "Razlog zatvaranja"
@@ -419,7 +420,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Pomaže upravljanje pretplatama i ponavljajućem izdavanju računa."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7624
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
@@ -432,6 +433,13 @@ msgstr "ID"
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
 msgstr "Ako je takva postava, potvrda prodajnog naloga će stvoriti pretplatu"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
+msgid ""
+"If the active field is set to False, it will allow you to hide the account "
+"without removing it."
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -451,9 +459,7 @@ msgid "Invoice automatically repeat at specified interval"
 msgstr "Račun se automatski ponavlja u određenim intervalima"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:368
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, python-format
 msgid "Invoices"
 msgstr "Fakture"
 
@@ -557,7 +563,7 @@ msgid "Plan Description"
 msgstr "Opis plana"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:183
+#: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "Molimo definirajte prodajni za organizaciju: \"%s\" ."
@@ -586,6 +592,11 @@ msgstr "Grupa proizvoda"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_tmpl_id
 msgid "Product Template"
 msgstr "Predložak proizvoda"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
+msgid "Project Count"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_ids
@@ -707,7 +718,8 @@ msgstr "Postavke"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Sold Quantity"
+#, fuzzy
+msgid "Sold quantity"
 msgstr "Prodana količina"
 
 #. module: sale_contract
@@ -837,14 +849,16 @@ msgid "Subscriptions to Renew"
 msgstr "Pretplate za obnavljanje"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
+#, fuzzy
+msgid "Susbcription Count"
+msgstr "Pretplata na proizvod"
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
 msgid "Tags"
 msgstr "Oznake"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
-msgid "Tasks"
-msgstr "Zadatak"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -881,8 +895,8 @@ msgid "The user will have write access to Subscriptions."
 msgstr "Korisnik će imati pristup pisanju ugovora. "
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:84
-#: code:addons/sale_contract/models/sale_subscription.py:211
+#: code:addons/sale_contract/models/sale_order.py:83
+#: code:addons/sale_contract/models/sale_subscription.py:192
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr "Ovaj račun pokriva slijedeći period: %s - %s"
@@ -891,6 +905,14 @@ msgstr "Ovaj račun pokriva slijedeći period: %s - %s"
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
 msgid "This order is linked to a subscription."
 msgstr "Ovaj je nalog vezan za pretplatu."
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
+msgid ""
+"This will set the unit of measure used in projects and tasks.\n"
+"If you use the timesheet linked to projects, don't forget to setup the right "
+"unit of measure in your employees."
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -924,6 +946,12 @@ msgstr "Jedinica mjere"
 #: selection:sale.order,subscription_management:0
 msgid "Upselling"
 msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
+#, fuzzy
+msgid "Use Tasks"
+msgstr "Zadatak"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
@@ -964,7 +992,7 @@ msgstr ""
 "klijentima."
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:176
+#: code:addons/sale_contract/models/sale_subscription.py:170
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr "Prvo morate odabrati kupca za pretplatu %s!"
@@ -1002,13 +1030,6 @@ msgid "subscription Templates"
 msgstr "Predlošci pretplate"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
-msgid "unknown"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Generate Invoice"
 msgstr "⇒ Generiraj račun"
@@ -1033,6 +1054,9 @@ msgstr "⇒ Obnovi ponudu"
 
 #~ msgid "Check this field if this project manages timesheets"
 #~ msgstr "Označite ovo polje ako ovaj projekt upravlja evidencijom rada."
+
+#~ msgid "Comercial Partner"
+#~ msgstr "Komercijalni partner"
 
 #~ msgid "Contracts"
 #~ msgstr "Ugovori"
@@ -1100,6 +1124,9 @@ msgstr "⇒ Obnovi ponudu"
 #~ msgid "Payment reminder for subscription ${object.code}"
 #~ msgstr "Podsjetnik za plaćanje pretplate ${object.code}"
 
+#~ msgid "Reports"
+#~ msgstr "Izvještaji"
+
 #~ msgid "See Contracts"
 #~ msgstr "Pogledaj ugovore"
 
@@ -1112,8 +1139,14 @@ msgstr "⇒ Obnovi ponudu"
 #~ msgid "Set to Open"
 #~ msgstr "Postavi na otvoreno"
 
+#~ msgid "Susbcriptions to Renew"
+#~ msgstr "Pretplate za obnavljanje"
+
 #~ msgid "Termination of subscription ${object.code}"
 #~ msgstr "Prestanak pretplate ${object.code}"
+
+#~ msgid "The user will have write access to contracts."
+#~ msgstr "Korisnik će imati pristup pisanju ugovora. "
 
 #~ msgid "Timesheets"
 #~ msgstr "Kontrolne Kartice"

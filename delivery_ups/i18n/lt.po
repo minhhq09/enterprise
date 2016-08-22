@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2015-11-10 08:19+0000\n"
 "Last-Translator: Audrius Palenskis <audrius.palenskis@gmail.com>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -31,12 +31,6 @@ msgid "Centimeters"
 msgstr "Centimetrai"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
-msgid "Default Packaging Type"
-msgstr "UPS pakavimo tipas"
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "EPL"
 msgstr ""
@@ -52,11 +46,6 @@ msgid "Kilograms"
 msgstr "Kilogramai"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "Label File Type"
-msgstr ""
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "PDF"
 msgstr ""
@@ -68,7 +57,7 @@ msgid "Packaging"
 msgstr "Pakuotės aukštis"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:210
+#: code:addons/delivery_ups/models/ups_request.py:207
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Pateikite siuntimui bent vieną daiktą."
@@ -102,7 +91,7 @@ msgid "Shipping label for packages"
 msgstr "Siuntos lipdukas pakuotėms"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:185
+#: code:addons/delivery_ups/models/ups_request.py:182
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -112,7 +101,7 @@ msgstr ""
 "(trūksta lauko(ų) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:195
+#: code:addons/delivery_ups/models/ups_request.py:192
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -122,14 +111,14 @@ msgstr ""
 "(trūksta lauko(ų) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:215
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "Pristatymas negalimas,nes trūksta produkto svorio."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:209
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -138,7 +127,7 @@ msgstr ""
 "Prognozuojama kaina negali būti suskaičiuota, nes trūksta produkto svorio."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:205
+#: code:addons/delivery_ups/models/ups_request.py:202
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -179,9 +168,21 @@ msgid "UPS Configuration"
 msgstr "UPS Nustatymai"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+#, fuzzy
+msgid "UPS Default Packaging Type"
+msgstr "UPS pakavimo tipas"
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS Žemės siuntimas"
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+#, fuzzy
+msgid "UPS Label File Type"
+msgstr "UPS Paslaugos tipas"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -293,6 +294,9 @@ msgstr ""
 #~ msgid "Medium Express Box"
 #~ msgstr "Vidutinė ekspreso dėžė"
 
+#~ msgid "Package Height"
+#~ msgstr "Pakuotės aukštis"
+
 #~ msgid "Package Length"
 #~ msgstr "Pakuotės ilgis"
 
@@ -313,6 +317,9 @@ msgstr ""
 
 #~ msgid "UPS Letter"
 #~ msgstr "UPS Laiškas"
+
+#~ msgid "UPS Packaging Type"
+#~ msgstr "UPS pakavimo tipas"
 
 #~ msgid "UPS Pak"
 #~ msgstr "UPS Pak"

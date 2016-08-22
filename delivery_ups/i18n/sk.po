@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
 "PO-Revision-Date: 2016-02-11 10:48+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -29,12 +29,6 @@ msgid "Centimeters"
 msgstr "Centimetre"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
-msgid "Default Packaging Type"
-msgstr "UPS typ balenia"
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "EPL"
 msgstr ""
@@ -50,11 +44,6 @@ msgid "Kilograms"
 msgstr "Kilogramy"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "Label File Type"
-msgstr ""
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "PDF"
 msgstr ""
@@ -66,7 +55,7 @@ msgid "Packaging"
 msgstr "Výška balíka"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:210
+#: code:addons/delivery_ups/models/ups_request.py:207
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Prosím poskytnite aspoň jednu položku na poslanie."
@@ -100,7 +89,7 @@ msgid "Shipping label for packages"
 msgstr "Sprievodka pre balíky"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:185
+#: code:addons/delivery_ups/models/ups_request.py:182
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -110,7 +99,7 @@ msgstr ""
 "(Chýbajúce pole(polia) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:195
+#: code:addons/delivery_ups/models/ups_request.py:192
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -120,14 +109,14 @@ msgstr ""
 "(Chýbajúce pole(polia) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:215
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "Doručenie nemožno vykonať, pretože chýba váha vášho produktu."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:209
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -136,7 +125,7 @@ msgstr ""
 "Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:205
+#: code:addons/delivery_ups/models/ups_request.py:202
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -177,9 +166,21 @@ msgid "UPS Configuration"
 msgstr "UPS konfigurácia"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+#, fuzzy
+msgid "UPS Default Packaging Type"
+msgstr "UPS typ balenia"
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS povrch"
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+#, fuzzy
+msgid "UPS Label File Type"
+msgstr "UPS typ služby"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -291,6 +292,9 @@ msgstr ""
 #~ msgid "Medium Express Box"
 #~ msgstr "Stredný expres box"
 
+#~ msgid "Package Height"
+#~ msgstr "Výška balíka"
+
 #~ msgid "Package Length"
 #~ msgstr "Dĺžka balíka"
 
@@ -311,6 +315,9 @@ msgstr ""
 
 #~ msgid "UPS Letter"
 #~ msgstr "UPS dopis"
+
+#~ msgid "UPS Packaging Type"
+#~ msgstr "UPS typ balenia"
 
 #~ msgid "UPS Pak"
 #~ msgstr "UPS Pak"

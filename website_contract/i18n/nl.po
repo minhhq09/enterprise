@@ -1,4 +1,3 @@
-# #-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_contract
@@ -8,32 +7,18 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Volluta <volluta@tutanota.com>, 2015
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015-2016
-# #-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * website_contract
-#
-# Translators:
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
-# Eric Geens <ericgeens@yahoo.com>, 2016
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
-"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-06 10:39+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
+"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_contract
@@ -78,9 +63,9 @@ msgid ""
 "                    Your subscription (${ctx.get('code')}) has just been "
 "renewed\n"
 "                    %if ctx.get('total_amount') and ctx."
-"get('payment_method'):\n"
+"get('payment_token'):\n"
 "                        via a payment of ${ctx['total_amount']} "
-"${ctx['currency']} charged on ${ctx['payment_method']}\n"
+"${ctx['currency']} charged on ${ctx['payment_token']}\n"
 "                        .\n"
 "                    %endif\n"
 "                </p>\n"
@@ -204,90 +189,6 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:mail.template,body_html:website_contract.email_payment_close
-msgid ""
-"\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
-"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
-"collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
-"5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
-"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
-"collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
-"\">\n"
-"                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:"
-"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
-"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
-"                </div>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
-"background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
-"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
-"color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                <p>Hello ${object.partner_id.name},</p>\n"
-"                <p>\n"
-"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-"                  Our final attempt to process a payment for your "
-"subscription using your payment method\n"
-"                  ${ctx['payment_method']}\n"
-"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-"                  % if ctx.get('error'):\n"
-"                    Your bank or credit institution gave the following "
-"details about the issue: <pre>${ctx['error']}</pre>.\n"
-"                  %endif\n"
-"                % else:\n"
-"                  Our final attempt to process a payment for your "
-"subscription failed because we have no payment method recorded for you.\n"
-"                % endif \n"
-"                </p>\n"
-"\n"
-"                <p>\n"
-"                  As your payment should have been made <strong>15 days ago</"
-"strong>, your subscription has been terminated.\n"
-"                </p>\n"
-"\n"
-"                <br/>\n"
-"                <p>Should you wish to resolve this issue, do not hesitate to "
-"contact us.</p>\n"
-"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
-"</p>\n"
-"            </td>\n"
-"        </tr><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                % if user.signature\n"
-"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
-"                </p>\n"
-"                % endif\n"
-"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-"
-"decoration:none; color: #a24689;\">\n"
-"                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
-"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
-"                </strong></p>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>"
-msgstr ""
-
-#. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
 msgid ""
 "\n"
@@ -326,10 +227,10 @@ msgid ""
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
 "                <p>Hello ${object.partner_id.name},</p>\n"
 "                <p>\n"
-"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                % if ctx.get('payment_token') and ctx.get('total_amount'):\n"
 "                  We were unable to process a payment for your subscription "
 "using your payment method\n"
-"                  ${ctx['payment_method']}\n"
+"                  ${ctx['payment_token']}\n"
 "                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
 "                  % if ctx.get('error'):\n"
 "                    Your bank or credit institution gave the following "
@@ -352,6 +253,90 @@ msgid ""
 "                <br/>\n"
 "                <p>If you have any question, do not hesitate to contact us.</"
 "p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
+
+#. module: website_contract
+#: model:mail.template,body_html:website_contract.email_payment_close
+msgid ""
+"\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
+"                <div>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                </div>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_token) and ctx.get('total_amount'):\n"
+"                  Our final attempt to process a payment for your "
+"subscription using your payment method\n"
+"                  ${ctx['payment_token']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  Our final attempt to process a payment for your "
+"subscription failed because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  As your payment should have been made <strong>15 days ago</"
+"strong>, your subscription has been terminated.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>Should you wish to resolve this issue, do not hesitate to "
+"contact us.</p>\n"
 "                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
 "</p>\n"
 "            </td>\n"
@@ -477,7 +462,7 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
@@ -493,7 +478,7 @@ msgstr "<span class=\"label label-default\">Huidig plan</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> In "
@@ -504,7 +489,7 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> To "
@@ -537,20 +522,6 @@ msgstr "Kostenplaatsregels"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
 msgid "Account UUID"
 msgstr "Account UUID"
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_payment_acquirer_journal_id
-msgid ""
-"Account journal used for automatic payment reconciliation if you use "
-"automatic payment."
-msgstr ""
-"Bankboek gebruikt voor automatische betaling aflettering als u automatische "
-"betalingen gebruikt."
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_payment_acquirer_journal_id
-msgid "Accounting Journal"
-msgstr "Bankboek"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -590,13 +561,8 @@ msgstr "Toevoegen aan abonnement"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
-#, fuzzy
 msgid "Analytic Account"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Kostenplaatsen\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Kostenplaats"
+msgstr "Kostenplaatsen"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
@@ -636,13 +602,8 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.modal_remove
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
-#, fuzzy
 msgid "Cancel"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Annuleren\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Annuleer"
+msgstr "Annuleren"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -660,30 +621,14 @@ msgid "Change plan"
 msgstr "Wijzig plan"
 
 #. module: website_contract
-#: model:web.tip,description:website_contract.subscription_tip_1
-msgid ""
-"Click here to view this contract in the frontend. Your customers can access "
-"the same page from their portal to manage their subscription. You can also "
-"send them the secure url by e-mail, no login needed!"
-msgstr ""
-"Klik hier om dit contract in de front-end te bekijken. Uw klanten kunnen aan "
-"dezelfde pagina vanuit hun portaal om hun abonnementen te beheren. U kan hen "
-"ook de beveiligde URL versturen via e-mail, waarvoor geen login nodig is!"
-
-#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
 msgid "Closable by customer"
 msgstr "Afsluitbaar per klant"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
-#, fuzzy
 msgid "Close"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Afsluiten\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Sluiten"
+msgstr "Afsluiten"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -697,7 +642,7 @@ msgid "Close your contract"
 msgstr "Sluit uw contract"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:203
+#: code:addons/website_contract/controllers/main.py:242
 #, python-format
 msgid "Closing text : "
 msgstr "Afsluittekst:"
@@ -708,13 +653,8 @@ msgstr "Afsluittekst:"
 #: model:ir.ui.view,arch_db:website_contract.modal_remove
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.template_panel
-#, fuzzy
 msgid "Confirm"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Bevestig\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Bevestigen"
+msgstr "Bevestig"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_add
@@ -744,6 +684,11 @@ msgstr "Contract details"
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Contract sjabloon"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_menu_contract
+msgid "Contracts"
+msgstr "Contracten"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -794,13 +739,8 @@ msgstr "Omschrijving"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Weergave naam\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Schermnaam"
+msgstr "Weergave naam"
 
 #. module: website_contract
 #. openerp-web
@@ -842,11 +782,9 @@ msgstr ""
 "voorkant"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
-msgid "If not set, the default payment method of the partner will be used."
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_token_id
+msgid "If not set, the default payment token of the partner will be used."
 msgstr ""
-"Indien niet ingesteld zal de standaard betaalmethode van de partner worden "
-"gebruikt."
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
@@ -892,6 +830,18 @@ msgstr ""
 "factuurperiode is geldig tot"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "If you wish to reopen it, the"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid ""
+"If you wish to reopen it, you can pay your invoice for the current invoicing "
+"period."
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "Insert the options directly, they will be invoiced on the next invoice date."
@@ -907,13 +857,8 @@ msgstr "Onzichtbaar"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_payment_transaction_invoice_id
-#, fuzzy
 msgid "Invoice"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Factuuradres\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Factuur"
+msgstr "Factuuradres"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_success
@@ -961,14 +906,18 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "My Account"
 msgstr "Mijn account"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+msgid "My Contracts"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 msgid "Name"
 msgstr "Naam"
 
@@ -1021,13 +970,8 @@ msgstr "Optionele regels"
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
-#, fuzzy
 msgid "Options"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Instellingen\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Opties"
+msgstr "Instellingen"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
@@ -1040,14 +984,9 @@ msgid "Pay Now"
 msgstr "Betaal nu"
 
 #. module: website_contract
-#: model:ir.model,name:website_contract.model_payment_acquirer
-msgid "Payment Acquirer"
-msgstr "Betaling verwerver"
-
-#. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_method_id
-msgid "Payment Method"
-msgstr "Betaalwijze"
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_token_id
+msgid "Payment Token"
+msgstr "Betalingstoken"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_payment_transaction
@@ -1077,13 +1016,8 @@ msgstr "Portaal toegang"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#, fuzzy
 msgid "Price"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Bedrag\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Prijs"
+msgstr "Bedrag"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_product_id
@@ -1189,13 +1123,8 @@ msgstr "Verkoopdocumenten"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_order
-#, fuzzy
 msgid "Sales Order"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Verkooporders\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Verkooporder"
+msgstr "Verkooporders"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_order_line
@@ -1269,6 +1198,11 @@ msgstr "De volgende optie wordt verwijderd van uw volgende factuur:"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
 msgstr "De volledige URL om het document te kunnen raadplegen via de website."
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
+msgid "There are currently no contracts for your account."
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -1379,7 +1313,7 @@ msgstr ""
 "factureren bij de volgende factuurdatum."
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
 msgid "You don't have any subscriptions yet."
 msgstr "U heeft nog geen abonnement."
 
@@ -1399,7 +1333,8 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
 msgid "Your Contracts"
 msgstr "Uw contracten"
 
@@ -1407,20 +1342,6 @@ msgstr "Uw contracten"
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Your Plan"
 msgstr "Uw plan"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid ""
-"Your account is closed. If you wish to reopen it, you can pay your invoice "
-"for the current invoicing period."
-msgstr ""
-"Uw account is afgesloten. Als u het wilt heropenen kan u uw factuur betalen "
-"voor de huidige factuurperiode."
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Your contract is waiting for payment."
-msgstr "Uw contract wacht op een betaling."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -1435,6 +1356,16 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Your subscription is closed."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Your subscription is waiting for payment."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "by paying your invoice."
 msgstr "door uw factuur te betalen."
 
@@ -1444,6 +1375,11 @@ msgstr "door uw factuur te betalen."
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "day(s)"
 msgstr "dag(en)"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "missing payments (from"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1471,6 +1407,16 @@ msgstr "sale.subscription.wizard"
 #: model:ir.model,name:website_contract.model_sale_subscription_wizard_option
 msgid "sale.subscription.wizard.option"
 msgstr "sale.subscription.wizard.option"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "to this day) will be automatically processed."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "user_id.partner_id.property_product_pricelist.currency_id"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -2061,8 +2007,28 @@ msgstr "=> Upselling"
 #~ msgid "&amp;nbsp;"
 #~ msgstr "&amp;nbsp;"
 
+#~ msgid ""
+#~ "Account journal used for automatic payment reconciliation if you use "
+#~ "automatic payment."
+#~ msgstr ""
+#~ "Bankboek gebruikt voor automatische betaling aflettering als u "
+#~ "automatische betalingen gebruikt."
+
+#~ msgid "Accounting Journal"
+#~ msgstr "Bankboek"
+
 #~ msgid "Actual Quantity"
 #~ msgstr "Actuele hoeveelheid"
+
+#~ msgid ""
+#~ "Click here to view this contract in the frontend. Your customers can "
+#~ "access the same page from their portal to manage their subscription. You "
+#~ "can also send them the secure url by e-mail, no login needed!"
+#~ msgstr ""
+#~ "Klik hier om dit contract in de front-end te bekijken. Uw klanten kunnen "
+#~ "aan dezelfde pagina vanuit hun portaal om hun abonnementen te beheren. U "
+#~ "kan hen ook de beveiligde URL versturen via e-mail, waarvoor geen login "
+#~ "nodig is!"
 
 #~ msgid "Custom Domain"
 #~ msgstr "Gepersonaliseerd domein"
@@ -2111,6 +2077,11 @@ msgstr "=> Upselling"
 #~ msgid "Discount (%)"
 #~ msgstr "Krt. (%)"
 
+#~ msgid "If not set, the default payment method of the partner will be used."
+#~ msgstr ""
+#~ "Indien niet ingesteld zal de standaard betaalmethode van de partner "
+#~ "worden gebruikt."
+
 #~ msgid ""
 #~ "If we store your payment information on our server, subscription payments "
 #~ "will be made automatically."
@@ -2138,6 +2109,12 @@ msgstr "=> Upselling"
 
 #~ msgid "Pay & Confirm"
 #~ msgstr "Betaal & Bevestig"
+
+#~ msgid "Payment Acquirer"
+#~ msgstr "Betaling verwerver"
+
+#~ msgid "Payment Method"
+#~ msgstr "Betaalwijze"
 
 #~ msgid "Quantity actually used by the customer"
 #~ msgstr "Hoeveelheid die gebruikt is door de klant"
@@ -2179,14 +2156,18 @@ msgstr "=> Upselling"
 #~ msgstr ""
 #~ "U vind hier alle offertes en verkooporders gerelateerd aan dit abonnement."
 
+#~ msgid ""
+#~ "Your account is closed. If you wish to reopen it, you can pay your "
+#~ "invoice for the current invoicing period."
+#~ msgstr ""
+#~ "Uw account is afgesloten. Als u het wilt heropenen kan u uw factuur "
+#~ "betalen voor de huidige factuurperiode."
+
+#~ msgid "Your contract is waiting for payment."
+#~ msgstr "Uw contract wacht op een betaling."
+
 #~ msgid "Your subscription ${object.code}is active!"
 #~ msgstr "Uw abonnement ${object.code} is actief!"
 
 #~ msgid "years(s)"
 #~ msgstr "jaar(en)"
-
-#~ msgid "Contracts"
-#~ msgstr "Contracten"
-
-#~ msgid "Payment Token"
-#~ msgstr "Betalingstoken"
