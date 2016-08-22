@@ -1,19 +1,7 @@
-# #-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
-# Translators:
-# Clo <clo@odoo.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
-# Quentin THEURET <quentin@theuret.net>, 2016
-# Saad Thaifa <saad.thaifa@gmail.com>, 2015
-# Symons Xavier <xsy@openerp.com>, 2015
-# #-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * sale_contract
-#
+# 
 # Translators:
 # Xavier Belmere <Info@cartmeleon.com>, 2016
 # Frédéric LIETART <stuff@thelinuxfr.org>, 2016
@@ -36,22 +24,18 @@
 # Natys <support@natys.fr>, 2016
 # Daniel & Delphine <dd2013@leschoupinous.net>, 2016
 # Shark McGnark <peculiarcheese@gmail.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Shark McGnark <peculiarcheese@gmail.com>, 2016\n"
 "Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: sale_contract
@@ -61,54 +45,48 @@ msgid ""
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
+"<tr>\n"
+"    <th>Customer</th>\n"
+"    <th>Contract</th>\n"
+"    <th>Dates</th>\n"
+"    <th>Prepaid Units</th>\n"
+"    <th>Contact</th>\n"
+"</tr>\n"
+"% for partner, accounts in values:\n"
+"    % for account in accounts:\n"
 "    <tr>\n"
-"        <th>Customer</th>\n"
-"        <th>Contract</th>\n"
-"        <th>Dates</th>\n"
-"        <th>Prepaid Units</th>\n"
-"        <th>Contact</th>\n"
+"        <td style=\"width:85px;\">${partner.name}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
+"        <td style=\"width:80px;\">\n"
+"        % if account.quantity_max != 0.0:\n"
+"            ${account.remaining_hours}/${account.quantity_max} units\n"
+"        % endif\n"
+"        </td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td style=\"width:85px;\">${partner.name}</td>\n"
-"            <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/"
-"web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account."
-"name}</a></td>\n"
-"            <td style=\"width:150px;\">${account.date_start} to ${account."
-"date and account.date or '???'}</td>\n"
-"            <td style=\"width:80px;\">\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
 "    % endfor\n"
+"% endfor\n"
 "</table>\n"
 "% endmacro\n"
 "\n"
 "% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts just expired: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+"<h2>The following contracts just expired: </h2>\n"
+"${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>The following expired contracts are still not processed: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+"<h2>The following expired contracts are still not processed: </h2>\n"
+"${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts will expire in less than one month: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+"<h2>The following contracts will expire in less than one month: </h2>\n"
+"${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
@@ -128,8 +106,8 @@ msgstr "Actif"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Actual Quantity"
-msgstr "Quantité réelle"
+msgid "Actual quantity"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
@@ -160,6 +138,11 @@ msgid "Balance"
 msgstr "Balance"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_crossovered_budget_line
+msgid "Budget Lines"
+msgstr "Lignes de budget"
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
 msgid "Cancel"
 msgstr "Annuler"
@@ -180,6 +163,12 @@ msgstr "Annulé"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
 msgstr "Contrats annulés"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
+msgid "Check this box to manage customer activities through this project"
+msgstr ""
+"Cochez cette case pour gérer les activités des clients à travers ce projet"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
@@ -204,15 +193,11 @@ msgstr "Cliquez pour définir un nouveau contrat."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
-#, fuzzy
 msgid "Click to define a new product."
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Cliquer pour définir un nouveau produit.\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Cliquer pour définir un nouvel article."
+msgstr "Cliquer pour définir un nouvel article."
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
@@ -233,7 +218,6 @@ msgstr "Clôturer l'abonnement"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 msgid "Close/Cancel Reason"
 msgstr ""
 
@@ -246,13 +230,8 @@ msgstr "Fermé"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Closed contracts"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Contrats terminés\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Contrats fermés"
+msgstr "Contrats fermés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
@@ -294,13 +273,8 @@ msgstr "Contrats en cours"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Contracts not assigned"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Liste des contrats non assignés\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Contrats non-assignés"
+msgstr "Contrats non-assignés"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -418,13 +392,8 @@ msgstr "Remise (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Nom affiché\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Afficher le nom"
+msgstr "Afficher le nom"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -438,13 +407,8 @@ msgstr "Mois de fin"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "End date is in the next month"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"La date de fin est dans le prochain mois\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"La date de fin est dans le mois prochain"
+msgstr "La date de fin est dans le mois prochain"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -473,7 +437,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Vous aide à gérer les abonnements et la facturation récurrente."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7624
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12582
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
@@ -486,7 +450,17 @@ msgstr "ID"
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
 msgstr ""
-"Si défini, un ordre de vente confirmé avec cet article va créer un abonnement"
+"Si défini, un ordre de vente confirmé avec cet article va créer un "
+"abonnement"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
+msgid ""
+"If the active field is set to False, it will allow you to hide the account "
+"without removing it."
+msgstr ""
+"Si le champ actif est à \"Faux\", cela vous permet de cacher le compte sans "
+"le supprimer."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -497,13 +471,8 @@ msgstr "En cours"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
-#, fuzzy
 msgid "Invoice Lines"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Lignes de facture\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Lignes de factures"
+msgstr "Lignes de factures"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_rule_type
@@ -511,9 +480,7 @@ msgid "Invoice automatically repeat at specified interval"
 msgstr "La facturation se répète automatiquement à un intervalle spécifique"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:368
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, python-format
 msgid "Invoices"
 msgstr "Factures"
 
@@ -523,39 +490,24 @@ msgstr "Factures"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
-#, fuzzy
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Dernière modification le\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Dernière Modification le"
+msgstr "Dernière Modification le"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Mis à jour par\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Dernière mise à jour par"
+msgstr "Dernière mise à jour par"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
-#, fuzzy
 msgid "Last Updated on"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Mis à jour le\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Dernière mise à jour le"
+msgstr "Dernière mise à jour le"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_user_selectable
@@ -606,13 +558,12 @@ msgstr "Nouveau contrats"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
 "Odoo configure automatiquement les contrats à renouveler dans l'état \"en "
-"attente\". Après la négociation, le vendeur devrait fermer ou renouveler les "
-"contrats en attente."
+"attente\". Après la négociation, le vendeur devrait fermer ou renouveler les"
+" contrats en attente."
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_res_partner
@@ -636,7 +587,7 @@ msgid "Plan Description"
 msgstr "Description du plan"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:183
+#: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "Veuillez définir un journal de vente pour l'entreprise \"%s\"."
@@ -657,19 +608,19 @@ msgstr "Article"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
-#, fuzzy
 msgid "Product Category"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Catégorie d'articles\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Catégorie d'article"
+msgstr "Catégorie d'article"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_tmpl_id
 msgid "Product Template"
 msgstr "Modèle d'article"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
+msgid "Project Count"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_ids
@@ -704,13 +655,8 @@ msgstr "Motif"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, fuzzy
 msgid "Recurrency"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Répétition\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Récurrence"
+msgstr "Récurrence"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
@@ -754,13 +700,8 @@ msgstr "Responsable"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
-#, fuzzy
 msgid "Sale Subscription"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Abonnement de vente\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Abonnement"
+msgstr "Abonnement"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
@@ -797,8 +738,8 @@ msgstr "Configuration"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Sold Quantity"
-msgstr "Quantité vendue"
+msgid "Sold quantity"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
@@ -807,13 +748,8 @@ msgstr "Date de début"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Start Month"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Mois de départ\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Mois de début"
+msgstr "Mois de début"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -929,14 +865,15 @@ msgid "Subscriptions to Renew"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
+msgid "Susbcription Count"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
 msgid "Tags"
 msgstr "Étiquettes"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
-msgid "Tasks"
-msgstr "Tâches"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -960,8 +897,7 @@ msgid ""
 "            process: price, notes in the quotation, accounting data,\n"
 "            procurement methods, etc."
 msgstr ""
-"Le formulaire produit contient des informations pour simplifier le "
-"processus \n"
+"Le formulaire produit contient des informations pour simplifier le processus \n"
 "de vente: prix, notes dans le devis, données comptables,\n"
 "méthodes d'approvisionnement, etc."
 
@@ -976,8 +912,8 @@ msgid "The user will have write access to Subscriptions."
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:84
-#: code:addons/sale_contract/models/sale_subscription.py:211
+#: code:addons/sale_contract/models/sale_order.py:83
+#: code:addons/sale_contract/models/sale_subscription.py:192
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr "La facture couvre la période suivante : %s - %s"
@@ -988,17 +924,19 @@ msgid "This order is linked to a subscription."
 msgstr "Cet commande est liée à un abonnement."
 
 #. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
+msgid ""
+"This will set the unit of measure used in projects and tasks.\n"
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
-#, fuzzy
 msgid "To Renew"
-msgstr ""
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"À renouveler\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"À renouveller"
+msgstr "À renouveller"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_type
@@ -1026,16 +964,23 @@ msgid "Upselling"
 msgstr "Montée en gamme"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_issues
+msgid "Use Issues"
+msgstr "Utiliser les incidents"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
+msgid "Use Tasks"
+msgstr "Utilisez les tâches"
+
+#. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
-"Utilisez les contrats pour suivre les tâches, incidents, feuilles de temps "
-"ou facturer sur base du\n"
+"Utilisez les contrats pour suivre les tâches, incidents, feuilles de temps ou facturer sur base du\n"
 "travail fait, dépenses et/ou ordre de vente. Odoo gérera automatiquement \n"
 "les alertes vers le bon commercial pour les renouvellements des contrats."
 
@@ -1068,7 +1013,7 @@ msgstr ""
 "aux clients."
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:176
+#: code:addons/sale_contract/models/sale_subscription.py:170
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr "Vous devez d'abord choisir un Client pour l'abonnement %s!"
@@ -1105,13 +1050,6 @@ msgid "subscription Templates"
 msgstr "Modèles d'Abonnement"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
-msgid "unknown"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Generate Invoice"
 msgstr "=> Générer Facture"
@@ -1120,447 +1058,3 @@ msgstr "=> Générer Facture"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
 msgstr "=> Devis de renouvellement"
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            Your subscription (${ctx.get('code')}) has just been renewed\n"
-#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-#~ "                via a payment of ${ctx['total_amount']} "
-#~ "${ctx['currency']} charged on ${ctx['payment_method']}\n"
-#~ "                .\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>You will find your invoice attached.</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          Your next invoice will be on ${ctx.get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Bonjour ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            Votre abonnement (${ctx.get('code')}) vient juste d'être "
-#~ "renouvelé\n"
-#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-#~ "                via un paiement de ${ctx['total_amount']} "
-#~ "${ctx['currency']} par ${ctx['payment_method']}\n"
-#~ "                .\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>Vous trouverez votre facture en pièce jointe.</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          Votre prochaine facture sera envoyée le ${ctx."
-#~ "get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>Si vous aves des questions, n'hésitez pas à nous contacter.</"
-#~ "p>\n"
-#~ "        <p>Merci d'avoir choisi ${object.company_id.name or 'notre "
-#~ "société'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Tél&nbsp;:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web&nbsp;:&nbsp;<a href=\"${object.company_id."
-#~ "website}\">${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          Our final attempt to process a payment for your subscription "
-#~ "using your payment method\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            Your bank or credit institution gave the following details "
-#~ "about the issue: <pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          Our final attempt to process a payment for your subscription "
-#~ "failed because we have no payment method recorded for you.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          As your payment should have been made <strong>15 days ago</"
-#~ "strong>, your subscription has been terminated.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>Should you wish to resolve this issue, do not hesitate to "
-#~ "contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Bonjour ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          Notre dernière tentative pour procéder au paiement de votre "
-#~ "souscription en utilisant la méthode de paiement\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} a échoué.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            Votre banque ou votre institution de crédit nous a donné les "
-#~ "détails suivants à propos du problème :\n"
-#~ "<pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          Notre dernière tentative pour procéder au paiement de votre "
-#~ "souscription a échoué car nous n'avons pas de méthode de paiement "
-#~ "enregistrée pour votre compte.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          Comme votre paiement aurait du être effectué <strong>depuis 15 "
-#~ "jours</strong>, votre souscription a été clôturée.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>Si vous souhaitez résoudre ce problème, n'hésitez pas à nous "
-#~ "contacter.</p>\n"
-#~ "        <p>Merci ${object.company_id.name and 'd\\'avoir choisi %s' % "
-#~ "object.company_id.name or 'de nous avoir choisi'} !</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Téléphone :&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid "Action Needed"
-#~ msgstr "A besoin d'une action"
-
-#~ msgid "Active templates"
-#~ msgstr "Modèles actifs"
-
-#~ msgid "Budget Lines"
-#~ msgstr "Lignes de budget"
-
-#~ msgid "Check this box to manage customer activities through this project"
-#~ msgstr ""
-#~ "Cochez cette case pour gérer les activités des clients à travers ce projet"
-
-#~ msgid "Check this field if this project manages timesheets"
-#~ msgstr "Cochez ce champ si ce projet gère les feuilles de temps"
-
-#~ msgid "Comercial Partner"
-#~ msgstr "Partenaire commercial"
-
-#~ msgid "Contracts"
-#~ msgstr "Contrats"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "Date du dernier message posté sur cet enregistrement"
-
-#~ msgid "Followers"
-#~ msgstr "Abonnés"
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "Abonnés (Canaux)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "Abonnés (Partenaires)"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr "Si coché, de nouveaux messages demandent votre attention."
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "Si coché, de nouveaux messages demandent votre attention."
-
-#~ msgid ""
-#~ "If set, the associated contract will be overwritten by this sale order "
-#~ "(every recurring line of the contract not in this sale order will be "
-#~ "deleted)."
-#~ msgstr ""
-#~ "Si configuré, le contrat associé sera écrasé par l'ordre de vente (chaque "
-#~ "ligne récurrente du contrat qui n'est pas dans cet ordre de vente sera "
-#~ "effacée)."
-
-#~ msgid "Inactive"
-#~ msgstr "Inactive"
-
-#~ msgid "Inactive templates"
-#~ msgstr "Modèles inactifs"
-
-#~ msgid "Invoice for subscription ${ctx.get('code')}"
-#~ msgstr "Facture pour l'abonnement ${ctx.get('code')}"
-
-#~ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-#~ msgstr "Facture_${ctx.get('code')}_${ctx.get('previous_date')}"
-
-#~ msgid "Is Follower"
-#~ msgstr "Est un abonné"
-
-#~ msgid "Issues"
-#~ msgstr "Incidents"
-
-#~ msgid "Last Message Date"
-#~ msgstr "Date du dernier message"
-
-#~ msgid "Manage Contracts"
-#~ msgstr "Gérer les contrats"
-
-#~ msgid "Messages"
-#~ msgstr "Messages"
-
-#~ msgid "Messages and communication history"
-#~ msgstr "Historique des messages et communications"
-
-#~ msgid "Number of Actions"
-#~ msgstr "Nombre d'actions"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "Nombre de messages demandant une action"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "Nombre de messages non lus"
-
-#~ msgid "Open Subscriptions Menu"
-#~ msgstr "Ouvrir le menu des abonnements"
-
-#~ msgid "Payment reminder for subscription ${object.code}"
-#~ msgstr "Rappel de paiement pour l'abonnement ${object.code}"
-
-#~ msgid "Reports"
-#~ msgstr "Rapports"
-
-#~ msgid "See Contracts"
-#~ msgstr "Voir les contrats"
-
-#~ msgid "Set to Active"
-#~ msgstr "Activer"
-
-#~ msgid "Set to Inactive"
-#~ msgstr "Rendre inactif"
-
-#~ msgid "Set to Open"
-#~ msgstr "Mettre à ouvert"
-
-#~ msgid "Susbcriptions to Renew"
-#~ msgstr "Abonnements à renouveler"
-
-#~ msgid ""
-#~ "Templates are used to prefigure subscription that \n"
-#~ "                can be selected by the salespeople to quickly configure "
-#~ "the\n"
-#~ "                terms and conditions of the subscription."
-#~ msgstr ""
-#~ "Les modèles sont utilisés pour préfigurer les inscriptions qui\n"
-#~ "peuvent être sélectionnées par les commerciaux pour rapidement configurer "
-#~ "les\n"
-#~ "termes et conditions de l'inscription."
-
-#~ msgid "Termination of subscription ${object.code}"
-#~ msgstr "Fin de l'abonnement ${object.code}"
-
-#~ msgid "The user will have write access to contracts."
-#~ msgstr ""
-#~ "L'utilisateur aura un droit d'accès avec droit de modification sur les "
-#~ "contrats."
-
-#~ msgid "Timesheets"
-#~ msgstr "Feuilles de temps"
-
-#~ msgid "Type of Account"
-#~ msgstr "Type de compte"
-
-#~ msgid "Unread Messages"
-#~ msgstr "Messages non lus"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "Compteur de messages non lus"
-
-#~ msgid "Update Contract"
-#~ msgstr "Mettre à jour le contrat"
-
-#~ msgid "Website Messages"
-#~ msgstr "Messages du site web"
-
-#~ msgid "Website communication history"
-#~ msgstr "Historique de communication du site web"
-
-#~ msgid ""
-#~ "If the active field is set to False, it will allow you to hide the "
-#~ "account without removing it."
-#~ msgstr ""
-#~ "Si le champ actif est à \"Faux\", cela vous permet de cacher le compte "
-#~ "sans le supprimer."
-
-#~ msgid "Use Issues"
-#~ msgstr "Utiliser les incidents"
-
-#~ msgid "Use Tasks"
-#~ msgstr "Utilisez les tâches"

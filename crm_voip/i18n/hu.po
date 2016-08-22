@@ -1,36 +1,23 @@
-# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * crm_voip
-#
-# Translators:
-# krnkris, 2015-2016
-# krnkris, 2016
-# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * crm_voip
-#
+# 
 # Translators:
 # krnkris <krnkris@freemail.hu>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # Oregional <geza.nagy@oregional.hu>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
 "Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: crm_voip
@@ -40,8 +27,7 @@ msgid ""
 "<p>Hello ${object.partner_id.name},</p>\n"
 "\n"
 "<p>It seems that we have been interrupted during our conversation about\n"
-"    '${object.name}'. Can you please give me your availability in order to "
-"schedule \n"
+"    '${object.name}'. Can you please give me your availability in order to schedule \n"
 "    a new call? </p>\n"
 "<p>Best regards,</p>"
 msgstr ""
@@ -51,10 +37,15 @@ msgstr ""
 msgid ""
 "\n"
 "<p>Hello ${object.partner_id.name},</p>\n"
-"<p>I just tried to call you concerning the subject '${object.name}'. Can "
-"you\n"
+"<p>I just tried to call you concerning the subject '${object.name}'. Can you\n"
 "    please give me your availability in order to schedule a new call?</p>\n"
 "<p>Best regards,</p>"
+msgstr ""
+
+#. module: crm_voip
+#: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:87
+#, python-format
+msgid " about %s"
 msgstr ""
 
 #. module: crm_voip
@@ -65,11 +56,11 @@ msgstr "Esetek száma"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
-"[('show_duration', '=',True)]}\">min(s)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
+"'required':[('show_duration', '=',True)]}\">min(s)</span>"
 msgstr ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
-"[('show_duration', '=',True)]}\">perc(ek)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
+"'required':[('show_duration', '=',True)]}\">perc(ek)</span>"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_voip_view
@@ -88,8 +79,7 @@ msgid "Add to Call Queue"
 msgstr "Adja hozzá a hívási sorhoz"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_user_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_user_id
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_user_id
 msgid "Assign To"
 msgstr "Hozzárendel ehhez"
 
@@ -107,17 +97,24 @@ msgstr "Értékesítési csoportként"
 
 #. module: crm_voip
 #. openerp-web
+#: code:addons/crm_voip/static/src/js/crm_voip.js:404
 #: code:addons/crm_voip/static/src/js/crm_voip.js:415
-#: code:addons/crm_voip/static/src/js/crm_voip.js:426
-#: code:addons/crm_voip/static/src/js/crm_voip.js:443
-#: code:addons/crm_voip/static/src/js/crm_voip.js:451
-#: code:addons/crm_voip/static/src/js/crm_voip.js:468
-#: code:addons/crm_voip/static/src/js/crm_voip.js:575
+#: code:addons/crm_voip/static/src/js/crm_voip.js:432
+#: code:addons/crm_voip/static/src/js/crm_voip.js:440
+#: code:addons/crm_voip/static/src/js/crm_voip.js:457
+#: code:addons/crm_voip/static/src/js/crm_voip.js:563
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:83
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:124
 #, python-format
 msgid "Call"
 msgstr "Hívás"
+
+#. module: crm_voip
+#: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:82
+#: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:85
+#, python-format
+msgid "Call %s min(s)"
+msgstr ""
 
 #. module: crm_voip
 #. openerp-web
@@ -134,29 +131,29 @@ msgid "Call Next One"
 msgstr "Következő hívása"
 
 #. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_name
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid "Call Summary"
 msgstr "Hívás összefoglalása"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_name
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_name
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_name
 msgid "Call summary"
 msgstr "Hívás összefoglalása"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:879
+#: code:addons/crm_voip/static/src/js/crm_voip.js:867
 #, python-format
 msgid "Calling "
 msgstr "Hívás folyamatban"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:397
-#: code:addons/crm_voip/static/src/js/crm_voip.js:409
-#: code:addons/crm_voip/static/src/js/crm_voip.js:579
+#: code:addons/crm_voip/static/src/js/crm_voip.js:386
+#: code:addons/crm_voip/static/src/js/crm_voip.js:398
+#: code:addons/crm_voip/static/src/js/crm_voip.js:567
 #, python-format
 msgid "Calling..."
 msgstr "Hívás folyamatban..."
@@ -167,16 +164,10 @@ msgid "Calls Date by Month"
 msgstr "Havi dátum szerinti lehívás"
 
 #. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
-#: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
+#: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
-#, fuzzy
 msgid "Cancel"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Megszakít\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Mégse"
+msgstr "Mégse"
 
 #. module: crm_voip
 #. openerp-web
@@ -187,34 +178,8 @@ msgstr "Hívás megszakítása"
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
-#, fuzzy
 msgid "Cancelled"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Megszakított\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Visszavont"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_categ_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_categ_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_categ_id
-msgid "Category"
-msgstr "Kategória"
-
-#. module: crm_voip
-#: model:ir.model,name:crm_voip.model_crm_phonecall_category
-msgid "Category of phone call"
-msgstr "Telefon hívás kategóriája"
-
-#. module: crm_voip
-#: model:web.tip,description:crm_voip.voip_tip_2
-msgid ""
-"Changing the phone number will not change the phone numbers already in the "
-"call queue"
-msgstr ""
-"Telefonszám megváltoztatása nem változtatja meg a már híváslistában szereplő "
-"telefonszámokat"
+msgstr "Visszavont"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -228,7 +193,7 @@ msgstr "Kattintson a Telefon hívás összefoglalásának naplózásához"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:475
+#: code:addons/crm_voip/static/src/js/crm_voip.js:463
 #, python-format
 msgid "Click to unblock"
 msgstr "Blokkolás megszüntetéséhez kattintson"
@@ -247,34 +212,24 @@ msgid "Company"
 msgstr "Vállalat"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_contact_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_partner_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_partner_id
-#, fuzzy
 msgid "Contact"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Kapcsolattartó\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Kapcsolat"
+msgstr "Kapcsolat"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_create_uid
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_create_uid
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_create_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_create_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_create_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_create_uid
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_create_uid
 msgid "Created by"
 msgstr "Készítette"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_create_date
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_create_date
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_create_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_create_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_create_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_create_date
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_create_date
 msgid "Created on"
 msgstr "Létrehozás dátuma"
 
@@ -295,33 +250,28 @@ msgstr "Hónap létrehozás"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_custom_duration
-msgid "Custom duration"
-msgstr "Egyéni időtartam"
+msgid "Custom Duration"
+msgstr ""
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:103
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
-#, fuzzy, python-format
+#, python-format
 msgid "Customer"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Vevő\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Vásárló"
+msgstr "Vásárló"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:433
+#: code:addons/crm_voip/static/src/js/crm_voip.js:422
 #, python-format
 msgid "Customer unavailable"
 msgstr "Vásárló nem elérhető"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_date
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_date
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_date
 msgid "Date"
 msgstr "Dátum"
 
@@ -368,20 +318,13 @@ msgid "Display Keypad"
 msgstr ""
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_display_name
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_display_name
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_display_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_display_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_display_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_display_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_display_name
-#, fuzzy
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_display_name
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Név megjelenítése\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Megjelenített név"
+msgstr "Megjelenített név"
 
 #. module: crm_voip
 #: selection:crm.phonecall.log.wizard,reschedule_option:0
@@ -406,6 +349,11 @@ msgid "Edit the log"
 msgstr "Napló szerkesztése"
 
 #. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:110
 #, python-format
@@ -421,13 +369,8 @@ msgstr "Várható bevétel:"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
-#, fuzzy
 msgid "Extended Filters..."
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Kiterjesztett szűrők\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Kiterjesztett szűrők..."
+msgstr "Kiterjesztett szűrők..."
 
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.action_report_crm_phonecall
@@ -450,13 +393,8 @@ msgstr "Megadja a telefonhívások listázási sorrendjét."
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
-#, fuzzy
 msgid "Group By"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Csoportosítás ezzel...\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Csoportosítás"
+msgstr "Csoportosítás"
 
 #. module: crm_voip
 #. openerp-web
@@ -472,18 +410,11 @@ msgid "Held"
 msgstr "Tartott"
 
 #. module: crm_voip
-#: selection:crm.phonecall,priority:0
-msgid "High"
-msgstr "Magas"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_id
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_id
 msgid "ID"
 msgstr "Azonosító ID"
 
@@ -503,14 +434,14 @@ msgid "In 2 Months"
 msgstr "2 hónapig"
 
 #. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_in_automatic_mode
+msgid "In Automatic Mode"
+msgstr ""
+
+#. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_in_queue
 msgid "In Call Queue"
 msgstr "Hívási sorban"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_in_automatic_mode
-msgid "In automatic mode"
-msgstr "Automatikus módban"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.crm_phonecall_view
@@ -518,8 +449,8 @@ msgid ""
 "In order to follow up on the call, you can trigger a request for\n"
 "          another call, a meeting or an opportunity."
 msgstr ""
-"Telefonhívás nyomon követéséhez, elindíthat egy másik hívást, egy találkozót "
-"vagy egy lehetőséget "
+"Telefonhívás nyomon követéséhez, elindíthat egy másik hívást, egy találkozót"
+" vagy egy lehetőséget "
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_lead_in_call_center_queue
@@ -527,80 +458,55 @@ msgid "Is in the Call Queue"
 msgstr "Benne van a Hívási sorban"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:142
-#, python-format
-msgid "It's only possible to convert one phone call at a time."
-msgstr "Egyszerre csak egy telefonhívást tud átalakítani."
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard___last_update
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall___last_update
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall___last_update
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category___last_update
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard___last_update
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report___last_update
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard___last_update
-#, fuzzy
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall___last_update
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utolsó frissítés dátuma\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítve ekkor"
+msgstr "Utoljára frissítve ekkor"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_write_uid
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_write_uid
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_write_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_write_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_write_uid
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_write_uid
-#, fuzzy
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_write_uid
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utoljára frissítve, által\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítette"
+msgstr "Utoljára frissítette"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_write_date
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_write_date
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_write_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_write_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_write_date
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_write_date
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_write_date
 msgid "Last Updated on"
 msgstr "Utoljára frissítve "
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_crm_lead
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_opportunity_id
 msgid "Lead/Opportunity"
 msgstr "Érdeklődő/Lehetőség"
 
 #. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_name
+msgid "Lead/Opportunity name"
+msgstr ""
+
+#. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/crm_voip.py:313
-#: code:addons/crm_voip/static/src/js/crm_voip.js:512
+#: code:addons/crm_voip/models/crm_lead.py:86
+#: code:addons/crm_voip/static/src/js/crm_voip.js:500
 #, python-format
 msgid "Log a call"
 msgstr "Egy hívás naplózása"
 
 #. module: crm_voip
-#: selection:crm.phonecall,priority:0
-msgid "Low"
-msgstr "Alacsony"
-
-#. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_partner_mobile
-#, fuzzy
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_partner_mobile
 msgid "Mobile"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Mobil\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Mobilszám"
+msgstr "Mobilszám"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_mode
@@ -633,24 +539,12 @@ msgid "My Team"
 msgstr "Csapatom"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_name
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_name
-msgid "Name"
-msgstr "Név"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_new_date_action
-msgid "New date action"
-msgstr "Új dátumú művelet"
-
-#. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_new_title_action
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_title_action
 msgid "Next Action"
 msgstr "Következő művelet"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_date_action
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_new_date_action
 msgid "Next Action Date"
 msgstr "Következő művelet időpontja"
 
@@ -674,20 +568,10 @@ msgid "No opportunity linked"
 msgstr "Új lehetőség hozzácsatolva"
 
 #. module: crm_voip
-#: selection:crm.phonecall,priority:0
-msgid "Normal"
-msgstr "Normál"
-
-#. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Not Held"
 msgstr "Nem tartott"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_note
-msgid "Note"
-msgstr "Megjegyzés"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.crm_phonecall_view
@@ -696,10 +580,8 @@ msgid ""
 "          history of the communication with a customer or to inform another\n"
 "          team member."
 msgstr ""
-"Odoo rendszer lehetővé teszi a beérkező telefon hívások azonnal naplózását "
-"egy vásárló \n"
-"          kommunikációs történetének nyomon követhetőségéhez vagy egy másik "
-"csoport tag\n"
+"Odoo rendszer lehetővé teszi a beérkező telefon hívások azonnal naplózását egy vásárló \n"
+"          kommunikációs történetének nyomon követhetőségéhez vagy egy másik csoport tag\n"
 "          tájékoztatásához."
 
 #. module: crm_voip
@@ -710,42 +592,17 @@ msgid "Opportunity"
 msgstr "Lehetőség"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_id
-msgid "Opportunity id"
-msgstr "Lehetőség id"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_name
-msgid "Opportunity name"
-msgstr "Lehetőség neve"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_planned_revenue
-msgid "Opportunity planned revenue"
-msgstr "Lehetőség tervezett bevétele"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_probability
-msgid "Opportunity probability"
-msgstr "Lehetőség valószínűsége"
-
-#. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_pbx_ip
 msgid "PBX Server IP"
 msgstr "PBX Szerver IP"
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_res_partner
-#: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_partner_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_partner_id
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_name
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_partner_id
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 msgid "Partner"
 msgstr "Partner"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_email
-msgid "Partner email"
-msgstr "Partner email"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_id
@@ -754,30 +611,15 @@ msgstr "Partner id azonosító"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_image_small
-msgid "Partner image small"
-msgstr "Partner kis arcképe"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_name
-msgid "Partner name"
-msgstr "Partner neve"
+msgid "Partner image"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_phone
-msgid "Partner phone"
-msgstr "Partner telefonszáma"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_phone
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_partner_phone
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_partner_phone
 msgid "Phone"
 msgstr "Telefon"
-
-#. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:129
-#, python-format
-msgid "Phone Call"
-msgstr "Telefonhívás"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.crm_phonecall_calendar_view
@@ -839,18 +681,27 @@ msgid "Phonecalls Analysis"
 msgstr "Telefonhívások elemzései"
 
 #. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
-#: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
+#: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
 msgid "Planned Date"
 msgstr "Tervezett időpont"
 
 #. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_planned_revenue
+msgid "Planned Revenue"
+msgstr "Tervezett jövedelem"
+
+#. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:547
+#: code:addons/crm_voip/static/src/js/crm_voip.js:535
 #, python-format
 msgid "Please check if a phone number is given for the current phonecall"
 msgstr ""
 "Kérem ellenőrizze, hogy adott-e meg telefonszámot ehhez a telefonáláshoz"
+
+#. module: crm_voip
+#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_probability
+msgid "Probability"
+msgstr "Valószínűség"
 
 #. module: crm_voip
 #: selection:sale.config.settings,mode:0
@@ -892,10 +743,9 @@ msgid "Responsible"
 msgstr "Felelős"
 
 #. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_team_id
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_category_team_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_team_id
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_team_id
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_team_id
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Sales Team"
@@ -928,26 +778,19 @@ msgid "Schedule A New Call"
 msgstr "Egy új hívást ütemez"
 
 #. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
-#: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
+#: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
 msgid "Schedule Call"
 msgstr "Hívás ütemezése"
 
 #. module: crm_voip
-#: model:ir.actions.act_window,name:crm_voip.phonecall_to_phonecall_act
 #: model:ir.ui.view,arch_db:crm_voip.crm_phonecall_tree_view
 msgid "Schedule Other Call"
 msgstr "Egyéb hívások ütemezése"
 
 #. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
+#: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
 msgid "Schedule a Call"
 msgstr "Hívást ütemez"
-
-#. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
-msgid "Schedule a Phonecall"
-msgstr "Telefonhívás ütemez"
 
 #. module: crm_voip
 #. openerp-web
@@ -976,13 +819,9 @@ msgstr "Telefonszámok közötti keresés"
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:100
-#, fuzzy, python-format
+#, python-format
 msgid "Send Email"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"E-mail küldése\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"E-mail küldés"
+msgstr "E-mail küldés"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_sequence
@@ -991,8 +830,8 @@ msgstr "Sorszám"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_show_duration
-msgid "Show duration"
-msgstr "Időtartam megjelenítése"
+msgid "Show Duration"
+msgstr ""
 
 #. module: crm_voip
 #: selection:crm.phonecall.log.wizard,reschedule_option:0
@@ -1002,7 +841,7 @@ msgstr "Adott dátumon"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:878
+#: code:addons/crm_voip/static/src/js/crm_voip.js:866
 #, python-format
 msgid "Start Calling"
 msgstr "Hívás elkezdése"
@@ -1038,14 +877,14 @@ msgstr "A WebSoccet  URL webcíme"
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:433
+#: code:addons/crm_voip/static/src/js/crm_voip.js:422
 #, python-format
 msgid "The customer is temporary unavailable. Please try later."
 msgstr "A vásárló ideiglenesen nem elérhető. Kérem próbálja meg később."
 
 #. module: crm_voip
 #. openerp-web
-#: code:addons/crm_voip/static/src/js/crm_voip.js:547
+#: code:addons/crm_voip/static/src/js/crm_voip.js:535
 #, python-format
 msgid "The phonecall has no number"
 msgstr "A telefonhívásnak nincs telefonszáma"
@@ -1059,8 +898,7 @@ msgid ""
 msgstr ""
 "Az állapot tennivaló lesz, ha egy esetet hozott létre.\n"
 "Ha egy hívást elvégzett, akkor anak állapota Tartásban lesz.\n"
-"Ha a hívás már nem aktuális többé, az állapotot beállíthatja mint "
-"Megszakított."
+"Ha a hívás már nem aktuális többé, az állapotot beállíthatja mint Megszakított."
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -1120,14 +958,10 @@ msgid "VOIP Configuration"
 msgstr "VOIP beállítás"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:507
-#, fuzzy, python-format
+#: code:addons/crm_voip/wizard/crm_phonecall_transfer_wizard.py:34
+#, python-format
 msgid "Warning"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Figyelem\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Figyelmeztetés"
+msgstr "Figyelmeztetés"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_wsServer
@@ -1135,7 +969,7 @@ msgid "WebSocket"
 msgstr "WebSocket"
 
 #. module: crm_voip
-#: code:addons/crm_voip/crm_voip.py:508
+#: code:addons/crm_voip/wizard/crm_phonecall_transfer_wizard.py:35
 #, python-format
 msgid ""
 "Wrong configuration for the call. There is no external phone number "
@@ -1149,11 +983,6 @@ msgstr "Nem megfelelő beállítás a híváshoz. Nincs Külső telefonszám be�
 #, python-format
 msgid "at"
 msgstr "ekkor"
-
-#. module: crm_voip
-#: model:ir.model,name:crm_voip.model_crm_custom_phonecall_wizard
-msgid "crm.custom.phonecall.wizard"
-msgstr "crm.custom.phonecall.wizard"
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_crm_phonecall
@@ -1171,9 +1000,9 @@ msgid "crm.phonecall.transfer.wizard"
 msgstr "crm.phonecall.transfer.wizard"
 
 #. module: crm_voip
-#: model:ir.model,name:crm_voip.model_crm_phonecall2phonecall
-msgid "crm.phonecall2phonecall"
-msgstr "crm.phonecall2phonecall"
+#: model:ir.model,name:crm_voip.model_crm_schedule_phonecall
+msgid "crm.schedule_phonecall"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
@@ -1181,16 +1010,15 @@ msgid "e.g. Discuss proposal"
 msgstr "pl. Hozzászólási  javaslat"
 
 #. module: crm_voip
-#: model:ir.ui.view,arch_db:crm_voip.custom_phonecall_wizard_view
-#: model:ir.ui.view,arch_db:crm_voip.phonecall_to_phonecall_view
+#: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_opportunity_id
+msgid "opportunity"
+msgstr "lehetőség"
+
+#. module: crm_voip
+#: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
 msgid "or"
 msgstr "vagy"
-
-#. module: crm_voip
-#: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_priority
-msgid "priority"
-msgstr "prioritás"
 
 #. module: crm_voip
 #: model:ir.model,name:crm_voip.model_sale_config_settings
@@ -1221,83 +1049,3 @@ msgstr "átirányítás másik Külső telefonra"
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
 msgstr "átirányítás a külső telefonszámára"
-
-#~ msgid ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "\n"
-#~ "                    <p>Hello ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>I just tried to call you.\n"
-#~ "                        Can you please give me your availability in order "
-#~ "to schedule a new call?</p>\n"
-#~ "                    <p>Yours Sincerly</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "\n"
-#~ "                    <p>Tisztelt ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>Most próbáltam hívni.\n"
-#~ "                        Kérem adja meg elérhetőségét, új időpont "
-#~ "egyeztetésre.</p>\n"
-#~ "                    <p>Üdvözlettel</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-
-#~ msgid ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "                    <p>Hello ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>It seems that we have been interrupted during our "
-#~ "conversation. Can you please give me your availability in order to "
-#~ "schedule \n"
-#~ "                        a new call? </p>\n"
-#~ "                    <p>Yours Sincerly</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "                    <p>Tisztelt ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>Úgy látszik megszakadt a beszélgetés. Megadná "
-#~ "elérhetőségét, egy új visszahívás  \n"
-#~ "                        beütemezésére? </p>\n"
-#~ "                    <p>Üdvözlettel</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-
-#~ msgid "e.g. +32.81.81.37.00"
-#~ msgstr "pl. +32.81.81.37.00"
-
-#~ msgid "Email"
-#~ msgstr "E-mail"
-
-#~ msgid "Planned Revenue"
-#~ msgstr "Tervezett jövedelem"
-
-#~ msgid "Probability"
-#~ msgstr "Valószínűség"
-
-#~ msgid "opportunity"
-#~ msgstr "lehetőség"

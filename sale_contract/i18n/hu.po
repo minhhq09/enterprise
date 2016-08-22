@@ -1,172 +1,83 @@
-# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
-# Translators:
-# krnkris, 2015
-# krnkris, 2016
-# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * sale_contract
-#
+# 
 # Translators:
 # krnkris <krnkris@freemail.hu>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # Oregional <geza.nagy@oregional.hu>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
 "Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
-#, fuzzy
 msgid ""
 "\n"
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
+"<tr>\n"
+"    <th>Customer</th>\n"
+"    <th>Contract</th>\n"
+"    <th>Dates</th>\n"
+"    <th>Prepaid Units</th>\n"
+"    <th>Contact</th>\n"
+"</tr>\n"
+"% for partner, accounts in values:\n"
+"    % for account in accounts:\n"
 "    <tr>\n"
-"        <th>Customer</th>\n"
-"        <th>Contract</th>\n"
-"        <th>Dates</th>\n"
-"        <th>Prepaid Units</th>\n"
-"        <th>Contact</th>\n"
+"        <td style=\"width:85px;\">${partner.name}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
+"        <td style=\"width:80px;\">\n"
+"        % if account.quantity_max != 0.0:\n"
+"            ${account.remaining_hours}/${account.quantity_max} units\n"
+"        % endif\n"
+"        </td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td style=\"width:85px;\">${partner.name}</td>\n"
-"            <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/"
-"web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account."
-"name}</a></td>\n"
-"            <td style=\"width:150px;\">${account.date_start} to ${account."
-"date and account.date or '???'}</td>\n"
-"            <td style=\"width:80px;\">\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
 "    % endfor\n"
+"% endfor\n"
 "</table>\n"
 "% endmacro\n"
 "\n"
 "% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts just expired: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+"<h2>The following contracts just expired: </h2>\n"
+"${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>The following expired contracts are still not processed: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+"<h2>The following expired contracts are still not processed: </h2>\n"
+"${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>The following contracts will expire in less than one month: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+"<h2>The following contracts will expire in less than one month: </h2>\n"
+"${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
 msgstr ""
-"\n"
-"Tisztelt ${object.name},\n"
-"\n"
-"% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-"    <tr>\n"
-"        <th>Ügyfél</th>\n"
-"        <th>Szerződés</th>\n"
-"        <th>Dátumok</th>\n"
-"        <th>Előrefizetett egységek</th>\n"
-"        <th>Kapcsolat</th>\n"
-"    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td>${partner.name}</td>\n"
-"            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}"
-"&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-"            <td>${account.date_start} -tól ${account.date and account.date "
-"or '???'}</td>\n"
-"            <td>\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-"email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
-"    % endfor\n"
-"</table>\n"
-"% endmacro \n"
-"\n"
-"% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>A következő szerződés éppen lejárt: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>A következő lejárt szerződések még nincsenek végrehajtva: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>A következő szerződések egy hónapon belül lehárnak: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"<p>\n"
-"    Meg tudja nézni a megújítandó szerződéseket ezzel a menüvel:\n"
-"</p>\n"
-"<ul>\n"
-"    <li>Értékesítések / Számlázás / Megújítandó szerződések</li>\n"
-"</ul>\n"
-"<p>\n"
-"    Köszönöm,\n"
-"</p>\n"
-"\n"
-"<pre>\n"
-"-- \n"
-"Odoo rendszer automatikus Email\n"
-"</pre>\n"
-"\n"
-"            "
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Account Manager"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Felelős\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Könyvelési igazgató"
+msgstr "Könyvelési igazgató"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
@@ -177,8 +88,8 @@ msgstr "Aktív"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_actual_quantity
-msgid "Actual Quantity"
-msgstr "Aktuális mennyiség"
+msgid "Actual quantity"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
@@ -190,13 +101,8 @@ msgstr "Online megrendelés engedélyezése"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_analytic_account_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
-#, fuzzy
 msgid "Analytic Account"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Gyűjtő/elemző könyvelés\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Analitikus/elemző könyvelés"
+msgstr "Analitikus/elemző könyvelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
@@ -214,6 +120,11 @@ msgid "Balance"
 msgstr "Egyenleg"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_crossovered_budget_line
+msgid "Budget Lines"
+msgstr "Költségvetési sorok"
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
 msgid "Cancel"
 msgstr "Mégse"
@@ -227,33 +138,25 @@ msgstr "Feliratkozás érvénytelenítése"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
-#, fuzzy
 msgid "Cancelled"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Törölt\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Visszavont"
+msgstr "Visszavont"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Cancelled contracts"
+msgstr "Érvénytelenített szerződések"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_issues
+msgid "Check this box to manage customer activities through this project"
 msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Visszavont szerződések\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Érvénytelenített szerződések"
+"Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó vásárlói "
+"tevékenységek kezeléséhez."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
-#, fuzzy
 msgid "Check this box to manage internal activities through this project"
 msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó belső tevékenységek "
-"kezeléséhez.\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Jelölje ki ezt a négyzetet az ehhez a projekt témáhpoz tartozó belső "
 "tevékenységek kezeléséhez."
 
@@ -278,6 +181,7 @@ msgid "Click to define a new product."
 msgstr "Kattintson egy új termék meghatározásához."
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
@@ -298,7 +202,6 @@ msgstr "Feliratkozás lezárása"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 msgid "Close/Cancel Reason"
 msgstr ""
 
@@ -412,24 +315,14 @@ msgstr "Követel"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
-#, fuzzy
 msgid "Currency"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Valuta\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Pénznem"
+msgstr "Pénznem"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_partner_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_partner_id
-#, fuzzy
 msgid "Customer"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Vevő\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Vásárló"
+msgstr "Vásárló"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_end
@@ -449,13 +342,8 @@ msgstr "Következő számla dátuma"
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
-#, fuzzy
 msgid "Day(s)"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"nap\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Nap(ok)"
+msgstr "Nap(ok)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
@@ -488,13 +376,8 @@ msgstr "Árengedmény (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Név megjelenítése\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Megjelenített név"
+msgstr "Megjelenített név"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -529,13 +412,8 @@ msgstr "Hamarosan lejár"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-#, fuzzy
 msgid "Group By"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Csoportosítás...\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Csoportosítás"
+msgstr "Csoportosítás"
 
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
@@ -543,26 +421,30 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Segítséget nyújt a feliratkozások és ismétlődő számlázás kezelésében."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7624
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_12582
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
-#, fuzzy
 msgid "ID"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"ID\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Azonosító ID"
+msgstr "Azonosító ID"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
 msgstr ""
-"Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés jóváhagyása "
-"egy feliratkozást fog létrehozni"
+"Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés jóváhagyása"
+" egy feliratkozást fog létrehozni"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
+msgid ""
+"If the active field is set to False, it will allow you to hide the account "
+"without removing it."
+msgstr ""
+"Ha az aktív mező hamisra állított, akkor eltüntetheti a főkönyvi számlát "
+"annak törlése nélkül."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -582,9 +464,7 @@ msgid "Invoice automatically repeat at specified interval"
 msgstr "Számlák automatikusan ismétlődnek a megadott intervallum szerint"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:368
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, python-format
 msgid "Invoices"
 msgstr "Számlák"
 
@@ -594,26 +474,16 @@ msgstr "Számlák"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
-#, fuzzy
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utolsó frissítés dátuma\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítve ekkor"
+msgstr "Utoljára frissítve ekkor"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utoljára frissítve, által\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítette"
+msgstr "Utoljára frissítette"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
@@ -672,14 +542,11 @@ msgstr "Új szerződések"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
-"Odoo rendszer automatikusan beállítja a szerződéseket megújítandónak, ha "
-"azok függő\n"
-"            állapotúak. Tárgyalás után, az értékesítőnek le kell zárnia vagy "
-"megújítania a \n"
+"Odoo rendszer automatikusan beállítja a szerződéseket megújítandónak, ha azok függő\n"
+"            állapotúak. Tárgyalás után, az értékesítőnek le kell zárnia vagy megújítania a \n"
 "            függőben lévő szerződéseket."
 
 #. module: sale_contract
@@ -704,7 +571,7 @@ msgid "Plan Description"
 msgstr "Terv leírás"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:183
+#: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "Kérem  határozzon meg értékesítési naplót a vállalkozáshoz \"%s\"."
@@ -725,19 +592,19 @@ msgstr "Termék"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
-#, fuzzy
 msgid "Product Category"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Termék kategória\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Termékkategória"
+msgstr "Termékkategória"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_tmpl_id
 msgid "Product Template"
 msgstr "Terméksablon"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
+msgid "Project Count"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_ids
@@ -827,13 +694,8 @@ msgstr "Értékesítés előjegyzések"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
-#, fuzzy
 msgid "Sales Order"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Vevői megrendelés\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Vásárlói megrendelés"
+msgstr "Vásárlói megrendelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
@@ -860,8 +722,8 @@ msgstr "Beállítások"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_sold_quantity
-msgid "Sold Quantity"
-msgstr "Értékesített mennyiség"
+msgid "Sold quantity"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
@@ -987,14 +849,15 @@ msgid "Subscriptions to Renew"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
+msgid "Susbcription Count"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
 msgid "Tags"
 msgstr "Címkék"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
-msgid "Tasks"
-msgstr "Feladatok"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -1019,8 +882,7 @@ msgid ""
 "            procurement methods, etc."
 msgstr ""
 "A termék űrlap információkat tartalmaz az értékesítési folyamat \n"
-"            egyszerűsítésére:  ár, megjegyzések az árajánlaton, "
-"könyvelési  \n"
+"            egyszerűsítésére:  ár, megjegyzések az árajánlaton, könyvelési  \n"
 "            adatok, beszerzési módok, stb."
 
 #. module: sale_contract
@@ -1034,8 +896,8 @@ msgid "The user will have write access to Subscriptions."
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:84
-#: code:addons/sale_contract/models/sale_subscription.py:211
+#: code:addons/sale_contract/models/sale_order.py:83
+#: code:addons/sale_contract/models/sale_subscription.py:192
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr "A számla a következő időszakot fedi le: %s - %s"
@@ -1044,6 +906,13 @@ msgstr "A számla a következő időszakot fedi le: %s - %s"
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
 msgid "This order is linked to a subscription."
 msgstr "Ez a megrendelés hozzá van fűzve egy feliratkozáshoz."
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
+msgid ""
+"This will set the unit of measure used in projects and tasks.\n"
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -1079,21 +948,26 @@ msgid "Upselling"
 msgstr "Upselling, magasabb értékű értékesítés"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_issues
+msgid "Use Issues"
+msgstr "Használjon ügyeket"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
+msgid "Use Tasks"
+msgstr "Használaja az ügyeket"
+
+#. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
 "Használja a szerződéseket a folyamatok, ügyek, időtáblák vagy \n"
-"                számlázások elvégzett feladatok,  kiadások és/vagy vevői "
-"megrendelések \n"
-"                alapján való nyomon követésére. Odoo rendszer "
-"automatikusan \n"
-"                kezeli a megfelelő értékesítő felé a szerződés megújítására "
-"vonatkozó figyelmeztetéseket."
+"                számlázások elvégzett feladatok,  kiadások és/vagy vevői megrendelések \n"
+"                alapján való nyomon követésére. Odoo rendszer automatikusan \n"
+"                kezeli a megfelelő értékesítő felé a szerződés megújítására vonatkozó figyelmeztetéseket."
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
@@ -1120,12 +994,11 @@ msgid ""
 "            customers."
 msgstr ""
 "Mindene amit értékesít egy terméket kell meghatároznia,\n"
-"            akár egy fizikai termék, egy fogyó termék vagy egy "
-"szolgáltatás \n"
+"            akár egy fizikai termék, egy fogyó termék vagy egy szolgáltatás \n"
 "            melyet a vársárlóinak értékesít."
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:176
+#: code:addons/sale_contract/models/sale_subscription.py:170
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr "Először ki kell választania az Ügyfelet a Feliratkozáshoz %s!"
@@ -1162,13 +1035,6 @@ msgid "subscription Templates"
 msgstr "feliratkozási Sablonok"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
-msgid "unknown"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Generate Invoice"
 msgstr "⇒ Kimenő számla generálása"
@@ -1177,592 +1043,3 @@ msgstr "⇒ Kimenő számla generálása"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
 msgstr "⇒ Árajánlat megújításra"
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            Your subscription (${ctx.get('code')}) has just been renewed\n"
-#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-#~ "                via a payment of ${ctx['total_amount']} "
-#~ "${ctx['currency']} charged on ${ctx['payment_method']}\n"
-#~ "                .\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>You will find your invoice attached.</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          Your next invoice will be on ${ctx.get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            A (${ctx.get('code')}) feliratkozását megújítottuk\n"
-#~ "            %if ctx.get('total_amount') és ctx.get('payment_method'):\n"
-#~ "                a kifizetett összeg ${ctx['total_amount']} "
-#~ "${ctx['currency']} terhelve erre ${ctx['payment_method']}\n"
-#~ "                .\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>Mellékelve megtalálja a számláját.</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          Következő számlájának várható dátuma ${ctx.get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>További felmerülő kérdésekben állunk szíves rendelkezésükre.</"
-#~ "p>\n"
-#~ "        <p>Köszönjük, hogy a  ${object.company_id.name or 'us'} "
-#~ "választotta!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          Our final attempt to process a payment for your subscription "
-#~ "using your payment method\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            Your bank or credit institution gave the following details "
-#~ "about the issue: <pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          Our final attempt to process a payment for your subscription "
-#~ "failed because we have no payment method recorded for you.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          As your payment should have been made <strong>15 days ago</"
-#~ "strong>, your subscription has been terminated.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>Should you wish to resolve this issue, do not hesitate to "
-#~ "contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          Utoljára megpróbáljuk az előfizetéséhez tartozó befizetést "
-#~ "elvégezni a választott fizetési módjával\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            A bank vagy hitel intézete a következő részleteket közölte "
-#~ "erről: <pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          Az előfizetéséhez tartozó befizetés utolsó próbája a következőt "
-#~ "rögzítette.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          Mivel a befizetést <strong>15 napja</strong> meg kellet volna "
-#~ "tennie, ezért a feliratkozását szüneteltetjük.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>Ha megoldást szeretne találni z ügyben, kéjük vegye fel velünk "
-#~ "a kapcsolatot.</p>\n"
-#~ "        <p>Köszönjük, hogy a ${object.company_id.name or 'us'} "
-#~ "választotta!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          We were unable to process a payment for your subscription using "
-#~ "your payment method\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            Your bank or credit institution gave the following details "
-#~ "about the issue: <pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          We were unable to process a payment for your subscription "
-#~ "because we have no payment method recorded for you.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          Your subscription ${ctx.get('code')} is still valid but will be "
-#~ "<b>suspended</b>\n"
-#~ "          on ${ctx.get('date_close')} unless the payment succeeds in the "
-#~ "mean time (we will retry once every day).\n"
-#~ "          Please double-check that you have sufficient funds.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Tisztelt ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "        % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
-#~ "          Nem tudtuk végrehajtani a feliratkozásához tartozó befizetést a "
-#~ "fizetési módjával\n"
-#~ "          ${ctx['payment_method']}\n"
-#~ "          for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
-#~ "          % if ctx.get('error'):\n"
-#~ "            A bank vagy hitel intézete a következő részleteket közölte "
-#~ "erről:  <pre>${ctx['error']}</pre>.\n"
-#~ "          %endif\n"
-#~ "        % else:\n"
-#~ "          Feliratkozására nem tudjuk végrehajtani a befizetési műveletet, "
-#~ "mivel nem került rögzítésre fizetési módo.\n"
-#~ "        % endif \n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>\n"
-#~ "          A feliratkozás ${ctx.get('code')} még érvényes, de időközben "
-#~ "szüneteltetésre került <b>szüneteltetésre </b> került \n"
-#~ "          ${ctx.get('date_close')} dátummal, hacsak, időközben sikerül a "
-#~ "befizetés (minden nap egyszer kísérletet teszünk).\n"
-#~ "          Kérem ellenőrizze, hogy megvan rá a fedezete.\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>További felmerülő kérdésekben, állunk szíves rendelkezésükre.</"
-#~ "p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid "Action Needed"
-#~ msgstr "Művelet szükséges"
-
-#~ msgid "Active templates"
-#~ msgstr "Aktív sablonok"
-
-#, fuzzy
-#~ msgid "Budget Lines"
-#~ msgstr ""
-#~ "#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "Tervsorok\n"
-#~ "#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-#~ "Költségvetési sorok"
-
-#~ msgid "Check this box to manage customer activities through this project"
-#~ msgstr ""
-#~ "Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó vásárlói "
-#~ "tevékenységek kezeléséhez."
-
-#~ msgid "Check this field if this project manages timesheets"
-#~ msgstr "Jelölje ki ezt a mezőt, ha ez a projekt időkimutatásokat kezel"
-
-#~ msgid "Comercial Partner"
-#~ msgstr "Kereskedelmi partner"
-
-#~ msgid "Contracts"
-#~ msgstr "Szerződések"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "A feljegyzésen történt utolsó levelezés dátuma."
-
-#~ msgid "Followers"
-#~ msgstr "Követők"
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "Követők (Csatornák)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "Követők (Partnerek)"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
-
-#~ msgid ""
-#~ "If set, the associated contract will be overwritten by this sale order "
-#~ "(every recurring line of the contract not in this sale order will be "
-#~ "deleted)."
-#~ msgstr ""
-#~ "Ha beállított, a társított szerződés felülírásra kerül ezzel a vásárlói "
-#~ "megrendeléssel (a szerződés minden ismétlődő tételsora, mely nincs benne "
-#~ "ebbe a vásárlói megrendelésben, törlésre kerül)."
-
-#~ msgid "Inactive"
-#~ msgstr "Inaktív"
-
-#~ msgid "Inactive templates"
-#~ msgstr "Nem aktív sablonok"
-
-#~ msgid "Invoice for subscription ${ctx.get('code')}"
-#~ msgstr "Ennek a feliratkozásnak a számlája ${ctx.get('code')}"
-
-#~ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-#~ msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-
-#~ msgid "Is Follower"
-#~ msgstr "Ő követő"
-
-#~ msgid "Issues"
-#~ msgstr "Bejelentések"
-
-#~ msgid "Last Message Date"
-#~ msgstr "Utolsó üzenet dátuma"
-
-#~ msgid "Manage Contracts"
-#~ msgstr "Szerződések kezelése"
-
-#~ msgid "Messages"
-#~ msgstr "Üzenetek"
-
-#~ msgid "Messages and communication history"
-#~ msgstr "Üzenetek és kommunikáció történet"
-
-#~ msgid "Number of Actions"
-#~ msgstr "Műveletek száma"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "Üzenetek száma, melyek közbenjárást igényelnek"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "Olvasatlan üzenetek száma"
-
-#~ msgid "Open Subscriptions Menu"
-#~ msgstr "Előjegyzés menü megnyitása"
-
-#~ msgid "Payment reminder for subscription ${object.code}"
-#~ msgstr "Fizetési emlékeztető ehhez a feliratkozáshoz ${object.code}"
-
-#~ msgid "Reports"
-#~ msgstr "Kimutatások"
-
-#~ msgid "See Contracts"
-#~ msgstr "Szerződések megtekintése"
-
-#~ msgid "Set to Active"
-#~ msgstr "Beállítás aktívnak"
-
-#~ msgid "Set to Inactive"
-#~ msgstr "Beállítás inaktívnak"
-
-#~ msgid "Set to Open"
-#~ msgstr "Nyitottnak állítva"
-
-#~ msgid "Susbcriptions to Renew"
-#~ msgstr "Megújítandó feliratkozás"
-
-#~ msgid ""
-#~ "Templates are used to prefigure subscription that \n"
-#~ "                can be selected by the salespeople to quickly configure "
-#~ "the\n"
-#~ "                terms and conditions of the subscription."
-#~ msgstr ""
-#~ "Sablonokat használ a feliratkozások előkonfigurálásához, melyeket \n"
-#~ "                az értékesítő kiválaszthat és gyorsan beállíthat a\n"
-#~ "                 feliratkozás feltételeihez és részleteihez."
-
-#~ msgid "Termination of subscription ${object.code}"
-#~ msgstr "Ennek a feliratkozásnak a megszüntetése ${object.code}"
-
-#~ msgid "The user will have write access to contracts."
-#~ msgstr "A felhasználónak írása hozzáférése lesz a szerződésekre."
-
-#~ msgid "Timesheets"
-#~ msgstr "Munkaidő-kimutatások"
-
-#~ msgid "Type of Account"
-#~ msgstr "Bankszámla típusa"
-
-#~ msgid "Unread Messages"
-#~ msgstr "Olvasatlan üzenetek"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "Olvasatlan üzenetek számlálója"
-
-#~ msgid "Update Contract"
-#~ msgstr "Szerződés frissítés"
-
-#~ msgid "Website Messages"
-#~ msgstr "Weboldal üzenetek"
-
-#~ msgid "Website communication history"
-#~ msgstr "Weboldal  kommunikáció történet"
-
-#~ msgid ""
-#~ "If the active field is set to False, it will allow you to hide the "
-#~ "account without removing it."
-#~ msgstr ""
-#~ "Ha az aktív mező hamisra állított, akkor eltüntetheti a főkönyvi számlát "
-#~ "annak törlése nélkül."
-
-#~ msgid "Use Issues"
-#~ msgstr "Használjon ügyeket"
-
-#~ msgid "Use Tasks"
-#~ msgstr "Használaja az ügyeket"

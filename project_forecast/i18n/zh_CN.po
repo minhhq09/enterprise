@@ -1,51 +1,37 @@
-# #-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-#
-# Translators:
-# fausthuang, 2015
-# Jeffery Chenn <jeffery9@gmail.com>, 2016
-# #-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * project_forecast
-#
+# 
 # Translators:
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/"
-"zh_CN/)\n"
-"Language: zh_CN\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-
-#. module: project_forecast
-#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "% of time"
-msgstr "% 的时间"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_kanban_inherit_project_forecast
 msgid "<span class=\"o_label\">Forecast</span>"
-msgstr "<span class=\"o_label\">Forecast</span>"
+msgstr "<span class=\"o_label\">预测</span>"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
 msgid "<span>Forecast</span>"
 msgstr "<span>预测</span>"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_active
+msgid "Active"
+msgstr "有效"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_report_activities
@@ -61,6 +47,16 @@ msgstr "允许预测"
 #: model:ir.model.fields,field_description:project_forecast.field_project_project_allow_forecast
 msgid "Allow forecast"
 msgstr "允许预测"
+
+#. module: project_forecast
+#: model:ir.actions.server,name:project_forecast.project_forecast_server_action_archive
+msgid "Archive/Unarchive"
+msgstr "归档/取消归档"
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
+msgid "Archived"
+msgstr "已归档"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_project
@@ -90,13 +86,8 @@ msgstr "创建者"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_create_date
-#, fuzzy
 msgid "Created on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"创建时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"创建于"
+msgstr "创建于"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_display_name
@@ -147,6 +138,12 @@ msgid "Forecast by user"
 msgstr "按用户预测"
 
 #. module: project_forecast
+#: code:addons/project_forecast/models/models.py:121
+#, python-format
+msgid "Forecasted time must be positive"
+msgstr "预测的时间必须是正数"
+
+#. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Future"
 msgstr "未来"
@@ -158,13 +155,8 @@ msgstr "生成预测"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_pivot
-#, fuzzy
 msgid "Graph"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"图表\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"图形"
+msgstr "图形"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
@@ -173,43 +165,28 @@ msgstr "分组"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_id
-#, fuzzy
 msgid "ID"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"ID\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"标识"
+msgstr "ID"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_has_address
+msgid "Is address valid"
+msgstr "有效地址"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast___last_update
-#, fuzzy
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后修改时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最后修改日"
+msgstr "最后修改日"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后更新者\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最后更新人"
+msgstr "最后更新人"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_date
-#, fuzzy
 msgid "Last Updated on"
-msgstr ""
-"#-#-#-#-#  zh_CN.po (Odoo 9.0)  #-#-#-#-#\n"
-"最后更新时间\n"
-"#-#-#-#-#  zh_CN.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"最近更新时间"
+msgstr "最近更新时间"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
@@ -254,6 +231,16 @@ msgid "Project"
 msgstr "项目"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
+msgid "Project Forecast"
+msgstr "项目预测"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_resource_ids
+msgid "Resource ids"
+msgstr "资源 ids"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_start_date
 msgid "Start date"
 msgstr "开始日期"
@@ -268,24 +255,18 @@ msgstr "任务"
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_stage_id
 msgid "Task stage"
-msgstr ""
+msgstr "任务阶段"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_tag_ids
 msgid "Task tags"
-msgstr ""
+msgstr "任务标签"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:136
+#: code:addons/project_forecast/models/models.py:133
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr "开始日期必须早于结束日期。"
-
-#. module: project_forecast
-#: code:addons/project_forecast/models/models.py:124
-#, python-format
-msgid "The time must be positive"
-msgstr "时间必须是正数"
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_project_allow_forecast
@@ -298,13 +279,23 @@ msgid "Time"
 msgstr "时间"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
+msgid "Time Scheduling"
+msgstr "时间排程"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_user_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "User"
 msgstr "用户"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:130
+#: model:ir.model,name:project_forecast.model_res_users
+msgid "Users"
+msgstr "用户"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:127
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr "你的任务不在选定的项目。"
@@ -312,28 +303,10 @@ msgstr "你的任务不在选定的项目。"
 #. module: project_forecast
 #: model:ir.model,name:project_forecast.model_project_forecast
 msgid "project.forecast"
-msgstr "project.forecast"
+msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:59
+#: code:addons/project_forecast/models/models.py:63
 #, python-format
 msgid "undefined"
-msgstr "undefined"
-
-#~ msgid "Active"
-#~ msgstr "有效"
-
-#~ msgid "Archived"
-#~ msgstr "已归档"
-
-#~ msgid "Is address valid"
-#~ msgstr "有效地址"
-
-#~ msgid "Project Forecast"
-#~ msgstr "项目预测"
-
-#~ msgid "Time Scheduling"
-#~ msgstr "时间排程"
-
-#~ msgid "Users"
-#~ msgstr "用户"
+msgstr ""

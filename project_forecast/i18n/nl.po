@@ -1,43 +1,25 @@
-# #-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-#
-# Translators:
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
-# #-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * project_forecast
-#
+# 
 # Translators:
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # Eric Geens <ericgeens@yahoo.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Eric Geens <ericgeens@yahoo.com>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. module: project_forecast
-#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "% of time"
-msgstr "% van tijd"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_kanban_inherit_project_forecast
@@ -48,6 +30,11 @@ msgstr "<span class=\"o_label\">Prognose</span>"
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
 msgid "<span>Forecast</span>"
 msgstr "<span>Prognose</span>"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_active
+msgid "Active"
+msgstr "Actief"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_report_activities
@@ -65,19 +52,24 @@ msgid "Allow forecast"
 msgstr "Prognose toestaan"
 
 #. module: project_forecast
+#: model:ir.actions.server,name:project_forecast.project_forecast_server_action_archive
+msgid "Archive/Unarchive"
+msgstr "Archiveer/Dearchiveer"
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
+msgid "Archived"
+msgstr "Gearchiveerd"
+
+#. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_project
 msgid "By Project"
 msgstr "Op project"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_user
-#, fuzzy
 msgid "By User"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Op gebruiker\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Per gebruiker"
+msgstr "Per gebruiker"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_color
@@ -102,13 +94,8 @@ msgstr "Aangemaakt op"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Weergave naam\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Schermnaam"
+msgstr "Schermnaam"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_effective_hours
@@ -154,6 +141,12 @@ msgid "Forecast by user"
 msgstr "Prognotiseer per gebruiker"
 
 #. module: project_forecast
+#: code:addons/project_forecast/models/models.py:121
+#, python-format
+msgid "Forecasted time must be positive"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Future"
 msgstr "Toekomst"
@@ -170,18 +163,18 @@ msgstr "Diagram"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
-#, fuzzy
 msgid "Group By"
-msgstr ""
-"#-#-#-#-#  nl.po (Odoo 9.0)  #-#-#-#-#\n"
-"Groeperen op\n"
-"#-#-#-#-#  nl.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Groepeer op"
+msgstr "Groepeer op"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_id
 msgid "ID"
 msgstr "ID"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_has_address
+msgid "Is address valid"
+msgstr "Is adres valide"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast___last_update
@@ -241,6 +234,16 @@ msgid "Project"
 msgstr "Project"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
+msgid "Project Forecast"
+msgstr "Project prognose"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_resource_ids
+msgid "Resource ids"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_start_date
 msgid "Start date"
 msgstr "Startdatum"
@@ -263,16 +266,10 @@ msgid "Task tags"
 msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:136
+#: code:addons/project_forecast/models/models.py:133
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr "De startdatum moet voor de einddatum zijn."
-
-#. module: project_forecast
-#: code:addons/project_forecast/models/models.py:124
-#, python-format
-msgid "The time must be positive"
-msgstr "De tijd moet positief zijn"
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_project_allow_forecast
@@ -285,13 +282,23 @@ msgid "Time"
 msgstr "Tijd"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
+msgid "Time Scheduling"
+msgstr "Tijdsplanning"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_user_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "User"
 msgstr "Gebruiker"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:130
+#: model:ir.model,name:project_forecast.model_res_users
+msgid "Users"
+msgstr "Gebruikers"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:127
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr "Uw taak is niet in het geselecteerde project."
@@ -302,28 +309,7 @@ msgid "project.forecast"
 msgstr "project.forecast"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:59
+#: code:addons/project_forecast/models/models.py:63
 #, python-format
 msgid "undefined"
 msgstr "Niet gedefinieerd"
-
-#~ msgid "Active"
-#~ msgstr "Actief"
-
-#~ msgid "Archive/Unarchive"
-#~ msgstr "Archiveer/Dearchiveer"
-
-#~ msgid "Archived"
-#~ msgstr "Gearchiveerd"
-
-#~ msgid "Is address valid"
-#~ msgstr "Is adres valide"
-
-#~ msgid "Project Forecast"
-#~ msgstr "Project prognose"
-
-#~ msgid "Time Scheduling"
-#~ msgstr "Tijdsplanning"
-
-#~ msgid "Users"
-#~ msgstr "Gebruikers"

@@ -1,39 +1,25 @@
-# #-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_ups
-#
-# Translators:
-# Loic <loic.richard2@gmail.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015-2016
-# Richard Mathot <rim@odoo.com>, 2015
-# #-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * delivery_ups
-#
+# 
 # Translators:
 # Richard Mathot <rim@odoo.com>, 2016
 # Loic <loic.richard2@gmail.com>, 2016
 # Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2016
 # Olivier Lenoir <olivier.lenoir@free.fr>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-18 08:40+0000\n"
 "PO-Revision-Date: 2016-08-18 08:40+0000\n"
 "Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
 "Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  fr.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"#-#-#-#-#  fr.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: delivery_ups
@@ -45,12 +31,6 @@ msgstr "Transporteur"
 #: selection:delivery.carrier,ups_package_dimension_unit:0
 msgid "Centimeters"
 msgstr "Centimètres"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
-msgid "Default Packaging Type"
-msgstr "Type d'emballage UPS"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
@@ -66,11 +46,6 @@ msgstr "Pouces"
 #: selection:delivery.carrier,ups_package_weight_unit:0
 msgid "Kilograms"
 msgstr "Kilogrammes"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "Label File Type"
-msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
@@ -149,8 +124,8 @@ msgstr ""
 #: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr ""
 "Le prix estimé ne peut être calculé parce que le poids de votre article est "
 "manquant."
@@ -197,9 +172,19 @@ msgid "UPS Configuration"
 msgstr "Configuration UPS"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "UPS Default Packaging Type"
+msgstr ""
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS Ground"
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "UPS Label File Type"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -286,60 +271,3 @@ msgstr "Unité de poids du paquet UPS"
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "ZPL"
 msgstr ""
-
-#~ msgid "10KG Box"
-#~ msgstr "Boîte de 10 kilos"
-
-#~ msgid "25KG Box"
-#~ msgstr "Boîte de 25 kilos"
-
-#~ msgid "Express Box"
-#~ msgstr "Boîte express"
-
-#~ msgid "Fixed height if not provided on the product packaging."
-#~ msgstr "Hauteur fixe si non fourni sur l'emballage de l'article."
-
-#~ msgid "Fixed length if not provided on the product packaging."
-#~ msgstr "Profondeur fixe si non fourni sur l'emballage de l'article."
-
-#~ msgid "Fixed width if not provided on the product packaging."
-#~ msgstr "Longueur fixe si non fourni sur l'emballage de l'article."
-
-#~ msgid "Flat Pack"
-#~ msgstr "Emballage plat"
-
-#~ msgid "Medium Express Box"
-#~ msgstr "Boîte express médium"
-
-#~ msgid "Package Height"
-#~ msgstr "Hauteur du Package"
-
-#~ msgid "Package Length"
-#~ msgstr "Profondeur du Package"
-
-#~ msgid "Package Width"
-#~ msgstr "Taille du Package"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Package /  fourni par le client"
-
-#~ msgid "Pallet"
-#~ msgstr "Palette"
-
-#~ msgid "Small Express Box"
-#~ msgstr "Petite boîte express"
-
-#~ msgid "Test Mode"
-#~ msgstr "Mode test"
-
-#~ msgid "UPS Letter"
-#~ msgstr "Lettre UPS"
-
-#~ msgid "UPS Pak"
-#~ msgstr "UPS Pak"
-
-#~ msgid "UPS Tube"
-#~ msgstr "UPS Tube"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Décochez cette case pour utiliser enproduction"
