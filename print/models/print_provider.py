@@ -155,7 +155,7 @@ class PrintOrder(models.Model):
             elif not current_order.attachment_id and current_order.res_model and current_order.res_id and report: # check report
                 # browse object and find its pdf (binary content)
                 object_to_print = self.env[current_order.res_model].browse(current_order.res_id)
-                bin_pdf = Report.get_pdf(object_to_print, report.report_name)
+                bin_pdf = Report.get_pdf([current_order.res_id], report.report_name)
 
                 # compute the name of the new attachment
                 filename = False
