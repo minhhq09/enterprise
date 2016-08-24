@@ -23,7 +23,7 @@
                 <p>You can either create a quotation that will be discounted for the current invoicing period (the options will be added when the quotation is confirmed) or directly insert them in the subscription to invoice it on the next invoice date.</p>
                 <field name="option_lines">
                     <tree string="Options" editable="bottom">
-                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity)"/>
+                        <field name="product_id" on_change="product_id_change(product_id, uom_id, quantity)" context="{'default_recurring_invoice': True}"/>
                         <field name="name" invisible="1"/>
                         <field name="price_unit" invisible="1"/>
                         <field name="quantity" readonly="0"/>
