@@ -753,8 +753,34 @@
 
     <template id="portal_my_contracts" name="My Contracts">
         <t t-call="website_portal.portal_layout">
-            <h3 class="page-header">Your Contracts</h3>
-
+            <h3 class="page-header"></h3>
+             <div class="row">
+                <h3 class="page-header">
+                    Your Contracts
+                    <div class="dropdown pull-right mr8">
+                        <button id="sortby" class="btn btn-default" type="button" data-toggle="dropdown">
+                            <span class="fa fa-sort fa-lg" /> <span t-esc="sortings.get(sortby, {}).get('label', 'Newest')"/>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortby">
+                            <li t-foreach="sortings" t-as="option" t-attf-class="#{sortby == option and 'active'}">
+                                <a t-att-href="'/my/contract?' + keep_query('date_begin', 'date_end', sortby=option)"><span t-esc="sortings.get(option).get('label')"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown pull-right mr8">
+                        <button id="filters" class="btn btn-default" type="button" data-toggle="dropdown">
+                            <span class="fa fa-filter fa-lg" /> <span t-esc="filters.get(select, {}).get('label', 'All')"/>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="filters">
+                            <li t-foreach="filters" t-as="option" t-att-class="select == option and 'active'">
+                                <a t-att-href="'/my/contract?' + keep_query('date_begin', 'date_end', 'sortby', select=option)"><span t-esc="filters.get(option).get('label')"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                </h3>
+            </div>
             <t t-if="not accounts">
                 <p>You don't have any subscriptions yet.</p>
             </t>
@@ -787,6 +813,9 @@
                         </tr>
                     </t>
                 </table>
+                <div class="col-md-12 text-right">
+                    <t t-call="website.pager"/>
+                </div>
             </t>
         </t>
     </template>
