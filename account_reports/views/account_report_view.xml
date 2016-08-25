@@ -8,12 +8,21 @@
             <field name="arch" type="xml">
                 <form string="Account Report">
                     <sheet>
-                    <group col="4">
-                        <field colspan="4" name="name"/>
-                        <field name="debit_credit"/>
-                        <field name="report_type"/>
-                        <field colspan="4" name="line_ids" nolabel="1"/>
-                    </group>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="report_type"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="debit_credit"/>
+                                <field name="tax_report"/>
+                            </group>
+                            <field colspan="4" name="line_ids"/>
+                        </group>
                     </sheet>
                 </form>
             </field>

@@ -28,6 +28,7 @@ class ReportAccountFinancialReport(models.Model):
     company_id = fields.Many2one('res.company', string='Company')
     menuitem_created = fields.Boolean("Menu Has Been Created", default=False)
     parent_id = fields.Many2one('ir.ui.menu')
+    tax_report = fields.Boolean('Tax Report', help="Set to True to automatically filter out journal items that have the boolean field ´tax_exigible´ set to False")
 
     def create_action_and_menu(self, parent_id):
         client_action = self.env['ir.actions.client'].create({
@@ -159,19 +160,22 @@ class AccountFinancialReportLine(models.Model):
                 select = select.replace(field, field + '_cash_basis', number_of_occurence - 1)
         return select, extra_params
 
-    def _compute_line(self, currency_table, group_by=None, domain=[]):
+    def _compute_line(self, currency_table, financial_report, group_by=None, domain=[]):
         """ Computes the sum that appeas on report lines when they aren't unfolded. It is using _query_get() function
             of account.move.line which is based on the context, and an additional domain (the field domain on the report
             line) to build the query that will be used.
 
             @param currency_table: dictionary containing the foreign currencies (key) and their factor (value)
                 compared to the current user's company currency
+            @param financial_report: browse_record of the financial report we are willing to compute the lines for
             @param group_by: used in case of conditionnal sums on the report line
             @param domain: domain on the report line to consider in the query_get() call
 
             @returns : a dictionnary that has for each aml in the domain a dictionnary of the values of the fields
         """
         tables, where_clause, where_params = self.env['account.move.line']._query_get(domain=domain)
+        if financial_report.tax_report:
+            where_clause += ''' AND "account_move_line".tax_exigible = 't' '''
 
         select, params = self._query_get_select_sum(currency_table)
         where_params = params + where_params
@@ -218,7 +222,7 @@ class AccountFinancialReportLine(models.Model):
         if self.groupby and self.groupby not in self.env['account.move.line']._columns:
             raise ValidationError("Groupby should be a journal item field")
 
-    def _get_sum(self, currency_table, field_names=None):
+    def _get_sum(self, currency_table, financial_report, field_names=None):
         ''' Returns the sum of the amls in the domain '''
         if not field_names:
             field_names = ['debit', 'credit', 'balance', 'amount_residual']
@@ -234,15 +238,15 @@ class AccountFinancialReportLine(models.Model):
                 period_to = date_tmp.strftime('%Y-%m-%d')
                 period_from = False
 
-            res = self.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to)._compute_line(currency_table, group_by=self.groupby, domain=self.domain)
+            res = self.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to)._compute_line(currency_table, financial_report, group_by=self.groupby, domain=self.domain)
         return res
 
     @api.one
-    def get_balance(self, linesDict, currency_table, field_names=None):
+    def get_balance(self, linesDict, currency_table, financial_report, field_names=None):
         if not field_names:
             field_names = ['debit', 'credit', 'balance']
         res = dict((fn, 0.0) for fn in field_names)
-        c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, self)
+        c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, financial_report, self)
         if self.formulas:
             for f in self.formulas.split(';'):
                 [field, formula] = f.split('=')
@@ -304,7 +308,7 @@ class AccountFinancialReportLine(models.Model):
         if self.code and self.code in linesDict:
             res = linesDict[self.code]
         else:
-            res = FormulaLine(self, currency_table, linesDict=linesDict)
+            res = FormulaLine(self, currency_table, financial_report, linesDict=linesDict)
         vals = {}
         vals['balance'] = res.balance
         if debit_credit:
@@ -315,6 +319,8 @@ class AccountFinancialReportLine(models.Model):
         if self.domain and self.groupby and self.show_domain != 'never':
             aml_obj = self.env['account.move.line']
             tables, where_clause, where_params = aml_obj._query_get(domain=self.domain)
+            if financial_report.tax_report:
+                where_clause += ''' AND "account_move_line".tax_exigible = 't' '''
             params = []
 
             groupby = self.groupby or 'id'
@@ -327,12 +333,12 @@ class AccountFinancialReportLine(models.Model):
             self.env.cr.execute(sql, params)
             results = self.env.cr.fetchall()
             results = dict([(k[0], {'balance': k[1], 'amount_residual': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
-            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, only_sum=True)
+            c = FormulaContext(self.env['account.financial.html.report.line'], linesDict, currency_table, financial_report, only_sum=True)
             if formulas:
                 for key in results:
-                    c['sum'] = FormulaLine(results[key], currency_table, type='not_computed')
-                    c['sum_if_pos'] = FormulaLine(results[key]['balance'] >= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
-                    c['sum_if_neg'] = FormulaLine(results[key]['balance'] <= 0.0 and results[key] or {'balance': 0.0}, currency_table, type='not_computed')
+                    c['sum'] = FormulaLine(results[key], currency_table, financial_report, type='not_computed')
+                    c['sum_if_pos'] = FormulaLine(results[key]['balance'] >= 0.0 and results[key] or {'balance': 0.0}, currency_table, financial_report, type='not_computed')
+                    c['sum_if_neg'] = FormulaLine(results[key]['balance'] <= 0.0 and results[key] or {'balance': 0.0}, currency_table, financial_report, type='not_computed')
                     for col, formula in formulas.items():
                         if col in results[key]:
                             results[key][col] = safe_eval(formula, c, nocopy=True)
@@ -501,12 +507,12 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
 
 
 class FormulaLine(object):
-    def __init__(self, obj, currency_table, type='balance', linesDict=None):
+    def __init__(self, obj, currency_table, financial_report, type='balance', linesDict=None):
         if linesDict is None:
             linesDict = {}
         fields = dict((fn, 0.0) for fn in ['debit', 'credit', 'balance'])
         if type == 'balance':
-            fields = obj.get_balance(linesDict, currency_table)[0]
+            fields = obj.get_balance(linesDict, currency_table, financial_report)[0]
             linesDict[obj.code] = self
         elif type in ['sum', 'sum_if_pos', 'sum_if_neg']:
             if type == 'sum_if_neg':
@@ -514,12 +520,12 @@ class FormulaLine(object):
             if type == 'sum_if_pos':
                 obj = obj.with_context(sum_if_pos=True)
             if obj._name == 'account.financial.html.report.line':
-                fields = obj._get_sum(currency_table)
+                fields = obj._get_sum(currency_table, financial_report)
                 self.amount_residual = fields['amount_residual']
             elif obj._name == 'account.move.line':
                 self.amount_residual = 0.0
                 field_names = ['debit', 'credit', 'balance', 'amount_residual']
-                res = obj.env['account.financial.html.report.line']._compute_line(currency_table)
+                res = obj.env['account.financial.html.report.line']._compute_line(currency_table, financial_report)
                 for field in field_names:
                     fields[field] = res[field]
                 self.amount_residual = fields['amount_residual']
@@ -535,31 +541,32 @@ class FormulaLine(object):
 
 
 class FormulaContext(dict):
-    def __init__(self, reportLineObj, linesDict, currency_table, curObj=None, only_sum=False, *data):
+    def __init__(self, reportLineObj, linesDict, currency_table, financial_report, curObj=None, only_sum=False, *data):
         self.reportLineObj = reportLineObj
         self.curObj = curObj
         self.linesDict = linesDict
         self.currency_table = currency_table
         self.only_sum = only_sum
+        self.financial_report = financial_report
         return super(FormulaContext, self).__init__(data)
 
     def __getitem__(self, item):
         if self.only_sum and item not in ['sum', 'sum_if_pos', 'sum_if_neg']:
-            return FormulaLine(self.curObj, self.currency_table, type='null')
+            return FormulaLine(self.curObj, self.currency_table, self.financial_report, type='null')
         if self.get(item):
             return super(FormulaContext, self).__getitem__(item)
         if self.linesDict.get(item):
             return self.linesDict[item]
         if item == 'sum':
-            res = FormulaLine(self.curObj, self.currency_table, type='sum')
+            res = FormulaLine(self.curObj, self.currency_table, self.financial_report, type='sum')
             self['sum'] = res
             return res
         if item == 'sum_if_pos':
-            res = FormulaLine(self.curObj, self.currency_table, type='sum_if_pos')
+            res = FormulaLine(self.curObj, self.currency_table, self.financial_report, type='sum_if_pos')
             self['sum_if_pos'] = res
             return res
         if item == 'sum_if_neg':
-            res = FormulaLine(self.curObj, self.currency_table, type='sum_if_neg')
+            res = FormulaLine(self.curObj, self.currency_table, self.financial_report, type='sum_if_neg')
             self['sum_if_neg'] = res
             return res
         if item == 'NDays':
@@ -579,7 +586,7 @@ class FormulaContext(dict):
                 date_tmp = datetime.strptime(line_id._context['date_from'], "%Y-%m-%d") - relativedelta(days=1)
                 period_to = date_tmp.strftime('%Y-%m-%d')
                 period_from = False
-            res = FormulaLine(line_id.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to), self.currency_table, linesDict=self.linesDict)
+            res = FormulaLine(line_id.with_context(strict_range=strict_range, date_from=period_from, date_to=period_to), self.currency_table, self.financial_report, linesDict=self.linesDict)
             self.linesDict[item] = res
             return res
         return super(FormulaContext, self).__getitem__(item)

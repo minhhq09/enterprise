@@ -39,7 +39,7 @@ class report_account_generic_tax_report(models.AbstractModel):
     def _compute_from_amls(self, taxes, period_number):
         sql = """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
                     FROM %s
-                    WHERE %s GROUP BY "account_move_line".tax_line_id"""
+                    WHERE %s AND "account_move_line".tax_exigible GROUP BY "account_move_line".tax_line_id"""
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
@@ -54,7 +54,7 @@ class report_account_generic_tax_report(models.AbstractModel):
                  FROM %s
                  INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
                  INNER JOIN account_tax t ON (r.account_tax_id = t.id)
-                 WHERE %s GROUP BY r.account_tax_id"""
+                 WHERE %s AND "account_move_line".tax_exigible GROUP BY r.account_tax_id"""
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         query = sql % (tables, where_clause)
