@@ -154,7 +154,7 @@ class PlaidAccount(models.Model):
         elif resp_json['status_code'] >= 400 and resp_json['status_code'] < 500:
             subject = _("Error in synchronization")
             body = _("The synchronization of the journal %s with the plaid account %s has failed.<br>"
-                     "The error message is :<br>%s") % (self.name, self.plaid_id.name, resp_json['resolve'])
+                     "The error message is :<br>%s") % (self.name, self.plaid_id, resp_json['resolve'])
             self.message_post(body=body, subject=subject)
             return action
         # Error with Plaid.com
