@@ -7,9 +7,9 @@
 # Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~11e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-26 12:36+0000\n"
 "PO-Revision-Date: 2015-11-13 09:27+0000\n"
 "Last-Translator: Davor Bojkić <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -21,8 +21,15 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
+msgid "Always Redirect to Handset"
 msgstr ""
 
 #. module: voip
@@ -45,6 +52,11 @@ msgstr "Naziv za prikaz"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -83,8 +95,8 @@ msgstr "Vrijeme promjene"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Broj zvonjenja"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -95,7 +107,6 @@ msgstr "Jedan ili više parametara nedostaje. Provjerite postavke."
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "PBX postavke"
 
@@ -126,11 +137,6 @@ msgid "SIP Password"
 msgstr "SIP lozinka"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "Extenzija vašeg uredskog telefona."
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, python-format
@@ -142,7 +148,8 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
 msgstr ""
 
 #. module: voip
@@ -166,6 +173,11 @@ msgid "Users"
 msgstr "Korisnici"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -183,6 +195,9 @@ msgstr "vezu nije moguće uspostaviti."
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr "voip.configurator"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Dolazni poziv od"
 
 #~ msgid "Invoice"
 #~ msgstr "Faktura"
@@ -202,6 +217,9 @@ msgstr "voip.configurator"
 #~ msgid "Message for Stock Picking"
 #~ msgstr "Poruka za skladišnicu"
 
+#~ msgid "Number of rings"
+#~ msgstr "Broj zvonjenja"
+
 #~ msgid "Purchase Order"
 #~ msgstr "Nalog za nabavu"
 
@@ -219,6 +237,9 @@ msgstr "voip.configurator"
 
 #~ msgid "Stock Picking"
 #~ msgstr "Skladišnica"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "Extenzija vašeg uredskog telefona."
 
 #~ msgid "Website tags"
 #~ msgstr "Tagovi web stranica"

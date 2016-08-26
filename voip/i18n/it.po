@@ -6,9 +6,9 @@
 # Alessandro Forte <a.forte1010@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~11e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-26 12:36+0000\n"
 "PO-Revision-Date: 2016-04-19 14:33+0000\n"
 "Last-Translator: Alessandro Forte <a.forte1010@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/odoo/odoo-9/language/it/)\n"
@@ -19,9 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Reindirizza sempre su un numero fisico"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -43,6 +50,11 @@ msgstr "Visualizza Nome"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -81,8 +93,8 @@ msgstr "Ultima modifica il"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Numero di squilli"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -93,7 +105,6 @@ msgstr "Uno o più parametri sono persi. Ricontrolla la tua configurazione."
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "Configurazione PXB"
 
@@ -126,11 +137,6 @@ msgid "SIP Password"
 msgstr "SIP Password"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "Interno telefono del tuo ufficio"
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, fuzzy, python-format
@@ -144,8 +150,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "Numero di squilli prima di chiudere la chiamata"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -170,6 +177,11 @@ msgid "Users"
 msgstr "Utenti"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -189,6 +201,12 @@ msgstr "Impossibile connettersi."
 msgid "voip.configurator"
 msgstr "voip.configurator"
 
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Reindirizza sempre su un numero fisico"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Chiamata in arrivo da"
+
 #~ msgid "Invoice"
 #~ msgstr "Fattura"
 
@@ -206,6 +224,9 @@ msgstr "voip.configurator"
 
 #~ msgid "Message for Stock Picking"
 #~ msgstr "Messaggio per Prelievo Magazzino"
+
+#~ msgid "Number of rings"
+#~ msgstr "Numero di squilli"
 
 #~ msgid "Purchase Order"
 #~ msgstr "Ordine di Acquisto"
@@ -225,6 +246,19 @@ msgstr "voip.configurator"
 
 #~ msgid "Stock Picking"
 #~ msgstr "Prelievo di Magazzino"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "Interno telefono del tuo ufficio"
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "Numero di squilli prima di chiudere la chiamata"
+
+#~ msgid ""
+#~ "The user credentials could be wrong or the connection cannot be made. "
+#~ "Please check your configuration.</br> (Reason receives :%d"
+#~ msgstr ""
+#~ "Le credenziali dell'utente sono errate o potrebbe non essere possibile "
+#~ "connettersi. Per favore controlla la configurazione.</br> (Motivo :%d"
 
 #~ msgid "Website tags"
 #~ msgstr "Website tags"
