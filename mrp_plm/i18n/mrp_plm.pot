@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"POT-Creation-Date: 2016-08-26 10:38+0000\n"
+"PO-Revision-Date: 2016-08-26 10:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: mrp_plm
+#: model:ir.model.fields,field_description:mrp_plm.field_product_product_attachment_count
+#: model:ir.model.fields,field_description:mrp_plm.field_product_template_attachment_count
+msgid "# Attachments"
+msgstr ""
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom_eco_count
@@ -23,6 +29,7 @@ msgstr ""
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom_eco_inprogress_count
+#: model:ir.model.fields,field_description:mrp_plm.field_product_product_eco_inprogress_count
 #: model:ir.model.fields,field_description:mrp_plm.field_product_template_eco_inprogress_count
 msgid "# ECOs in progress"
 msgstr ""
@@ -42,6 +49,16 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_type_view_kanban
 msgid "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
+msgstr ""
+
+#. module: mrp_plm
+#: code:addons/mrp_plm/models/product.py:53
+#, python-format
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                        Click to upload files to your product.\n"
+"                    </p><p>\n"
+"                        Use this feature to store any files, like drawings or specifications.\n"
+"                    </p>"
 msgstr ""
 
 #. module: mrp_plm
@@ -136,7 +153,7 @@ msgid "Approval Roles"
 msgstr ""
 
 #. module: mrp_plm
-#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval_template_stage_id_12740
+#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval_template_stage_id_8896
 msgid "Approval Stage"
 msgstr ""
 
@@ -185,7 +202,12 @@ msgid "At Date"
 msgstr ""
 
 #. module: mrp_plm
+#: code:addons/mrp_plm/models/product.py:45
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_attachment_ids
+#: model:ir.model.fields,field_description:mrp_plm.field_product_product_attachment_ids
+#: model:ir.model.fields,field_description:mrp_plm.field_product_template_attachment_ids
+#: model:ir.ui.view,arch_db:mrp_plm.product_template_view_form_inherit_plm
+#, python-format
 msgid "Attachments"
 msgstr ""
 
@@ -439,6 +461,7 @@ msgid "ECO Types"
 msgstr ""
 
 #. module: mrp_plm
+#: model:ir.model.fields,field_description:mrp_plm.field_product_product_eco_inprogress
 #: model:ir.model.fields,field_description:mrp_plm.field_product_template_eco_inprogress
 msgid "ECO in progress?"
 msgstr ""
@@ -475,13 +498,13 @@ msgid "Eco"
 msgstr ""
 
 #. module: mrp_plm
-#: code:addons/mrp_plm/models/mrp_eco.py:494
+#: code:addons/mrp_plm/models/mrp_eco.py:495
 #, python-format
 msgid "Eco BoM"
 msgstr ""
 
 #. module: mrp_plm
-#: code:addons/mrp_plm/models/mrp_eco.py:506
+#: code:addons/mrp_plm/models/mrp_eco.py:507
 #, python-format
 msgid "Eco Routing"
 msgstr ""
@@ -808,6 +831,7 @@ msgid "Priority"
 msgstr ""
 
 #. module: mrp_plm
+#: model:ir.model,name:mrp_plm.model_product_product
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change_product_id
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_product_tmpl_id
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_search
@@ -976,7 +1000,7 @@ msgstr ""
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_approval_template_stage_id
-#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_stage_id_12797
+#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_stage_id_8953
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_search
 msgid "Stage"
 msgstr ""
@@ -1066,7 +1090,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_bom_change_change_type
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_routing_change_change_type
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_stage_type_id
-#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type_id_12762
+#: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type_id_8918
 msgid "Type"
 msgstr ""
 
@@ -1124,19 +1148,19 @@ msgid "Work Centers"
 msgstr ""
 
 #. module: mrp_plm
-#: code:addons/mrp_plm/models/mrp_eco.py:475
+#: code:addons/mrp_plm/models/mrp_eco.py:476
 #, python-format
 msgid "Workorder Messages"
 msgstr ""
 
 #. module: mrp_plm
-#: code:addons/mrp_plm/models/mrp_eco.py:365
+#: code:addons/mrp_plm/models/mrp_eco.py:366
 #, python-format
 msgid "You cannot change the stage, as approvals are required in the process."
 msgstr ""
 
 #. module: mrp_plm
-#: code:addons/mrp_plm/models/mrp_eco.py:354
+#: code:addons/mrp_plm/models/mrp_eco.py:355
 #, python-format
 msgid "You cannot change the stage, as approvals are still required."
 msgstr ""
