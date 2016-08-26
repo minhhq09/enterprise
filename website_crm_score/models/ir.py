@@ -7,8 +7,9 @@ from odoo.osv import osv
 class ir_http(models.AbstractModel):
     _inherit = 'ir.http'
 
-    def _dispatch(self):
-        response = super(ir_http, self)._dispatch()
+    @classmethod
+    def _dispatch(cls):
+        response = super(ir_http, cls)._dispatch()
 
         if getattr(response, 'status_code', 0) == 200:
             if request.endpoint and request.endpoint.routing and request.endpoint.routing.get('track'):
