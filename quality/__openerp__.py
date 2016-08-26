@@ -7,7 +7,7 @@
     'category': 'Manufacturing',
     'sequence': 50,
     'summary': 'Quality Alerts and Control Points',
-    'depends': ['stock'],
+    'depends': ['stock', 'decimal_precision'],
     'description': """
 Quality Control
 ===============

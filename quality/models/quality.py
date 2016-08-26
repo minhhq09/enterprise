@@ -7,6 +7,7 @@ import random
 
 from odoo import api, fields, models, _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+import odoo.addons.decimal_precision as dp
 
 
 class QualityPoint(models.Model):
@@ -50,10 +51,11 @@ class QualityPoint(models.Model):
         ('passfail', 'Pass - Fail'),
         ('measure', 'Measure')], string="Test Type",
         default='passfail', required=True)
-    norm = fields.Float('Norm')  # TDE RENAME ?
+
+    norm = fields.Float('Norm', digits=dp.get_precision('Quality Tests'))  # TDE RENAME ?
+    tolerance_min = fields.Float('Min Tolerance', digits=dp.get_precision('Quality Tests'))
+    tolerance_max = fields.Float('Max Tolerance', digits=dp.get_precision('Quality Tests'))
     norm_unit = fields.Char('Unit of Measure', default=lambda self: 'mm')  # TDE RENAME ?
-    tolerance_min = fields.Float('Min Tolerance')
-    tolerance_max = fields.Float('Max Tolerance')
     note = fields.Html('Note')
     reason = fields.Html('Note')
 
@@ -206,7 +208,7 @@ class QualityCheck(models.Model):
     note = fields.Html(related='point_id.note', readonly=True)
     test_type = fields.Selection(related="point_id.test_type", readonly=True)
     norm_unit = fields.Char(related='point_id.norm_unit', readonly=True)
-    measure = fields.Float('Measure', default=0.0)
+    measure = fields.Float('Measure', default=0.0, digits=dp.get_precision('Quality Tests'))
     measure_success = fields.Selection([
         ('none', 'No measure'),
         ('pass', 'Pass'),
