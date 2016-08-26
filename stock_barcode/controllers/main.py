@@ -22,6 +22,13 @@ class StockBarcodeController(http.Controller):
         else:
             return {'warning': _('No picking corresponding to barcode %(barcode)s') % {'barcode': barcode}}
 
+    @http.route('/stock_barcode/rid_of_message_demo_barcodes', type='json', auth='user')
+    def rid_of_message_demo_barcodes(self, **kw):
+        """ Edit the main_menu client action so that it doesn't display the 'print demo barcodes sheet' message """
+        action = request.env.ref('stock_barcode.stock_barcode_action_main_menu')
+        action and action.sudo().write({'params': {'message_demo_barcodes': False}})
+
+
 def try_open_picking(barcode):
     """ If barcode represents a picking, open it
     """
@@ -69,10 +76,3 @@ def try_new_internal_picking(barcode):
         else:
             return {'warning': _('No internal picking type. Please configure one in warehouse settings.')}
     return False
-
-
-    @http.route('/stock_barcode/rid_of_message_demo_barcodes', type='json', auth='user')
-    def rid_of_message_demo_barcodes(self, **kw):
-        """ Edit the main_menu client action so that it doesn't display the 'print demo barcodes sheet' message """
-        action = request.env.ref('stock_barcode.stock_barcode_action_main_menu')
-        action and action.sudo().write({'params': {'message_demo_barcodes': False}})
