@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
+from collections import OrderedDict
 from dateutil.relativedelta import relativedelta
 from werkzeug.exceptions import NotFound
-
 from odoo import http
 from odoo.http import request
 from odoo.tools.translate import _
@@ -12,51 +12,71 @@ from odoo.addons.website_quote.controllers.main import sale_quote
 
 
 class website_account(website_account):
+
+    def _get_contract_domain(self, partner):
+        return [
+            ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
+            ('state', '!=', 'cancel'),
+        ]
+
     @http.route()
     def account(self, **kw):
         """ Add contract details to main account page """
         response = super(website_account, self).account()
         partner = request.env.user.partner_id
         account_res = request.env['sale.subscription']
-        contract_count = account_res.search_count([
-            ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
-            ('state', '!=', 'cancel'),
-        ])
+        contract_count = account_res.search_count(self._get_contract_domain(partner))
         response.qcontext.update({'contract_count': contract_count})
 
         return response
 
     @http.route(['/my/contract', '/my/contract/page/<int:page>'], type='http', auth="user", website=True)
-    def my_contract(self, page=1, date_begin=None, date_end=None, **kw):
+    def my_contract(self, page=1, date_begin=None, date_end=None, select=None, sortby=None, **kw):
         values = self._prepare_portal_layout_values()
         partner = request.env.user.partner_id
         SaleSubscription = request.env['sale.subscription']
 
-        domain = [
-            ('partner_id.id', 'in', [partner.id, partner.commercial_partner_id.id]),
-            ('state', '!=', 'cancelled'),
-        ]
+        domain = self._get_contract_domain(partner)
 
         archive_groups = self._get_archive_groups('sale.subscription', domain)
         if date_begin and date_end:
-            domain += [('create_date', '>=', date_begin), ('create_date', '<', date_end)]
+            domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
+
+        filters = {
+            'all': {'label': _('All'), 'domain': []},
+            'open': {'label': _('In Progress'), 'domain': [('state', '=', 'open')]},
+            'pending': {'label': _('To Renew'), 'domain': [('state', '=', 'pending')]},
+            'close': {'label': _('Closed'), 'domain': [('state', '=', 'close')]},
+        }
+
+        sortings = {
+            'date': {'label': _('Newest'), 'order': 'create_date desc, id desc'},
+            'name': {'label': _('Name'), 'order': 'name asc, id asc'}
+        }
+
+        domain += filters.get(select, filters['all'])['domain']
+        order = sortings.get(sortby, sortings['date'])['order']
 
         # pager
         account_count = SaleSubscription.search_count(domain)
         pager = request.website.pager(
             url="/my/contract",
-            url_args={'date_begin': date_begin, 'date_end': date_end},
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby, 'select': select},
             total=account_count,
             page=page,
             step=self._items_per_page
         )
 
-        accounts = SaleSubscription.search(domain, limit=self._items_per_page, offset=pager['offset'])
+        accounts = SaleSubscription.search(domain, order=order, limit=self._items_per_page, offset=pager['offset'])
         values.update({
             'accounts': accounts,
             'page_name': 'contract',
             'pager': pager,
             'archive_groups': archive_groups,
+            'sortings': sortings,
+            'sortby': sortby,
+            'filters': OrderedDict(sorted(filters.items())),
+            'select': select,
             'default_url': '/my/contract',
         })
         return request.render("website_contract.portal_my_contracts", values)

@@ -70,9 +70,9 @@ class SaleSubscription(models.Model):
     def _website_url(self):
         for account in self:
             if account.type == 'contract':
-                account.website_url = '/my/contract/%s/%s' % (self.id, self.uuid)
+                account.website_url = '/my/contract/%s/%s' % (account.id, account.uuid)
             elif account.type == 'template':
-                account.website_url = '/my/template/%s' % (self.id)
+                account.website_url = '/my/template/%s' % (account.id)
 
     @api.multi
     def open_website_url(self):
