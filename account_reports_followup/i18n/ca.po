@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-22 13:06+0000\n"
-"PO-Revision-Date: 2016-03-03 15:11+0000\n"
+"PO-Revision-Date: 2016-08-22 09:00+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Catalan (http://www.transifex.com/odoo/odoo-9/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgid ""
 "In case of any queries concerning this matter, do not hesitate to contact our accounting department.\n"
 "\n"
 "Best Regards,\n"
-msgstr ""
+msgstr "\nEstimat/da %(partner_name)s,\n\nTot i els diversos recordatoris, el seu compte encara no està arreglat.\n\nA menys que faci el pagament complet en els pròxims 8 dies, podran prendre's accions legals per la recuperació del deute sense més notificacions.\n\nConfiem que aquesta acció no serà necessària i els detalls dels pagaments vençuts es mostren a continuació.\n\nEn cas que tingui alguna consulta respecte a aquest assumpte, no dubti en contactar amb el nostre departament de comptabilitat.\n\nSalutacions cordials,\n"
 
 #. module: account_reports_followup
 #: model:account_followup.followup.line,description:account_reports_followup.demo_followup_line4
@@ -51,7 +51,7 @@ msgid ""
 "\n"
 "Best Regards,\n"
 "            "
-msgstr ""
+msgstr "\nEstimat/da %(partner_name)s,\n\nTot i els diversos recordatoris, el seu compte encara no està arreglat.\n\nA menys que faci el pagament complet en els pròxims 8 dies, podran prendre's accions legals per la recuperació del deute sense més notificacions.\n\nConfiem que aquesta acció no serà necessària i els detalls dels pagaments vençuts es mostren a continuació.\n\nEn cas que tingui alguna consulta respecte a aquest assumpte, no dubti en contactar amb el nostre departament de comptabilitat.\n\nSalutacions cordials,"
 
 #. module: account_reports_followup
 #: model:account_followup.followup.line,description:account_reports_followup.demo_followup_line1
@@ -64,7 +64,7 @@ msgid ""
 "Would your payment have been carried out after this mail was sent, please ignore this message. Do not hesitate to contact our accounting department.  \n"
 "\n"
 "Best Regards,\n"
-msgstr ""
+msgstr "\nEstimat/da %(partner_name)s,\n\nSi no hi ha hagut cap equivocació per part nostra, sembla que el següent import segueix sense pagar. Si us plau, prengui les mesures apropiades per realitzar aquest pagament en els pròxims 8 dies.\n\nSi ha realitzat el pagament després que s'enviï aquest correu, si us plau, ignori aquest missatge. No dubti en contactar amb el nostre departament de comptabilitat.\n\nSalutacions cordials,\n"
 
 #. module: account_reports_followup
 #: model:account_followup.followup.line,description:account_reports_followup.demo_followup_line2
@@ -82,7 +82,7 @@ msgid ""
 "Details of due payments is printed below.\n"
 "\n"
 "Best Regards,\n"
-msgstr ""
+msgstr "\nEstimat %(partner_name)s,\n\n\nEstem decebuts de veure que tot i que li hem enviat un recordatori, el seu compte està ara seriosament endarrerit.\n\nÉs essencial que realitzi el pagament immediatament, o del contrari haurem de considerar parar el seu compte, el que significa que no podrem subministrar més béns/serveis a la seva empresa.\n\nSi us plau, prengui les mesures adequades per realitzar el pagament en els pròxims 8 dies.\n\nSi hi ha algun problema amb el pagament de la factura del que no tenim coneixement, no dubti en contactar amb el nostre departament de comptabilitat, perquè puguem resoldre l'assumpte rapidament.\n\nS'acompanyen els detalls dels pagaments vençuts a continuació.\n\nSalutacions cordials,\n"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -121,7 +121,7 @@ msgstr ""
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_account_followup_followup
 msgid "Account Follow-up"
-msgstr ""
+msgstr "Seguiment del compte"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_manual_action_note
@@ -136,7 +136,7 @@ msgstr "Després"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_manual_action_responsible_id
 msgid "Assign a Responsible"
-msgstr ""
+msgstr "Assignar un responsable"
 
 #. module: account_reports_followup
 #: selection:res.partner,trust:0
@@ -171,7 +171,7 @@ msgstr "Nom d'empresa"
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_config_settings_inherit
 msgid "Configure your follow-up levels"
-msgstr ""
+msgstr "Configuri els nivells de seguiment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_create_uid
@@ -188,12 +188,12 @@ msgstr "Creat el"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_partner_payment_note
 msgid "Customer Payment Promise"
-msgstr ""
+msgstr "Promesa de pagament del client"
 
 #. module: account_reports_followup
 #: sql_constraint:account_followup.followup.line:0
 msgid "Days of the follow-up levels must be different"
-msgstr ""
+msgstr "Els dies de nivells de seguiment han de ser diferents"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_partner_trust
@@ -219,7 +219,7 @@ msgstr "Realitzat"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_delay
 msgid "Due Days"
-msgstr ""
+msgstr "Dies de venciment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_followup_id
@@ -229,7 +229,7 @@ msgstr "Seguiments"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_name
 msgid "Follow-Up Action"
-msgstr ""
+msgstr "Accions de seguiment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_followup_line_ids
@@ -241,7 +241,7 @@ msgstr "Seguiment"
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_account_followup_followup_line
 msgid "Follow-up Criteria"
-msgstr ""
+msgstr "Criteri de seguiment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_move_line_followup_line_id
@@ -251,18 +251,18 @@ msgstr "Nivell seguiment"
 #. module: account_reports_followup
 #: model:ir.ui.menu,name:account_reports_followup.account_followup_menu
 msgid "Follow-up Levels"
-msgstr ""
+msgstr "Nivells de seguiment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_partner_payment_responsible_id
 msgid "Follow-up Responsible"
-msgstr ""
+msgstr "Responsable del seguiment"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_tree
 msgid "Follow-up Steps"
-msgstr ""
+msgstr "Passos del seguiment"
 
 #. module: account_reports_followup
 #: model:ir.actions.act_window,help:account_reports_followup.action_account_followup_definition_form
@@ -330,7 +330,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_manual_action
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "Manual Action"
-msgstr ""
+msgstr "Acció manual"
 
 #. module: account_reports_followup
 #: code:addons/account_reports_followup/account_followup_report.py:57
@@ -354,14 +354,14 @@ msgstr ""
 #. module: account_reports_followup
 #: sql_constraint:account_followup.followup:0
 msgid "Only one follow-up per company is allowed"
-msgstr ""
+msgstr "Només es permet un seguiment per companyia"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_partner_payment_responsible_id
 msgid ""
 "Optionally you can assign a user to this field, which will make him "
 "responsible for the action."
-msgstr ""
+msgstr "Pot asignar un usuari a aquest camp de manera opcional, que el farà responsable per a l'acció."
 
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_res_partner
@@ -376,12 +376,12 @@ msgstr "Assentaments d'empresa"
 #. module: account_reports_followup
 #: model:ir.actions.act_window,name:account_reports_followup.action_account_followup_definition_form
 msgid "Payment Follow-ups"
-msgstr ""
+msgstr "Seguiment de pagaments"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_partner_payment_note
 msgid "Payment Note"
-msgstr ""
+msgstr "Nota de pagament"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
@@ -396,12 +396,12 @@ msgstr "Missatge imprès"
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_filter
 msgid "Search Follow-up"
-msgstr ""
+msgstr "Buscar seguiment"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "Send a Letter"
-msgstr ""
+msgstr "Enviar una carta"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -411,7 +411,7 @@ msgstr ""
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_email
 msgid "Send an Email"
-msgstr ""
+msgstr "Enviar un correu"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
@@ -439,7 +439,7 @@ msgid ""
 "The number of days after the due date of the invoice to wait before sending "
 "the reminder.  Could be negative if you want to send a polite alert "
 "beforehand."
-msgstr ""
+msgstr "El nombre de dies després de la data de venciment a esperar abans d'enviar el recordatori. Pot ser negatiu si desitja enviar una alerta educada prèviament."
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_form
@@ -452,7 +452,7 @@ msgid ""
 "                        number of days. If there are other overdue invoices for the \n"
 "                        same customer, the actions of the most \n"
 "                        overdue invoice will be executed."
-msgstr ""
+msgstr "Per recordar als clients el pagament de les seves factures, pot definir diverses accions depenent de l'endarrerit que sigui el deute. Aquestes accions s'empaqueten en nivells de seguiment que són llençades quan la data de venciment d'una factura sobrepassa cert nombre de dies. Si hi ha altres factures vençudes pel mateix client, s'executaran les accions per la factura més endarrerida."
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.account_move_line_partner_tree
@@ -477,19 +477,19 @@ msgstr ""
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "When processing, it will print a letter"
-msgstr ""
+msgstr "Al ser processat, imprimirà una carta"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_account_followup_followup_line_send_email
 msgid "When processing, it will send an email"
-msgstr ""
+msgstr "Al processar, s'enviarà un correu"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_account_followup_followup_line_manual_action
 msgid ""
 "When processing, it will set the manual action to be taken for that "
 "customer. "
-msgstr ""
+msgstr "En processar, s'establirà l'acció manual que haurà de fer-se per aquest client."
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -499,7 +499,7 @@ msgid ""
 "                            use the following keywords in the text. Don't\n"
 "                            forget to translate in all languages you installed\n"
 "                            using to top right icon."
-msgstr ""
+msgstr "Escrigui aquí la introducció de la carta, d'acord amb el nivell de seguiment. Pot utilitzar paraules clau al text. No s'oblidi de traduir-la en tots els idiomes que té instal·lat utilitzant la icona de la part superior dreta."
 
 #. module: account_reports_followup
 #: code:addons/account_reports_followup/account_followup.py:58
@@ -507,7 +507,7 @@ msgstr ""
 msgid ""
 "Your description is invalid, use the right legend or %% if you want to use "
 "the percent character."
-msgstr ""
+msgstr "La seva descripció no és vàlida, utilitzi la llegenda apropiada o %% si desitja utilitzar el caràcter percentatge."
 
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_account_config_settings
@@ -517,9 +517,9 @@ msgstr "account.config.settings"
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "days overdue, do the following actions:"
-msgstr ""
+msgstr "dies des de venciment, executi les accions següents:"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
 msgid "e.g. Call the customer, check if it's paid, ..."
-msgstr ""
+msgstr "p. ex. Trucar al client, comprovar si està pagat, ..."
