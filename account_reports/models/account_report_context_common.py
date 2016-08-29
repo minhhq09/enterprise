@@ -540,12 +540,24 @@ class AccountReportContextCommon(models.TransientModel):
 
         sheet.write(0, 0, '', title_style)
 
+        y_offset = 0
+        if self.get_report_obj().get_name() == 'coa' and self.get_special_date_line_names():
+            sheet.write(y_offset, 0, '', title_style)
+            sheet.write(y_offset, 1, '', title_style)
+            x = 2
+            for column in self.with_context(is_xls=True).get_special_date_line_names():
+                sheet.write(y_offset, x, column, title_style)
+                sheet.write(y_offset, x+1, '', title_style)
+                x += 2
+            sheet.write(y_offset, x, '', title_style)
+            y_offset += 1
+
         x = 1
         for column in self.with_context(is_xls=True).get_columns_names():
-            sheet.write(0, x, column, title_style)
+            sheet.write(y_offset, x, column, title_style)
             x += 1
+        y_offset += 1
 
-        y_offset = 1
         lines = report_id.with_context(no_format=True, print_mode=True).get_lines(self)
 
         for y in range(0, len(lines)):

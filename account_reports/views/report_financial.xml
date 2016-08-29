@@ -150,6 +150,14 @@
         <div t-att-class="mode != 'print' and 'table-responsive' or None">
             <table width='100%' t-att-class="' '.join(['o_account_reports_table', report.get_name() in ['aged_receivable', 'aged_payable'] and 'table-striped' or ''])">
                 <thead>
+                    <tr t-if="report.get_name() == 'coa' and context.get_special_date_line_names()">
+                        <th style="border-bottom: none;"></th>
+                        <th></th>
+                        <t t-foreach="context.get_special_date_line_names()" t-as="column_name">
+                            <th class="text-center" t-raw="column_name" colspan='2'/>
+                        </t>
+                        <th></th>
+                    </tr>
                     <tr>
                         <th></th>
                         <t t-set="column" t-value="0" />
