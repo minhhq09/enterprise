@@ -291,7 +291,7 @@ class SaleSubscription(models.Model):
                                 if tx.state == 'done':
                                     contract.reconcile_pending_transaction(contract.id, tx, new_invoice)
                                     contract.send_success_mail(tx, new_invoice)
-                                    msg_body = 'Automatic payment succeeded. Payment reference: %s; Amount: %s.' % (tx.reference, tx.amount)
+                                    msg_body = 'Automatic payment succeeded. Payment reference: <a href=# data-oe-model=payment.transaction data-oe-id=%d>%s</a>; Amount: %s. Invoice <a href=# data-oe-model=account.invoice data-oe-id=%d>View Invoice</a>.' % (tx.id, tx.reference, tx.amount, new_invoice.id)
                                     contract.message_post(body=msg_body)
                                     cr.commit()
                                 else:

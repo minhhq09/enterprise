@@ -180,7 +180,7 @@ class website_contract(http.Controller):
             get_param = self.payment_succes_msg if tx.state == 'done' else self.payment_fail_msg
             if tx.state == 'done':
                 account.send_success_mail(tx, new_invoice)
-                msg_body = 'Manual payment succeeded. Payment reference: %s; Amount: %s.' % (tx.reference, tx.amount)
+                msg_body = 'Manual payment succeeded. Payment reference: <a href=# data-oe-model=payment.transaction data-oe-id=%d>%s</a>; Amount: %s. Invoice <a href=# data-oe-model=account.invoice data-oe-id=%d>View Invoice</a>.' % (tx.id, tx.reference, tx.amount, new_invoice.id)
                 account.message_post(body=msg_body)
             else:
                 new_invoice.unlink()
