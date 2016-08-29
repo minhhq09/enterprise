@@ -71,10 +71,6 @@ class ProductTemplate(models.Model):
         ondelete='set null',
         help='This field contains the template that will be used.')
 
-    _defaults = {
-        'date': fields.Datetime.now()
-    }
-
     @api.multi
     def _prepare_item_dict(self):
         if self.ebay_sync_stock:
