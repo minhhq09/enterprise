@@ -213,7 +213,7 @@ class SaleSubscription(models.Model):
     @api.one
     def _do_payment(self, payment_token, invoice, two_steps_sec=True):
         tx_obj = self.env['payment.transaction']
-        reference = "CONTRACT-%s-%s" % (self.id, datetime.datetime.now().strftime('%y%m%d_%H%M%S'))
+        reference = "SUB%s-%s" % (self.id, datetime.datetime.now().strftime('%y%m%d_%H%M%S'))
         values = {
             'amount': invoice.amount_total,
             'acquirer_id': payment_token.acquirer_id.id,
@@ -241,9 +241,9 @@ class SaleSubscription(models.Model):
     @api.model
     def reconcile_pending_transaction(self, contract_id, tx, invoice):
         contract = self.browse(contract_id)
-        if tx.state == 'done':
+        if tx.state in ['done', 'authorized']:
             invoice.write({'reference': tx.reference, 'name': tx.reference})
-            if tx.acquirer_id.journal_id:
+            if tx.acquirer_id.journal_id and tx.state == 'done':
                 invoice.action_invoice_open()
                 journal = tx.acquirer_id.journal_id
                 invoice.with_context(default_ref=tx.reference, default_currency_id=tx.currency_id.id).pay_and_reconcile(journal, pay_amount=tx.amount)
@@ -286,7 +286,7 @@ class SaleSubscription(models.Model):
                                 tx = contract._do_payment(payment_token, new_invoice, two_steps_sec=False)[0]
                                 # commit change as soon as we try the payment so we have a trace somewhere
                                 cr.commit()
-                                if tx.state == 'done':
+                                if tx.state in ['done', 'authorized']:
                                     contract.reconcile_pending_transaction(contract.id, tx, new_invoice)
                                     contract.send_success_mail(tx, new_invoice)
                                     msg_body = 'Automatic payment succeeded. Payment reference: <a href=# data-oe-model=payment.transaction data-oe-id=%d>%s</a>; Amount: %s. Invoice <a href=# data-oe-model=account.invoice data-oe-id=%d>View Invoice</a>.' % (tx.id, tx.reference, tx.amount, new_invoice.id)
