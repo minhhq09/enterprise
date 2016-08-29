@@ -1,4 +1,3 @@
-# #-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
@@ -9,54 +8,22 @@
 # Antonio Trueba, 2016
 # Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2016
 # Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2015
-# #-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * sale_contract
-#
-# Translators:
-# Ana Juaristi <ajuaristio@gmail.com>, 2016
-# Antonio Trueba <atgayol@gmail.com>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# José Vicente <txusev@gmail.com>, 2016
-# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
-# Oihane Crucelaegui <oihanecruce@gmail.com>, 2016
-# Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016
-# Carles Antoli <carlesantoli@hotmail.com>, 2016
-# Alejandro Die Sanchis <marketing@domatix.com>, 2016
-# Luis Triana <luistriana.28@gmail.com>, 2016
-# Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2016
-# Sergio Hevia <sah@talleresbernesga.com>, 2016
-# Carlos Eduardo Rodriguez Rossi <crodriguez@samemotion.com>, 2016
-# Jose Manuel <admin@jaboweb.com>, 2016
-# Angel Moya - Domatix <angel.moya@domatix.com>, 2016
-# David Perez <david@closemarketing.es>, 2016
-# Ivan Nieto <ivan.n.s@tuta.io>, 2016
-# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
-# Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
-# Luis Martinez Ontalba <tecnisagra.ontalba@gmail.com>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 14:59+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Luis Martinez Ontalba <tecnisagra.ontalba@gmail.com>, 2016\n"
-"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-07-30 07:11+0000\n"
+"Last-Translator: Inigo Zuluaga <inigo_zuluaga@yahoo.es>\n"
+"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
-#, fuzzy
 msgid ""
 "\n"
 "<p>Dear ${object.name},</p>\n"
@@ -114,70 +81,6 @@ msgid ""
 "<p>--<br />\n"
 "Odoo</p>"
 msgstr ""
-"\n"
-"Hola ${object.name},\n"
-"\n"
-"% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-"    <tr>\n"
-"        <th>Cliente</th>\n"
-"        <th>Contrato</th>\n"
-"        <th>Fechas</th>\n"
-"        <th>Unidades prepago</th>\n"
-"        <th>Contacto</th>\n"
-"    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td>${partner.name}</td>\n"
-"            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}"
-"&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-"            <td>${account.date_start} to ${account.date and account.date or "
-"'???'}</td>\n"
-"            <td>\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-"email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
-"    % endfor\n"
-"</table>\n"
-"% endmacro \n"
-"\n"
-"% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>Los siguientes contratos acaban de expirar: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>Los siguientes contratos expirados siguen sin ser procesados: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>Los siguientes contratos expirarán en menos de un mes: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"<p>\n"
-"    Puede comprobar todos los contratos a ser renovados usando el menú:\n"
-"</p>\n"
-"<ul>\n"
-"    <li>Ventas / Facturación / Contratos a renovar</li>\n"
-"</ul>\n"
-"<p>\n"
-"    Gracias,\n"
-"</p>\n"
-"\n"
-"<pre>\n"
-"-- \n"
-"Correo electrónico automático de Odoo\n"
-"</pre>\n"
-"\n"
-"            "
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -233,13 +136,8 @@ msgstr "Cancelar suscripción"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
-#, fuzzy
 msgid "Cancelled"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Cancelada\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Cancelado"
+msgstr "Cancelada"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -294,13 +192,8 @@ msgstr "Cerrar suscripción"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
-#, fuzzy
 msgid "Closed"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Cerrada\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Cerrado"
+msgstr "Cerrada"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -383,13 +276,8 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
-#, fuzzy
 msgid "Created on"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Creado en\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Creado el"
+msgstr "Creado en"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
@@ -420,13 +308,8 @@ msgstr "Fecha inicial"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_next_date
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, fuzzy
 msgid "Date of Next Invoice"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Fecha de la proxima factura\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Fecha de la próxima factura"
+msgstr "Fecha de la proxima factura"
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
@@ -463,23 +346,13 @@ msgstr "Descuento (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Nombre mostrado\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
-#, fuzzy
 msgid "End Date"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Fecha final\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Fecha finalización"
+msgstr "Fecha final"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -488,13 +361,8 @@ msgstr "Mes final"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "End date is in the next month"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"La fecha final es el próximo mes\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"La fecha final es en el próximo mes"
+msgstr "La fecha final es el próximo mes"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -527,13 +395,8 @@ msgstr "Le ayuda a manejar las suscripciones y facturación recurrente."
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
-#, fuzzy
 msgid "ID"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"ID (identificación)\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"ID"
+msgstr "ID (identificación)"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
@@ -595,25 +458,15 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Última actualización de\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Última actualización por"
+msgstr "Última actualización de"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
-#, fuzzy
 msgid "Last Updated on"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Última actualización en\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Última actualización el"
+msgstr "Última actualización en"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_user_selectable
@@ -708,13 +561,8 @@ msgstr "Categoría de producto"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_tmpl_id
-#, fuzzy
 msgid "Product Template"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plantilla producto\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Plantilla de producto"
+msgstr "Plantilla producto"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_ids
@@ -825,13 +673,8 @@ msgstr "Establecer a interino"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, fuzzy
 msgid "Settings"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Configuración\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Configuración"
+msgstr "Configuración"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
@@ -842,13 +685,8 @@ msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
-#, fuzzy
 msgid "Start Date"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Fecha inicial\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Fecha de inicio"
+msgstr "Fecha inicial"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -863,13 +701,8 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_account_type
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
-#, fuzzy
 msgid "State"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Provincia\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Estado"
+msgstr "Provincia"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_state
@@ -952,13 +785,8 @@ msgstr ""
 #: model:ir.ui.view,arch_db:sale_contract.res_partner_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Subscriptions"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Documentos periódicos\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Suscripciones"
+msgstr "Documentos periódicos"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
@@ -1038,13 +866,8 @@ msgstr "Tipo"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_price_unit
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_unit
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_unit
-#, fuzzy
 msgid "Unit Price"
-msgstr ""
-"#-#-#-#-#  es.po (Odoo 9.0)  #-#-#-#-#\n"
-"Precio unidad\n"
-"#-#-#-#-#  es.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Precio unitario"
+msgstr "Precio unidad"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_uom_id
@@ -1134,6 +957,139 @@ msgstr "⇒ Generar factura"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
 msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "Hello ${object.name},\n"
+#~ "\n"
+#~ "% macro account_table(values):\n"
+#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
+#~ "    <tr>\n"
+#~ "        <th>Customer</th>\n"
+#~ "        <th>Contract</th>\n"
+#~ "        <th>Dates</th>\n"
+#~ "        <th>Prepaid Units</th>\n"
+#~ "        <th>Contact</th>\n"
+#~ "    </tr>\n"
+#~ "    % for partner, accounts in values:\n"
+#~ "        % for account in accounts:\n"
+#~ "        <tr>\n"
+#~ "            <td>${partner.name}</td>\n"
+#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
+#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+#~ "            <td>${account.date_start} to ${account.date and account.date "
+#~ "or '???'}</td>\n"
+#~ "            <td>\n"
+#~ "            % if account.quantity_max != 0.0:\n"
+#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
+#~ "            % endif\n"
+#~ "            </td>\n"
+#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
+#~ "email or ''}</td>\n"
+#~ "        </tr>\n"
+#~ "        % endfor\n"
+#~ "    % endfor\n"
+#~ "</table>\n"
+#~ "% endmacro \n"
+#~ "\n"
+#~ "% if \"new\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following contracts just expired: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"old\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following expired contracts are still not processed: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"future\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following contracts will expire in less than one month: </"
+#~ "h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "<p>\n"
+#~ "    You can check all contracts to be renewed using the menu:\n"
+#~ "</p>\n"
+#~ "<ul>\n"
+#~ "    <li>Sales / Invoicing / Contracts to Renew</li>\n"
+#~ "</ul>\n"
+#~ "<p>\n"
+#~ "    Thanks,\n"
+#~ "</p>\n"
+#~ "\n"
+#~ "<pre>\n"
+#~ "-- \n"
+#~ "Odoo Automatic Email\n"
+#~ "</pre>\n"
+#~ "\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "Hola ${object.name},\n"
+#~ "\n"
+#~ "% macro account_table(values):\n"
+#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
+#~ "    <tr>\n"
+#~ "        <th>Cliente</th>\n"
+#~ "        <th>Contrato</th>\n"
+#~ "        <th>Fechas</th>\n"
+#~ "        <th>Unidades prepago</th>\n"
+#~ "        <th>Contacto</th>\n"
+#~ "    </tr>\n"
+#~ "    % for partner, accounts in values:\n"
+#~ "        % for account in accounts:\n"
+#~ "        <tr>\n"
+#~ "            <td>${partner.name}</td>\n"
+#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
+#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+#~ "            <td>${account.date_start} to ${account.date and account.date "
+#~ "or '???'}</td>\n"
+#~ "            <td>\n"
+#~ "            % if account.quantity_max != 0.0:\n"
+#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
+#~ "            % endif\n"
+#~ "            </td>\n"
+#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
+#~ "email or ''}</td>\n"
+#~ "        </tr>\n"
+#~ "        % endfor\n"
+#~ "    % endfor\n"
+#~ "</table>\n"
+#~ "% endmacro \n"
+#~ "\n"
+#~ "% if \"new\" in ctx[\"data\"]:\n"
+#~ "    <h2>Los siguientes contratos acaban de expirar: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"old\" in ctx[\"data\"]:\n"
+#~ "    <h2>Los siguientes contratos expirados siguen sin ser procesados: </"
+#~ "h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"future\" in ctx[\"data\"]:\n"
+#~ "    <h2>Los siguientes contratos expirarán en menos de un mes: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "<p>\n"
+#~ "    Puede comprobar todos los contratos a ser renovados usando el menú:\n"
+#~ "</p>\n"
+#~ "<ul>\n"
+#~ "    <li>Ventas / Facturación / Contratos a renovar</li>\n"
+#~ "</ul>\n"
+#~ "<p>\n"
+#~ "    Gracias,\n"
+#~ "</p>\n"
+#~ "\n"
+#~ "<pre>\n"
+#~ "-- \n"
+#~ "Correo electrónico automático de Odoo\n"
+#~ "</pre>\n"
+#~ "\n"
+#~ "            "
 
 #~ msgid "Action Needed"
 #~ msgstr "Necesaria acción"

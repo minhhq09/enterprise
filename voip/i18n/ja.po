@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-07-21 01:03+0000\n"
 "Last-Translator: Yoshi Tashiro <tashiro@roomsfor.hk>\n"
 "Language-Team: Japanese (http://www.transifex.com/odoo/odoo-9/language/ja/)\n"
@@ -19,9 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "常に物理電話に転送"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -43,6 +50,11 @@ msgstr "表示名"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -81,8 +93,8 @@ msgstr "最終更新日"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "呼出回数"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -93,7 +105,6 @@ msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "PBX設定"
 
@@ -124,11 +135,6 @@ msgid "SIP Password"
 msgstr "SIPパスワード"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "オフィス電話の内線"
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, python-format
@@ -140,8 +146,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "通話取消までの呼出回数"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -164,6 +171,11 @@ msgid "Users"
 msgstr "ユーザ"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -182,6 +194,9 @@ msgstr ""
 msgid "voip.configurator"
 msgstr ""
 
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "常に物理電話に転送"
+
 #~ msgid "Invoice"
 #~ msgstr "請求書"
 
@@ -196,6 +211,9 @@ msgstr ""
 
 #~ msgid "Message for Stock Picking"
 #~ msgstr "在庫ピッキングのメッセージ"
+
+#~ msgid "Number of rings"
+#~ msgstr "呼出回数"
 
 #~ msgid "Purchase Order"
 #~ msgstr "発注"
@@ -214,3 +232,9 @@ msgstr ""
 
 #~ msgid "Stock Picking"
 #~ msgstr "在庫ピッキング"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "オフィス電話の内線"
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "通話取消までの呼出回数"

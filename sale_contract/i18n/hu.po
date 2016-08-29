@@ -1,4 +1,3 @@
-# #-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
@@ -6,36 +5,23 @@
 # Translators:
 # krnkris, 2015
 # krnkris, 2016
-# #-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * sale_contract
-#
-# Translators:
-# krnkris <krnkris@freemail.hu>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Oregional <geza.nagy@oregional.hu>, 2016
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 14:59+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
-"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-06-06 19:55+0000\n"
+"Last-Translator: krnkris\n"
+"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
+"hu/)\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
-#, fuzzy
 msgid ""
 "\n"
 "<p>Dear ${object.name},</p>\n"
@@ -93,80 +79,11 @@ msgid ""
 "<p>--<br />\n"
 "Odoo</p>"
 msgstr ""
-"\n"
-"Tisztelt ${object.name},\n"
-"\n"
-"% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-"    <tr>\n"
-"        <th>Ügyfél</th>\n"
-"        <th>Szerződés</th>\n"
-"        <th>Dátumok</th>\n"
-"        <th>Előrefizetett egységek</th>\n"
-"        <th>Kapcsolat</th>\n"
-"    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td>${partner.name}</td>\n"
-"            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}"
-"&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-"            <td>${account.date_start} -tól ${account.date and account.date "
-"or '???'}</td>\n"
-"            <td>\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-"email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
-"    % endfor\n"
-"</table>\n"
-"% endmacro \n"
-"\n"
-"% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>A következő szerződés éppen lejárt: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>A következő lejárt szerződések még nincsenek végrehajtva: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>A következő szerződések egy hónapon belül lehárnak: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"<p>\n"
-"    Meg tudja nézni a megújítandó szerződéseket ezzel a menüvel:\n"
-"</p>\n"
-"<ul>\n"
-"    <li>Értékesítések / Számlázás / Megújítandó szerződések</li>\n"
-"</ul>\n"
-"<p>\n"
-"    Köszönöm,\n"
-"</p>\n"
-"\n"
-"<pre>\n"
-"-- \n"
-"Odoo rendszer automatikus Email\n"
-"</pre>\n"
-"\n"
-"            "
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Account Manager"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Felelős\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Könyvelési igazgató"
+msgstr "Felelős"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
@@ -195,13 +112,8 @@ msgstr "Online megrendelés engedélyezése"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_analytic_account_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
-#, fuzzy
 msgid "Analytic Account"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Gyűjtő/elemző könyvelés\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Analitikus/elemző könyvelés"
+msgstr "Gyűjtő/elemző könyvelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
@@ -222,35 +134,20 @@ msgstr "Feliratkozás érvénytelenítése"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
-#, fuzzy
 msgid "Cancelled"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Törölt\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Visszavont"
+msgstr "Törölt"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#, fuzzy
 msgid "Cancelled contracts"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Visszavont szerződések\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Érvénytelenített szerződések"
+msgstr "Visszavont szerződések"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
-#, fuzzy
 msgid "Check this box to manage internal activities through this project"
 msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
 "Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó belső tevékenységek "
-"kezeléséhez.\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Jelölje ki ezt a négyzetet az ehhez a projekt témáhpoz tartozó belső "
-"tevékenységek kezeléséhez."
+"kezeléséhez."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
@@ -390,24 +287,14 @@ msgstr "Követel"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
-#, fuzzy
 msgid "Currency"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Valuta\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Pénznem"
+msgstr "Valuta"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_partner_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_partner_id
-#, fuzzy
 msgid "Customer"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Vevő\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Vásárló"
+msgstr "Vevő"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_end
@@ -427,13 +314,8 @@ msgstr "Következő számla dátuma"
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
-#, fuzzy
 msgid "Day(s)"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"nap\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Nap(ok)"
+msgstr "nap"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
@@ -465,13 +347,8 @@ msgstr "Árengedmény (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
-#, fuzzy
 msgid "Display Name"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Név megjelenítése\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Megjelenített név"
+msgstr "Név megjelenítése"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -506,13 +383,8 @@ msgstr "Hamarosan lejár"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-#, fuzzy
 msgid "Group By"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Csoportosítás...\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Csoportosítás"
+msgstr "Csoportosítás..."
 
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
@@ -524,13 +396,8 @@ msgstr "Segítséget nyújt a feliratkozások és ismétlődő számlázás keze
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
-#, fuzzy
 msgid "ID"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"ID\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Azonosító ID"
+msgstr "ID"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
@@ -590,25 +457,15 @@ msgstr "Számlák"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
-#, fuzzy
 msgid "Last Modified on"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utolsó frissítés dátuma\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítve ekkor"
+msgstr "Utolsó frissítés dátuma"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
-#, fuzzy
 msgid "Last Updated by"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Utoljára frissítve, által\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Utoljára frissítette"
+msgstr "Utoljára frissítve, által"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
@@ -714,13 +571,8 @@ msgstr "Termék"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
-#, fuzzy
 msgid "Product Category"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Termék kategória\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Termékkategória"
+msgstr "Termék kategória"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
@@ -806,13 +658,8 @@ msgstr "Értékesítés előjegyzések"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
-#, fuzzy
 msgid "Sales Order"
-msgstr ""
-"#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-"Vevői megrendelés\n"
-"#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-"Vásárlói megrendelés"
+msgstr "Vevői megrendelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
@@ -1564,16 +1411,143 @@ msgstr "⇒ Árajánlat megújításra"
 #~ "                \n"
 #~ "        "
 
+#~ msgid ""
+#~ "\n"
+#~ "Hello ${object.name},\n"
+#~ "\n"
+#~ "% macro account_table(values):\n"
+#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
+#~ "    <tr>\n"
+#~ "        <th>Customer</th>\n"
+#~ "        <th>Contract</th>\n"
+#~ "        <th>Dates</th>\n"
+#~ "        <th>Prepaid Units</th>\n"
+#~ "        <th>Contact</th>\n"
+#~ "    </tr>\n"
+#~ "    % for partner, accounts in values:\n"
+#~ "        % for account in accounts:\n"
+#~ "        <tr>\n"
+#~ "            <td>${partner.name}</td>\n"
+#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
+#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+#~ "            <td>${account.date_start} to ${account.date and account.date "
+#~ "or '???'}</td>\n"
+#~ "            <td>\n"
+#~ "            % if account.quantity_max != 0.0:\n"
+#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
+#~ "            % endif\n"
+#~ "            </td>\n"
+#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
+#~ "email or ''}</td>\n"
+#~ "        </tr>\n"
+#~ "        % endfor\n"
+#~ "    % endfor\n"
+#~ "</table>\n"
+#~ "% endmacro \n"
+#~ "\n"
+#~ "% if \"new\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following contracts just expired: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"old\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following expired contracts are still not processed: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"future\" in ctx[\"data\"]:\n"
+#~ "    <h2>The following contracts will expire in less than one month: </"
+#~ "h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "<p>\n"
+#~ "    You can check all contracts to be renewed using the menu:\n"
+#~ "</p>\n"
+#~ "<ul>\n"
+#~ "    <li>Sales / Invoicing / Contracts to Renew</li>\n"
+#~ "</ul>\n"
+#~ "<p>\n"
+#~ "    Thanks,\n"
+#~ "</p>\n"
+#~ "\n"
+#~ "<pre>\n"
+#~ "-- \n"
+#~ "Odoo Automatic Email\n"
+#~ "</pre>\n"
+#~ "\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "Tisztelt ${object.name},\n"
+#~ "\n"
+#~ "% macro account_table(values):\n"
+#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
+#~ "    <tr>\n"
+#~ "        <th>Ügyfél</th>\n"
+#~ "        <th>Szerződés</th>\n"
+#~ "        <th>Dátumok</th>\n"
+#~ "        <th>Előrefizetett egységek</th>\n"
+#~ "        <th>Kapcsolat</th>\n"
+#~ "    </tr>\n"
+#~ "    % for partner, accounts in values:\n"
+#~ "        % for account in accounts:\n"
+#~ "        <tr>\n"
+#~ "            <td>${partner.name}</td>\n"
+#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
+#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+#~ "            <td>${account.date_start} -tól ${account.date and account."
+#~ "date or '???'}</td>\n"
+#~ "            <td>\n"
+#~ "            % if account.quantity_max != 0.0:\n"
+#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
+#~ "            % endif\n"
+#~ "            </td>\n"
+#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
+#~ "email or ''}</td>\n"
+#~ "        </tr>\n"
+#~ "        % endfor\n"
+#~ "    % endfor\n"
+#~ "</table>\n"
+#~ "% endmacro \n"
+#~ "\n"
+#~ "% if \"new\" in ctx[\"data\"]:\n"
+#~ "    <h2>A következő szerződés éppen lejárt: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"old\" in ctx[\"data\"]:\n"
+#~ "    <h2>A következő lejárt szerződések még nincsenek végrehajtva: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "% if \"future\" in ctx[\"data\"]:\n"
+#~ "    <h2>A következő szerződések egy hónapon belül lehárnak: </h2>\n"
+#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+#~ "% endif\n"
+#~ "\n"
+#~ "<p>\n"
+#~ "    Meg tudja nézni a megújítandó szerződéseket ezzel a menüvel:\n"
+#~ "</p>\n"
+#~ "<ul>\n"
+#~ "    <li>Értékesítések / Számlázás / Megújítandó szerződések</li>\n"
+#~ "</ul>\n"
+#~ "<p>\n"
+#~ "    Köszönöm,\n"
+#~ "</p>\n"
+#~ "\n"
+#~ "<pre>\n"
+#~ "-- \n"
+#~ "Odoo rendszer automatikus Email\n"
+#~ "</pre>\n"
+#~ "\n"
+#~ "            "
+
 #~ msgid "Action Needed"
 #~ msgstr "Művelet szükséges"
 
-#, fuzzy
 #~ msgid "Budget Lines"
-#~ msgstr ""
-#~ "#-#-#-#-#  hu.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "Tervsorok\n"
-#~ "#-#-#-#-#  hu.po (Odoo Server 10.0alpha1e)  #-#-#-#-#\n"
-#~ "Költségvetési sorok"
+#~ msgstr "Tervsorok"
 
 #~ msgid "Check this box to manage customer activities through this project"
 #~ msgstr ""
@@ -1710,9 +1684,6 @@ msgstr "⇒ Árajánlat megújításra"
 
 #~ msgid "Upselling"
 #~ msgstr "Upselling, magasabb értékű értékesítés"
-
-#~ msgid "Use Issues"
-#~ msgstr "Használjon ügyeket"
 
 #~ msgid "Use Tasks"
 #~ msgstr "Használaja az ügyeket"

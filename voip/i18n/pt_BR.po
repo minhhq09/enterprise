@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 14:59+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-01-06 09:25+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
@@ -22,9 +22,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Sempre redirecionar para o telefone físico"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -49,6 +56,11 @@ msgid "From "
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
 msgstr "ID"
@@ -56,16 +68,16 @@ msgstr "ID"
 #. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:58
-#, fuzzy, python-format
+#, python-format
 msgid "Incoming call"
-msgstr "Recebendo chamada de"
+msgstr ""
 
 #. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:88
-#, fuzzy, python-format
+#, python-format
 msgid "Incoming call from "
-msgstr "Recebendo chamada de"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
@@ -84,8 +96,8 @@ msgstr "Última atualização em"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Número de toques"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -97,7 +109,6 @@ msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "Configuração PBX"
 
@@ -130,26 +141,20 @@ msgid "SIP Password"
 msgstr "Senha SIP"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "A extensão do telefone do seu escritório."
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "The number is incorrect, the user credentials could be wrong or the "
 "connection cannot be made. Please check your configuration.</br> (Reason "
 "receives :%s)"
 msgstr ""
-"As credenciais do usuário podem estar erradas ou a conexão não pode ser "
-"feita. Por favor, verifique a configuração </br> (Razão recebida :%d"
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "O número de toques antes de cancelar a chamada"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -176,6 +181,11 @@ msgid "Users"
 msgstr "Usuários"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr "Configuração VOIP"
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -193,6 +203,12 @@ msgstr "a conexão não pôde ser feita."
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr "configurador.voip"
+
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Sempre redirecionar para o telefone físico"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Recebendo chamada de"
 
 #~ msgid "Invoice"
 #~ msgstr "Fatura"
@@ -212,6 +228,9 @@ msgstr "configurador.voip"
 #~ msgid "Message for Stock Picking"
 #~ msgstr "Mensagem para Separação de Estoque"
 
+#~ msgid "Number of rings"
+#~ msgstr "Número de toques"
+
 #~ msgid "Purchase Order"
 #~ msgstr "Pedido de Compra"
 
@@ -230,5 +249,141 @@ msgstr "configurador.voip"
 #~ msgid "Stock Picking"
 #~ msgstr "Separação de Estoque"
 
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "A extensão do telefone do seu escritório."
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "O número de toques antes de cancelar a chamada"
+
+#~ msgid ""
+#~ "The user credentials could be wrong or the connection cannot be made. "
+#~ "Please check your configuration.</br> (Reason receives :%d"
+#~ msgstr ""
+#~ "As credenciais do usuário podem estar erradas ou a conexão não pode ser "
+#~ "feita. Por favor, verifique a configuração </br> (Razão recebida :%d"
+
 #~ msgid "Website tags"
 #~ msgstr "Etiquetas do Site"
+
+#~ msgid "# Tasks"
+#~ msgstr "# Tarefas"
+
+#~ msgid "Account Payable"
+#~ msgstr "Conta de Pagamento"
+
+#~ msgid "Account Receivable"
+#~ msgstr "Conta de Recebimento"
+
+#~ msgid "Bank"
+#~ msgstr "Banco"
+
+#~ msgid "Companies that refers to partner"
+#~ msgstr "Empresas que referenciam o parceiro"
+
+#~ msgid "Contracts"
+#~ msgstr "Contratos"
+
+#~ msgid "Currency"
+#~ msgstr "Moeda"
+
+#~ msgid "Customer Payment Term"
+#~ msgstr "Condições de Pagamento do Cliente"
+
+#~ msgid "Degree of trust you have in this debtor"
+#~ msgstr "Grau de confiança que você tem neste devedor"
+
+#~ msgid "Fiscal Position"
+#~ msgstr "Posição Fiscal"
+
+#~ msgid "Has unreconciled entries"
+#~ msgstr "Possui entradas não reconciliadas"
+
+#~ msgid "Invoices"
+#~ msgstr "Faturas"
+
+#~ msgid "Journal Items"
+#~ msgstr "Itens do Diário"
+
+#~ msgid "Last notification marked as read from base Calendar"
+#~ msgstr "A última notificação foi marcada como lida."
+
+#~ msgid ""
+#~ "Last time the invoices & payments matching was performed for this "
+#~ "partner. It is set either if there's not at least an unreconciled debit "
+#~ "and an unreconciled credit or if you click the \"Done\" button."
+#~ msgstr ""
+#~ "A última vez em que a correspondência de faturas e pagamentos foi "
+#~ "realizada para este parceiro. Ele é definido se não houver pelo menos um "
+#~ "débito não reconciliado e um crédito não reconciliado ou se você clicar "
+#~ "no botão \"Concluído\"."
+
+#~ msgid "Latest Invoices & Payments Matching Date"
+#~ msgstr "Últimos Pedidos & Pagamentos em Data Equivalente"
+
+#~ msgid "Payable Limit"
+#~ msgstr "Limite pagável"
+
+#~ msgid "Tasks"
+#~ msgstr "Tarefas"
+
+#~ msgid ""
+#~ "The fiscal position will determine taxes and accounts used for the "
+#~ "partner."
+#~ msgstr ""
+#~ "A posição fiscal irá determinar os impostos e contas usadas para o "
+#~ "parceiro."
+
+#~ msgid ""
+#~ "The partner has at least one unreconciled debit and credit since last "
+#~ "time the invoices & payments matching was performed."
+#~ msgstr ""
+#~ "O parceiro tem pelo menos um débito e crédito não reconciliado desde "
+#~ "última vez que a correspondência de faturas e pagamentos foi realizada."
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the payable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Esta conta será usada em vez da padrão como a conta de pagamento para o "
+#~ "parceiro atual"
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the receivable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Esta conta será usada em vez da conta padrão,  como conta de recebimento "
+#~ "para o parceiro atual"
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for purchase "
+#~ "orders and vendor bills"
+#~ msgstr ""
+#~ "Este prazo de pagamento será usado em vez do padrão de ordens de compra"
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for sale orders "
+#~ "and customer invoices"
+#~ msgstr ""
+#~ "Este prazo de pagamento será usado em vez do padrão nos pedidos de venda "
+#~ "e faturas dos clientes"
+
+#~ msgid "Total Invoiced"
+#~ msgstr "Total Faturado"
+
+#~ msgid "Total Payable"
+#~ msgstr "Total a pagar"
+
+#~ msgid "Total Receivable"
+#~ msgstr "Total Recebível"
+
+#~ msgid "Total amount this customer owes you."
+#~ msgstr "Valor total que este cliente deve a você."
+
+#~ msgid "Total amount you have to pay to this vendor."
+#~ msgstr "Valor total a ser pago para este fornecedor."
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "Campo utilitário para expressar total em moeda"
+
+#~ msgid "Vendor Payment Term"
+#~ msgstr "Termos de Pagamento do Fornecedor"
