@@ -6,382 +6,474 @@ import datetime
 import time
 import logging
 import uuid
+import json
 
 from odoo import models, api, fields
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
-from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
 _logger = logging.getLogger(__name__)
 
-class OnlineInstitution(models.Model):
-    _inherit = 'online.institution'
 
-    type = fields.Selection(selection_add=[('yodlee', 'Yodlee')])
+class YodleeProviderAccount(models.Model):
+    _inherit = ['account.online.provider']
 
-    @api.multi
-    def _migrate_online_institution(self):
-        self.env['ir.model.data'].search([('module', '=', 'account_yodlee'), ('model', '=', 'online.institution')]).unlink()
-
-class OnlineSyncConfig(models.TransientModel):
-    _inherit = 'account.journal.onlinesync.config'
-
-    yodlee_account_id = fields.Many2one('online.account', related='online_account_id', readonly=True)
-
-class YodleeAccountJournal(models.Model):
-    _inherit = 'account.journal'
-    '''
-    online_account save the yodlee account on the journal.
-    This yodlee.account record fetchs the bank statements
-    '''
-
-    def _raise_exception(self, e):
-        msg = ''
-        if isinstance(e, requests.HTTPError):
-            msg = " (%s)" % (e.response.status_code)
-        _logger.exception('An error has occurred while trying to connect to yodlee service')
-        raise UserError(_('An error has occurred while trying to connect to yodlee service') + msg)
-
-    @api.multi
-    def remove_online_account(self):
-        if self.online_type == 'yodlee' and self.online_account_id.site_account_id:
-            # Call yodlee API to delete account
-            params = {'memSiteAccId': self.online_account_id.site_account_id}
-            resp_json = json.loads(self.fetch('/jsonsdk/SiteAccountManagement/removeSiteAccount', 'yodlee', params))
-            if resp_json.get('errorOccurred') and resp_json.get('exceptionType') != 'com.yodlee.core.InvalidSiteAccountException':
-                raise UserError(_('An error has occured while trying to remove/update account.\nMessage: %s') % (resp_json.get('message', 'Error')))
-        return super(YodleeAccountJournal, self).remove_online_account()
-
-    @api.multi
-    def save_online_account(self, vals, online_institution_id):
-        # If we have the same site_account_id, it means that user has just reconfigured it's account, so
-        # do not remove SiteAccount from yodlee server.
-        if self.online_account_id and self.online_account_id.site_account_id == str(vals.get('site_account_id')):
-            self.online_account_id.write(vals)
-            return self.online_account_id.online_sync()
-        else:
-            super(YodleeAccountJournal, self).save_online_account(vals, online_institution_id)
-
-    @api.multi
-    def launch_wizard(self):
-        if self.online_institution_id.type == 'yodlee':
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'yodlee_online_sync_widget',
-                'target': 'new',
-                'context': {'journal_id': self.id, 
-                            'online_id': self.online_id,
-                            'online_institution_id': self.online_institution_id.id, 
-                            },
-            }
-        else:
-            return super(YodleeAccountJournal, self).launch_wizard()
-
-    @api.multi
-    def online_sync(self):
-        if not self.online_account_id:
-            raise UserError(_('You must first link your bank account to this journal before attempting a refresh'))
-        
-        if self.online_institution_id.type != 'yodlee':
-            return super(YodleeAccountJournal, self).online_sync()
-
-        params = {
-            'memSiteAccId': self.online_account_id.site_account_id,
-            'refreshParameters.refreshPriority': 1,
-        }
-        resp_json = json.loads(self.fetch('/jsonsdk/Refresh/startSiteRefresh', 'yodlee', params))
-        if resp_json.get('errorCode'):
-            raise UserError(_('An error has occured while trying to refresh the site.\nError code: %s\nError message: %s')\
-                % (resp_json.get('errorCode'), resp_json.get('errorDetail')))
-        if not resp_json.get('siteRefreshStatus', False) or resp_json.get('errorOccurred', False):
-            raise UserError(_('An error has occured while trying to refresh the site.\nMessage: %s') % (resp_json.get('message', 'Error')))
-        if resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'REFRESH_TRIGGERED':
-            if resp_json['siteRefreshMode']['refreshMode'] == 'MFA':
-                # open widget at second step
-                action = self.launch_wizard()
-                action['context'].update({'step': 'mfa', 'site_account_id': self.online_account_id.site_account_id})
-                return action
-            else:
-                #perform sync
-                return self.online_account_id.online_sync()
-        elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'SITE_CANNOT_BE_REFRESHED':
-            raise UserError(_('Please execute manual synchronization every few minutes'))
-        elif resp_json['siteRefreshStatus']['siteRefreshStatus'] == 'REFRESH_ALREADY_IN_PROGRESS':
-            # Refresh had already been triggered so perform a refresh
-            return self.online_account_id.online_sync()
-        else:
-            raise UserError(_('Incorrect Refresh status received: %s (expected REFRESH_TRIGGERED)') % (resp_json['siteRefreshStatus']['siteRefreshStatus']))
-
-    @api.multi
-    def online_sync_refresh(self):
-        return self.online_account_id.online_sync()
-
-    @api.one
-    def _register_new_yodlee_user(self):
-        username = self.env.registry.db_name + '_' + str(uuid.uuid4())
-        password = str(uuid.uuid4())
-        email = self.company_id.partner_id.email
-        if not email:
-            raise UserError(_('Please configure an email in the company settings.'))
-        
-        credentials = self._get_yodlee_credentials()
-        url = credentials['url']
-        try:
-            params = {
-                'cobSessionToken': self.company_id.yodlee_access_token,
-                'userCredentials.loginName': username,
-                'userCredentials.password': password,
-                'userCredentials.objectInstanceType': 'com.yodlee.ext.login.PasswordCredentials',
-                'userProfile.emailAddress': email
-            }
-            resp = requests.post(url + '/jsonsdk/UserRegistration/register3', params=params, timeout=20)
-            resp_json = json.loads(resp.text)
-            if resp_json.get('errorOccurred', False) == 'true':
-                #Log error if any
-                errorMsg = _('An error occured while trying to register new user on yodlee: ') + resp_json.get('exceptionType', 'Unknown Error') + ' - Message: ' +resp_json.get('message', '')
-                raise UserError(errorMsg)
-            else:
-                return self.company_id.write({'yodlee_user_login': username, 'yodlee_user_password': password,})
-            resp.raise_for_status()
-        except Exception as e:
-            self._raise_exception(e)
+    yodlee_additional_status = fields.Char(readonly=True, help='Additional information on status')
+    yodlee_last_attempted_refresh = fields.Datetime(readonly=True)
+    yodlee_next_schedule_refresh = fields.Datetime(help='Technical field: scheduled time for yodlee to perform an update')
+    provider_type = fields.Selection(selection_add=[('yodlee', 'Yodlee')])
 
     @api.model
     def _get_yodlee_credentials(self):
         ICP_obj = self.env['ir.config_parameter'].sudo()
         login = ICP_obj.get_param('yodlee_id') or self._cr.dbname
         secret = ICP_obj.get_param('yodlee_secret') or ICP_obj.get_param('database.uuid')
-        url = ICP_obj.get_param('yodlee_service_url') or 'https://onlinesync.odoo.com/yodlee/api'
+        url = ICP_obj.get_param('yodlee_service_url') or 'https://onlinesync.odoo.com/yodlee/api2'
         return {'login': login, 'secret': secret, 'url': url,}
 
     @api.multi
-    def fetch_all_institution(self):
-        # If nothing is configured, do not try to synchronize (cron job)
+    def register_new_user(self):
+        company_id = self.env.user.company_id
+        username = self.env.registry.db_name + '_' + str(uuid.uuid4())
+        password = str(uuid.uuid4())
+        email = self.company_id.partner_id.email
+        if not email:
+            raise UserError(_('Please configure an email in the company settings.'))
         credentials = self._get_yodlee_credentials()
-        if not credentials['url'] \
-            or not credentials['login'] \
-            or not credentials['secret'] \
-            or not self.company_id.yodlee_user_login \
-            or not self.company_id.yodlee_user_password:
-            return super(YodleeAccountJournal, self).fetch_all_institution()
-        resp_json = json.loads(self.fetch('/jsonsdk/SiteTraversal/getAllSites', 'yodlee', {}))
-        institutions = self.env['online.institution'].search([('type', '=', 'yodlee')])
-        institution_name = [i.name for i in institutions]
-        for institution in resp_json:
-            if institution['defaultDisplayName'] not in institution_name:
-                self.env['online.institution'].create({
-                    'name': institution['defaultDisplayName'],
-                    'online_id': institution['siteId'],
-                    'type': 'yodlee',
-                })
-        return super(YodleeAccountJournal, self).fetch_all_institution()
+        self.do_cobrand_login()
+        company_id = self.env.user.company_id
+        headerVal = {'Authorization': '{cobSession='+company_id.yodlee_access_token+'}'}
+        requestBody = {'userParam': {'loginName': username, 
+                                    'password': password,
+                                    'email': email}}
+        try:
+            resp = requests.post(url=credentials['url']+'/v1/user/register', data=requestBody, headers=headerVal, timeout=30)
+        except requests.exceptions.Timeout:
+            raise UserError(_('Timeout: the server did not reply within 30s'))
+        self.check_yodlee_error(resp)
+        company_id.yodlee_user_access_token = resp.json().get('user').get('session').get('userSession')
+        company_id.yodlee_user_login = username
+        company_id.yodlee_user_password = password       
 
     @api.multi
-    def _get_access_token(self):
-        # Need a new access_token
-        # This method is used by fetch()
+    def do_cobrand_login(self):
         credentials = self._get_yodlee_credentials()
-        if not credentials['login'] or not credentials['secret'] or not credentials['url']:
-            raise UserError(_('Please configure your yodlee account first in accounting>settings'))
-        login = {
-            'cobrandLogin': credentials['login'],
-            'cobrandPassword': credentials['secret'],
-        }
+        requestBody = {'cobrandLogin': credentials['login'], 'cobrandPassword': credentials['secret']}
         try:
-            resp = requests.post(credentials['url']+'/authenticate/coblogin', params=login, timeout=20)
+            resp = requests.post(url=credentials['url']+'/v1/cobrand/login', data=requestBody, timeout=30)
+        except requests.exceptions.Timeout:
+            raise UserError(_('Timeout: the server did not reply within 30s'))
+        self.check_yodlee_error(resp)
+        self.env.user.company_id.yodlee_access_token = resp.json().get('session').get('cobSession')
+
+    @api.multi
+    def do_user_login(self):
+        credentials = self._get_yodlee_credentials()
+        company_id = self.env.user.company_id
+        company_id.yodlee_user_login = 'sbMemodoo-test3'
+        company_id.yodlee_user_password = 'sbMemodoo-test3#123'
+        headerVal = {'Authorization': '{cobSession='+company_id.yodlee_access_token+'}'}
+        requestBody = {'loginName': company_id.yodlee_user_login, 'password': company_id.yodlee_user_password}
+        try:
+            resp = requests.post(url=credentials['url']+'/v1/user/login', data=requestBody, headers=headerVal, timeout=30)
+        except requests.exceptions.Timeout:
+            raise UserError(_('Timeout: the server did not reply within 30s'))
+        self.check_yodlee_error(resp)
+        company_id.yodlee_user_access_token = resp.json().get('user').get('session').get('userSession')
+
+    @api.multi
+    def get_auth_tokens(self):
+        self.do_cobrand_login()
+        self.do_user_login()
+
+    def check_yodlee_error(self, resp):
+        try:
+            resp_json = resp.json()
+            if resp_json.get('errorCode'):
+                if resp.json().get('errorCode') in ('Y007', 'Y008', 'Y009', 'Y010'):
+                    return 'invalid_auth'
+                message = _('Error %s, message: %s, reference code: %s' % (resp_json.get('errorCode'), resp_json.get('errorMessage'), resp_json.get('referenceCode')))
+                self.log_message(message)
+                raise UserError(message)
+            elif resp.status_code in (400, 403):
+                # This is the error coming back from odoo proxy like user not having valid contract
+                self.log_message(resp.text)
+                raise UserError(resp.text)
             resp.raise_for_status()
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code in (400, 403):
-                raise UserError(_('An error has occurred while trying to connect to Yodlee service ') + e.response.content)
+        except (requests.HTTPError, ValueError):
+            message = _('Get %s status code for call to %s. Content message: %s' % (resp.status_code, resp.url, resp.text))
+            self.log_message(message)
+            raise UserError(message)
+
+    @api.multi
+    def yodlee_fetch(self, url, params, data, type_request='POST'):
+        credentials = self._get_yodlee_credentials()
+        company_id = self.env.user.company_id
+        service_url = url
+        url = credentials['url'] + url
+        if not company_id.yodlee_user_login:
+            self.register_new_user()
+        if not company_id.yodlee_access_token or not company_id.yodlee_user_access_token:
+            self.get_auth_tokens()
+        headerVal = {'Authorization': '{cobSession='+company_id.yodlee_access_token+', userSession='+company_id.yodlee_user_access_token+'}'}
+        try:
+            if type_request == 'POST':
+                resp = requests.post(url=url, params=params, data=data, headers=headerVal, timeout=30)
+            elif type_request == 'GET':
+                resp = requests.get(url=url, params=params, data=data, headers=headerVal, timeout=30)
+            elif type_request == 'PUT':
+                resp = requests.put(url=url, params=params, data=data, headers=headerVal, timeout=30)
+            elif type_request == 'DELETE':
+                resp = requests.delete(url=url, params=params, data=data, headers=headerVal, timeout=30)
+        except requests.exceptions.Timeout:
+            raise UserError(_('Timeout: the server did not reply within 30s'))
+        # Manage errors and get new token if needed
+        if self.check_yodlee_error(resp) == 'invalid_auth':
+            self.get_auth_tokens()
+            return self.yodlee_fetch(service_url, params, data, type_request=type_request)
+        return resp.json()
+
+    @api.multi
+    def get_institution(self, searchString):
+        # get_provider()
+        ret = super(YodleeProviderAccount, self).get_institution(searchString)
+        if len(searchString) < 3:
+            raise UserError(_('Please enter at least 3 characters for the search'))
+        requestBody = {'name': searchString}
+        resp_json = self.yodlee_fetch('/v1/providers', requestBody, {}, 'GET')
+        providers = resp_json.get('provider', [])
+        for provider in providers:
+            provider['type_provider'] = 'yodlee'
+        providers.extend(ret)
+        return sorted(providers, key=lambda p: p.get('countryISOCode', 'AA'))
+
+    @api.multi
+    def get_login_form(self, site_id, provider):
+        if provider != 'yodlee':
+            return super(YodleeProviderAccount, self).get_login_form(site_id, provider)
+        resp_json = self.yodlee_fetch('/v1/providers/'+str(site_id), {}, {}, 'GET')
+        if not resp_json:
+            raise UserError(_('Could not retrieve login form for siteId: %s (%s)' % (site_id, provider)))
+        return {
+                'type': 'ir.actions.client',
+                'tag': 'yodlee_online_sync_widget',
+                'target': 'new',
+                'login_form': resp_json,
+                'context': self.env.context,
+                }
+
+    @api.multi
+    def update_credentials(self):
+        if self.provider_type != 'yodlee':
+            return super(YodleeProviderAccount, self).update_credentials()
+        return_action = self.get_login_form(self.provider_identifier, 'yodlee')
+        ctx = dict(self._context or {})
+        ctx.update({'init_call': False, 'provider_account_identifier': self.id})
+        return_action['context'] = ctx
+        return return_action
+
+    def convert_date_from_yodlee(self, date):
+        if not date:
+            return fields.Datetime.now()
+        dt = datetime.datetime
+        return dt.strftime(dt.strptime(date, '%Y-%m-%dT%H:%M:%SZ'), DEFAULT_SERVER_DATETIME_FORMAT)
+
+    @api.multi
+    def yodlee_add_update_provider_account(self, values, site_id, name=None):
+        # Setting values entered by user into json
+        fields = []
+        for element in values:
+            if element.get('required', True) == 'false' and element['value'] == '':
+                raise UserError(_('Please fill all required fields'))
+            if element['value'] != '':
+                fields.append({'id': element['field_id'], 'value': element['value']})
+        data = json.dumps({'field': fields}) if len(fields) > 0 else []
+        params = {'providerId': site_id}
+        # If we have an id, it means that provider_account already exists and that it is an update
+        if len(self) > 0 and self.id:
+            params = {'providerAccountIds': self.provider_account_identifier}
+            resp_json = self.yodlee_fetch('/v1/providers/providerAccounts', params, data, 'PUT')
+            return self.id
+        else:
+            resp_json = self.yodlee_fetch('/v1/providers/providerAccounts', params, data, 'POST')
+            refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
+            provider_account_identifier = resp_json.get('providerAccount', {}).get('id')
+            vals = {'name': name or 'Online institution', 
+                    'provider_account_identifier': provider_account_identifier,
+                    'provider_identifier': site_id,
+                    'status': refresh_info.get('status'),
+                    'yodlee_additional_status': refresh_info.get('additionalStatus'),
+                    'status_code': refresh_info.get('statusCode'),
+                    'message': refresh_info.get('statusMessage'),
+                    'action_required': refresh_info.get('actionRequired', False),
+                    'last_refresh': self.convert_date_from_yodlee(refresh_info.get('lastRefreshed')),
+                    'yodlee_last_attempted_refresh': self.convert_date_from_yodlee(refresh_info.get('lastRefreshAttempt')),
+                    'provider_type': 'yodlee',
+                    }
+
+            # We create a new object if there isn't one with the same provider_account_identifier
+            new_provider_account = self.search([('provider_account_identifier', '=', provider_account_identifier), ('company_id', '=', self.env.user.company_id.id)], limit=1)
+            if len(new_provider_account) == 0:
+                with self.pool.cursor() as cr:
+                    new_provider_account = self.with_env(self.env(cr=cr)).create(vals)
+            return new_provider_account.id
+
+    @api.multi
+    def manual_sync(self, return_action=True):
+        if self.provider_type != 'yodlee':
+            return super(YodleeProviderAccount, self).manual_sync()
+        resp_json = self.refresh_status(return_credentials=True)
+        # trigger update
+        values = []
+        for row in resp_json.get('providerAccount', {}).get('loginForm', {}).get('row', []):
+            for field in row.get('field', []):
+                if field.get('value'):
+                    values.append({'field_id': field.get('id'), 'value': field.get('value')})
+        self.yodlee_add_update_provider_account(values, self.provider_identifier, self.name)
+        # Wait for refresh to finish and reply with mfa token
+        resp_json = self.refresh_status()
+        if not return_action:
+            return resp_json
+        ctx = dict(self._context or {})
+        ctx.update({'init_call': False, 'provider_account_identifier': self.id})
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'yodlee_online_sync_widget',
+            'target': 'new',
+            'refresh_info': resp_json,
+            'context': ctx,
+        }
+
+    @api.multi
+    def write_status(self, refresh_info):
+        vals = {
+            'status': refresh_info.get('status'),
+            'yodlee_additional_status': refresh_info.get('additionalStatus') or refresh_info.get('additionalInfo'),
+            'status_code': refresh_info.get('statusCode'),
+            'message': refresh_info.get('statusMessage'),
+            'action_required': refresh_info.get('actionRequired', False),
+            'last_refresh': self.convert_date_from_yodlee(refresh_info.get('lastRefreshed')),
+            'yodlee_last_attempted_refresh': self.convert_date_from_yodlee(refresh_info.get('lastRefreshAttempt')),
+            'yodlee_next_schedule_refresh': self.convert_date_from_yodlee(refresh_info.get('nextRefreshScheduled')),
+        }
+        # We want a new cursor to write the transaction because if there is an error (like invalid credentials)
+        # we want it to be written on the object for the user to know something wrong happened
+        with self.pool.cursor() as cr:
+            self.with_env(self.env(cr=cr)).write(vals)
+
+    @api.multi
+    def refresh_status(self, count=90, return_credentials=False):
+        if count == 0:
+            self.log_message(_('Timeout: Could not retrieve accounts informations'))
+            raise UserError(_('Timeout: Could not retrieve accounts informations'))
+        params = {'include': 'credentials'} if return_credentials else {}
+        resp_json = self.yodlee_fetch('/v1/providers/providerAccounts/'+self.provider_account_identifier, params, {}, 'GET')
+        refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
+        if return_credentials:
+            self.write_status(refresh_info)
+            return resp_json
+        if refresh_info:
+            status = refresh_info.get('status')
+            if status == 'SUCCESS' or status == 'PARTIAL_SUCCESS':
+                self.write_status(refresh_info)
+                # if create_account:
+                add_info = self.add_update_accounts()
+                resp_json['numberAccountAdded'] = len(add_info['accounts_added'])
+                resp_json['transactions'] = add_info['transactions']
+                return resp_json
+            elif status == 'IN_PROGRESS' and refresh_info.get('additionalStatus') == 'USER_INPUT_REQUIRED':
+                # MFA process, check if we already have mfa information, if not continue to call service until we get mfa login form
+                self.write_status(refresh_info)
+                if not resp_json.get('providerAccount', {}).get('loginForm'):
+                    return self.refresh_status(count=count-1)
+                else:
+                    return resp_json
+            elif status == 'IN_PROGRESS':
+                time.sleep(2)
+                return self.refresh_status(count=count-1)
+            elif status == 'FAILED' and refresh_info.get('statusCode') == 0:
+                # We are in a case where login has succeeded but there are different errors on different accounts
+                self.add_update_accounts()
+                message = ''
+                for account in self.account_online_journal_ids:
+                    if account.yodlee_status_code != 0:
+                        message += self.get_error_from_code(account.yodlee_status_code) + '<br/>'
+                if message == '':
+                    message = 'The error might have happened on other accounts that are not in Odoo'
+                self.log_message(message)
+                raise UserError(_('Different error have occurred on different accounts, see provider account message for details'))
+            elif status == 'FAILED':
+                self.log_message(self.get_error_from_code(refresh_info.get('statusCode')))
+                self.write_status(refresh_info)
+                raise UserError(self.get_error_from_code(refresh_info.get('statusCode')))
             else:
-                raise UserError(_('An error has occurred while trying to connect to Yodlee service ') + str(e.response.status_code))
-        except Exception as e:
-            self._raise_exception(e)
-        resp_json = json.loads(resp.text)
-        if 'error' in resp_json:
-            raise UserError(resp_json.get('error'))
-        if 'cobrandConversationCredentials' not in resp_json:
-            raise UserError(_('Incorrect Yodlee login/password, please check your credentials in accounting/settings'))
-        self.company_id.write({'yodlee_access_token': resp_json['cobrandConversationCredentials']['sessionToken'],
-                'yodlee_last_login': datetime.datetime.now(),})
+                self.log_message(_('An error has occurred while trying to refresh accounts (type not supported)'))
+                self.write_status(refresh_info)
+                raise UserError(_('An error has occurred while trying to refresh accounts (type not supported)'))
 
     @api.multi
-    def _get_user_access(self):
-        # This method log in yodlee user
-        # This method is used by fetch()
-        credentials = self._get_yodlee_credentials()
-        if not self.company_id.yodlee_user_login:
-            self._register_new_yodlee_user()
-        params = {
-            'cobSessionToken': self.company_id.yodlee_access_token,
-            'login': self.company_id.yodlee_user_login,
-            'password': self.company_id.yodlee_user_password,
-        }
-        try:
-            resp = requests.post(credentials['url']+'/authenticate/login', params=params, timeout=20)
-            resp.raise_for_status()
-        except Exception as e:
-            self._raise_exception(e)
-        resp_json = json.loads(resp.text)
-        if not resp_json.get('userContext', False):
-            raise UserError(resp_json.get('Error', False) and resp_json['Error'][0].get('errorDetail', 'Error') or _('An Error has occurred'))
-        self.company_id.write({'yodlee_user_access_token': resp_json['userContext']['conversationCredentials']['sessionToken'],
-                'yodlee_user_last_login': datetime.datetime.now(),})
+    def add_update_accounts(self):
+        params = {'providerAccountId': self.provider_account_identifier}
+        resp_json = self.yodlee_fetch('/v1/accounts/', params, {}, 'GET')
+        accounts = resp_json.get('account', [])
+        accounts_added = self.env['account.online.journal']
+        transactions = []
+        for account in accounts:
+            if account.get('CONTAINER') in ('bank', 'creditCard'):
+                vals = {
+                    'yodlee_account_status': account.get('accountStatus'),
+                    'yodlee_status_code': account.get('refreshinfo', {}).get('statusCode'),
+                    'balance': account.get('currentBalance', {}).get('amount', 0) if account.get('CONTAINER') == 'bank' else account.get('runningBalance', {}).get('amount', 0)
+                }
+                account_search = self.env['account.online.journal'].search([('account_online_provider_id', '=', self.id), ('online_identifier', '=', account.get('id'))], limit=1)
+                if len(account_search) == 0:
+                    dt = datetime.datetime
+                    # Since we just create account, set last sync to 15 days in the past to retrieve transaction from latest 15 days
+                    last_sync = dt.strftime(dt.strptime(self.last_refresh, DEFAULT_SERVER_DATETIME_FORMAT) - datetime.timedelta(days=15), DEFAULT_SERVER_DATE_FORMAT)
+                    vals.update({
+                        'name': account.get('accountName', 'Account'),
+                        'online_identifier': account.get('id'),
+                        'account_online_provider_id': self.id,
+                        'account_number': account.get('accountNumber'),
+                        'last_sync': last_sync,
+                    })
+                    with self.pool.cursor() as cr:
+                        acc = self.with_env(self.env(cr=cr)).env['account.online.journal'].create(vals)
+                    accounts_added += acc
+                else:
+                    with self.pool.cursor() as cr:
+                        account_search.with_env(self.env(cr=cr)).env['account.online.journal'].write(vals)
+                    # Also retrieve transaction if status is SUCCESS
+                    if vals.get('yodlee_status_code') == 0 and account_search.journal_ids:
+                        transactions_count = account_search.retrieve_transactions()
+                        transactions.append({'journal': account_search.journal_ids[0].name, 'count': transactions_count})
+        return {'accounts_added': accounts_added, 'transactions': transactions}
+
+    @api.model
+    def cron_fetch_online_transactions(self):
+        if self.provider_type != 'yodlee':
+            return super(YodleeProviderAccount, self).cron_fetch_online_transactions()
+        self.refresh_status()
 
     @api.multi
-    def fetch(self, service, online_type, params, type_request='post'):
-        if online_type != 'yodlee':
-            return super(YodleeAccountJournal, self).fetch(service, online_type, params, type_request=type_request)
-        credentials = self._get_yodlee_credentials()
-        last_login = self.company_id.yodlee_last_login and datetime.datetime.strptime(self.company_id.yodlee_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = last_login and (datetime.datetime.now() - last_login).total_seconds() or 101 * 60
-        if not self.company_id.yodlee_access_token or delta / 60 >= 95:
-            self._get_access_token()
-        user_last_date = self.company_id.yodlee_user_last_login and datetime.datetime.strptime(self.company_id.yodlee_user_last_login, "%Y-%m-%d %H:%M:%S")
-        delta = self.company_id.yodlee_user_last_login and (datetime.datetime.now() - user_last_date).total_seconds() or 31 * 60
-        if not self.company_id.yodlee_user_access_token or delta / 60 >= 25:
-            self._get_user_access()
-        params['cobSessionToken'] = self.company_id.yodlee_access_token
-        params['userSessionToken'] = self.company_id.yodlee_user_access_token
-        try:
-            resp = requests.post(credentials['url'] + service, params=params)
-            _logger.info('Yodlee call to %s with params %s' % (service, params))
-            resp.raise_for_status()
-        except Exception as e:
-            self._raise_exception(e)
-        _logger.info('Yodlee response to %s: %s' % (service, resp.json()))
-        return resp.text
+    def unlink(self):
+        for provider in self:
+            if provider.provider_type == 'yodlee':
+                # call yodlee to ask to remove link between user and provider_account_identifier
+                try:
+                    ctx = self._context.copy()
+                    ctx['no_post_message'] = True
+                    provider.with_context(ctx).yodlee_fetch('/v1/providers/providerAccounts/'+provider.provider_account_identifier, {}, {}, 'DELETE')
+                except UserError:
+                    # If call to yodlee fails, don't prevent user to delete record 
+                    pass
+        super(YodleeProviderAccount, self).unlink()
+
+    def get_error_from_code(self, code):
+        return {
+            '409': _("Problem Updating Account(409): We could not update your account because the end site is experiencing technical difficulties."),
+            '411': _("Site No Longer Available (411):The site no longer provides online services to its customers.  Please delete this account."),
+            '412': _("Problem Updating Account(412): We could not update your account because the site is experiencing technical difficulties."),
+            '415': _("Problem Updating Account(415): We could not update your account because the site is experiencing technical difficulties."),
+            '416': _("Multiple User Logins(416): We attempted to update your account, but another session was already established at the same time.  If you are currently logged on to this account directly, please log off and try after some time"),
+            '418': _("Problem Updating Account(418): We could not update your account because the site is experiencing technical difficulties. Please try later."),
+            '423': _("No Account Found (423): We were unable to detect an account. Please verify that you account information is available at this time and If the problem persists, please contact customer support at online@odoo.com for further assistance."),
+            '424': _("Site Down for Maintenance(424):We were unable to update your account as the site is temporarily down for maintenance. We apologize for the inconvenience.  This problem is typically resolved in a few hours. Please try later."),
+            '425': _("Problem Updating Account(425): We could not update your account because the site is experiencing technical difficulties. Please try later."),
+            '426': _("Problem Updating Account(426): We could not update your account for technical reasons. This type of error is usually resolved in a few days. We apologize for the inconvenience."),
+            '505': _("Site Not Supported (505): We currently does not support the security system used by this site. We apologize for any inconvenience. Check back periodically if this situation has changed."),
+            '510': _("Property Record Not Found (510): The site is unable to find any property information for your address. Please verify if the property address you have provided is correct."),
+            '511': _("Home Value Not Found (511): The site is unable to provide home value for your property. We suggest you to delete this site."),
+            '402': _("Credential Re-Verification Required (402): We could not update your account because your username and/or password were reported to be incorrect.  Please re-verify your username and password."),
+            '405': _("Update Request Canceled(405):Your account was not updated because you canceled the request."),
+            '406': _("Problem Updating Account (406): We could not update your account because the site requires you to perform some additional action. Please visit the site or contact its customer support to resolve this issue. Once done, please update your account credentials in case they are changed else try again."),
+            '407': _("Account Locked (407): We could not update your account because it appears your account has been locked. This usually results from too many unsuccessful login attempts in a short period of time. Please visit the site or contact its customer support to resolve this issue.  Once done, please update your account credentials in case they are changed."),
+            '414': _("Requested Account Type Not Found (414): We could not find your requested account. You may have selected a similar site under a different category by accident in which case you should select the correct site."),
+            '417': _("Account Type Not Supported(417):The type of account we found is not currently supported.  Please remove this site and add as a  manual account."),
+            '420': _("Credential Re-Verification Required (420):The site has merged with another. Please re-verify your credentials at the site and update the same."),
+            '421': _("Invalid Language Setting (421): The language setting for your site account is not English. Please visit the site and change the language setting to English."),
+            '422': _("Account Reported Closed (422): We were unable to update your account information because it appears one or more of your related accounts have been closed.  Please deactivate or delete the relevant account and try again."),
+            '427': _("Re-verification Required (427): We could not update your account due to the site requiring you to view a new promotion. Please log in to the site and click through to your account overview page to update the account.  We apologize for the inconvenience."),
+            '428': _("Re-verification Required (428): We could not update your account due to the site requiring you to accept a new Terms & Conditions. Please log in to the site and read and accept the T&C."),
+            '429': _("Re-Verification Required (429): We could not update your account due to the site requiring you to verify your personal information. Please log in to the site and update the fields required."),
+            '430': _("Site No Longer Supported (430):This site is no longer supported for data updates. Please deactivate or delete your account. We apologize for the inconvenience."),
+            '433': _("Registration Requires Attention (433): Auto registration is not complete. Please complete your registration at the end site. Once completed, please complete adding this account."),
+            '434': _("Registration Requires Attention (434): Your Auto-Registration could not be completed and requires further input from you.  Please re-verify your registration information to complete the process."),
+            '435': _("Registration Requires Attention (435): Your Auto-Registration could not be completed and requires further input from you.  Please re-verify your registration information to complete the process."),
+            '436': _("Account Already Registered (436):Your Auto-Registration could not be completed because the site reports that your account is already registered.  Please log in to the site to confirm and then complete the site addition process with the correct login information."),
+            '506': _("New Login Information Required(506):We're sorry, to log in to this site, you need to provide additional information. Please update your account and try again."),
+            '512': _("No Payees Found(512):Your request cannot be completed as no payees were found in your account."),
+            '518': _("MFA error: Authentication Information Unavailable (518):Your account was not updated as the required additional authentication information was unavailable. Please try now."),
+            '519': _("MFA error: Authentication Information Required (519): Your account was not updated as your authentication information like security question and answer was unavailable or incomplete. Please update your account settings."),
+            '520': _("MFA error: Authentication Information Incorrect (520):We're sorry, the site indicates that the additional authentication information you provided is incorrect. Please try updating your account again."),
+            '521': _("MFA error: Additional Authentication Enrollment Required (521) : Please enroll in the new security authentication system, <Account Name> has introduced. Ensure your account settings in <Cobrand> are updated with this information."),
+            '522': _("MFA error: Request Timed Out (522) :Your request has timed out as the required security information was unavailable or was not provided within the expected time. Please try again."),
+            '523': _("MFA error: Authentication Information Incorrect (523):We're sorry, the authentication information you  provided is incorrect. Please try again."),
+            '524': _("MFA error: Authentication Information Expired (524):We're sorry, the authentication information you provided has expired. Please try again."),
+            '526': _("MFA error: Credential Re-Verification Required (526): We could not update your account because your username/password or additional security credentials are incorrect. Please try again."),
+            '401': _("Problem Updating Account(401):We're sorry, your request timed out. Please try again."),
+            '403': _("Problem Updating Account(403):We're sorry, there was a technical problem updating your account. This kind of error is usually resolved in a few days. Please try again later."),
+            '404': _("Problem Updating Account(404):We're sorry, there was a technical problem updating your account. Please try again later."),
+            '408': _("Account Not Found(408): We're sorry, we couldn't find any accounts for you at the site. Please log in at the site and confirm that your account is set up, then try again."),
+            '413': _("Problem Updating Account(413):We're sorry, we couldn't update your account at the site because of a technical issue. This type of problem is usually resolved in a few days. Please try again later."),
+            '419': _("Problem Updating Account(419):We're sorry, we couldn't update your account because of unexpected variations at the site. This kind of problem is usually resolved in a few days. Please try again later."),
+            '507': _("Problem Updating Account(507):We're sorry, Yodlee has just started providing data updates for this site, and it may take a few days to be successful as we get started. Please try again later."),
+            '508': _("Request Timed Out (508): We are sorry, your request timed out due to technical reasons. Please try again."),
+            '509': _("MFA error: Site Device Information Expired(509): We're sorry, we can't update your account because your token is no longer valid at the site. Please update your information and try again, or contact customer support."),
+            '517': _("Problem Updating Account (517) :We'resorry, there was a technical problem updating your account. Please try again."),
+            '525': _("MFA error: Problem Updating Account (525): We could not update your account for technical reasons. This type of error is usually resolved in a few days. We apologize for the inconvenience. Please try again later."),
+        }.get(str(code), _('An Error has occurred (code %s)' % code))
 
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    yodlee_last_login = fields.Datetime("Last login")
     yodlee_access_token = fields.Char("access_token")
     yodlee_user_login = fields.Char("Yodlee login")
     yodlee_user_password = fields.Char("Yodlee password")
     yodlee_user_access_token = fields.Char("Yodlee access token")
-    yodlee_user_last_login = fields.Datetime("last login")
 
 
 class YodleeAccount(models.Model):
-    _inherit = 'online.account'
+    _inherit = 'account.online.journal'
     '''
     The yodlee account that is saved in Odoo.
     It knows how to fetch Yodlee to get the new bank statements
     '''
 
-    site_account_id = fields.Char("Site")
-    account_id = fields.Char("Account")
+    yodlee_account_status = fields.Char(help='Active/Inactive on Yodlee system', readonly=True)
+    yodlee_status_code = fields.Integer(readonly=True)
 
     @api.multi
-    def yodlee_refresh(self, depth=90):
-        # Ask yodlee to refresh the account
-        if depth <= 0:
-            return False
-        time.sleep(2)
-        yodlee = self.journal_id
+    def retrieve_transactions(self):
+        if (self.account_online_provider_id.provider_type != 'yodlee'):
+            return super(YodleeAccount, self).retrieve_transactions()
+        if not self.journal_ids:
+            return 0
         params = {
-            'memSiteAccId': self.site_account_id,
+            'accountId': self.online_identifier,
+            'fromDate': min(self.last_sync, self.account_online_provider_id.last_refresh[:10]),
+            'toDate': fields.Date.today(),
         }
-        resp_json = json.loads(yodlee.fetch('/jsonsdk/Refresh/getSiteRefreshInfo', 'yodlee', params))
-        if resp_json.get('errorCode'):
-            raise UserError(
-                _('An error has occured while trying to get transactions, try again later.\nError code: %s\nError message: %s')\
-                % (resp_json.get('errorCode'), resp_json.get('errorDetail'))
-            )
-        if resp_json['code'] == 801:
-            if depth == 1:
-                _logger.warning('Max depth reached when trying to refresh account site, last json is: %s' % (resp_json))
-            return self.yodlee_refresh(depth - 1)
-        elif resp_json['code'] == 0 and resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED' and \
-             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_TIMED_OUT' and \
-             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_ACCOUNTS_ALREADY_AGGREGATED' and \
-             resp_json['siteRefreshStatus']['siteRefreshStatus'] != 'REFRESH_COMPLETED_WITH_UNCERTAIN_ACCOUNT':
-            if depth == 1:
-                _logger.warning('Max depth reached when trying to refresh account site, last json is: %s' % (resp_json))
-            return self.yodlee_refresh(depth - 1)
-        elif resp_json['code'] == 0:
-            return True
-        else:
-            _logger.warning('A problem occurred while refreshing account site, json is: %s' % (resp_json))
-            return False
 
-    def get_transactions(self, resp_json):
+        resp_json = self.account_online_provider_id.yodlee_fetch('/v1/transactions', params, {}, 'GET')
         transactions = []
-        if resp_json.get('numberOfHits', 0) > 0:
-            if type(resp_json['searchResult']['transactions']) != list:
-                _logger.warning('A problem getting back transactions for yodlee has occurred, json is: %s' % (resp_json))
-            for transaction in resp_json['searchResult']['transactions']:
-                tr_date = transaction.get('postDate', transaction.get('transactionDate', fields.Date.today()))
-                transaction_date = datetime.datetime.strptime(tr_date.split("T")[0], '%Y-%m-%d')
-                if transaction.get('transactionBaseType') == 'debit':
-                    amount = -1 * transaction['amount']['amount']
-                else:
-                    amount = transaction['amount']['amount']
+        for tr in resp_json.get('transaction', []):
+            # We only take posted transaction into account
+            if tr.get('status') == 'POSTED':
+                date = tr.get('date') or tr.get('postDate') or tr.get('transactionDate')
+                dt = datetime.datetime
+                date = dt.strftime(dt.strptime(date, '%Y-%m-%d'), DEFAULT_SERVER_DATE_FORMAT)
+                amount = tr.get('amount', {}).get('amount')
+                # ignore transaction with 0
                 if amount == 0:
                     continue
                 transactions.append({
-                    'id': transaction['viewKey']['transactionId'],
-                    'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
-                    'description': transaction['description']['description'],
-                    'amount': amount,
-                    'end_amount': transaction['account']['accountBalance']['amount'],
-                })
-        return transactions
-
-    @api.multi
-    def online_sync(self):
-        if (self.institution_id.type != 'yodlee'):
-            return super(YodleeAccount, self).online_sync()
-
-        action_rec = self.env['ir.model.data'].xmlid_to_object('account.open_account_journal_dashboard_kanban')
-        if action_rec:
-            action = action_rec.read([])[0]
-        # Get the new transactions and returns a list of transactions (they are managed in account_online_sync)
-        # 1) Refresh
-        if not self.yodlee_refresh():
-            raise UserError(_('An error has occured while trying to get transactions, try again later'))
-        # 2) Fetch
-        # Convert the date at the correct format
-        from_date = datetime.datetime.strptime(self.last_sync, DEFAULT_SERVER_DATE_FORMAT)
-        from_date = datetime.datetime.strftime(from_date, "%m-%d-%Y")
-        to_date = datetime.datetime.strptime(fields.Date.today(), DEFAULT_SERVER_DATE_FORMAT)
-        to_date = datetime.datetime.strftime(to_date, "%m-%d-%Y")
-        params = {
-            'transactionSearchRequest.containerType': 'All',
-            'transactionSearchRequest.higherFetchLimit': 500,
-            'transactionSearchRequest.lowerFetchLimit': 1,
-            'transactionSearchRequest.resultRange.endNumber': 500,
-            'transactionSearchRequest.resultRange.startNumber': 1,
-            'transactionSearchRequest.searchClients.clientId': 1,
-            'transactionSearchRequest.searchClients.clientName': 'DataSearchService',
-            'transactionSearchRequest.userInput': '',
-            'transactionSearchRequest.ignoreUserInput': True,
-            'transactionSearchRequest.searchFilter.postDateRange.fromDate': from_date,
-            'transactionSearchRequest.searchFilter.postDateRange.toDate': to_date,
-            'transactionSearchRequest.searchFilter.transactionSplitType': 'ALL_TRANSACTION',
-            'transactionSearchRequest.searchFilter.transactionStatus.description': 'posted',
-            'transactionSearchRequest.searchFilter.transactionStatus.statusId': 1,
-            'transactionSearchRequest.searchFilter.itemAccountId.identifier': self.account_id,
-            # 'transactionSearchRequest.searchFilter.setFirstCall': True,
-        }
-        resp_json = json.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
-        # get the transactions
-        transactions = self.get_transactions(resp_json)
-        # If we have more than 500 transactions, keep requesting yodlee for the next transactions (by batch of 500)
-        # see: https://developer.yodlee.com/Knowledge_Base/Transactions
-        perform_call = math.ceil(resp_json.get('countOfAllTransaction', 0)/500.0) - 1
-        while perform_call > 0:
-            params['transactionSearchRequest.searchFilter.setFirstCall'] = False
-            params['transactionSearchRequest.resultRange.startNumber'] += 500
-            params['transactionSearchRequest.resultRange.endNumber'] += 500
-            params['transactionSearchRequest.lowerFetchLimit'] += 500
-            params['transactionSearchRequest.higherFetchLimit'] += 500
-            resp_json = json.loads(self.journal_id.fetch('/jsonsdk/TransactionSearchService/executeUserSearchRequest', 'yodlee', params))
-            transactions.extend(self.get_transactions(resp_json))
-            perform_call -= 1
-
-        if len(transactions) > 0:
-            return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_id)
-        return action
+                    'id': str(tr.get('id'))+':'+tr.get('CONTAINER'),
+                    'date': date,
+                    'description': tr.get('description',{}).get('original'),
+                    'amount': amount * -1 if tr.get('baseType') == 'DEBIT' else amount,
+                    'end_amount': self.balance,
+                    })
+        return self.env['account.bank.statement'].online_sync_bank_statement(transactions, self.journal_ids[0])

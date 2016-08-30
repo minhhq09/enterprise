@@ -9,7 +9,7 @@
     """,
 
     'category': 'Accounting',
-    'version': '0.1',
+    'version': '2.0',
     'depends': ['account'],
 
     'data': [

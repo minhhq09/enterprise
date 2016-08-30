@@ -12,139 +12,188 @@ for the online_account reference field. They manage how the bank statement are r
 from a web service.
 """
 
+class ProviderAccount(models.Model):
+    _name = 'account.online.provider'
+    _inherit = ['mail.thread']
+
+    name = fields.Char(help='name of the banking institution')
+    provider_type = fields.Selection([], readonly=True)
+    provider_account_identifier = fields.Char(help='ID used to identify provider account in third party server', readonly=True)
+    provider_identifier = fields.Char(readonly=True, help='ID of the banking institution in third party server used for debugging purpose')
+    status = fields.Char(string='Synchronization status', readonly=True, help='Update status of provider account')
+    status_code = fields.Integer(readonly=True, help='Code to identify problem')
+    message = fields.Char(readonly=True, help='Techhnical message from third party provider that can help debugging')
+    action_required = fields.Boolean(readonly=True, help='True if user needs to take action by updating account', default=False)
+    last_refresh = fields.Datetime(readonly=True)
+    next_refresh = fields.Datetime("Next synchronization", compute='_compute_next_synchronization')
+    account_online_journal_ids = fields.One2many('account.online.journal', 'account_online_provider_id')
+    company_id = fields.Many2one('res.company', required=True, readonly=True, default=lambda self: self.env.user.company_id)
+
+    @api.one
+    def _compute_next_synchronization(self):
+        self.next_refresh = self.env['ir.cron'].sudo().search([('name', '=', 'online.sync.gettransaction.cron')], limit=1).nextcall
+
+    @api.multi
+    def open_action(self, action_name, number_added):
+        action = self.env.ref(action_name).read()[0]
+        ctx = self.env.context.copy()
+        ctx.update({'default_number_added': number_added})
+        action.update({'context': ctx})
+        return action
+
+    @api.multi
+    def log_message(self, message):
+        # Usually when we are eprforming a call to the third party provider to either refresh/fetch transaction/add user, etc,
+        # the call can fail and we raise an error. We also want the error message to be logged in the object in the case the call
+        # is done by a cron. This is why we are using a separate cursor to write the information on the chatter. Otherwise due to
+        # the raise(), the transaction would rollback and nothing would be posted on the chatter.
+        # There is a particuler use case with this, is when we are trying to unlink an account.online.provider,
+        # we usually also perform a call to the third party provider to delete it from the third party provider system.
+        # This call can also fail and if this is the case we do not want to prevent the user from deleting the object in odoo.
+        # Problem is that if we try to log the error message, it will result in an error since a transaction will delete the object
+        # and another transaction will try to write on the object. Therefore, we need to pass a special key in the context in those
+        # cases to prevent writing on the object
+        if not self._context.get('no_post_message'):
+            subject = _("An error occurred during online synchronization")
+            message = _('The following error happened during the synchronization: %s' % (message,))
+            with self.pool.cursor() as cr:
+                self.with_env(self.env(cr=cr)).message_post(body=message, subject=subject)
+    
+    """ Methods that need to be override by sub-module"""
+
+    @api.multi
+    def get_institution(self, searchString):
+        """ This method should return a list of institution based on a searchString
+            Each element of the list should be a dictionaries with the following key:
+            'id': the id of the institution in the third party provider system
+            'name': the name of the institution
+            'status': wheter the institution is fully supported by the third party provider or not
+            'countryISOCode': code of the country the institution is located in
+            'baseUrl': url of the banking institution
+            'loginUrl': url of the login page of the banking institution
+            'type_provider': the type of the provider (yodlee or plaid for example)
+        """
+        return []
+
+    @api.multi
+    def get_login_form(self, site_id, provider):
+        """ This method is used to fetch and display the login form of the institution choosen in
+            get_institution method. Usually this method should return a client action that will
+            render the login form
+        """
+        return []
+
+    @api.multi
+    def manual_sync(self):
+        """ This method is used to ask the third party provider to refresh the account and
+            fetch the latest transactions.
+        """
+        return False
+
+
 class OnlineAccount(models.Model):
     """
     This class is used as an interface.
     It is used to save the state of the current online accout.
     """
-    _name = 'online.account'
-
-    _inherit = ['mail.thread']
+    _name = 'account.online.journal'
 
     name = fields.Char(required=True)
-    journal_id = fields.Many2one('account.journal', required=True, string='Journal')
+    account_online_provider_id = fields.Many2one('account.online.provider', ondelete='cascade', readonly=True)
+    journal_ids = fields.One2many('account.journal', 'account_online_journal_id', string='Journal', domain=[('type', '=', 'bank')])
+    account_number = fields.Char()
     last_sync = fields.Date("Last synchronization")
-    institution_id = fields.Many2one('online.institution', related='journal_id.online_institution_id', store=True, string='Institution')
+    online_identifier = fields.Char(help='id use to identify account in provider system', readonly=True)
+    provider_name = fields.Char(related='account_online_provider_id.name', readonly=True)
+    balance = fields.Float(readonly=True, help='balance of the account sent by the third party provider')
 
     @api.multi
-    def online_sync(self):
+    @api.depends('name', 'account_online_provider_id.name')
+    def name_get(self):
+        res = []
+        for account_online in self:
+            name = "%s: %s" % (account_online.provider_name, account_online.name)
+            res += [(account_online.id, name)]
+        return res
+
+    @api.multi
+    def retrieve_transactions(self):
         # This method must be implemented by plaid and yodlee services
         raise UserError(_("Unimplemented"))
 
+class OnlineAccountWizard(models.TransientModel):
+    _name = 'account.online.wizard'
 
-class OnlineInstitution(models.Model):
-    """
-    This class represent an instution. The user can choice any of them.
-    Create a record of this model allow the user to pick it.
-    The fields are :
-    - name = the displayed name
-    - online_id = the name of the instution for the webservice
-    - type = The type of service used behind, yodlee or plaid"
-    """
-    _name = 'online.institution'
-    _order = 'type, name'
-
-    name = fields.Char(required=True)
-    online_id = fields.Char("Id", required=True)
-    type = fields.Selection([], required=True)
-
-    _sql_constraints = [
-        ('name_unique', 'unique(online_id,type)', 'There can be only one record by bank')
-    ]
-
-class OnlineSyncConfig(models.TransientModel):
-    _name = 'account.journal.onlinesync.config'
-
-    journal_id = fields.Many2one('account.journal', string='Journal', readonly=True)
-    online_institution_id = fields.Many2one(related='journal_id.online_institution_id', string="Online Institution")
-    online_account_id = fields.Many2one(related='journal_id.online_account_id', string="Online Account")
-    online_id = fields.Char(related='online_institution_id.online_id', string="ID of the Online Institution")
-    online_type = fields.Selection(related='online_institution_id.type', string="Type of the Online Institution", readonly=True)
+    journal_id = fields.Many2one('account.journal')
+    account_online_journal_id = fields.Many2one('account.online.journal', string='Online account', domain=[('journal_ids', '=', False)])
+    sync_date = fields.Date('Fetch transaction from')
+    number_added = fields.Char(help='number of accounts added from call to new_institution', readonly=True)
+    count_account_online_journal = fields.Integer(compute='_count_account_online_journal', help="technical field used to hide account_online_journal_id if no institution has been loaded in the system")
 
     @api.multi
-    def online_sync(self):
-        return self.online_account_id.online_sync()
+    @api.depends('journal_id')
+    def _count_account_online_journal(self):
+        for wizard in self:
+            wizard.count_account_online_journal = self.env['account.online.journal'].search_count([('journal_ids', '=', False)])
+
+    @api.onchange('account_online_journal_id')
+    def onchange_account_online_journal_id(self):
+        if self.account_online_journal_id:
+            self.sync_date = self.account_online_journal_id.last_sync
 
     @api.multi
-    def remove_online_account(self):
-        self.journal_id.remove_online_account()
-
-    @api.model
-    def default_get(self, fields):
-        rec = super(OnlineSyncConfig, self).default_get(fields)
-        context = dict(self._context or {})
-        rec.update({
-            'journal_id': context.get('active_id', False),
-            # 'online_account_id': self.env['account.journal'].browse(context.get('active_id', False)).online_account_id.id,
-        })
-        return rec
+    def configure(self):
+        journal_id = self._context.get('active_id')
+        self.journal_id = self.env['account.journal'].browse(journal_id)
+        self.journal_id.write({'account_online_journal_id': self.account_online_journal_id.id, 'bank_statements_source': 'online_sync'})
+        if self.sync_date:
+            self.account_online_journal_id.write({'last_sync': self.sync_date})
+        action = self.env.ref('account.open_account_journal_dashboard_kanban').read()[0]
+        return action
 
     @api.multi
-    def fetch_all_institution(self):
-        self.journal_id.fetch_all_institution()
+    def new_institution(self):
+        ctx = self.env.context.copy()
+        ctx.update({'open_action_end': 'account_online_sync.action_account_online_wizard_form'})
+        return self.env['account.journal'].with_context(ctx).action_choose_institution()
 
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
+    bank_statements_source = fields.Selection(selection_add=[("online_sync", "Bank Synchronization")])
     next_synchronization = fields.Datetime("Next synchronization", compute='_compute_next_synchronization')
-    online_institution_id = fields.Many2one('online.institution', string="Online Institution")
-    online_account_id = fields.Many2one('online.account', string='Online Account')
-    online_id = fields.Char(related='online_institution_id.online_id', string="ID of the Online Institution", store=True)
-    online_type = fields.Selection(related='online_institution_id.type', string="Type of the Online Institution", readonly=True)
-
-    @api.multi
-    def remove_online_account(self):
-        account = self.online_account_id
-        self.online_account_id = False
-        self.write({'online_account_id': False})
-        account.unlink()
-
-    @api.multi
-    def save_online_account(self, vals, online_institution_id):
-        if self.online_account_id:
-            self.remove_online_account()
-        self.online_institution_id = online_institution_id
-        online_account_id = self.env['online.account'].create(vals)
-        self.online_account_id = online_account_id.id
-        return online_account_id.online_sync()
-
-    @api.multi
-    def fetch(self, service, online_type, params, type_request="post"):
-        # This method must be implemented by plaid and yodlee services
-        raise UserError(_("Unimplemented"))
-
-    @api.multi
-    def fetch_all_institution(self):
-        # This method must be implemented by plaid and yodlee services
-        return True
+    account_online_journal_id = fields.Many2one('account.online.journal', string='Online Account')
+    account_online_provider_id = fields.Many2one('account.online.provider', related='account_online_journal_id.account_online_provider_id')
+    synchronization_status = fields.Char(related='account_online_provider_id.status')
 
     @api.one
     def _compute_next_synchronization(self):
         self.next_synchronization = self.env['ir.cron'].sudo().search([('name', '=', 'online.sync.gettransaction.cron')], limit=1).nextcall
 
     @api.multi
-    def get_journal_dashboard_datas(self):
-        res = super(AccountJournal, self).get_journal_dashboard_datas()
-        if self.online_account_id:
-            res['show_import'] = False
-        return res
+    def action_choose_institution(self):
+        ctx = self.env.context.copy()
+        ctx.update({'show_select_button': True})
+        return {
+                'type': 'ir.actions.client',
+                'tag': 'online_sync_institution_selector',
+                'target': 'new',
+                'context': ctx,
+                }
+
+    @api.multi
+    def manual_sync(self):
+        if self.account_online_journal_id:
+            return self.account_online_journal_id.account_online_provider_id.manual_sync()
 
     @api.model
-    def launch_online_sync(self):
-        for journal in self.search([('online_account_id', '!=', False)]):
+    def cron_fetch_online_transactions(self):
+        for account in self.search([('account_online_journal_id', '!=', False)]):
             try:
-                journal.online_account_id.online_sync()
+                account.account_online_provider_id.cron_fetch_online_transactions()
             except UserError as e:
                 continue
 
-    @api.multi
-    def online_sync(self):
-        return self.online_account_id.online_sync()
-
-    @api.multi
-    def launch_wizard(self):
-        if not self.online_id:
-            raise UserError(_('You must first choose an institution'))
 
 class AccountBankStatement(models.Model):
     _inherit = "account.bank.statement"
@@ -164,25 +213,25 @@ class AccountBankStatement(models.Model):
              }, ...]
          :param journal: The journal (account.journal) of the new bank statement
 
-         Return: True if there is no new bank statement or an action to the new bank statement if it exists.
+         Return: The number of imported transaction for the journal
         """
         # Since the synchronization succeeded, set it as the bank_statements_source of the journal
         journal.bank_statements_source = 'online_sync'
 
         all_lines = self.env['account.bank.statement.line'].search([('journal_id', '=', journal.id),
-                                                                    ('date', '>=', journal.online_account_id.last_sync)])
+                                                                    ('date', '>=', journal.account_online_journal_id.last_sync)])
         total = 0
         lines = []
-        last_date = journal.online_account_id.last_sync
+        last_date = journal.account_online_journal_id.last_sync
         end_amount = 0
         for transaction in transactions:
-            if all_lines.search_count([('online_id', '=', transaction['id'])]) > 0:
+            if all_lines.search_count([('online_identifier', '=', transaction['id'])]) > 0:
                 continue
             line = {
                 'date': transaction['date'],
                 'name': transaction['description'],
                 'amount': transaction['amount'],
-                'online_id': transaction['id'],
+                'online_identifier': transaction['id'],
             }
             total += transaction['amount']
             end_amount = transaction['end_amount']
@@ -207,8 +256,8 @@ class AccountBankStatement(models.Model):
         # If there is no new transaction, the bank statement is not created
         if lines:
             self.create({'journal_id': journal.id, 'line_ids': lines, 'balance_end_real': end_amount, 'balance_start': end_amount - total})
-        journal.online_account_id.last_sync = last_date
-        return journal.action_open_reconcile()
+        journal.account_online_journal_id.last_sync = last_date
+        return len(lines)
 
     @api.model
     def _find_partner(self, location):
@@ -234,4 +283,4 @@ class AccountBankStatement(models.Model):
 class AccountBankStatementLine(models.Model):
     _inherit = 'account.bank.statement.line'
 
-    online_id = fields.Char("Online Identifier")
+    online_identifier = fields.Char("Online Identifier")

@@ -4,175 +4,143 @@ odoo.define('account_plaid.acc_config_widget', function(require) {
 var core = require('web.core');
 var common = require('web.form_common');
 var Model = require('web.Model');
+var framework = require('web.framework');
 var online_sync = require('account_online_sync.acc_config_widget');
 var QWeb = core.qweb;
+var Widget = require('web.Widget');
 var _t = core._t;
 
 
-var PlaidAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurationWidget.extend({
+var PlaidAccountConfigurationWidget = Widget.extend({
 
-    post_process_connection_result: function(resp_json) {
-        this._super();
-        //process login form
-        var inputs_vals = []
-        this.response = {'type': resp_json.type, 'options': '{"login_only": true, "list": true}'}
-        if (resp_json.credentials.username !== undefined) {
-            inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.username,
-                fieldType: 'text',
-                indexResponse: 'username',
-                maxlength: -1,
-                optional: false,});
-        }
-        if (resp_json.credentials.password !== undefined) {
-            inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.password,
-                fieldType: 'password',
-                indexResponse: 'password',
-                maxlength: -1,
-                optional: false,});
-        }
-        if (resp_json.credentials.pin !== undefined) {
-            inputs_vals = inputs_vals.concat({displayName: resp_json.credentials.pin,
-                fieldType: 'text',
-                indexResponse: 'pin',
-                maxlength: -1,
-                optional: false,});
-        }
-        this.config_template_data = {inputs: inputs_vals};
-    },
-
-    parse_json_result: function(resp_json) {
-        if (resp_json.status_code === 200){
-            //Login correct, show account
-            this.show_account_selector(resp_json);
-        }
-        else if (resp_json.status_code === 201) {
-            //Show MFA
-            this.show_mfa_to_user(resp_json);
-        }
-        else if (resp_json.status_code >= 400){
-            this.show_error(resp_json.message, resp_json.code);
-        }
-        else {
-            this.show_error("ERROR: an error has occured, HTTP status code: "+resp_json.status_code);
+    call: function(params, mfa) {
+        var self = this;
+        if (this.in_rpc_call === false){
+            this.blockUI(true);
+            self.$('.js_wait_updating_account').toggleClass('hidden');
+            var request = new Model('account.online.provider')
+                .call('plaid_add_update_provider_account', [[this.id], params, this.site_info.id, this.site_info.name, mfa, this.context])
+                .then(function(result){
+                    self.blockUI(false);
+                    if (result.account_online_provider_id !== undefined) {
+                        self.id = result.account_online_provider_id;
+                    }
+                    self.resp_json = result;
+                    self.renderElement();
+                })
+                .fail(function(result){
+                    self.$('.js_wait_updating_account').toggleClass('hidden');
+                    self.blockUI(false);
+                });
+            return request;
         }
     },
 
     process_next_step: function() {
         var self = this;
-        if (this._super()){
-            //execute code only if super returns true meaning no error found
-            //Get response
-            this.response['username'] = $(".js_online_sync_input[id='username']").val();
-            this.response['password'] = $(".js_online_sync_input[id='password']").val();
-            if ($(".js_online_sync_input[id='password']").length > 0){
-                this.response['pin'] = $(".js_online_sync_input[id='pin']").val();
-            }
-            var request = new Model('account.journal').call('fetch', [[this.id], '/connect', this.online_type, this.response])
-                .then(function(result){
-                    var resp_json = JSON.parse(result);
-                    self.parse_json_result(resp_json);
-                });
+        var login = this.$('.js_plaid_login').val();
+        var password = this.$('.js_plaid_password').val();
+        var pin = this.$('.js_plaid_pin').val();
+        var params = {username: login, password: password, type: this.site_info.type, options: '{"login_only": true, "list": true}'};
+        if (pin !== '') {
+            params.pin = pin;
+        }
+        return this.call(params, false);
+    },
+
+    blockUI: function(state) {
+        this.in_rpc_call = state;
+        this.$('.btn').toggleClass('disabled');
+        if (state === true) {
+            framework.blockUI();
+        }
+        else {
+            framework.unblockUI();
         }
     },
 
-    show_mfa_to_user: function(resp_json) {
+    init: function(parent, context) {
+        this._super(parent, context);
+        this.site_info = context.site_info;
+        this.resp_json = context.resp_json;
+        this.in_rpc_call = false;
+        // In case we launch wizard in an advanced step (like updating credentials or mfa)
+        // We need to set this.init_call to false and this.id (both should be in context)
+        this.init_call = true;
+        if (context.context.init_call !== undefined) {
+            this.init_call = context.context.init_call;
+        }
+        if (context.context.provider_account_identifier !== undefined) {
+            this.id = context.context.provider_account_identifier;
+        }
+        if (context.context.open_action_end !== undefined) {
+            this.action_end = context.context.open_action_end;
+        }
+        this.context = context.context;
+    },
+
+    bind_button: function() {
         var self = this;
-        var choices = [];
-        var qdict = {type: resp_json.type}
-        this.token = resp_json.access_token;
-        if (resp_json.type === 'list') {
-            $.each(resp_json.mfa, function(k,v){
-                choices = choices.concat({mask: v.mask, type: v.type});
-            });
-        }
-        else if (resp_json.type === 'questions') {
-            $.each(resp_json.mfa, function(k,v){
-                choices = choices.concat({question: v.question});
-            });
-        }
-        else if (resp_json.type === 'selections') {
-            $.each(resp_json.mfa, function(k,v){
-                choices = choices.concat({question: v.question, answers: v.answers});
-            });
+        this.$('.js_process_next_step').click(function(){
+            self.process_next_step();
+        });
+        this.$('.js_process_mfa_step').click(function(){
+            self.process_mfa_step();
+        });
+        this.$('.js_process_cancel').click(function(){
+            self.$el.parents('.modal').modal('hide');
+        });
+    },
+
+    renderElement: function() {
+        var self = this;
+        if (this.resp_json && this.resp_json.action === 'success') {
+            if (this.action_end) {
+                return new Model('account.online.provider').call('open_action', [[self.id], this.action_end, this.resp_json.numberAccountAdded, this.context]).then(function(result) {
+                    self.do_action(result);
+                });
+            }
+            else {
+                var local_dict = {
+                                init_call: this.init_call, 
+                                number_added: this.resp_json.numberAccountAdded,
+                                transactions: this.resp_json.transactions,};
+                self.replaceElement($(QWeb.render('Success', local_dict)));
+            }
         }
         else {
-            qdict['name'] = resp_json.mfa.message + " (Enter code in area below)";
+            var local_dict = {call: 'init'};
+            if (this.resp_json && this.resp_json.action === 'mfa') {
+                // this.show_mfa_to_user(this.resp_json);
+                local_dict.call = 'mfa';
+                local_dict.mfa = this.resp_json;
+            }
+            self.replaceElement($(QWeb.render('PlaidLogin', local_dict)));
         }
-        qdict['choices'] = choices;
-        this.replaceElement($(QWeb.render('PlaidMFAConfigurator', qdict)));
-        this.bind_button();
+        self.bind_button();
     },
 
     process_mfa_step: function() {
         var self = this;
-        if (this._super()) {
-            var params = {'access_token': this.token, 'options': '{"login_only": true, "list": true}'}
-            if ($('input[name="mfa-selection"]').length > 0){
-                params['options'] = '{"send_method": {"mask": "'+ $('input[name="mfa-selection"]:checked').attr('mask') +'"}}';
+        var params = {'access_token': this.resp_json.access_token, 'options': '{"login_only": true, "list": true}'}
+        if ($('input[name="mfa-selection"]').length > 0){
+            params['options'] = '{"send_method": {"mask": "'+ $('input[name="mfa-selection"]:checked').attr('mask') +'"}}';
+        }
+        else {
+            //Get all input with information
+            var $answers = $('.js_plaid_answer');
+            var user_reply = [];
+            if ($answers.length === 1){
+                params['mfa'] = $answers.val();
             }
             else {
-                //Get all input with information
-                var $answers = $('.js_plaid_answer');
-                var user_reply = [];
-                if ($answers.length === 1){
-                    params['mfa'] = $answers.val();
-                }
-                else {
-                    $.each($answers, function(k,v){
-                        user_reply = user_reply.concat(v.val());
-                    });
-                    params['mfa'] = JSON.stringify(user_reply);
-                }
+                $.each($answers, function(k,v){
+                    user_reply = user_reply.concat(v.val());
+                });
+                params['mfa'] = JSON.stringify(user_reply);
             }
-            var request = new Model('account.journal').call('fetch', [[this.id], '/connect/step', this.online_type, params])
-                .then(function(result){
-                    var resp_json = JSON.parse(result);
-                    self.parse_json_result(resp_json);
-                });
         }
-    },
-
-    show_account_selector: function(resp_json) {
-        var self = this;
-        var data = [];
-        var selected = true;
-        $.each(resp_json.accounts, function(k,v){
-            data = data.concat({
-                name: v.meta.name,
-                accountId: v._id,
-                containerType: v.type,
-                checked: selected,
-            });
-            selected = false;
-        });
-        this.token = resp_json.access_token
-        this.replaceElement($(QWeb.render('OnlineSynchAccountSelector', {accounts: data})));
-        this.bind_button();
-        this.attach_datepicker();
-    },
-
-    complete_process: function(){
-        //Create account on journal
-        var self = this;
-        if (this._super()) {
-            var sync_date = this.datepicker.get_value();
-            var option_selected = this.$el.find('input[name="account-selection"]:checked');
-            var account_name = option_selected.attr('value');
-            var account_id = option_selected.attr('account');
-            var rpc = new Model('account.journal').call('save_online_account', [[this.id], {'last_sync': sync_date, 'token': this.token, 'plaid_id': account_id, 'name': account_name, 'journal_id': this.id}, this.online_institution_id])
-                .then(function(result) {
-                    if (self.is_modal){
-                        self.$el.parents('.modal').modal('hide');
-                    }
-                    self.do_action(result);
-                });
-        }
-    },
-
-    fetch_site_info: function() {
-        this._super();
-        this.online_type = 'plaid';
-        return new Model('account.journal').call('fetch', [[this.id], '/institutions/'+this.online_id, this.online_type, {}, 'get']);
+        return this.call(params, true);
     },
 });
 

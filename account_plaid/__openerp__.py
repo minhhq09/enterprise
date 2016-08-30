@@ -10,15 +10,12 @@
     """,
 
     'category': 'Accounting',
-    'version': '0.1',
+    'version': '2.0',
 
     'depends': ['account_online_sync'],
 
     'data': [
         'views/plaid_views.xml',
-    ],
-    'init_xml': [
-        'data/online.institution.csv',
     ],
     'qweb': [
         'views/plaid_templates.xml',
