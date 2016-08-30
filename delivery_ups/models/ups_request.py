@@ -225,7 +225,7 @@ class UPSRequest():
             img_decoded = base64.decodestring(image64)
             image_string = StringIO.StringIO(img_decoded)
             im = Image.open(image_string)
-            im_rotate = im.rotate(270)
+            im_rotate = im.rotate(270, resample=Image.BICUBIC, expand=True)
             label_result = StringIO.StringIO()
             im_rotate.save(label_result, 'pdf')
             return binascii.a2b_base64(label_result.getvalue().encode('base64'))
