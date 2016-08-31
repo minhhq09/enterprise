@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
     _name = "sale.order"
 
-    contract_template = fields.Many2one('sale.subscription', 'Contract Template', domain="[('type', '=', 'template')]",
+    contract_template = fields.Many2one('sale.subscription.template', 'Contract Template',
         help="If set, all recurring products in this Sales Order will be included in a new Subscription with the selected template")
 
     @api.onchange('template_id')
@@ -29,7 +29,7 @@ class SaleOrder(models.Model):
                 'product_uom': mand_line.uom_id.id,
                 'discount': mand_line.discount,
                 'price_unit': mand_line.price_unit,
-            }) for mand_line in self.contract_template.recurring_invoice_line_ids]
+            }) for mand_line in self.contract_template.subscription_template_line_ids]
             options = [(0, 0, {
                 'product_id': opt_line.product_id.id,
                 'uom_id': opt_line.uom_id.id,
@@ -37,7 +37,7 @@ class SaleOrder(models.Model):
                 'quantity': opt_line.quantity,
                 'discount': opt_line.discount,
                 'price_unit': opt_line.price_unit,
-            }) for opt_line in self.contract_template.option_invoice_line_ids]
+            }) for opt_line in self.contract_template.subscription_template_option_ids]
             self.order_line = subscription_lines
             self.options = options
             self.note = self.contract_template.description
@@ -85,7 +85,6 @@ class SaleOrder(models.Model):
         values = {
             'name': contract_tmp.name,
             'state': 'open',
-            'type': 'contract',
             'template_id': contract_tmp.id,
             'partner_id': self.partner_id.id,
             'manager_id': self.user_id.id,
@@ -110,7 +109,7 @@ class SaleOrder(models.Model):
         recurring_next_date = today + invoicing_period
         values['recurring_next_date'] = fields.Date.to_string(recurring_next_date)
         if 'asset_category_id' in contract_tmp._fields:
-            values['asset_category_id'] = contract_tmp.asset_category_id.id
+            values['asset_category_id'] = contract_tmp.template_asset_category_id.id
         return values
 
     @api.one
@@ -156,12 +155,3 @@ class sale_order_line(models.Model):
     _name = "sale.order.line"
 
     force_price = fields.Boolean('Force price', help='Force a specific price, regardless of any coupons or pricelist change', default=False)
-
-    @api.model
-    def _prepare_order_line_invoice_line(self, line, account_id=False):
-        res = super(sale_order_line, self)._prepare_order_line_invoice_line(line, account_id=account_id)
-        if 'asset_category_id' in self.env['sale.subscription']._fields:
-            if line.order_id.template_id and line.order_id.template_id.contract_template:
-                if line.order_id.template_id.contract_template.asset_category_id and line.product_id.recurring_invoice:
-                    res.update({'asset_category_id': line.order_id.template_id.contract_template.asset_category_id.id})
-        return res

@@ -73,43 +73,56 @@
         <field name="model">sale.subscription</field>
         <field name="inherit_id" ref="sale_contract.sale_subscription_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='pricelist_id']" position="after">
-                <field name="user_selectable" attrs="{'invisible': [('type','!=','template')]}"/>
-                <field name="user_closable"  attrs="{'invisible': [('type','!=','template')]}"/>
-                <field name="payment_mandatory" attrs="{'invisible': [('type','!=','template')]}"/>
-                <field name="partial_invoice" attrs="{'invisible': [('type','!=','template')]}"/>
-            </xpath>
             <xpath expr="//notebook/page[@id='settings']/group" position="inside">
-                <field name="payment_token_id" attrs="{'invisible': [('type','!=','contract')]}"/>
+                <field name="payment_token_id"/>
             </xpath>
             <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
                 <button class="oe_stat_button o_open_subscription" name="open_website_url"
-                    type="object" icon="fa-globe" string="View Contract" attrs="{'invisible': [('type','!=','contract')]}"/>
-                <button class="oe_stat_button" name="open_website_url"
-                type="object" icon="fa-globe" string="View Template" attrs="{'invisible': [('type','!=','template')]}"/>
+                    type="object" icon="fa-globe" string="View Contract"/>
                 <button class="oe_stat_button" name="%(action_contract_sales_all)d" type="action" icon="fa-credit-card"
-                    string="Sales" attrs="{'invisible': [('type','!=','contract')]}"/>
+                    string="Sales" />
+            </xpath>
+            <xpath expr="//field[@name='recurring_invoice_line_ids']" position="before">
+                <button string="&#8658; Upsell" class="oe_link oe_right" 
+                        help="Add an option directly or create a sale order with prorated discount for the current invoicing period (options are added on confirmation)" 
+                        name="%(wizard_action)d" type="action"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="sale_subscription_template_view_form_inherit_sale_contract">
+        <field name="name">sale.subscription.template.form</field>
+        <field name="model">sale.subscription.template</field>
+        <field name="inherit_id" ref="sale_contract.sale_subscription_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='website_contract']" position="inside">
+                <field name="user_selectable"/>
+                <field name="user_closable"/>
+                <field name="payment_mandatory"/>
+                <field name="partial_invoice"/>
+                <field name="tag_ids" string="Plan Change Tags" widget="many2many_tags"
+                       help="When a customer wants to change his subscription plan, he has the choice between all the recurring contracts with the same tags."/>
+            </xpath>
+            <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
+                <button class="oe_stat_button" name="open_website_url"
+                type="object" icon="fa-globe" string="View Template"/>
             </xpath>
             <xpath expr="//notebook/page[@id='lines']" position="after">
-                <page string="Option Lines" attrs="{'invisible': [('type','!=','template')]}">
+                <page string="Option Lines">
                     <div>
-                        <field name="option_invoice_line_ids" on_write="on_add_set_optional">
-                            <tree string="Account Analytic Lines" editable="bottom">
+                        <field name="subscription_template_option_ids" on_write="on_add_set_optional">
+                            <tree string="Option Lines" editable="bottom">
                                 <field name="product_id"/>
                                 <field name="name"/>
                                 <field name="portal_access"/>
-                                <field name="quantity" invisible="1"/>
+                                <field name="quantity"/>
+                                <field name="discount"/>
                                 <field name="uom_id" groups="product.group_uom"/>
                                 <field name="price_unit"/>
                             </tree>
                         </field>
                     </div>
                 </page>
-            </xpath>
-            <xpath expr="//field[@name='recurring_invoice_line_ids']" position="before">
-                <button string="&#8658; Upsell" class="oe_link oe_right" 
-                        help="Add an option directly or create a sale order with prorated discount for the current invoicing period (options are added on confirmation)" 
-                        name="%(wizard_action)d" type="action" attrs="{'invisible': [('type','!=','contract')]}" />
             </xpath>
         </field>
     </record>

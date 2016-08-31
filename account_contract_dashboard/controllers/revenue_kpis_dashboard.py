@@ -38,12 +38,11 @@ class RevenueKPIsDashboard(http.Controller):
 
         subs_fields = ['date_start', 'recurring_total']
         subs_domain = [
-            ('type', '=', 'contract'),
             ('state', 'not in', ['draft', 'cancel']),
             ('date_start', '>=', date_start),
             ('date_start', '<=', date.today().strftime(DEFAULT_SERVER_DATE_FORMAT))]
-        if filters.get('contract_ids'):
-            subs_domain.append(('template_id', 'in', filters.get('contract_ids')))
+        if filters.get('template_ids'):
+            subs_domain.append(('template_id', 'in', filters.get('template_ids')))
         if filters.get('tag_ids'):
             subs_domain.append(('tag_ids', 'in', filters.get('tag_ids')))
         if filters.get('company_ids'):
@@ -115,7 +114,7 @@ class RevenueKPIsDashboard(http.Controller):
             })
 
         return {
-            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], ['name']),
+            'contract_templates': request.env['sale.subscription.template'].search_read([], ['name']),
             'tags': request.env['account.analytic.tag'].search_read([], ['name']),
             'companies': request.env['res.company'].search_read([], ['name']),
             'cohort_report': cohort_report,
@@ -147,10 +146,10 @@ class RevenueKPIsDashboard(http.Controller):
                 for key, stat in FORECAST_STAT_TYPES.iteritems()
             },
             'currency_id': request.env.user.company_id.currency_id.id,
-            'contract_templates': request.env['sale.subscription'].search_read([('type', '=', 'template')], fields=['name']),
+            'contract_templates': request.env['sale.subscription.template'].search_read([], fields=['name']),
             'tags': request.env['account.analytic.tag'].search_read([], fields=['name']),
             'companies': request.env['res.company'].search_read([], fields=['name']),
-            'has_template': bool(request.env['sale.subscription'].search_count([('active', '=', True), ('type', '=', 'template')])),
+            'has_template': bool(request.env['sale.subscription.template'].search_count([])),
             'has_mrr': bool(request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)])),
         }
 
@@ -225,14 +224,14 @@ class RevenueKPIsDashboard(http.Controller):
 
         results = []
 
-        domain = [('type', '=', 'template')]
-        if filters.get('contract_ids'):
-            domain += [('id', 'in', filters.get('contract_ids'))]
+        domain = []
+        if filters.get('template_ids'):
+            domain += [('id', 'in', filters.get('template_ids'))]
 
-        contract_ids = request.env['sale.subscription'].search(domain)
+        template_ids = request.env['sale.subscription.template'].search(domain)
 
-        for contract in contract_ids:
-            sale_subscriptions = request.env['sale.subscription'].search([('template_id', '=', contract.id)])
+        for template in template_ids:
+            sale_subscriptions = request.env['sale.subscription'].search([('template_id', '=', template.id)])
             analytic_account_ids = [sub.analytic_account_id.id for sub in sale_subscriptions]
 
             lines_domain = [
@@ -244,10 +243,10 @@ class RevenueKPIsDashboard(http.Controller):
                 lines_domain.append(('company_id', 'in', filters.get('company_ids')))
             recurring_invoice_line_ids = request.env['account.invoice.line'].search(lines_domain)
             specific_filters = dict(filters)  # create a copy to modify it
-            specific_filters.update({'contract_ids': [contract.id]})
+            specific_filters.update({'template_ids': [template.id]})
             value = self.compute_stat(stat_type, start_date, end_date, specific_filters)
             results.append({
-                'name': contract.name,
+                'name': template.name,
                 'nb_customers': len(recurring_invoice_line_ids.mapped('account_analytic_id')),
                 'value': value,
             })

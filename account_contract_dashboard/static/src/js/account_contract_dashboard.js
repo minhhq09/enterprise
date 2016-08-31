@@ -59,7 +59,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
     on_update_options: function() {
         this.start_date = this.start_picker.get_value() || '0001-02-01';
         this.end_date = this.end_picker.get_value()  || '9999-12-31';
-        this.filters.contract_ids = this.get_filtered_contract_ids();
+        this.filters.template_ids = this.get_filtered_template_ids();
         this.filters.tag_ids = this.get_filtered_tag_ids();
         
         var company_ids = this.get_filtered_company_ids();
@@ -88,7 +88,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
         });
     },
 
-    get_filtered_contract_ids: function() {
+    get_filtered_template_ids: function() {
         var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
         return _.map($contract_inputs, function(el) { return $(el).data('id'); });
     },
@@ -119,7 +119,7 @@ var account_contract_dashboard_abstract = Widget.extend(ControlPanelMixin, {
 
         // Check the boxes if it was already checked before the update
         var self = this;
-        _.each(this.filters.contract_ids, function(id) {
+        _.each(this.filters.template_ids, function(id) {
             self.$searchview_buttons.find('.o_contract_template_filter[data-id=' + id + ']').parent().addClass('selected');
         });
         _.each(this.filters.tag_ids, function(id) {
@@ -203,7 +203,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.end_date = moment().format('YYYY-MM-DD');
 
         this.filters = {
-            contract_ids: [],
+            template_ids: [],
             tag_ids: [],
             company_ids: [session.company_id],
         };
@@ -362,7 +362,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
 
     on_demo_templates: function(ev) {
         ev.preventDefault();
-        this.load_action("sale_contract.sale_subscription_action_template", {});
+        this.load_action("sale_contract.sale_subscription_template_action", {});
     },
 });
 
@@ -1129,7 +1129,7 @@ var account_contract_dashboard_cohort = account_contract_dashboard_abstract.exte
         this.cohort_interest = 'number';
         this.cohort_interests = [['number', _t('Number of Contracts')], ['value', _t('Value of Contracts')]];
         this.filters = {
-            'contract_ids': [],
+            'template_ids': [],
             'tag_ids': [],
             'company_ids': [session.company_id],
         };
@@ -1212,7 +1212,7 @@ var account_contract_dashboard_cohort = account_contract_dashboard_abstract.exte
         this.date_start = this.$searchview.find('input[name="date_start"]').val();
         this.cohort_period = this.$searchview.find('option[name="period"]:selected').val();
         this.cohort_interest = this.$searchview.find('option[name="interest"]:selected').val();
-        this.filters.contract_ids = this.get_filtered_contract_ids();
+        this.filters.template_ids = this.get_filtered_template_ids();
         this.filters.tag_ids = this.get_filtered_tag_ids();
         this.filters.company_ids = this.get_filtered_company_ids();
 
@@ -1223,7 +1223,7 @@ var account_contract_dashboard_cohort = account_contract_dashboard_abstract.exte
         });
     },
 
-    get_filtered_contract_ids: function() {
+    get_filtered_template_ids: function() {
         var $contract_inputs = this.$searchview_buttons.find(".selected > .o_contract_template_filter");
         return _.map($contract_inputs, function(el) { return $(el).data('id'); });
     },

@@ -14,7 +14,7 @@ class TestContract(TestContractCommon):
 
         with self.assertRaises(ValidationError):
             self.contract_tmpl_1.write({
-                'option_invoice_line_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.price, 'uom_id': self.uom_base.id})]
+                'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.price, 'uom_id': self.uom_base.id})]
             })
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
@@ -27,7 +27,7 @@ class TestContract(TestContractCommon):
         self.assertEqual(self.contract.recurring_total, 650, 'website_contract: price after switching plan is wrong')
 
         # add option
-        self.contract.add_option(self.contract_tmpl_2.option_invoice_line_ids.id)
+        self.contract.add_option(self.contract_tmpl_2.subscription_template_option_ids.id)
         self.assertEqual(len(self.contract.recurring_invoice_line_ids), 3, 'website_contract: number of lines after adding option does not add up')
         self.assertEqual(self.contract.recurring_total, 850, 'website_contract: recurring price after adding option is wrong')
 
@@ -48,7 +48,7 @@ class TestContract(TestContractCommon):
         self.contract.recurring_next_date = '%s-01-01' % (current_year + 1)
         is_leap = calendar.isleap(current_year)
         fraction = float(current_day) / (365.0 if not is_leap else 366.0)
-        self.contract.partial_invoice_line(self.sale_order, self.contract_tmpl_1.option_invoice_line_ids)
+        self.contract.partial_invoice_line(self.sale_order, self.contract_tmpl_1.subscription_template_option_ids)
         invoicing_ratio = self.sale_order.order_line.discount / 100.0
         # discount should be equal to prorata as computed here
         self.assertEqual(float_utils.float_compare(fraction, invoicing_ratio, precision_digits=2), 0, 'website_contract: partial invoicing ratio calculation mismatch')

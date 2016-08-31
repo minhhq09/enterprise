@@ -33,7 +33,7 @@
     </record>
     <record id="opt_line_portal" model="ir.rule">
         <field name="name">Option line portal access</field>
-        <field name="model_id" ref="website_contract.model_sale_subscription_line_option"/>
+        <field name="model_id" ref="website_contract.model_sale_subscription_template_option"/>
         <field name="domain_force">[('is_authorized','=',True)]</field>
         <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
         <field name="perm_read" eval="True"/>

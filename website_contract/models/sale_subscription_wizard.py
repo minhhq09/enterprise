@@ -30,7 +30,7 @@ class SaleSubscriptionWizard(models.TransientModel):
             'subscription_management': 'upsell',
         })
         for line in self.option_lines:
-            for option in template_id.option_invoice_line_ids:
+            for option in template_id.subscription_template_option_ids:
                 if line.product_id == option.product_id:
                     line.name = option.name
             self.subscription_id.partial_invoice_line(order, line)
@@ -67,16 +67,9 @@ class SaleSubscriptionWizard(models.TransientModel):
 
 class SaleSubscriptionWizardOption(models.TransientModel):
     _name = "sale.subscription.wizard.option"
-    _inherit = "sale.subscription.line.option"
-
-    def _product_domain(self):
-        template_id = self.env['sale.subscription'].browse(self.env.context.get('active_id')).template_id
-        return [('id', 'in', [option.product_id.id for option in template_id.option_invoice_line_ids] + [line.product_id.id for line in template_id.recurring_invoice_line_ids])]
+    _inherit = "sale.subscription.template.option"
 
     wizard_id = fields.Many2one('sale.subscription.wizard')
-    product_id = fields.Many2one('product.product', domain=_product_domain)
-    quantity = fields.Float(inverse='_inverse_quantity')
-
-    def _inverse_quantity(self):
-        for line in self:
-            line.sold_quantity = line.quantity
+    product_id = fields.Many2one('product.product', domain="[('recurring_invoice', '=', True)]")
+    quantity = fields.Float()
+    subscription_template_id = fields.Many2one(required=False)

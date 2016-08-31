@@ -89,6 +89,7 @@ class website_contract(http.Controller):
     def contract(self, account_id, uuid='', message='', message_class='', **kw):
         request.env['res.users'].browse(request.uid).has_group('sales_team.group_sale_salesman')
         account_res = request.env['sale.subscription']
+        template_res = request.env['sale.subscription.template']
         if uuid:
             account = account_res.sudo().browse(account_id)
             if uuid != account.uuid or account.state == 'cancelled':
@@ -112,11 +113,9 @@ class website_contract(http.Controller):
             delta = datetime.datetime.today() - datetime.datetime.strptime(account.recurring_next_date, '%Y-%m-%d')
             missing_periods = delta.days / 7
         dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_action')
-        account_templates = account_res.sudo().search([
-            ('type', '=', 'template'),
+        account_templates = template_res.sudo().search([
             ('user_selectable', '=', True),
             ('id', '!=', active_plan.id),
-            ('state', '=', 'open'),
             ('tag_ids', 'in', account.sudo().template_id.tag_ids.ids)
         ])
         values = {
@@ -206,6 +205,7 @@ class website_contract(http.Controller):
     @http.route(['/my/contract/<int:account_id>/change'], type='http', auth="public", website=True)
     def change_contract(self, account_id, uuid=None, **kw):
         account_res = request.env['sale.subscription']
+        template_res = request.env['sale.subscription.template']
         account = account_res.sudo().browse(account_id)
         if uuid != account.uuid:
             raise NotFound()
@@ -229,9 +229,7 @@ class website_contract(http.Controller):
                 order.reset_project_id()
             account.message_post(body=msg_body)
             return request.redirect('/my/contract/%s/%s' % (account.id, account.uuid))
-        account_templates = account_res.sudo().search([
-            ('type', '=', 'template'),
-            ('state', '=', 'open'),
+        account_templates = template_res.sudo().search([
             ('user_selectable', '=', True),
             ('tag_ids', 'in', account.template_id.tag_ids.ids)
         ])
@@ -266,7 +264,7 @@ class website_contract(http.Controller):
 
     @http.route(['/my/contract/<int:account_id>/add_option'], type='http', methods=["POST"], auth="public", website=True)
     def add_option(self, account_id, uuid=None, **kw):
-        option_res = request.env['sale.subscription.line.option']
+        option_res = request.env['sale.subscription.template.option']
         account_res = request.env['sale.subscription']
         if uuid:
             account = account_res.sudo().browse(account_id)
@@ -286,7 +284,7 @@ class website_contract(http.Controller):
     @http.route(['/my/contract/<int:account_id>/remove_option'], type='http', methods=["POST"], auth="public", website=True)
     def remove_option(self, account_id, uuid=None, **kw):
         remove_option_id = int(kw.get('remove_option_id'))
-        option_res = request.env['sale.subscription.line.option']
+        option_res = request.env['sale.subscription.template.option']
         account_res = request.env['sale.subscription']
         if uuid:
             remove_option = option_res.sudo().browse(remove_option_id)
@@ -309,7 +307,7 @@ class website_contract(http.Controller):
         order = request.website.sale_get_order(force_create=True)
         order.set_project_id(account_id)
         new_option_id = int(kw.get('new_option_id'))
-        new_option = request.env['sale.subscription.line.option'].sudo().browse(new_option_id)
+        new_option = request.env['sale.subscription.template.option'].sudo().browse(new_option_id)
         account = request.env['sale.subscription'].browse(account_id)
         account.sudo().partial_invoice_line(order, new_option)
 
@@ -317,17 +315,14 @@ class website_contract(http.Controller):
 
     @http.route(['/my/template/<int:template_id>'], type='http', auth="user", website=True)
     def view_template(self, template_id, **kw):
-        account_res = request.env['sale.subscription']
-        dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_action_template')
-        template = account_res.browse(template_id)
+        template_res = request.env['sale.subscription.template']
+        dummy, action = request.env['ir.model.data'].get_object_reference('sale_contract', 'sale_subscription_template_action')
+        template = template_res.browse(template_id)
         values = {
             'template': template,
             'action': action
         }
-        if template.type == 'template':
-            return request.render('website_contract.preview_template', values)
-        else:
-            raise NotFound()
+        return request.render('website_contract.preview_template', values)
 
 
 class sale_quote_contract(sale_quote):
