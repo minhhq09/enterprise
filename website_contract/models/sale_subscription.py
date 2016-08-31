@@ -26,6 +26,17 @@ class SaleSubscription(models.Model):
     # add tax calculation
     recurring_amount_tax = fields.Float('Taxes', compute="_amount_all")
     recurring_amount_total = fields.Float('Total', compute="_amount_all")
+    sale_order_count = fields.Integer(compute='_compute_sale_order_count')
+
+    def _compute_sale_order_count(self):
+        sale_order_data = self.env['sale.order'].read_group(domain=[('project_id', 'in', self.mapped('analytic_account_id').ids),
+                                                                    ('subscription_management', '!=', False),
+                                                                    ('state', 'in', ['draft', 'sent', 'sale', 'done'])],
+                                                            fields=['project_id'],
+                                                            groupby=['project_id'])
+        mapped_data = dict([(m['project_id'][0], m['project_id_count']) for m in sale_order_data])
+        for sub in self:
+            sub.sale_order_count = mapped_data.get(sub.analytic_account_id.id, 0)
 
     _sql_constraints = [
         ('uuid_uniq', 'unique (uuid)', """UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be unique!"""),
@@ -388,6 +399,8 @@ class SaleSubscriptionTemplate(models.Model):
     subscription_template_option_ids = fields.One2many('sale.subscription.template.option', inverse_name='subscription_template_id', string='Optional Lines', copy=True, oldname='option_invoice_line_ids')
     partial_invoice = fields.Boolean(string="Prorated Invoice", help="If set, option upgrades are invoiced for the remainder of the current invoicing period.")
     tag_ids = fields.Many2many('account.analytic.tag', 'sale_subscription_template_tag_rel', 'template_id', 'tag_id', string='Tags')
+    subscription_count = fields.Integer(compute='_compute_subscription_count')
+    color = fields.Integer()
     website_url = fields.Char('Website URL', compute='_website_url', help='The full URL to access the document through the website.')
 
     def _website_url(self):
@@ -401,6 +414,14 @@ class SaleSubscriptionTemplate(models.Model):
             'url': self.website_url,
             'target': 'self',
         }
+
+    def _compute_subscription_count(self):
+        subscription_data = self.env['sale.subscription'].read_group(domain=[('template_id', 'in', self.ids), ('state', 'in', ['open', 'pending'])],
+                                                                     fields=['template_id'],
+                                                                     groupby=['template_id'])
+        mapped_data = dict([(m['template_id'][0], m['template_id_count']) for m in subscription_data])
+        for template in self:
+            template.subscription_count = mapped_data.get(template.id, 0)
 
 
 class SaleSusbcriptionOption(models.Model):

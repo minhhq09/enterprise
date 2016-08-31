@@ -68,6 +68,145 @@
         <field name="target">new</field>
     </record>
 
+    <record id="sale_subscription_action_filtered" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">sale.subscription</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban,pivot,graph</field>
+        <field name="context">{
+            'search_default_template_id': [active_id],
+            'default_template_id': active_id,
+        }
+        </field>        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new contract.
+            </p><p>
+                Use contracts to follow tasks, issues, timesheets or invoicing based on
+                work done, expenses and/or sales orders. Odoo will automatically manage
+                the alerts for the renewal of the contracts to the right salesperson.
+            </p>
+        </field>
+    </record>
+
+    <record id="sale_subscription_template_view_kanban" model="ir.ui.view">
+        <field name="name">sale.subscription.template.kanban</field>
+        <field name="model">sale.subscription.template</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_subscription_kanban">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="recurring_rule_type"/>
+                <field name="recurring_interval"/>
+                <field name="payment_mandatory"/>
+                <field name="user_closable"/>
+                <field name="user_selectable"/>
+                <field name="partial_invoice"/>
+                <field name="color"/>
+                <field name="subscription_count"/>
+                <field name="tag_ids"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="o_subscription_kanban_main">
+                                <div>
+                                    <field name="tag_ids"/>
+                                </div>
+                                <div class="o_kanban_card_content o_visible">
+                                    <div class="o_kanban_primary_left">
+                                        <div class="o_primary">
+                                            <span><t t-if="record.code.value"><t t-esc="record.code.value"/> - </t><t t-esc="record.name.value"/></span>
+                                        </div>
+                                        <span>Recurrency: <t t-esc="record.recurring_interval.value"/>&amp;nbsp;<t t-esc="record.recurring_rule_type.value"/></span>
+                                        <span t-if="record.payment_mandatory.value"><i class="fa fa-check" /> Automatic payments</span>
+                                        <span t-if="record.user_selectable.value"><i class="fa fa-check" /> Selectable by customer</span>
+                                        <span t-if="record.user_closable.value"><i class="fa fa-check" /> Closable by customer</span>
+                                        <span t-if="record.partial_invoice.value"><i class="fa fa-check" /> Pro-rated invoices</span>
+
+                                    </div>
+                                </div><div class="o_kanban_card_manage_pane o_invisible">
+                                    <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div>
+                                            <a type="edit">Settings</a>
+                                        </div>
+                                        <div>
+                                            <a name="%(sale_subscription_action_filtered)d" type="action">Subscriptions</a>
+                                            <a name="open_website_url" type="object">View on Website</a>
+                                        </div>
+                                    </div>
+                                    <div t-if="widget.editable" class="o_subscription_kanban_colorpicker">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                                <div class="o_subscription_kanban_manage">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+
+                            <div class="o_subscription_kanban_boxes">
+                                <div class="o_subscription_kanban_box">
+                                    <a name="%(sale_subscription_action_filtered)d" type="action">
+                                        <span class="o_value"><t t-esc="record.subscription_count.value"/></span>
+                                        <span class="o_label">Subscriptions</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="sale_contract.sale_subscription_template_action" model="ir.actions.act_window">
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+    
+    <record id="sale_subscription_view_kanban" model="ir.ui.view">
+        <field name="name">sale.subscription.kanban</field>
+        <field name="model">sale.subscription</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="code"/>
+                <field name="state"/>
+                <field name="recurring_total"/>
+                <field name="template_id"/>
+                <field name="partner_id"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <strong><span><t t-esc="record.partner_id.value"/></span></strong>
+                                </div>
+                                <div class="col-xs-6 pull-right text-right">
+                                    <strong><field name="recurring_total" widget="monetary"/></strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-muted">
+                                    <div><t t-esc="record.code.value"/></div>
+                                    <div><t t-esc="record.template_id.value"/></div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <span class="pull-right text-right">
+                                        <field name="state" widget="kanban_label_selection" options="{'classes': {'draft': 'info', 'cancel': 'default',
+                                        'open': 'success', 'close': 'default', 'pending': 'danger'}}"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="sale_contract.sale_subscription_action" model="ir.actions.act_window">
+        <field name="view_mode">tree,form,pivot,graph,kanban</field>
+    </record>
+
+
     <record model="ir.ui.view" id="sale_subscription_view_form_inherit_sale_contract">
         <field name="name">sale.subscription.form</field>
         <field name="model">sale.subscription</field>
@@ -79,8 +218,9 @@
             <xpath expr="//div[@class='oe_button_box']/button[1]" position="before">
                 <button class="oe_stat_button o_open_subscription" name="open_website_url"
                     type="object" icon="fa-globe" string="View Contract"/>
-                <button class="oe_stat_button" name="%(action_contract_sales_all)d" type="action" icon="fa-credit-card"
-                    string="Sales" />
+                <button class="oe_stat_button" name="%(action_contract_sales_all)d" type="action" icon="fa-credit-card">
+                    <field name="sale_order_count" widget="statinfo" string="Sales"/>
+                </button>
             </xpath>
             <xpath expr="//field[@name='recurring_invoice_line_ids']" position="before">
                 <button string="&#8658; Upsell" class="oe_link oe_right" 
