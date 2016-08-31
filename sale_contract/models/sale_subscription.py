@@ -22,7 +22,7 @@ class SaleSubscription(models.Model):
                              string='Status', required=True, track_visibility='onchange', copy=False, default='draft')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', required=True, ondelete="cascade", auto_join=True)
     date_start = fields.Date(string='Start Date', default=fields.Date.today)
-    date = fields.Date(string='End Date', track_visibility='onchange')
+    date = fields.Date(string='End Date', track_visibility='onchange', help="If set in advance, the subscription will be set to pending 1 month before the date and will be closed on the date set in this field.")
     pricelist_id = fields.Many2one('product.pricelist', string='Pricelist', required=True)
     currency_id = fields.Many2one('res.currency', related='pricelist_id.currency_id', string='Currency', readonly=True)
     recurring_invoice_line_ids = fields.One2many('sale.subscription.line', 'analytic_account_id', string='Invoice Lines', copy=True)
@@ -119,41 +119,20 @@ class SaleSubscription(models.Model):
 
     @api.model
     def cron_account_analytic_account(self):
-        remind = {}
+        today = fields.Date.today()
+        next_month = fields.Date.to_string(fields.Date.from_string(today) + relativedelta(months=1))
 
-        def fill_remind(key, domain, write_pending=False):
-            base_domain = [
-                ('partner_id', '!=', False),
-                ('manager_id', '!=', False),
-                ('manager_id.email', '!=', False),
-            ]
-            base_domain.extend(domain)
+        # set to pending if date is in less than a month
+        domain_pending = [('date', '<', next_month), ('state', '=', 'open')]
+        subscriptions_pending = self.search(domain_pending)
+        subscriptions_pending.write({'state': 'pending'})
 
-            for account in self.search(base_domain, order='name asc'):
-                if write_pending:
-                    account.write({'state': 'pending'})
-                remind_user = remind.setdefault(account.manager_id.id, {})
-                remind_type = remind_user.setdefault(key, {})
-                remind_partner = remind_type.setdefault(account.partner_id, []).append(account)
+        # set to close if data is passed
+        domain_close = [('date', '<', today), ('state', 'in', ['pending', 'open'])]
+        subscriptions_close = self.search(domain_close)
+        subscriptions_close.write({'state': 'close'})
 
-        # Already expired
-        fill_remind("old", [('state', 'in', ['pending'])])
-
-        # Expires now
-        fill_remind("new", [('state', 'in', ['draft', 'open']),
-                            '&', ('date', '!=', False), ('date', '<=', fields.Date.today()),
-                            ], True)
-
-        # Expires in less than 30 days
-        fill_remind("future", [('state', 'in', ['draft', 'open']), ('date', '!=', False), ('date', '<', fields.Date.to_string(fields.Date.from_string(fields.Date.today()) + relativedelta(days=30)))])
-
-        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-        action = self.env.ref('sale_contract.sale_subscription_action')
-        template = self.env.ref('sale_contract.account_analytic_cron_email_template')
-        for user_id, data in remind.items():
-            _logger.debug("Sending reminder to uid %s", user_id)
-            template.with_context({'base_url': base_url, 'action_id': action.id, 'data': data}).send_mail(user_id, force_send=True)
-        return True
+        return dict(pending=subscriptions_pending.ids, closed=subscriptions_close.ids)
 
     @api.model
     def _cron_recurring_create_invoice(self):
