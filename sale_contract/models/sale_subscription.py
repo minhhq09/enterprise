@@ -23,7 +23,7 @@ class SaleSubscription(models.Model):
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', required=True, ondelete="cascade", auto_join=True)
     date_start = fields.Date(string='Start Date', default=fields.Date.today)
     date = fields.Date(string='End Date', track_visibility='onchange')
-    pricelist_id = fields.Many2one('product.pricelist', string='Pricelist')
+    pricelist_id = fields.Many2one('product.pricelist', string='Pricelist', required=True)
     currency_id = fields.Many2one('res.currency', related='pricelist_id.currency_id', string='Currency', readonly=True)
     recurring_invoice_line_ids = fields.One2many('sale.subscription.line', 'analytic_account_id', string='Invoice Lines', copy=True)
     recurring_rule_type = fields.Selection([('daily', 'Day(s)'), ('weekly', 'Week(s)'), ('monthly', 'Month(s)'), ('yearly', 'Year(s)'), ], string='Recurrency', help="Invoice automatically repeat at specified interval", default='monthly')
@@ -31,14 +31,10 @@ class SaleSubscription(models.Model):
     recurring_next_date = fields.Date(string='Date of Next Invoice', default=fields.Date.today)
     recurring_total = fields.Float(compute='_compute_recurring_total', string="Recurring Price", store=True, track_visibility='onchange')
     close_reason_id = fields.Many2one("sale.subscription.close.reason", string="Close Reason", track_visibility='onchange')
-    type = fields.Selection([('contract', 'Contract'), ('template', 'Template')], string='Type', default='contract')
-    template_id = fields.Many2one('sale.subscription', string='Subscription Template', domain=[('type', '=', 'template')], track_visibility='onchange')
+    template_id = fields.Many2one('sale.subscription.template', string='Subscription Template', required=True, track_visibility='onchange')
     description = fields.Text()
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
     manager_id = fields.Many2one('res.users', string='Sales Rep', track_visibility='onchange')
-        # Fields that only matters on template
-    plan_description = fields.Html(help="Describe this subscription in a few lines", sanitize_attributes=False)
-    user_selectable = fields.Boolean(string='Allow Online Order', default=True, help="""Leave this unchecked if you don't want this subscription template to be available to the customer in the frontend (for a free trial, for example)""")
 
     @api.depends('recurring_invoice_line_ids')
     def _compute_recurring_total(self):
@@ -54,15 +50,23 @@ class SaleSubscription(models.Model):
         if self.template_id:
             if not self.ids:
                 invoice_line_ids = []
-                for x in self.template_id.recurring_invoice_line_ids:
+                for line in self.template_id.subscription_template_line_ids:
+                    product = line.product_id.with_context(
+                        lang=self.partner_id.lang,
+                        partner=self.partner_id.id,
+                        pricelist=self.pricelist_id.id,
+                        uom=line.uom_id.id
+                    )
+                    name = product.name_get()[0][1]
+                    if product.description_sale:
+                        name += '\n' + product.description_sale
                     invoice_line_ids.append((0, 0, {
-                        'product_id': x.product_id.id,
-                        'uom_id': x.uom_id.id,
-                        'name': x.name,
-                        'sold_quantity': x.sold_quantity,
-                        'actual_quantity': x.quantity,
-                        'price_unit': x.price_unit,
-                        'analytic_account_id': x.analytic_account_id and x.analytic_account_id.id or False,
+                        'product_id': line.product_id.id,
+                        'uom_id': line.uom_id.id,
+                        'name': line.name,
+                        'sold_quantity': line.sold_quantity,
+                        'actual_quantity': line.quantity,
+                        'price_unit': line.price_unit,
                     }))
                 self.recurring_invoice_line_ids = invoice_line_ids
             self.recurring_interval = self.template_id.recurring_interval
@@ -79,12 +83,8 @@ class SaleSubscription(models.Model):
     def name_get(self):
         res = []
         for sub in self:
-            if sub.type != 'template':
-                name = '%s - %s' % (sub.code, sub.partner_id.name) if sub.code else sub.partner_id.name
-                res.append((sub.id, '%s/%s' % (sub.template_id.code, name) if sub.template_id.code else name))
-            else:
-                name = '%s - %s' % (sub.code, sub.name) if sub.code else sub.name
-                res.append((sub.id, name))
+            name = '%s - %s' % (sub.code, sub.partner_id.name) if sub.code else sub.partner_id.name
+            res.append((sub.id, '%s/%s' % (sub.template_id.code, name) if sub.template_id.code else name))
         return res
 
     @api.multi
@@ -110,7 +110,6 @@ class SaleSubscription(models.Model):
 
         def fill_remind(key, domain, write_pending=False):
             base_domain = [
-                ('type', '=', 'contract'),
                 ('partner_id', '!=', False),
                 ('manager_id', '!=', False),
                 ('manager_id.email', '!=', False),
@@ -233,7 +232,7 @@ class SaleSubscription(models.Model):
         invoices = []
         current_date = fields.Date.today()
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-        domain = ['id', 'in', self.ids] if self.ids else [('recurring_next_date', '<=', current_date), ('state', '=', 'open'), ('type', '=', 'contract')]
+        domain = [('id', 'in', self.ids)] if self.ids else [('recurring_next_date', '<=', current_date), ('state', '=', 'open')]
         sub_data = self.search_read(fields=['id', 'company_id'], domain=domain)
         for company_id in set(data['company_id'][0] for data in sub_data):
             sub_ids = map(lambda s: s['id'], filter(lambda s: s['company_id'][0] == company_id, sub_data))
@@ -322,6 +321,7 @@ class SaleSubscription(models.Model):
 
 class SaleSubscriptionLine(models.Model):
     _name = "sale.subscription.line"
+    _description = "Susbcription Line"
 
     product_id = fields.Many2one('product.product', string='Product', domain="[('recurring_invoice','=',True)]", required=True)
     analytic_account_id = fields.Many2one('sale.subscription', string='Subscription')
@@ -393,6 +393,86 @@ class SaleSubscriptionLine(models.Model):
 class SaleSubscriptionCloseReason(models.Model):
     _name = "sale.subscription.close.reason"
     _order = "sequence, id"
+    _description = "Susbcription Close Reason"
 
     name = fields.Char(required=True)
     sequence = fields.Integer(default=10)
+
+
+class SaleSubscriptionTemplate(models.Model):
+    _name = "sale.subscription.template"
+    _description = "Sale Subscription Template"
+    _inherit = "mail.thread"
+
+    active = fields.Boolean(default=True)
+    name = fields.Char(required=True)
+    code = fields.Char()
+    description = fields.Text(translate=True)
+    recurring_rule_type = fields.Selection([('daily', 'Day(s)'), ('weekly', 'Week(s)'),
+                                            ('monthly', 'Month(s)'), ('yearly', 'Year(s)'), ],
+                                           string='Recurrency',
+                                           help="Invoice automatically repeat at specified interval",
+                                           default='monthly')
+    recurring_interval = fields.Integer(string="Repeat Every", help="Repeat every (Days/Week/Month/Year)", default=1, track_visibility='onchange')
+    subscription_template_line_ids = fields.One2many('sale.subscription.template.line', 'subscription_template_id', string="Subscription Template Lines", copy=True)
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = ['|', ('code', operator, name), ('name', operator, name)]
+        rec = self.search(domain + args, limit=limit)
+        return rec.name_get()
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for sub in self:
+            name = '%s - %s' % (sub.code, sub.name) if sub.code else sub.name
+            res.append((sub.id, name))
+        return res
+
+
+class SaleSubscriptionTemplateLine(models.Model):
+    _name = "sale.subscription.template.line"
+    _description = "Subscription Template Line"
+
+    product_id = fields.Many2one('product.product', string="Product", required=True, domain="[('recurring_invoice', '=', True)]")
+    name = fields.Char(string='Description', required=True)
+    subscription_template_id = fields.Many2one('sale.subscription.template', string="Template", required=True, ondelete="cascade")
+    uom_id = fields.Many2one('product.uom', string="Unit of Measure", required=True)
+    quantity = fields.Float(required=True, default=1.0)
+    price_unit = fields.Float(string='Unit Price', required=True)
+    discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))
+    price_subtotal = fields.Float(compute="_compute_subtotal")
+
+    def _compute_subtotal(self):
+        for line in self:
+            line.price_subtotal = line.quantity * line.price_unit * (100.0 - line.discount) / 100.0
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        domain = {}
+        if not self.product_id:
+            self.price_unit = 0.0
+            domain['uom_id'] = []
+        else:
+            self.price_unit = self.product_id.list_price
+            name = self.product_id.display_name
+            if self.product_id.description_sale:
+                name += '\n' + self.product_id.description_sale
+            self.name = name
+
+            if not self.uom_id:
+                self.uom_id = self.product_id.uom_id.id
+            if self.uom_id.id != self.product_id.uom_id.id:
+                self.price_unit = self.product_id.uom_id._compute_price(self.product_id.uom_id.id, self.price_unit, self.uom_id.id)
+            domain['uom_id'] = [('category_id', '=', self.product_id.uom_id.category_id.id)]
+
+        return {'domain': domain}
+
+    @api.onchange('uom_id')
+    def onchange_uom_id(self):
+        if not self.uom_id:
+            self.price_unit = 0.0
+        else:
+            self.onchange_product_id()

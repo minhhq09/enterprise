@@ -48,8 +48,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="context">{}</field>
-        <field name="domain">[('type','=','contract')]</field>
-        <field name="search_view_id" ref="sale_subscription_view_search"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to create a new contract.
@@ -67,8 +65,6 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="context">{'search_default_manager_id':uid, 'search_default_pending':1, 'search_default_renew':1}</field>
-        <field name="domain">[('type','=','contract')]</field>
-        <field name="search_view_id" ref="sale_subscription_view_search"/>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Click to define a new contract.
@@ -113,63 +109,48 @@
             <form string="Subscription">
                 <header>
                     <button name="set_open" string="Start Subscription" type="object"
-                            attrs="{'invisible': ['|',('type','=','template'),('state','=','open')]}" class="oe_highlight"/>
+                            attrs="{'invisible': [('state','=','open')]}" class="oe_highlight"/>
                     <button name="set_pending" string="To Renew" type="object"
-                            attrs="{'invisible': ['|',('type','=','template'),('state','in',['pending','draft','close','cancel'])]}"/>
+                            attrs="{'invisible': [('state','in',['pending','draft','close','cancel'])]}"/>
                     <button name="%(sale_contract.sale_subscription_close_reason_wizard_action)d" string="Close Subscription"
-                            type="action" attrs="{'invisible': ['|',('type','=','template'),('state','in',['draft','close','cancel'])]}"/>
+                            type="action" attrs="{'invisible': [('state','in',['draft','close','cancel'])]}"/>
                     <button name="%(sale_contract.sale_subscription_close_reason_wizard_action)d" string="Cancel Subscription"
                             type="action" context="{'cancel':1}"
-                            attrs="{'invisible': ['|',('type','=','template'),('state','in',['cancel','close'])]}"/>
-                    <field name="state" widget="statusbar" attrs="{'invisible': [('type','=','template')]}"/>
+                            attrs="{'invisible': [('state','in',['cancel','close'])]}"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet string="Subscription">
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" string="Invoices"
                             icon="fa-book"
                             name="action_subscription_invoice"
-                            type="object" attrs="{'invisible': [('type','=','template')]}"/>
-                        <button class="oe_inline oe_stat_button" string="Subscriptions"
-                            icon="fa-book"
-                            name="%(sale_subscription_action)d"
-                            context="{'search_default_template_id': [active_id], 'default_template_id': active_id}"
-                            type="action" attrs="{'invisible': [('type','!=','template')]}"/>
-                        <button name="toggle_active" type="object" attrs="{'invisible': [('type','!=','template')]}" groups="base.group_user" class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
-                        </button>
+                            type="object"/>
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" attrs="{'invisible': [('type','=','contract')]}"/>
-                            <field name="display_name" attrs="{'invisible': [('type','=','template')]}"/>
+                            <field name="display_name"/>
                         </h1>
                     </div>
                     <group name="main">
                         <group>
-                            <field name="type" widget="radio" invisible="1"/>
-                            <field name="partner_id" attrs="{'invisible': [('type','=','template')], 'required': [('type','=','contract')] }"/>
-                            <field name="pricelist_id" attrs="{'required': [('type','=','contract')]}" groups="product.group_sale_pricelist"/>
+                            <field name="partner_id" required="1"/>
+                            <field name="pricelist_id" groups="product.group_sale_pricelist"/>
                             <field name="code"/>
-                            <label for="recurring_next_date" string="Date of Next Invoice" attrs="{'invisible': ['|',('type','=','template')]}"/>
-                            <div attrs="{'invisible': ['|',('type','=','template')]}">
+                            <label for="recurring_next_date" string="Date of Next Invoice"/>
+                            <div>
                                 <field name="recurring_next_date"/>
                                 <button string="&#8658; Generate Invoice" class="oe_link" name="recurring_invoice"
-                                        type="object" attrs="{'invisible': [('type','!=','contract')]}" />
+                                        type="object" />
                             </div>
                         </group>
                         <group>
-                            <label for="recurring_interval" string="Recurrency" attrs="{'invisible': [('type','!=','template')]}"/>
-                            <div attrs="{'invisible': [('type','!=','template')]}">
-                                <field name="recurring_interval" class="oe_inline"/>
-                                <field name="recurring_rule_type" class="oe_inline"/>
-                            </div>
-                            <field name="template_id" attrs="{'required': [('type','=','contract')], 'invisible': [('type','=','template')]}" context="{'default_type': 'template', 'default_code': False}"/>
+                            <field name="template_id"/>
                             <field name="manager_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>
-                            <field name="date_start" attrs="{'invisible': [('type','=','template')]}"/>
-                            <field name="date" states="close" attrs="{'invisible': [('type','=','template')]}"/>
-                            <field name="close_reason_id" attrs="{'invisible': ['|',('type','!=','contract'),('state','in',['draft','open','pending'])]}"/>
+                            <field name="date_start"/>
+                            <field name="date" states="close"/>
+                            <field name="close_reason_id" attrs="{'invisible': [('state','in',['draft','open','pending'])]}"/>
                         </group>
                     </group>
                     <notebook>
@@ -177,7 +158,7 @@
                             <div>
                                 <button string="&#8658; Renewal Quotation" class="oe_link oe_right"
                                         help="Create a sale order that will overwrite this contract when confirmed (renewal quotation)"
-                                        name="prepare_renewal_order" type="object" attrs="{'invisible': [('type','!=','contract')]}" />
+                                        name="prepare_renewal_order" type="object" />
                                 <field name="recurring_invoice_line_ids">
                                     <tree editable="bottom">
                                         <field name="product_id" context="{'default_recurring_invoice': True}"/>
@@ -191,7 +172,7 @@
                                         <field name="price_subtotal"/>
                                     </tree>
                                 </field>
-                                <group class="oe_subtotal_footer oe_right" attrs="{'invisible': [('type','=','template')]}">
+                                <group class="oe_subtotal_footer oe_right">
                                     <field name="recurring_total" class="oe_subtotal_footer_separator"
                                         widget="monetary" options="{'currency_field': 'currency_id'}"
                                         modifiers="{'readonly': true}"
@@ -203,7 +184,7 @@
                             <group>
                                 <field name="tag_ids" string="Plan Change Tags" widget="many2many_tags"
                                        help="When a customer wants to change his subscription plan, he has the choice between all the recurring contracts with the same tags."/>
-                                <field name="analytic_account_id" readonly="1" required="0" attrs="{'invisible': [('type','=','template')]}"/>
+                                <field name="analytic_account_id" readonly="1" required="0"/>
                             </group>
                             <group>
                             </group>
@@ -240,43 +221,96 @@
     </record>
 
     <!-- Subscriptions templates -->
-    <record id="sale_subscription_view_list_template" model="ir.ui.view">
-        <field name="name">sale.subscription.list.template</field>
-        <field name="model">sale.subscription</field>
+    <record id="sale_subscription_template_view_list" model="ir.ui.view">
+        <field name="name">sale.subscription.template.list</field>
+        <field name="model">sale.subscription.template</field>
         <field name="arch" type="xml">
-            <tree toolbar="1" decoration-muted="state=='close'" string="Subscription Templates">
-                <field name="display_name"/>
+            <tree toolbar="1" string="Subscription Templates">
+                <field name="code"/>
+                <field name="name"/>
                 <field name="recurring_rule_type"/>
-                <field name="state" invisible="1"/>
-                <field name="company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
     </record>
     
-    <record id="sale_subscription_view_search_template" model="ir.ui.view">
+    <record id="sale_subscription_template_view_search" model="ir.ui.view">
         <field name="name">sale.subscription.template.search</field>
-        <field name="model">sale.subscription</field>
+        <field name="model">sale.subscription.template</field>
         <field name="arch" type="xml">
-            <search string="subscription Templates">
+            <search string="Subscription Templates">
                 <field name="name" filter_domain="['|', ('name','ilike',self),('code','ilike',self)]" string="Template"/>
                 <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
-                <group expand="0" string="Group By">
-                    <filter string="Company" domain="[]" context="{'group_by':'company_id'}"/>
-                </group>
             </search>
         </field>
     </record>
 
-    <record id="sale_subscription_action_template" model="ir.actions.act_window">
-        <field name="name">Subscription Template</field>
+    <record id="sale_subscription_template_view_form" model="ir.ui.view">
+        <field name="name">sale.subscription.form.view</field>
+        <field name="model">sale.subscription.template</field>
+        <field name="arch" type="xml">
+            <form string="Subscription">
+                <sheet string="Subscription">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_inline oe_stat_button" string="Subscriptions"
+                            icon="fa-book"
+                            name="%(sale_subscription_action)d"
+                            context="{'search_default_template_id': [active_id], 'default_template_id': active_id}"
+                            type="action"/>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group name="main">
+                        <group>
+                            <field name="code"/>
+                            <label for="recurring_interval" string="Recurrency"/>
+                            <div>
+                                <field name="recurring_interval" class="oe_inline"/>
+                                <field name="recurring_rule_type" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group name="website_contract">
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Subscription Lines" id="lines">
+                            <div>
+                                <field name="subscription_template_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id" context="{'default_recurring_invoice': True}"/>
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="discount"/>
+                                        <field name="uom_id" groups="product.group_uom"/>
+                                        <field name="price_unit"/>
+                                    </tree>
+                                </field>
+                            </div>
+                        </page>
+                    </notebook>
+                    <div>
+                        <field name="description"/>
+                    </div>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="sale_subscription_template_action" model="ir.actions.act_window">
+        <field name="name">Subscription Templates</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sale.subscription</field>
+        <field name="res_model">sale.subscription.template</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="sale_subscription_view_list_template"/>
-        <field name="domain">[('type','=','template')]</field>
-        <field name="context">{'search_default_type':'template','default_type' : 'template', 'search_default_open':1, 'default_state': 'open'}</field>
-        <field name="search_view_id" ref="sale_subscription_view_search_template"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click here to create a template of subscription.
@@ -308,7 +342,7 @@
     </record>
 
     <!-- Menuitems -->
-    <menuitem id="menu_sale_subscription_root" name="Subscriptions" sequence="8" web_icon="sale_contract,static/description/icon.png" groups="base.group_user"/>
+    <menuitem id="menu_sale_subscription_root" name="Subscriptions" sequence="8" web_icon="sale_contract,static/description/icon.png" groups="sale_contract.group_sale_contract_view"/>
 
     <menuitem id="menu_sale_subscription" name="Subscriptions" parent="menu_sale_subscription_root" sequence="5"/>
     <menuitem action="sale_subscription_action" id="menu_sale_subscription_action" sequence="1" parent="menu_sale_subscription"/>
@@ -317,6 +351,6 @@
     <menuitem action="product_action_subscription" id="menu_sale_subscription_product" sequence="3" parent="menu_sale_subscription"/>
 
     <menuitem id="menu_sale_subscription_config" name="Configuration" sequence="10" parent="menu_sale_subscription_root"/>
-    <menuitem action="sale_subscription_action_template" id="menu_template_of_subscription" parent="menu_sale_subscription" sequence="4" groups="sale_contract.group_sale_contract_manager"/>
+    <menuitem action="sale_subscription_template_action" id="menu_template_of_subscription" parent="menu_sale_subscription" sequence="4" groups="sale_contract.group_sale_contract_manager"/>
     <menuitem action="sale_subscription_close_reason_action" id="menu_sale_subscription_lost_reason_action" parent="menu_sale_subscription_config" sequence="10"/>
 </odoo>

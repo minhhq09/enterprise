@@ -55,7 +55,7 @@ class sale_subscription_report(models.Model):
     def _from(self):
         from_str = """
                 sale_subscription_line l
-                      join sale_subscription sub on (l.analytic_account_id=sub.id) and (sub.type!='template')
+                      join sale_subscription sub on (l.analytic_account_id=sub.id)
                       join account_analytic_account a on sub.analytic_account_id=a.id
                       join res_partner partner on a.partner_id = partner.id
                         left join product_product p on (l.product_id=p.id)
