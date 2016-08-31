@@ -19,20 +19,20 @@ def _build_sql_query(fields, tables, conditions, query_args, filters, groupby=No
         * writing additionnal conditions for filters (same conditions for every request)
     :params fields, tables, conditions: basic SQL request statements
     :params query_args: dict of optional query args used in the request
-    :params filters: dict of optional filters (contract_ids, tag_ids, company_ids)
+    :params filters: dict of optional filters (template_ids, tag_ids, company_ids)
     :params groupby: additionnal groupby statement
 
     :returns: the SQL request and the new query_args (with filters tables & conditions)
     """
     # The conditions should use named arguments and these arguments are in query_args.
 
-    if filters.get('contract_ids'):
+    if filters.get('template_ids'):
         tables.append("account_analytic_account")
         tables.append("sale_subscription")
         conditions.append("account_invoice_line.account_analytic_id = account_analytic_account.id")
-        conditions.append("sale_subscription.template_id IN %(contract_ids)s")
+        conditions.append("sale_subscription.template_id IN %(template_ids)s")
         conditions.append("sale_subscription.analytic_account_id = account_analytic_account.id")
-        query_args['contract_ids'] = tuple(filters.get('contract_ids'))
+        query_args['template_ids'] = tuple(filters.get('template_ids'))
 
     if filters.get('tag_ids'):
         tables.append("account_analytic_account")

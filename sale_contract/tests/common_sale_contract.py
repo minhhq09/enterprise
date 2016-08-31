@@ -7,6 +7,7 @@ class TestContractCommon(AccountingTestCase):
     def setUp(self):
         super(TestContractCommon, self).setUp()
         Contract = self.env['sale.subscription']
+        SubTemplate = self.env['sale.subscription.template']
         SaleOrder = self.env['sale.order']
         Product = self.env['product.product']
         ProductTmpl = self.env['product.template']
@@ -35,17 +36,16 @@ class TestContractCommon(AccountingTestCase):
         })
 
         # Test Contract
-        self.contract_tmpl = Contract.create({
+        self.contract_tmpl = SubTemplate.create({
             'name': 'TestContractTemplate',
-            'type': 'template',
-            'recurring_invoice_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.price, 'uom_id': self.product_tmpl.uom_id.id})],
-            'pricelist_id': self.ref('product.list0'),
+            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'uom_id': self.product_tmpl.uom_id.id})],
         })
         self.contract = Contract.create({
             'name': 'TestContract',
             'state': 'open',
             'partner_id': self.user_portal.partner_id.id,
             'pricelist_id': self.ref('product.list0'),
+            'template_id': self.contract_tmpl.id,
         })
         self.sale_order = SaleOrder.create({
             'name': 'TestSO',

@@ -8,9 +8,6 @@ class SaleSubscription(models.Model):
     asset_category_id = fields.Many2one('account.asset.category', 'Deferred Revenue Category',
                                         help="This asset category will be applied to the lines of the contract's invoices.",
                                         domain="[('type','=','sale')]")
-    template_asset_category_id = fields.Many2one('account.asset.category', 'Deferred Revenue Category',
-                                        help="This asset category will be applied to the subscriptions based on this template. This field is company-dependent.",
-                                        domain="[('type','=','sale')]", company_dependent=True)
 
     @api.onchange('template_id')
     def onchange_template_asset(self):
@@ -31,6 +28,14 @@ class SaleSubscription(models.Model):
         return inv_lines
 
 
+class SaleSubscriptionTemplate(models.Model):
+    _inherit = "sale.subscription.template"
+
+    template_asset_category_id = fields.Many2one('account.asset.category', 'Deferred Revenue Category',
+                                        help="This asset category will be set on the subscriptions that have this template.",
+                                        domain="[('type','=','sale')]", company_dependent=True)
+
+
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
@@ -40,6 +45,6 @@ class SaleOrderLine(models.Model):
             For recurring products, add the deferred revenue category on the invoice line
         """
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
-        if self.product_id.recurring_invoice and self.order_id.subscription_id.asset_category_id:
-            res['asset_category_id'] = self.order_id.subscription_id.asset_category_id.id
+        if self.product_id.recurring_invoice and self.order_id.subscription_id.template_id.template_asset_category_id:
+            res['asset_category_id'] = self.order_id.subscription_id.template_id.template_asset_category_id.id
         return res

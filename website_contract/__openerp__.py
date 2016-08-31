@@ -32,7 +32,8 @@ Features:
     ],
     'demo': [
         #if any, demo data should be created using yml files, in the same flavour then in account_asset
-        #'data/demo.xml',
+        'data/demo.xml',
+        'data/demo.yml',
     ],
     'installable': True,
     'application': True,

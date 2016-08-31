@@ -6,6 +6,13 @@
           <script type="text/javascript" src="/website_contract/static/src/js/website_contract.js"></script>
       </xpath>
     </template>
+    
+    <template id="assets_backend" inherit_id="website.assets_backend" name="Website Contract Backend Assets">
+      <xpath expr="." position="inside">
+          <link rel='stylesheet' href='/website_contract/static/src/css/sale_subscription_backend.less'/>
+      </xpath>
+    </template>
+
 
     <!-- Chatter templates -->
     <template id="chatter_change_contract">
@@ -17,7 +24,7 @@
     <template id="chatter_add_option">
         <div>Option added by customer</div>
         <div>&amp;bull; <b>Option</b>: <t t-esc="new_option.product_id.product_tmpl_id.name"/></div>
-        <div>&amp;bull; <b>Price</b>: <t t-esc="new_option.price_unit"/></div>
+        <div>&amp;bull; <b>Price</b>: <t t-esc="price"/></div>
         <div>&amp;bull; <b>Sale Order</b>: None</div>
     </template>
 
@@ -113,7 +120,7 @@
                                         <tr t-foreach="account.recurring_invoice_line_ids" t-as="line">
                                             <td class="line-description"><span t-field="line.name"/></td>
                                             <td/>
-                                            <td><t t-esc="line.quantity"/> <span t-field="line.uom_id" data-oe-readonly="1"/></td>user_id.partner_id.property_product_pricelist.currency_id
+                                            <td><t t-esc="line.quantity"/> <span t-field="line.uom_id" data-oe-readonly="1"/></td>
                                             <td t-if="not line.discount"><span t-esc="line.price_unit" t-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/></td>
                                             <td t-if="line.discount">
                                                 <s t-esc="line.price_unit" t-options='{"widget": "monetary", "display_currency": pricelist.currency_id}'/><br/>
@@ -228,8 +235,7 @@
                                                     <t t-call="website_contract.modal_add"/>
                                                 </td>
                                                 <td>
-                                                    <span t-esc="pricelist.with_context({'uom': line.uom_id.id}).get_product_price(line.product_id, 1, False)" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/>
-                                                     / <span t-field="line.uom_id" data-oe-readonly="1"/>
+                                                    <span t-esc="line.with_context(pricelist_id=pricelist.id).price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/> / <span t-field="line.uom_id" data-oe-readonly="1"/>
                                                 </td>
                                             </t>
                                         </tr>
@@ -269,10 +275,10 @@
                                 <div>Next invoice: <span t-field="account.recurring_next_date"/></div>
                                 <a t-if="account.state=='open' and account.template_id and display_change_plan" class="mt8 btn btn-primary btn-sm" t-att-href="'/my/contract/'+str(account.id)+'/change'+'?uuid='+str(account.uuid)">Change plan</a>
                             </div>
-                            <div t-if="account.manager_id">
+                            <div t-if="account.user_id">
                                 <a name="wc-your-contact"/>
                                 <h3 class="page-header">Sales Representative</h3>
-                                <div t-field="account.manager_id" t-field-options='{
+                                <div t-field="account.user_id" t-field-options='{
                                     "widget": "contact",
                                     "fields": [
                                         "name",
@@ -419,10 +425,10 @@
                                 <div>Start date: <span t-field="account.date_start"/></div>
                                 <div t-if="account.date">Valid until: <span t-field="account.date"/></div>
                             </div>
-                            <div t-if="account.manager_id">
+                            <div t-if="account.user_id">
                                 <a name="wc-your-contact"/>
                                 <h3 class="page-header">Sales Representative</h3>
-                                <div t-field="account.manager_id" t-field-options='{
+                                <div t-field="account.user_id" t-field-options='{
                                     "widget": "contact",
                                     "fields": [
                                         "name",
@@ -503,17 +509,18 @@
                     <div class="modal-body">
                         <p>The following option will be added to your next invoice:</p>
                         <p class="line-description" t-field="line.name"/>
-                        <p t-if="(line.price_subtotal)&gt;0.0 and account.sudo().template_id.partial_invoice">You will be invoiced for the remaining of this invoicing period (from today to <span t-field="account.recurring_next_date" />).</p>
+                        <t t-set="pricelist" t-value="request.website.get_current_pricelist()"/>
+                        <p t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and account.sudo().template_id.partial_invoice">You will be invoiced for the remaining of this invoicing period (from today to <span t-field="account.recurring_next_date" />).</p>
                     </div>
                     <div class="modal-footer">
                         <form method="post" t-attf-action="/my/contract/#{account.id}/pay_option"
-                              t-if="(line.price_subtotal)&gt;0.0 and account.sudo().template_id.partial_invoice">
+                              t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and account.sudo().template_id.partial_invoice">
                             <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-primary contract-submit">Confirm</button>
                         </form>
-                        <form method="post" t-attf-action="/my/contract/#{account.id}/add_option/?uuid=#{account.uuid}" t-if="(line.price_subtotal)==0.0 or not account.sudo().template_id.partial_invoice">
+                        <form method="post" t-attf-action="/my/contract/#{account.id}/add_option/?uuid=#{account.uuid}" t-if="line.with_context(pricelist_id=pricelist.id).price==0.0 or not account.sudo().template_id.partial_invoice">
                             <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -595,18 +602,21 @@
                                             <td><h4>Basic Plan</h4></td>
                                             <td/>
                                         </tr>
-                                        <tr t-foreach="template.recurring_invoice_line_ids" t-as="invoice_line" class="line-description">
-                                            <td class="line-description"><span t-field="invoice_line.name"/></td>
-                                            <td><span t-esc="invoice_line.price_unit" t-options="{'widget': 'monetary', 'display_currency': template.company_id.currency_id}"/></td>
+                                        <t t-set="pricelist" t-value="request.website.get_current_pricelist()"/>
+                                        <tr t-foreach="template.subscription_template_line_ids" t-as="line" class="line-description">
+                                            <td class="line-description"><span t-field="line.name"/></td>
+                                            <t t-set="price" t-value="line.with_context(pricelist_id=pricelist.id).price"/>
+                                            <td><span t-esc="price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
                                         </tr>
                                         <tr>
                                             <td><h4>Options</h4></td>
                                             <td/>
                                         </tr>
-                                        <tr t-foreach="template.option_invoice_line_ids" t-as="invoice_line" class="line-description">
-                                            <t t-if="invoice_line.portal_access != 'invisible'">
-                                                <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                                <td><span t-esc="invoice_line.price_unit" t-options="{'widget': 'monetary', 'display_currency': template.company_id.currency_id}"/></td>
+                                        <tr t-foreach="template.subscription_template_option_ids" t-as="line" class="line-description">
+                                            <t t-if="line.portal_access != 'invisible'">
+                                                <td class="line-description"><span t-esc="line.name"/></td>
+                                                <t t-set="price" t-value="line.with_context(pricelist_id=pricelist.id).price"/>
+                                                <td><span t-esc="price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
                                             </t>
                                         </tr>
                                     </tbody>
@@ -661,18 +671,18 @@
                                 <td><h4>Basic Plan</h4></td>
                                 <td/>
                             </tr>
-                            <tr t-foreach="template.recurring_invoice_line_ids" t-as="invoice_line" class="line-description">
-                                <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                <td><span t-esc="pricelist.with_context({'uom': invoice_line.uom_id.id}).get_product_price(invoice_line.product_id, 1, False)" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
+                            <tr t-foreach="template.subscription_template_line_ids" t-as="line" class="line-description">
+                                <td class="line-description"><span t-esc="line.name"/></td>
+                                <td><span t-esc="line.with_context(pricelist_id=pricelist.id).price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
                             </tr>
                             <tr>
                                 <td><h4>Options</h4></td>
                                 <td/>
                             </tr>
-                            <tr t-foreach="template.option_invoice_line_ids" t-as="invoice_line" class="line-description">
-                                <t t-if="invoice_line.portal_access != 'invisible'">
-                                    <td class="line-description"><span t-esc="invoice_line.name"/></td>
-                                    <td><span t-esc="pricelist.with_context({'uom': invoice_line.uom_id.id}).get_product_price(invoice_line.product_id, 1, False)" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
+                            <tr t-foreach="template.subscription_template_option_ids" t-as="line" class="line-description">
+                                <t t-if="line.portal_access != 'invisible'">
+                                    <td class="line-description"><span t-esc="line.name"/></td>
+                                    <td><span t-esc="line.with_context(pricelist_id=pricelist.id).price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id}"/></td>
                                 </t>
                             </tr>
                         </tbody>

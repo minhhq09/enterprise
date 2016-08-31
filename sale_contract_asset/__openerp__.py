@@ -9,7 +9,7 @@ This module allows you to set a deferred revenue on your subscription contracts.
 """,
     'depends': ['sale_contract', 'account_asset'],
     'data': [
-        'views/account_analytic_account_views.xml',
+        'views/sale_subscription_views.xml',
     ],
     'installable': True,
     'auto_install': True,
