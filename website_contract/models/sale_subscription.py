@@ -161,7 +161,6 @@ class SaleSubscription(models.Model):
                 })]
         values = {
             'recurring_invoice_line_ids': rec_lines_to_add + rec_lines_to_modify + rec_lines_to_remove,
-            'recurring_rule_type': new_template.recurring_rule_type
         }
         self.sudo().write(values)
         self.template_id = new_template

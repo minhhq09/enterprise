@@ -20,7 +20,7 @@ class SaleSubscriptionWizard(models.TransientModel):
         template_id = self.env['sale.subscription'].browse(self.env.context.get('active_id')).template_id
         fpos_id = self.env['account.fiscal.position'].get_fiscal_position(self.subscription_id.partner_id.id)
         sale_order_obj = self.env['sale.order']
-        team = self.env['crm.team']._get_default_team_id(user_id=self.subscription_id.manager_id.id)
+        team = self.env['crm.team']._get_default_team_id(user_id=self.subscription_id.user_id.id)
         order = sale_order_obj.create({
             'partner_id': self.subscription_id.partner_id.id,
             'project_id': self.account_id.id,

@@ -87,7 +87,7 @@ class SaleOrder(models.Model):
             'state': 'open',
             'template_id': contract_tmp.id,
             'partner_id': self.partner_id.id,
-            'manager_id': self.user_id.id,
+            'user_id': self.user_id.id,
             'date_start': fields.Date.today(),
             'description': self.note,
             'payment_token_id': payment_token_id,
@@ -133,7 +133,7 @@ class SaleOrder(models.Model):
         account = self.env['sale.subscription'].browse(account_id)
         if self.project_id != account:
             self.reset_project_id()
-        self.write({'project_id': account.analytic_account_id.id, 'user_id': account.manager_id.id if account.manager_id else False, 'subscription_management': 'upsell'})
+        self.write({'project_id': account.analytic_account_id.id, 'user_id': account.user_id.id, 'subscription_management': 'upsell'})
 
     def reset_project_id(self):
         """ Remove the project_id of the sale order and remove all sale.order.line whose

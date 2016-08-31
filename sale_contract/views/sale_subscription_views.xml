@@ -9,7 +9,7 @@
                 <field name="name" string="Contract"/>
                 <field name="date"/>
                 <field name="partner_id" operator="child_of"/>
-                <field name="manager_id"/>
+                <field name="user_id"/>
                 <field name="template_id"/>
                 <field name="code"/>
                 <filter name="new" string="New" domain="[('state','=','draft')]" help="New Contracts"/>
@@ -27,11 +27,11 @@
                     domain="[('date', '!=', False), ('date', '&lt;=', (context_today() + datetime.timedelta(30)).strftime('%%Y-%%m-%%d') )]"
                     help="End date is in the next month" />
                 <separator/>
-                <filter string="Contracts not assigned" help="Contracts that are not assigned to an account manager." domain="[('manager_id', '=', False)]"/>
+                <filter string="Contracts not assigned" help="Contracts that are not assigned to an account manager." domain="[('user_id', '=', False)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
                     <filter string="Status" domain="[]" context="{'group_by':'state'}"/>
-                    <filter string="Account Manager" domain="[]" context="{'group_by':'manager_id'}"/>
+                    <filter string="Account Manager" domain="[]" context="{'group_by':'user_id'}"/>
                     <filter string="Partner" domain="[]" context="{'group_by':'partner_id'}"/>
                     <filter string="Template" domain="[]" context="{'group_by':'template_id'}"/>
                     <filter string="Start Month" domain="[]" context="{'group_by' : 'date_start'}" />
@@ -64,7 +64,7 @@
         <field name="res_model">sale.subscription</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,pivot,graph</field>
-        <field name="context">{'search_default_manager_id':uid, 'search_default_pending':1, 'search_default_renew':1}</field>
+        <field name="context">{'search_default_user_id':uid, 'search_default_pending':1, 'search_default_renew':1}</field>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
             Click to define a new contract.
@@ -147,7 +147,7 @@
                         </group>
                         <group>
                             <field name="template_id"/>
-                            <field name="manager_id"/>
+                            <field name="user_id"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="currency_id" invisible="1"/>
                             <field name="date_start"/>
@@ -214,7 +214,7 @@
                 <field name="partner_id"/>
                 <field name="recurring_next_date"/>
                 <field name="pricelist_id" invisible="1"/>
-                <field name="manager_id"/>
+                <field name="user_id"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="recurring_total"/>
                 <field name="state"/>

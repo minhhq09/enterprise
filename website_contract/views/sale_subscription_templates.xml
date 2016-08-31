@@ -275,10 +275,10 @@
                                 <div>Next invoice: <span t-field="account.recurring_next_date"/></div>
                                 <a t-if="account.state=='open' and account.template_id and display_change_plan" class="mt8 btn btn-primary btn-sm" t-att-href="'/my/contract/'+str(account.id)+'/change'+'?uuid='+str(account.uuid)">Change plan</a>
                             </div>
-                            <div t-if="account.manager_id">
+                            <div t-if="account.user_id">
                                 <a name="wc-your-contact"/>
                                 <h3 class="page-header">Sales Representative</h3>
-                                <div t-field="account.manager_id" t-field-options='{
+                                <div t-field="account.user_id" t-field-options='{
                                     "widget": "contact",
                                     "fields": [
                                         "name",
@@ -425,10 +425,10 @@
                                 <div>Start date: <span t-field="account.date_start"/></div>
                                 <div t-if="account.date">Valid until: <span t-field="account.date"/></div>
                             </div>
-                            <div t-if="account.manager_id">
+                            <div t-if="account.user_id">
                                 <a name="wc-your-contact"/>
                                 <h3 class="page-header">Sales Representative</h3>
-                                <div t-field="account.manager_id" t-field-options='{
+                                <div t-field="account.user_id" t-field-options='{
                                     "widget": "contact",
                                     "fields": [
                                         "name",

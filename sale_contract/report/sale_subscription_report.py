@@ -13,7 +13,7 @@ class sale_subscription_report(models.Model):
     product_uom = fields.Many2one('product.uom', 'Unit of Measure', readonly=True)
     recurring_price = fields.Float('Recurring price(per period)', readonly=True)
     partner_id = fields.Many2one('res.partner', 'Customer', readonly=True)
-    manager_id = fields.Many2one('res.users', 'Sales Rep', readonly=True)
+    user_id = fields.Many2one('res.users', 'Sales Rep', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     state = fields.Selection([('draft', 'New'),
                               ('open', 'In Progress'),
@@ -39,7 +39,7 @@ class sale_subscription_report(models.Model):
                     sub.date_start as date_start,
                     sub.date as date_end,
                     a.partner_id as partner_id,
-                    sub.manager_id as manager_id,
+                    sub.user_id as user_id,
                     a.company_id as company_id,
                     sub.state,
                     sub.template_id as template_id,
@@ -73,7 +73,7 @@ class sale_subscription_report(models.Model):
                     sub.date_start,
                     sub.date,
                     a.partner_id,
-                    sub.manager_id,
+                    sub.user_id,
                     recurring_price,
                     a.company_id,
                     sub.state,
