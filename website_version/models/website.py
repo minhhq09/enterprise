@@ -19,7 +19,7 @@ class NewWebsite(models.Model):
         version_id = request.context.get('version_id')
 
         if not version_id:
-            request.context['version_id'] = 0
+            request.context = dict(request.context, version_id=0)
             return (0, '')
         return (version_id, Version.browse(version_id).name)
 
@@ -49,15 +49,16 @@ class NewWebsite(models.Model):
                     if x < res[0]:
                         EXP[exp.google_id] = str(res[1])
                         break
-        request.context['website_version_experiment'] = EXP
-        request.context['website_id'] = website.id
 
+        context = dict(website_version_experiment=EXP, website_id=website.id)
         if 'version_id' in request.session:
-            request.context['version_id'] = request.session.get('version_id')
+            context['version_id'] = request.session.get('version_id')
         elif self.env['res.users'].has_group('base.group_website_publisher'):
-            request.context['version_id'] = 0
+            context['version_id'] = 0
         else:
-            request.context['experiment_id'] = 1
+            context['experiment_id'] = 1
+
+        request.context = dict(request.context, **context)
         return website
 
     @api.model
