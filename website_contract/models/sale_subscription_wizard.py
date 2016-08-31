@@ -71,5 +71,4 @@ class SaleSubscriptionWizardOption(models.TransientModel):
 
     wizard_id = fields.Many2one('sale.subscription.wizard')
     product_id = fields.Many2one('product.product', domain="[('recurring_invoice', '=', True)]")
-    quantity = fields.Float()
     subscription_template_id = fields.Many2one(required=False)

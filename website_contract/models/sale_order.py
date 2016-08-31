@@ -149,6 +149,14 @@ class SaleOrder(models.Model):
             return 'form_save'
         return super(SaleOrder, self)._get_payment_type()
 
+    def _website_product_id_change(self, order_id, product_id, qty=0):
+        res = super(SaleOrder, self)._website_product_id_change(order_id, product_id, qty)
+        line = self._cart_find_product_line(product_id=product_id)
+        if line and line.force_price:
+            res['price_unit'] = line.price_unit
+            res['product_uom'] = line.product_uom.id
+        return res
+
 
 class sale_order_line(models.Model):
     _inherit = "sale.order.line"

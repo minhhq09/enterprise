@@ -78,9 +78,8 @@ class SaleSubscription(models.Model):
                         'product_id': line.product_id.id,
                         'uom_id': line.uom_id.id,
                         'name': line.name,
-                        'sold_quantity': line.sold_quantity,
                         'actual_quantity': line.quantity,
-                        'price_unit': line.price_unit,
+                        'price_unit': product.price,
                     }))
                 self.recurring_invoice_line_ids = invoice_line_ids
             self.recurring_interval = self.template_id.recurring_interval
@@ -455,22 +454,14 @@ class SaleSubscriptionTemplateLine(models.Model):
     subscription_template_id = fields.Many2one('sale.subscription.template', string="Template", required=True, ondelete="cascade")
     uom_id = fields.Many2one('product.uom', string="Unit of Measure", required=True)
     quantity = fields.Float(required=True, default=1.0)
-    price_unit = fields.Float(string='Unit Price', required=True)
-    discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))
-    price_subtotal = fields.Float(compute="_compute_subtotal")
-
-    def _compute_subtotal(self):
-        for line in self:
-            line.price_subtotal = line.quantity * line.price_unit * (100.0 - line.discount) / 100.0
+    price = fields.Float(compute='_compute_price')
 
     @api.onchange('product_id')
     def onchange_product_id(self):
         domain = {}
         if not self.product_id:
-            self.price_unit = 0.0
             domain['uom_id'] = []
         else:
-            self.price_unit = self.product_id.list_price
             name = self.product_id.display_name
             if self.product_id.description_sale:
                 name += '\n' + self.product_id.description_sale
@@ -478,15 +469,14 @@ class SaleSubscriptionTemplateLine(models.Model):
 
             if not self.uom_id:
                 self.uom_id = self.product_id.uom_id.id
-            if self.uom_id.id != self.product_id.uom_id.id:
-                self.price_unit = self.product_id.uom_id._compute_price(self.product_id.uom_id.id, self.price_unit, self.uom_id.id)
             domain['uom_id'] = [('category_id', '=', self.product_id.uom_id.category_id.id)]
 
         return {'domain': domain}
 
-    @api.onchange('uom_id')
-    def onchange_uom_id(self):
-        if not self.uom_id:
-            self.price_unit = 0.0
-        else:
-            self.onchange_product_id()
+    def _compute_price(self):
+        pricelist = self.env['product.pricelist'].browse(self._context.get('pricelist_id'))
+        for line in self:
+            if not pricelist:
+                line.price = 0.0
+            else:
+                line.price = pricelist.with_context(uom=line.uom_id.id).price_get(line.product_id.id, line.quantity)[pricelist.id]

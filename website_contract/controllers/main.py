@@ -274,10 +274,12 @@ class website_contract(http.Controller):
             account = account_res.browse(account_id)
         new_option_id = int(kw.get('new_option_id'))
         new_option = option_res.sudo().browse(new_option_id)
-        if not new_option.price_unit or not new_option.price_unit * account.partial_recurring_invoice_ratio() or not account.template_id.partial_invoice:
+        pricelist = request.website.get_current_pricelist()
+        price = new_option.with_context(pricelist_id=pricelist.id).price
+        if not price or not price * account.partial_recurring_invoice_ratio() or not account.template_id.partial_invoice:
             account.sudo().add_option(new_option_id)
             msg_body = request.env['ir.ui.view'].render_template('website_contract.chatter_add_option',
-                                                                 values={'new_option': new_option})
+                                                                 values={'new_option': new_option, 'price': price})
             account.message_post(body=msg_body)
         return request.redirect('/my/contract/%s/%s' % (account.id, account.uuid))
 

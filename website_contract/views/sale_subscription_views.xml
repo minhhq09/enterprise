@@ -44,7 +44,6 @@
                     <tree string="Options" editable="bottom">
                         <field name="product_id" context="{'default_recurring_invoice': True}"/>
                         <field name="name" invisible="1"/>
-                        <field name="price_unit" invisible="1"/>
                         <field name="quantity" readonly="0"/>
                         <field name="uom_id"/>
                     </tree>
@@ -256,9 +255,7 @@
                                 <field name="name"/>
                                 <field name="portal_access"/>
                                 <field name="quantity"/>
-                                <field name="discount"/>
                                 <field name="uom_id" groups="product.group_uom"/>
-                                <field name="price_unit"/>
                             </tree>
                         </field>
                     </div>

@@ -84,16 +84,16 @@ class TestContractCommon(common.TransactionCase):
         self.contract_tmpl_1 = Template.create({
             'name': 'TestContractTemplate1',
             'recurring_rule_type': 'yearly',
-            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.list_price, 'uom_id': self.uom_base.id})],
-            'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price, 'uom_id': self.uom_base.id})],
+            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_base.id})],
+            'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_base.id})],
             'tag_ids': [(4, self.master_tag.id, False)],
         })
         self.contract_tmpl_2 = Template.create({
             'name': 'TestContractTemplate2',
             'recurring_rule_type': 'monthly',
-            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.list_price * 2, 'uom_id': self.uom_big.id}),
-                                           (0, 0, {'product_id': self.product2.id, 'name': 'TestRecurringLine', 'price_unit': self.product2.list_price * 2, 'uom_id': self.uom_big.id})],
-            'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.list_price * 2, 'uom_id': self.uom_big.id})],
+            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_big.id}),
+                                           (0, 0, {'product_id': self.product2.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_big.id})],
+            'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_big.id})],
             'tag_ids': [(4, self.master_tag.id, False)],
         })
         self.contract_tmpl_3 = Template.create({

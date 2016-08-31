@@ -14,7 +14,7 @@ class TestContract(TestContractCommon):
 
         with self.assertRaises(ValidationError):
             self.contract_tmpl_1.write({
-                'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'price_unit': self.product_opt.price, 'uom_id': self.uom_base.id})]
+                'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_base.id})]
             })
 
     @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')

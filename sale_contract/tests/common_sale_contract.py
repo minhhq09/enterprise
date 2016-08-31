@@ -38,7 +38,7 @@ class TestContractCommon(AccountingTestCase):
         # Test Contract
         self.contract_tmpl = SubTemplate.create({
             'name': 'TestContractTemplate',
-            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'price_unit': self.product.price, 'uom_id': self.product_tmpl.uom_id.id})],
+            'subscription_template_line_ids': [(0, 0, {'product_id': self.product.id, 'name': 'TestRecurringLine', 'uom_id': self.product_tmpl.uom_id.id})],
         })
         self.contract = Contract.create({
             'name': 'TestContract',
