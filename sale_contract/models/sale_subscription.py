@@ -35,6 +35,20 @@ class SaleSubscription(models.Model):
     description = fields.Text()
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
     manager_id = fields.Many2one('res.users', string='Sales Rep', track_visibility='onchange')
+    invoice_count = fields.Integer(compute='_compute_invoice_count')
+
+    def _compute_invoice_count(self):
+        orders = self.env['sale.order'].search_read(domain=[('subscription_id', 'in', self.ids)], fields=['name'])
+        order_names = [order['name'] for order in orders]
+        invoice_line_data = self.env['account.invoice.line'].read_group(
+            domain=[('account_analytic_id', 'in', self.mapped('analytic_account_id').ids),
+                    ('invoice_id.origin', 'in', self.mapped('code') + order_names),
+                    ('invoice_id.state', 'in', ['draft', 'open', 'paid'])],
+            fields=["account_analytic_id", "invoice_id"],
+            groupby=["account_analytic_id", "invoice_id"],
+            lazy=False)
+        for sub in self:
+            sub.invoice_count = len(filter(lambda d: d['account_analytic_id'][0] == sub.analytic_account_id.id, invoice_line_data))
 
     @api.depends('recurring_invoice_line_ids')
     def _compute_recurring_total(self):
