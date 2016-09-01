@@ -160,7 +160,7 @@ class SaleSubscription(models.Model):
             raise UserError(_("You must first select a Customer for Subscription %s!") % self.name)
 
         fpos_id = self.env['account.fiscal.position'].with_context(force_company=self.company_id.id).get_fiscal_position(self.partner_id.id)
-        journal = self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)
+        journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)
         if not journal:
             raise UserError(_('Please define a sale journal for the company "%s".') % (self.company_id.name or '', ))
 
@@ -405,6 +405,9 @@ class SaleSubscriptionTemplate(models.Model):
                                            default='monthly')
     recurring_interval = fields.Integer(string="Repeat Every", help="Repeat every (Days/Week/Month/Year)", default=1, track_visibility='onchange')
     subscription_template_line_ids = fields.One2many('sale.subscription.template.line', 'subscription_template_id', string="Subscription Template Lines", copy=True)
+    journal_id = fields.Many2one('account.journal', string="Accounting Journal", domain="[('type', '=', 'sale')]", company_dependent=True,
+                                 help="If set, subscriptions with this template will invoice in this journal; "
+                                      "otherwise the sales journal with the lowest sequence is used.")
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
