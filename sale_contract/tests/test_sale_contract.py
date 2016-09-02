@@ -5,7 +5,7 @@ from odoo.tools import mute_logger
 
 class TestContract(TestContractCommon):
 
-    @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
+    @mute_logger('odoo.addons.base.ir.ir_model', 'odoo.models')
     def test_template(self):
         """ Test behaviour of on_change_template """
         Contract = self.env['sale.subscription']
@@ -25,7 +25,7 @@ class TestContract(TestContractCommon):
         temp.on_change_template()
         self.assertTrue(temp.recurring_invoice_line_ids.name, 'sale_contract: recurring_invoice_line_ids not copied on new cached sale.subscription record')
 
-    @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
+    @mute_logger('odoo.addons.base.ir.ir_model', 'odoo.models')
     def test_sale_order(self):
         """ Test sale order line copying for recurring products on confirm"""
         self.sale_order.action_confirm()

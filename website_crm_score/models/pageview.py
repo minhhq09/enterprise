@@ -32,7 +32,7 @@ class pageview(models.Model):
             else:
                 # update failed
                 try:
-                    with tools.mute_logger('openerp.sql_db'):
+                    with tools.mute_logger('odoo.sql_db'):
                         pv_cr.execute('''
                             INSERT INTO website_crm_pageview (lead_id, user_id, url, view_date)
                             SELECT %s,%s,%s,%s

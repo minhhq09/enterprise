@@ -17,7 +17,7 @@ class TestContract(TestContractCommon):
                 'subscription_template_option_ids': [(0, 0, {'product_id': self.product_opt.id, 'name': 'TestRecurringLine', 'uom_id': self.uom_base.id})]
             })
 
-    @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
+    @mute_logger('odoo.addons.base.ir.ir_model', 'odoo.models')
     def test_subscription(self):
         """ Test behaviour of subscription change """
         # switch plan: check that mandatory lines have been modified accordingly

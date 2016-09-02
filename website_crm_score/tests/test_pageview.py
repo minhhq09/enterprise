@@ -5,7 +5,7 @@ from odoo.tools import mute_logger
 
 class test_assign(TestScoring):
 
-    @mute_logger('openerp.addons.base.ir.ir_model', 'openerp.models')
+    @mute_logger('odoo.addons.base.ir.ir_model', 'odoo.models')
     def test_00_pageview(self):
 
         right_lead = self.pageview.create_pageview({'lead_id': self.lead0, 'url': 'url2'}, test=True)
