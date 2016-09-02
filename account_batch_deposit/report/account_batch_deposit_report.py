@@ -29,15 +29,15 @@ class PrintBatchDeposit(models.AbstractModel):
             'footer': deposit.journal_id.company_id.rml_footer,
         } for payments in payment_slices]
 
-    @api.multi
-    def render_html(self, data=None):
+    @api.model
+    def render_html(self, docids, data=None):
         report_obj = self.env['report']
         report_name = 'account_batch_deposit.print_batch_deposit'
         report = report_obj._get_report_from_name(report_name)
         docargs = {
-            'doc_ids': self._ids,
+            'doc_ids': docids,
             'doc_model': report.model,
-            'docs': self.env[report.model].browse(self._ids),
+            'docs': self.env[report.model].browse(docids),
             'pages': self.get_pages,
         }
         return report_obj.render(report_name, docargs)
