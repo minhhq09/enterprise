@@ -7,7 +7,7 @@ from datetime import timedelta, datetime
 import calendar
 import json
 from openerp.tools import config
-from openerp.tools.misc.xlwt import Workbook, easyxf
+from openerp.tools.misc import xlwt
 
 
 class AccountReportFootnotesManager(models.TransientModel):
@@ -450,28 +450,28 @@ class AccountReportContextCommon(models.TransientModel):
         return result
 
     def get_xls(self, response):
-        book = Workbook()
+        book = xlwt.Workbook()
         report_id = self.get_report_obj()
         sheet = book.add_sheet(report_id.get_title())
 
-        title_style = easyxf('font: bold true; borders: bottom medium;', num_format_str='#,##0.00')
-        level_0_style = easyxf('font: bold true; borders: bottom medium, top medium; pattern: pattern solid;', num_format_str='#,##0.00')
-        level_0_style_left = easyxf('font: bold true; borders: bottom medium, top medium, left medium; pattern: pattern solid;', num_format_str='#,##0.00')
-        level_0_style_right = easyxf('font: bold true; borders: bottom medium, top medium, right medium; pattern: pattern solid;', num_format_str='#,##0.00')
-        level_1_style = easyxf('font: bold true; borders: bottom medium, top medium;', num_format_str='#,##0.00')
-        level_1_style_left = easyxf('font: bold true; borders: bottom medium, top medium, left medium;', num_format_str='#,##0.00')
-        level_1_style_right = easyxf('font: bold true; borders: bottom medium, top medium, right medium;', num_format_str='#,##0.00')
-        level_2_style = easyxf('font: bold true; borders: top medium;', num_format_str='#,##0.00')
-        level_2_style_left = easyxf('font: bold true; borders: top medium, left medium;', num_format_str='#,##0.00')
-        level_2_style_right = easyxf('font: bold true; borders: top medium, right medium;', num_format_str='#,##0.00')
-        level_3_style = easyxf(num_format_str='#,##0.00')
-        level_3_style_left = easyxf('borders: left medium;', num_format_str='#,##0.00')
-        level_3_style_right = easyxf('borders: right medium;', num_format_str='#,##0.00')
-        domain_style = easyxf('font: italic true;', num_format_str='#,##0.00')
-        domain_style_left = easyxf('font: italic true; borders: left medium;', num_format_str='#,##0.00')
-        domain_style_right = easyxf('font: italic true; borders: right medium;', num_format_str='#,##0.00')
-        upper_line_style = easyxf('borders: top medium;', num_format_str='#,##0.00')
-        def_style = easyxf(num_format_str='#,##0.00')
+        title_style = xlwt.easyxf('font: bold true; borders: bottom medium;', num_format_str='#,##0.00')
+        level_0_style = xlwt.easyxf('font: bold true; borders: bottom medium, top medium; pattern: pattern solid;', num_format_str='#,##0.00')
+        level_0_style_left = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, left medium; pattern: pattern solid;', num_format_str='#,##0.00')
+        level_0_style_right = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, right medium; pattern: pattern solid;', num_format_str='#,##0.00')
+        level_1_style = xlwt.easyxf('font: bold true; borders: bottom medium, top medium;', num_format_str='#,##0.00')
+        level_1_style_left = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, left medium;', num_format_str='#,##0.00')
+        level_1_style_right = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, right medium;', num_format_str='#,##0.00')
+        level_2_style = xlwt.easyxf('font: bold true; borders: top medium;', num_format_str='#,##0.00')
+        level_2_style_left = xlwt.easyxf('font: bold true; borders: top medium, left medium;', num_format_str='#,##0.00')
+        level_2_style_right = xlwt.easyxf('font: bold true; borders: top medium, right medium;', num_format_str='#,##0.00')
+        level_3_style = xlwt.easyxf(num_format_str='#,##0.00')
+        level_3_style_left = xlwt.easyxf('borders: left medium;', num_format_str='#,##0.00')
+        level_3_style_right = xlwt.easyxf('borders: right medium;', num_format_str='#,##0.00')
+        domain_style = xlwt.easyxf('font: italic true;', num_format_str='#,##0.00')
+        domain_style_left = xlwt.easyxf('font: italic true; borders: left medium;', num_format_str='#,##0.00')
+        domain_style_right = xlwt.easyxf('font: italic true; borders: right medium;', num_format_str='#,##0.00')
+        upper_line_style = xlwt.easyxf('borders: top medium;', num_format_str='#,##0.00')
+        def_style = xlwt.easyxf(num_format_str='#,##0.00')
 
         sheet.col(0).width = 10000
 
