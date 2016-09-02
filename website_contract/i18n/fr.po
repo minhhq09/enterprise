@@ -13,9 +13,9 @@
 # Quentin THEURET <quentin@theuret.net>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-05-20 07:01+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
@@ -588,12 +588,6 @@ msgid "Automatic Payment"
 msgstr "Paiement automatique"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
-msgid "Back"
-msgstr "Retour"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -668,7 +662,7 @@ msgid "Close your contract"
 msgstr "Fermez votre contrat"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:203
+#: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
 msgstr "Texte de fermeture:"
@@ -706,7 +700,6 @@ msgid "Contract Details"
 msgstr "Détails du contrat"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Modèle de contrat"
@@ -808,13 +801,6 @@ msgid "If not set, the default payment method of the partner will be used."
 msgstr ""
 "Si pas configuré, la méthode de paiement par défaut indiquée pour le "
 "partenaire sera utilisée. "
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
-msgid ""
-"If set, all recurring products in this Sales Order will be included in a new "
-"Subscription with the selected template"
-msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -982,11 +968,6 @@ msgid "Options"
 msgstr "Produits suggérés"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Order Number"
-msgstr "N° de commande"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Payer maintenant"
@@ -1076,11 +1057,6 @@ msgstr "Lignes d'option réccurentes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Reference:"
-msgstr "Référence:"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -1144,11 +1120,6 @@ msgstr "Bon de commande"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Ligne de bons de commande"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Sales Orders"
-msgstr "Bon de commandes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1226,11 +1197,6 @@ msgid "Total"
 msgstr "Total"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Total Tax Included"
-msgstr "Total taxes incluses"
-
-#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
@@ -1278,12 +1244,14 @@ msgid "Valid until:"
 msgstr "Valide jusqu'au :"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Voir contrat"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Voir modèle"
@@ -1987,5 +1955,20 @@ msgstr "⇒ Survente"
 #~ msgid "years(s)"
 #~ msgstr "année(s)"
 
+#~ msgid "Back"
+#~ msgstr "Retour"
+
 #~ msgid "Contracts"
 #~ msgstr "Contrats"
+
+#~ msgid "Order Number"
+#~ msgstr "N° de commande"
+
+#~ msgid "Reference:"
+#~ msgstr "Référence:"
+
+#~ msgid "Sales Orders"
+#~ msgstr "Bon de commandes"
+
+#~ msgid "Total Tax Included"
+#~ msgstr "Total taxes incluses"

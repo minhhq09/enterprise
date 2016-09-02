@@ -8,9 +8,9 @@
 # Mateo Tibaquirá <nestormateo@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-03-17 16:56+0000\n"
 "Last-Translator: Felipe Palomino <omega@nubark.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/odoo/odoo-9/"
@@ -55,12 +55,6 @@ msgid "Content Type"
 msgstr "Tipo de Contenido"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-#, fuzzy
-msgid "DHL Configuration"
-msgstr "USPS Configuracion"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Naturaleza del Envío"
@@ -82,8 +76,7 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-#, fuzzy
-msgid "First-Class"
+msgid "First Class"
 msgstr "Primera Clase"
 
 #. module: delivery_usps
@@ -123,12 +116,6 @@ msgstr "Regalo"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Internacional"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-#, fuzzy
-msgid "Label File Type"
-msgstr "Tipo de Correo"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -187,11 +174,6 @@ msgstr "Sin opción de envio"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "No rectangular"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -325,13 +307,13 @@ msgid "Sample"
 msgstr "Muestra"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "El envío Nº %s ha sido cancelado"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Envío creado en USPS <br/> <b>Número de Guía: </b>%s"
@@ -345,11 +327,6 @@ msgstr "Caja Pequeña de la Tarifa Plana"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "Sobre Pequeño de la Tarifa Plana"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -415,6 +392,11 @@ msgid "Type of regular container"
 msgstr "Tipo de contenedor regular"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS Configuracion"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 #, fuzzy
@@ -468,14 +450,8 @@ msgstr "Tamaño de contenedor USPS"
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Su empresa o código zip del destinatario es incorrecto."
 
-#~ msgid "First Class"
-#~ msgstr "Primera Clase"
-
 #~ msgid "Test Mode"
 #~ msgstr "Modo de Prueba"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "USPS Configuracion"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "USPS Domestic Flat Rate Box"
@@ -485,3 +461,15 @@ msgstr "Su empresa o código zip del destinatario es incorrecto."
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Desactive esta opción para utilizar los Servicios Web UPS"
+
+#, fuzzy
+#~ msgid "DHL Configuration"
+#~ msgstr "USPS Configuracion"
+
+#, fuzzy
+#~ msgid "First-Class"
+#~ msgstr "Primera Clase"
+
+#, fuzzy
+#~ msgid "Label File Type"
+#~ msgstr "Tipo de Correo"

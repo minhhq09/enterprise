@@ -13,9 +13,9 @@
 # 肖彤 吴 <944086436@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-05-24 17:03+0000\n"
 "Last-Translator: 肖彤 吴 <944086436@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -58,11 +58,6 @@ msgid "Content Type"
 msgstr "内容类型"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "DHL Configuration"
-msgstr "DHL配置"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "运输种类"
@@ -84,8 +79,8 @@ msgstr "快递"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First-Class"
-msgstr ""
+msgid "First Class"
+msgstr "第一类"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -124,11 +119,6 @@ msgstr "礼品"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "国际的"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-msgid "Label File Type"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -187,11 +177,6 @@ msgstr "没有运输选项"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "非矩形"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -318,13 +303,13 @@ msgid "Sample"
 msgstr "示例"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "装运N° %s已经被取消"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "装运形成USPS<br/><b>运单号：</b>%s"
@@ -338,11 +323,6 @@ msgstr "小号统一费用纸箱"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "小号统一费用信封"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -401,6 +381,11 @@ msgid "Type of regular container"
 msgstr "普通容器类型"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS配置"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 msgid "USPS Domestic Flat Rate Envelope"
@@ -449,14 +434,8 @@ msgstr "USPS尺寸容器"
 msgid "Your company or recipient zip code is incorrect."
 msgstr "贵公司邮编填写错误"
 
-#~ msgid "First Class"
-#~ msgstr "第一类"
-
 #~ msgid "Test Mode"
 #~ msgstr "测试模式"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "USPS配置"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "USPS国内统一费用纸盒"
@@ -466,3 +445,9 @@ msgstr "贵公司邮编填写错误"
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "取消该复选框而使用UPS网站服务"
+
+#~ msgid "DHL Configuration"
+#~ msgstr "DHL配置"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

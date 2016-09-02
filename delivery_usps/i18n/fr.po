@@ -10,9 +10,9 @@
 # Shark McGnark <peculiarcheese@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-05-27 16:06+0000\n"
 "Last-Translator: Shark McGnark <peculiarcheese@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
@@ -56,11 +56,6 @@ msgid "Content Type"
 msgstr "Type de contenu"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "DHL Configuration"
-msgstr "Configuration DHL"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Nature de la livraison"
@@ -82,8 +77,8 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First-Class"
-msgstr ""
+msgid "First Class"
+msgstr "Première classe"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -122,11 +117,6 @@ msgstr "Cadeau"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Internationale"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-msgid "Label File Type"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -185,11 +175,6 @@ msgstr "Pas d'option de livraison"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Non rectangulaire"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -321,13 +306,13 @@ msgid "Sample"
 msgstr "Échantillon"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "N ° envoie %s a été annulée"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Envoi créé dans USPS  <br/> <b>Numéro de suivi : </b>%s"
@@ -341,11 +326,6 @@ msgstr "Small Flat Rate Box"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "Small Flat Rate Envelope"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -412,6 +392,11 @@ msgid "Type of regular container"
 msgstr "Type de conteneur régulier"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "Configuration USPS"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 msgid "USPS Domestic Flat Rate Envelope"
@@ -465,14 +450,8 @@ msgstr "Dimension du conteneur USPS"
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Le code postal de votre société ou du destinataire est incorrect."
 
-#~ msgid "First Class"
-#~ msgstr "Première classe"
-
 #~ msgid "Test Mode"
 #~ msgstr "Mode test"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "Configuration USPS"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "Boîte à taux constant USPS domestique"
@@ -482,3 +461,9 @@ msgstr "Le code postal de votre société ou du destinataire est incorrect."
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Décochez cette case pour utiliser UPS en production"
+
+#~ msgid "DHL Configuration"
+#~ msgstr "Configuration DHL"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

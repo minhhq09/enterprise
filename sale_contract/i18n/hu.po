@@ -7,9 +7,9 @@
 # krnkris, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-06-06 19:55+0000\n"
 "Last-Translator: krnkris\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -86,9 +86,14 @@ msgid "Account Manager"
 msgstr "Felelős"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Active"
 msgstr "Aktív"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Active templates"
+msgstr "Aktív sablonok"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
@@ -116,19 +121,9 @@ msgid "Analytic Lines"
 msgstr "Gyűjtőkód sorok"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "Archived"
-msgstr "Archivált"
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_balance
 msgid "Balance"
 msgstr "Egyenleg"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-msgid "Cancel"
-msgstr "Mégse"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -175,7 +170,7 @@ msgid "Click to define a new product."
 msgstr "Kattintson egy új termék meghatározásához."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
 msgstr "Zárás oka"
@@ -183,7 +178,6 @@ msgstr "Zárás oka"
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
 msgid "Close Reasons"
 msgstr "Zárás okai"
@@ -192,12 +186,6 @@ msgstr "Zárás okai"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
 msgstr "Feliratkozás lezárása"
-
-#. module: sale_contract
-#: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
-msgid "Close/Cancel Reason"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -245,6 +233,11 @@ msgid "Contract expiration reminder ${user.company_id.name}"
 msgstr "Figyelmeztetés a szerződés lejártára ${user.company_id.name}"
 
 #. module: sale_contract
+#: model:ir.module.category,name:sale_contract.module_category_contract_management
+msgid "Contracts"
+msgstr "Szerződések"
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts in progress"
 msgstr "Folyamatban lévő szerződések"
@@ -275,7 +268,6 @@ msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
 msgid "Created by"
@@ -283,24 +275,10 @@ msgstr "Készítette"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
 msgid "Created on"
 msgstr "Létrehozás dátuma"
-
-#. module: sale_contract
-#: selection:sale.order,subscription_management:0
-msgid "Creation"
-msgstr "Létrehozás"
-
-#. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_order_subscription_management
-msgid ""
-"Creation: The Sales Order created the subscription\n"
-"Upselling: The Sales Order added lines to the subscription\n"
-"Renewal: The Sales Order replaced the subscription's content with its own"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
@@ -366,7 +344,6 @@ msgstr "Árengedmény (%)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_display_name
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
@@ -415,8 +392,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Segítséget nyújt a feliratkozások és ismétlődő számlázás kezelésében."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7624
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7486
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
@@ -432,11 +408,32 @@ msgstr ""
 "egy feliratkozást fog létrehozni"
 
 #. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
+msgid ""
+"If set, the associated contract will be overwritten by this sale order "
+"(every recurring line of the contract not in this sale order will be "
+"deleted)."
+msgstr ""
+"Ha beállított, a társított szerződés felülírásra kerül ezzel a vásárlói "
+"megrendeléssel (a szerződés minden ismétlődő tételsora, mely nincs benne "
+"ebbe a vásárlói megrendelésben, törlésre kerül)."
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "In Progress"
 msgstr "Folyamatban"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive"
+msgstr "Inaktív"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive templates"
+msgstr "Nem aktív sablonok"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -458,14 +455,12 @@ msgstr "Számlák"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason___last_update
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
 msgstr "Utolsó frissítés dátuma"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
@@ -473,7 +468,6 @@ msgid "Last Updated by"
 msgstr "Utoljára frissítve, által"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
@@ -492,8 +486,8 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
-msgid "Manage Subscriptions"
-msgstr ""
+msgid "Manage Contracts"
+msgstr "Szerződések kezelése"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_quantity
@@ -551,17 +545,12 @@ msgid "Pending contracts"
 msgstr "Függő szerződések"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "Plan Change Tags"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
 msgstr "Terv leírás"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:183
+#: code:addons/sale_contract/models/sale_subscription.py:182
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "Kérem  határozzon meg értékesítési naplót a vállalkozáshoz \"%s\"."
@@ -617,11 +606,6 @@ msgid "Quantity sold to the customer"
 msgstr "Vásárló részére értékesített mennyiség"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-msgid "Reason"
-msgstr "Ok"
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
@@ -643,11 +627,6 @@ msgid "Reference"
 msgstr "Hivatkozás"
 
 #. module: sale_contract
-#: selection:sale.order,subscription_management:0
-msgid "Renewal"
-msgstr "Megújítás"
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
 msgstr "Ismétlés minden"
@@ -659,8 +638,8 @@ msgstr "Ismétlés (nap/hét/hó/év)"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
-msgid "Report"
-msgstr "Kimutatás"
+msgid "Reports"
+msgstr "Kimutatások"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_id
@@ -690,13 +669,23 @@ msgstr "Értékesítési képv."
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
-msgid "See Subscriptions"
-msgstr ""
+msgid "See Contracts"
+msgstr "Szerződések megtekintése"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
 msgid "Sequence"
 msgstr "Sorszám"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Active"
+msgstr "Beállítás aktívnak"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Inactive"
+msgstr "Beállítás inaktívnak"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -726,6 +715,7 @@ msgid "Start Subscription"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_account_type
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
 msgid "State"
 msgstr "Állapot"
@@ -742,11 +732,6 @@ msgstr "Állapot"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
 msgstr "Részösszeg"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-msgid "Submit"
-msgstr "Beküldés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
@@ -768,11 +753,6 @@ msgstr "Feliratkozás elemzések"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
 msgstr "Előjegyzés sorok"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_management
-msgid "Subscription Management"
-msgstr "Feliratkozás kezelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
@@ -814,15 +794,12 @@ msgstr "Feliratkozási termékek"
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_ids
 #: model:ir.model.fields,field_description:sale_contract.field_res_partner_subscription_count
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_ids
-#: model:ir.module.category,name:sale_contract.module_category_contract_management
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_root
 #: model:ir.ui.view,arch_db:sale_contract.account_analytic_account_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.res_partner_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_graph
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_pivot
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Subscriptions"
 msgstr "Feliratkozások"
@@ -877,12 +854,12 @@ msgstr "A felhasználónak olvasási hozzáférése lesz a szerződésekre."
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
-msgid "The user will have write access to Subscriptions."
-msgstr ""
+msgid "The user will have write access to contracts."
+msgstr "A felhasználónak írása hozzáférése lesz a szerződésekre."
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:84
-#: code:addons/sale_contract/models/sale_subscription.py:211
+#: code:addons/sale_contract/models/sale_order.py:79
+#: code:addons/sale_contract/models/sale_subscription.py:210
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr "A számla a következő időszakot fedi le: %s - %s"
@@ -921,9 +898,9 @@ msgid "Unit of Measure"
 msgstr "Mértékegység"
 
 #. module: sale_contract
-#: selection:sale.order,subscription_management:0
-msgid "Upselling"
-msgstr "Upselling, magasabb értékű értékesítés"
+#: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
+msgid "Update Contract"
+msgstr "Szerződés frissítés"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
@@ -948,13 +925,6 @@ msgid "Week(s)"
 msgstr "Hét(ek)"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid ""
-"When a customer wants to change his subscription plan, he has the choice "
-"between all the recurring contracts with the same tags."
-msgstr ""
-
-#. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
 msgstr "Év(ek)"
@@ -972,7 +942,7 @@ msgstr ""
 "            melyet a vársárlóinak értékesít."
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:176
+#: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr "Először ki kell választania az Ügyfelet a Feliratkozáshoz %s!"
@@ -992,11 +962,6 @@ msgstr ""
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "sale.subscription.close.reason"
 msgstr "sale.subscription.close.reason"
-
-#. module: sale_contract
-#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
-msgid "sale.subscription.close.reason.wizard"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
@@ -1581,9 +1546,6 @@ msgstr "⇒ Árajánlat megújításra"
 #~ msgid "Action Needed"
 #~ msgstr "Művelet szükséges"
 
-#~ msgid "Active templates"
-#~ msgstr "Aktív sablonok"
-
 #~ msgid "Budget Lines"
 #~ msgstr "Tervsorok"
 
@@ -1597,9 +1559,6 @@ msgstr "⇒ Árajánlat megújításra"
 
 #~ msgid "Comercial Partner"
 #~ msgstr "Kereskedelmi partner"
-
-#~ msgid "Contracts"
-#~ msgstr "Szerződések"
 
 #~ msgid "Date of the last message posted on the record."
 #~ msgstr "A feljegyzésen történt utolsó levelezés dátuma."
@@ -1619,21 +1578,6 @@ msgstr "⇒ Árajánlat megújításra"
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
 
-#~ msgid ""
-#~ "If set, the associated contract will be overwritten by this sale order "
-#~ "(every recurring line of the contract not in this sale order will be "
-#~ "deleted)."
-#~ msgstr ""
-#~ "Ha beállított, a társított szerződés felülírásra kerül ezzel a vásárlói "
-#~ "megrendeléssel (a szerződés minden ismétlődő tételsora, mely nincs benne "
-#~ "ebbe a vásárlói megrendelésben, törlésre kerül)."
-
-#~ msgid "Inactive"
-#~ msgstr "Inaktív"
-
-#~ msgid "Inactive templates"
-#~ msgstr "Nem aktív sablonok"
-
 #~ msgid "Invoice for subscription ${ctx.get('code')}"
 #~ msgstr "Ennek a feliratkozásnak a számlája ${ctx.get('code')}"
 
@@ -1648,9 +1592,6 @@ msgstr "⇒ Árajánlat megújításra"
 
 #~ msgid "Last Message Date"
 #~ msgstr "Utolsó üzenet dátuma"
-
-#~ msgid "Manage Contracts"
-#~ msgstr "Szerződések kezelése"
 
 #~ msgid "Messages"
 #~ msgstr "Üzenetek"
@@ -1673,18 +1614,6 @@ msgstr "⇒ Árajánlat megújításra"
 #~ msgid "Payment reminder for subscription ${object.code}"
 #~ msgstr "Fizetési emlékeztető ehhez a feliratkozáshoz ${object.code}"
 
-#~ msgid "Reports"
-#~ msgstr "Kimutatások"
-
-#~ msgid "See Contracts"
-#~ msgstr "Szerződések megtekintése"
-
-#~ msgid "Set to Active"
-#~ msgstr "Beállítás aktívnak"
-
-#~ msgid "Set to Inactive"
-#~ msgstr "Beállítás inaktívnak"
-
 #~ msgid "Set to Open"
 #~ msgstr "Nyitottnak állítva"
 
@@ -1704,9 +1633,6 @@ msgstr "⇒ Árajánlat megújításra"
 #~ msgid "Termination of subscription ${object.code}"
 #~ msgstr "Ennek a feliratkozásnak a megszüntetése ${object.code}"
 
-#~ msgid "The user will have write access to contracts."
-#~ msgstr "A felhasználónak írása hozzáférése lesz a szerződésekre."
-
 #~ msgid "Timesheets"
 #~ msgstr "Munkaidő-kimutatások"
 
@@ -1719,14 +1645,20 @@ msgstr "⇒ Árajánlat megújításra"
 #~ msgid "Unread Messages Counter"
 #~ msgstr "Olvasatlan üzenetek számlálója"
 
-#~ msgid "Update Contract"
-#~ msgstr "Szerződés frissítés"
-
 #~ msgid "Website Messages"
 #~ msgstr "Weboldal üzenetek"
 
 #~ msgid "Website communication history"
 #~ msgstr "Weboldal  kommunikáció történet"
+
+#~ msgid "Archived"
+#~ msgstr "Archivált"
+
+#~ msgid "Cancel"
+#~ msgstr "Mégse"
+
+#~ msgid "Creation"
+#~ msgstr "Létrehozás"
 
 #~ msgid ""
 #~ "If the active field is set to False, it will allow you to hide the "
@@ -1735,8 +1667,23 @@ msgstr "⇒ Árajánlat megújításra"
 #~ "Ha az aktív mező hamisra állított, akkor eltüntetheti a főkönyvi számlát "
 #~ "annak törlése nélkül."
 
-#~ msgid "Use Issues"
-#~ msgstr "Használjon ügyeket"
+#~ msgid "Reason"
+#~ msgstr "Ok"
+
+#~ msgid "Renewal"
+#~ msgstr "Megújítás"
+
+#~ msgid "Report"
+#~ msgstr "Kimutatás"
+
+#~ msgid "Submit"
+#~ msgstr "Beküldés"
+
+#~ msgid "Subscription Management"
+#~ msgstr "Feliratkozás kezelés"
+
+#~ msgid "Upselling"
+#~ msgstr "Upselling, magasabb értékű értékesítés"
 
 #~ msgid "Use Tasks"
 #~ msgstr "Használaja az ügyeket"

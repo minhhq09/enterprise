@@ -7,9 +7,9 @@
 # Yaroslav Molochko <onorua@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-08-12 13:18+0000\n"
 "Last-Translator: Yaroslav Molochko <onorua@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -37,7 +37,7 @@ msgid "An internal identification for this loyalty reward"
 msgstr "Внутрішній ідентифікатор для нагороди програми лояльності"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,rule_type:0
+#: selection:loyalty.rule,type:0
 msgid "Category"
 msgstr "Category"
 
@@ -67,7 +67,7 @@ msgstr "Накопичення"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Discount"
 msgstr "Знижка"
 
@@ -84,12 +84,12 @@ msgid "Display Name"
 msgstr "Назва для відображення"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
 msgid "Does this rule affects products, or a category of products ?"
 msgstr "Це правило впливає на товари чи категорії товарів? "
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Gift"
 msgstr "Подарунок"
 
@@ -153,6 +153,12 @@ msgid "Last Updated on"
 msgstr "Останнє оновлення"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+msgid "Loyalty Points"
+msgstr "Бали лояльності"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
@@ -195,16 +201,8 @@ msgid "Loyalty Rule"
 msgstr "Правило лояльності"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-#, fuzzy
-msgid "Loyalty points"
-msgstr "Бали лояльності"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-#, fuzzy
-msgid "Minimum points"
+msgid "Minimum Points"
 msgstr "Мінімум балів"
 
 #. module: pos_loyalty
@@ -219,15 +217,14 @@ msgid "Partner"
 msgstr "Партнер"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+msgid "Point Cost"
+msgstr "Вартість балу"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
 msgid "Point Product"
 msgstr "Товар балів"
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-#, fuzzy
-msgid "Point cost"
-msgstr "Вартість балу"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_pos_order
@@ -294,12 +291,12 @@ msgid "Points per product"
 msgstr "Балів за 1 товар"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,rule_type:0
+#: selection:loyalty.rule,type:0
 msgid "Product"
 msgstr "Товар"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Resale"
 msgstr "Перепродаж"
 
@@ -314,12 +311,6 @@ msgid "Reward the customer with gifts or discounts for loyalty points"
 msgstr "Нагородіть клієнта подарунками або знижками за бали лояльності"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
-#, fuzzy
-msgid "Reward type"
-msgstr "Назва нагороди"
-
-#. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:25
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_reward_ids
@@ -331,12 +322,6 @@ msgstr "Нагороди"
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Rule Name"
-msgstr "Назва правила"
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
-#, fuzzy
-msgid "Rule type"
 msgstr "Назва правила"
 
 #. module: pos_loyalty
@@ -387,9 +372,8 @@ msgstr "Категорія, на яку діє це правило"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-#, fuzzy
-msgid "The cost of the reward"
-msgstr "Тип нагороди"
+msgid "The cost of the reward per monetary unit discounted"
+msgstr "Вартість нагороди за знижку на одиницю валюти"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_discount
@@ -397,14 +381,12 @@ msgid "The discount percentage"
 msgstr "Відсоток знижки"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:56
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The discount product field is mandatory for discount rewards"
 msgstr "Необхідно вказати товар знижки для винагороди у вигляді знижки"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:50
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The gift product field is mandatory for gift rewards"
 msgstr "Необхідно вказати товар подарунку для винагороди у вигляді подарунку"
 
@@ -432,8 +414,7 @@ msgstr ""
 "Мінімум очок лояльності клієнт повинен мати, щоб отримати цю винагороду"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:62
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The point product field is mandatory for point resale rewards"
 msgstr ""
 
@@ -464,7 +445,7 @@ msgid "The product used to apply discounts"
 msgstr "Товар використаний для знижки"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
 msgid "The type of the reward"
 msgstr "Тип нагороди"
 
@@ -481,6 +462,12 @@ msgstr "Всього балів"
 #, fuzzy, python-format
 msgid "Total Points:"
 msgstr "Всього балів"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
+msgid "Type"
+msgstr "Тип"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
@@ -502,17 +489,26 @@ msgstr "loyalty.rule"
 msgid "pos.config"
 msgstr "pos.config"
 
-#~ msgid "Loyalty Points"
+#, fuzzy
+#~ msgid "Loyalty points"
 #~ msgstr "Бали лояльності"
 
-#~ msgid "Minimum Points"
+#, fuzzy
+#~ msgid "Minimum points"
 #~ msgstr "Мінімум балів"
 
-#~ msgid "Point Cost"
+#, fuzzy
+#~ msgid "Point cost"
 #~ msgstr "Вартість балу"
 
-#~ msgid "The cost of the reward per monetary unit discounted"
-#~ msgstr "Вартість нагороди за знижку на одиницю валюти"
+#, fuzzy
+#~ msgid "Reward type"
+#~ msgstr "Назва нагороди"
 
-#~ msgid "Type"
-#~ msgstr "Тип"
+#, fuzzy
+#~ msgid "Rule type"
+#~ msgstr "Назва правила"
+
+#, fuzzy
+#~ msgid "The cost of the reward"
+#~ msgstr "Тип нагороди"

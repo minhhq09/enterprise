@@ -6,9 +6,9 @@
 # Kris Krnacs, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2015-11-08 10:22+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -72,7 +72,7 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_accessory_product_ids
 msgid "Accessory Products"
-msgstr ""
+msgstr "Kiegészítő termékek"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
@@ -82,12 +82,12 @@ msgstr "Amerika"
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_alternative_product_ids
 msgid "Appear on the product page"
-msgstr ""
+msgstr "Termék oldalán jelenik meg"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_accessory_product_ids
 msgid "Appear on the shopping cart"
-msgstr ""
+msgstr "Bevásárló kocsiban jelenik meg"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
@@ -124,6 +124,11 @@ msgstr ""
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_dhl_dutiable
 msgid "Check this if your package is dutiable."
 msgstr "Jelölje be ha a csomagja vámköteles."
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
+msgid "Create a task under this project on sale order validation."
+msgstr ""
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -191,17 +196,18 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
 msgid "Description for the quote"
-msgstr ""
+msgstr "Leírás az árajánlathoz"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_description
 msgid "Description for the website"
-msgstr ""
+msgstr "Leírás a weboldalhoz"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_website_sequence
 msgid "Determine the display order in the Website E-commerce"
 msgstr ""
+"Megjelenített értékek sorrendjének meghatározása a weboldal e-értékesítésben"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_dutiable
@@ -302,9 +308,14 @@ msgid "Product"
 msgstr "Termék"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
+msgid "Project"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
-msgstr ""
+msgstr "Értékelés"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
@@ -325,22 +336,22 @@ msgstr "Szállítmány létrehozva az DHL-ben <br/> <b>Követési szám : </b>%s
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_size_x
 msgid "Size X"
-msgstr ""
+msgstr "Méret X"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_size_y
 msgid "Size Y"
-msgstr ""
+msgstr "Méret Y"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_style_ids
 msgid "Styles"
-msgstr ""
+msgstr "Stílusok"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_alternative_product_ids
 msgid "Suggested Products"
-msgstr ""
+msgstr "Javasolt termékek"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -381,11 +392,13 @@ msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_website_url
 msgid "The full URL to access the document through the website."
 msgstr ""
+"A teljes elérési út/URL  a dokumentum weboldalon keresztüli eléréséhez."
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
+"A hasonló termékek kategóriák szerint csoportosítsa az e-értékesítéshez."
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_pos_categ_id
@@ -400,37 +413,32 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_published
 msgid "Visible in Website"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
-msgid "Website Comments"
-msgstr ""
+msgstr "Látható a weboldalon"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
-msgstr ""
+msgstr "Weboldal termék kategória"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
 msgid "Website URL"
-msgstr ""
+msgstr "Honlap URL"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_description
 msgid "Website meta description"
-msgstr ""
+msgstr "Honlap meta leírás"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_keywords
 msgid "Website meta keywords"
-msgstr ""
+msgstr "Honlap meta kulcsszavai"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_title
 msgid "Website meta title"
-msgstr ""
+msgstr "Honlap meta cím"
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:102
@@ -485,12 +493,8 @@ msgstr ""
 #~ msgid "Uncheck this box to use production DHL Web Services"
 #~ msgstr "Ne jelölje be ezt a négyzetet az DHL Web szolgáltatás használatához"
 
-#~ msgid ""
-#~ "If set, confirming a sale order with this product will create a "
-#~ "subscription"
-#~ msgstr ""
-#~ "Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés "
-#~ "jóváhagyása egy feliratkozást fog létrehozni"
+#~ msgid "Availability"
+#~ msgstr "Elérhetőség"
 
-#~ msgid "Subscription Product"
-#~ msgstr "Feliratkozási termék"
+#~ msgid "Website Comments"
+#~ msgstr "Honlap hozzászólások"

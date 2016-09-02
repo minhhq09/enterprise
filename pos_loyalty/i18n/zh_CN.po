@@ -12,9 +12,9 @@
 # 卓忆科技 <zhanghao@jointd.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-06-22 13:04+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -41,7 +41,7 @@ msgid "An internal identification for this loyalty reward"
 msgstr "忠诚奖励的内部标识"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,rule_type:0
+#: selection:loyalty.rule,type:0
 msgid "Category"
 msgstr "类别"
 
@@ -71,7 +71,7 @@ msgstr "累积"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Discount"
 msgstr "折扣"
 
@@ -88,12 +88,12 @@ msgid "Display Name"
 msgstr "显示名称"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
 msgid "Does this rule affects products, or a category of products ?"
 msgstr "这个规则影响产品，还是产品种类"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Gift"
 msgstr "礼品"
 
@@ -157,6 +157,12 @@ msgid "Last Updated on"
 msgstr "最后更新时间"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+msgid "Loyalty Points"
+msgstr "忠诚积分"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
@@ -197,14 +203,8 @@ msgid "Loyalty Rule"
 msgstr "忠诚规则"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-msgid "Loyalty points"
-msgstr "忠诚积分"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-msgid "Minimum points"
+msgid "Minimum Points"
 msgstr "最小积分"
 
 #. module: pos_loyalty
@@ -219,14 +219,14 @@ msgid "Partner"
 msgstr "业务伙伴"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+msgid "Point Cost"
+msgstr "积分成本"
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
 msgid "Point Product"
 msgstr "积分产品"
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-msgid "Point cost"
-msgstr "积分成本"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_pos_order
@@ -293,12 +293,12 @@ msgid "Points per product"
 msgstr "每个产品的积分"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,rule_type:0
+#: selection:loyalty.rule,type:0
 msgid "Product"
 msgstr "产品"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,reward_type:0
+#: selection:loyalty.reward,type:0
 msgid "Resale"
 msgstr "转售"
 
@@ -313,11 +313,6 @@ msgid "Reward the customer with gifts or discounts for loyalty points"
 msgstr "用礼品或折扣奖励客户来提升忠诚度"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
-msgid "Reward type"
-msgstr "奖励类型"
-
-#. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:25
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_reward_ids
@@ -330,11 +325,6 @@ msgstr "奖励"
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Rule Name"
 msgstr "规则名称"
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
-msgid "Rule type"
-msgstr "规则类型"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rule_ids
@@ -381,8 +371,8 @@ msgstr "种类由规则影响"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-msgid "The cost of the reward"
-msgstr "奖励的成本"
+msgid "The cost of the reward per monetary unit discounted"
+msgstr "奖励的成本对于每个货币单位的折扣"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_discount
@@ -390,14 +380,12 @@ msgid "The discount percentage"
 msgstr "折扣百分比"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:56
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The discount product field is mandatory for discount rewards"
 msgstr "打折产品字段对打折奖励是必须的"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:50
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The gift product field is mandatory for gift rewards"
 msgstr "礼品产品字段对礼品奖励是必须的"
 
@@ -424,8 +412,7 @@ msgid ""
 msgstr "客户必须具备最低积分点为这个奖励"
 
 #. module: pos_loyalty
-#: code:addons/pos_loyalty/models/pos_loyalty.py:62
-#, python-format
+#: constraint:loyalty.reward:0
 msgid "The point product field is mandatory for point resale rewards"
 msgstr "积分点产品字段对积分销售奖励是必须的"
 
@@ -455,7 +442,7 @@ msgid "The product used to apply discounts"
 msgstr "这个产品可以申请折扣"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
 msgid "The type of the reward"
 msgstr "奖励类型"
 
@@ -472,6 +459,12 @@ msgstr "总积分"
 #, python-format
 msgid "Total Points:"
 msgstr "总积分:"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
+msgid "Type"
+msgstr "类型"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
@@ -493,17 +486,20 @@ msgstr "loyalty.rule"
 msgid "pos.config"
 msgstr "pos.config"
 
-#~ msgid "Loyalty Points"
+#~ msgid "Loyalty points"
 #~ msgstr "忠诚积分"
 
-#~ msgid "Minimum Points"
+#~ msgid "Minimum points"
 #~ msgstr "最小积分"
 
-#~ msgid "Point Cost"
+#~ msgid "Point cost"
 #~ msgstr "积分成本"
 
-#~ msgid "The cost of the reward per monetary unit discounted"
-#~ msgstr "奖励的成本对于每个货币单位的折扣"
+#~ msgid "Reward type"
+#~ msgstr "奖励类型"
 
-#~ msgid "Type"
-#~ msgstr "类型"
+#~ msgid "Rule type"
+#~ msgstr "规则类型"
+
+#~ msgid "The cost of the reward"
+#~ msgstr "奖励的成本"

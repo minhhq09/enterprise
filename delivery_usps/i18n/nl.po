@@ -7,9 +7,9 @@
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-03-10 09:39+0000\n"
 "Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
@@ -53,11 +53,6 @@ msgid "Content Type"
 msgstr "Soort inhoud"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "DHL Configuration"
-msgstr "DHL configuratie"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Leveringsaard"
@@ -79,7 +74,7 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First-Class"
+msgid "First Class"
 msgstr "Eerste klasse"
 
 #. module: delivery_usps
@@ -119,11 +114,6 @@ msgstr "Cadeau"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Internationaal"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-msgid "Label File Type"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -182,11 +172,6 @@ msgstr "Niet leverbare optie"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Niet rechthoekig"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -319,13 +304,13 @@ msgid "Sample"
 msgstr "Voorbeeld"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Levering n° %s werd geannuleerd"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Verzending aangemaakt in USPS <br/> <b>Traceernummer:</b>%s"
@@ -339,11 +324,6 @@ msgstr "Vast tarief kleine doos"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "Vast tarief kleine enveloppe"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr "TIF"
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -410,10 +390,15 @@ msgid "Type of regular container"
 msgstr "Type van de reguliere container"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS configuratie"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 msgid "USPS Domestic Flat Rate Envelope"
-msgstr ""
+msgstr "USPS binnenlands vast bedrag envelop"
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:72
@@ -462,14 +447,8 @@ msgstr "USPS containergrootte"
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Uw bedrijf of ontvanger zijn postcode is foutief."
 
-#~ msgid "First Class"
-#~ msgstr "Eerste klasse"
-
 #~ msgid "Test Mode"
 #~ msgstr "Testmodus"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "USPS configuratie"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "USPS vaste prijs binnenlandse doos"
@@ -479,6 +458,30 @@ msgstr "Uw bedrijf of ontvanger zijn postcode is foutief."
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Vink dit vakje uit om productie UPS web services te gebruiken"
+
+#~ msgid "DHL Configuration"
+#~ msgstr "DHL configuratie"
+
+#~ msgid "First-Class"
+#~ msgstr "Eerste klasse"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"
+
+#~ msgid "TIF"
+#~ msgstr "TIF"
+
+#~ msgid "Type of USPS International regular container"
+#~ msgstr "Type van USPS internationale standaard container"
+
+#~ msgid "Type of USPS domestic regular container"
+#~ msgstr "Type van USPS binnenlandse reguliere container"
+
+#~ msgid "USPS First Class Mail Type"
+#~ msgstr "USPS soort eerste klasse mail"
+
+#~ msgid "USPS Label File Type"
+#~ msgstr "USPS label bestand soort"
 
 #~ msgid "USPS Mail Type"
 #~ msgstr "USPS mailsoort"

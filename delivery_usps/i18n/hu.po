@@ -6,9 +6,9 @@
 # Kris Krnacs, 2015-2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-03-09 15:55+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -51,11 +51,6 @@ msgid "Content Type"
 msgstr "Tartalom típus"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "DHL Configuration"
-msgstr "DHL Beállítások"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Szállítás természete"
@@ -77,8 +72,8 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First-Class"
-msgstr ""
+msgid "First Class"
+msgstr "Első osztályú"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -117,11 +112,6 @@ msgstr "Ajándék"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Nemzetközi"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-msgid "Label File Type"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -180,11 +170,6 @@ msgstr "Nem szállítási opció"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Nem-négyszögletes"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -316,13 +301,13 @@ msgid "Sample"
 msgstr "Minta"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "N° %s sz. szállítmányt érvénytelenítettük"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Szállítmány létrehozva az USPS-ben <br/> <b>Követési szám : </b>%s"
@@ -336,11 +321,6 @@ msgstr "Kicsi átalány áras doboz"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "Kicsi átalány áras boríték"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -405,6 +385,11 @@ msgid "Type of regular container"
 msgstr "Általános konténer típusok"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS beállítás"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 msgid "USPS Domestic Flat Rate Envelope"
@@ -457,14 +442,8 @@ msgstr "USPS méretes tároló"
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Vállalkozása vagy a címzett irányító száma nem megfelelő."
 
-#~ msgid "First Class"
-#~ msgstr "Első osztályú"
-
 #~ msgid "Test Mode"
 #~ msgstr "Teszt mód"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "USPS beállítás"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "USPS belföldi átalány áras doboz"
@@ -475,3 +454,9 @@ msgstr "Vállalkozása vagy a címzett irányító száma nem megfelelő."
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr ""
 #~ "Ne jelölje be ezt a négyzetet az UPS Web szolgáltatások használatához"
+
+#~ msgid "DHL Configuration"
+#~ msgstr "DHL Beállítások"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

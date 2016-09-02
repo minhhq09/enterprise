@@ -8,9 +8,9 @@
 # Rick Hunter <rick_hunter_ec@yahoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-02-10 17:31+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/"
@@ -113,12 +113,6 @@ msgstr ""
 "de los empleados."
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_active
-#, fuzzy
-msgid "Active"
-msgstr "Objetivos"
-
-#. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_13
 msgid ""
 "Adaptability: Ability to adapt oneself to organizational changes while "
@@ -186,7 +180,7 @@ msgid "Appraisal Form..."
 msgstr "Formulario de evaluación..."
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:118
+#: code:addons/hr_appraisal/models/hr_appraisal.py:117
 #, python-format
 msgid "Appraisal Meeting For %s"
 msgstr "Reunión de Evaluación para %s"
@@ -202,7 +196,7 @@ msgid "Appraisal Regarding"
 msgstr "Respecto a su evaluación"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
@@ -251,7 +245,7 @@ msgid "Appraisal(s)"
 msgstr "Evaluación(es)"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:161
+#: code:addons/hr_appraisal/models/hr_appraisal.py:160
 #, python-format
 msgid "Appraisal(s) form have been sent"
 msgstr "Evaluaciones que no han sido enviadas"
@@ -271,11 +265,6 @@ msgstr "Evaluaciones a procesar"
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
 msgid "Appraiser"
 msgstr "Evaluador"
-
-#. module: hr_appraisal
-#: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
-msgid "Archived"
-msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -298,7 +287,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #, python-format
 msgid "Cancelled"
@@ -465,6 +454,7 @@ msgid "Demonstrates genuine concern for me as a person"
 msgstr "Demuestra genuina preocupación por mí como persona"
 
 #. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_department_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_department_id
 msgid "Department"
@@ -483,7 +473,7 @@ msgid "Display Name"
 msgstr "Nombre mostrado"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -626,12 +616,6 @@ msgstr ""
 "retroalimentación sobre el liderazgo de sus supervisores y para dar su "
 "opinión sobre su propio compromiso y la eficacia, la mejora continua y la "
 "apertura en la acción en la empresa ..."
-
-#. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
-#, fuzzy
-msgid "Hr Department"
-msgstr "Departamento Recursos Humanos"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
@@ -1190,6 +1174,16 @@ msgid "The answer you entered has an invalid format."
 msgstr "La respuesta introducida tiene un formato no válido."
 
 #. module: hr_appraisal
+#: code:addons/hr_appraisal/models/hr_appraisal.py:192
+#, python-format
+msgid ""
+"The appraisal deadline must be in the future to allow employees to answer "
+"the survey."
+msgstr ""
+"El plazo de evaluación debe estar en el futuro para permitir a los empleados "
+"para responder a la encuesta."
+
+#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
@@ -1337,7 +1331,7 @@ msgid "Time management: projects/tasks are completed on time"
 msgstr "Gestión del tiempo: los proyectos/tareas se completan en tiempo."
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #, python-format
@@ -1390,7 +1384,7 @@ msgid "Year"
 msgstr "Año"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:205
+#: code:addons/hr_appraisal/models/hr_appraisal.py:206
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
 msgstr "No puedes borrar evaluaciones que están en estado '%s'"
@@ -1463,13 +1457,6 @@ msgstr "oe_kanban_text_red"
 #~ msgstr "Número de mensajes no leidos"
 
 #~ msgid ""
-#~ "The appraisal deadline must be in the future to allow employees to answer "
-#~ "the survey."
-#~ msgstr ""
-#~ "El plazo de evaluación debe estar en el futuro para permitir a los "
-#~ "empleados para responder a la encuesta."
-
-#~ msgid ""
 #~ "The supervisor synthesizes and integrates all input into the completed "
 #~ "appraisal. He motivates his evaluation in the ad\n"
 #~ "hoc fields."
@@ -1488,3 +1475,11 @@ msgstr "oe_kanban_text_red"
 
 #~ msgid "Website communication history"
 #~ msgstr "Historial de comunicaciones del sitio web"
+
+#, fuzzy
+#~ msgid "Active"
+#~ msgstr "Objetivos"
+
+#, fuzzy
+#~ msgid "Hr Department"
+#~ msgstr "Departamento Recursos Humanos"
