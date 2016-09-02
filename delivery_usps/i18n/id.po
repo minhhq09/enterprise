@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-06-17 15:19+0000\n"
 "Last-Translator: Abdi Pratama <abdipro@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -51,12 +51,6 @@ msgid "Content Type"
 msgstr "Multipurpose Internet Mail Extension"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-#, fuzzy
-msgid "DHL Configuration"
-msgstr "Konfigurasi USPS"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr ""
@@ -78,7 +72,7 @@ msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First-Class"
+msgid "First Class"
 msgstr ""
 
 #. module: delivery_usps
@@ -152,6 +146,12 @@ msgid "Machinable"
 msgstr ""
 
 #. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
+msgid "Mail Type"
+msgstr ""
+
+#. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Medium Flat Rate Box"
 msgstr ""
@@ -169,11 +169,6 @@ msgstr ""
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
-msgstr ""
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
 msgstr ""
 
 #. module: delivery_usps
@@ -301,13 +296,13 @@ msgid "Sample"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
@@ -323,12 +318,7 @@ msgid "Small Flat Rate Envelope"
 msgstr ""
 
 #. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:159
+#: code:addons/delivery_usps/models/usps_request.py:161
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
 msgstr ""
@@ -350,7 +340,7 @@ msgid ""
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:361
+#: code:addons/delivery_usps/models/usps_request.py:367
 #, python-format
 msgid ""
 "The recepient address can't be found. Please check that your recepient has "
@@ -371,20 +361,20 @@ msgid "To Company"
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
-#, fuzzy
-msgid "Type of USPS International regular container"
-msgstr "Kotak Tarif Rata Internasional USPS"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
-msgid "Type of USPS domestic regular container"
-msgstr ""
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
 msgid "Type of container"
 msgstr ""
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
+msgid "Type of regular container"
+msgstr ""
+
+#. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "Konfigurasi USPS"
 
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
@@ -402,11 +392,6 @@ msgid ""
 msgstr ""
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
-msgid "USPS First Class Mail Type"
-msgstr ""
-
-#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_international_product_product
 msgid "USPS International Flat Rate Box"
@@ -418,16 +403,6 @@ msgstr "Kotak Tarif Rata Internasional USPS"
 msgid ""
 "USPS International is used only to ship  outside of the U.S.A. Please change "
 "the delivery method into USPS Domestic."
-msgstr ""
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-msgid "USPS Label File Type"
-msgstr ""
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
-msgid "USPS Mail Type"
 msgstr ""
 
 #. module: delivery_usps
@@ -446,13 +421,14 @@ msgid "Usps size container"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:363
+#: code:addons/delivery_usps/models/usps_request.py:369
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Perusahaan kamu atau kode pos penerima salah"
 
-#~ msgid "USPS Configuration"
-#~ msgstr "Konfigurasi USPS"
-
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Hapus centang di kotak ini untuk menggunakan jasa situs UPS"
+
+#, fuzzy
+#~ msgid "DHL Configuration"
+#~ msgstr "Konfigurasi USPS"

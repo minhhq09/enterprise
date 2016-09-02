@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-07-22 04:11+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -39,8 +39,8 @@ msgid "Centimeters"
 msgstr "厘米"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "EPL"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "Default Packaging Type"
 msgstr ""
 
 #. module: delivery_ups
@@ -52,11 +52,6 @@ msgstr "英寸"
 #: selection:delivery.carrier,ups_package_weight_unit:0
 msgid "Kilograms"
 msgstr "千克"
-
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
 
 #. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
@@ -75,24 +70,19 @@ msgid "Pounds"
 msgstr "英镑"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "SPL"
-msgstr ""
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:175
+#: code:addons/delivery_ups/models/delivery_ups.py:171
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "装运N° %s已经被取消"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:139
+#: code:addons/delivery_ups/models/delivery_ups.py:135
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:146
+#: code:addons/delivery_ups/models/delivery_ups.py:142
 #, python-format
 msgid "Shipping label for packages"
 msgstr "装运的包装标签"
@@ -170,19 +160,9 @@ msgid "UPS Configuration"
 msgstr "UPS配置"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-msgid "UPS Default Packaging Type"
-msgstr ""
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS陆运"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "UPS Label File Type"
-msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -265,11 +245,6 @@ msgstr "UPS包装尺寸单位"
 msgid "Ups package weight unit"
 msgstr "UPS包装重量单位"
 
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "ZPL"
-msgstr ""
-
 #~ msgid "10KG Box"
 #~ msgstr "10公斤盒子"
 
@@ -320,3 +295,6 @@ msgstr ""
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "取消该复选框而使用UPS网站服务"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

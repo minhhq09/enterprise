@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-03-25 17:37+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -52,12 +52,6 @@ msgid "Content Type"
 msgstr "Typ obsahu"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-#, fuzzy
-msgid "DHL Configuration"
-msgstr "USPS konfigurácia"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Charakter dodania"
@@ -79,8 +73,7 @@ msgstr "Expres"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-#, fuzzy
-msgid "First-Class"
+msgid "First Class"
 msgstr "Prvá trieda"
 
 #. module: delivery_usps
@@ -154,6 +147,12 @@ msgid "Machinable"
 msgstr "Spracovateľné"
 
 #. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
+msgid "Mail Type"
+msgstr "Typ pošty"
+
+#. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Medium Flat Rate Box"
 msgstr "Stredný box s jendotnou sadzbou"
@@ -172,11 +171,6 @@ msgstr "Nedoručovacia možnosť"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Neštvorcové"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -307,13 +301,13 @@ msgid "Sample"
 msgstr "Vzorka"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Zásielka N° %s bola zrušená"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Zásielka vytvorená v USPS  <br/> <b>Sledovacie číslo : </b>%s"
@@ -329,12 +323,7 @@ msgid "Small Flat Rate Envelope"
 msgstr "Malá obálka s jednotnou sadzbou"
 
 #. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
-msgstr ""
-
-#. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:159
+#: code:addons/delivery_usps/models/usps_request.py:161
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
 msgstr ""
@@ -360,7 +349,7 @@ msgstr ""
 "Odhadovaná cena nemôže by vypočítaná, pretože chýba váha vášho produktu."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:361
+#: code:addons/delivery_usps/models/usps_request.py:367
 #, python-format
 msgid ""
 "The recepient address can't be found. Please check that your recepient has "
@@ -386,21 +375,20 @@ msgid "To Company"
 msgstr "Spoločnosti"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
-#, fuzzy
-msgid "Type of USPS International regular container"
-msgstr "Typ regulŕneho kontajnera"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
-#, fuzzy
-msgid "Type of USPS domestic regular container"
-msgstr "Typ regulŕneho kontajnera"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
 msgid "Type of container"
 msgstr "Typ kontajnera"
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
+msgid "Type of regular container"
+msgstr "Typ regulŕneho kontajnera"
+
+#. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS konfigurácia"
 
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
@@ -420,11 +408,6 @@ msgstr ""
 "doručovaciu metódu na USPS medzinárodné."
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
-msgid "USPS First Class Mail Type"
-msgstr ""
-
-#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_international_product_product
 msgid "USPS International Flat Rate Box"
@@ -439,18 +422,6 @@ msgid ""
 msgstr ""
 "USPS medzinárodné sa pouźíva iba na prepravu v rámci U.S.A.. Prosím zmenťe "
 "doručovaciu metódu na USPS domáce."
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-#, fuzzy
-msgid "USPS Label File Type"
-msgstr "Typ pošty"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
-#, fuzzy
-msgid "USPS Mail Type"
-msgstr "Typ pošty"
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_service
@@ -468,19 +439,13 @@ msgid "Usps size container"
 msgstr "USPS veľkosť kontajnera"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:363
+#: code:addons/delivery_usps/models/usps_request.py:369
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Vaša spoločnosť alebo psč príjemcu nie su správne."
 
-#~ msgid "First Class"
-#~ msgstr "Prvá trieda"
-
 #~ msgid "Test Mode"
 #~ msgstr "Testovací režim"
-
-#~ msgid "USPS Configuration"
-#~ msgstr "USPS konfigurácia"
 
 #~ msgid "USPS Domestic Flat Rate Box"
 #~ msgstr "USPS domáci box s pevnou sadzbou"
@@ -490,3 +455,15 @@ msgstr "Vaša spoločnosť alebo psč príjemcu nie su správne."
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Zrušte označenie tohto políčka pre používanie UPS web služby"
+
+#, fuzzy
+#~ msgid "DHL Configuration"
+#~ msgstr "USPS konfigurácia"
+
+#, fuzzy
+#~ msgid "First-Class"
+#~ msgstr "Prvá trieda"
+
+#, fuzzy
+#~ msgid "Label File Type"
+#~ msgstr "Typ pošty"

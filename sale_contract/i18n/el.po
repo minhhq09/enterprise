@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-01-02 22:27+0000\n"
 "Last-Translator: Goutoudis Kostas <goutoudis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/odoo/odoo-9/language/el/)\n"
@@ -27,48 +27,48 @@ msgid ""
 "% macro account_table(values):\n"
 "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
 "max-width:600px\">\n"
-"<tr>\n"
-"    <th>Customer</th>\n"
-"    <th>Contract</th>\n"
-"    <th>Dates</th>\n"
-"    <th>Prepaid Units</th>\n"
-"    <th>Contact</th>\n"
-"</tr>\n"
-"% for partner, accounts in values:\n"
-"    % for account in accounts:\n"
 "    <tr>\n"
-"        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
-"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
-"td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
-"and account.date or '???'}</td>\n"
-"        <td style=\"width:80px;\">\n"
-"        % if account.quantity_max != 0.0:\n"
-"            ${account.remaining_hours}/${account.quantity_max} units\n"
-"        % endif\n"
-"        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"        <th>Customer</th>\n"
+"        <th>Contract</th>\n"
+"        <th>Dates</th>\n"
+"        <th>Prepaid Units</th>\n"
+"        <th>Contact</th>\n"
 "    </tr>\n"
+"    % for partner, accounts in values:\n"
+"        % for account in accounts:\n"
+"        <tr>\n"
+"            <td style=\"width:85px;\">${partner.name}</td>\n"
+"            <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/"
+"web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account."
+"name}</a></td>\n"
+"            <td style=\"width:150px;\">${account.date_start} to ${account."
+"date and account.date or '???'}</td>\n"
+"            <td style=\"width:80px;\">\n"
+"            % if account.quantity_max != 0.0:\n"
+"                ${account.remaining_hours}/${account.quantity_max} units\n"
+"            % endif\n"
+"            </td>\n"
+"            <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
+"${account.partner_id.email or ''}</td>\n"
+"        </tr>\n"
+"        % endfor\n"
 "    % endfor\n"
-"% endfor\n"
 "</table>\n"
 "% endmacro\n"
 "\n"
 "% if \"new\" in ctx[\"data\"]:\n"
-"<h2>The following contracts just expired: </h2>\n"
-"${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
+"    <h2>The following contracts just expired: </h2>\n"
+"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"old\" in ctx[\"data\"]:\n"
-"<h2>The following expired contracts are still not processed: </h2>\n"
-"${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
+"    <h2>The following expired contracts are still not processed: </h2>\n"
+"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "% if \"future\" in ctx[\"data\"]:\n"
-"<h2>The following contracts will expire in less than one month: </h2>\n"
-"${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
+"    <h2>The following contracts will expire in less than one month: </h2>\n"
+"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
 "<p>You can check all contracts to be renewed using the menu <strong>Sales / "
@@ -84,16 +84,20 @@ msgid "Account Manager"
 msgstr "Υπεύθυνος Λογαριασμού"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Active"
 msgstr "Ενεργό"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Active templates"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_actual_quantity
-#, fuzzy
-msgid "Actual quantity"
+msgid "Actual Quantity"
 msgstr "Πραγματική Ποσότητα"
 
 #. module: sale_contract
@@ -115,20 +119,9 @@ msgid "Analytic Lines"
 msgstr "Αναλυτικές Γραμμές"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "Archived"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_balance
 msgid "Balance"
 msgstr "Ισοζύγιο"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-#, fuzzy
-msgid "Cancel"
-msgstr "Ακυρωμένο"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -174,7 +167,6 @@ msgstr "Κάντε κλικ για να ορίσετε ένα νέο προϊό�
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
 msgstr ""
@@ -182,7 +174,6 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
 msgid "Close Reasons"
 msgstr ""
@@ -190,11 +181,6 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
-msgid "Close/Cancel Reason"
 msgstr ""
 
 #. module: sale_contract
@@ -243,6 +229,11 @@ msgid "Contract expiration reminder ${user.company_id.name}"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.module.category,name:sale_contract.module_category_contract_management
+msgid "Contracts"
+msgstr "Συμβάσεις"
+
+#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts in progress"
 msgstr ""
@@ -271,7 +262,6 @@ msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
 msgid "Created by"
@@ -279,25 +269,10 @@ msgstr "Δημιουργήθηκε από"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
 msgid "Created on"
 msgstr "Δημιουργήθηκε στις"
-
-#. module: sale_contract
-#: selection:sale.order,subscription_management:0
-#, fuzzy
-msgid "Creation"
-msgstr "Δημιουργήθηκε στις"
-
-#. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_order_subscription_management
-msgid ""
-"Creation: The Sales Order created the subscription\n"
-"Upselling: The Sales Order added lines to the subscription\n"
-"Renewal: The Sales Order replaced the subscription's content with its own"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
@@ -363,7 +338,6 @@ msgstr "Έκπτωση (%)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_display_name
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
@@ -412,8 +386,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7486
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
@@ -427,10 +400,11 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
+#: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
 msgid ""
-"If the active field is set to False, it will allow you to hide the account "
-"without removing it."
+"If set, the associated contract will be overwritten by this sale order "
+"(every recurring line of the contract not in this sale order will be "
+"deleted)."
 msgstr ""
 
 #. module: sale_contract
@@ -439,6 +413,16 @@ msgstr ""
 #: selection:sale.subscription.report,state:0
 msgid "In Progress"
 msgstr "Σε Εξέλιξη"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive"
+msgstr "Ανενεργός"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Inactive templates"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -451,21 +435,21 @@ msgid "Invoice automatically repeat at specified interval"
 msgstr ""
 
 #. module: sale_contract
+#: code:addons/sale_contract/models/sale_subscription.py:368
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#, python-format
 msgid "Invoices"
 msgstr "Τιμολόγια"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason___last_update
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
 msgstr "Τελευταία αλλαγή στις"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
@@ -473,7 +457,6 @@ msgid "Last Updated by"
 msgstr "Τελευταία Ενημέρωση από"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
@@ -489,9 +472,8 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
-#, fuzzy
-msgid "Manage Subscriptions"
-msgstr "Συνδρομές"
+msgid "Manage Contracts"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_quantity
@@ -542,17 +524,12 @@ msgid "Pending contracts"
 msgstr "Συμβάσεις σε εκκρεμότητα"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "Plan Change Tags"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:175
+#: code:addons/sale_contract/models/sale_subscription.py:182
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "Παρακαλώ ορίστε ένα ημερολόγιο πωλήσεων για αυτήν την εταιρία \"%s\"."
@@ -583,11 +560,6 @@ msgid "Product Template"
 msgstr "Πρότυπο Προϊόντος"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
-msgid "Project Count"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_ids
 msgid "Projects"
 msgstr ""
@@ -613,11 +585,6 @@ msgid "Quantity sold to the customer"
 msgstr "Ποσότητα που πωλείται στον πελάτη"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-msgid "Reason"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
@@ -639,12 +606,6 @@ msgid "Reference"
 msgstr "Αναφορά"
 
 #. module: sale_contract
-#: selection:sale.order,subscription_management:0
-#, fuzzy
-msgid "Renewal"
-msgstr "Προς Ανανέωση"
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
 msgstr "Επανάληψη Κάθε"
@@ -656,8 +617,7 @@ msgstr "Επανάληψη κάθε (Ημέρα/Εβδομάδα/Μήνα/Έτο
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
-#, fuzzy
-msgid "Report"
+msgid "Reports"
 msgstr "Αναφορές"
 
 #. module: sale_contract
@@ -688,14 +648,23 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
-#, fuzzy
-msgid "See Subscriptions"
-msgstr "Συνδρομές"
+msgid "See Contracts"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
 msgid "Sequence"
 msgstr "Ιεράρχηση"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Active"
+msgstr "Ρύθμιση σε Ενεργός"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Set to Inactive"
+msgstr "Ρύθμιση σε Ανενεργός"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -706,8 +675,7 @@ msgstr "Ρυθμίσεις"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_sold_quantity
-#, fuzzy
-msgid "Sold quantity"
+msgid "Sold Quantity"
 msgstr "Ποσότητα Πωληθέντων"
 
 #. module: sale_contract
@@ -727,6 +695,7 @@ msgid "Start Subscription"
 msgstr "Προεγγραφή"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_account_type
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
 msgid "State"
 msgstr "Κατάσταση"
@@ -743,11 +712,6 @@ msgstr "Κατάσταση"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
 msgstr "Υποσύνολο"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
-msgid "Submit"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
@@ -768,12 +732,6 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
-msgstr "Γραμμές προεγγραφής"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_management
-#, fuzzy
-msgid "Subscription Management"
 msgstr "Γραμμές προεγγραφής"
 
 #. module: sale_contract
@@ -816,15 +774,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_ids
 #: model:ir.model.fields,field_description:sale_contract.field_res_partner_subscription_count
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_ids
-#: model:ir.module.category,name:sale_contract.module_category_contract_management
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_root
 #: model:ir.ui.view,arch_db:sale_contract.account_analytic_account_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.res_partner_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_graph
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_pivot
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Subscriptions"
 msgstr "Συνδρομές"
@@ -837,16 +792,14 @@ msgid "Subscriptions to Renew"
 msgstr "Γραμμές προεγγραφής"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
-#, fuzzy
-msgid "Susbcription Count"
-msgstr "Προϊόντα Συνδρομών"
-
-#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
 msgid "Tags"
 msgstr "Ετικέτες"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
+msgid "Tasks"
+msgstr "Εργασίες"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -878,12 +831,12 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
-msgid "The user will have write access to Subscriptions."
+msgid "The user will have write access to contracts."
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:83
-#: code:addons/sale_contract/models/sale_subscription.py:192
+#: code:addons/sale_contract/models/sale_order.py:79
+#: code:addons/sale_contract/models/sale_subscription.py:210
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr ""
@@ -891,14 +844,6 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_order_view_form_subscription
 msgid "This order is linked to a subscription."
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
-msgid ""
-"This will set the unit of measure used in projects and tasks.\n"
-"If you use the timesheet linked to projects, don't forget to setup the right "
-"unit of measure in your employees."
 msgstr ""
 
 #. module: sale_contract
@@ -930,15 +875,9 @@ msgid "Unit of Measure"
 msgstr "Μονάδα Μέτρησης"
 
 #. module: sale_contract
-#: selection:sale.order,subscription_management:0
-msgid "Upselling"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_use_tasks
-#, fuzzy
-msgid "Use Tasks"
-msgstr "Εργασίες"
+#: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
+msgid "Update Contract"
+msgstr "Ενημέρωση Σύμβασης"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
@@ -956,13 +895,6 @@ msgid "Week(s)"
 msgstr "Εβδομάδα(ες)"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid ""
-"When a customer wants to change his subscription plan, he has the choice "
-"between all the recurring contracts with the same tags."
-msgstr ""
-
-#. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
 msgstr "Έτος(η)"
@@ -976,7 +908,7 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:170
+#: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr ""
@@ -995,11 +927,6 @@ msgid "sale.subscription.close.reason"
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
-msgid "sale.subscription.close.reason.wizard"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
 msgid "sale.subscription.line"
 msgstr ""
@@ -1007,6 +934,13 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "subscription Templates"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_project_count
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
+msgid "unknown"
 msgstr ""
 
 #. module: sale_contract
@@ -1025,9 +959,6 @@ msgstr ""
 #~ msgid "Budget Lines"
 #~ msgstr "Γραμμές Προϋπολογισμού"
 
-#~ msgid "Contracts"
-#~ msgstr "Συμβάσεις"
-
 #~ msgid "Date of the last message posted on the record."
 #~ msgstr "Ημερομηνία του τελευταίου μηνύματος "
 
@@ -1045,9 +976,6 @@ msgstr ""
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Εάν επιλεγεί τα νέα μηνύματα χρειάζονται την προσοχή σας."
-
-#~ msgid "Inactive"
-#~ msgstr "Ανενεργός"
 
 #~ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 #~ msgstr "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
@@ -1076,15 +1004,6 @@ msgstr ""
 #~ msgid "Number of unread messages"
 #~ msgstr "Πλήθος μη αναγνωσμένων μηνυμάτων"
 
-#~ msgid "Reports"
-#~ msgstr "Αναφορές"
-
-#~ msgid "Set to Active"
-#~ msgstr "Ρύθμιση σε Ενεργός"
-
-#~ msgid "Set to Inactive"
-#~ msgstr "Ρύθμιση σε Ανενεργός"
-
 #~ msgid "Timesheets"
 #~ msgstr "Φύλλα Xρόνου Eργασίας"
 
@@ -1097,11 +1016,36 @@ msgstr ""
 #~ msgid "Unread Messages Counter"
 #~ msgstr "Μετρητής μη αναγνωσμένων μηνυμάτων"
 
-#~ msgid "Update Contract"
-#~ msgstr "Ενημέρωση Σύμβασης"
-
 #~ msgid "Website Messages"
 #~ msgstr "Μηνύματα Ιστότοπου"
 
 #~ msgid "Website communication history"
 #~ msgstr "Ιστορικό επικοινωνίας ιστότοπου"
+
+#, fuzzy
+#~ msgid "Cancel"
+#~ msgstr "Ακυρωμένο"
+
+#, fuzzy
+#~ msgid "Creation"
+#~ msgstr "Δημιουργήθηκε στις"
+
+#, fuzzy
+#~ msgid "Manage Subscriptions"
+#~ msgstr "Συνδρομές"
+
+#, fuzzy
+#~ msgid "Renewal"
+#~ msgstr "Προς Ανανέωση"
+
+#, fuzzy
+#~ msgid "Report"
+#~ msgstr "Αναφορές"
+
+#, fuzzy
+#~ msgid "See Subscriptions"
+#~ msgstr "Συνδρομές"
+
+#, fuzzy
+#~ msgid "Subscription Management"
+#~ msgstr "Γραμμές προεγγραφής"

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-06-03 09:32+0000\n"
 "Last-Translator: Fabian Liesch <fabian.liesch@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
@@ -29,46 +29,46 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:297
-#: code:addons/account_reports/models/account_followup_report.py:298
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Date "
 msgstr "Datum"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:297
-#: code:addons/account_reports/models/account_followup_report.py:298
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Due Date "
 msgstr "Fälligkeit"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:298
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Excluded "
 msgstr "Ausgeschlossen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:298
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Expected Date "
 msgstr "Erwartetes Datum"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:297
-#: code:addons/account_reports/models/account_followup_report.py:298
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
 #, python-format
 msgid " Total Due "
 msgstr "Gesamtfälligkeit"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:371
+#: code:addons/account_reports/models/account_report_context_common.py:328
 #, python-format
 msgid "%s - %s days ago"
 msgstr "vor %s - %s Tagen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:349
+#: code:addons/account_reports/models/account_followup_report.py:351
 #, python-format
 msgid "%s Payment Reminder"
 msgstr "%s Zahlungserinnerung"
@@ -88,44 +88,22 @@ msgid "&times;"
 msgstr "&times;"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:378
+#: code:addons/account_reports/models/account_report_context_common.py:335
 #, python-format
 msgid "(as of %s)"
 msgstr "(zum %s)"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
-#, python-format
-msgid "0 - 30"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:156
+#: code:addons/account_reports/models/account_followup_report.py:158
 #, python-format
 msgid "10% remaining!"
 msgstr "10% verbleibend!"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
+#: code:addons/account_reports/models/account_followup_report.py:356
 #, python-format
-msgid "30 - 60"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
-#, python-format
-msgid "60 - 90"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
-#, python-format
-msgid "90 - 120"
-msgstr ""
+msgid ": Sent a followup email"
+msgstr ":Zahlungserinnerung E-Mail gesendet"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_letter_body
@@ -162,11 +140,6 @@ msgid "<span class=\"o_stat_text\">Overdue</span>"
 msgstr "<span class=\"o_stat_text\">Überfällig</span>"
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
-msgid "<span title=\"Latest Statement\">Latest Statement</span>"
-msgstr ""
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid ""
 "<strong>Good job!</strong> All followup letters and emails have been sent."
@@ -193,24 +166,6 @@ msgstr ""
 #: model:ir.model,name:account_reports.model_account_report_context_common
 msgid "A particular context for a financial report"
 msgstr "Ein bestimmter Kontext für einen Finanzbericht"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_partner_ledger_context
-#, fuzzy
-msgid "A particular context for the Partner Ledger report"
-msgstr "Ein bestimmter Kontext für den Ausweis der Umsatzsteuer"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_context_aged_payable
-#, fuzzy
-msgid "A particular context for the aged payable"
-msgstr "Ein bestimmter Kontext für das Hauptbuch"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_context_aged_receivable
-#, fuzzy
-msgid "A particular context for the aged receivable"
-msgstr "Ein bestimmter Kontext für das Hauptbuch"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_context_bank_rec
@@ -248,12 +203,6 @@ msgid "ASSETS"
 msgstr "ANLAGEVERMÖGEN"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_partner_ledger.py:207
-#, fuzzy, python-format
-msgid "Account"
-msgstr "Betrag"
-
-#. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_form
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
@@ -265,19 +214,6 @@ msgstr "Kontenbericht"
 #: model:ir.model,name:account_reports.model_account_financial_html_report_line
 msgid "Account Report Line"
 msgstr "Kontenberichtsposition"
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_account_type
-#, fuzzy
-msgid "Account Type"
-msgstr "Kontenbericht"
-
-#. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:222
-#, fuzzy, python-format
-msgid "Accounts"
-msgstr "Bankkonten"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_body
@@ -309,57 +245,36 @@ msgid "Advance payments made to suppliers"
 msgstr ""
 
 #. module: account_reports
-#: model:ir.ui.menu,name:account_reports.menu_aged_trial_balance
-#, fuzzy
-msgid "Aged Partner Balance"
-msgstr "Überfällige Verbindlichkeit"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_aged_partner
-#, fuzzy
-msgid "Aged Partner Balances"
-msgstr "Überfällige Verbindlichkeiten"
-
-#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_aged_partner_balance.py:153
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:109
-#: model:ir.actions.client,name:account_reports.action_account_report_ap
-#: model:ir.model,name:account_reports.model_account_aged_payable
-#: model:ir.ui.menu,name:account_reports.menu_action_account_report_aged_payable
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedpayable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedpayable_line0
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:103
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Aged Payable"
 msgstr "Überfällige Verbindlichkeit"
 
 #. module: account_reports
+#: model:ir.actions.client,name:account_reports.action_account_report_ap
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Payables"
 msgstr "Überfällige Verbindlichkeiten"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_aged_partner_balance.py:99
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:108
-#: model:ir.actions.client,name:account_reports.action_account_report_ar
-#: model:ir.model,name:account_reports.model_account_aged_receivable
-#: model:ir.ui.menu,name:account_reports.menu_action_account_report_aged_receivable
+#: model:account.financial.html.report,name:account_reports.account_financial_report_agedreceivable0
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_agedreceivable_line0
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:102
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Aged Receivable"
 msgstr "Überfällige Forderungen"
 
 #. module: account_reports
+#: model:ir.actions.client,name:account_reports.action_account_report_ar
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Aged Receivables"
 msgstr "Überfällige Forderungen"
-
-#. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:187
-#, python-format
-msgid "All journals"
-msgstr ""
 
 #. module: account_reports
 #: selection:account.report.context.followup.all,partner_filter:0
@@ -377,27 +292,9 @@ msgid "All the xml exports available for the financial reports"
 msgstr "Alle für Finanzberichte verfügbaren XML-Exporte"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_context_coa_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_analytic
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_analytic
-msgid "Allow analytic accounting"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_multi_company
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_multi_company
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_multi_company
@@ -424,59 +321,7 @@ msgstr "Auswertungsperioden"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:217
-#, python-format
-msgid "Analytic"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_coa_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_analytic_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_analytic_manager_id
-msgid "Analytic Filters Manager"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_coa_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_analytic_account_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_analytic_account_ids
-msgid "Analytic account ids"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_coa_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_analytic_tag_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_analytic_tag_ids
-#, fuzzy
-msgid "Analytic tag ids"
-msgstr "Auswertungsperioden"
-
-#. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:112
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:106
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #, python-format
 msgid "Annotate"
@@ -488,20 +333,18 @@ msgstr "Kommentieren"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:123
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:130
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:150
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:228
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:238
 #, python-format
 msgid "Apply"
 msgstr "Anwenden"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "April"
 msgstr "April"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:248
+#: code:addons/account_reports/models/account_report_context_common.py:200
 #, fuzzy, python-format
 msgid "As of %s"
 msgstr "(Zum %s)"
@@ -512,7 +355,7 @@ msgid "At the beginning of the period"
 msgstr "Am Anfang der Periode"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "August"
 msgstr "August"
@@ -523,12 +366,9 @@ msgid "Auto"
 msgstr "Auto"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_available_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_available_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_available_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_available_company_ids
@@ -559,8 +399,7 @@ msgid "BALANCE SHEET"
 msgstr "BILANZ"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:338
-#: code:addons/account_reports/models/account_partner_ledger.py:207
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Balance"
 msgstr "Saldo"
@@ -604,20 +443,8 @@ msgid "Bank reconciliation report"
 msgstr "Kontoabstimmungsbericht"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:282
-#, fuzzy, python-format
-msgid "Base Amount"
-msgstr "Betrag"
-
-#. module: account_reports
 #: selection:account.financial.html.report,report_type:0
 msgid "Based on a single date"
-msgstr "Auf Basis eines spezifischen Datums"
-
-#. module: account_reports
-#: selection:account.financial.html.report,report_type:0
-#, fuzzy
-msgid "Based on a single date with the analytic filter"
 msgstr "Auf Basis eines spezifischen Datums"
 
 #. module: account_reports
@@ -627,8 +454,7 @@ msgstr "Auf Zeiträumen basierend"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
-#, fuzzy
-msgid "Based on date ranges with the analytic filter"
+msgid "Based on date ranges with 'older' and 'total' columns and last 3 months"
 msgstr ""
 "Basiert auf Zeiträumen mit Spalten 'Älter' und 'Gesamt' der letzten 3 Monate"
 
@@ -812,9 +638,9 @@ msgid "Column"
 msgstr "Spalten"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:297
-#: code:addons/account_reports/models/account_followup_report.py:298
-#: code:addons/account_reports/models/account_general_ledger.py:338
+#: code:addons/account_reports/models/account_followup_report.py:299
+#: code:addons/account_reports/models/account_followup_report.py:300
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Communication"
 msgstr "Kommunikation"
@@ -838,12 +664,9 @@ msgid "Company"
 msgstr "Unternehmen"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_company_ids
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_company_ids
@@ -853,12 +676,9 @@ msgid "Company ids"
 msgstr "Unternehmens-IDs"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_filter_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_filter_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_filter_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter_cmp
@@ -874,7 +694,7 @@ msgid "Comparison:"
 msgstr "Vergleich:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:279
+#: code:addons/account_reports/models/account_report_context_common.py:236
 #, python-format
 msgid "Comparison<br />"
 msgstr "Vergleich<br/>"
@@ -891,20 +711,20 @@ msgstr "Verbesserungen"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cost_sales0
-#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
 msgid "Cost of Revenue"
 msgstr "Kosten des Umsatzes"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_create_uid
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
+msgid "Cost of Sales"
+msgstr "Kosten des Vertriebs"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_create_uid
@@ -913,21 +733,15 @@ msgstr "Kosten des Umsatzes"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_create_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_create_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_create_uid
 msgid "Created by"
 msgstr "Angelegt von"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_create_date
@@ -936,15 +750,12 @@ msgstr "Angelegt von"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_create_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_create_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_create_date
 msgid "Created on"
 msgstr "Angelegt am"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:624
-#: code:addons/account_reports/models/account_general_ledger.py:338
-#: code:addons/account_reports/models/account_partner_ledger.py:207
+#: code:addons/account_reports/models/account_financial_report.py:627
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #: code:addons/account_reports/models/account_report_coa.py:128
 #: code:addons/account_reports/models/account_report_coa.py:130
 #: code:addons/account_reports/models/account_report_coa.py:133
@@ -958,7 +769,7 @@ msgid "Creditors"
 msgstr "Kreditoren"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:338
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Currency"
 msgstr "Währung"
@@ -971,8 +782,8 @@ msgstr "Umlaufvermögen"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:89
-#, fuzzy, python-format
-msgid "Current Balance in GL"
+#, python-format
+msgid "Current Balance in Odoo"
 msgstr "Aktueller Saldo im Odoo"
 
 #. module: account_reports
@@ -1003,14 +814,6 @@ msgid "Customer Statement"
 msgstr "Kundenmahnungen"
 
 #. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:204
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:210
-#, fuzzy, python-format
-msgid "Customers"
-msgstr "Benutzerdefiniert"
-
-#. module: account_reports
 #: model:ir.actions.client,name:account_reports.action_account_followup
 #: model:ir.actions.client,name:account_reports.action_account_followup_all
 #: model:ir.ui.menu,name:account_reports.menu_action_followups
@@ -1018,16 +821,8 @@ msgid "Customers Statement"
 msgstr "Kundenmahnungen"
 
 #. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:206
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:212
-#, python-format
-msgid "Customers and suppliers"
-msgstr ""
-
-#. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
-#: code:addons/account_reports/models/account_general_ledger.py:338
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #, python-format
 msgid "Date"
 msgstr "Datum"
@@ -1041,12 +836,9 @@ msgid "Date :"
 msgstr "Datum:"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_filter
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_filter
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_filter
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_filter
@@ -1072,9 +864,8 @@ msgid "Date:"
 msgstr "Datum:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_financial_report.py:624
-#: code:addons/account_reports/models/account_general_ledger.py:338
-#: code:addons/account_reports/models/account_partner_ledger.py:207
+#: code:addons/account_reports/models/account_financial_report.py:627
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #: code:addons/account_reports/models/account_report_coa.py:128
 #: code:addons/account_reports/models/account_report_coa.py:130
 #: code:addons/account_reports/models/account_report_coa.py:133
@@ -1088,7 +879,7 @@ msgid "Debtors"
 msgstr "Debitoren"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "December"
 msgstr "Dezember"
@@ -1099,19 +890,8 @@ msgid "Depreciation"
 msgstr "Abschreibung"
 
 #. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
-#, fuzzy
-msgid "Difference"
-msgstr "Referenz"
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_coa_report_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_display_name
@@ -1121,9 +901,6 @@ msgstr "Referenz"
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_display_name
@@ -1132,15 +909,8 @@ msgstr "Referenz"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_display_name
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_display_name
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_display_name
 msgid "Display Name"
 msgstr "Angezeigter Name"
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_extra_options
-msgid "Display the extra options dropdown (with cash basis and draft entries)"
-msgstr ""
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -1163,7 +933,7 @@ msgstr "Domäne"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:154
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:148
 #, python-format
 msgid "Don't follow-up before :"
 msgstr "Keine Mahnung vor:"
@@ -1200,12 +970,9 @@ msgid "Email not sent because of email address of partner not filled in."
 msgstr "E-Mail wurde aufgrund fehlender Mailadresse nicht gesendet"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_cash_basis
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_cash_basis
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_cash_basis
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_cash_basis
@@ -1214,12 +981,9 @@ msgid "Enable cash basis columns"
 msgstr "Aktiviere EÜR-Spalten"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_comparison
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_comparison
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_comparison
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_comparison
@@ -1236,12 +1000,9 @@ msgid "End Date :"
 msgstr "Enddatum:"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_to
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_to
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_to
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_to
@@ -1250,12 +1011,9 @@ msgid "End date"
 msgstr "Enddatum"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_to_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_to_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_to_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_to_cmp
@@ -1285,12 +1043,6 @@ msgid "End of Last Quarter"
 msgstr "Ende des letzten Quartals"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:160
-#, fuzzy, python-format
-msgid "Equal Last Statement Balance"
-msgstr "Letzter Berichtssaldo"
-
-#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:47
 #, python-format
@@ -1304,7 +1056,7 @@ msgstr "Kurzbericht"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:139
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:133
 #: model:ir.model.fields,field_description:account_reports.field_account_move_line_expected_pay_date
 #, python-format
 msgid "Expected Payment Date"
@@ -1329,7 +1081,7 @@ msgid "Expenses"
 msgstr "Aufwand"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "February"
 msgstr "Februar"
@@ -1356,14 +1108,7 @@ msgid "Foldable"
 msgstr "Einklappbar"
 
 #. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:32
-#, python-format
-msgid "Follow-ups Done / Total Follow-ups"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:95
+#: code:addons/account_reports/models/account_followup_report.py:97
 #: model:ir.model,name:account_reports.model_account_followup_report
 #, python-format
 msgid "Followup Report"
@@ -1375,12 +1120,9 @@ msgid "Footnote for reports"
 msgstr "Fußnoten für Berichte"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_footnotes
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_footnotes
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_footnotes
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_footnotes
@@ -1390,12 +1132,9 @@ msgid "Footnotes"
 msgstr "Fußnoten"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_footnotes_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_footnotes_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_footnotes_manager_id
@@ -1421,7 +1160,7 @@ msgid "Formulas"
 msgstr "Formeln"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:249
+#: code:addons/account_reports/models/account_report_context_common.py:201
 #, fuzzy, python-format
 msgid "From %s <br/> to  %s"
 msgstr "(Von %s <br/> an %s)"
@@ -1433,8 +1172,8 @@ msgstr "Von Anfang an"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/models/account_general_ledger.py:302
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:107
+#: code:addons/account_reports/models/account_general_ledger.py:215
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:101
 #: model:ir.actions.client,name:account_reports.action_account_general_ledger_force_account
 #: model:ir.actions.client,name:account_reports.action_account_report_general_ledger
 #: model:ir.ui.menu,name:account_reports.menu_action_account_report_general_ledger
@@ -1482,13 +1221,13 @@ msgid "Group by"
 msgstr "Gruppiert nach"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:151
+#: code:addons/account_reports/models/account_followup_report.py:153
 #, python-format
 msgid "Halfway through!"
 msgstr "Halbwegs durch."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:157
+#: code:addons/account_reports/models/account_followup_report.py:159
 #, python-format
 msgid "Hang in there, you're nearly done."
 msgstr "Bleiben Sie dran, Sie sind fast fertig."
@@ -1518,13 +1257,8 @@ msgid "History <span class=\"caret\"/>"
 msgstr "Historie <span class=\"caret\"/>"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_partner_id
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_payable_id
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable_id
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_coa_report_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_id
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_id
@@ -1534,9 +1268,6 @@ msgstr "Historie <span class=\"caret\"/>"
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report_id
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger_id
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report_id
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_id
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_id
@@ -1545,8 +1276,6 @@ msgstr "Historie <span class=\"caret\"/>"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_id
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_id
 msgid "ID"
 msgstr "ID"
 
@@ -1583,8 +1312,7 @@ msgid "Income"
 msgstr "Erlöse"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:193
-#: code:addons/account_reports/models/account_partner_ledger.py:148
+#: code:addons/account_reports/models/account_general_ledger.py:150
 #, python-format
 msgid "Initial Balance"
 msgstr "Start Saldo"
@@ -1592,15 +1320,15 @@ msgstr "Start Saldo"
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:19
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:163
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:157
 #, python-format
 msgid "Insert foot note here"
 msgstr "Füge Fußnote hier ein"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:142
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:157
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:136
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:151
 #, python-format
 msgid "Insert note here"
 msgstr "Füge Vermerk hier ein"
@@ -1621,13 +1349,7 @@ msgid "Is growth good when positive"
 msgstr "Ist Wachstum in Ordnung wenn positiv"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_partner_ledger.py:207
-#, python-format
-msgid "JRNL"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "January"
 msgstr "Januar"
@@ -1635,12 +1357,6 @@ msgstr "Januar"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_move_line
 msgid "Journal Item"
-msgstr "Buchungszeile"
-
-#. module: account_reports
-#: model:ir.ui.view,arch_db:account_reports.report_financial_line
-#, fuzzy
-msgid "Journal Items"
 msgstr "Buchungszeile"
 
 #. module: account_reports
@@ -1657,20 +1373,20 @@ msgstr "Buchungszeile"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:184
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:183
 #: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, fuzzy, python-format
 msgid "Journals:"
 msgstr "Buchungszeile"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "July"
 msgstr "Juli"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "June"
 msgstr "Juni"
@@ -1688,13 +1404,8 @@ msgid "Last Financial Year"
 msgstr "Letztes Geschäftsjahr"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_partner___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_payable___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_aged_receivable___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_bank_reconciliation_report___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_coa_report___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report___last_update
@@ -1704,9 +1415,6 @@ msgstr "Letztes Geschäftsjahr"
 #: model:ir.model.fields,field_description:account_reports.field_account_followup_report___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_general_ledger___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_generic_tax_report___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup___last_update
@@ -1715,8 +1423,6 @@ msgstr "Letztes Geschäftsjahr"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager___last_update
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike___last_update
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type___last_update
 msgid "Last Modified on"
 msgstr "Zuletzt geändert am"
 
@@ -1737,15 +1443,17 @@ msgid "Last Quarter"
 msgstr "Letztes Quartal"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_write_uid
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:160
+#, python-format
+msgid "Last Statement Balance"
+msgstr "Letzter Berichtssaldo"
+
+#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_write_uid
@@ -1754,21 +1462,15 @@ msgstr "Letztes Quartal"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_uid
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_write_uid
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_write_uid
 msgid "Last Updated by"
 msgstr "Zuletzt aktualisiert durch"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_analytic_manager_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_write_date
@@ -1777,8 +1479,6 @@ msgstr "Zuletzt aktualisiert durch"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnotes_manager_write_date
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_write_date
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_write_date
 msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
 
@@ -1790,9 +1490,37 @@ msgid "Last Year"
 msgstr "Letztes Jahr"
 
 #. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
+msgid "Latest Statement"
+msgstr "Letzter Bankauszug"
+
+#. module: account_reports
+#: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view_account_manager
+msgid "Latest Statement:"
+msgstr "Letzter Auszug:"
+
+#. module: account_reports
 #: model:ir.ui.menu,name:account_reports.account_reports_legal_statements_menu
 msgid "Legal Statements"
 msgstr "Offizielle Berichte"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:143
+#, python-format
+msgid "Less Outstanding Receipt"
+msgstr "Abzüglich ausstehender Zugänge"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:116
+#, python-format
+msgid "Less Un-Reconciled Bank Statement Lines"
+msgstr "Abzüglich unausgeglichener Kontoauszugspositionen"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:158
+#, python-format
+msgid "Less Unencoded Statements"
+msgstr "Abzüglich nicht eingepflegter Auszüge"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_level
@@ -1835,13 +1563,13 @@ msgid "Manual"
 msgstr "Handschaltung"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "March"
 msgstr "März"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:253
+#: code:addons/account_reports/models/account_report_context_common.py:205
 #, python-format
 msgid "May"
 msgstr "Mai"
@@ -1857,24 +1585,6 @@ msgid "Messages created after a followup action has been executed"
 msgstr "Meldungen, die nach eine Mahnaktion erstellt wurden, wurden ausgeführt"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:158
-#, fuzzy, python-format
-msgid "Minus Missing Statements"
-msgstr "Geschäftsbericht"
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:116
-#, fuzzy, python-format
-msgid "Minus Unreconciled Payments"
-msgstr "Offen-Posten ID"
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:143
-#, fuzzy, python-format
-msgid "Minus Unreconciled Statement Lines"
-msgstr "Zuzügl. unausgeglichene Kontoauszugspositionen"
-
-#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_regulator0
 msgid ""
 "Minus previously recorded advance payments (already in the starting balance)"
@@ -1886,12 +1596,9 @@ msgid "Module"
 msgstr "Modul"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_multicompany_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_multicompany_manager_id
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_multicompany_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_multicompany_manager_id
@@ -1910,9 +1617,7 @@ msgid "NET PROFIT"
 msgstr "NETTOERGEBNIS"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:280
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_name
-#, python-format
 msgid "Name"
 msgstr "Bezeichnung"
 
@@ -1936,7 +1641,7 @@ msgid "Net Profit"
 msgstr "Gewinn"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:191
+#: code:addons/account_reports/models/account_generic_tax_report.py:178
 #, python-format
 msgid "Net Tax Lines"
 msgstr "Netto-Steuerpositionen"
@@ -1978,18 +1683,15 @@ msgid "Next Reminder:"
 msgstr "Nächste Erinnerung:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:266
+#: code:addons/account_reports/models/account_followup_report.py:268
 #, python-format
 msgid "Next action date: "
 msgstr "Nächstes Handlungsdatum:"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_next_footnote_number
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_next_footnote_number
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_next_footnote_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_next_footnote_number
@@ -2022,6 +1724,12 @@ msgid "No followup to send !"
 msgstr "Keine Mahnungen zum versenden!"
 
 #. module: account_reports
+#: code:addons/account_reports/models/account_financial_report.py:625
+#, python-format
+msgid "Non-issued"
+msgstr "Nicht ausgestellt"
+
+#. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:110
 #, python-format
@@ -2029,16 +1737,9 @@ msgid "None"
 msgstr "Transparent"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
-#, python-format
-msgid "Not due on %s"
-msgstr ""
-
-#. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:141
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:156
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:135
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:150
 #, python-format
 msgid "Note"
 msgstr "Bemerkung"
@@ -2058,7 +1759,7 @@ msgstr ""
 "setzen können"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "November"
 msgstr "November"
@@ -2074,12 +1775,9 @@ msgid "Number of days between two follow-ups"
 msgstr "Anzahl Tage zwischen zwei Mahnungen"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_periods_number
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_periods_number
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_periods_number
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_periods_number
@@ -2096,28 +1794,27 @@ msgid "Number of periods :"
 msgstr "Anzahl der Perioden:"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "October"
 msgstr "Oktober"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
+#: code:addons/account_reports/models/account_financial_report.py:635
 #, python-format
 msgid "Older"
 msgstr "Ältere"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:150
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:144
 #, python-format
 msgid "One month"
 msgstr "Ein Monat"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:148
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:142
 #, python-format
 msgid "One week"
 msgstr "Eine Woche"
@@ -2178,7 +1875,7 @@ msgid "Parent id"
 msgstr "Übergeordnete ID"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:338
+#: code:addons/account_reports/models/account_general_ledger.py:251
 #: model:ir.model,name:account_reports.model_res_partner
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_partner_id
 #, python-format
@@ -2191,12 +1888,8 @@ msgid "Partner Filter"
 msgstr "Partnereingrenzung"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_partner_ledger.py:176
-#: model:ir.actions.client,name:account_reports.action_account_report_partner_ledger
-#: model:ir.model,name:account_reports.model_account_partner_ledger
-#: model:ir.ui.menu,name:account_reports.menu_action_account_report_partner_ledger
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
-#, fuzzy, python-format
+#, fuzzy
 msgid "Partner Ledger"
 msgstr "Partnereingrenzung"
 
@@ -2206,12 +1899,6 @@ msgstr "Partnereingrenzung"
 #, python-format
 msgid "Partners:"
 msgstr "Partner: "
-
-#. module: account_reports
-#: selection:account.partner.ledger.context,account_type:0
-#, fuzzy
-msgid "Payable Accounts"
-msgstr "Bankkonten"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities_payable
@@ -2242,12 +1929,6 @@ msgid "Plus Fixed Assets"
 msgstr "+ Sachanlagen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:156
-#, fuzzy, python-format
-msgid "Plus Missing Statements"
-msgstr "Geschäftsbericht"
-
-#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_assets_view0
 msgid "Plus Non-current Assets"
 msgstr "+ Anlagevermögen"
@@ -2259,16 +1940,22 @@ msgid "Plus Non-current Liabilities"
 msgstr "Langfristige Verbindlichkeiten"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
-#, fuzzy, python-format
-msgid "Plus Unreconciled Payments"
-msgstr "Zuzügl. nicht erfasste Auszüge"
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:129
+#, python-format
+msgid "Plus Outstanding Payment"
+msgstr "Zuzügl. ausstehende Zahlungen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_bank_reconciliation_report.py:129
-#, fuzzy, python-format
-msgid "Plus Unreconciled Statement Lines"
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
+#, python-format
+msgid "Plus Un-Reconciled Bank Statement Lines"
 msgstr "Zuzügl. unausgeglichene Kontoauszugspositionen"
+
+#. module: account_reports
+#: code:addons/account_reports/models/account_bank_reconciliation_report.py:156
+#, python-format
+msgid "Plus Unencoded Statements"
+msgstr "Zuzügl. nicht erfasste Auszüge"
 
 #. module: account_reports
 #. openerp-web
@@ -2325,8 +2012,8 @@ msgid "Put back in the list"
 msgstr "In Liste zurückführen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:241
-#: code:addons/account_reports/models/account_report_context_common.py:324
+#: code:addons/account_reports/models/account_report_context_common.py:193
+#: code:addons/account_reports/models/account_report_context_common.py:281
 #, python-format
 msgid "Quarter #"
 msgstr "Quartal #"
@@ -2337,18 +2024,6 @@ msgid "RETAINED EARNINGS"
 msgstr "GEWINNRÜCKLAGEN"
 
 #. module: account_reports
-#: selection:account.partner.ledger.context,account_type:0
-#, fuzzy
-msgid "Receivable Accounts"
-msgstr "Forderungen"
-
-#. module: account_reports
-#: selection:account.partner.ledger.context,account_type:0
-#, fuzzy
-msgid "Receivable and Payable Accounts"
-msgstr "Bank- und Bargeldkonten"
-
-#. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_receivable0
 msgid "Receivables"
 msgstr "Forderungen"
@@ -2357,12 +2032,6 @@ msgstr "Forderungen"
 #: model:ir.ui.view,arch_db:account_reports.account_reports_journal_dashboard_kanban_view
 msgid "Reconciliation Report"
 msgstr "Offene-Posten Ausgleichsbericht"
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_partner_ledger.py:207
-#, python-format
-msgid "Ref"
-msgstr ""
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
@@ -2389,27 +2058,6 @@ msgstr "Berichtspositionen"
 #: model:ir.ui.view,arch_db:account_reports.view_account_financial_report_search
 msgid "Report Type"
 msgstr "Berichtsart"
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_comparison
-#, fuzzy
-msgid "Reports allow comparisons"
-msgstr "Anfangsdatum für Vergleich"
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_cash_basis
-msgid "Reports always use cash basis"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_analytic
-msgid "Reports enable the analytic filter"
-msgstr ""
-
-#. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_report_type_date_range
-msgid "Reports use a date range and not a single date"
-msgstr ""
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_return_investment0
@@ -2461,19 +2109,13 @@ msgid "Send by email"
 msgstr "Sende per Email"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:354
-#, fuzzy, python-format
-msgid "Sent a followup email"
-msgstr ":Zahlungserinnerung E-Mail gesendet"
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:339
+#: code:addons/account_reports/models/account_followup_report.py:341
 #, python-format
 msgid "Sent a followup letter"
 msgstr "Schicke Mahnschreiben"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:254
+#: code:addons/account_reports/models/account_report_context_common.py:206
 #, python-format
 msgid "September"
 msgstr "September"
@@ -2499,12 +2141,9 @@ msgid "Show domain"
 msgstr "Zeige Eingrenzung"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_hierarchy_3
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_hierarchy_3
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_hierarchy_3
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_hierarchy_3
@@ -2531,12 +2170,9 @@ msgid "Start Date :"
 msgstr "Startdatum:"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_from
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_from
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_from
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_from
@@ -2545,12 +2181,9 @@ msgid "Start date"
 msgstr "Anfangsdatum"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_from_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_date_from_cmp
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_date_from_cmp
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_date_from_cmp
@@ -2564,33 +2197,15 @@ msgid "Starting time"
 msgstr "Anfangszeit"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_summary
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_summary
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_summary
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_summary
 msgid "Summary"
 msgstr "Zusammenfassung"
-
-#. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:205
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:211
-#, python-format
-msgid "Suppliers"
-msgstr ""
-
-#. module: account_reports
-#. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:232
-#, python-format
-msgid "Tags"
-msgstr ""
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_target_id
@@ -2606,24 +2221,12 @@ msgid "Tax"
 msgstr "Steuer"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:282
-#, fuzzy, python-format
-msgid "Tax Amount"
-msgstr "Betrag"
-
-#. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 msgid "Tax Audit"
 msgstr "Steuer-Audit"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:270
-#, python-format
-msgid "Tax Declaration"
-msgstr ""
-
-#. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:191
+#: code:addons/account_reports/models/account_generic_tax_report.py:178
 #, python-format
 msgid "Tax Lines"
 msgstr "Steuerbuchungen"
@@ -2637,7 +2240,6 @@ msgstr "Umsatzsteuerbericht"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_text
-#: model:ir.model.fields,field_description:account_reports.field_account_report_tag_ilike_text
 msgid "Text"
 msgstr "Text"
 
@@ -2647,7 +2249,7 @@ msgid "The date before which no action should be taken."
 msgstr "Datum vor dem keine Maßnahme ergriffen werden soll."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:152
+#: code:addons/account_reports/models/account_followup_report.py:154
 #, python-format
 msgid "The first half took you %ss."
 msgstr "Für die erste Hälfte haben Sie %ss benötigt."
@@ -2660,8 +2262,7 @@ msgid "The followup report was successfully emailed !"
 msgstr "Die Zahlungserinnerungen wurde erfolgreich versandt."
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_general_ledger.py:247
-#: code:addons/account_reports/models/account_partner_ledger.py:165
+#: code:addons/account_reports/models/account_general_ledger.py:204
 #, python-format
 msgid ""
 "There are more than 80 items in this list, click here to see all of them"
@@ -2700,32 +2301,27 @@ msgid "Today"
 msgstr "Heute"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:68
-#: code:addons/account_reports/models/account_aged_partner_balance.py:125
-#: code:addons/account_reports/models/account_aged_partner_balance.py:179
-#: code:addons/account_reports/models/account_financial_report.py:375
-#: code:addons/account_reports/models/account_financial_report.py:452
-#: code:addons/account_reports/models/account_general_ledger.py:260
+#: code:addons/account_reports/models/account_financial_report.py:374
+#: code:addons/account_reports/models/account_financial_report.py:451
+#: code:addons/account_reports/models/account_financial_report.py:635
 #, python-format
 msgid "Total"
 msgstr "Gesamtbetrag"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_aged_partner_balance.py:58
-#: code:addons/account_reports/models/account_general_ledger.py:238
-#: code:addons/account_reports/models/account_partner_ledger.py:156
+#: code:addons/account_reports/models/account_general_ledger.py:195
 #, python-format
 msgid "Total "
 msgstr "Gesamtbetrag"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:77
+#: code:addons/account_reports/models/account_followup_report.py:79
 #, python-format
 msgid "Total Due"
 msgstr "Gesamtfälligkeit"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_followup_report.py:89
+#: code:addons/account_reports/models/account_followup_report.py:91
 #, python-format
 msgid "Total Overdue"
 msgstr "Insgesamt überfällig"
@@ -2738,14 +2334,14 @@ msgstr "Summen und Salden"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:151
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:145
 #, python-format
 msgid "Two months"
 msgstr "Zwei Monate"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:149
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:143
 #, python-format
 msgid "Two weeks"
 msgstr "Zwei Wochen"
@@ -2757,12 +2353,9 @@ msgid "Type"
 msgstr "Typ"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_unfolded_partners
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_unfolded_partners
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_unfolded_accounts
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_unfolded_accounts
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_unfolded_lines
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_unfolded_partners
 msgid "Unfolded lines"
 msgstr "Ausgeklappte Positionen"
 
@@ -2772,12 +2365,9 @@ msgid "Unreconciled aml ids"
 msgstr "Offen-Posten ID"
 
 #. module: account_reports
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_all_entries
-#: model:ir.model.fields,field_description:account_reports.field_account_context_aged_receivable_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_context_coa_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_context_general_ledger_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_context_all_entries
-#: model:ir.model.fields,field_description:account_reports.field_account_partner_ledger_context_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_bank_rec_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_common_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_entries
@@ -2804,7 +2394,7 @@ msgstr "Rechnung anzeigen"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:111
+#: code:addons/account_reports/static/src/xml/account_report_financial_line.xml:105
 #: model:ir.ui.view,arch_db:account_reports.report_financial_line
 #: model:ir.ui.view,arch_db:account_reports.report_followup_line
 #, python-format
@@ -2857,39 +2447,21 @@ msgid "Your Statement"
 msgstr "Ihre offenen Posten"
 
 #. module: account_reports
-#: model:ir.model,name:account_reports.model_account_report_tag_ilike
-#, fuzzy
-msgid "account.report.tag.ilike"
-msgstr "Kontenberichtsposition"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_report_type
-#, fuzzy
-msgid "account.report.type"
-msgstr "Kontenbericht"
-
-#. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_valuenow
 msgid "current amount of invoices done"
 msgstr "Aktueller Wert der Zahlungserinnerungen"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:229
+#: code:addons/account_reports/models/account_report_context_common.py:181
 #, python-format
 msgid "get_columns_names not implemented"
 msgstr "get_columns_names not implemented"
 
 #. module: account_reports
-#: code:addons/account_reports/models/account_report_context_common.py:143
+#: code:addons/account_reports/models/account_report_context_common.py:111
 #, python-format
 msgid "get_report_obj not implemented"
 msgstr "get_report_obj not implemented"
-
-#. module: account_reports
-#: model:ir.model,name:account_reports.model_account_report_analytic_manager
-#, fuzzy
-msgid "manages analytic filters for reports"
-msgstr "Multi-Company Auswertungen verwalten"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnotes_manager
@@ -2941,23 +2513,8 @@ msgstr ""
 #~ msgid "(From %s <br/> to  %s)"
 #~ msgstr "(Von %s <br/> an %s)"
 
-#~ msgid ": Sent a followup email"
-#~ msgstr ":Zahlungserinnerung E-Mail gesendet"
-
-#~ msgid ""
-#~ "Based on date ranges with 'older' and 'total' columns and last 3 months"
-#~ msgstr ""
-#~ "Basiert auf Zeiträumen mit Spalten 'Älter' und 'Gesamt' der letzten 3 "
-#~ "Monate"
-
 #~ msgid "Cash and cash equivalents, beginning of year"
 #~ msgstr "Bargeld und Äquivalente, Anfang des Jahres"
-
-#~ msgid "Cost of Sales"
-#~ msgstr "Kosten des Vertriebs"
-
-#~ msgid "Current Balance in Odoo"
-#~ msgstr "Aktueller Saldo im Odoo"
 
 #~ msgid "EXPORT (XLS)"
 #~ msgstr "EXPORT (XLS)"
@@ -2968,41 +2525,141 @@ msgstr ""
 #~ msgid "Gross profit margin (gross profit / income)"
 #~ msgstr "Bruttomarge (Bruttoergebnis / Erlöse)"
 
-#~ msgid "Last Statement Balance"
-#~ msgstr "Letzter Berichtssaldo"
-
-#~ msgid "Latest Statement"
-#~ msgstr "Letzter Bankauszug"
-
-#~ msgid "Latest Statement:"
-#~ msgstr "Letzter Auszug:"
-
-#~ msgid "Less Outstanding Receipt"
-#~ msgstr "Abzüglich ausstehender Zugänge"
-
-#~ msgid "Less Un-Reconciled Bank Statement Lines"
-#~ msgstr "Abzüglich unausgeglichener Kontoauszugspositionen"
-
-#~ msgid "Less Unencoded Statements"
-#~ msgstr "Abzüglich nicht eingepflegter Auszüge"
-
 #~ msgid "Non-current Liabilities"
 #~ msgstr "Langfristige Verbindlichkeiten"
-
-#~ msgid "Non-issued"
-#~ msgstr "Nicht ausgestellt"
-
-#~ msgid "Plus Outstanding Payment"
-#~ msgstr "Zuzügl. ausstehende Zahlungen"
-
-#~ msgid "Plus Un-Reconciled Bank Statement Lines"
-#~ msgstr "Zuzügl. unausgeglichene Kontoauszugspositionen"
-
-#~ msgid "Plus Unencoded Statements"
-#~ msgstr "Zuzügl. nicht erfasste Auszüge"
 
 #~ msgid "Profit"
 #~ msgstr "Gewinn"
 
 #~ msgid "cash paid for"
 #~ msgstr "Bargeldausgaben"
+
+#, fuzzy
+#~ msgid "A particular context for the Partner Ledger report"
+#~ msgstr "Ein bestimmter Kontext für den Ausweis der Umsatzsteuer"
+
+#, fuzzy
+#~ msgid "A particular context for the aged payable"
+#~ msgstr "Ein bestimmter Kontext für das Hauptbuch"
+
+#, fuzzy
+#~ msgid "A particular context for the aged receivable"
+#~ msgstr "Ein bestimmter Kontext für das Hauptbuch"
+
+#, fuzzy
+#~ msgid "Account"
+#~ msgstr "Betrag"
+
+#, fuzzy
+#~ msgid "Account Type"
+#~ msgstr "Kontenbericht"
+
+#, fuzzy
+#~ msgid "Accounts"
+#~ msgstr "Bankkonten"
+
+#, fuzzy
+#~ msgid "Aged Partner Balance"
+#~ msgstr "Überfällige Verbindlichkeit"
+
+#, fuzzy
+#~ msgid "Aged Partner Balances"
+#~ msgstr "Überfällige Verbindlichkeiten"
+
+#, fuzzy
+#~ msgid "Analytic tag ids"
+#~ msgstr "Auswertungsperioden"
+
+#, fuzzy
+#~ msgid "Base Amount"
+#~ msgstr "Betrag"
+
+#, fuzzy
+#~ msgid "Based on a single date with the analytic filter"
+#~ msgstr "Auf Basis eines spezifischen Datums"
+
+#, fuzzy
+#~ msgid "Based on date ranges with the analytic filter"
+#~ msgstr ""
+#~ "Basiert auf Zeiträumen mit Spalten 'Älter' und 'Gesamt' der letzten 3 "
+#~ "Monate"
+
+#, fuzzy
+#~ msgid "Current Balance in GL"
+#~ msgstr "Aktueller Saldo im Odoo"
+
+#, fuzzy
+#~ msgid "Customers"
+#~ msgstr "Benutzerdefiniert"
+
+#, fuzzy
+#~ msgid "Difference"
+#~ msgstr "Referenz"
+
+#, fuzzy
+#~ msgid "Equal Last Statement Balance"
+#~ msgstr "Letzter Berichtssaldo"
+
+#, fuzzy
+#~ msgid "Journal Items"
+#~ msgstr "Buchungszeile"
+
+#, fuzzy
+#~ msgid "Minus Missing Statements"
+#~ msgstr "Geschäftsbericht"
+
+#, fuzzy
+#~ msgid "Minus Unreconciled Payments"
+#~ msgstr "Offen-Posten ID"
+
+#, fuzzy
+#~ msgid "Minus Unreconciled Statement Lines"
+#~ msgstr "Zuzügl. unausgeglichene Kontoauszugspositionen"
+
+#, fuzzy
+#~ msgid "Payable Accounts"
+#~ msgstr "Bankkonten"
+
+#, fuzzy
+#~ msgid "Plus Missing Statements"
+#~ msgstr "Geschäftsbericht"
+
+#, fuzzy
+#~ msgid "Plus Unreconciled Payments"
+#~ msgstr "Zuzügl. nicht erfasste Auszüge"
+
+#, fuzzy
+#~ msgid "Plus Unreconciled Statement Lines"
+#~ msgstr "Zuzügl. unausgeglichene Kontoauszugspositionen"
+
+#, fuzzy
+#~ msgid "Receivable Accounts"
+#~ msgstr "Forderungen"
+
+#, fuzzy
+#~ msgid "Receivable and Payable Accounts"
+#~ msgstr "Bank- und Bargeldkonten"
+
+#, fuzzy
+#~ msgid "Reports allow comparisons"
+#~ msgstr "Anfangsdatum für Vergleich"
+
+#, fuzzy
+#~ msgid "Sent a followup email"
+#~ msgstr ":Zahlungserinnerung E-Mail gesendet"
+
+#, fuzzy
+#~ msgid "Tax Amount"
+#~ msgstr "Betrag"
+
+#, fuzzy
+#~ msgid "account.report.tag.ilike"
+#~ msgstr "Kontenberichtsposition"
+
+#, fuzzy
+#~ msgid "account.report.type"
+#~ msgstr "Kontenbericht"
+
+#, fuzzy
+#~ msgid "manages analytic filters for reports"
+#~ msgstr "Multi-Company Auswertungen verwalten"

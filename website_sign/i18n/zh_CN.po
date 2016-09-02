@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-07-12 00:48+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -405,12 +405,6 @@ msgid "Do you also send documents to sign?"
 msgstr "你也发送了要签核的文档吗"
 
 #. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
-#, fuzzy
-msgid "Document Followers"
-msgstr "文档模板"
-
-#. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_page
 msgid "Document Page"
 msgstr "单据页"
@@ -570,6 +564,11 @@ msgid "Final Validation"
 msgstr "最终确认"
 
 #. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
+msgid "Followers"
+msgstr "关注者"
+
+#. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign._doc_sign
 msgid "Followers ("
 msgstr "关注者("
@@ -608,11 +607,11 @@ msgstr "历史"
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3689
+#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3459
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_value_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3658
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3428
 msgid "ID"
 msgstr "ID"
 
@@ -643,7 +642,7 @@ msgstr "首字母"
 
 #. module: website_sign
 #. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:69
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
 #, python-format
 msgid ""
 "It's easy, incredibly efficient and totally free: you just have to create an "
@@ -1207,6 +1206,13 @@ msgstr ""
 "如果该文档还是需要签名，请检查收件箱以便得到权限"
 
 #. module: website_sign
+#. openerp-web
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
+#, python-format
+msgid "Then you need Odoo Sign."
+msgstr "然后你需要签字"
+
+#. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.layout
 msgid "This document cannot be filled right now"
 msgstr "现在不能填写该文档"
@@ -1414,9 +1420,6 @@ msgstr "从这里开始一个新的模板"
 #~ msgid "Date of the last message posted on the record."
 #~ msgstr "发布到记录上的最后消息的日期"
 
-#~ msgid "Followers"
-#~ msgstr "关注者"
-
 #~ msgid "Followers (Channels)"
 #~ msgstr "关注者(频道)"
 
@@ -1453,9 +1456,6 @@ msgstr "从这里开始一个新的模板"
 #~ msgid "Open Digital Signatures Menu"
 #~ msgstr "打开数字签名菜单"
 
-#~ msgid "Then you need Odoo Sign."
-#~ msgstr "然后你需要签字"
-
 #~ msgid "Unread Messages"
 #~ msgstr "未读消息"
 
@@ -1467,3 +1467,6 @@ msgstr "从这里开始一个新的模板"
 
 #~ msgid "Website communication history"
 #~ msgstr "网站沟通记录"
+
+#~ msgid "Document Followers"
+#~ msgstr "文档关注者"

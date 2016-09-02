@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 10:34+0000\n"
-"PO-Revision-Date: 2016-07-07 11:51+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-08-19 07:35+0000\n"
 "Last-Translator: Piotr Szlązak <szlazakpiotr@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/odoo/odoo-9/language/pl/)\n"
 "Language: pl\n"
@@ -475,12 +475,6 @@ msgid "Do you also send documents to sign?"
 msgstr "Czy też wysyłać dokumenty do podpisania?"
 
 #. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
-#, fuzzy
-msgid "Document Followers"
-msgstr "Obserwatorzy"
-
-#. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_page
 msgid "Document Page"
 msgstr "Strona dokumentu"
@@ -640,6 +634,11 @@ msgid "Final Validation"
 msgstr "Ostateczne zatwierdzenie"
 
 #. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
+msgid "Followers"
+msgstr "Obserwatorzy"
+
+#. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign._doc_sign
 msgid "Followers ("
 msgstr "Obserwujący ("
@@ -678,11 +677,11 @@ msgstr "Historia"
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3689
+#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3459
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_value_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3658
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3428
 msgid "ID"
 msgstr "ID"
 
@@ -712,7 +711,7 @@ msgstr "Initial"
 
 #. module: website_sign
 #. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:69
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
 #, python-format
 msgid ""
 "It's easy, incredibly efficient and totally free: you just have to create an "
@@ -1143,12 +1142,12 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_sign.signature_request_view_search
 #: selection:signature.request,state:0
 msgid "Signed"
-msgstr "podpisano"
+msgstr "zalogowano"
 
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign._doc_sign
 msgid "Signed ("
-msgstr "podpisano ("
+msgstr "zalogowano ("
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signing_date
@@ -1160,7 +1159,7 @@ msgstr "podpisano"
 #: code:addons/website_sign/controllers/main.py:182
 #, python-format
 msgid "Signed."
-msgstr "Podpisano."
+msgstr "Zalogowano."
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signer_trigram
@@ -1269,6 +1268,13 @@ msgid ""
 "signature request has been deleted or modified. <br/>\n"
 "                    If there still exists a signature request for this "
 "document, check your inbox to get your access!"
+msgstr ""
+
+#. module: website_sign
+#. openerp-web
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
+#, python-format
+msgid "Then you need Odoo Sign."
 msgstr ""
 
 #. module: website_sign
