@@ -25,11 +25,6 @@ import werkzeug.utils
 import werkzeug.wrappers
 from openerp.api import Environment
 
-try:
-    import xlwt
-except ImportError:
-    xlwt = None
-
 import openerp
 import openerp.modules.registry
 from openerp.addons.base.ir.ir_qweb import AssetsBundle, QWebTemplateNotFound
@@ -37,7 +32,7 @@ from openerp.modules import get_resource_path
 from openerp.tools import topological_sort
 from openerp.tools.translate import _
 from openerp.tools import ustr
-from openerp.tools.misc import str2bool
+from openerp.tools.misc import str2bool, xlwt
 from openerp import http
 from openerp.http import request, serialize_exception as _serialize_exception
 from openerp.exceptions import AccessError
@@ -673,8 +668,8 @@ class Database(http.Controller):
         try:
             # country code could be = "False" which is actually True in python
             country_code = post.get('country_code') or False
-            request.session.proxy("db").create_database(master_pwd, name, bool(post.get('demo')), lang, password, post.get('login'), country_code)
-            request.session.authenticate(name, 'admin', password)
+            request.session.proxy("db").create_database(master_pwd, name, bool(post.get('demo')), lang, password, post['login'], country_code)
+            request.session.authenticate(name, post['login'], password)
             return http.local_redirect('/web/')
         except Exception, e:
             error = "Database creation error: %s" % e
