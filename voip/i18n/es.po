@@ -1,33 +1,34 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-# 
+#
 # Translators:
-# Antonio Trueba <atgayol@gmail.com>, 2016
-# Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
-# Ivan Nieto <ivan.n.s@tuta.io>, 2016
-# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
-# Ana Juaristi <ajuaristio@gmail.com>, 2016
-# Oihane Crucelaegui <oihanecruce@gmail.com>, 2016
-# Carles Antoli <carlesantoli@hotmail.com>, 2016
+# Antonio Trueba, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Carles Antoli <carlesantoli@hotmail.com>, 2016\n"
-"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-08-16 13:33+0000\n"
+"Last-Translator: Antonio Trueba\n"
+"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Siempre redirigir a teléfono físico"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -37,7 +38,7 @@ msgstr "Creado por"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_date
 msgid "Created on"
-msgstr "Creado el"
+msgstr "Creado en"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_display_name
@@ -52,9 +53,14 @@ msgid "From "
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
-msgstr "ID"
+msgstr "ID (identificación)"
 
 #. module: voip
 #. openerp-web
@@ -76,24 +82,19 @@ msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_last_website_so_id
-msgid "Last Online Sale Order"
-msgstr "Última Orden de Venta en Línea"
-
-#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización por"
+msgstr "Última actualización de"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_date
 msgid "Last Updated on"
-msgstr "Última actualización el"
+msgstr "Última actualización en"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Número de tonos"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -104,7 +105,6 @@ msgstr "Falta uno o más parámetros. Por favor revisa su configuración."
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "Configuración de PBX"
 
@@ -120,8 +120,8 @@ msgstr ""
 #: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access"
-" your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access "
+"your microphone from your browser."
 msgstr ""
 
 #. module: voip
@@ -132,11 +132,6 @@ msgstr ""
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_password
 msgid "SIP Password"
-msgstr ""
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
 msgstr ""
 
 #. module: voip
@@ -151,8 +146,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "El número de tonos antes de cancelar la llamada"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -175,11 +171,15 @@ msgid "Users"
 msgstr "Usuarios"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr "Configuración VOIP"
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid ""
-"Your browser could not support WebRTC. Please check your configuration."
+msgid "Your browser could not support WebRTC. Please check your configuration."
 msgstr "Su navegador no soporta WebRTC. Por favor revise su configuración."
 
 #. module: voip
@@ -193,3 +193,178 @@ msgstr ""
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr ""
+
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Siempre redirigir a teléfono físico"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Llamada entrante de"
+
+#~ msgid "Invoice"
+#~ msgstr "Factura"
+
+#~ msgid "Last Online Sale Order"
+#~ msgstr "Última Orden de Venta en Línea"
+
+#~ msgid "Message for Invoice"
+#~ msgstr "Mensaje para factura"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Mensaje para el pedido de compra"
+
+#~ msgid "Message for Sales Order"
+#~ msgstr "Mensaje para el pedido de venta"
+
+#~ msgid "Message for Stock Picking"
+#~ msgstr "Mensaje para albarán de stock"
+
+#~ msgid "Number of rings"
+#~ msgstr "Número de tonos"
+
+#~ msgid "Purchase Order"
+#~ msgstr "Pedido de compra"
+
+#~ msgid "Sales Order"
+#~ msgstr "Aviso para pedido de venta"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Si selecciona la opción \"Aviso\" se notificará a los usuarios con el "
+#~ "mensaje, si selecciona \"Mensaje de bloqueo\" se lanzará una excepción "
+#~ "con el mensaje y se bloqueará el flujo. El mensaje debe escribirse en el "
+#~ "siguiente campo."
+
+#~ msgid "Stock Picking"
+#~ msgstr "Albarán de stock"
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "El número de tonos antes de cancelar la llamada"
+
+#~ msgid "Website tags"
+#~ msgstr "Etiquetas del sitio web"
+
+#~ msgid "# Tasks"
+#~ msgstr "Nº tareas"
+
+#~ msgid "Account Payable"
+#~ msgstr "Cuenta a pagar"
+
+#~ msgid "Account Receivable"
+#~ msgstr "Cuenta a cobrar"
+
+#~ msgid "Bank"
+#~ msgstr "Banco"
+
+#~ msgid "Companies that refers to partner"
+#~ msgstr "Compañías que se refieren a la empresa"
+
+#~ msgid "Contracts"
+#~ msgstr "Contratos"
+
+#~ msgid "Currency"
+#~ msgstr "Moneda"
+
+#~ msgid "Customer Payment Term"
+#~ msgstr "Plazo de pago de cliente"
+
+#~ msgid "Degree of trust you have in this debtor"
+#~ msgstr "Grado de confianza para este deudor"
+
+#~ msgid "Fiscal Position"
+#~ msgstr "Posición fiscal"
+
+#~ msgid "Has unreconciled entries"
+#~ msgstr "Contiene entradas irreconciliadas"
+
+#~ msgid "Invoices"
+#~ msgstr "Facturas"
+
+#~ msgid "Journal Items"
+#~ msgstr "Apuntes contables"
+
+#~ msgid "Last notification marked as read from base Calendar"
+#~ msgstr "Última notificación marcada como leída desde el calendario base"
+
+#~ msgid ""
+#~ "Last time the invoices & payments matching was performed for this "
+#~ "partner. It is set either if there's not at least an unreconciled debit "
+#~ "and an unreconciled credit or if you click the \"Done\" button."
+#~ msgstr ""
+#~ "Última vez que se conciliaros facturas y pagos de este asociado. Se "
+#~ "configura incluso si no hay ningún débito o crédito por conciliar, o si "
+#~ "pulsa el botón \"Hecho\"."
+
+#~ msgid "Latest Invoices & Payments Matching Date"
+#~ msgstr "Fecha de la última conciliación de facturas y pagos"
+
+#~ msgid "Payable Limit"
+#~ msgstr "Límite a pagar"
+
+#~ msgid "Tasks"
+#~ msgstr "Tareas"
+
+#~ msgid ""
+#~ "The fiscal position will determine taxes and accounts used for the "
+#~ "partner."
+#~ msgstr ""
+#~ "La posición fiscal determinará los impuestos y cuentas utilizados por el "
+#~ "asociado."
+
+#~ msgid ""
+#~ "The partner has at least one unreconciled debit and credit since last "
+#~ "time the invoices & payments matching was performed."
+#~ msgstr ""
+#~ "El asociado tiene al menos un débito o crédito no conciliado desde la "
+#~ "última vez que se realizó la conciliación de facturas y pagos."
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the payable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta "
+#~ "pendiente de pago del asociado actual."
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the receivable "
+#~ "account for the current partner"
+#~ msgstr ""
+#~ "Esta cuenta se utilizará en lugar de la cuenta por defecto como la cuenta "
+#~ "pendiente de cobro del asociado actual."
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for purchase "
+#~ "orders and vendor bills"
+#~ msgstr ""
+#~ "Se utilizará esta condición de pago, en lugar de la predeterminada, para "
+#~ "los pedidos de compra y las facturas de proveedor."
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for sale orders "
+#~ "and customer invoices"
+#~ msgstr ""
+#~ "Se utilizará esta condición de pago, en lugar de la predeterminada, para "
+#~ "los pedidos de venta y facturas de clientes"
+
+#~ msgid "Total Invoiced"
+#~ msgstr "Total facturado"
+
+#~ msgid "Total Payable"
+#~ msgstr "Total a pagar"
+
+#~ msgid "Total Receivable"
+#~ msgstr "Total a cobrar"
+
+#~ msgid "Total amount this customer owes you."
+#~ msgstr "Importe total que le debe el cliente."
+
+#~ msgid "Total amount you have to pay to this vendor."
+#~ msgstr "Importe total a pagar a este proveedor."
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "Campo útil para expresar importe en divisa."
+
+#~ msgid "Vendor Payment Term"
+#~ msgstr "Condiciones de pago a proveedor"

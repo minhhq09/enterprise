@@ -1,38 +1,42 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_crm_score
-# 
+#
 # Translators:
-# Jeffery Chenn <jeffery9@gmail.com>, 2016
-# fausthuang <faust_huang@hotmail.com>, 2016
-# Zamba Lee <zambalee@gmail.com>, 2016
-# Michael Chong <michaelchong2005@gmail.com>, 2016
-# zhangpeiqing <zpq001@live.com>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# mrshelly <mrshelly@hotmail.com>, 2016
-# waveyeung <waveyeung@qq.com>, 2016
-# Xu Lei <xulei8@qq.com>, 2016
-# xiaobin wu <bd5dml@gmail.com>, 2016
 # Eddie Lim <bhweelim@yahoo.com>, 2016
-# Liping Wang <lynn.config@gmail.com>, 2016
+# fausthuang, 2015
+# fausthuang, 2015
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+# mrshelly <mrshelly@hotmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Liping Wang <lynn.config@gmail.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-08-03 03:59+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
+"language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_pageviews_count
 msgid "# Page Views"
 msgstr "# 页面查看"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr "＃供应商账单"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_order_count
+msgid "# of Purchase Order"
+msgstr "# 采购订单"
 
 #. module: website_crm_score
 #. openerp-web
@@ -44,7 +48,7 @@ msgstr "4.追踪页面"
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_running
 msgid "Active"
-msgstr "活跃"
+msgstr "有效"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_ir_ui_view_track
@@ -57,19 +61,26 @@ msgid "Apply marked scores"
 msgstr "应用标记的分数"
 
 #. module: website_crm_score
-#: selection:website.crm.score,rule_type:0
-msgid "Archive"
-msgstr "归档"
-
-#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_assign_date
 msgid "Assign Date"
-msgstr "分派日期"
+msgstr "分配日期"
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
 msgid "Assignation"
-msgstr "指派"
+msgstr "指定"
+
+#. module: website_crm_score
+#: model:ir.ui.view,arch_db:website_crm_score.view_crm_lead_dry_run_form
+#: model:ir.ui.view,arch_db:website_crm_score.view_lead_dry_run_tree
+msgid "Assignation Dry Run"
+msgstr "分配排练"
+
+#. module: website_crm_score
+#: model:ir.actions.act_window,name:website_crm_score.lead_dry_run_action
+#: model:ir.ui.menu,name:website_crm_score.leads_dry_run
+msgid "Assignation dry run"
+msgstr "分配排练"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_leads_count
@@ -89,7 +100,7 @@ msgstr "分配的线索"
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_team_capacity
 msgid "Capacity"
-msgstr "能力"
+msgstr "容量"
 
 #. module: website_crm_score
 #: model:ir.actions.act_window,help:website_crm_score.team_user_action
@@ -97,6 +108,7 @@ msgid "Click to create a salesmen."
 msgstr "点击生成一个销售"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_uid
@@ -104,31 +116,21 @@ msgid "Created by"
 msgstr "创建者"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_date
 msgid "Created on"
-msgstr "创建于"
-
-#. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_res_users_payment_note
-msgid "Customer Payment Promise"
-msgstr "客户付款承诺"
+msgstr "创建时间"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_assign_date
-msgid ""
-"Date when the lead has been assigned via the auto-assignation mechanism"
+msgid "Date when the lead has been assigned via the auto-assignation mechanism"
 msgstr "日期已通过自动分配机制当线索被分配时。"
 
 #. module: website_crm_score
-#: selection:website.crm.score,rule_type:0
-msgid "Delete"
-msgstr "刪除"
-
-#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_display_name
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_display_name
-#: model:ir.model.fields,field_description:website_crm_score.field_team_user_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_display_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_display_name
 msgid "Display Name"
@@ -147,16 +149,12 @@ msgid "Event-based rule"
 msgstr "以事件为基础的规则"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_res_users_payment_responsible_id
-msgid "Follow-up Responsible"
-msgstr "关注责任人"
-
-#. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_ir_http
 msgid "HTTP routing"
 msgstr "HTTP 路由"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_id
@@ -174,20 +172,23 @@ msgid "Language from the website when lead has been created"
 msgstr "语言来自网站当线索被创建后"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score___last_update
 msgid "Last Modified on"
-msgstr "最后修改日"
+msgstr "最后修改时间"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_uid
 msgid "Last Updated by"
-msgstr "最后更新人"
+msgstr "最后更新者"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_date
@@ -195,9 +196,15 @@ msgid "Last Updated on"
 msgstr "最后更新时间"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_lead_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_lead_id
 msgid "Lead"
 msgstr "线索"
+
+#. module: website_crm_score
+#: model:ir.actions.server,name:website_crm_score.action_lead_dry_run
+msgid "Lead Dry Run"
+msgstr "线索排练"
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_crm_lead
@@ -236,7 +243,9 @@ msgstr "线索数目"
 msgid ""
 "Link users to salesteam, set a per 30 days lead capacity for each of them "
 "and set filters to auto assign your leads."
-msgstr "关联用户到销售团队，为其中每个人设置30的天线索，并设置筛选来自动分配你的线索。"
+msgstr ""
+"关联用户到销售团队，为其中每个人设置30的天线索，并设置过滤来自动分配你的线"
+"索。"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_lead_score_pageview_ids
@@ -251,16 +260,16 @@ msgstr "最多线索／30天"
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_team_min_for_assign
 msgid "Minimum score"
-msgstr "最小得分"
+msgstr "最小成绩"
 
 #. module: website_crm_score
 #: model:ir.model.fields,help:website_crm_score.field_crm_team_min_for_assign
 msgid "Minimum score to be automatically assign (>=)"
-msgstr "最小得分被自动分配"
+msgstr "最小成绩被自动分配"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_team_user_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_name
-#: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 msgid "Name"
 msgstr "名称"
 
@@ -270,14 +279,7 @@ msgstr "名称"
 #: model:ir.ui.view,arch_db:website_crm_score.crm_case_table_view_leads_sales
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
 msgid "Opportunities"
-msgstr "商机列表"
-
-#. module: website_crm_score
-#: model:ir.model.fields,help:website_crm_score.field_res_users_payment_responsible_id
-msgid ""
-"Optionally you can assign a user to this field, which will make him "
-"responsible for the action."
-msgstr "你可以随意指定一个用户到这个字段，将使他负责这个动作"
+msgstr "商机"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score_pageview_ids
@@ -293,11 +295,6 @@ msgid "Page views"
 msgstr "页面浏览"
 
 #. module: website_crm_score
-#: model:ir.model.fields,help:website_crm_score.field_res_users_payment_note
-msgid "Payment Note"
-msgstr "付款备注"
-
-#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_percentage_leads
 msgid "Percentage leads"
 msgstr "线索百分比"
@@ -308,21 +305,18 @@ msgid "Ratio"
 msgstr "比例"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_rule_type
-msgid "Rule type"
-msgstr "规则类型"
-
-#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_running
 msgid "Running"
 msgstr "运行中"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_team_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_team_id
 msgid "SaleTeam"
 msgstr "销售团队"
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_user_id
 msgid "Saleman"
 msgstr "销售"
@@ -356,6 +350,7 @@ msgstr "销售员"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score_ids
 msgid "Score"
 msgstr "得分"
 
@@ -364,12 +359,11 @@ msgstr "得分"
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_tree
 msgid "Scores"
-msgstr "得分"
+msgstr "评分"
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.lead_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.score_opp_form_view
-#: selection:website.crm.score,rule_type:0
 msgid "Scoring"
 msgstr "评分"
 
@@ -379,20 +373,9 @@ msgid "Scoring Page Views"
 msgstr "评分页面浏览量"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score_ids
 #: model:ir.ui.menu,name:website_crm_score.scores_menu
 msgid "Scoring Rules"
 msgstr "评分规则"
-
-#. module: website_crm_score
-#: model:ir.model.fields,help:website_crm_score.field_website_crm_score_rule_type
-msgid ""
-"Scoring will add a score of `value` for this lead.\n"
-"Archive will set active = False on the lead (archived)\n"
-"Delete will delete definitively the lead\n"
-"\n"
-"Actions are done in sql and bypass the access rights and orm mechanism (create `score`, write `active`, unlink `crm_lead`)"
-msgstr ""
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.crm_score_pageview_filter
@@ -400,9 +383,9 @@ msgid "Search PageViews"
 msgstr "搜索页面浏览量"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_res_users_subscription_count
-msgid "Subscriptions"
-msgstr "订阅"
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_property_purchase_currency_id
+msgid "Supplier Currency"
+msgstr "供应商货币"
 
 #. module: website_crm_score
 #: model:ir.ui.menu,name:website_crm_score.team
@@ -410,9 +393,16 @@ msgid "Teams Assignation"
 msgstr "团队分配"
 
 #. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_res_users_property_purchase_currency_id
+msgid ""
+"This currency will be used, instead of the default one, for purchases from "
+"the current partner"
+msgstr "对当前供应商的采购这种币种被用来替代默认的币种"
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_ir_ui_view_track
 msgid "Track"
-msgstr "追踪"
+msgstr "跟踪"
 
 #. module: website_crm_score
 #: model:ir.actions.act_window,name:website_crm_score.crm_score_views_action_graph
@@ -455,10 +445,16 @@ msgstr "网站页面"
 #: model:ir.model.fields,help:website_crm_score.field_website_crm_score_event_based
 msgid ""
 "When checked, the rule will be re-evaluated every time, even for leads that "
-"have already been checked previously. This option incurs a large performance"
-" penalty, so it should be checked only for rules that depend on dynamic "
-"events"
-msgstr "每次检查时,规则将被重新评估,甚至已经检查过的线索。这个选项中会产生很大的性能损耗,因此只应该依据动态事件来检查规则。"
+"have already been checked previously. This option incurs a large performance "
+"penalty, so it should be checked only for rules that depend on dynamic events"
+msgstr ""
+"每次检查时,规则将被重新评估,甚至已经检查过的线索。这个选项中会产生很大的性能"
+"损耗,因此只应该依据动态事件来检查规则。"
+
+#. module: website_crm_score
+#: model:ir.model,name:website_crm_score.model_crm_leads_dry_run
+msgid "crm.leads.dry.run"
+msgstr "crm.leads.dry.run"
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
@@ -475,7 +471,7 @@ msgstr ""
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_ir_ui_view
 msgid "ir.ui.view"
-msgstr ""
+msgstr "ir.ui.view"
 
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
@@ -492,21 +488,48 @@ msgstr ""
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_team_user
 msgid "team.user"
-msgstr ""
+msgstr "team.user"
 
 #. module: website_crm_score
 #. openerp-web
 #: code:addons/website_crm_score/static/src/xml/track_page.xml:9
 #, python-format
 msgid "to better score your leads:"
-msgstr "更好的为线索计分"
+msgstr "更好的评价你的线索"
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_website_crm_pageview
 msgid "website.crm.pageview"
-msgstr ""
+msgstr "website.crm.pageview"
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_website_crm_score
 msgid "website.crm.score"
-msgstr ""
+msgstr "website.crm.score"
+
+#~ msgid "Score Now"
+#~ msgstr "现在评分"
+
+#~ msgid "Archive"
+#~ msgstr "归档"
+
+#~ msgid "Delete"
+#~ msgstr "刪除"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "采购订单消息"
+
+#~ msgid "Purchase Order"
+#~ msgstr "采购订单"
+
+#~ msgid "Rule type"
+#~ msgstr "规则类型"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "选择此“警告“选项，将通知用户此消息。\n"
+#~ "选择“受阻消息“选项，将在流程受阻时将抛出一个消息。\n"
+#~ "消息写入下一个字段。"

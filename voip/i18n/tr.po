@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-05-29 11:20+0000\n"
 "Last-Translator: AYHAN KIZILTAN <akiziltan76@hotmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/odoo/odoo-9/language/tr/)\n"
@@ -19,9 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Her zaman fiziksel telefona yönlendir"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -43,6 +50,11 @@ msgstr "Adı Göster"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -81,7 +93,7 @@ msgstr "Son Güncellenen"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
+msgid "Number of Rings"
 msgstr ""
 
 #. module: voip
@@ -93,7 +105,6 @@ msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr ""
 
@@ -124,11 +135,6 @@ msgid "SIP Password"
 msgstr ""
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr ""
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, python-format
@@ -140,7 +146,8 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
 msgstr ""
 
 #. module: voip
@@ -164,6 +171,11 @@ msgid "Users"
 msgstr "Kullanıcılar"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -181,6 +193,9 @@ msgstr ""
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr ""
+
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Her zaman fiziksel telefona yönlendir"
 
 #~ msgid "Invoice"
 #~ msgstr "Fatura"

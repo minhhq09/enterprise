@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-01-13 15:44+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -110,12 +110,6 @@ msgstr ""
 "Akcije izvršnog menadžmenta pokazuju pravi interes za dobrobit zaposlenika"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_active
-#, fuzzy
-msgid "Active"
-msgstr "Objekti"
-
-#. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_13
 msgid ""
 "Adaptability: Ability to adapt oneself to organizational changes while "
@@ -183,7 +177,7 @@ msgid "Appraisal Form..."
 msgstr "Obrazac procjene"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:118
+#: code:addons/hr_appraisal/models/hr_appraisal.py:117
 #, python-format
 msgid "Appraisal Meeting For %s"
 msgstr "Procjena sa sastanka u %s"
@@ -199,7 +193,7 @@ msgid "Appraisal Regarding"
 msgstr "Procjena se odnosi na"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
@@ -248,7 +242,7 @@ msgid "Appraisal(s)"
 msgstr "Procjen(e)"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:161
+#: code:addons/hr_appraisal/models/hr_appraisal.py:160
 #, python-format
 msgid "Appraisal(s) form have been sent"
 msgstr "Procjen(e) obrazac je poslan"
@@ -268,11 +262,6 @@ msgstr "Procjene za obradu"
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
 msgid "Appraiser"
 msgstr "Procjenitelj"
-
-#. module: hr_appraisal
-#: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
-msgid "Archived"
-msgstr ""
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -295,7 +284,7 @@ msgid "Cancel"
 msgstr "Odustani"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #, python-format
 msgid "Cancelled"
@@ -459,6 +448,7 @@ msgid "Demonstrates genuine concern for me as a person"
 msgstr "Sposobnost suosjećanja sa drugim osobama"
 
 #. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_department_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_department_id
 msgid "Department"
@@ -477,7 +467,7 @@ msgid "Display Name"
 msgstr "Naziv za prikaz"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -620,12 +610,6 @@ msgstr ""
 "povratne informacije o vodstvu svog supervizora i izraziti svoje mišljenje o "
 "vlastitom angažmanu i učinkovitosti, poboljšanima i otvorenim aktivnostima u "
 "društvu ..."
-
-#. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
-#, fuzzy
-msgid "Hr Department"
-msgstr "Odjel ljudskih resursa"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
@@ -1171,6 +1155,16 @@ msgid "The answer you entered has an invalid format."
 msgstr "Odgovor koji ste unijeli je u nevažećem formatu."
 
 #. module: hr_appraisal
+#: code:addons/hr_appraisal/models/hr_appraisal.py:192
+#, python-format
+msgid ""
+"The appraisal deadline must be in the future to allow employees to answer "
+"the survey."
+msgstr ""
+"Rok procjene mora djelatnicima ostaviti dovoljno vremena da uspiju "
+"odgovoriti na sva pitanja u anketi."
+
+#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
@@ -1316,7 +1310,7 @@ msgid "Time management: projects/tasks are completed on time"
 msgstr "Upravljanje vremenom: projekti/zadaci završeni na vrijeme"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:211
+#: code:addons/hr_appraisal/models/hr_appraisal.py:212
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #, python-format
@@ -1368,7 +1362,7 @@ msgid "Year"
 msgstr "Godina"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:205
+#: code:addons/hr_appraisal/models/hr_appraisal.py:206
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
 msgstr "Ne možete obrisati ocjenu koja je u %s stanju."
@@ -1411,11 +1405,17 @@ msgstr "oe_kanban_text_red"
 #~ msgid "Followers (Partners)"
 #~ msgstr "Pratitelji (Partneri)"
 
+#~ msgid "HR Department"
+#~ msgstr "Odjel ljudskih resursa"
+
 #~ msgid "If checked new messages require your attention."
 #~ msgstr "Ako je odabrano, nove poruke zahtijevaju Vašu pažnju."
 
 #~ msgid "If checked, new messages require your attention."
 #~ msgstr "Ako je označeno, nove poruke zahtijevaju vašu pažnju."
+
+#~ msgid "If other, precise:"
+#~ msgstr "Ostalo, precizirajte:"
 
 #~ msgid "Is Follower"
 #~ msgstr "Je pratitelj"
@@ -1436,11 +1436,13 @@ msgstr "oe_kanban_text_red"
 #~ msgstr "Broj nepročitanih poruka"
 
 #~ msgid ""
-#~ "The appraisal deadline must be in the future to allow employees to answer "
-#~ "the survey."
+#~ "The supervisor synthesizes and integrates all input into the completed "
+#~ "appraisal. He motivates his evaluation in the ad\n"
+#~ "hoc fields."
 #~ msgstr ""
-#~ "Rok procjene mora djelatnicima ostaviti dovoljno vremena da uspiju "
-#~ "odgovoriti na sva pitanja u anketi."
+#~ "Supervizor objedinjuje i integrira sve informacije prikupljene u završnom "
+#~ "ocjenjivanju. On bilježi svoju procjenu u ad\n"
+#~ "hoc polja."
 
 #~ msgid "Unread Messages"
 #~ msgstr "Nepročitane poruke"
@@ -1453,3 +1455,11 @@ msgstr "oe_kanban_text_red"
 
 #~ msgid "Website communication history"
 #~ msgstr "Povijest komunikacije Web stranice"
+
+#, fuzzy
+#~ msgid "Active"
+#~ msgstr "Objekti"
+
+#, fuzzy
+#~ msgid "Hr Department"
+#~ msgstr "Odjel ljudskih resursa"

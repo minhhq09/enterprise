@@ -1,29 +1,34 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-# 
+#
 # Translators:
-# Jeffery Chenn <jeffery9@gmail.com>, 2016
-# Gary Wei <Gary.wei@elico-corp.com>, 2016
-# Xu Lei <xulei8@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Xu Lei <xulei8@qq.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-06-22 13:04+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
+"language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "总是重定向到实体电话"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -33,7 +38,7 @@ msgstr "创建者"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_date
 msgid "Created on"
-msgstr "创建于"
+msgstr "创建时间"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_display_name
@@ -46,6 +51,11 @@ msgstr "显示名称"
 #, python-format
 msgid "From "
 msgstr "来自"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
@@ -69,17 +79,12 @@ msgstr "来电自"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
 msgid "Last Modified on"
-msgstr "最后修改日"
-
-#. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_last_website_so_id
-msgid "Last Online Sale Order"
-msgstr "最近的在线销售订单"
+msgstr "最后修改时间"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
 msgid "Last Updated by"
-msgstr "最后更新人"
+msgstr "最后更新者"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_date
@@ -88,8 +93,8 @@ msgstr "最后更新时间"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "响铃次数"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -100,7 +105,6 @@ msgstr "一个或者多个参数缺失，请检查你的配置"
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "PBX配置"
 
@@ -116,8 +120,8 @@ msgstr "请检查你的配置。</br> ( 收到的理由 :"
 #: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access"
-" your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access "
+"your microphone from your browser."
 msgstr "链接中的问题。检查是否有权限使用这个应用浏览器中的话筒"
 
 #. module: voip
@@ -131,11 +135,6 @@ msgid "SIP Password"
 msgstr "SIP密码"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "办公室电话分机"
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, python-format
@@ -147,8 +146,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "在取消之前的响铃次数"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -163,7 +163,7 @@ msgstr "服务器的配置估计有误。请检查配置"
 #: code:addons/voip/static/src/js/sip_js.js:47
 #, python-format
 msgid "The websocket uri could be wrong. Please check your configuration."
-msgstr "websocket uri可能是错误的，请检查你的配置"
+msgstr "websocket uri可能错了，请检查你的配置"
 
 #. module: voip
 #: model:ir.model,name:voip.model_res_users
@@ -171,11 +171,15 @@ msgid "Users"
 msgstr "用户"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr "VOIP配置"
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid ""
-"Your browser could not support WebRTC. Please check your configuration."
+msgid "Your browser could not support WebRTC. Please check your configuration."
 msgstr "你的浏览器不支持WebRTC，请检查配置"
 
 #. module: voip
@@ -183,9 +187,180 @@ msgstr "你的浏览器不支持WebRTC，请检查配置"
 #: code:addons/voip/static/src/js/sip_js.js:152
 #, python-format
 msgid "the connection cannot be made. "
-msgstr "连接无法建立."
+msgstr "无法链接"
 
 #. module: voip
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
-msgstr ""
+msgstr "voip.configurator"
+
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "总是重定向到实体电话上"
+
+#~ msgid "Incomming call from "
+#~ msgstr "来电于"
+
+#~ msgid "Invoice"
+#~ msgstr "发票"
+
+#~ msgid "Last Online Sale Order"
+#~ msgstr "桑一张在线销售订单"
+
+#~ msgid "Message for Invoice"
+#~ msgstr "发票消息"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "采购订单消息"
+
+#~ msgid "Message for Sales Order"
+#~ msgstr "销售订单消息"
+
+#~ msgid "Message for Stock Picking"
+#~ msgstr "库存分拣单消息"
+
+#~ msgid "Number of rings"
+#~ msgstr "响声次数"
+
+#~ msgid "Purchase Order"
+#~ msgstr "采购订单"
+
+#~ msgid "Sales Order"
+#~ msgstr "销售订单"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "选择此“警告“选项，将通知用户此消息。\r\n"
+#~ "选择“受阻消息“选项，将在流程受阻时将抛出一个消息。\r\n"
+#~ "消息写入下一个字段。"
+
+#~ msgid "Stock Picking"
+#~ msgstr "库存分拣"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "办公室电话分机"
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "在取消之前的响铃次数"
+
+#~ msgid ""
+#~ "The user credentials could be wrong or the connection cannot be made. "
+#~ "Please check your configuration.</br> (Reason receives :%d"
+#~ msgstr "用户证书错误或者无法进行链接请检查你的配置</br>(收到的理由 :%d"
+
+#~ msgid "Website tags"
+#~ msgstr "站点标签"
+
+#~ msgid "# Tasks"
+#~ msgstr "# 任务"
+
+#~ msgid "Account Payable"
+#~ msgstr "应付账款"
+
+#~ msgid "Account Receivable"
+#~ msgstr "应收账款"
+
+#~ msgid "Bank"
+#~ msgstr "银行"
+
+#~ msgid "Companies that refers to partner"
+#~ msgstr "公司是指业务伙伴"
+
+#~ msgid "Contracts"
+#~ msgstr "合约"
+
+#~ msgid "Currency"
+#~ msgstr "币种"
+
+#~ msgid "Customer Payment Term"
+#~ msgstr "客户付款条款"
+
+#~ msgid "Degree of trust you have in this debtor"
+#~ msgstr "对此债务人的信任度"
+
+#~ msgid "Fiscal Position"
+#~ msgstr "财政位置"
+
+#~ msgid "Has unreconciled entries"
+#~ msgstr "有未调节的分录"
+
+#~ msgid "Invoices"
+#~ msgstr "发票"
+
+#~ msgid "Journal Items"
+#~ msgstr "日记账项目"
+
+#~ msgid "Last notification marked as read from base Calendar"
+#~ msgstr "最后的提醒已经标志为已读"
+
+#~ msgid ""
+#~ "Last time the invoices & payments matching was performed for this "
+#~ "partner. It is set either if there's not at least an unreconciled debit "
+#~ "and an unreconciled credit or if you click the \"Done\" button."
+#~ msgstr ""
+#~ "上次这个业务伙伴的发票和付款是匹配的。设置为调节的借方或者未调节的贷方或者"
+#~ "你点击\"完成\"按钮"
+
+#~ msgid "Latest Invoices & Payments Matching Date"
+#~ msgstr "最近的发票和付款匹配时间"
+
+#~ msgid "Payable Limit"
+#~ msgstr "应付限额"
+
+#~ msgid "Tasks"
+#~ msgstr "任务"
+
+#~ msgid ""
+#~ "The fiscal position will determine taxes and accounts used for the "
+#~ "partner."
+#~ msgstr "财政状况将确定用于业务伙伴的税金和科目。"
+
+#~ msgid ""
+#~ "The partner has at least one unreconciled debit and credit since last "
+#~ "time the invoices & payments matching was performed."
+#~ msgstr ""
+#~ "自动上次这个业务伙伴的发票和付款完全一致。这个业务伙伴至少有一个未调节的借"
+#~ "方和贷方"
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the payable "
+#~ "account for the current partner"
+#~ msgstr "这个科目被用来代替当前业务伙伴的默认的应付科目"
+
+#~ msgid ""
+#~ "This account will be used instead of the default one as the receivable "
+#~ "account for the current partner"
+#~ msgstr "这个科目被用来替代当前业务伙伴的默认的应收科目"
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for purchase "
+#~ "orders and vendor bills"
+#~ msgstr "该付款条款江北用来代替采购订单或者供应商账单中默认的付款条款"
+
+#~ msgid ""
+#~ "This payment term will be used instead of the default one for sale orders "
+#~ "and customer invoices"
+#~ msgstr "在销售订单和客户发票上，该付款方式将替换默认付款方式。"
+
+#~ msgid "Total Invoiced"
+#~ msgstr "已开票总计"
+
+#~ msgid "Total Payable"
+#~ msgstr "应付总计"
+
+#~ msgid "Total Receivable"
+#~ msgstr "应收总计"
+
+#~ msgid "Total amount this customer owes you."
+#~ msgstr "这个客户欠款的总数量"
+
+#~ msgid "Total amount you have to pay to this vendor."
+#~ msgstr "你需要付给这个供应商的总数量"
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "表示货币数量的工具字段"
+
+#~ msgid "Vendor Payment Term"
+#~ msgstr "供应商付款条款"

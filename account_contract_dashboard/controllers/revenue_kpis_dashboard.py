@@ -48,15 +48,12 @@ class RevenueKPIsDashboard(http.Controller):
         if filters.get('company_ids'):
             subs_domain.append(('company_id', 'in', filters.get('company_ids')))
 
-        for cohort_group in request.env['sale.subscription'].read_group(domain=subs_domain, fields=['date_start'], groupby='date_start:' + cohort_period):
+        for cohort_group in request.env['sale.subscription']._read_group_raw(domain=subs_domain, fields=['date_start'], groupby='date_start:' + cohort_period):
+            # _read_group_raw returns (range, label), with range like date1/date2
             tf = cohort_group['date_start:' + cohort_period]
+            date1 = tf[0].split('/')[0]
             cohort_subs = request.env['sale.subscription'].search(cohort_group['__domain'])
-            cohort_date = datetime.strptime(tf, DISPLAY_FORMATS[cohort_period])
-            if cohort_period == 'week':
-                # When used with the strptime() method, %W is only used in calculations when the day of the week and the year are specified.
-                # See https://docs.python.org/2/library/datetime.html
-                # We need to use 1 (Monday) because %W consider Monday as the first day of the week
-                cohort_date = datetime.strptime('1 ' + tf, DISPLAY_FORMATS['week_special'])
+            cohort_date = datetime.strptime(date1, DEFAULT_SERVER_DATE_FORMAT)
 
             if cohort_interest == 'value':
                 starting_value = float(sum([x.currency_id.compute(x.recurring_total, company_currency_id) if x.currency_id else x.recurring_total for x in cohort_subs]))
@@ -107,7 +104,7 @@ class RevenueKPIsDashboard(http.Controller):
                 cohort_line.append(cohort_line_ij)
 
             cohort_report.append({
-                'period': tf,
+                'period': tf[1],
                 'starting_value': starting_value,
                 'domain': cohort_group['__domain'],
                 'values': cohort_line,

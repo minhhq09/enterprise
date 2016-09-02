@@ -1,22 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_ups
-# 
+#
 # Translators:
-# krnkris <krnkris@freemail.hu>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
+# krnkris, 2015
+# krnkris, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
-"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-05-27 14:50+0000\n"
+"Last-Translator: krnkris\n"
+"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
+"hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_ups
@@ -30,8 +31,8 @@ msgid "Centimeters"
 msgstr "Centiméter"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "EPL"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "Default Packaging Type"
 msgstr ""
 
 #. module: delivery_ups
@@ -45,20 +46,15 @@ msgid "Kilograms"
 msgstr "Kilogramm"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "PDF"
-msgstr "PDF"
-
-#. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
 msgid "Packaging"
 msgstr "Csomagolás"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:210
+#: code:addons/delivery_ups/models/ups_request.py:207
 #, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Kérem válasszon legalább egy szállítandó tételt."
+msgstr "Kérem válasszon legalább egy szállítandó tételt"
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_weight_unit:0
@@ -66,30 +62,25 @@ msgid "Pounds"
 msgstr "Pounds"
 
 #. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "SPL"
-msgstr ""
-
-#. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:175
+#: code:addons/delivery_ups/models/delivery_ups.py:171
 #, python-format
 msgid "Shipment N° %s has been cancelled"
-msgstr "N° %s sz. szállítmányt érvénytelenítettük"
+msgstr "N° %s sz. szállítmány érvénytelenítettük"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:139
+#: code:addons/delivery_ups/models/delivery_ups.py:135
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Szállítmány létrehozva az UPS-ben <br/> <b>Követési szám : </b>%s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:146
+#: code:addons/delivery_ups/models/delivery_ups.py:142
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Szállítási etikett a csomaghoz"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:185
+#: code:addons/delivery_ups/models/ups_request.py:182
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -99,7 +90,7 @@ msgstr ""
 "(Hiányzó mező(k) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:195
+#: code:addons/delivery_ups/models/ups_request.py:192
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -109,22 +100,22 @@ msgstr ""
 "(Hiányzó mező(k) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:215
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "A szállítás nem végezhető el, mert hiányzik a termék súlya."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:209
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
 msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súlya."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:205
+#: code:addons/delivery_ups/models/ups_request.py:202
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -165,19 +156,9 @@ msgid "UPS Configuration"
 msgstr "UPS beállítások"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-msgid "UPS Default Packaging Type"
-msgstr ""
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS földi"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "UPS Label File Type"
-msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -260,7 +241,65 @@ msgstr "UPS csomag méret mértékegységei"
 msgid "Ups package weight unit"
 msgstr "Ups csomag súly mértékegység"
 
-#. module: delivery_ups
-#: selection:delivery.carrier,ups_label_file_type:0
-msgid "ZPL"
-msgstr ""
+#~ msgid "10KG Box"
+#~ msgstr "10KG doboz"
+
+#~ msgid "25KG Box"
+#~ msgstr "25KG doboz"
+
+#~ msgid "Express Box"
+#~ msgstr "Express doboz"
+
+#~ msgid "Fixed height if not provided on the product packaging."
+#~ msgstr "Fix magasság, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "Fixed length if not provided on the product packaging."
+#~ msgstr "Fix hossz, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "Fixed width if not provided on the product packaging."
+#~ msgstr "Fix szélesség, ha nincs megadva a termék csomagolásán."
+
+#~ msgid "Flat Pack"
+#~ msgstr "Átalány áras csomag"
+
+#~ msgid "Medium Express Box"
+#~ msgstr "Közepes Expressz doboz"
+
+#~ msgid "Package Height"
+#~ msgstr "Csomag magassága"
+
+#~ msgid "Package Length"
+#~ msgstr "Csomag hossza"
+
+#~ msgid "Package Width"
+#~ msgstr "Csomag szélessége"
+
+#~ msgid "Package/customer supplied"
+#~ msgstr "Csomag/vásárló biztosítja"
+
+#~ msgid "Pallet"
+#~ msgstr "Raklap"
+
+#~ msgid "Small Express Box"
+#~ msgstr "Kicsi Express doboz"
+
+#~ msgid "Test Mode"
+#~ msgstr "Tesztmód"
+
+#~ msgid "UPS Letter"
+#~ msgstr "UPS Levél"
+
+#~ msgid "UPS Packaging Type"
+#~ msgstr "UPS csomagolás típus"
+
+#~ msgid "UPS Pak"
+#~ msgstr "UPS csomag"
+
+#~ msgid "UPS Tube"
+#~ msgstr "UPS Cső"
+
+#~ msgid "Uncheck this box to use production UPS Web Services"
+#~ msgstr "Ne jelölje be ezt a négyzetet az UPS Web szolgáltatás használatához"
+
+#~ msgid "PDF"
+#~ msgstr "PDF"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-05-22 07:41+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -580,12 +580,6 @@ msgid "Automatic Payment"
 msgstr "Automatická platba"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
-msgid "Back"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -664,7 +658,7 @@ msgid "Close your contract"
 msgstr "Zavrieť vašu zmluvu"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:203
+#: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
 msgstr "Zatvárací text :"
@@ -702,7 +696,6 @@ msgid "Contract Details"
 msgstr "Detaily zmluvy"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Šablóna zmluvy"
@@ -799,13 +792,6 @@ msgstr ""
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
 msgstr "Ak nie je nastavené, predvolená platobná metóda partnera bude použitá."
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
-msgid ""
-"If set, all recurring products in this Sales Order will be included in a new "
-"Subscription with the selected template"
-msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -970,11 +956,6 @@ msgid "Options"
 msgstr "Možnosti"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Order Number"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Zaplatiť teraz"
@@ -1065,11 +1046,6 @@ msgstr "Opakované riadky možnosti"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Reference:"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "Odstrániť"
 
@@ -1132,12 +1108,6 @@ msgstr "Objednávka predaja"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Položky objednávky"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-#, fuzzy
-msgid "Sales Orders"
-msgstr "Objednávka predaja"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1218,11 +1188,6 @@ msgid "Total"
 msgstr "Celkom"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Total Tax Included"
-msgstr ""
-
-#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
@@ -1269,12 +1234,14 @@ msgid "Valid until:"
 msgstr "Platné do:"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Zobraziť zmluvu"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Zobraziť šablónu"
@@ -2043,6 +2010,9 @@ msgstr "⇒ Upsell"
 #~ "Prístup do vašej Odoo inštancie. Uložené na našich serveroch: vysoká "
 #~ "rýchlosť, vysoká spoľahlivosť a denné zálohovanie."
 
+#~ msgid "Partial Invoice"
+#~ msgstr "Čiastočná faktúra"
+
 #~ msgid "Pay & Confirm"
 #~ msgstr "Zaplatiť a Potvrdiť"
 
@@ -2064,6 +2034,13 @@ msgstr "⇒ Upsell"
 #~ msgid "Sub Total"
 #~ msgstr "Medzisúčet"
 
+#~ msgid ""
+#~ "These modifications will be active immedialy, however your next invoice "
+#~ "date will not be changed. Your next invoice will arrive on:"
+#~ msgstr ""
+#~ "Tieto úpravy budú aktívne okamžite, avšak váš najbližší fakturačný termín "
+#~ "nebude zmenený. Vaša najbližšia faktúra bude doručená:"
+
 #~ msgid "Time"
 #~ msgstr "Čas"
 
@@ -2073,5 +2050,19 @@ msgstr "⇒ Upsell"
 #~ msgid "Year(s)"
 #~ msgstr "Rok(y)"
 
+#~ msgid ""
+#~ "You will find here all the quotations and sales orders related to this "
+#~ "subscriptions."
+#~ msgstr ""
+#~ "Nájdete tu všetky finančné ponuky a predajné objednávky vzťahujúce sa k "
+#~ "týmto odberom."
+
+#~ msgid "Your subscription ${object.code}is active!"
+#~ msgstr "Váš odber ${object.code} je aktívny!"
+
 #~ msgid "years(s)"
 #~ msgstr "rok(y)"
+
+#, fuzzy
+#~ msgid "Sales Orders"
+#~ msgstr "Objednávka predaja"

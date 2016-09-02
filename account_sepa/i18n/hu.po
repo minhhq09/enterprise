@@ -1,23 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_sepa
-# 
+#
 # Translators:
-# krnkris <krnkris@freemail.hu>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Oregional <geza.nagy@oregional.hu>, 2016
+# krnkris, 2015
+# krnkris, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
-"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-06-06 19:55+0000\n"
+"Last-Translator: krnkris\n"
+"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
+"hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
@@ -34,7 +34,7 @@ msgstr "Bankszámla"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Megszakítás"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -68,7 +68,7 @@ msgstr "Létrehozás dátuma"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_display_name
 msgid "Display Name"
-msgstr "Megjelenített név"
+msgstr "Név megjelenítése"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -86,8 +86,8 @@ msgid ""
 "Entity that assigns the identification (eg. KBE-BCO or Finanzamt Muenchen "
 "IV)."
 msgstr ""
-"Valós személy aki kiosztja az azonosítót (pl. KBE-BCO vagy Müncheni pénzügyi"
-" hatóság IV)."
+"Valós személy aki kiosztja az azonosítót (pl. KBE-BCO vagy Müncheni pénzügyi "
+"hatóság IV)."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
@@ -95,19 +95,9 @@ msgid "Filename"
 msgstr "Fájlnév"
 
 #. module: account_sepa
-#: selection:res.company,sepa_pain_version:0
-msgid "Generic"
-msgstr "Általános"
-
-#. module: account_sepa
-#: selection:res.company,sepa_pain_version:0
-msgid "German Version"
-msgstr ""
-
-#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
 msgid "ID"
-msgstr "Azonosító ID"
+msgstr "ID"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_id
@@ -120,14 +110,14 @@ msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr "Azonosító kiosztva egy intézmény által (pl. ADÓ szám)."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:70
+#: code:addons/account_sepa/sepa_credit_transfer.py:76
 #, python-format
 msgid ""
 "In order to export a SEPA Credit Transfer file, please only select payments "
 "belonging to the same bank journal."
 msgstr ""
-"Ahhoz, hogy SEPA bevétel jóváíró utalási fájlt tudjon exportálni, kérem csak"
-" ugyanahhoz a banki kivonathoz tartozó utalásokat válasszon."
+"Ahhoz, hogy SEPA bevétel jóváíró utalási fájlt tudjon exportálni, kérem csak "
+"ugyanahhoz a banki kivonathoz tartozó utalásokat válasszon."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -148,12 +138,12 @@ msgstr "Napló"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer___last_update
 msgid "Last Modified on"
-msgstr "Utoljára frissítve ekkor"
+msgstr "Utolsó frissítés dátuma"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_write_uid
 msgid "Last Updated by"
-msgstr "Utoljára frissítette"
+msgstr "Utoljára frissítve, által"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_write_date
@@ -173,10 +163,10 @@ msgstr "Fizetés küldése SEPA keresztül"
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_payment
 msgid "Payments"
-msgstr "Vevői befizetések"
+msgstr "Kifizetések"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:68
+#: code:addons/account_sepa/sepa_credit_transfer.py:74
 #, python-format
 msgid ""
 "Payments to export as SEPA Credit Transfer must have 'SEPA Credit Transfer' "
@@ -199,7 +189,7 @@ msgstr "Címzett bankszámlaszáma"
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_register_payments
 msgid "Register payments on multiple invoices"
-msgstr " Több számlára történt befizetések rögzítése"
+msgstr "Fizetések rögzítése több számlára"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited
@@ -213,22 +203,9 @@ msgid "SEPA Credit Transfers to Send"
 msgstr "SEPA bevétel jóváírás utalás küldésre"
 
 #. module: account_sepa
-#: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_pain_version
-msgid "SEPA Pain Version"
-msgstr ""
-
-#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML fájl"
-
-#. module: account_sepa
-#: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
-msgid ""
-"SEPA may be a generic format, some countries differ from the SEPA "
-"recommandations made by the EPC (European Payment Councile) and thus the XML"
-" created need some tweakenings."
-msgstr ""
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
@@ -236,17 +213,12 @@ msgid "Sepa Payments To Send"
 msgstr "SEPA fizetések elküldésre"
 
 #. module: account_sepa
-#: selection:res.company,sepa_pain_version:0
-msgid "Swiss Version"
-msgstr ""
-
-#. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
 msgid ""
 "Technical feature used during the file creation. A SEPA message is said to "
 "be 'generic' if it cannot be considered as a standard european credit "
-"transfer. That is if the bank journal is not in €, a transaction is not in €"
-" or a payee is not identified by an IBAN account number and a bank BIC."
+"transfer. That is if the bank journal is not in €, a transaction is not in € "
+"or a payee is not identified by an IBAN account number and a bank BIC."
 msgstr ""
 "Technikai jellemzők használata a fájl létrehozása közben. Egy SEPA üzenet "
 "'általános' , ha nem tekinthetjük szabványos európai bevétel jóváíró "
@@ -254,7 +226,7 @@ msgstr ""
 "azonosítható az IBAN számla számmal és a banki BIC számmal."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:350
+#: code:addons/account_sepa/sepa_credit_transfer.py:322
 #, python-format
 msgid ""
 "The account %s, linked to partner '%s', is not of type IBAN.\n"
@@ -264,7 +236,7 @@ msgstr ""
 "Egy érvényes IBAN számlaszám szükséges SEPA használatához."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:75
+#: code:addons/account_sepa/sepa_credit_transfer.py:81
 #, python-format
 msgid ""
 "The account %s, of journal '%s', is not of type IBAN.\n"
@@ -280,25 +252,25 @@ msgid ""
 "The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
 "pay via SEPA. Please configure it first."
 msgstr ""
-"A '%s' számlához (%s naplóhoz) szükséges egy Bank azonosító kód (BIC) a SEPA"
-" utaláshoz. Kérem, először állítsa be."
+"A '%s' számlához (%s naplóhoz) szükséges egy Bank azonosító kód (BIC) a SEPA "
+"utaláshoz. Kérem, először állítsa be."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:305
+#: code:addons/account_sepa/sepa_credit_transfer.py:277
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
 msgstr "A fizetett összeg '%s' túl sok. Maximum megengedett %s."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:123
+#: code:addons/account_sepa/sepa_credit_transfer.py:124
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:125
+#: code:addons/account_sepa/sepa_credit_transfer.py:126
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
@@ -308,9 +280,11 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
 #, python-format
 msgid ""
-"The generated payment file is not a generic SEPA credit transfer. Be aware that some banks may reject it because it is not implemented on their side.\n"
+"The generated payment file is not a generic SEPA credit transfer. Be aware "
+"that some banks may reject it because it is not implemented on their side.\n"
 "\n"
-"In particular, the reason why it this payment file is not a generic is the following:\n"
+"In particular, the reason why it this payment file is not a generic is the "
+"following:\n"
 "   "
 msgstr ""
 
@@ -345,7 +319,8 @@ msgid ""
 "0 1 2 3 4 5 6 7 8 9\n"
 "/ - ? : ( ) . , ' + (space)"
 msgstr ""
-"A SEPA fájlban használható szöveg csak a következő karaktereket tartalmazhatja :\n"
+"A SEPA fájlban használható szöveg csak a következő karaktereket "
+"tartalmazhatja :\n"
 "\n"
 "a b c d e f g h i j k l m n o p q r s t u v w x y z\n"
 "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"
@@ -353,19 +328,19 @@ msgstr ""
 "/ - ? : ( ) . , ' + (space)"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:121
+#: code:addons/account_sepa/sepa_credit_transfer.py:122
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:334
+#: code:addons/account_sepa/sepa_credit_transfer.py:306
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
 msgstr "Nincs bank azonosító kód rögzítve ehhez a bank számlához '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:180
+#: code:addons/account_sepa/sepa_credit_transfer.py:152
 #, python-format
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
@@ -375,13 +350,13 @@ msgstr ""
 "'%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:78
+#: code:addons/account_sepa/sepa_credit_transfer.py:84
 #, python-format
 msgid "There is no bank account selected for payment '%s'"
 msgstr "Nincs bank számla meghatározva a fizetéshez '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:178
+#: code:addons/account_sepa/sepa_credit_transfer.py:150
 #, python-format
 msgid "Too many transactions for a single file."
 msgstr "Túl sok tranzakció egy egyedüli fájlhoz."
@@ -406,7 +381,7 @@ msgid "Your Company Name"
 msgstr "Cége neve"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:117
+#: code:addons/account_sepa/sepa_credit_transfer.py:118
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr ""
@@ -415,3 +390,6 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "or"
 msgstr "vagy"
+
+#~ msgid "Generic"
+#~ msgstr "Általános"

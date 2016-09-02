@@ -1,63 +1,74 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_contract
-# 
+#
 # Translators:
+# fausthuang, 2015
+# fausthuang, 2015
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
-# Luke <cialuo@qq.com>, 2016
-# liAnGjiA <liangjia@qq.com>, 2016
-# fausthuang <faust_huang@hotmail.com>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Gary Wei <Gary.wei@elico-corp.com>, 2016
-# glovebx <ruinning@163.com>, 2016
-# mrshelly <mrshelly@hotmail.com>, 2016
-# waveyeung <waveyeung@qq.com>, 2016
-# Talway <9010446@qq.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2015
+# Luke <cialuo@qq.com>, 2015
+# liAnGjiA <liangjia@qq.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Talway <9010446@qq.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-07-22 04:36+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
+"language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
 msgid ""
 "\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
 "</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
 "        <tbody><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
 "                <p>Dear ${object.partner_id.name},</p>\n"
 "                <p>\n"
-"                    Your subscription (${ctx.get('code')}) has just been renewed\n"
-"                    %if ctx.get('total_amount') and ctx.get('payment_token'):\n"
-"                        via a payment of ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_token']}\n"
+"                    Your subscription (${ctx.get('code')}) has just been "
+"renewed\n"
+"                    %if ctx.get('total_amount') and ctx."
+"get('payment_method'):\n"
+"                        via a payment of ${ctx['total_amount']} "
+"${ctx['currency']} charged on ${ctx['payment_method']}\n"
 "                        .\n"
 "                    %endif\n"
 "                </p>\n"
@@ -68,8 +79,10 @@ msgid ""
 "                </p>\n"
 "                %endif\n"
 "                <br/>\n"
-"                <p>If you have any question, do not hesitate to contact us.</p>\n"
-"                <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
 "            </td>\n"
 "        </tr><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
@@ -78,9 +91,11 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -92,44 +107,70 @@ msgstr ""
 #: model:mail.template,body_html:website_contract.email_contract_open
 msgid ""
 "\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
 "</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
 "        <tbody><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
 "                <p>Dear ${object.subscription_id.partner_id.name},</p>\n"
-"                <p>Your subscription ${object.subscription_id.name} is active!</p>\n"
+"                <p>Your subscription ${object.subscription_id.name} is "
+"active!</p>\n"
 "\n"
-"                <p>You can view your subscription online by going to our <a style=\"text-decoration:none; color: #a24689;\" href=\"/my/home\">Online Portal</a> or by following this link\n"
-"                <p style=\"text-align: center;\"><a style=\"padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #a24689; border: 1px solid #a24689; border-radius:3px\" href=\"/my/contract/${object.subscription_id.id}/${object.subscription_id.uuid}\">View Subscription</a></p>\n"
+"                <p>You can view your subscription online by going to our <a "
+"style=\"text-decoration:none; color: #a24689;\" href=\"/my/home\">Online "
+"Portal</a> or by following this link\n"
+"                <p style=\"text-align: center;\"><a style=\"padding: 5px "
+"10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:"
+"#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; "
+"font-weight: 400; text-align: center; vertical-align: middle; cursor: "
+"pointer; white-space: nowrap; background-image: none; background-color: "
+"#a24689; border: 1px solid #a24689; border-radius:3px\" href=\"/my/contract/"
+"${object.subscription_id.id}/${object.subscription_id.uuid}\">View "
+"Subscription</a></p>\n"
 "\n"
-"                <p>With this page, you can easily manage your contracts:</p>\n"
+"                <p>With this page, you can easily manage your contracts:</"
+"p>\n"
 "                <ul>\n"
 "                    <li>Add or remove options</li>\n"
-"                    <li>Change your recurring period from monthly to annually</li>\n"
+"                    <li>Change your recurring period from monthly to "
+"annually</li>\n"
 "                    <li>Contact your sales representative</li>\n"
 "                </ul>\n"
-"                <p>You can access this link publicly or share it with someone else to give him/her the right to manage this subscription.</p>\n"
+"                <p>You can access this link publicly or share it with "
+"someone else to give him/her the right to manage this subscription.</p>\n"
 "\n"
-"                <p>If you have any question, do not hesitate to contact us.</p>\n"
-"                <p>Thank you for choosing ${object.subscription_id.company_id.name or 'us'}!</p>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.subscription_id."
+"company_id.name or 'us'}!</p>\n"
 "            </td>\n"
 "        </tr><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
@@ -138,76 +179,11 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
-"                </strong></p>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>"
-msgstr ""
-
-#. module: website_contract
-#: model:mail.template,body_html:website_contract.email_payment_reminder
-msgid ""
-"\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
-"                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
-"                </div>\n"
-"            </td>\n"
-"        </tr></tbody>\n"
-"    </table>\n"
-"</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
-"        <tbody><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                <p>Hello ${object.partner_id.name},</p>\n"
-"                <p>\n"
-"                % if ctx.get('payment_token') and ctx.get('total_amount'):\n"
-"                  We were unable to process a payment for your subscription using your payment method\n"
-"                  ${ctx['payment_token']}\n"
-"                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
-"                  % if ctx.get('error'):\n"
-"                    Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
-"                  %endif\n"
-"                % else:\n"
-"                  We were unable to process a payment for your subscription because we have no payment method recorded for you.\n"
-"                % endif \n"
-"                </p>\n"
-"\n"
-"                <p>\n"
-"                  Your subscription ${ctx.get('code')} is still valid but will be <b>suspended</b>\n"
-"                  on ${ctx.get('date_close')} unless the payment succeeds in the mean time (we will retry once every day).\n"
-"                  Please double-check that you have sufficient funds.\n"
-"                </p>\n"
-"\n"
-"                <br/>\n"
-"                <p>If you have any question, do not hesitate to contact us.</p>\n"
-"                <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-"            </td>\n"
-"        </tr><tr>\n"
-"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
-"                % if user.signature\n"
-"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
-"                </p>\n"
-"                % endif\n"
-"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
-"                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -219,49 +195,66 @@ msgstr ""
 #: model:mail.template,body_html:website_contract.email_payment_close
 msgid ""
 "\n"
-"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px 5px;font-size: 12px\">\n"
-"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
 "        <tbody><tr>\n"
-"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;\">\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
 "                <div>\n"
-"                    <hr width=\"100%\" style=\"background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
 "                </div>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
 "    </table>\n"
 "</div>\n"
-"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
-"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-align:justify; margin:0 auto; border-collapse:collapse; background:inherit; color:inherit\">\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
 "        <tbody><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
 "                <p>Hello ${object.partner_id.name},</p>\n"
 "                <p>\n"
-"                % if ctx.get('payment_token) and ctx.get('total_amount'):\n"
-"                  Our final attempt to process a payment for your subscription using your payment method\n"
-"                  ${ctx['payment_token']}\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  Our final attempt to process a payment for your "
+"subscription using your payment method\n"
+"                  ${ctx['payment_method']}\n"
 "                  for ${ctx['total_amount']} ${ctx.get('currency')} failed.\n"
 "                  % if ctx.get('error'):\n"
-"                    Your bank or credit institution gave the following details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
 "                  %endif\n"
 "                % else:\n"
-"                  Our final attempt to process a payment for your subscription failed because we have no payment method recorded for you.\n"
+"                  Our final attempt to process a payment for your "
+"subscription failed because we have no payment method recorded for you.\n"
 "                % endif \n"
 "                </p>\n"
 "\n"
 "                <p>\n"
-"                  As your payment should have been made <strong>15 days ago</strong>, your subscription has been terminated.\n"
+"                  As your payment should have been made <strong>15 days ago</"
+"strong>, your subscription has been terminated.\n"
 "                </p>\n"
 "\n"
 "                <br/>\n"
-"                <p>Should you wish to resolve this issue, do not hesitate to contact us.</p>\n"
-"                <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+"                <p>Should you wish to resolve this issue, do not hesitate to "
+"contact us.</p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
 "            </td>\n"
 "        </tr><tr>\n"
 "            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
@@ -270,9 +263,98 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </strong></p>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>"
+msgstr ""
+
+#. module: website_contract
+#: model:mail.template,body_html:website_contract.email_payment_reminder
+msgid ""
+"\n"
+"<div summary=\"o_mail_template\" style=\"padding:0px; width:600px; margin:0 "
+"auto; background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"center\" width=\"200\" style=\"padding:0px 10px 5px "
+"5px;font-size: 12px\">\n"
+"                <img src=\"/logo.png\" style=\"padding: 0px; margin: 0px; "
+"height: auto; width: 80px;\" alt=\"${user.company_id.name}\">\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px; border-"
+"collapse:collapse; background:inherit; color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td valign=\"top\" style=\"width:600px; padding:0px 10px 5px 5px;"
+"\">\n"
+"                <div>\n"
+"                    <hr width=\"100%\" style=\"background-color:"
+"rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;"
+"min-height:1px;line-height:0;margin:15px auto;padding:0\">\n"
+"                </div>\n"
+"            </td>\n"
+"        </tr></tbody>\n"
+"    </table>\n"
+"</div>\n"
+"<div style=\"padding:0px; width:600px; max-width:600px; margin:0 auto; "
+"background: #FFFFFF repeat top /100%;color:#777777\">\n"
+"    <table cellspacing=\"0\" cellpadding=\"0\" style=\"width:600px ;text-"
+"align:justify; margin:0 auto; border-collapse:collapse; background:inherit; "
+"color:inherit\">\n"
+"        <tbody><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                <p>Hello ${object.partner_id.name},</p>\n"
+"                <p>\n"
+"                % if ctx.get('payment_method') and ctx.get('total_amount'):\n"
+"                  We were unable to process a payment for your subscription "
+"using your payment method\n"
+"                  ${ctx['payment_method']}\n"
+"                  for ${ctx['total_amount']} ${ctx.get('currency')}.\n"
+"                  % if ctx.get('error'):\n"
+"                    Your bank or credit institution gave the following "
+"details about the issue: <pre>${ctx['error']}</pre>.\n"
+"                  %endif\n"
+"                % else:\n"
+"                  We were unable to process a payment for your subscription "
+"because we have no payment method recorded for you.\n"
+"                % endif \n"
+"                </p>\n"
+"\n"
+"                <p>\n"
+"                  Your subscription ${ctx.get('code')} is still valid but "
+"will be <b>suspended</b>\n"
+"                  on ${ctx.get('date_close')} unless the payment succeeds in "
+"the mean time (we will retry once every day).\n"
+"                  Please double-check that you have sufficient funds.\n"
+"                </p>\n"
+"\n"
+"                <br/>\n"
+"                <p>If you have any question, do not hesitate to contact us.</"
+"p>\n"
+"                <p>Thank you for choosing ${object.company_id.name or 'us'}!"
+"</p>\n"
+"            </td>\n"
+"        </tr><tr>\n"
+"            <td style=\"padding:0px 10px 5px 5px;font-size: 14px;\">\n"
+"                % if user.signature\n"
+"                <p style=\"font-size: 14px;\">${user.signature | safe}\n"
+"                </p>\n"
+"                % endif\n"
+"                <p style=\"font-size: 11px;\"><strong>Sent by\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-"
+"decoration:none; color: #a24689;\">\n"
+"                    <strong>${user.company_id.name}</strong>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:"
+"none; color: #a24689;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -361,8 +443,8 @@ msgstr ").在此日期之后，您可以重新打开您的帐户"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid ""
-"<abbr title=\"You need to be logged in as this contract's customer to change"
-" country\">Taxes</abbr>:"
+"<abbr title=\"You need to be logged in as this contract's customer to change "
+"country\">Taxes</abbr>:"
 msgstr "<abbr title=\"您需要登录作为本合同的客户更改国家\">税</abbr>:"
 
 #. module: website_contract
@@ -375,20 +457,20 @@ msgstr "<i class=\"fa fa-fw fa-arrow-circle-right\"/> 选择"
 #: code:addons/website_contract/static/src/js/website_contract.js:45
 #, python-format
 msgid ""
-"<p>We are not able to add your payment method at the moment.<br/> Please try"
-" again later or contact us.</p>"
+"<p>We are not able to add your payment method at the moment.<br/> Please try "
+"again later or contact us.</p>"
 msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
 "Closed</span>"
 msgstr ""
-"<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> "
-"已关闭</span>"
+"<span class=\"label label-default\"><i class=\"fa fa-fw fa-remove\"/> 已关闭"
+"</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -397,25 +479,25 @@ msgstr "<span class=\"label label-default\">当前计划</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> In "
 "Progress</span>"
 msgstr ""
-"<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> "
-"在进行中</span>"
+"<span class=\"label label-success\"><i class=\"fa fa-fw fa-check\"/> 在进行中"
+"</span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.contracts
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid ""
 "<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> To "
 "Renew</span>"
 msgstr ""
-"<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> "
-"更新</span>"
+"<span class=\"label label-warning\"><i class=\"fa fa-fw fa-refresh\"/> 更新</"
+"span>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -435,12 +517,24 @@ msgstr "链接到这个报价单的合约"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "Account Analytic Lines"
-msgstr "账户分析行"
+msgstr "账目分析记录"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
 msgid "Account UUID"
 msgstr "账户UUID"
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_payment_acquirer_journal_id
+msgid ""
+"Account journal used for automatic payment reconciliation if you use "
+"automatic payment."
+msgstr "账户账簿用于自动支付和解如果使用自动付款。"
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_payment_acquirer_journal_id
+msgid "Accounting Journal"
+msgstr "会计日记账"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -466,9 +560,10 @@ msgstr "增加选项"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid ""
-"Add an option directly or create a sale order with prorated discount for the"
-" current invoicing period (options are added on confirmation)"
-msgstr "直接添加选项，或者创建具有按比例打折当前开票期间的销售订单(选项被添加上确认)"
+"Add an option directly or create a sale order with prorated discount for the "
+"current invoicing period (options are added on confirmation)"
+msgstr ""
+"直接添加选项，或者创建具有按比例打折当前开票期间的销售订单(选项被添加上确认)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -484,12 +579,6 @@ msgstr "分析账户"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
 msgid "Automatic Payment"
 msgstr "自动付款"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
-msgid "Back"
-msgstr "返回"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -537,6 +626,14 @@ msgid "Change plan"
 msgstr "更改方案"
 
 #. module: website_contract
+#: model:web.tip,description:website_contract.subscription_tip_1
+msgid ""
+"Click here to view this contract in the frontend. Your customers can access "
+"the same page from their portal to manage their subscription. You can also "
+"send them the secure url by e-mail, no login needed!"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
 msgid "Closable by customer"
 msgstr "被客户关闭"
@@ -558,7 +655,7 @@ msgid "Close your contract"
 msgstr "关闭您的合约"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:242
+#: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
 msgstr "关张文本 : "
@@ -596,15 +693,9 @@ msgid "Contract Details"
 msgstr "合约细节"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "合约模版"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_home_menu_contract
-msgid "Contracts"
-msgstr "合约"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -623,7 +714,7 @@ msgstr "创建者"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_date
 msgid "Created on"
-msgstr "创建于"
+msgstr "创建时间"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
@@ -694,16 +785,9 @@ msgid ""
 msgstr "如果勾选此项,用户将能够从前端关闭他的帐户"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_token_id
-msgid "If not set, the default payment token of the partner will be used."
-msgstr ""
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
-msgid ""
-"If set, all recurring products in this Sales Order will be included in a new"
-" Subscription with the selected template"
-msgstr ""
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
+msgid "If not set, the default payment method of the partner will be used."
+msgstr "如果没有设置,默认将使用合作伙伴的付款方法。"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -733,18 +817,6 @@ msgid ""
 "If you confirm, you contract will be closed right away. Your current "
 "invoicing period is valid until"
 msgstr "如果你确认,合约将立即关闭。你目前的发票是有效的,直到时期"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "If you wish to reopen it, the"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid ""
-"If you wish to reopen it, you can pay your invoice for the current invoicing"
-" period."
-msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -784,21 +856,21 @@ msgstr "被授权"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
 msgid "Last Modified on"
-msgstr "最后修改日"
+msgstr "最后修改时间"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_uid
 msgid "Last Updated by"
-msgstr "最后更新人"
+msgstr "最后更新者"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_date
 msgid "Last Updated on"
-msgstr "最近更新时间"
+msgstr "最后更新时间"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
@@ -807,25 +879,21 @@ msgstr "实际和销售之间的最大数量,这个数量将被开票"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "My Account"
 msgstr "我的账户"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "My Contracts"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.contracts
 msgid "Name"
 msgstr "名称"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "New"
-msgstr "新的"
+msgstr "新建"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_add_paid_option
@@ -840,8 +908,8 @@ msgstr "下一个发票:"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract_pricing
 msgid ""
-"One-time Fees <small>- These products will not be part of your "
-"subscription</small>"
+"One-time Fees <small>- These products will not be part of your subscription</"
+"small>"
 msgstr "一次性费用<small> - 这些产品不会是你订阅的一部分</small>"
 
 #. module: website_contract
@@ -873,24 +941,24 @@ msgid "Options"
 msgstr "选项"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Order Number"
-msgstr "订单号码"
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "现在付款"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_token_id
-msgid "Payment Token"
-msgstr ""
+#: model:ir.model,name:website_contract.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr "付款收单方"
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_method_id
+msgid "Payment Method"
+msgstr "付款方式"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_payment_transaction
 msgid "Payment Transaction"
-msgstr "付款交易"
+msgstr "支付交易"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_reminder
@@ -962,11 +1030,6 @@ msgstr "经常性可选明细行"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Reference:"
-msgstr "参考："
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "移除"
 
@@ -986,11 +1049,15 @@ msgstr "限制"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid ""
 "Restricted: The customer must ask a Sales Rep to add or remove this option\n"
-"Upgrade Only: The customer can add the option himself but must ask to remove it\n"
+"Upgrade Only: The customer can add the option himself but must ask to remove "
+"it\n"
 "Upgrade and Downgrade: The customer can add or remove this option himself\n"
-"Invisible: The customer doesn't see the option; however it gets carried away when switching subscription template"
+"Invisible: The customer doesn't see the option; however it gets carried away "
+"when switching subscription template"
 msgstr ""
-"限制：客户必须要求销售代表添加或删除此选项仅升级：客户可以添加选项自己，但必须要求将其删除升级和降级：客户可以添加或删除此选项自己看不见的：客户没有按'看不见的选项;然而，它就会切换认购模板时得意忘形"
+"限制：客户必须要求销售代表添加或删除此选项仅升级：客户可以添加选项自己，但必"
+"须要求将其删除升级和降级：客户可以添加或删除此选项自己看不见的：客户没有按'看"
+"不见的选项;然而，它就会切换认购模板时得意忘形"
 
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_quote_template
@@ -1000,7 +1067,7 @@ msgstr "销售报价单模板"
 #. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr "销售订阅"
+msgstr "认购"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -1021,11 +1088,6 @@ msgstr "销售订单"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "销售订单行"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Sales Orders"
-msgstr "销售订单"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1062,7 +1124,7 @@ msgstr "税金"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Taxes:"
-msgstr "税金："
+msgstr "税金:"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
@@ -1091,11 +1153,6 @@ msgid "The full URL to access the document through the website."
 msgstr "通过网站访问单据的完整URL。"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
-msgid "There are currently no contracts for your account."
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid ""
 "These modifications will be active immediately, however your next invoice "
@@ -1106,11 +1163,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
 msgid "Total"
 msgstr "总计"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Total Tax Included"
-msgstr "含税总金额"
 
 #. module: website_contract
 #: sql_constraint:sale.subscription:0
@@ -1132,7 +1184,7 @@ msgstr "件"
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Units Remaining"
-msgstr "剩余单元"
+msgstr "单位保留"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -1158,12 +1210,14 @@ msgid "Valid until:"
 msgstr "有效期至"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "查看合约"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "查看模板"
@@ -1190,13 +1244,15 @@ msgstr "想到id"
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "You can either create a quotation that will be discounted for the current "
-"invoicing period (the options will be added when the quotation is confirmed)"
-" or directly insert them in the subscription to invoice it on the next "
+"invoicing period (the options will be added when the quotation is confirmed) "
+"or directly insert them in the subscription to invoice it on the next "
 "invoice date."
-msgstr "您好您的新Odoo在线订购好了！您可以通过我们的在线门户网站或通过以下链接在线查看您的订阅"
+msgstr ""
+"您好您的新Odoo在线订购好了！您可以通过我们的在线门户网站或通过以下链接在线查"
+"看您的订阅"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#: model:ir.ui.view,arch_db:website_contract.contracts
 msgid "You don't have any subscriptions yet."
 msgstr "您还没有任何订阅"
 
@@ -1215,8 +1271,7 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
-#: model:ir.ui.view,arch_db:website_contract.portal_my_home_contract
+#: model:ir.ui.view,arch_db:website_contract.contracts
 msgid "Your Contracts"
 msgstr "您的合约"
 
@@ -1224,6 +1279,18 @@ msgstr "您的合约"
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Your Plan"
 msgstr "您的计划"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid ""
+"Your account is closed. If you wish to reopen it, you can pay your invoice "
+"for the current invoicing period."
+msgstr "你的帐户已经关闭。如果你想打开它,你可以支付你的发票为当前的发票。"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Your contract is waiting for payment."
+msgstr "你的合约正在等待付款。"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -1237,16 +1304,6 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Your subscription is closed."
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Your subscription is waiting for payment."
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "by paying your invoice."
 msgstr "通过支付你的发票。"
 
@@ -1256,11 +1313,6 @@ msgstr "通过支付你的发票。"
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "day(s)"
 msgstr "天"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "missing payments (from"
-msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1291,16 +1343,6 @@ msgstr "销售.订阅.行.可选"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "to this day) will be automatically processed."
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "user_id.partner_id.property_product_pricelist.currency_id"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "week(s)"
@@ -1317,3 +1359,266 @@ msgstr "年"
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr "⇒ 超售"
+
+#~ msgid ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>Hello ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "            Your subscription (${ctx.get('code')}) has just been renewed\n"
+#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
+#~ "                via a payment of ${ctx['total_amount']} "
+#~ "${ctx['currency']} charged on ${ctx['payment_method']}\n"
+#~ "                .\n"
+#~ "            %endif\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>You will find your invoice attached.</p>\n"
+#~ "\n"
+#~ "        %if ctx.get('next_date'):\n"
+#~ "        <p>\n"
+#~ "          Your next invoice will be on ${ctx.get('next_date')}.\n"
+#~ "        </p>\n"
+#~ "        %endif\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
+#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+#~ msgstr ""
+#~ "\n"
+#~ "            \n"
+#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
+#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
+#~ "rgb(255, 255, 255); \">\n"
+#~ "\n"
+#~ "        <p>你好 ${object.partner_id.name},</p>\n"
+#~ "        \n"
+#~ "        <p>\n"
+#~ "            您的订阅 (${ctx.get('code')}) 刚刚更新\n"
+#~ "            %if ctx.get('total_amount') 以及 ctx.get('payment_method')：\n"
+#~ "                通过付款 ${ctx['total_amount']} ${ctx['currency']} 变更于 "
+#~ "${ctx['payment_method']}\n"
+#~ "                。\n"
+#~ "            %endif\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>附件为开具给您的发票</p>\n"
+#~ "\n"
+#~ "        %if ctx.get('next_date'):\n"
+#~ "        <p>\n"
+#~ "          你的下一张发票将在 ${ctx.get('next_date')}.\n"
+#~ "        </p>\n"
+#~ "        %endif\n"
+#~ "\n"
+#~ "        <br/>\n"
+#~ "        <p>如若您有任何疑问或不满，敬请告知我们，感谢您的反馈。</p>\n"
+#~ "        <p>谢谢您选择了我们 ${object.company_id.name or 'us'}!</p>\n"
+#~ "        <br/>\n"
+#~ "        <br/>\n"
+#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
+#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
+#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
+#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
+#~ "color: #DDD;\">\n"
+#~ "                <strong style=\"text-transform:uppercase;\">${object."
+#~ "company_id.name}</strong></h3>\n"
+#~ "        </div>\n"
+#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
+#~ "height: 16px; background-color: #F2F2F2;\">\n"
+#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
+#~ "block; \">\n"
+#~ "                ${object.company_id.partner_id.sudo()."
+#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
+#~ "safe}\n"
+#~ "            </span>\n"
+#~ "            % if object.company_id.phone:\n"
+#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
+#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
+#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
+#~ "                    电话:&nbsp; ${object.company_id.phone}\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            % if object.company_id.website:\n"
+#~ "                <div>\n"
+#~ "                    网址 :&nbsp;<a href=\"${object.company_id.website}\">"
+#~ "${object.company_id.website}</a>\n"
+#~ "                </div>\n"
+#~ "            % endif\n"
+#~ "            <p></p>\n"
+#~ "        </div>\n"
+#~ "    </div>\n"
+#~ "                \n"
+#~ "        "
+
+#~ msgid "&amp;nbsp;"
+#~ msgstr "&amp;nbsp;"
+
+#~ msgid "Actual Quantity"
+#~ msgstr "实际的数量"
+
+#~ msgid "Custom Domain"
+#~ msgstr "自定义域名"
+
+#~ msgid ""
+#~ "Custom Domain\n"
+#~ "Access your Odoo Instance using your own domain."
+#~ msgstr ""
+#~ "自定义域名\n"
+#~ "使用自己的域名访问您的Odoo"
+
+#~ msgid ""
+#~ "Customize View\n"
+#~ "Customize one or more views (in a single module) to better suit your "
+#~ "needs."
+#~ msgstr "自定义视图一个或多个视图(在单个模块),以更好地满足您的需求。"
+
+#~ msgid "Customized Module"
+#~ msgstr "自定义模块"
+
+#~ msgid ""
+#~ "Customized Module\n"
+#~ "Customize a module to better match your business process."
+#~ msgstr "定制模块自定义模块，以更好的匹配业务流程。"
+
+#~ msgid ""
+#~ "Customized View\n"
+#~ "Customize one or more views (in a single module) to better suit your "
+#~ "needs."
+#~ msgstr "自定义视图一个或多个视图(在单个模块),以更好地满足您的需求。"
+
+#~ msgid "Customized Views"
+#~ msgstr "自定义视图"
+
+#~ msgid "Dashboard"
+#~ msgstr "仪表板"
+
+#~ msgid "Discount (%)"
+#~ msgstr "折扣(%)"
+
+#~ msgid ""
+#~ "If we store your payment information on our server, subscription payments "
+#~ "will be made automatically."
+#~ msgstr "如果我们在服务器存储你的支付信息,订阅将自动支付。"
+
+#~ msgid "Month(s)"
+#~ msgstr "月"
+
+#~ msgid "Odoo SAAS"
+#~ msgstr "Odoo SAAS"
+
+#~ msgid ""
+#~ "Odoo SAAS\n"
+#~ "Access to your Odoo Instance. Stored on our servers: high speed, high "
+#~ "reliability and daily backups."
+#~ msgstr ""
+#~ "Odoo SAAS,访问您的Odoo实例。存储在我们的服务器：高速度，高可靠性和日常备"
+#~ "份。"
+
+#~ msgid "Partial Invoice"
+#~ msgstr "部分发票"
+
+#~ msgid "Pay & Confirm"
+#~ msgstr "支付&确认"
+
+#~ msgid "Quantity actually used by the customer"
+#~ msgstr "客户实际使用的数量"
+
+#~ msgid "Quantity sold to the customer"
+#~ msgstr "卖给客户的数量"
+
+#~ msgid "Revenue KPIs"
+#~ msgstr "收入指标"
+
+#~ msgid "Salesman Dashboard"
+#~ msgstr "销售员仪表板"
+
+#~ msgid "Sold Quantity"
+#~ msgstr "已售数量"
+
+#~ msgid "Sub Total"
+#~ msgstr "小计 "
+
+#~ msgid ""
+#~ "These modifications will be active immedialy, however your next invoice "
+#~ "date will not be changed. Your next invoice will arrive on:"
+#~ msgstr ""
+#~ "这些修改将立即激活，然而你的下一个发票日期不会改变。你的下一张发票将到达："
+
+#~ msgid "Time"
+#~ msgstr "时间"
+
+#~ msgid "Unit of Measure"
+#~ msgstr "计量单位"
+
+#~ msgid "Year(s)"
+#~ msgstr "年"
+
+#~ msgid ""
+#~ "You will find here all the quotations and sales orders related to this "
+#~ "subscriptions."
+#~ msgstr "你会发现这里所有的报价和销售订单与此相关的订阅。"
+
+#~ msgid "Your subscription ${object.code}is active!"
+#~ msgstr "您的订阅 ${object.code}是有效的!"
+
+#~ msgid "years(s)"
+#~ msgstr "年"
+
+#~ msgid "Back"
+#~ msgstr "返回"
+
+#~ msgid "Contracts"
+#~ msgstr "合约"
+
+#~ msgid "Order Number"
+#~ msgstr "订单号码"
+
+#~ msgid "Reference:"
+#~ msgstr "参考："
+
+#~ msgid "Sales Orders"
+#~ msgstr "销售订单"
+
+#~ msgid "Total Tax Included"
+#~ msgstr "含税总金额"

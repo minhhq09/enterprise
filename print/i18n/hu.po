@@ -1,23 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-# 
+#
 # Translators:
-# krnkris <krnkris@freemail.hu>, 2016
-# Oregional <geza.nagy@oregional.hu>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
+# krnkris, 2015
+# krnkris, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
-"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-06-06 19:55+0000\n"
+"Last-Translator: krnkris\n"
+"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
+"hu/)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: print
@@ -27,15 +27,20 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" "
+"documents, some mistakes appear. Here is a list of the failed Print Order "
+"you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can "
+"find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
-"                                        ${print_order_id}    |    ${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx."
+"get('print_errors'):\n"
+"                                        ${print_order_id}    |    "
+"${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -47,15 +52,21 @@ msgstr ""
 "                <body>\n"
 "                      <p>Kedves ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>Az utolsó \"Nyomtass és küld\" dokumentum művelet alatt, egy pár hiba látszik. Itt a lista a megszerkesztett sikertelen nyomtatási szabályról.</p>\n"
-"                      <p>Kérem, egy pár hibát fedeztünk fel. Megtalálhatja a <i>Beállítások > Nyomtatási szabályok</i> alatt.</p>\n"
+"                      <p>Az utolsó \"Nyomtass és küld\" dokumentum művelet "
+"alatt, egy pár hiba látszik. Itt a lista a megszerkesztett sikertelen "
+"nyomtatási szabályról.</p>\n"
+"                      <p>Kérem, egy pár hibát fedeztünk fel. Megtalálhatja a "
+"<i>Beállítások > Nyomtatási szabályok</i> alatt.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
-"                            Nyomtatási szabályok ID azonosító  |    Hiba üzenet <br/>\n"
+"                            Nyomtatási szabályok ID azonosító  |    Hiba "
+"üzenet <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
-"                                        ${print_order_id}    |    ${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx."
+"get('print_errors'):\n"
+"                                        ${print_order_id}    |    "
+"${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -69,8 +80,8 @@ msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
 msgstr ""
-"<b> Hitelkeret hiba :</b> A szolgáltatója hitelkeret számlája negatív. Kérem"
-" újratölteni a szolgáltatója számláját a dokumentumok küldéséhez."
+"<b> Hitelkeret hiba :</b> A szolgáltatója hitelkeret számlája negatív. Kérem "
+"újratölteni a szolgáltatója számláját a dokumentumok küldéséhez."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:63
@@ -92,7 +103,7 @@ msgstr "Fekete & Fehér"
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Megszakítás"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_city
@@ -150,7 +161,7 @@ msgstr "Követel"
 #: model:ir.model.fields,field_description:print.field_print_order_currency_id
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_currency_id
 msgid "Currency"
-msgstr "Pénznem"
+msgstr "Valuta"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_base_config_settings_default_print_provider
@@ -165,7 +176,7 @@ msgstr "Alapértelmezett nyomtatási szolgáltató"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_display_name
 #: model:ir.model.fields,field_description:print.field_print_provider_display_name
 msgid "Display Name"
-msgstr "Megjelenített név"
+msgstr "Név megjelenítése"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -216,7 +227,7 @@ msgstr "Csoportosítás..."
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_id
 #: model:ir.model.fields,field_description:print.field_print_provider_id
 msgid "ID"
-msgstr "Azonosító ID"
+msgstr "ID"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_ink
@@ -227,7 +238,7 @@ msgstr "Tinta"
 #. module: print
 #: model:ir.model,name:print.model_account_invoice
 msgid "Invoice"
-msgstr "Számla"
+msgstr "Számlázás"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_res_partner_has_address
@@ -242,7 +253,7 @@ msgstr "Cím érvényes lehet"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard___last_update
 #: model:ir.model.fields,field_description:print.field_print_provider___last_update
 msgid "Last Modified on"
-msgstr "Utoljára frissítve ekkor"
+msgstr "Utolsó frissítés dátuma"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
@@ -263,7 +274,7 @@ msgstr "Utolsó küldés időpontja"
 #: model:ir.model.fields,field_description:print.field_print_order_write_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_write_uid
 msgid "Last Updated by"
-msgstr "Utoljára frissítette"
+msgstr "Utoljára frissítve, által"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_write_date
@@ -412,7 +423,7 @@ msgstr "Nyomtatás részletei"
 #. module: print
 #: selection:print.provider,environment:0
 msgid "Production"
-msgstr "Éles"
+msgstr "Termelés"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_provider_provider
@@ -527,7 +538,7 @@ msgstr "Utca"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_street2
 msgid "Street2"
-msgstr "Utca2"
+msgstr "Utca 2"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -537,7 +548,7 @@ msgstr "Technikai információk"
 #. module: print
 #: selection:print.provider,environment:0
 msgid "Test"
-msgstr "Teszt üzemmód"
+msgstr "Teszt"
 
 #. module: print
 #: code:addons/print/models/print_provider.py:191
@@ -554,11 +565,11 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report"
-" action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report "
+"action (ir.actions.report.xml) for the model %s."
 msgstr ""
-"A kinyomtatni és elküldeni kívánt dokumentumot nem nyomtatható. Nincs hozzá"
-"  jelentés művelet (ir.actions.report.xml) ehhez a modellhez %s."
+"A kinyomtatni és elküldeni kívánt dokumentumot nem nyomtatható. Nincs hozzá  "
+"jelentés művelet (ir.actions.report.xml) ehhez a modellhez %s."
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:61
@@ -572,18 +583,20 @@ msgstr "Az elküldeni kívánt dokumentumnak a következő hibája van : %s"
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
-"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
+"%(partner_street)s <br/> %(partner_city)s "
+"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
+"%s</i>"
 msgstr ""
 "Ezt a számlát a következő szolgáltatóval %(provider_name)s  a postán küldte "
 "a következő címen.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
-"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
+"%(partner_street)s <br/> %(partner_city)s "
+"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
+"%s</i>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
 msgid "Update"
-msgstr "Frissítés"
+msgstr "Frissít"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -593,7 +606,7 @@ msgstr "Ha kijavította a hibát, kérem kattintson a 'Visszaállítás sablonra
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_zip
 msgid "Zip"
-msgstr "Irsz."
+msgstr "Irsz"
 
 #. module: print
 #: model:ir.model,name:print.model_base_config_settings
@@ -620,3 +633,9 @@ msgstr "print.order.sendnow.wizard"
 #: model:ir.model,name:print.model_print_order_wizard
 msgid "print.order.wizard"
 msgstr "print.order.wizard"
+
+#~ msgid "Ressource ID"
+#~ msgstr "Forrás ID azonosító"
+
+#~ msgid "Ressource Model"
+#~ msgstr "Forrás modell"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2015-12-25 21:26+0000\n"
 "Last-Translator: SV <svilij@yahoo.com>\n"
 "Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
@@ -21,9 +21,16 @@ msgstr ""
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Всегда перенаправлять на физический телефон"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -45,6 +52,11 @@ msgstr "Отображаемое Имя"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -83,8 +95,8 @@ msgstr "Последний раз обновлено"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Количество звонков"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -96,7 +108,6 @@ msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "Конфигурация АТС"
 
@@ -129,11 +140,6 @@ msgid "SIP Password"
 msgstr "SIP Пароль"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "Добавочный номер вашего офисного телефона."
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, fuzzy, python-format
@@ -148,8 +154,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "Количество звонков перед отменой вызова"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -174,6 +181,11 @@ msgid "Users"
 msgstr "Пользователи"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -193,6 +205,12 @@ msgstr "соединение не может быть сделано."
 msgid "voip.configurator"
 msgstr "voip.configurator"
 
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Всегда перенаправлять на физический телефон"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Входящие звонок от"
+
 #~ msgid "Invoice"
 #~ msgstr "Счет"
 
@@ -211,6 +229,9 @@ msgstr "voip.configurator"
 #~ msgid "Message for Stock Picking"
 #~ msgstr "Сообщение для комплектования запасов"
 
+#~ msgid "Number of rings"
+#~ msgstr "Количество звонков"
+
 #~ msgid "Purchase Order"
 #~ msgstr "Заказ на закупку"
 
@@ -228,6 +249,20 @@ msgstr "voip.configurator"
 
 #~ msgid "Stock Picking"
 #~ msgstr "Комплектование запасов"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "Добавочный номер вашего офисного телефона."
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "Количество звонков перед отменой вызова"
+
+#~ msgid ""
+#~ "The user credentials could be wrong or the connection cannot be made. "
+#~ "Please check your configuration.</br> (Reason receives :%d"
+#~ msgstr ""
+#~ "Пользовательские учетные данные могут быть неверными или не удается "
+#~ "установить подключение. Пожалуйста, проверьте вашу конфигурацию.</br> "
+#~ "(Причина получает :%d"
 
 #~ msgid "Website tags"
 #~ msgstr "Теги вебсайта"

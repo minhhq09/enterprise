@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-03-22 06:58+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -19,9 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
+msgid ""
+"All your outbound calls will be redirected to your handset when the customer "
+"accepts your call"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
-msgid "Always redirect to physical phone"
-msgstr "Vždy presmerovať na fyzický telefón"
+msgid "Always Redirect to Handset"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -43,6 +50,11 @@ msgstr "Zobraziť meno"
 #: code:addons/voip/static/src/js/sip_js.js:57
 #, python-format
 msgid "From "
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
+msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
@@ -81,8 +93,8 @@ msgstr "Naposledy aktualizované"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of rings"
-msgstr "Počet zazvonení"
+msgid "Number of Rings"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -94,7 +106,6 @@ msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.res_user_form
-#: model:ir.ui.view,arch_db:voip.view_voip_user_config
 msgid "PBX Configuration"
 msgstr "PBX konfigurácia"
 
@@ -127,11 +138,6 @@ msgid "SIP Password"
 msgstr "SIP heslo"
 
 #. module: voip
-#: model:ir.model.fields,field_description:voip.field_res_users_sip_external_phone
-msgid "The extension of  your office's phone."
-msgstr "Extenzia vášho kancelárskeo telefónu."
-
-#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:179
 #, fuzzy, python-format
@@ -145,8 +151,9 @@ msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_ring_number
-msgid "The number of rings before cancelling the call"
-msgstr "Poçet zvonení pred zrušením hovoru"
+msgid ""
+"The number of rings before the call is defined as refused by the customer."
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -171,6 +178,11 @@ msgid "Users"
 msgstr "Používatelia"
 
 #. module: voip
+#: model:ir.ui.view,arch_db:voip.view_voip_user_config
+msgid "VOIP Configuration"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
@@ -191,6 +203,12 @@ msgstr "spojenie nemožno uskutočniť."
 msgid "voip.configurator"
 msgstr "voip.configurator"
 
+#~ msgid "Always redirect to physical phone"
+#~ msgstr "Vždy presmerovať na fyzický telefón"
+
+#~ msgid "Incomming call from "
+#~ msgstr "Prichádzajúci hovor od"
+
 #~ msgid "Invoice"
 #~ msgstr "Faktúra"
 
@@ -209,6 +227,9 @@ msgstr "voip.configurator"
 #~ msgid "Message for Stock Picking"
 #~ msgstr "Správa pre skladový odber"
 
+#~ msgid "Number of rings"
+#~ msgstr "Počet zazvonení"
+
 #~ msgid "Purchase Order"
 #~ msgstr "Objednávka"
 
@@ -226,6 +247,19 @@ msgstr "voip.configurator"
 
 #~ msgid "Stock Picking"
 #~ msgstr "Skladový výber"
+
+#~ msgid "The extension of  your office's phone."
+#~ msgstr "Extenzia vášho kancelárskeo telefónu."
+
+#~ msgid "The number of rings before cancelling the call"
+#~ msgstr "Poçet zvonení pred zrušením hovoru"
+
+#~ msgid ""
+#~ "The user credentials could be wrong or the connection cannot be made. "
+#~ "Please check your configuration.</br> (Reason receives :%d"
+#~ msgstr ""
+#~ "Prihlasovacie údaje môžu byť nesprávne, alebo nie je možné naviazať "
+#~ "spojenie. Prosím skontrolujte vašu konfiguráciu.</br> (Dôvod prijíma :%d"
 
 #~ msgid "Website tags"
 #~ msgstr "Menovky webstránky"

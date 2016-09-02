@@ -102,7 +102,7 @@ class QualityPoint(models.Model):
         if self.measure_frequency_type == 'all':
             return True
         elif self.measure_frequency_type == 'random':
-            return (random.random() < self.measure_frequency_value)
+            return (random.random() < self.measure_frequency_value / 100.0)
         elif self.measure_frequency_type == 'periodical':
             delta = False
             if self.measure_frequency_unit == 'day':
@@ -217,7 +217,7 @@ class QualityCheck(models.Model):
 
     @api.multi
     def _compute_alert_count(self):
-        alert_data = self.env['quality.alert'].read_group([('check_id', '=', self.ids)], ['check_id'], ['check_id'])
+        alert_data = self.env['quality.alert'].read_group([('check_id', 'in', self.ids)], ['check_id'], ['check_id'])
         alert_result = dict((data['check_id'][0], data['check_id_count']) for data in alert_data)
         for check in self:
             check.alert_count = alert_result.get(check.id, 0)

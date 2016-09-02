@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-07-06 10:08+0000\n"
 "Last-Translator: Piotr Szlązak <szlazakpiotr@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/odoo/odoo-9/language/pl/)\n"
@@ -51,12 +51,6 @@ msgid "Content Type"
 msgstr "Typ zawartości"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-#, fuzzy
-msgid "DHL Configuration"
-msgstr "USPS Konfiguracja"
-
-#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "naturalna dostawa"
@@ -78,8 +72,7 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-#, fuzzy
-msgid "First-Class"
+msgid "First Class"
 msgstr "Pierwsza klasa"
 
 #. module: delivery_usps
@@ -119,12 +112,6 @@ msgstr "Podarunek"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Wewnętrzne"
-
-#. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
-#, fuzzy
-msgid "Label File Type"
-msgstr "typ mail"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -183,11 +170,6 @@ msgstr ""
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Nieprostokątnych"
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "PDF"
-msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -314,13 +296,13 @@ msgid "Sample"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:154
+#: code:addons/delivery_usps/models/delivery_usps.py:151
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr ""
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:131
+#: code:addons/delivery_usps/models/delivery_usps.py:128
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
@@ -333,11 +315,6 @@ msgstr ""
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
-msgstr ""
-
-#. module: delivery_usps
-#: selection:delivery.carrier,usps_label_file_type:0
-msgid "TIF"
 msgstr ""
 
 #. module: delivery_usps
@@ -395,6 +372,11 @@ msgid "Type of regular container"
 msgstr ""
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "USPS Configuration"
+msgstr "USPS Konfiguracja"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 #, fuzzy
@@ -449,3 +431,15 @@ msgstr "Twoja firma lub kod odbiorcy jest niepoprawny."
 
 #~ msgid "Uncheck this box to use production UPS Web Services"
 #~ msgstr "Usuń zaznaczenie tego pudełka aby użyć produkcji UPS Web Services"
+
+#, fuzzy
+#~ msgid "DHL Configuration"
+#~ msgstr "USPS Konfiguracja"
+
+#, fuzzy
+#~ msgid "First-Class"
+#~ msgstr "Pierwsza klasa"
+
+#, fuzzy
+#~ msgid "Label File Type"
+#~ msgstr "typ mail"

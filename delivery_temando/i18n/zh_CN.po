@@ -1,21 +1,29 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_temando
-# 
+#
 # Translators:
+# aishiby Ail <15287995117@189.cn>, 2016
+# Eddie Lim <bhweelim@yahoo.com>, 2016
+# fausthuang, 2015
+# fausthuang, 2015
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
+# 尘 王 <2119205914@qq.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"PO-Revision-Date: 2016-07-22 04:11+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
+"language/zh_CN/)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: delivery_temando
@@ -106,6 +114,11 @@ msgid "Default HS Code"
 msgstr "默认HS代码"
 
 #. module: delivery_temando
+#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_id
+msgid "Default Packaging Type"
+msgstr ""
+
+#. module: delivery_temando
 #: selection:delivery.carrier,temando_delivery_type:0
 msgid "Depot to Depot"
 msgstr "堆场到堆场"
@@ -179,7 +192,8 @@ msgstr "猎人快递。通过Temando"
 msgid ""
 "If set, Temando fetch quotations only for this carrier. If not set, the "
 "cheapest one is selected."
-msgstr "如果设置了，Temando 只为这家承运人会收取报价。如果不设置，会选择最便宜的一家"
+msgstr ""
+"如果设置了，Temando 只为这家承运人会收取报价。如果不设置，会选择最便宜的一家"
 
 #. module: delivery_temando
 #: selection:delivery.carrier,temando_distance_measurement_type:0
@@ -428,11 +442,6 @@ msgid "Temando Configuration"
 msgstr "Temando 设置"
 
 #. module: delivery_temando
-#: model:ir.model.fields,field_description:delivery_temando.field_delivery_carrier_temando_default_packaging_id
-msgid "Temando Default Packaging Type"
-msgstr ""
-
-#. module: delivery_temando
 #: model:ir.model.fields,field_description:delivery_temando.field_sale_order_temando_delivery_method
 #: model:ir.model.fields,field_description:delivery_temando.field_stock_picking_temando_delivery_method
 msgid "Temando Delivery Method"
@@ -543,8 +552,8 @@ msgstr "交货不能完成以为一些产品的重量缺失"
 #: code:addons/delivery_temando/models/temando_request.py:54
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is"
-" missing."
+"The estimated price cannot be computed because the weight of your product is "
+"missing."
 msgstr "因为产品重量缺失所以估计价格不能被计算"
 
 #. module: delivery_temando
@@ -569,7 +578,7 @@ msgstr "这个取件不能通过Temando,因为它没有链接到销售订单上"
 #: selection:delivery.carrier,temando_pallet_nature:0
 #: model:ir.model,name:delivery_temando.model_stock_picking
 msgid "Transfer"
-msgstr "转账"
+msgstr "转移"
 
 #. module: delivery_temando
 #: model:ir.model.fields,help:delivery_temando.field_delivery_carrier_temando_hs_code
@@ -596,3 +605,54 @@ msgstr ""
 #: selection:delivery.carrier,temando_pallet_type:0
 msgid "chep"
 msgstr "集宝物流"
+
+#~ msgid "Box"
+#~ msgstr "盒子"
+
+#~ msgid "Carton"
+#~ msgstr "纸箱"
+
+#~ msgid "Document Envelope"
+#~ msgstr "文档信封"
+
+#~ msgid "Fix Height if not provided on the product packaging."
+#~ msgstr "固定高度，假如产品包装没有提供。"
+
+#~ msgid "Fix Length if not provided on the product packaging."
+#~ msgstr "固定长度，假如产品包装没有提供。"
+
+#~ msgid "Fix Width if not provided on the product packaging."
+#~ msgstr "固定宽度，假如产品包装没有提供。"
+
+#~ msgid "HS Code"
+#~ msgstr "危险品代码"
+
+#~ msgid "Letter"
+#~ msgstr "信"
+
+#~ msgid "Package Height"
+#~ msgstr "包装高度"
+
+#~ msgid "Package Length"
+#~ msgstr "包装长度"
+
+#~ msgid "Package Width"
+#~ msgstr "包装宽度"
+
+#~ msgid "Pallet"
+#~ msgstr "垫板"
+
+#~ msgid "Parcel"
+#~ msgstr "包裹"
+
+#~ msgid "Temando default packaging type"
+#~ msgstr "Temando 默认包装类型"
+
+#~ msgid "Test Mode"
+#~ msgstr "测试模式"
+
+#~ msgid "Uncheck this box to use production Temando Web Services"
+#~ msgstr "取消这个复选框而是使用Temando网上服务"
+
+#~ msgid "Unpackage or N/A"
+#~ msgstr "拆包或不适用"

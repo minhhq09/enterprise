@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-08-29 12:08+0000\n"
 "PO-Revision-Date: 2016-04-28 17:56+0000\n"
 "Last-Translator: Rick Hunter <rick_hunter_ec@yahoo.com>\n"
 "Language-Team: Spanish (Ecuador) (http://www.transifex.com/odoo/odoo-9/"
@@ -582,12 +582,6 @@ msgid "Automatic Payment"
 msgstr "Pago automático"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
-msgid "Back"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -666,7 +660,7 @@ msgid "Close your contract"
 msgstr "Cerrar su contrato"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:203
+#: code:addons/website_contract/controllers/main.py:204
 #, python-format
 msgid "Closing text : "
 msgstr "Texto de cierre:"
@@ -704,7 +698,6 @@ msgid "Contract Details"
 msgstr "Detalles del Contrato"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Plantilla de Contrato"
@@ -806,13 +799,6 @@ msgid "If not set, the default payment method of the partner will be used."
 msgstr ""
 "Si no se establece, se utilizará el método de pago predeterminado de la "
 "empresa."
-
-#. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
-msgid ""
-"If set, all recurring products in this Sales Order will be included in a new "
-"Subscription with the selected template"
-msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -980,11 +966,6 @@ msgid "Options"
 msgstr "Opciones"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Order Number"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Pagar ahora"
@@ -1075,11 +1056,6 @@ msgstr "Líneas de opción recurrentes"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
-msgid "Reference:"
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -1143,12 +1119,6 @@ msgstr "Pedido de Venta"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-#, fuzzy
-msgid "Sales Orders"
-msgstr "Pedido de Venta"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1229,11 +1199,6 @@ msgid "Total"
 msgstr "Total"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
-msgid "Total Tax Included"
-msgstr ""
-
-#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
@@ -1281,12 +1246,14 @@ msgid "Valid until:"
 msgstr "Válido hasta:"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Ver Contrato"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Ver Plantilla"
@@ -2068,6 +2035,9 @@ msgstr "⇒ Venta adicional"
 #~ "El acceso a su instancia Odoo. Almacenada en nuestros servidores: alta "
 #~ "velocidad, alta fiabilidad y copias de seguridad diarias."
 
+#~ msgid "Partial Invoice"
+#~ msgstr "Factura parcial"
+
 #~ msgid "Pay & Confirm"
 #~ msgstr "Pagar y Confirmar"
 
@@ -2089,6 +2059,14 @@ msgstr "⇒ Venta adicional"
 #~ msgid "Sub Total"
 #~ msgstr "Subtotal"
 
+#~ msgid ""
+#~ "These modifications will be active immedialy, however your next invoice "
+#~ "date will not be changed. Your next invoice will arrive on:"
+#~ msgstr ""
+#~ "Estas modificaciones serán activas de forma inmediata, sin embargo, su "
+#~ "próxima fecha de la factura no será cambiada. La próxima factura llegará "
+#~ "en:"
+
 #~ msgid "Time"
 #~ msgstr "Hora"
 
@@ -2098,5 +2076,19 @@ msgstr "⇒ Venta adicional"
 #~ msgid "Year(s)"
 #~ msgstr "Año(s)"
 
+#~ msgid ""
+#~ "You will find here all the quotations and sales orders related to this "
+#~ "subscriptions."
+#~ msgstr ""
+#~ "Aquí encontrará todas las cotizaciones y órdenes de venta relacionados "
+#~ "con estas suscripciones."
+
+#~ msgid "Your subscription ${object.code}is active!"
+#~ msgstr "¡Su suscripción ${object.code} esta activa!"
+
 #~ msgid "years(s)"
 #~ msgstr "año(s)"
+
+#, fuzzy
+#~ msgid "Sales Orders"
+#~ msgstr "Pedido de Venta"
