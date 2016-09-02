@@ -23,10 +23,10 @@ function js_files {
 echo "Clearing previous build..."
 rm -rf "${__dir}/pos_blackbox_be"
 
-# don't compile __openerp__.py because that file is used by Odoo to
+# don't compile manifest file because it is used by Odoo to
 # determine whether a directory contains a module or not.
 echo "Copying over files..."
-rsync -a --exclude '*.pyc' --exclude tools --exclude __openerp__.py "${__dir}/../" "${__dir}/pos_blackbox_be"
+rsync -a --exclude '*.pyc' --exclude tools --exclude __manifest__.py "${__dir}/../" "${__dir}/pos_blackbox_be"
 
 echo "Compiling Python..."
 python_files | xargs -0 python -m py_compile
@@ -34,8 +34,8 @@ python_files | xargs -0 python -m py_compile
 echo "Deleting Python source..."
 python_files | xargs -0 rm
 
-# move over uncompiled __openerp__.py
-rsync -a "${__dir}/../__openerp__.py" "${__dir}/pos_blackbox_be/"
+# move over uncompiled manifest file
+rsync -a "${__dir}/../__manifest__.py" "${__dir}/pos_blackbox_be/"
 
 # sudo npm install -g minifier
 echo "Obfuscating JS..."
