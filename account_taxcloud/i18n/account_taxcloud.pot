@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"POT-Creation-Date: 2016-09-05 14:39+0000\n"
+"PO-Revision-Date: 2016-09-05 14:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,6 +36,12 @@ msgid "Default TIC Code"
 msgstr ""
 
 #. module: account_taxcloud
+#: model:ir.model.fields,field_description:account_taxcloud.field_account_config_settings_tic_category_id
+msgid "Default TIC Code *"
+msgstr ""
+
+#. module: account_taxcloud
+#: model:ir.model.fields,help:account_taxcloud.field_account_config_settings_tic_category_id
 #: model:ir.model.fields,help:account_taxcloud.field_res_company_tic_category_id
 msgid "Default TICs(Taxabilty information codes) code to get sales tax from TaxCloud by product category."
 msgstr ""
@@ -119,7 +125,7 @@ msgid "TIC Description"
 msgstr ""
 
 #. module: account_taxcloud
-#: model:ir.ui.view,arch_db:account_taxcloud.account_taxcloud_company_inherit_form
+#: model:ir.ui.view,arch_db:account_taxcloud.account_config_settings_taxcloud_inherit
 msgid "TaxCloud"
 msgstr ""
 
@@ -136,6 +142,11 @@ msgstr ""
 #. module: account_taxcloud
 #: model:ir.ui.view,arch_db:account_taxcloud.account_config_settings_taxcloud_inherit
 msgid "TaxCloud Configuration"
+msgstr ""
+
+#. module: account_taxcloud
+#: model:ir.model.fields,help:account_taxcloud.field_product_template_tic_category_id
+msgid "TaxCloud uses Taxability Information Codes (TIC) to make sure each item in your catalog is taxed at the right rate (or, for tax-exempt items, not taxed at all), so it’s important to make sure that each item is assigned a TIC. If you can’t find the right tax category for an item in your catalog, you can assign it to the 'General Goods and Services' TIC, 00000. TaxCloud automatically assigns products to this TIC as a default, so unless you've changed an item's TIC in the past, it should already be set to 00000."
 msgstr ""
 
 #. module: account_taxcloud

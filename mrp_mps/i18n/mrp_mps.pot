@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 08:40+0000\n"
-"PO-Revision-Date: 2016-08-18 08:40+0000\n"
+"POT-Creation-Date: 2016-09-05 14:38+0000\n"
+"PO-Revision-Date: 2016-09-05 14:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -121,6 +121,7 @@ msgid "Default Unit of Measure used for all stock operation."
 msgstr ""
 
 #. module: mrp_mps
+#: model:ir.model.fields,help:mrp_mps.field_mrp_config_settings_manufacturing_period
 #: model:ir.model.fields,help:mrp_mps.field_res_company_manufacturing_period
 msgid "Default value for the time ranges in Master Production Schedule report."
 msgstr ""
@@ -180,11 +181,6 @@ msgstr ""
 #. module: mrp_mps
 #: model:ir.model.fields,help:mrp_mps.field_sale_forecast_to_supply
 msgid "If mode is Manual, this is the forced value"
-msgstr ""
-
-#. module: mrp_mps
-#: model:ir.model.fields,help:mrp_mps.field_product_product_recurring_invoice
-msgid "If set, confirming a sale order with this product will create a subscription"
 msgstr ""
 
 #. module: mrp_mps
@@ -258,6 +254,11 @@ msgid "Manufacturing Period"
 msgstr ""
 
 #. module: mrp_mps
+#: model:ir.model.fields,field_description:mrp_mps.field_mrp_config_settings_manufacturing_period
+msgid "Manufacturing Period *"
+msgstr ""
+
+#. module: mrp_mps
 #: model:ir.actions.client,name:mrp_mps.mrp_mps_report_action_client
 #: model:ir.ui.menu,name:mrp_mps.mrp_mps_report_menu
 msgid "Master Production Schedule"
@@ -300,11 +301,6 @@ msgstr ""
 #: code:addons/mrp_mps/static/src/js/mrp_mps_report_widget.js:190
 #, python-format
 msgid "Only Integer or Float Value should be valid."
-msgstr ""
-
-#. module: mrp_mps
-#: model:ir.model.fields,field_description:mrp_mps.field_product_product_optional_product_ids
-msgid "Optional Products"
 msgstr ""
 
 #. module: mrp_mps
@@ -351,11 +347,6 @@ msgid "Production Location"
 msgstr ""
 
 #. module: mrp_mps
-#: model:ir.model.fields,help:mrp_mps.field_product_product_optional_product_ids
-msgid "Products to propose when add to cart."
-msgstr ""
-
-#. module: mrp_mps
 #. openerp-web
 #: code:addons/mrp_mps/static/src/xml/mps_backend.xml:25
 #, python-format
@@ -381,16 +372,6 @@ msgid "State"
 msgstr ""
 
 #. module: mrp_mps
-#: model:ir.model.fields,field_description:mrp_mps.field_product_product_recurring_invoice
-msgid "Subscription Product"
-msgstr ""
-
-#. module: mrp_mps
-#: model:ir.model.fields,field_description:mrp_mps.field_product_product_tic_category_id
-msgid "TIC Category"
-msgstr ""
-
-#. module: mrp_mps
 #. openerp-web
 #: code:addons/mrp_mps/static/src/xml/mps_backend.xml:47
 #, python-format
@@ -403,7 +384,7 @@ msgid "To Supply"
 msgstr ""
 
 #. module: mrp_mps
-#: code:addons/mrp_mps/models/mrp_mps_report.py:146
+#: code:addons/mrp_mps/models/mrp_mps_report.py:149
 #, python-format
 msgid "Week "
 msgstr ""
@@ -429,6 +410,11 @@ msgstr ""
 #. module: mrp_mps
 #: model:ir.ui.view,arch_db:mrp_mps.report_inventory
 msgid "double click to reset to automatic computation"
+msgstr ""
+
+#. module: mrp_mps
+#: model:ir.model,name:mrp_mps.model_mrp_config_settings
+msgid "mrp.config.settings"
 msgstr ""
 
 #. module: mrp_mps
