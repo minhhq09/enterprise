@@ -20,7 +20,7 @@ class PlaidProviderAccount(models.Model):
         ICP_obj = self.env['ir.config_parameter'].sudo()
         login = ICP_obj.get_param('plaid_id') or self._cr.dbname
         secret = ICP_obj.get_param('plaid_secret') or ICP_obj.get_param('database.uuid')
-        url = ICP_obj.get_param('plaid_service_url') or 'https://onlinesync.odoo.com/plaid/api2'
+        url = ICP_obj.get_param('plaid_service_url') or 'https://onlinesync.odoo.com/plaid/api'
         return {'login': login, 'secret': secret, 'url': url,}
 
     def check_plaid_error(self, resp):

@@ -29,7 +29,7 @@ class YodleeProviderAccount(models.Model):
         ICP_obj = self.env['ir.config_parameter'].sudo()
         login = ICP_obj.get_param('yodlee_id') or self._cr.dbname
         secret = ICP_obj.get_param('yodlee_secret') or ICP_obj.get_param('database.uuid')
-        url = ICP_obj.get_param('yodlee_service_url') or 'https://onlinesync.odoo.com/yodlee/api2'
+        url = ICP_obj.get_param('yodlee_service_url') or 'https://onlinesync.odoo.com/yodlee/api/2'
         return {'login': login, 'secret': secret, 'url': url,}
 
     @api.multi
@@ -48,7 +48,7 @@ class YodleeProviderAccount(models.Model):
                                     'password': password,
                                     'email': email}}
         try:
-            resp = requests.post(url=credentials['url']+'/v1/user/register', data=requestBody, headers=headerVal, timeout=30)
+            resp = requests.post(url=credentials['url']+'/user/register', data=requestBody, headers=headerVal, timeout=30)
         except requests.exceptions.Timeout:
             raise UserError(_('Timeout: the server did not reply within 30s'))
         self.check_yodlee_error(resp)
@@ -61,7 +61,7 @@ class YodleeProviderAccount(models.Model):
         credentials = self._get_yodlee_credentials()
         requestBody = {'cobrandLogin': credentials['login'], 'cobrandPassword': credentials['secret']}
         try:
-            resp = requests.post(url=credentials['url']+'/v1/cobrand/login', data=requestBody, timeout=30)
+            resp = requests.post(url=credentials['url']+'/cobrand/login', data=requestBody, timeout=30)
         except requests.exceptions.Timeout:
             raise UserError(_('Timeout: the server did not reply within 30s'))
         self.check_yodlee_error(resp)
@@ -71,12 +71,10 @@ class YodleeProviderAccount(models.Model):
     def do_user_login(self):
         credentials = self._get_yodlee_credentials()
         company_id = self.env.user.company_id
-        company_id.yodlee_user_login = 'sbMemodoo-test3'
-        company_id.yodlee_user_password = 'sbMemodoo-test3#123'
         headerVal = {'Authorization': '{cobSession='+company_id.yodlee_access_token+'}'}
         requestBody = {'loginName': company_id.yodlee_user_login, 'password': company_id.yodlee_user_password}
         try:
-            resp = requests.post(url=credentials['url']+'/v1/user/login', data=requestBody, headers=headerVal, timeout=30)
+            resp = requests.post(url=credentials['url']+'/user/login', data=requestBody, headers=headerVal, timeout=30)
         except requests.exceptions.Timeout:
             raise UserError(_('Timeout: the server did not reply within 30s'))
         self.check_yodlee_error(resp)
@@ -141,7 +139,7 @@ class YodleeProviderAccount(models.Model):
         if len(searchString) < 3:
             raise UserError(_('Please enter at least 3 characters for the search'))
         requestBody = {'name': searchString}
-        resp_json = self.yodlee_fetch('/v1/providers', requestBody, {}, 'GET')
+        resp_json = self.yodlee_fetch('/providers', requestBody, {}, 'GET')
         providers = resp_json.get('provider', [])
         for provider in providers:
             provider['type_provider'] = 'yodlee'
@@ -152,7 +150,7 @@ class YodleeProviderAccount(models.Model):
     def get_login_form(self, site_id, provider):
         if provider != 'yodlee':
             return super(YodleeProviderAccount, self).get_login_form(site_id, provider)
-        resp_json = self.yodlee_fetch('/v1/providers/'+str(site_id), {}, {}, 'GET')
+        resp_json = self.yodlee_fetch('/providers/'+str(site_id), {}, {}, 'GET')
         if not resp_json:
             raise UserError(_('Could not retrieve login form for siteId: %s (%s)' % (site_id, provider)))
         return {
@@ -193,10 +191,10 @@ class YodleeProviderAccount(models.Model):
         # If we have an id, it means that provider_account already exists and that it is an update
         if len(self) > 0 and self.id:
             params = {'providerAccountIds': self.provider_account_identifier}
-            resp_json = self.yodlee_fetch('/v1/providers/providerAccounts', params, data, 'PUT')
+            resp_json = self.yodlee_fetch('/providers/providerAccounts', params, data, 'PUT')
             return self.id
         else:
-            resp_json = self.yodlee_fetch('/v1/providers/providerAccounts', params, data, 'POST')
+            resp_json = self.yodlee_fetch('/providers/providerAccounts', params, data, 'POST')
             refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
             provider_account_identifier = resp_json.get('providerAccount', {}).get('id')
             vals = {'name': name or 'Online institution', 
@@ -268,7 +266,7 @@ class YodleeProviderAccount(models.Model):
             self.log_message(_('Timeout: Could not retrieve accounts informations'))
             raise UserError(_('Timeout: Could not retrieve accounts informations'))
         params = {'include': 'credentials'} if return_credentials else {}
-        resp_json = self.yodlee_fetch('/v1/providers/providerAccounts/'+self.provider_account_identifier, params, {}, 'GET')
+        resp_json = self.yodlee_fetch('/providers/providerAccounts/'+self.provider_account_identifier, params, {}, 'GET')
         refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
         if return_credentials:
             self.write_status(refresh_info)
@@ -315,7 +313,7 @@ class YodleeProviderAccount(models.Model):
     @api.multi
     def add_update_accounts(self):
         params = {'providerAccountId': self.provider_account_identifier}
-        resp_json = self.yodlee_fetch('/v1/accounts/', params, {}, 'GET')
+        resp_json = self.yodlee_fetch('/accounts/', params, {}, 'GET')
         accounts = resp_json.get('account', [])
         accounts_added = self.env['account.online.journal']
         transactions = []
@@ -364,7 +362,7 @@ class YodleeProviderAccount(models.Model):
                 try:
                     ctx = self._context.copy()
                     ctx['no_post_message'] = True
-                    provider.with_context(ctx).yodlee_fetch('/v1/providers/providerAccounts/'+provider.provider_account_identifier, {}, {}, 'DELETE')
+                    provider.with_context(ctx).yodlee_fetch('/providers/providerAccounts/'+provider.provider_account_identifier, {}, {}, 'DELETE')
                 except UserError:
                     # If call to yodlee fails, don't prevent user to delete record 
                     pass
@@ -457,7 +455,7 @@ class YodleeAccount(models.Model):
             'toDate': fields.Date.today(),
         }
 
-        resp_json = self.account_online_provider_id.yodlee_fetch('/v1/transactions', params, {}, 'GET')
+        resp_json = self.account_online_provider_id.yodlee_fetch('/transactions', params, {}, 'GET')
         transactions = []
         for tr in resp_json.get('transaction', []):
             # We only take posted transaction into account
