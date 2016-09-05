@@ -10,27 +10,28 @@ class MrpProductProduce(models.TransientModel):
 
     def on_barcode_scanned(self, barcode):
         self.ensure_one()
-        product = self.env['product.product'].search([('barcode', '=', barcode), ('id', '=', self.product_id.id)])
-        if product:
+        product = self.env['product.product'].search([('barcode', '=', barcode)])
+        if product == self.product_id:
             self.product_qty += 1
         else:
             lot = self.env['stock.production.lot'].search([('name', '=', barcode), ('product_id', '=', self.product_id.id)])
-            if lot and self.product_id.tracking != 'none':
+            if lot and self.product_id.tracking == 'lot':
                 if self.lot_id == lot:
                     self.product_qty += 1
                 else:
                     self.product_qty = 1
                     self.lot_id = lot.id
+            elif lot and self.product_id.tracking == 'serial':
+                self.product_qty = 1
+                self.lot_id = lot.id
             else:
-                move_lots = self.consume_line_ids.filtered(lambda m: m.lot_id.name ==  barcode)
+                move_lots = self.consume_line_ids.filtered(lambda m: m.lot_id.name == barcode)
                 if move_lots:
-                    move_lots[0].write({'quantity_done': move_lots[0].quantity_done + 1.0})
-                    move_lots[0].move_id.split_move_lot()
-                    move_lots[0].plus_visible = (move_lots[0].quantity == 0.0) or (move_lots[0].quantity_done < move_lots[0].quantity)
+                    move_lots[0].quantity_done += 1
                 else:
-                    return { 'warning': {
-                        'title': _('No lot found'),
-                        'message': _('There is no lot for corresponding barcode "%(barcode)s"') % {'barcode': barcode},
+                    return {'warning': {
+                        'title': _('No found'),
+                        'message': _('There is no lot for %s barcode') % barcode
                     }}
 
 
