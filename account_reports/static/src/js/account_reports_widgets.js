@@ -81,7 +81,7 @@ var ReportWidget = Widget.extend({
             var context = {
                 date_filter: this.context.date_filter,
                 date_filter_cmp: this.context.date_filter_cmp,
-                date_from: !this.report_type.date_range ? this.context.date_from : 'none',
+                date_from: this.report_type.date_range ? this.context.date_from : 'none',
                 date_to: this.context.date_to,
                 periods_number: this.context.periods_number,
                 date_from_cmp: this.context.date_from_cmp,
