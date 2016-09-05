@@ -1,21 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_dhl
-#
+# 
 # Translators:
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+# liulixia <liu.lixia@elico-corp.com>, 2016
+# fausthuang <faust_huang@hotmail.com>, 2016
+# glovebx <ruinning@163.com>, 2016
+# Talway <9010446@qq.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-12-24 05:13+0000\n"
-"Last-Translator: 珠海-老天 <liangjia@qq.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: liAnGjiA <liangjia@qq.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: delivery_dhl
@@ -94,8 +99,13 @@ msgid "Asia Pacific"
 msgstr "亚太"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Available in the Point of Sale"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "可用性"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
 msgstr ""
 
 #. module: delivery_dhl
@@ -109,25 +119,9 @@ msgid "Centimeters"
 msgstr "厘米"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_to_weight
-msgid ""
-"Check if the product should be weighted using the hardware scale integration"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Check if you want this product to appear in the Point of Sale"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_dhl_dutiable
 msgid "Check this if your package is dutiable."
 msgstr "如果你的包裹需要交税就选择这个"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -143,6 +137,11 @@ msgstr "DHL　账号"
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
 msgstr "DHL配置"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
@@ -184,11 +183,6 @@ msgstr "DHL账号丢失，请更正你的运输方式设置"
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr "DHL密码丢失，请更正你的运输方式设置"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
@@ -289,11 +283,6 @@ msgid "Please provide at least one item to ship."
 msgstr "请至少提供一个项目去发货"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Point of Sale Category"
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_weight_unit:0
 msgid "Pounds"
 msgstr "英镑"
@@ -304,24 +293,29 @@ msgid "Product"
 msgstr "产品"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
 msgstr "评级"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating Last Value"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value: 0=Unhappy, 10=Happy"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "地区"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -368,8 +362,7 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:386
 #, python-format
 msgid ""
-"The address of your company warehouse is missing or wrong (Missing "
-"field(s) :\n"
+"The address of your company warehouse is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
 "公司仓库的地址缺失或者错误（缺失字段（集）：\n"
@@ -379,8 +372,8 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:392
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr "因为产品重量缺失所以估计价格不能被计算"
 
 #. module: delivery_dhl
@@ -389,19 +382,16 @@ msgid "The full URL to access the document through the website."
 msgstr "通过网站访问单据的完整URL。"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr "那些类别是为了将相似的产品进行分组以进行电子商务的销售."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Those categories are used to group similar products for point of sale."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_to_weight
-msgid "To Weigh With Scale"
-msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_published
@@ -409,9 +399,19 @@ msgid "Visible in Website"
 msgstr "在网站可见"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "网站上的评论"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
 msgstr "网站产品目录"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
@@ -443,51 +443,3 @@ msgstr "不能取消没有拣货日期的DHL装运"
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "盒子"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL国内邮"
-
-#~ msgid "DHL International"
-#~ msgstr "DHL国际快递"
-
-#~ msgid "Double Pallets"
-#~ msgstr "双栈板"
-
-#~ msgid "Flyer/Smalls"
-#~ msgstr "Flyer/Smalls"
-
-#~ msgid "Non-conveyables"
-#~ msgstr "不可搬运的"
-
-#~ msgid "Package Depth"
-#~ msgstr "包装深度"
-
-#~ msgid "Package Height"
-#~ msgstr "包装高度"
-
-#~ msgid "Package Type"
-#~ msgstr "包装类型"
-
-#~ msgid "Package Width"
-#~ msgstr "包装宽度"
-
-#~ msgid "Pallets"
-#~ msgstr "栈板"
-
-#~ msgid "Parcels/Conveyables"
-#~ msgstr "包裹／可搬运的"
-
-#~ msgid "Test Mode"
-#~ msgstr "测试模式"
-
-#~ msgid "Uncheck this box to use production DHL Web Services"
-#~ msgstr "要用DHL　web服务的话，不要勾选这个选项框"
-
-#~ msgid "Availability"
-#~ msgstr "可用性"
-
-#~ msgid "Website Comments"
-#~ msgstr "网站上的评论"

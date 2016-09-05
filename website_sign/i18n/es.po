@@ -1,63 +1,62 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_sign
-#
+# 
 # Translators:
 # Alejandro Die Sanchis <marketing@domatix.com>, 2016
-# Ana Juaristi <ajuaristio@gmail.com>, 2015
-# Antonio Trueba, 2016
-# Ivan Nieto <ivan.nieto.sousa@gmail.com>, 2016
-# Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>, 2016
-# Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2015
+# Martin Trigaux <mat@odoo.com>, 2016
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
+# Ana Juaristi <ajuaristio@gmail.com>, 2016
+# Sergio Hevia <sah@talleresbernesga.com>, 2016
+# Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2016
+# Antonio Trueba <atgayol@gmail.com>, 2016
+# José Vicente <txusev@gmail.com>, 2016
+# Oihane Crucelaegui <oihanecruce@gmail.com>, 2016
+# Ivan Nieto <ivan.n.s@tuta.io>, 2016
+# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
+# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
+# David Perez <david@closemarketing.es>, 2016
+# Daniel Santibáñez Polanco <dansanti@gmail.com>, 2016
+# Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
+# Sergio Flores <vitavitae1@gmail.com>, 2016
+# Carles Antoli <carlesantoli@hotmail.com>, 2016
+# Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-03-04 21:07+0000\n"
-"Last-Translator: Ivan Nieto <ivan.nieto.sousa@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
-"Language: es\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016\n"
+"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_sign
 #: model:mail.template,body_html:website_sign.website_sign_mail_template
 msgid ""
 "\n"
-"            <link href='http://fonts.googleapis.com/css?family=Lato' "
-"rel='stylesheet' type='text/css'>\n"
+"            <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>\n"
 "\n"
-"            <div style=\"width:90%; max-width:600px; margin:auto; font-"
-"size:10pt; padding:20px 0; font-family:'Lato', serif;\">\n"
+"            <div style=\"width:90%; max-width:600px; margin:auto; font-size:10pt; padding:20px 0; font-family:'Lato', serif;\">\n"
 "                <div style=\"background-color:#EFEDED; padding: 20px;\">\n"
 "                    % if ctx['template_type'] == \"request\":\n"
-"                        ${ctx['email_from_usr']} (<a href=\"mailto:"
-"${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:"
-"#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}"
-"</a>) has requested your signature on this document :\n"
+"                        ${ctx['email_from_usr']} (<a href=\"mailto:${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}</a>) has requested your signature on this document :\n"
 "                    % endif\n"
 "                    % if ctx['template_type'] == \"follower\":\n"
-"                        ${ctx['email_from_usr']} (<a href=\"mailto:"
-"${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:"
-"#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}"
-"</a>) has added you as a Follower of this Signature Request :\n"
+"                        ${ctx['email_from_usr']} (<a href=\"mailto:${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}</a>) has added you as a Follower of this Signature Request :\n"
 "                    % endif\n"
 "                    % if ctx['template_type'] == \"completed\":\n"
-"                        This document has been completed and signed by "
-"everyone :\n"
+"                        This document has been completed and signed by everyone :\n"
 "                    % endif\n"
 "\n"
-"                    <h1 style=\"font-size:1.25em; margin:15px 0 25px 0;\">"
-"${object['reference']}</h1>\n"
+"                    <h1 style=\"font-size:1.25em; margin:15px 0 25px 0;\">${object['reference']}</h1>\n"
 "                    \n"
 "                    <div style=\"margin:0 -15px\">\n"
-"                        <a style=\"float:left; display:inline-block; "
-"margin:0 15px 10px 15px; padding:5px 10px; border-radius: 3px; background-"
-"color:#5C6ED0; text-align:center; text-decoration:none; color:#F7FBFD;\" "
-"href=${ctx['link']}>\n"
+"                        <a style=\"float:left; display:inline-block; margin:0 15px 10px 15px; padding:5px 10px; border-radius: 3px; background-color:#5C6ED0; text-align:center; text-decoration:none; color:#F7FBFD;\" href=${ctx['link']}>\n"
 "                            % if ctx['template_type'] == \"request\":\n"
 "                                Sign Document Now\n"
 "                            % endif\n"
@@ -69,17 +68,13 @@ msgid ""
 "                            % endif\n"
 "                        </a>\n"
 "                        \n"
-"                        <div style=\"font-size:0.8em; color:#999999; "
-"margin:0 15px 10px 15px\">\n"
+"                        <div style=\"font-size:0.8em; color:#999999; margin:0 15px 10px 15px\">\n"
 "                            % if ctx['template_type'] == \"request\":\n"
-"                                <strong style=\"font-weight:bold; color:"
-"black;\">Warning: do not forward this email to other people!</strong><br/>\n"
-"                                They will be able to access this document "
-"and sign it as yourself.\n"
+"                                <strong style=\"font-weight:bold; color:black;\">Warning: do not forward this email to other people!</strong><br/>\n"
+"                                They will be able to access this document and sign it as yourself.\n"
 "                            % endif\n"
 "                            % if ctx['template_type'] == \"follower\":\n"
-"                                You will be notified once the document has "
-"been signed by everyone involved.\n"
+"                                You will be notified once the document has been signed by everyone involved.\n"
 "                            % endif\n"
 "                        </div>\n"
 "                        <div style=\"clear:both;\"/>\n"
@@ -93,8 +88,7 @@ msgid ""
 "                </div>\n"
 "                \n"
 "                <div style=\"font-size:0.8em; margin-top:10px;\">\n"
-"                    <span style=\"color:#428BCA;\">Sent with <strong style="
-"\"font-weight:bold;\">Odoo Sign</strong></span>\n"
+"                    <span style=\"color:#428BCA;\">Sent with <strong style=\"font-weight:bold;\">Odoo Sign</strong></span>\n"
 "                </div>\n"
 "            </div>\n"
 "        \n"
@@ -327,7 +321,7 @@ msgstr "Creado por"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_create_date
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_create_date
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Creado el"
 
 #. module: website_sign
 #. openerp-web
@@ -386,7 +380,7 @@ msgstr "Mostrar en pantalla"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_display_name
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: website_sign
 #. openerp-web
@@ -394,6 +388,11 @@ msgstr "Nombre mostrado"
 #, python-format
 msgid "Do you also send documents to sign?"
 msgstr "¿Usted también envía documentos para firmar?"
+
+#. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
+msgid "Document Followers"
+msgstr "Seguidores del documento"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_page
@@ -447,7 +446,8 @@ msgstr ""
 
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.signature_request_view_form
-#: selection:signature.request,state:0 selection:signature.request.item,state:0
+#: selection:signature.request,state:0
+#: selection:signature.request.item,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -492,7 +492,7 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signer_email
 msgid "Email"
-msgstr "Email"
+msgstr "Correo electrónico"
 
 #. module: website_sign
 #. openerp-web
@@ -555,11 +555,6 @@ msgid "Final Validation"
 msgstr "Validación final"
 
 #. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
-msgid "Followers"
-msgstr "Seguidores"
-
-#. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign._doc_sign
 msgid "Followers ("
 msgstr "Seguidores ("
@@ -598,21 +593,21 @@ msgstr "Historial"
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3459
+#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3684
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_value_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3428
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3653
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/xml/website_sign_backend.xml:65
 #, python-format
 msgid ""
-"If you leave your document without any fields, the signers will be requested "
-"for an unique signature alongside the document"
+"If you leave your document without any fields, the signers will be requested"
+" for an unique signature alongside the document"
 msgstr ""
 "Si deja su documento sin ningún campo, se solicitará a los firmantes para "
 "una firma única junto con el documento"
@@ -634,11 +629,11 @@ msgstr "Inicial"
 
 #. module: website_sign
 #. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:69
 #, python-format
 msgid ""
-"It's easy, incredibly efficient and totally free: you just have to create an "
-"Odoo account."
+"It's easy, incredibly efficient and totally free: you just have to create an"
+" Odoo account."
 msgstr ""
 
 #. module: website_sign
@@ -661,7 +656,7 @@ msgstr "Última modificación en"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_write_uid
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_write_date
@@ -672,7 +667,7 @@ msgstr "Última actualización de"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_write_date
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_latitude
@@ -980,13 +975,13 @@ msgstr "Compartir enlace"
 #: code:addons/website_sign/static/src/xml/website_sign_backend.xml:105
 #, python-format
 msgid ""
-"Share this link and Odoo will create a new document per person who clicks on "
-"the link. The link is private, only those that receive the link will be able "
-"to sign it."
+"Share this link and Odoo will create a new document per person who clicks on"
+" the link. The link is private, only those that receive the link will be "
+"able to sign it."
 msgstr ""
 "Comparte este enlace y Odoo creará un nuevo documento por persona que hace "
-"clic en el enlace. El enlace es privado, sólo los que reciben el enlace será "
-"capaz de firmarlo."
+"clic en el enlace. El enlace es privado, sólo los que reciben el enlace será"
+" capaz de firmarlo."
 
 #. module: website_sign
 #. openerp-web
@@ -1149,7 +1144,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_state
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_state
 msgid "State"
-msgstr "Provincia"
+msgstr "Estado"
 
 #. module: website_sign
 #. openerp-web
@@ -1194,22 +1189,11 @@ msgstr "Gracias!"
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.deleted_sign_request
 msgid ""
-"The signature access you are trying to reach does not exist. Maybe the "
-"signature request has been deleted or modified. <br/>\n"
-"                    If there still exists a signature request for this "
-"document, check your inbox to get your access!"
+"The signature access you are trying to reach does not exist. Maybe the signature request has been deleted or modified. <br/>\n"
+"                    If there still exists a signature request for this document, check your inbox to get your access!"
 msgstr ""
-"El acceso a la firma que está tratando de llegar no existe. Tal vez la "
-"solicitud de firma se ha eliminado o modificado. <br/>\n"
-"Si todavía existe una petición de firma de este documento, revise su bandeja "
-"de entrada de llegar a su acceso!"
-
-#. module: website_sign
-#. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
-#, python-format
-msgid "Then you need Odoo Sign."
-msgstr "Then you need Odoo Sign."
+"El acceso a la firma que está tratando de llegar no existe. Tal vez la solicitud de firma se ha eliminado o modificado. <br/>\n"
+"Si todavía existe una petición de firma de este documento, revise su bandeja de entrada de llegar a su acceso!"
 
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.layout
@@ -1235,7 +1219,7 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_tip
 msgid "Tip"
-msgstr "Consejo"
+msgstr "Propina"
 
 #. module: website_sign
 #. openerp-web
@@ -1291,7 +1275,7 @@ msgstr "Valor"
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.signature_request_view_form
 msgid "View"
-msgstr "Vista"
+msgstr "Ver"
 
 #. module: website_sign
 #. openerp-web
@@ -1410,57 +1394,3 @@ msgstr "en"
 #, python-format
 msgid "to start a new template from this one !"
 msgstr ""
-
-#~ msgid "Action Needed"
-#~ msgstr "Necesaria acción"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "Fecha del último mensaje publicado en el registro."
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "Seguidores (Canales)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "Seguidores (Empresas)"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr "Si está marcado, hay nuevos mensajes que requieren su atención"
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "Si está marcado, hay nuevos mensajes que requieren su atención."
-
-#~ msgid "Is Follower"
-#~ msgstr "Es un seguidor"
-
-#~ msgid "Last Message Date"
-#~ msgstr "Fecha del último mensaje"
-
-#~ msgid "Messages"
-#~ msgstr "Mensajes"
-
-#~ msgid "Messages and communication history"
-#~ msgstr "Mensajes e historial de comunicación"
-
-#~ msgid "Number of Actions"
-#~ msgstr "Número de acciones"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "Número de mensajes que requieren una acción"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "Número de mensajes no leidos"
-
-#~ msgid "Unread Messages"
-#~ msgstr "Mensajes sin leer"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "Contador de mensajes no leidos"
-
-#~ msgid "Website Messages"
-#~ msgstr "Mensajes del sitio web"
-
-#~ msgid "Website communication history"
-#~ msgstr "Historial de comunicaciones del sitio web"
-
-#~ msgid "Document Followers"
-#~ msgstr "Seguidores del documento"

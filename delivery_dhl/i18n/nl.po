@@ -1,22 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_dhl
-#
+# 
 # Translators:
-# Volluta <volluta@tutanota.com>, 2015
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
+# Volluta <volluta@tutanota.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Eric Geens <ericgeens@yahoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-11-08 17:43+0000\n"
-"Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
-"Language: nl\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Eric Geens <ericgeens@yahoo.com>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_dhl
@@ -95,9 +97,14 @@ msgid "Asia Pacific"
 msgstr "Pacifisch Azië"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Available in the Point of Sale"
-msgstr ""
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "Beschikbaarheid"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
+msgstr "Beschikbaarheid waarschuwing"
 
 #. module: delivery_dhl
 #: model:ir.model,name:delivery_dhl.model_delivery_carrier
@@ -110,45 +117,34 @@ msgid "Centimeters"
 msgstr "Centimeter"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_to_weight
-msgid ""
-"Check if the product should be weighted using the hardware scale integration"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Check if you want this product to appear in the Point of Sale"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_dhl_dutiable
 msgid "Check this if your package is dutiable."
 msgstr "Controleer dit wanneer uw pakket belastbaar is."
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "D - Express Worldwide"
-msgstr "D - Express Worldwide"
+msgstr "D - Express wereldwijd"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_account_number
 msgid "DHL Account Number"
-msgstr "DHL Account Nummer"
+msgstr "DHL account nummer"
 
 #. module: delivery_dhl
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
-msgstr "DHL Configuratie"
+msgstr "DHL configuratie"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr "DHL standaard verpakking soort"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
 msgid "DHL Password"
-msgstr "DHL Wachtwoord"
+msgstr "DHL wachtwoord"
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:368
@@ -186,11 +182,6 @@ msgstr ""
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr "DHL wachtwoord ontbreekt, verander uw bezorgingsmethode instellingen."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
@@ -288,12 +279,7 @@ msgstr "Verpakking"
 #: code:addons/delivery_dhl/models/dhl_request.py:390
 #, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Voorzie minimaal één item om te verzenden aub."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Point of Sale Category"
-msgstr ""
+msgstr "Voorzie minimaal één item om te verzend aub."
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_weight_unit:0
@@ -306,24 +292,29 @@ msgid "Product"
 msgstr "Product"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
 msgstr "Beoordeling"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating Last Value"
+msgstr "Beoordeling laatste waarde"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr "Beoordeling teller"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value: 0=Unhappy, 10=Happy"
+msgstr "Beoordeling waarde: 0 = Ontevreden, 10 = Blij"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Streek"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -370,20 +361,18 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:386
 #, python-format
 msgid ""
-"The address of your company warehouse is missing or wrong (Missing "
-"field(s) :\n"
+"The address of your company warehouse is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
-"Het adres van uw bedrijfsmagazijn ontbreekt of is foutief. (Mist "
-"veld(en) : \n"
+"Het adres van uw bedrijfsmagazijn ontbreekt of is foutief. (Mist veld(en) : \n"
 "%s)"
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:392
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr ""
 "De geschatte prijs kan niet berekend worden omdat het gewicht op uw product "
 "ontbreekt."
@@ -394,21 +383,18 @@ msgid "The full URL to access the document through the website."
 msgstr "De volledige URL om het document te kunnen raadplegen via de website."
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
-"De categorieën zijn gebruikt om gelijkende producten te groeperen in e-"
-"commerce."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Those categories are used to group similar products for point of sale."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_to_weight
-msgid "To Weigh With Scale"
-msgstr ""
+"De categorieën zijn gebruikt om gelijkende producten te groeperen in "
+"e-commerce."
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_published
@@ -416,9 +402,19 @@ msgid "Visible in Website"
 msgstr "Zichtbaar in website"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "Website commentaar"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
 msgstr "Website productcategorie"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
+msgstr "Website reeks"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
@@ -450,69 +446,3 @@ msgstr "U kunt uw DHL bezorging niet annuleren zonder ophaaldatum."
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr "ZPL2"
-
-#~ msgid "Box"
-#~ msgstr "Doos"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL Domestic"
-
-#~ msgid "DHL International"
-#~ msgstr "DHL International"
-
-#~ msgid "Double Pallets"
-#~ msgstr "Dubbele palletten"
-
-#~ msgid "Flyer/Smalls"
-#~ msgstr "Flyer/Smalls"
-
-#~ msgid "Non-conveyables"
-#~ msgstr "Niet-vervoerbaar"
-
-#~ msgid "Package Depth"
-#~ msgstr "Verpakking Diepte"
-
-#~ msgid "Package Height"
-#~ msgstr "Pakkethoogte"
-
-#~ msgid "Package Type"
-#~ msgstr "Verpakking soort"
-
-#~ msgid "Package Width"
-#~ msgstr "Pakketbreedte"
-
-#~ msgid "Pallets"
-#~ msgstr "Palletten"
-
-#~ msgid "Parcels/Conveyables"
-#~ msgstr "Parcelen/Vervoerbaar"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testmodus"
-
-#~ msgid "Uncheck this box to use production DHL Web Services"
-#~ msgstr "Vink deze box uit om productie DHL Web Services te gebruiken"
-
-#~ msgid "Availability"
-#~ msgstr "Beschikbaarheid"
-
-#~ msgid "Availability Warning"
-#~ msgstr "Beschikbaarheid waarschuwing"
-
-#~ msgid "DHL Default Packaging Type"
-#~ msgstr "DHL standaard verpakking soort"
-
-#~ msgid "Rating Last Value"
-#~ msgstr "Beoordeling laatste waarde"
-
-#~ msgid "Rating count"
-#~ msgstr "Beoordeling teller"
-
-#~ msgid "Rating value: 0=Unhappy, 10=Happy"
-#~ msgstr "Beoordeling waarde: 0 = Ontevreden, 10 = Blij"
-
-#~ msgid "Website Comments"
-#~ msgstr "Website commentaar"
-
-#~ msgid "Website Sequence"
-#~ msgstr "Website reeks"

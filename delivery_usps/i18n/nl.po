@@ -1,22 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_usps
-#
+# 
 # Translators:
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2015-2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-03-10 09:39+0000\n"
-"Last-Translator: Yenthe Van Ginneken <yenthespam@gmail.com>\n"
-"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
-"Language: nl\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_usps
@@ -53,6 +54,11 @@ msgid "Content Type"
 msgstr "Soort inhoud"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "DHL Configuration"
+msgstr "DHL configuratie"
+
+#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Leveringsaard"
@@ -74,7 +80,7 @@ msgstr "Express"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First Class"
+msgid "First-Class"
 msgstr "Eerste klasse"
 
 #. module: delivery_usps
@@ -148,12 +154,6 @@ msgid "Machinable"
 msgstr "Machinaal"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
-msgid "Mail Type"
-msgstr "Mailsoort"
-
-#. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Medium Flat Rate Box"
 msgstr "Gemiddelde vast tarief doos"
@@ -172,6 +172,11 @@ msgstr "Niet leverbare optie"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Niet rechthoekig"
+
+#. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -224,7 +229,8 @@ msgstr ""
 
 #. module: delivery_usps
 #: model:ir.model.fields,help:delivery_usps.field_delivery_carrier_usps_machinable
-msgid "Please check on USPS website to ensure that your package is machinable."
+msgid ""
+"Please check on USPS website to ensure that your package is machinable."
 msgstr ""
 "Controleer aub op de USPS website om te verzekeren dat uw pakket machinaal "
 "is."
@@ -245,7 +251,7 @@ msgstr "Gelieve een geldige postcode in te geven bij uw bedrijfsadres"
 #: code:addons/delivery_usps/models/usps_request.py:75
 #, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Voorzie minimaal één item om te verzenden aub."
+msgstr "Voorzie minimaal één item om te verzend aub."
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:59
@@ -254,8 +260,8 @@ msgid ""
 "Please set country U.S.A in your company address, Service is only available "
 "for U.S.A"
 msgstr ""
-"Gelieve uw land in te stellen binnen de V.S voor uw bedrijf, dienst is enkel "
-"beschikbaar voor de V.S."
+"Gelieve uw land in te stellen binnen de V.S voor uw bedrijf, dienst is enkel"
+" beschikbaar voor de V.S."
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -304,13 +310,13 @@ msgid "Sample"
 msgstr "Voorbeeld"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:151
+#: code:addons/delivery_usps/models/delivery_usps.py:154
 #, python-format
 msgid "Shipment N° %s has been cancelled"
-msgstr "Levering n° %s werd geannuleerd"
+msgstr "Levering N° %s werd geannuleerd"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:128
+#: code:addons/delivery_usps/models/delivery_usps.py:131
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Verzending aangemaakt in USPS <br/> <b>Traceernummer:</b>%s"
@@ -326,7 +332,12 @@ msgid "Small Flat Rate Envelope"
 msgstr "Vast tarief kleine enveloppe"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:161
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "TIF"
+msgstr "TIF"
+
+#. module: delivery_usps
+#: code:addons/delivery_usps/models/usps_request.py:159
 #, python-format
 msgid "The USPS service selected (%s) cannot be used to deliver this package."
 msgstr ""
@@ -347,14 +358,14 @@ msgstr ""
 #: code:addons/delivery_usps/models/usps_request.py:78
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr ""
 "De geschatte prijs kan niet berekend worden omdat het gewicht op uw product "
 "ontbreekt."
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:367
+#: code:addons/delivery_usps/models/usps_request.py:361
 #, python-format
 msgid ""
 "The recepient address can't be found. Please check that your recepient has "
@@ -379,20 +390,19 @@ msgid "To Company"
 msgstr "Naar bedrijf"
 
 #. module: delivery_usps
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
-msgid "Type of container"
-msgstr "Type van de container"
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
+msgid "Type of USPS International regular container"
+msgstr "Type van USPS internationale standaard container"
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_domestic_regular_container
-#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_international_regular_container
-msgid "Type of regular container"
-msgstr "Type van de reguliere container"
+msgid "Type of USPS domestic regular container"
+msgstr "Type van USPS binnenlandse reguliere container"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "USPS Configuration"
-msgstr "USPS configuratie"
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_container
+msgid "Type of container"
+msgstr "Type van de container"
 
 #. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
@@ -411,6 +421,11 @@ msgstr ""
 "aub de levermethode in USPS internationaal."
 
 #. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_first_class_mail_type
+msgid "USPS First Class Mail Type"
+msgstr "USPS soort eerste klasse mail"
+
+#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_international
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_international_product_product
 msgid "USPS International Flat Rate Box"
@@ -420,11 +435,21 @@ msgstr "USPS vaste prijs internationale box"
 #: code:addons/delivery_usps/models/usps_request.py:70
 #, python-format
 msgid ""
-"USPS International is used only to ship  outside of the U.S.A. Please change "
-"the delivery method into USPS Domestic."
+"USPS International is used only to ship  outside of the U.S.A. Please change"
+" the delivery method into USPS Domestic."
 msgstr ""
 "USPS internationaal wordt enkel gebruikt om buiten de V.S te verzenden. "
 "Wijzig aub de levermethode in USPS binnenland."
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
+msgid "USPS Label File Type"
+msgstr "USPS label bestand soort"
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_mail_type
+msgid "USPS Mail Type"
+msgstr "USPS mailsoort"
 
 #. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_service
@@ -442,46 +467,7 @@ msgid "Usps size container"
 msgstr "USPS containergrootte"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/usps_request.py:369
+#: code:addons/delivery_usps/models/usps_request.py:363
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Uw bedrijf of ontvanger zijn postcode is foutief."
-
-#~ msgid "Test Mode"
-#~ msgstr "Testmodus"
-
-#~ msgid "USPS Domestic Flat Rate Box"
-#~ msgstr "USPS vaste prijs binnenlandse doos"
-
-#~ msgid "USPS Password"
-#~ msgstr "USPS wachtwoord"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Vink dit vakje uit om productie UPS web services te gebruiken"
-
-#~ msgid "DHL Configuration"
-#~ msgstr "DHL configuratie"
-
-#~ msgid "First-Class"
-#~ msgstr "Eerste klasse"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"
-
-#~ msgid "TIF"
-#~ msgstr "TIF"
-
-#~ msgid "Type of USPS International regular container"
-#~ msgstr "Type van USPS internationale standaard container"
-
-#~ msgid "Type of USPS domestic regular container"
-#~ msgstr "Type van USPS binnenlandse reguliere container"
-
-#~ msgid "USPS First Class Mail Type"
-#~ msgstr "USPS soort eerste klasse mail"
-
-#~ msgid "USPS Label File Type"
-#~ msgstr "USPS label bestand soort"
-
-#~ msgid "USPS Mail Type"
-#~ msgstr "USPS mailsoort"

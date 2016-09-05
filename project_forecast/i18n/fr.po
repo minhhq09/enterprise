@@ -1,29 +1,31 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-#
+# 
 # Translators:
-# Clo <clo@odoo.com>, 2015
-# David Halgand <halgandd@gmail.com>, 2015
-# Maxime Chambreuil <maxime.chambreuil@gmail.com>, 2015
+# Xavier Belmere <Info@cartmeleon.com>, 2016
+# Adriana Ierfino <adriana.ierfino@savoirfairelinux.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Clo <clo@odoo.com>, 2016
+# David Halgand <halgandd@gmail.com>, 2016
+# Olivier Lenoir <olivier.lenoir@free.fr>, 2016
+# Lucas Deliege <lud@odoo.com>, 2016
+# Melanie Bernard <mbe@odoo.com>, 2016
+# Fabien Pinckaers <fp@openerp.com>, 2016
+# Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-12-07 19:46+0000\n"
-"Last-Translator: Maxime Chambreuil <maxime.chambreuil@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/odoo/odoo-9/language/fr/)\n"
-"Language: fr\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Maxime Chambreuil <mchambreuil@ursainfosystems.com>, 2016\n"
+"Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#. module: project_forecast
-#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "% of time"
-msgstr "% de temps"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_kanban_inherit_project_forecast
@@ -34,6 +36,11 @@ msgstr "<span class=\"o_label\">Planification</span>"
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
 msgid "<span>Forecast</span>"
 msgstr "<span>Planification</span>"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_active
+msgid "Active"
+msgstr "Actif"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_report_activities
@@ -51,6 +58,16 @@ msgid "Allow forecast"
 msgstr "Planifier"
 
 #. module: project_forecast
+#: model:ir.actions.server,name:project_forecast.project_forecast_server_action_archive
+msgid "Archive/Unarchive"
+msgstr ""
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
+msgid "Archived"
+msgstr "Archivé"
+
+#. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_project
 msgid "By Project"
 msgstr "Par projet"
@@ -64,6 +81,11 @@ msgstr "Par utilisateur"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_color
 msgid "Color"
 msgstr "Couleur"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_count
+msgid "Count Payment Token"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
@@ -130,6 +152,12 @@ msgid "Forecast by user"
 msgstr "Planification par utilisateur"
 
 #. module: project_forecast
+#: code:addons/project_forecast/models/models.py:121
+#, python-format
+msgid "Forecasted time must be positive"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Future"
 msgstr "Future"
@@ -142,7 +170,7 @@ msgstr "Générer le planning"
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_pivot
 msgid "Graph"
-msgstr "Graphe"
+msgstr "Graphique"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
@@ -155,19 +183,24 @@ msgid "ID"
 msgstr "ID"
 
 #. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_has_address
+msgid "Is address valid"
+msgstr "L'adresse est valide"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast___last_update
 msgid "Last Modified on"
-msgstr "Dernière modification le"
+msgstr "Dernière Modification le"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_uid
 msgid "Last Updated by"
-msgstr "Mis à jour par"
+msgstr "Dernière mise à jour par"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_date
 msgid "Last Updated on"
-msgstr "Mis à jour le"
+msgstr "Dernière mise à jour le"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
@@ -187,7 +220,12 @@ msgstr "Nom"
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Past"
-msgstr "Passée"
+msgstr "Passé"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_ids
+msgid "Payment Tokens"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_forecast_time
@@ -212,6 +250,16 @@ msgid "Project"
 msgstr "Projet"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
+msgid "Project Forecast"
+msgstr "Prévision de projet"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_resource_ids
+msgid "Resource ids"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_start_date
 msgid "Start date"
 msgstr "Date de début"
@@ -234,16 +282,10 @@ msgid "Task tags"
 msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:136
+#: code:addons/project_forecast/models/models.py:133
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr "La date de début doit précéder la date de fin."
-
-#. module: project_forecast
-#: code:addons/project_forecast/models/models.py:124
-#, python-format
-msgid "The time must be positive"
-msgstr "Le temps doit être positif"
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_project_allow_forecast
@@ -256,13 +298,23 @@ msgid "Time"
 msgstr "Heure"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
+msgid "Time Scheduling"
+msgstr "Planification du temps"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_user_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "User"
 msgstr "Utilisateur"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:130
+#: model:ir.model,name:project_forecast.model_res_users
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:127
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr "Votre tâche n'est pas dans le projet sélectionné."
@@ -273,25 +325,7 @@ msgid "project.forecast"
 msgstr "project.forecast"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:59
+#: code:addons/project_forecast/models/models.py:63
 #, python-format
 msgid "undefined"
 msgstr "Indéfini"
-
-#~ msgid "Active"
-#~ msgstr "Actif"
-
-#~ msgid "Archived"
-#~ msgstr "Archivé"
-
-#~ msgid "Is address valid"
-#~ msgstr "L'adresse est valide"
-
-#~ msgid "Project Forecast"
-#~ msgstr "Prévision de projet"
-
-#~ msgid "Time Scheduling"
-#~ msgstr "Planification du temps"
-
-#~ msgid "Users"
-#~ msgstr "Utilisateurs"

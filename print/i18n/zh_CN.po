@@ -1,23 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-#
+# 
 # Translators:
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
-# Jonathon <jonathonli@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~11e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-06-26 00:59+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
+"PO-Revision-Date: 2016-08-19 11:35+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: print
@@ -27,20 +25,15 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -52,20 +45,15 @@ msgstr ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -78,8 +66,7 @@ msgstr ""
 msgid ""
 "<b> Credit error :</b> Your Provider Credit account is negative. Please "
 "refill your provider account to send documents."
-msgstr ""
-"<b> 信贷错误 :</b> 你的供应商信用账户是负的。请发送文件来补充提供者账户."
+msgstr "<b> 信贷错误 :</b> 你的供应商信用账户是负的。请发送文件来补充提供者账户。"
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:63
@@ -95,7 +82,7 @@ msgstr "作者"
 #. module: print
 #: selection:print.order,ink:0 selection:print.order.wizard,ink:0
 msgid "Black & White"
-msgstr "黑色和白色"
+msgstr "黑白"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
@@ -135,7 +122,7 @@ msgstr "国家"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_create_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_create_uid
 msgid "Created by"
-msgstr "创建者"
+msgstr "创建人"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_create_date
@@ -159,7 +146,7 @@ msgstr "贷方"
 #: model:ir.model.fields,field_description:print.field_print_order_currency_id
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_currency_id
 msgid "Currency"
-msgstr "货币"
+msgstr "币种"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_base_config_settings_default_print_provider
@@ -195,7 +182,7 @@ msgstr "环境"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_error_message
 msgid "Error"
-msgstr "Error"
+msgstr "错误"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_error_message
@@ -251,7 +238,7 @@ msgstr "有效地址"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard___last_update
 #: model:ir.model.fields,field_description:print.field_print_provider___last_update
 msgid "Last Modified on"
-msgstr "最后修改时间"
+msgstr "最后修改日"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
@@ -272,7 +259,7 @@ msgstr "上一次发送日期"
 #: model:ir.model.fields,field_description:print.field_print_order_write_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_write_uid
 msgid "Last Updated by"
-msgstr "最后更新者"
+msgstr "最后更新人"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_write_date
@@ -286,7 +273,7 @@ msgstr "最后更新时间"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_print_order_line_wizard_ids
 msgid "Lines"
-msgstr "行"
+msgstr "明细行"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_res_model
@@ -343,7 +330,7 @@ msgstr "PDF"
 #: model:ir.model.fields,field_description:print.field_print_order_paper_weight
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_paper_weight
 msgid "Paper Weight"
-msgstr "重量"
+msgstr "纸张重量"
 
 #. module: print
 #: model:ir.model,name:print.model_res_partner
@@ -390,7 +377,7 @@ msgstr "打印订单行"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_print_order_wizard_id
 msgid "Print Order Wizard"
-msgstr "打印订单"
+msgstr "打印订单向导"
 
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_action
@@ -406,7 +393,7 @@ msgstr "打印订单"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_provider_id
 #: model:ir.ui.menu,name:print.print_provider_menu
 msgid "Print Provider"
-msgstr "提供者"
+msgstr "打印服务商"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_sendnow_wizard_print_order_ids
@@ -427,12 +414,12 @@ msgstr "生产"
 #: model:ir.model.fields,field_description:print.field_print_provider_provider
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "Provider"
-msgstr "提供者"
+msgstr "服务商"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_provider_balance
 msgid "Provider Credit"
-msgstr "供应商信用"
+msgstr "服务商信用"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
@@ -504,7 +491,7 @@ msgstr "立即快递发送"
 #. module: print
 #: model:ir.actions.act_window,name:print.print_order_wizard_action
 msgid "Send by Post"
-msgstr "以邮件发送"
+msgstr "邮递"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_sent_date
@@ -514,7 +501,7 @@ msgstr "发送日期"
 #. module: print
 #: selection:print.order,state:0
 msgid "Sent"
-msgstr "送出"
+msgstr "已汇"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_state
@@ -536,7 +523,7 @@ msgstr "街道"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_street2
 msgid "Street2"
-msgstr "次要街道"
+msgstr "街道 2"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -560,10 +547,9 @@ msgstr "这张单子没有相关的PDF:有必须要选定一个附件或者设�
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report "
-"action (ir.actions.report.xml) for the model %s."
-msgstr ""
-"你想要打印并发送的单子不可打印。模型%s没有报表动作（ir.actions.report.xml）"
+"The document you want to print and send is not printable. There is no report"
+" action (ir.actions.report.xml) for the model %s."
+msgstr "你想要打印并发送的单子不可打印。模型%s没有报表动作（ir.actions.report.xml）"
 
 #. module: print
 #: code:addons/print/wizard/print_order_wizard.py:61
@@ -577,14 +563,12 @@ msgstr "你想要发送的文档包含以下错误：%s"
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 msgstr ""
-"这张发票被快递 %(provider_name)s发送给以下地址 <br/><br/> %(partner_name)s "
-"<br/> %(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"这张发票被快递 %(provider_name)s发送给以下地址 <br/><br/> %(partner_name)s <br/> "
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
@@ -599,7 +583,7 @@ msgstr "问题解决后，然后点击‘重设为草稿’"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_zip
 msgid "Zip"
-msgstr "邮编"
+msgstr "邮政编码"
 
 #. module: print
 #: model:ir.model,name:print.model_base_config_settings
@@ -626,9 +610,3 @@ msgstr "print.order.sendnow.wizard"
 #: model:ir.model,name:print.model_print_order_wizard
 msgid "print.order.wizard"
 msgstr "print.order.wizard"
-
-#~ msgid "Ressource ID"
-#~ msgstr "资源ID"
-
-#~ msgid "Ressource Model"
-#~ msgstr "资源模型"

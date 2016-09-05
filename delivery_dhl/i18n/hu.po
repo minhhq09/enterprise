@@ -1,22 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_dhl
-#
+# 
 # Translators:
-# Kris Krnacs, 2015
+# krnkris <krnkris@freemail.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-11-08 10:22+0000\n"
-"Last-Translator: Kris Krnacs\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
-"hu/)\n"
-"Language: hu\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_dhl
@@ -95,8 +95,13 @@ msgid "Asia Pacific"
 msgstr "Ázsia csendes óceáni térség"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Available in the Point of Sale"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "Elérhetőség"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
 msgstr ""
 
 #. module: delivery_dhl
@@ -110,25 +115,9 @@ msgid "Centimeters"
 msgstr "Centiméter"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_to_weight
-msgid ""
-"Check if the product should be weighted using the hardware scale integration"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Check if you want this product to appear in the Point of Sale"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_dhl_dutiable
 msgid "Check this if your package is dutiable."
 msgstr "Jelölje be ha a csomagja vámköteles."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -144,6 +133,11 @@ msgstr "DHL fiók szám"
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
 msgstr "DHL Beállítások"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
@@ -180,18 +174,14 @@ msgstr ""
 #, python-format
 msgid ""
 "DHL account number is missing, please modify your delivery method settings."
-msgstr "DHL fiók szám hiányzik, kérem módosítsa a szállítási mód beállításait."
+msgstr ""
+"DHL fiók szám hiányzik, kérem módosítsa a szállítási mód beállításait."
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:370
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr "DHL jelszó hiányzik, kérem módosítsa a szállítási mód beállításait."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
@@ -217,7 +207,7 @@ msgstr "Vámköteles anyag"
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "EPL2"
-msgstr ""
+msgstr "EPL2"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
@@ -290,12 +280,7 @@ msgstr "Csomagolás"
 #: code:addons/delivery_dhl/models/dhl_request.py:390
 #, python-format
 msgid "Please provide at least one item to ship."
-msgstr "Kérem válasszon legalább egy szállítandó tételt"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Point of Sale Category"
-msgstr ""
+msgstr "Kérem válasszon legalább egy szállítandó tételt."
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_weight_unit:0
@@ -308,24 +293,29 @@ msgid "Product"
 msgstr "Termék"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
 msgstr "Értékelés"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating Last Value"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value: 0=Unhappy, 10=Happy"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Régió"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -372,8 +362,7 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:386
 #, python-format
 msgid ""
-"The address of your company warehouse is missing or wrong (Missing "
-"field(s) :\n"
+"The address of your company warehouse is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
 "A vállalata raktárépületének a címe hiányzik vagy rosszul kitöltött\n"
@@ -384,8 +373,8 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:392
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr "A körülbelüli ár nem számítható ki, mert hiányzik a termék súlya."
 
 #. module: delivery_dhl
@@ -395,20 +384,17 @@ msgstr ""
 "A teljes elérési út/URL  a dokumentum weboldalon keresztüli eléréséhez."
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
 "A hasonló termékek kategóriák szerint csoportosítsa az e-értékesítéshez."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Those categories are used to group similar products for point of sale."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_to_weight
-msgid "To Weigh With Scale"
-msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_published
@@ -416,9 +402,19 @@ msgid "Visible in Website"
 msgstr "Látható a weboldalon"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "Honlap hozzászólások"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
 msgstr "Weboldal termék kategória"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
@@ -450,51 +446,3 @@ msgstr "Törölheti az  az üres felvételi dátummal rendelkező DHL szállít�
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "Doboz"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL Belföldi"
-
-#~ msgid "DHL International"
-#~ msgstr "DHL Nemzetközi"
-
-#~ msgid "Double Pallets"
-#~ msgstr "Dupla raklap"
-
-#~ msgid "Flyer/Smalls"
-#~ msgstr "Szórólap/Kisebbek"
-
-#~ msgid "Non-conveyables"
-#~ msgstr "Nem-szállíthatóak"
-
-#~ msgid "Package Depth"
-#~ msgstr "Csomag mélysége"
-
-#~ msgid "Package Height"
-#~ msgstr "Csomag magassága"
-
-#~ msgid "Package Type"
-#~ msgstr "Csomag típus"
-
-#~ msgid "Package Width"
-#~ msgstr "Csomag szélessége"
-
-#~ msgid "Pallets"
-#~ msgstr "Raklapok"
-
-#~ msgid "Parcels/Conveyables"
-#~ msgstr "Áruk/Szállíthatók"
-
-#~ msgid "Test Mode"
-#~ msgstr "Tesztmód"
-
-#~ msgid "Uncheck this box to use production DHL Web Services"
-#~ msgstr "Ne jelölje be ezt a négyzetet az DHL Web szolgáltatás használatához"
-
-#~ msgid "Availability"
-#~ msgstr "Elérhetőség"
-
-#~ msgid "Website Comments"
-#~ msgstr "Honlap hozzászólások"

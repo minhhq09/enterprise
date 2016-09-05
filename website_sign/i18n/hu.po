@@ -1,60 +1,49 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * website_sign
-#
+# 
 # Translators:
-# krnkris, 2016
+# Oregional <geza.nagy@oregional.hu>, 2016
+# krnkris <krnkris@freemail.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Kovács Tibor <kovika@gmail.com>, 2016
 # Zsofia Biro <zsbiro1205@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0alpha1e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-06-06 19:55+0000\n"
-"Last-Translator: krnkris\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
-"hu/)\n"
-"Language: hu\n"
+"POT-Creation-Date: 2016-08-26 10:39+0000\n"
+"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"Last-Translator: Zsofia Biro <zsbiro1205@gmail.com>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: website_sign
 #: model:mail.template,body_html:website_sign.website_sign_mail_template
 msgid ""
 "\n"
-"            <link href='http://fonts.googleapis.com/css?family=Lato' "
-"rel='stylesheet' type='text/css'>\n"
+"            <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>\n"
 "\n"
-"            <div style=\"width:90%; max-width:600px; margin:auto; font-"
-"size:10pt; padding:20px 0; font-family:'Lato', serif;\">\n"
+"            <div style=\"width:90%; max-width:600px; margin:auto; font-size:10pt; padding:20px 0; font-family:'Lato', serif;\">\n"
 "                <div style=\"background-color:#EFEDED; padding: 20px;\">\n"
 "                    % if ctx['template_type'] == \"request\":\n"
-"                        ${ctx['email_from_usr']} (<a href=\"mailto:"
-"${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:"
-"#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}"
-"</a>) has requested your signature on this document :\n"
+"                        ${ctx['email_from_usr']} (<a href=\"mailto:${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}</a>) has requested your signature on this document :\n"
 "                    % endif\n"
 "                    % if ctx['template_type'] == \"follower\":\n"
-"                        ${ctx['email_from_usr']} (<a href=\"mailto:"
-"${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:"
-"#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}"
-"</a>) has added you as a Follower of this Signature Request :\n"
+"                        ${ctx['email_from_usr']} (<a href=\"mailto:${ctx['email_from']}?subject=Re: ${ctx['subject']|safe}\" style=\"color:#428BCA; text-decoration:none;\" target=\"_blank\">${ctx['email_from_mail']}</a>) has added you as a Follower of this Signature Request :\n"
 "                    % endif\n"
 "                    % if ctx['template_type'] == \"completed\":\n"
-"                        This document has been completed and signed by "
-"everyone :\n"
+"                        This document has been completed and signed by everyone :\n"
 "                    % endif\n"
 "\n"
-"                    <h1 style=\"font-size:1.25em; margin:15px 0 25px 0;\">"
-"${object['reference']}</h1>\n"
+"                    <h1 style=\"font-size:1.25em; margin:15px 0 25px 0;\">${object['reference']}</h1>\n"
 "                    \n"
 "                    <div style=\"margin:0 -15px\">\n"
-"                        <a style=\"float:left; display:inline-block; "
-"margin:0 15px 10px 15px; padding:5px 10px; border-radius: 3px; background-"
-"color:#5C6ED0; text-align:center; text-decoration:none; color:#F7FBFD;\" "
-"href=${ctx['link']}>\n"
+"                        <a style=\"float:left; display:inline-block; margin:0 15px 10px 15px; padding:5px 10px; border-radius: 3px; background-color:#5C6ED0; text-align:center; text-decoration:none; color:#F7FBFD;\" href=${ctx['link']}>\n"
 "                            % if ctx['template_type'] == \"request\":\n"
 "                                Sign Document Now\n"
 "                            % endif\n"
@@ -66,17 +55,13 @@ msgid ""
 "                            % endif\n"
 "                        </a>\n"
 "                        \n"
-"                        <div style=\"font-size:0.8em; color:#999999; "
-"margin:0 15px 10px 15px\">\n"
+"                        <div style=\"font-size:0.8em; color:#999999; margin:0 15px 10px 15px\">\n"
 "                            % if ctx['template_type'] == \"request\":\n"
-"                                <strong style=\"font-weight:bold; color:"
-"black;\">Warning: do not forward this email to other people!</strong><br/>\n"
-"                                They will be able to access this document "
-"and sign it as yourself.\n"
+"                                <strong style=\"font-weight:bold; color:black;\">Warning: do not forward this email to other people!</strong><br/>\n"
+"                                They will be able to access this document and sign it as yourself.\n"
 "                            % endif\n"
 "                            % if ctx['template_type'] == \"follower\":\n"
-"                                You will be notified once the document has "
-"been signed by everyone involved.\n"
+"                                You will be notified once the document has been signed by everyone involved.\n"
 "                            % endif\n"
 "                        </div>\n"
 "                        <div style=\"clear:both;\"/>\n"
@@ -90,8 +75,7 @@ msgid ""
 "                </div>\n"
 "                \n"
 "                <div style=\"font-size:0.8em; margin-top:10px;\">\n"
-"                    <span style=\"color:#428BCA;\">Sent with <strong style="
-"\"font-weight:bold;\">Odoo Sign</strong></span>\n"
+"                    <span style=\"color:#428BCA;\">Sent with <strong style=\"font-weight:bold;\">Odoo Sign</strong></span>\n"
 "                </div>\n"
 "            </div>\n"
 "        \n"
@@ -194,7 +178,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_archived
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_archived
 msgid "Archived"
-msgstr "Archívált"
+msgstr "Archivált"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_attachment_id
@@ -233,7 +217,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_sign.signature_request_view_form
 #, python-format
 msgid "Cancel"
-msgstr "Megszakítás"
+msgstr "Mégse"
 
 #. module: website_sign
 #. openerp-web
@@ -372,7 +356,7 @@ msgstr "Elvetés"
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.signature_item_view_form
 msgid "Display"
-msgstr "Kijelző"
+msgstr "Megjelenítés"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_display_name
@@ -383,7 +367,7 @@ msgstr "Kijelző"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_display_name
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_display_name
 msgid "Display Name"
-msgstr "Név megjelenítése"
+msgstr "Megjelenített név"
 
 #. module: website_sign
 #. openerp-web
@@ -391,6 +375,11 @@ msgstr "Név megjelenítése"
 #, python-format
 msgid "Do you also send documents to sign?"
 msgstr ""
+
+#. module: website_sign
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
+msgid "Document Followers"
+msgstr "Követők dokumentuma"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_page
@@ -444,7 +433,8 @@ msgstr ""
 
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.signature_request_view_form
-#: selection:signature.request,state:0 selection:signature.request.item,state:0
+#: selection:signature.request,state:0
+#: selection:signature.request.item,state:0
 msgid "Draft"
 msgstr "Tervezet"
 
@@ -489,7 +479,7 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signer_email
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #. module: website_sign
 #. openerp-web
@@ -529,7 +519,7 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_name
 msgid "Field Name"
-msgstr "Mező név"
+msgstr "Név mező"
 
 #. module: website_sign
 #: model:ir.ui.menu,name:website_sign.signature_item_type_menu
@@ -550,11 +540,6 @@ msgstr "Fájlnév"
 #, python-format
 msgid "Final Validation"
 msgstr "Végső ellenőrzés"
-
-#. module: website_sign
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_follower_ids
-msgid "Followers"
-msgstr "Követők"
 
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign._doc_sign
@@ -595,21 +580,21 @@ msgstr "Előzmények"
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3459
+#: model:ir.model.fields,field_description:website_sign.field_signature_item_type_id_3684
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_value_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_id
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_id
-#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3428
+#: model:ir.model.fields,field_description:website_sign.field_signature_request_template_id_3653
 msgid "ID"
-msgstr "ID"
+msgstr "Azonosító ID"
 
 #. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/xml/website_sign_backend.xml:65
 #, python-format
 msgid ""
-"If you leave your document without any fields, the signers will be requested "
-"for an unique signature alongside the document"
+"If you leave your document without any fields, the signers will be requested"
+" for an unique signature alongside the document"
 msgstr ""
 
 #. module: website_sign
@@ -629,11 +614,11 @@ msgstr ""
 
 #. module: website_sign
 #. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
+#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:69
 #, python-format
 msgid ""
-"It's easy, incredibly efficient and totally free: you just have to create an "
-"Odoo account."
+"It's easy, incredibly efficient and totally free: you just have to create an"
+" Odoo account."
 msgstr ""
 
 #. module: website_sign
@@ -656,7 +641,7 @@ msgstr "Utoljára frissítve ekkor"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_template_write_uid
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_write_uid
 msgid "Last Updated by"
-msgstr "Utoljára frissítve, által"
+msgstr "Utoljára frissítette"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_write_date
@@ -686,7 +671,7 @@ msgstr ""
 #: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:17
 #, python-format
 msgid "Load"
-msgstr "Betölt"
+msgstr "Betöltés"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_longitude
@@ -831,7 +816,7 @@ msgstr "Folyamatok"
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_required
 msgid "Required"
-msgstr "Kötelező"
+msgstr "Követelmény"
 
 #. module: website_sign
 #. openerp-web
@@ -973,9 +958,9 @@ msgstr ""
 #: code:addons/website_sign/static/src/xml/website_sign_backend.xml:105
 #, python-format
 msgid ""
-"Share this link and Odoo will create a new document per person who clicks on "
-"the link. The link is private, only those that receive the link will be able "
-"to sign it."
+"Share this link and Odoo will create a new document per person who clicks on"
+" the link. The link is private, only those that receive the link will be "
+"able to sign it."
 msgstr ""
 
 #. module: website_sign
@@ -1182,17 +1167,8 @@ msgstr ""
 #. module: website_sign
 #: model:ir.ui.view,arch_db:website_sign.deleted_sign_request
 msgid ""
-"The signature access you are trying to reach does not exist. Maybe the "
-"signature request has been deleted or modified. <br/>\n"
-"                    If there still exists a signature request for this "
-"document, check your inbox to get your access!"
-msgstr ""
-
-#. module: website_sign
-#. openerp-web
-#: code:addons/website_sign/static/src/xml/website_sign_frontend.xml:70
-#, python-format
-msgid "Then you need Odoo Sign."
+"The signature access you are trying to reach does not exist. Maybe the signature request has been deleted or modified. <br/>\n"
+"                    If there still exists a signature request for this document, check your inbox to get your access!"
 msgstr ""
 
 #. module: website_sign
@@ -1219,7 +1195,7 @@ msgstr ""
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_tip
 msgid "Tip"
-msgstr "Borravaló"
+msgstr "Tippek"
 
 #. module: website_sign
 #. openerp-web
@@ -1310,7 +1286,7 @@ msgstr ""
 #: code:addons/website_sign/static/src/js/website_sign_frontend.js:559
 #, python-format
 msgid "Warning"
-msgstr "Figyelem"
+msgstr "Figyelmeztetés"
 
 #. module: website_sign
 #. openerp-web
@@ -1385,7 +1361,7 @@ msgstr "megjegyzés"
 #: code:addons/website_sign/static/src/xml/website_sign_common.xml:33
 #, python-format
 msgid "on"
-msgstr "ezen:"
+msgstr "ezen"
 
 #. module: website_sign
 #. openerp-web
@@ -1393,57 +1369,3 @@ msgstr "ezen:"
 #, python-format
 msgid "to start a new template from this one !"
 msgstr ""
-
-#~ msgid "Action Needed"
-#~ msgstr "Művelet szükséges"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "A feljegyzésen történt utolsó levelezés dátuma."
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "Követők (csatornák)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "Követők (Partnerek)"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "Ha be van jelölve, akkor figyelje az új üzeneteket."
-
-#~ msgid "Is Follower"
-#~ msgstr "Ez egy követő"
-
-#~ msgid "Last Message Date"
-#~ msgstr "Utolsó üzenet dátuma"
-
-#~ msgid "Messages"
-#~ msgstr "Üzenetek"
-
-#~ msgid "Messages and communication history"
-#~ msgstr "Üzenetek és kommunikáció történet"
-
-#~ msgid "Number of Actions"
-#~ msgstr "Műveletek száma"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "Üzenetek száma, melyek közbenjárást igényelnek"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "Olvasatlan üzenetek száma"
-
-#~ msgid "Unread Messages"
-#~ msgstr "Olvasatlan üzenetek"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "Olvasatlan üzenetek számlálója"
-
-#~ msgid "Website Messages"
-#~ msgstr "Weboldal üzenetek"
-
-#~ msgid "Website communication history"
-#~ msgstr "Weboldal  kommunikáció történet"
-
-#~ msgid "Document Followers"
-#~ msgstr "Követők dokumentuma"
