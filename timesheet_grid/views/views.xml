@@ -121,7 +121,7 @@
                     <filter name="my_team"
                             string="My Team"
                             domain="[('user_id.employee_ids.parent_id.user_id', '=', uid)]"
-                            groups="hr.group_hr_manager"/>
+                            groups="hr_timesheet.group_hr_timesheet_manager"/>
                 </xpath>
             </field>
         </record>
@@ -212,13 +212,13 @@
                   sequence="0"/>
         <menuitem name="All Timesheets" id="menu_timesheet_grid_all"
                   parent="hr_timesheet.menu_hr_time_tracking"
-                  groups="hr.group_hr_user"
+                  groups="hr_timesheet.group_hr_timesheet_user"
                   action="action_timesheet_all"
                   sequence="1"/>
 
         <menuitem name="To Validate" id="menu_timesheet_grid_validate"
                   parent="hr_timesheet.timesheet_menu_root"
-                  groups="hr.group_hr_user"
+                  groups="hr_timesheet.group_hr_timesheet_user"
                   sequence="10"/>
         <menuitem name="Last Week" id="menu_timesheet_grid_validate_previous_week"
                   parent="menu_timesheet_grid_validate"

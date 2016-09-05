@@ -26,8 +26,8 @@ Key Features
 * Meeting Requests are created manually according to employees appraisals.
 """,
     "data": [
-        'security/ir.model.access.csv',
         'security/hr_appraisal_security.xml',
+        'security/ir.model.access.csv',
         'views/hr_appraisal_views.xml',
         'report/hr_appraisal_report_views.xml',
         'views/hr_department_views.xml',
