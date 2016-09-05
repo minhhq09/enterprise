@@ -60,7 +60,8 @@ class DHLProvider():
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
-                if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
+                if product.findtext('GlobalProductCode') == carrier.dhl_product_code\
+                        and product.findall('ShippingCharge'):
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
                     dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
@@ -152,7 +153,8 @@ class DHLProvider():
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
-                if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
+                if product.findtext('GlobalProductCode') == carrier.dhl_product_code\
+                        and product.findall('ShippingCharge'):
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
                     dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
