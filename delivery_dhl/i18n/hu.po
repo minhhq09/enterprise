@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2015-11-08 10:22+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -95,6 +95,16 @@ msgid "Asia Pacific"
 msgstr "Ázsia csendes óceáni térség"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "Elérhetőség"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
 msgid "Available in the Point of Sale"
 msgstr ""
@@ -126,11 +136,6 @@ msgid "Check this if your package is dutiable."
 msgstr "Jelölje be ha a csomagja vámköteles."
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "D - Express Worldwide"
 msgstr "D - Express Worldwide"
@@ -144,6 +149,11 @@ msgstr "DHL fiók szám"
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
 msgstr "DHL Beállítások"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
@@ -189,11 +199,6 @@ msgid "DHL password is missing, please modify your delivery method settings."
 msgstr "DHL jelszó hiányzik, kérem módosítsa a szállítási mód beállításait."
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
 msgid "Description for the quote"
 msgstr "Leírás az árajánlathoz"
@@ -217,7 +222,7 @@ msgstr "Vámköteles anyag"
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "EPL2"
-msgstr ""
+msgstr "EPL2"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
@@ -247,6 +252,11 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_label_template
 msgid "Label Template"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Last Value"
 msgstr ""
 
 #. module: delivery_dhl
@@ -308,24 +318,24 @@ msgid "Product"
 msgstr "Termék"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
 msgstr "Értékelés"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Régió"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -395,6 +405,13 @@ msgstr ""
 "A teljes elérési út/URL  a dokumentum weboldalon keresztüli eléréséhez."
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
@@ -416,9 +433,19 @@ msgid "Visible in Website"
 msgstr "Látható a weboldalon"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "Honlap hozzászólások"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
 msgstr "Weboldal termék kategória"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
@@ -450,51 +477,3 @@ msgstr "Törölheti az  az üres felvételi dátummal rendelkező DHL szállít�
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "Doboz"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL Belföldi"
-
-#~ msgid "DHL International"
-#~ msgstr "DHL Nemzetközi"
-
-#~ msgid "Double Pallets"
-#~ msgstr "Dupla raklap"
-
-#~ msgid "Flyer/Smalls"
-#~ msgstr "Szórólap/Kisebbek"
-
-#~ msgid "Non-conveyables"
-#~ msgstr "Nem-szállíthatóak"
-
-#~ msgid "Package Depth"
-#~ msgstr "Csomag mélysége"
-
-#~ msgid "Package Height"
-#~ msgstr "Csomag magassága"
-
-#~ msgid "Package Type"
-#~ msgstr "Csomag típus"
-
-#~ msgid "Package Width"
-#~ msgstr "Csomag szélessége"
-
-#~ msgid "Pallets"
-#~ msgstr "Raklapok"
-
-#~ msgid "Parcels/Conveyables"
-#~ msgstr "Áruk/Szállíthatók"
-
-#~ msgid "Test Mode"
-#~ msgstr "Tesztmód"
-
-#~ msgid "Uncheck this box to use production DHL Web Services"
-#~ msgstr "Ne jelölje be ezt a négyzetet az DHL Web szolgáltatás használatához"
-
-#~ msgid "Availability"
-#~ msgstr "Elérhetőség"
-
-#~ msgid "Website Comments"
-#~ msgstr "Honlap hozzászólások"

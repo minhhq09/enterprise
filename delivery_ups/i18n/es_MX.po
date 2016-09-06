@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-08-05 18:37+0000\n"
 "Last-Translator: ougc27 <oscar_garzacordova@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/odoo/odoo-9/"
@@ -31,8 +31,8 @@ msgid "Centimeters"
 msgstr "Centímetros"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-msgid "Default Packaging Type"
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
 msgstr ""
 
 #. module: delivery_ups
@@ -46,10 +46,14 @@ msgid "Kilograms"
 msgstr "Kilogramos"
 
 #. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
-#, fuzzy
 msgid "Packaging"
-msgstr "Altura del Paquete"
+msgstr ""
 
 #. module: delivery_ups
 #: code:addons/delivery_ups/models/ups_request.py:207
@@ -63,19 +67,24 @@ msgid "Pounds"
 msgstr "Libras"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Embarque Nº %s ha sido cancelado"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr ""
@@ -155,8 +164,18 @@ msgid "UPS Configuration"
 msgstr ""
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "UPS Default Packaging Type"
+msgstr ""
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
+msgstr ""
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "UPS Label File Type"
 msgstr ""
 
 #. module: delivery_ups
@@ -240,44 +259,7 @@ msgstr ""
 msgid "Ups package weight unit"
 msgstr "Unidad de peso el paquete en Ups"
 
-#~ msgid "10KG Box"
-#~ msgstr "Caja 10KG"
-
-#~ msgid "25KG Box"
-#~ msgstr "Caja 25KG"
-
-#~ msgid "Express Box"
-#~ msgstr "Caja Express"
-
-#~ msgid "Fixed height if not provided on the product packaging."
-#~ msgstr "Altura fija si no se proporciona en el envase del producto."
-
-#~ msgid "Fixed length if not provided on the product packaging."
-#~ msgstr "Longitud fija si no es proporcionada en el embalaje del producto."
-
-#~ msgid "Fixed width if not provided on the product packaging."
-#~ msgstr "Ancho fijo si no es proporcionada en el embalaje del producto."
-
-#~ msgid "Flat Pack"
-#~ msgstr "Paquete Plano"
-
-#~ msgid "Package Height"
-#~ msgstr "Altura del Paquete"
-
-#~ msgid "Package Width"
-#~ msgstr "Ancho del Paquete"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Suministro de Paquete/cliente"
-
-#~ msgid "Pallet"
-#~ msgstr "Palet"
-
-#~ msgid "Test Mode"
-#~ msgstr "Modo Test"
-
-#~ msgid "UPS Letter"
-#~ msgstr "Carta UPS"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Uncheck this box to use production UPS Web Services"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""

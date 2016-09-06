@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-02-11 10:48+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -29,10 +29,9 @@ msgid "Centimeters"
 msgstr "Centimetre"
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
-msgid "Default Packaging Type"
-msgstr "UPS typ balenia"
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
@@ -45,10 +44,14 @@ msgid "Kilograms"
 msgstr "Kilogramy"
 
 #. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
-#, fuzzy
 msgid "Packaging"
-msgstr "Výška balíka"
+msgstr ""
 
 #. module: delivery_ups
 #: code:addons/delivery_ups/models/ups_request.py:207
@@ -62,19 +65,24 @@ msgid "Pounds"
 msgstr "Libry"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Zásielka N° %s bola zrušená"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Zásielka vytvorená v UPS <br/> <b>Sledovacie číslo : </b>%s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Sprievodka pre balíky"
@@ -157,9 +165,19 @@ msgid "UPS Configuration"
 msgstr "UPS konfigurácia"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "UPS Default Packaging Type"
+msgstr ""
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
 msgstr "UPS povrch"
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "UPS Label File Type"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
@@ -242,62 +260,7 @@ msgstr "Jednotky pre veľkosť UPS balíčka "
 msgid "Ups package weight unit"
 msgstr "UPC jJednotka hmotnosti balíčka"
 
-#~ msgid "10KG Box"
-#~ msgstr "10KG Box"
-
-#~ msgid "25KG Box"
-#~ msgstr "25KG Box"
-
-#~ msgid "Express Box"
-#~ msgstr "Expres box"
-
-#~ msgid "Fixed height if not provided on the product packaging."
-#~ msgstr "Fixná výška ak nie je poskytnutá na balení produktu."
-
-#~ msgid "Fixed length if not provided on the product packaging."
-#~ msgstr "Fixná dĺžka ak nie je poskytnutá na balení produktu."
-
-#~ msgid "Fixed width if not provided on the product packaging."
-#~ msgstr "Fixná šírka ak nie je poskytnutá na balení produktu."
-
-#~ msgid "Flat Pack"
-#~ msgstr "Ploché balenie"
-
-#~ msgid "Medium Express Box"
-#~ msgstr "Stredný expres box"
-
-#~ msgid "Package Height"
-#~ msgstr "Výška balíka"
-
-#~ msgid "Package Length"
-#~ msgstr "Dĺžka balíka"
-
-#~ msgid "Package Width"
-#~ msgstr "Šírka balíka"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Balík/dodaný zákazníkom"
-
-#~ msgid "Pallet"
-#~ msgstr "Paleta"
-
-#~ msgid "Small Express Box"
-#~ msgstr "Malý expres box"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testovací režim"
-
-#~ msgid "UPS Letter"
-#~ msgstr "UPS dopis"
-
-#~ msgid "UPS Packaging Type"
-#~ msgstr "UPS typ balenia"
-
-#~ msgid "UPS Pak"
-#~ msgstr "UPS Pak"
-
-#~ msgid "UPS Tube"
-#~ msgstr "UPS tuba"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Zrušte označenie tohto políčka pre používanie UPS web služby"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""

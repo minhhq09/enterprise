@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-06-22 13:04+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -97,6 +97,16 @@ msgstr "全部分配认证 (eg. KBE-BCO or Finanzamt Muenchen IV)"
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
 msgstr "文件名"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+msgid "Generic"
+msgstr "通用的"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+msgid "German Version"
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -203,14 +213,32 @@ msgid "SEPA Credit Transfers to Send"
 msgstr "SEPA 信用转账发送"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_pain_version
+msgid "SEPA Pain Version"
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML 文件"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
+msgid ""
+"SEPA may be a generic format, some countries differ from the SEPA "
+"recommandations made by the EPC (European Payment Councile) and thus the XML "
+"created need some tweakenings."
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
 msgid "Sepa Payments To Send"
 msgstr "SEPA 付款 发送"
+
+#. module: account_sepa
+#: selection:res.company,sepa_pain_version:0
+msgid "Swiss Version"
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -225,7 +253,7 @@ msgstr ""
 "者没有IBAN认证和银行认证码."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:322
+#: code:addons/account_sepa/sepa_credit_transfer.py:356
 #, python-format
 msgid ""
 "The account %s, linked to partner '%s', is not of type IBAN.\n"
@@ -255,21 +283,21 @@ msgstr ""
 "账户 '%s' (日记账 %s)需要一个银行认证码 (BIC)来通过SEPA付费. 请先配置它."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:277
+#: code:addons/account_sepa/sepa_credit_transfer.py:311
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
 msgstr "付款金额 '%s' 太高了. 最大限制是 %s."
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:124
+#: code:addons/account_sepa/sepa_credit_transfer.py:129
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:126
+#: code:addons/account_sepa/sepa_credit_transfer.py:131
 #, python-format
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
@@ -322,19 +350,19 @@ msgstr ""
 "/ - ? : ( ) . , ' + (space)"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:122
+#: code:addons/account_sepa/sepa_credit_transfer.py:127
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
 msgstr ""
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:306
+#: code:addons/account_sepa/sepa_credit_transfer.py:340
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
 msgstr "这个银行账号没有银行认证码 '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:152
+#: code:addons/account_sepa/sepa_credit_transfer.py:186
 #, python-format
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
@@ -348,7 +376,7 @@ msgid "There is no bank account selected for payment '%s'"
 msgstr "付款没有选择银行账号 '%s'"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:150
+#: code:addons/account_sepa/sepa_credit_transfer.py:184
 #, python-format
 msgid "Too many transactions for a single file."
 msgstr "在单个文件里太多的交易了。"
@@ -371,7 +399,7 @@ msgid "Your Company Name"
 msgstr "公司名称"
 
 #. module: account_sepa
-#: code:addons/account_sepa/sepa_credit_transfer.py:118
+#: code:addons/account_sepa/sepa_credit_transfer.py:123
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr ""
@@ -380,6 +408,3 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "or"
 msgstr "或"
-
-#~ msgid "Generic"
-#~ msgstr "通用的"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-02-10 20:21+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -94,6 +94,16 @@ msgid "Asia Pacific"
 msgstr "Ázia Pacific"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
 msgid "Available in the Point of Sale"
 msgstr ""
@@ -125,11 +135,6 @@ msgid "Check this if your package is dutiable."
 msgstr "Zaškrtnite, ak váš balík podlieha clu."
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "D - Express Worldwide"
 msgstr "D - Express Worldwide"
@@ -143,6 +148,11 @@ msgstr "DHL číslo účtu"
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
 msgstr "DHL konfigurácia"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
@@ -169,9 +179,8 @@ msgstr ""
 #. module: delivery_dhl
 #: model:delivery.carrier,name:delivery_dhl.delivery_carrier_dhl_intl
 #: model:product.product,name:delivery_dhl.delivery_carrier_dhl_intl_product_product
-#, fuzzy
 msgid "DHL USA -> International"
-msgstr "DHL medzinárodné"
+msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:372
@@ -185,12 +194,6 @@ msgstr "Číslo účtu DHL chýba, upravte nastavenia vášho spôsobu doručeni
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr "DHL heslo chýba, upravte nastavenia vášho spôsobu doručenia."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-#, fuzzy
-msgid "Default Packaging Type"
-msgstr "Typ balíka"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
@@ -248,6 +251,11 @@ msgid "Label Template"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Last Value"
+msgstr ""
+
+#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "N - Domestic Express"
 msgstr "N - Domáci Expres"
@@ -281,9 +289,8 @@ msgstr "Jendotka váhy balíka"
 
 #. module: delivery_dhl
 #: model:ir.model,name:delivery_dhl.model_product_packaging
-#, fuzzy
 msgid "Packaging"
-msgstr "Výška balíka"
+msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:390
@@ -307,24 +314,24 @@ msgid "Product"
 msgstr "Produkt"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
+msgid "Rating"
 msgstr ""
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
-msgid "Rating"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value"
 msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Región"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -394,6 +401,13 @@ msgid "The full URL to access the document through the website."
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
@@ -414,8 +428,18 @@ msgid "Visible in Website"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
 msgstr ""
 
 #. module: delivery_dhl
@@ -448,45 +472,3 @@ msgstr "Nemôžete zrušiť DHL zásielku bez dátumu vyzdvihnutia."
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "Krabica"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL domáce"
-
-#~ msgid "DHL International"
-#~ msgstr "DHL medzinárodné"
-
-#~ msgid "Double Pallets"
-#~ msgstr "Dvojité palety"
-
-#~ msgid "Flyer/Smalls"
-#~ msgstr "Leták/Obrúsky"
-
-#~ msgid "Non-conveyables"
-#~ msgstr "Nedopraviteľné"
-
-#~ msgid "Package Depth"
-#~ msgstr "Hĺbka balíka"
-
-#~ msgid "Package Height"
-#~ msgstr "Výška balíka"
-
-#~ msgid "Package Type"
-#~ msgstr "Typ balíka"
-
-#~ msgid "Package Width"
-#~ msgstr "Šírka balíka"
-
-#~ msgid "Pallets"
-#~ msgstr "Palety"
-
-#~ msgid "Parcels/Conveyables"
-#~ msgstr "Zásielky/Prenosy"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testovací režim"
-
-#~ msgid "Uncheck this box to use production DHL Web Services"
-#~ msgstr "Zrušte označenie tohto políčka pre používanie DHL Web služby"

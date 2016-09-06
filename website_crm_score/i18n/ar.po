@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-08-09 14:12+0000\n"
 "Last-Translator: Mohammed Albasha <m.albasha.ma@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/odoo/odoo-9/language/ar/)\n"
@@ -57,6 +57,11 @@ msgid "Apply marked scores"
 msgstr ""
 
 #. module: website_crm_score
+#: selection:website.crm.score,rule_type:0
+msgid "Archive"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_assign_date
 msgid "Assign Date"
 msgstr "تاريخ الإسناد"
@@ -65,18 +70,6 @@ msgstr "تاريخ الإسناد"
 #: model:ir.ui.view,arch_db:website_crm_score.sales_team_form_view_assign
 msgid "Assignation"
 msgstr "تخصيص"
-
-#. module: website_crm_score
-#: model:ir.ui.view,arch_db:website_crm_score.view_crm_lead_dry_run_form
-#: model:ir.ui.view,arch_db:website_crm_score.view_lead_dry_run_tree
-msgid "Assignation Dry Run"
-msgstr ""
-
-#. module: website_crm_score
-#: model:ir.actions.act_window,name:website_crm_score.lead_dry_run_action
-#: model:ir.ui.menu,name:website_crm_score.leads_dry_run
-msgid "Assignation dry run"
-msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_leads_count
@@ -104,7 +97,6 @@ msgid "Click to create a salesmen."
 msgstr ""
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_uid
@@ -112,7 +104,6 @@ msgid "Created by"
 msgstr "أنشئ بواسطة"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_create_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_create_date
@@ -125,8 +116,13 @@ msgid "Date when the lead has been assigned via the auto-assignation mechanism"
 msgstr ""
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_display_name
+#: selection:website.crm.score,rule_type:0
+msgid "Delete"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_display_name
+#: model:ir.model.fields,field_description:website_crm_score.field_team_user_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_display_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_display_name
 msgid "Display Name"
@@ -150,7 +146,6 @@ msgid "HTTP routing"
 msgstr "HTTP routing"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_id
@@ -168,7 +163,6 @@ msgid "Language from the website when lead has been created"
 msgstr ""
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview___last_update
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score___last_update
@@ -176,7 +170,6 @@ msgid "Last Modified on"
 msgstr "آخر تعديل في"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_uid
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_uid
@@ -184,7 +177,6 @@ msgid "Last Updated by"
 msgstr "آخر تحديث بواسطة"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_write_date
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_write_date
@@ -192,15 +184,9 @@ msgid "Last Updated on"
 msgstr "آخر تحديث في"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_lead_id
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_pageview_lead_id
 msgid "Lead"
 msgstr "الترشيح"
-
-#. module: website_crm_score
-#: model:ir.actions.server,name:website_crm_score.action_lead_dry_run
-msgid "Lead Dry Run"
-msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model,name:website_crm_score.model_crm_lead
@@ -252,6 +238,11 @@ msgid "Maximum Leads / 30 days"
 msgstr ""
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_warn_msg
+msgid "Message for Purchase Order"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_team_min_for_assign
 msgid "Minimum score"
 msgstr ""
@@ -262,8 +253,8 @@ msgid "Minimum score to be automatically assign (>=)"
 msgstr ""
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_team_user_name
 #: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_name
+#: model:ir.ui.view,arch_db:website_crm_score.view_crm_score_form
 msgid "Name"
 msgstr "الاسم"
 
@@ -294,9 +285,19 @@ msgid "Percentage leads"
 msgstr ""
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_res_users_purchase_warn
+msgid "Purchase Order"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_team_ratio
 msgid "Ratio"
 msgstr "النسبة"
+
+#. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_website_crm_score_rule_type
+msgid "Rule type"
+msgstr ""
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_running
@@ -304,13 +305,11 @@ msgid "Running"
 msgstr "جاري"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_team_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_team_id
 msgid "SaleTeam"
 msgstr "مندوب مبيعات"
 
 #. module: website_crm_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_leads_dry_run_user_id
 #: model:ir.model.fields,field_description:website_crm_score.field_team_user_user_id
 msgid "Saleman"
 msgstr ""
@@ -344,7 +343,6 @@ msgstr "مندوب المبيعات"
 
 #. module: website_crm_score
 #: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score
-#: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score_ids
 msgid "Score"
 msgstr ""
 
@@ -358,6 +356,7 @@ msgstr ""
 #. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.lead_score_form
 #: model:ir.ui.view,arch_db:website_crm_score.score_opp_form_view
+#: selection:website.crm.score,rule_type:0
 msgid "Scoring"
 msgstr ""
 
@@ -367,13 +366,33 @@ msgid "Scoring Page Views"
 msgstr ""
 
 #. module: website_crm_score
+#: model:ir.model.fields,field_description:website_crm_score.field_crm_lead_score_ids
 #: model:ir.ui.menu,name:website_crm_score.scores_menu
 msgid "Scoring Rules"
 msgstr ""
 
 #. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_website_crm_score_rule_type
+msgid ""
+"Scoring will add a score of `value` for this lead.\n"
+"Archive will set active = False on the lead (archived)\n"
+"Delete will delete definitively the lead\n"
+"\n"
+"Actions are done in sql and bypass the access rights and orm mechanism "
+"(create `score`, write `active`, unlink `crm_lead`)"
+msgstr ""
+
+#. module: website_crm_score
 #: model:ir.ui.view,arch_db:website_crm_score.crm_score_pageview_filter
 msgid "Search PageViews"
+msgstr ""
+
+#. module: website_crm_score
+#: model:ir.model.fields,help:website_crm_score.field_res_users_purchase_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
 msgstr ""
 
 #. module: website_crm_score
@@ -441,11 +460,6 @@ msgid ""
 "When checked, the rule will be re-evaluated every time, even for leads that "
 "have already been checked previously. This option incurs a large performance "
 "penalty, so it should be checked only for rules that depend on dynamic events"
-msgstr ""
-
-#. module: website_crm_score
-#: model:ir.model,name:website_crm_score.model_crm_leads_dry_run
-msgid "crm.leads.dry.run"
 msgstr ""
 
 #. module: website_crm_score

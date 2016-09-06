@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-09-06 08:30+0000\n"
 "PO-Revision-Date: 2016-08-01 18:25+0000\n"
 "Last-Translator: Mateus Lopes <mateus1@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
@@ -97,6 +97,16 @@ msgid "Asia Pacific"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "Disponibilidade"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
 msgid "Available in the Point of Sale"
 msgstr ""
@@ -128,11 +138,6 @@ msgid "Check this if your package is dutiable."
 msgstr ""
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "D - Express Worldwide"
 msgstr ""
@@ -146,6 +151,11 @@ msgstr "Número de Conta DHL"
 #: model:ir.ui.view,arch_db:delivery_dhl.view_delivery_carrier_form_with_provider_dhl
 msgid "DHL Configuration"
 msgstr "Configuração DHL"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
@@ -186,11 +196,6 @@ msgstr ""
 #: code:addons/delivery_dhl/models/dhl_request.py:370
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
 msgstr ""
 
 #. module: delivery_dhl
@@ -249,6 +254,11 @@ msgid "Label Template"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Last Value"
+msgstr ""
+
+#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
 msgid "N - Domestic Express"
 msgstr ""
@@ -268,7 +278,7 @@ msgstr ""
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_package_dimension_unit
@@ -283,7 +293,7 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model,name:delivery_dhl.model_product_packaging
 msgid "Packaging"
-msgstr ""
+msgstr "Empacotamento"
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/dhl_request.py:390
@@ -307,24 +317,24 @@ msgid "Product"
 msgstr "Produto"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
 msgid "Rating"
 msgstr "Classificação"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Região"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -389,6 +399,13 @@ msgid "The full URL to access the document through the website."
 msgstr "A URL completa para acessar o documento através do site."
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid ""
+"This field is used to display a availability banner with a message on the "
+"ecommerce"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
@@ -411,9 +428,19 @@ msgid "Visible in Website"
 msgstr "Visível no Website"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "Comentários do website"
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
 msgstr "Categoria do Produto no Site"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
+msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
@@ -445,24 +472,3 @@ msgstr ""
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "Caixa"
-
-#~ msgid "DHL Domestic"
-#~ msgstr "DHL Doméstica"
-
-#~ msgid "Package Height"
-#~ msgstr "Altura da embalagem"
-
-#~ msgid "Package Width"
-#~ msgstr "Largura da embalagem"
-
-#~ msgid "Test Mode"
-#~ msgstr "Modo de Teste"
-
-#~ msgid "Availability"
-#~ msgstr "Disponibilidade"
-
-#~ msgid "Website Comments"
-#~ msgstr "Comentários do website"
