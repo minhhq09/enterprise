@@ -75,7 +75,7 @@ class AnalyticLine(models.Model):
         day = column_value.split('/')[0]
 
         self.search(row_domain, limit=1).copy({
-            name: False,
+            'name': False,
             column_field: day,
             cell_field: change
         })
