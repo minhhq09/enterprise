@@ -40,6 +40,9 @@
         <field name="arch" type="xml">
             <form string="Add Options">
                 <p>You can either create a quotation that will be discounted for the current invoicing period (the options will be added when the quotation is confirmed) or directly insert them in the subscription to invoice it on the next invoice date.</p>
+                <group>
+                    <field name="date_from"/>
+                </group>
                 <field name="option_lines">
                     <tree string="Options" editable="bottom">
                         <field name="product_id" context="{'default_recurring_invoice': True}"/>

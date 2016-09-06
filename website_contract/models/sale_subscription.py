@@ -179,7 +179,7 @@ class SaleSubscription(models.Model):
             account.recurring_custom_lines = account.recurring_invoice_line_ids.filtered(lambda r: r.product_id not in [opt_line.product_id for opt_line in account.sudo().template_id.subscription_template_option_ids]+[inv_line.product_id for inv_line in account.sudo().template_id.subscription_template_line_ids])
             account.recurring_inactive_lines = account.sudo().template_id.subscription_template_option_ids.filtered(lambda r: r.product_id not in [line.product_id for line in account.recurring_invoice_line_ids] and r.portal_access != 'invisible')
 
-    def partial_invoice_line(self, sale_order, option_line, refund=False):
+    def partial_invoice_line(self, sale_order, option_line, refund=False, date_from=False):
         """ Add an invoice line on the sale order for the specified option and add a discount
         to take the partial recurring period into account """
         order_line_obj = self.env['sale.order.line']
@@ -190,22 +190,25 @@ class SaleSubscription(models.Model):
             'product_id': option_line.product_id.id,
             'product_uom_qty': option_line.quantity,
             'product_uom': option_line.uom_id.id,
-            'discount': (1 - self.partial_recurring_invoice_ratio()) * 100,
+            'discount': (1 - self.partial_recurring_invoice_ratio(date_from=date_from)) * 100,
             'price_unit': self.pricelist_id.with_context({'uom': option_line.uom_id.id}).get_product_price(option_line.product_id, 1, False),
             'force_price': True,
             'name': option_line.name,
         }
         return order_line_obj.create(values)
 
-    def partial_recurring_invoice_ratio(self):
+    def partial_recurring_invoice_ratio(self, date_from=False):
         """Computes the ratio of the amount of time remaining in the current invoicing period
         over the total length of said invoicing period"""
-        today = datetime.date.today()
+        if date_from:
+            date = fields.Date.from_string(date_from)
+        else:
+            date = datetime.date.today()
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
         invoicing_period = relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
         recurring_next_invoice = fields.Date.from_string(self.recurring_next_date)
         recurring_last_invoice = recurring_next_invoice - invoicing_period
-        time_to_invoice = recurring_next_invoice - today - datetime.timedelta(days=1)
+        time_to_invoice = recurring_next_invoice - date - datetime.timedelta(days=1)
         ratio = float(time_to_invoice.days) / float((recurring_next_invoice - recurring_last_invoice).days)
         return ratio
 

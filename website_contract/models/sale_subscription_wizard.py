@@ -14,6 +14,10 @@ class SaleSubscriptionWizard(models.TransientModel):
     account_id = fields.Many2one('account.analytic.account', string="Analytic Account", required=True, default=_default_account)
     subscription_id = fields.Many2one('sale.subscription', string="Contract", required=True, default=_default_contract)
     option_lines = fields.One2many('sale.subscription.wizard.option', 'wizard_id', string="Options")
+    date_from = fields.Date('Discount Date', default=fields.Date.today(),
+                            help="The discount applied when creating a sale order will be computed as the ratio between "
+                                 "the full invoicing period of the subscription and the period between this date and the "
+                                 "next invoicing date.")
 
     @api.multi
     def create_sale_order(self):
@@ -33,7 +37,7 @@ class SaleSubscriptionWizard(models.TransientModel):
             for option in template_id.subscription_template_option_ids:
                 if line.product_id == option.product_id:
                     line.name = option.name
-            self.subscription_id.partial_invoice_line(order, line)
+            self.subscription_id.partial_invoice_line(order, line, date_from=self.date_from)
         order.order_line._compute_tax_id()
         return {
             "type": "ir.actions.act_window",
