@@ -373,6 +373,9 @@
                 <field name="team_id"/>
                 <field name="picking_id"/>
                 <field name="quality_state"/>
+                <filter string="In Progress" domain="[('quality_state', '=', 'none')]" name="progress"/>
+                <filter string="Passed" domain="[('quality_state', '=', 'pass')]" name="passed"/>
+                <filter string="Failed" domain="[('quality_state', '=', 'fail')]" name="failed"/>
                 <group expand="0" string="Group By">
                     <filter string="State" context="{'group_by': 'quality_state'}"/>
                 </group>
@@ -396,7 +399,8 @@
         <field name="domain">[('team_id', '=', active_id)]</field>
         <field name="context">{
             'default_team_id': active_id,
-            'search_default_team_id': [active_id]}
+            'search_default_team_id': [active_id],
+            'search_default_progress': "1"}
         </field>
         <field name="help" type="html">
             <p>
@@ -486,17 +490,6 @@
                                     <div class="col-xs-6 o_kanban_primary_right">
                                         <div class="row">
                                             <div class="col-xs-9">
-                                                <a name="%(quality_alert_action_team)d" type="action">
-                                                    Quality Alerts
-                                                </a>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <field name="alert_count"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xs-9">
                                                 <a class="oe_kanban_stock_picking_type_list" name="%(quality_check_action_team)d" type="action">
                                                     Checks In Progress
                                                 </a>
@@ -506,15 +499,10 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div><div class="container o_kanban_card_manage_pane o_invisible">
                                 <div class="row">
                                     <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
-                                        <div class="o_kanban_card_manage_title">
-                                            <span>View</span>
-                                        </div>
-
                                     </div>
                                     <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_new">
                                     </div>
