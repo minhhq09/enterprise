@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-08-03 02:34+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -80,6 +80,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "开发者密钥"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -179,6 +184,11 @@ msgid "LB"
 msgstr "磅"
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_meter_number
 msgid "Meter Number"
 msgstr "表号"
@@ -224,6 +234,16 @@ msgid "PAPER_LETTER"
 msgstr "纸_信"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr ""
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
 msgstr "PRIORITY_OVERNIGHT"
@@ -259,20 +279,50 @@ msgid "STATION"
 msgstr "站"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:323
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "装运N° %s已经被取消"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:242
-#: code:addons/delivery_fedex/models/delivery_fedex.py:284
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "装运创建成Fedex <br/> <b>跟踪号码 : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:246
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "装运的包装标签%s"
@@ -295,39 +345,11 @@ msgid ""
 msgstr "这些认证通常需要你通过邮件联系Fedex支持团队"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr "创建如下类型的一个Fedex 账号"
-
-#~ msgid "FEDEX_10KG_BOX"
-#~ msgstr "FEDEX_10KG_箱子"
-
-#~ msgid "FEDEX_25KG_BOX"
-#~ msgstr "FEDEX_25KG_箱子"
-
-#~ msgid "FEDEX_BOX"
-#~ msgstr "FEDEX_箱"
-
-#~ msgid "FEDEX_ENVELOPE"
-#~ msgstr "FEDEX_信封"
-
-#~ msgid "FEDEX_PAK"
-#~ msgstr "FEDEX_袋"
-
-#~ msgid "FEDEX_TUBE"
-#~ msgstr "FEDEX_盒"
-
-#~ msgid "Fedex packaging type"
-#~ msgstr "Fedex 包装类型"
-
-#~ msgid "Test Mode"
-#~ msgstr "测试模式"
-
-#~ msgid "Uncheck this box to use production Fedex Web Services"
-#~ msgstr "取消复选框而使用Fedex 网站服务"
-
-#~ msgid "YOUR_PACKAGING"
-#~ msgstr "YOUR_PACKAGING"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"

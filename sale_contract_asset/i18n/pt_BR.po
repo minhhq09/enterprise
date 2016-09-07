@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2015-12-08 20:59+0000\n"
 "Last-Translator: Grazziano Duarte <g.negocios@outlook.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
@@ -22,8 +22,14 @@ msgstr ""
 
 #. module: sale_contract_asset
 #: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_asset_category_id
+#: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_template_asset_category_id
 msgid "Deferred Revenue Category"
 msgstr "Categoria de Receita Diferida"
+
+#. module: sale_contract_asset
+#: model:ir.ui.view,arch_db:sale_contract_asset.sale_subscription_view_form_inherit_sale_contract_asset
+msgid "Deferred Revenue Type"
+msgstr "Tipo de Receita Diferida"
 
 #. module: sale_contract_asset
 #: model:ir.model,name:sale_contract_asset.model_sale_subscription
@@ -33,7 +39,7 @@ msgstr "Subscrição de Venda"
 #. module: sale_contract_asset
 #: model:ir.model,name:sale_contract_asset.model_sale_order_line
 msgid "Sales Order Line"
-msgstr ""
+msgstr "Linha do Pedido de Vendas"
 
 #. module: sale_contract_asset
 #: model:ir.model.fields,help:sale_contract_asset.field_sale_subscription_asset_category_id
@@ -42,13 +48,9 @@ msgid ""
 msgstr ""
 "Esta categoria de ativos serão aplicadas às linhas de faturas do contrato."
 
-#, fuzzy
-#~ msgid "Deferred Revenue Type"
-#~ msgstr "Categoria de Receita Diferida"
-
-#, fuzzy
-#~ msgid ""
-#~ "This asset category will be applied to the subscriptions based on this "
-#~ "template. This field is company-dependent."
-#~ msgstr ""
-#~ "Esta categoria de ativos serão aplicadas às linhas de faturas do contrato."
+#. module: sale_contract_asset
+#: model:ir.model.fields,help:sale_contract_asset.field_sale_subscription_template_asset_category_id
+msgid ""
+"This asset category will be applied to the subscriptions based on this "
+"template. This field is company-dependent."
+msgstr ""

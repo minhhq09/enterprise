@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-03-09 15:32+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -51,6 +51,11 @@ msgid "Content Type"
 msgstr "Vrsta datoteke"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "DHL Configuration"
+msgstr ""
+
+#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Način isporuke"
@@ -72,8 +77,8 @@ msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First Class"
-msgstr "Prva klasa"
+msgid "First-Class"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -112,6 +117,11 @@ msgstr "Poklon"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Internacionalno"
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
+msgid "Label File Type"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -170,6 +180,11 @@ msgstr ""
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Nepravokutan"
+
+#. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "PDF"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -296,13 +311,13 @@ msgid "Sample"
 msgstr "Uzorak"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:151
+#: code:addons/delivery_usps/models/delivery_usps.py:154
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Pošiljka N° %s je otkazana"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:128
+#: code:addons/delivery_usps/models/delivery_usps.py:131
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Pošiljka stvorena u USPS <br/> <b> Broj za praćenje: </b>%s"
@@ -315,6 +330,11 @@ msgstr ""
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
+msgstr ""
+
+#. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "TIF"
 msgstr ""
 
 #. module: delivery_usps
@@ -379,11 +399,6 @@ msgid "Type of regular container"
 msgstr "Vrsta redovnog spremnika"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "USPS Configuration"
-msgstr "USPS konfiguracija"
-
-#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
 msgid "USPS Domestic Flat Rate Envelope"
@@ -431,24 +446,3 @@ msgstr "Veličine usps spremnika"
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Poštanski broj vaše tvrtke ili primatelja nije točan."
-
-#~ msgid "Test Mode"
-#~ msgstr "Testni način rada"
-
-#~ msgid "USPS Password"
-#~ msgstr "USPS lozinka"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Poništite ovaj okvir za korištenje UPS Web usluge"
-
-#, fuzzy
-#~ msgid "DHL Configuration"
-#~ msgstr "USPS konfiguracija"
-
-#, fuzzy
-#~ msgid "First-Class"
-#~ msgstr "Prva klasa"
-
-#, fuzzy
-#~ msgid "Label File Type"
-#~ msgstr "Vrsta maila"

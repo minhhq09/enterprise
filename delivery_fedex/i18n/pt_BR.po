@@ -4,6 +4,7 @@
 #
 # Translators:
 # Fernanda Gauss Pereira <nanda.gauss@gmail.com>, 2016
+# Franciele Neiva <franciele.neiva@br.ey.com>, 2016
 # grazziano <g.negocios@outlook.com.br>, 2015
 # Mateus Lopes <mateus1@gmail.com>, 2015
 # Rodrigo Macedo <rodrigomacedo@rmsolucoeseminformatica.com>, 2015
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-08-16 19:44+0000\n"
-"Last-Translator: Fernanda Gauss Pereira <nanda.gauss@gmail.com>\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-09-02 16:20+0000\n"
+"Last-Translator: Franciele Neiva <franciele.neiva@br.ey.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
 "language/pt_BR/)\n"
 "Language: pt_BR\n"
@@ -78,6 +79,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "Developer Key"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -177,6 +183,11 @@ msgid "LB"
 msgstr "LB"
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_meter_number
 msgid "Meter Number"
 msgstr "Número Medidor"
@@ -222,6 +233,16 @@ msgid "PAPER_LETTER"
 msgstr "PAPER_LETTER"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr ""
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
 msgstr "PRIORITY_OVERNIGHT"
@@ -229,7 +250,7 @@ msgstr "PRIORITY_OVERNIGHT"
 #. module: delivery_fedex
 #: model:ir.model,name:delivery_fedex.model_product_packaging
 msgid "Packaging"
-msgstr ""
+msgstr "Empacotamento"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_password
@@ -254,23 +275,53 @@ msgstr "STANDARD_OVERNIGHT"
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_droppoff_type:0
 msgid "STATION"
-msgstr "STATION"
+msgstr "ESTAÇÃO"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:323
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Carregamento N° %s foi cancelado"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:242
-#: code:addons/delivery_fedex/models/delivery_fedex.py:284
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "Embarque criado para Fedex <br/> <b>Número de Rastreamento:</b> %s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:246
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "Etiqueta de encomenda para o pacote %s"
@@ -293,36 +344,11 @@ msgid ""
 msgstr ""
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr ""
-
-#~ msgid "FEDEX_10KG_BOX"
-#~ msgstr "FEDEX_10KG_BOX"
-
-#~ msgid "FEDEX_25KG_BOX"
-#~ msgstr "FEDEX_25KG_BOX"
-
-#~ msgid "FEDEX_BOX"
-#~ msgstr "FEDEX_BOX"
-
-#~ msgid "FEDEX_ENVELOPE"
-#~ msgstr "FEDEX_ENVELOPE"
-
-#~ msgid "FEDEX_PAK"
-#~ msgstr "FEDEX_PAK"
-
-#~ msgid "FEDEX_TUBE"
-#~ msgstr "FEDEX_TUBE"
-
-#~ msgid "Fedex packaging type"
-#~ msgstr "Tipo de embalagem Fedex"
-
-#~ msgid "Test Mode"
-#~ msgstr "Modo de Teste"
-
-#~ msgid "Uncheck this box to use production Fedex Web Services"
-#~ msgstr "Desmarque essa caixa para usar Fedex Web Services em produção"
-
-#~ msgid "YOUR_PACKAGING"
-#~ msgstr "YOUR_PACKAGING"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-10-24 16:43+0000\n"
 "Last-Translator: Davor Bojkić <bole@dajmi5.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -31,9 +31,13 @@ msgstr "Centimetri"
 
 #. module: delivery_ups
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
 msgid "Default Packaging Type"
-msgstr "UPS vrsta pakiranja"
+msgstr ""
+
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
@@ -46,13 +50,22 @@ msgid "Kilograms"
 msgstr "Kilogrami"
 
 #. module: delivery_ups
-#: model:ir.model,name:delivery_ups.model_product_packaging
-#, fuzzy
-msgid "Packaging"
-msgstr "Visina paketa"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "Label File Type"
+msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:207
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_ups
+#: model:ir.model,name:delivery_ups.model_product_packaging
+msgid "Packaging"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Navedite barem jednu stavku za isporuku."
@@ -63,25 +76,30 @@ msgid "Pounds"
 msgstr "Funti"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Pošiljka N° %s je otkazana"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Pošiljka stvorena u UPS <br/> <b>Broj za praćenje: </b>%s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Oznaka dostave za pakete"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:182
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -91,7 +109,7 @@ msgstr ""
 "(Polja(e) koje nedostaje : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:192
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -101,14 +119,14 @@ msgstr ""
 "(Polja(e) koje nedostaje : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "Ne možemo isporučiti, jer nedostaje težina proizvoda."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:209
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -117,7 +135,7 @@ msgstr ""
 "Izražena cijena se ne može izračunati, jer nedostaje težina vašeg proizvoda."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:202
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -243,38 +261,7 @@ msgstr "Jedinice za UPS veličine paketa"
 msgid "Ups package weight unit"
 msgstr "Težina jedinice UPS paketa"
 
-#~ msgid "10KG Box"
-#~ msgstr "Kutija od 10 kg"
-
-#~ msgid "25KG Box"
-#~ msgstr "Kutija od 25 kg"
-
-#~ msgid "Flat Pack"
-#~ msgstr "Ravan paket"
-
-#~ msgid "Package Height"
-#~ msgstr "Visina paketa"
-
-#~ msgid "Package Length"
-#~ msgstr "Duljina paketa"
-
-#~ msgid "Package Width"
-#~ msgstr "Širina paketa"
-
-#~ msgid "Pallet"
-#~ msgstr "Paleta"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testni način rada"
-
-#~ msgid "UPS Letter"
-#~ msgstr "UPS pismo"
-
-#~ msgid "UPS Packaging Type"
-#~ msgstr "UPS vrsta pakiranja"
-
-#~ msgid "UPS Tube"
-#~ msgstr "UPS cijev"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Poništite ovaj okvir za korištenje UPS Web usluge"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-12-30 22:07+0000\n"
 "Last-Translator: Kris Krnacs\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -71,12 +71,17 @@ msgstr "DROP_BOX"
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_default_packaging_id
 msgid "Default Package Type"
-msgstr ""
+msgstr "Alapértelmezett csomag típus"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "Fejlesztési kulcs"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
+msgstr "EPL2"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -176,6 +181,11 @@ msgid "LB"
 msgstr "LB"
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_meter_number
 msgid "Meter Number"
 msgstr "Méter szám"
@@ -221,6 +231,16 @@ msgid "PAPER_LETTER"
 msgstr "PAPÍR_LEVÉL"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr "PNG"
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
 msgstr "ELSŐBBSÉGI_MÁSNAP"
@@ -256,20 +276,50 @@ msgid "STATION"
 msgstr "ÁLLOMÁS"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:323
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr "STOCK_4X6"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr "STOCK_4X6.75_LEADING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr "STOCK_4X6.75_TRAILING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr "STOCK_4X8"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr "STOCK_4X9_LEADING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr "STOCK_4X9_TRAILING_DOC_TAB"
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "N° %s sz. szállítmány érvénytelenítettük"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:242
-#: code:addons/delivery_fedex/models/delivery_fedex.py:284
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "Szállítmány létrehozva az Fedex-ben <br/> <b>Követési szám : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:246
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "Szállítási etikett a csomaghoz  %s"
@@ -294,40 +344,11 @@ msgstr ""
 "szolgáltatáshoz kapcsolódáshoz."
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr "ZPLII"
+
+#. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr "a következő típusú FedEx fiók létrehozásához:"
-
-#~ msgid "FEDEX_10KG_BOX"
-#~ msgstr "FEDEX_10KG_CSOMAG"
-
-#~ msgid "FEDEX_25KG_BOX"
-#~ msgstr "FEDEX_25KG_CSOMAG"
-
-#~ msgid "FEDEX_BOX"
-#~ msgstr "FEDEX_CSOMAG"
-
-#~ msgid "FEDEX_ENVELOPE"
-#~ msgstr "FEDEX_BORÍTÉK"
-
-#~ msgid "FEDEX_PAK"
-#~ msgstr "FEDEX_PAK"
-
-#~ msgid "FEDEX_TUBE"
-#~ msgstr "FEDEX_TUBE"
-
-#~ msgid "Fedex packaging type"
-#~ msgstr "Fedex csomagolás típus"
-
-#~ msgid "Test Mode"
-#~ msgstr "Tesztmód"
-
-#~ msgid "Uncheck this box to use production Fedex Web Services"
-#~ msgstr ""
-#~ "Ne jelölje be ezt a négyzetet az Fedex Web szolgáltatás használatához"
-
-#~ msgid "YOUR_PACKAGING"
-#~ msgstr "ÖN_CSOMAGOLJA"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"

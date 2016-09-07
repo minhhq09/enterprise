@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-10-09 12:29+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
@@ -35,6 +35,11 @@ msgid "Default Packaging Type"
 msgstr ""
 
 #. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr "EPL"
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
 msgid "Inches"
 msgstr "Inch"
@@ -45,12 +50,22 @@ msgid "Kilograms"
 msgstr "Kilogram"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
 msgid "Packaging"
 msgstr "Verpakking"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:207
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Voorzie minimaal één item om te verzenden aub."
@@ -61,25 +76,30 @@ msgid "Pounds"
 msgstr "Ponden"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr "SPL"
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Levering n° %s werd geannuleerd"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Verzending aangemaakt in UPS<br/> <b>Traceernummer:</b> %s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Verzendlabel voor pakketten"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:182
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -89,7 +109,7 @@ msgstr ""
 "(Mist veld(en): %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:192
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -99,7 +119,7 @@ msgstr ""
 "(Mist veld(en): %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
@@ -108,7 +128,7 @@ msgstr ""
 "ontbreekt."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:209
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -118,7 +138,7 @@ msgstr ""
 "ontbreekt."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:202
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -244,80 +264,7 @@ msgstr "Eenheden voor UPS Package Size"
 msgid "Ups package weight unit"
 msgstr "UPS verpakkingsdimensie eenheidsgewicht"
 
-#~ msgid "10KG Box"
-#~ msgstr "10KG doos"
-
-#~ msgid "25KG Box"
-#~ msgstr "25KG doos"
-
-#~ msgid "Express Box"
-#~ msgstr "Express doos"
-
-#~ msgid "Fixed height if not provided on the product packaging."
-#~ msgstr "Vaste hoogte indien niet ingegeven op de productverpakking."
-
-#~ msgid "Fixed length if not provided on the product packaging."
-#~ msgstr "Vaste lengte indien niet ingegeven op de productverpakking."
-
-#~ msgid "Fixed width if not provided on the product packaging."
-#~ msgstr "Vaste breedte indien niet ingegeven op de productverpakking."
-
-#~ msgid "Flat Pack"
-#~ msgstr "Plat pakket"
-
-#~ msgid "Medium Express Box"
-#~ msgstr "Gemiddelde express doos"
-
-#~ msgid "Package Height"
-#~ msgstr "Pakkethoogte"
-
-#~ msgid "Package Length"
-#~ msgstr "Pakketlengte"
-
-#~ msgid "Package Width"
-#~ msgstr "Pakketbreedte"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Verpakking/klant geleverd"
-
-#~ msgid "Pallet"
-#~ msgstr "Pallet"
-
-#~ msgid "Small Express Box"
-#~ msgstr "Kleine express doos"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testmodus"
-
-#~ msgid "UPS Letter"
-#~ msgstr "UPS brief"
-
-#~ msgid "UPS Packaging Type"
-#~ msgstr "UPS verpakkingssoort"
-
-#~ msgid "UPS Pak"
-#~ msgstr "UPS pak"
-
-#~ msgid "UPS Tube"
-#~ msgstr "UPS Tube"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Vink dit vakje uit om productie UPS web services te gebruiken"
-
-#~ msgid "EPL"
-#~ msgstr "EPL"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"
-
-#~ msgid "SPL"
-#~ msgstr "SPL"
-
-#~ msgid "UPS Default Packaging Type"
-#~ msgstr "UPS standaard verpakkingstype"
-
-#~ msgid "UPS Label File Type"
-#~ msgstr "UPS label bestand soort"
-
-#~ msgid "ZPL"
-#~ msgstr "ZPL"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr "ZPL"

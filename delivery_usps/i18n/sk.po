@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-03-25 17:37+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -52,6 +52,11 @@ msgid "Content Type"
 msgstr "Typ obsahu"
 
 #. module: delivery_usps
+#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
+msgid "DHL Configuration"
+msgstr ""
+
+#. module: delivery_usps
 #: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_delivery_nature
 msgid "Delivery Nature"
 msgstr "Charakter dodania"
@@ -73,8 +78,8 @@ msgstr "Expres"
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_service:0
-msgid "First Class"
-msgstr "Prvá trieda"
+msgid "First-Class"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_first_class_mail_type:0
@@ -113,6 +118,11 @@ msgstr "Dar"
 #: selection:delivery.carrier,usps_delivery_nature:0
 msgid "International"
 msgstr "Medzinárodný"
+
+#. module: delivery_usps
+#: model:ir.model.fields,field_description:delivery_usps.field_delivery_carrier_usps_label_file_type
+msgid "Label File Type"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_size_container:0
@@ -171,6 +181,11 @@ msgstr "Nedoručovacia možnosť"
 #: selection:delivery.carrier,usps_container:0
 msgid "Non-rectangular"
 msgstr "Neštvorcové"
+
+#. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "PDF"
+msgstr ""
 
 #. module: delivery_usps
 #: selection:delivery.carrier,usps_mail_type:0
@@ -301,13 +316,13 @@ msgid "Sample"
 msgstr "Vzorka"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:151
+#: code:addons/delivery_usps/models/delivery_usps.py:154
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Zásielka N° %s bola zrušená"
 
 #. module: delivery_usps
-#: code:addons/delivery_usps/models/delivery_usps.py:128
+#: code:addons/delivery_usps/models/delivery_usps.py:131
 #, python-format
 msgid "Shipment created into USPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Zásielka vytvorená v USPS  <br/> <b>Sledovacie číslo : </b>%s"
@@ -321,6 +336,11 @@ msgstr "Malý box s jendotnou sadzbou"
 #: selection:delivery.carrier,usps_domestic_regular_container:0
 msgid "Small Flat Rate Envelope"
 msgstr "Malá obálka s jednotnou sadzbou"
+
+#. module: delivery_usps
+#: selection:delivery.carrier,usps_label_file_type:0
+msgid "TIF"
+msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:161
@@ -386,16 +406,10 @@ msgid "Type of regular container"
 msgstr "Typ regulŕneho kontajnera"
 
 #. module: delivery_usps
-#: model:ir.ui.view,arch_db:delivery_usps.view_delivery_carrier_form_with_provider_usps
-msgid "USPS Configuration"
-msgstr "USPS konfigurácia"
-
-#. module: delivery_usps
 #: model:delivery.carrier,name:delivery_usps.delivery_carrier_usps_domestic
 #: model:product.product,name:delivery_usps.delivery_carrier_usps_domestic_product_product
-#, fuzzy
 msgid "USPS Domestic Flat Rate Envelope"
-msgstr "USPS domáci box s pevnou sadzbou"
+msgstr ""
 
 #. module: delivery_usps
 #: code:addons/delivery_usps/models/usps_request.py:72
@@ -443,27 +457,3 @@ msgstr "USPS veľkosť kontajnera"
 #, python-format
 msgid "Your company or recipient zip code is incorrect."
 msgstr "Vaša spoločnosť alebo psč príjemcu nie su správne."
-
-#~ msgid "Test Mode"
-#~ msgstr "Testovací režim"
-
-#~ msgid "USPS Domestic Flat Rate Box"
-#~ msgstr "USPS domáci box s pevnou sadzbou"
-
-#~ msgid "USPS Password"
-#~ msgstr "USPS heslo"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Zrušte označenie tohto políčka pre používanie UPS web služby"
-
-#, fuzzy
-#~ msgid "DHL Configuration"
-#~ msgstr "USPS konfigurácia"
-
-#, fuzzy
-#~ msgid "First-Class"
-#~ msgstr "Prvá trieda"
-
-#, fuzzy
-#~ msgid "Label File Type"
-#~ msgstr "Typ pošty"

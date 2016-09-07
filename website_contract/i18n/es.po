@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-07-30 07:28+0000\n"
 "Last-Translator: Inigo Zuluaga <inigo_zuluaga@yahoo.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
@@ -571,6 +571,12 @@ msgid "Automatic Payment"
 msgstr "Pago automático"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
+msgid "Back"
+msgstr "Atrás"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -643,7 +649,7 @@ msgid "Close your contract"
 msgstr "Cerrar tu contrato"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:204
+#: code:addons/website_contract/controllers/main.py:203
 #, python-format
 msgid "Closing text : "
 msgstr ""
@@ -681,6 +687,7 @@ msgid "Contract Details"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Plantilla de contrato"
@@ -776,6 +783,13 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
+msgid ""
+"If set, all recurring products in this Sales Order will be included in a new "
+"Subscription with the selected template"
 msgstr ""
 
 #. module: website_contract
@@ -930,6 +944,11 @@ msgid "Options"
 msgstr "Opciones"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Order Number"
+msgstr "Número de pedido"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Pagar ahora"
@@ -1019,6 +1038,11 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Reference:"
+msgstr "Referencia:"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -1074,6 +1098,11 @@ msgstr "Aviso para pedido de venta"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línea pedido de venta"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Sales Orders"
+msgstr "Pedidos de ventas"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1151,6 +1180,11 @@ msgid "Total"
 msgstr "Total"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Total Tax Included"
+msgstr "Total impuestos incluidos"
+
+#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
@@ -1196,14 +1230,12 @@ msgid "Valid until:"
 msgstr "Válido hasta:"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Ver contrato"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Ver plantilla"
@@ -1343,73 +1375,3 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr ""
-
-#~ msgid "&amp;nbsp;"
-#~ msgstr "&amp;nbsp;"
-
-#~ msgid "Actual Quantity"
-#~ msgstr "Cantidad Actual"
-
-#~ msgid "Customized Module"
-#~ msgstr "Módulo modificado"
-
-#~ msgid "Customized Views"
-#~ msgstr "Vistas personalizadas"
-
-#~ msgid "Dashboard"
-#~ msgstr "Tablero"
-
-#~ msgid "Discount (%)"
-#~ msgstr "Descuento (%)"
-
-#~ msgid "Month(s)"
-#~ msgstr "Mes(es)"
-
-#~ msgid "Pay & Confirm"
-#~ msgstr "Pagar y confirmar"
-
-#~ msgid "Quantity sold to the customer"
-#~ msgstr "Cantidad vendida al cliente"
-
-#~ msgid "Revenue KPIs"
-#~ msgstr "KPI ingresos"
-
-#~ msgid "Salesman Dashboard"
-#~ msgstr "Tablero de Vendedor"
-
-#~ msgid "Sub Total"
-#~ msgstr "Subtotal"
-
-#~ msgid ""
-#~ "These modifications will be active immedialy, however your next invoice "
-#~ "date will not be changed. Your next invoice will arrive on:"
-#~ msgstr ""
-#~ "Los cambios se activarán inmediatamente, aunque la próxima fecha de "
-#~ "factura no se cambiará. Su próxima factura llegará el:"
-
-#~ msgid "Time"
-#~ msgstr "Tiempo"
-
-#~ msgid "Unit of Measure"
-#~ msgstr "Unidad de medida"
-
-#~ msgid "Year(s)"
-#~ msgstr "Año(s)"
-
-#~ msgid "Back"
-#~ msgstr "Atrás"
-
-#~ msgid "Contracts"
-#~ msgstr "Contratos"
-
-#~ msgid "Order Number"
-#~ msgstr "Número de pedido"
-
-#~ msgid "Reference:"
-#~ msgstr "Referencia:"
-
-#~ msgid "Sales Orders"
-#~ msgstr "Pedidos de ventas"
-
-#~ msgid "Total Tax Included"
-#~ msgstr "Total impuestos incluidos"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-08-15 15:34+0000\n"
 "Last-Translator: Wolfgang Taferner\n"
 "Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
@@ -38,7 +38,7 @@ msgid "An internal identification for this loyalty reward"
 msgstr "Eine interne Identifizierung für diesen Treuebonus"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Category"
 msgstr "Kategorie"
 
@@ -68,7 +68,7 @@ msgstr "kumulativ"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Discount"
 msgstr "Rabatt"
 
@@ -85,12 +85,12 @@ msgid "Display Name"
 msgstr "Anzeigename"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
 msgid "Does this rule affects products, or a category of products ?"
 msgstr ""
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Gift"
 msgstr "Geschenk"
 
@@ -154,12 +154,6 @@ msgid "Last Updated on"
 msgstr "Zuletzt aktualisiert am"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-msgid "Loyalty Points"
-msgstr "Treuepunkte"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
@@ -200,8 +194,14 @@ msgid "Loyalty Rule"
 msgstr ""
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+msgid "Loyalty points"
+msgstr ""
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-msgid "Minimum Points"
+msgid "Minimum points"
 msgstr ""
 
 #. module: pos_loyalty
@@ -216,13 +216,13 @@ msgid "Partner"
 msgstr "Partner"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-msgid "Point Cost"
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
+msgid "Point Product"
 msgstr ""
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
-msgid "Point Product"
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+msgid "Point cost"
 msgstr ""
 
 #. module: pos_loyalty
@@ -254,9 +254,9 @@ msgstr ""
 #. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
-#, fuzzy, python-format
+#, python-format
 msgid "Points Spent:"
-msgstr "Point of Sale"
+msgstr ""
 
 #. module: pos_loyalty
 #. openerp-web
@@ -290,12 +290,12 @@ msgid "Points per product"
 msgstr ""
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Product"
 msgstr "Produkt"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Resale"
 msgstr ""
 
@@ -307,6 +307,11 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid "Reward the customer with gifts or discounts for loyalty points"
+msgstr ""
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
+msgid "Reward type"
 msgstr ""
 
 #. module: pos_loyalty
@@ -322,6 +327,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Rule Name"
 msgstr "Regelbezeichnung"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
+msgid "Rule type"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rule_ids
@@ -368,7 +378,7 @@ msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-msgid "The cost of the reward per monetary unit discounted"
+msgid "The cost of the reward"
 msgstr ""
 
 #. module: pos_loyalty
@@ -377,12 +387,14 @@ msgid "The discount percentage"
 msgstr "Der %-Satz für den Rabatt"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:56
+#, python-format
 msgid "The discount product field is mandatory for discount rewards"
 msgstr ""
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:50
+#, python-format
 msgid "The gift product field is mandatory for gift rewards"
 msgstr ""
 
@@ -409,7 +421,8 @@ msgid ""
 msgstr ""
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:62
+#, python-format
 msgid "The point product field is mandatory for point resale rewards"
 msgstr ""
 
@@ -439,7 +452,7 @@ msgid "The product used to apply discounts"
 msgstr ""
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
 msgid "The type of the reward"
 msgstr ""
 
@@ -456,12 +469,6 @@ msgstr ""
 #, python-format
 msgid "Total Points:"
 msgstr ""
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
-msgid "Type"
-msgstr "Typ"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
@@ -482,15 +489,3 @@ msgstr ""
 #: model:ir.model,name:pos_loyalty.model_pos_config
 msgid "pos.config"
 msgstr "pos.config"
-
-#, fuzzy
-#~ msgid "Loyalty points"
-#~ msgstr "Treueprogramm"
-
-#, fuzzy
-#~ msgid "Point cost"
-#~ msgstr "Point of Sale"
-
-#, fuzzy
-#~ msgid "Rule type"
-#~ msgstr "Regelbezeichnung"

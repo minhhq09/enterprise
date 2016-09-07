@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-07-04 08:11+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
+"PO-Revision-Date: 2016-08-29 08:35+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Catalan (http://www.transifex.com/odoo/odoo-9/language/ca/)\n"
 "Language: ca\n"
@@ -494,7 +494,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "<strong>Total:</strong>"
-msgstr ""
+msgstr "<strong>Total:</strong>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.so_quotation
@@ -564,6 +564,12 @@ msgstr "Compte analític"
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
 msgid "Automatic Payment"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
+msgid "Back"
 msgstr ""
 
 #. module: website_contract
@@ -639,7 +645,7 @@ msgid "Close your contract"
 msgstr ""
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:204
+#: code:addons/website_contract/controllers/main.py:203
 #, python-format
 msgid "Closing text : "
 msgstr ""
@@ -677,6 +683,7 @@ msgid "Contract Details"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Plantilla de contracte"
@@ -771,6 +778,13 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
+msgid ""
+"If set, all recurring products in this Sales Order will be included in a new "
+"Subscription with the selected template"
 msgstr ""
 
 #. module: website_contract
@@ -925,6 +939,11 @@ msgid "Options"
 msgstr "Opcions"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Order Number"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Pagar Ara"
@@ -977,9 +996,8 @@ msgstr "Producte"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
-#, fuzzy
 msgid "Prorated Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
@@ -1011,6 +1029,11 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_option_lines
 msgid "Recurring option lines"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Reference:"
 msgstr ""
 
 #. module: website_contract
@@ -1070,6 +1093,11 @@ msgstr "Comanda de venda"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línia comanda de venda"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Sales Orders"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1132,7 +1160,7 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
-msgstr ""
+msgstr "URL completa per accedir al document a través del lloc web."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -1145,6 +1173,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
 msgid "Total"
 msgstr "Total"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Total Tax Included"
+msgstr ""
 
 #. module: website_contract
 #: sql_constraint:sale.subscription:0
@@ -1192,14 +1225,12 @@ msgid "Valid until:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr ""
@@ -1339,31 +1370,3 @@ msgstr ""
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr ""
-
-#~ msgid "Customized Views"
-#~ msgstr "Vistes personalitzades"
-
-#~ msgid "Dashboard"
-#~ msgstr "Taulell"
-
-#~ msgid "Discount (%)"
-#~ msgstr "Descompte (%)"
-
-#~ msgid "Month(s)"
-#~ msgstr "Mes/os"
-
-#~ msgid "Sub Total"
-#~ msgstr "Subtotal"
-
-#~ msgid "Time"
-#~ msgstr "Temps"
-
-#~ msgid "Unit of Measure"
-#~ msgstr "Unitat de mesura"
-
-#~ msgid "Year(s)"
-#~ msgstr "Any/s"
-
-#, fuzzy
-#~ msgid "Sales Orders"
-#~ msgstr "Comanda de venda"

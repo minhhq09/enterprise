@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-06-06 19:55+0000\n"
 "Last-Translator: krnkris\n"
 "Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -268,6 +268,8 @@ msgstr "A fizetett összeg '%s' túl sok. Maximum megengedett %s."
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
+"A hitelező bank számlaszáma %s amit ehez a fizetéshez használ %s nem "
+"azonosítható a BIC által"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:126
@@ -275,6 +277,8 @@ msgstr ""
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
 msgstr ""
+"A hitelező bank számlaszáma %s amit ehhez a fizetéshez használ %s nem "
+"azonosítható az IBAN által"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
@@ -287,6 +291,12 @@ msgid ""
 "following:\n"
 "   "
 msgstr ""
+"A generált fizetési fájl nem általános SEPA banki utalás. Ügyeljen, hogy "
+"egyes bankok visszautasíthatják, mivel nem végrehajtható az oldalukon.\n"
+"\n"
+"Gyakorlatban, az ok, amiért ez a fizetés nem általános a következők "
+"lehetnek:\n"
+"   "
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:50
@@ -332,6 +342,7 @@ msgstr ""
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
 msgstr ""
+"Ez a tranzakció: %s utasítva lett ez EUR helyett más pénznem használatára"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:306
@@ -384,12 +395,9 @@ msgstr "Cége neve"
 #: code:addons/account_sepa/sepa_credit_transfer.py:118
 #, python-format
 msgid "Your bank account is not labelled in EUR"
-msgstr ""
+msgstr "A bankszámla száma nem EUR  címkéjű"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "or"
 msgstr "vagy"
-
-#~ msgid "Generic"
-#~ msgstr "Általános"

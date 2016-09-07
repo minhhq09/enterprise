@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-12-07 23:00+0000\n"
 "Last-Translator: Ana Juaristi <ajuaristio@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
@@ -35,6 +35,11 @@ msgid "Default Packaging Type"
 msgstr ""
 
 #. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr ""
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
 msgid "Inches"
 msgstr "Pulgadas"
@@ -45,12 +50,22 @@ msgid "Kilograms"
 msgstr "Kilogramos"
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
 msgid "Packaging"
 msgstr "Empaquetado"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:207
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Por favor, proveer al menos un dato para embarcar."
@@ -61,25 +76,30 @@ msgid "Pounds"
 msgstr "Libras"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "El envío Nº %s ha sido cancelado"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Etiqueta de envío para paquetes"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:182
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -89,7 +109,7 @@ msgstr ""
 "(Missing field(s) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:192
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -99,7 +119,7 @@ msgstr ""
 "(Missing field(s) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
@@ -107,7 +127,7 @@ msgstr ""
 "El reparto no puede hacerse porque el peso de su producto no está disponible."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:209
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -117,7 +137,7 @@ msgstr ""
 "encuentra."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:202
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -241,29 +261,7 @@ msgstr ""
 msgid "Ups package weight unit"
 msgstr ""
 
-#~ msgid "10KG Box"
-#~ msgstr " Caja 10 Kg"
-
-#~ msgid "25KG Box"
-#~ msgstr "Caja 25Kg "
-
-#~ msgid "Package Height"
-#~ msgstr "\"Altura\" del paquete"
-
-#~ msgid "Package Length"
-#~ msgstr "\"Longitud\" del paquete"
-
-#~ msgid "Package Width"
-#~ msgstr "\"Anchura\" del paquete"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Paquete/cliente enviado"
-
-#~ msgid "Pallet"
-#~ msgstr "Palet"
-
-#~ msgid "Test Mode"
-#~ msgstr "Modo Test"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""

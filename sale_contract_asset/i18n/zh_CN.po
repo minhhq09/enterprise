@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2016-05-29 06:54+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -22,8 +22,14 @@ msgstr ""
 
 #. module: sale_contract_asset
 #: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_asset_category_id
+#: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_template_asset_category_id
 msgid "Deferred Revenue Category"
 msgstr "递延收入类别"
+
+#. module: sale_contract_asset
+#: model:ir.ui.view,arch_db:sale_contract_asset.sale_subscription_view_form_inherit_sale_contract_asset
+msgid "Deferred Revenue Type"
+msgstr "递延收入类型"
 
 #. module: sale_contract_asset
 #: model:ir.model,name:sale_contract_asset.model_sale_subscription
@@ -41,5 +47,9 @@ msgid ""
 "This asset category will be applied to the lines of the contract's invoices."
 msgstr "该资产类别将应用于此合约发票的明细行。"
 
-#~ msgid "Deferred Revenue Type"
-#~ msgstr "递延收入类型"
+#. module: sale_contract_asset
+#: model:ir.model.fields,help:sale_contract_asset.field_sale_subscription_template_asset_category_id
+msgid ""
+"This asset category will be applied to the subscriptions based on this "
+"template. This field is company-dependent."
+msgstr ""

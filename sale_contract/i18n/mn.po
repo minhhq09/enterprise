@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:35+0000\n"
 "PO-Revision-Date: 2015-12-31 04:15+0000\n"
 "Last-Translator: Otgonbayar Agvaan <gobi.mn@gmail.com>\n"
 "Language-Team: Mongolian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -20,7 +20,6 @@ msgstr ""
 
 #. module: sale_contract
 #: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
-#, fuzzy
 msgid ""
 "\n"
 "<p>Dear ${object.name},</p>\n"
@@ -78,71 +77,6 @@ msgid ""
 "<p>--<br />\n"
 "Odoo</p>"
 msgstr ""
-"\n"
-"Сайн байна уу ${object.name},\n"
-"\n"
-"% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-"    <tr>\n"
-"        <th>Захиалагч</th>\n"
-"        <th>Гэрээ</th>\n"
-"        <th>Огноонууд</th>\n"
-"        <th>Урьдчилсан төлбөрт нэгж</th>\n"
-"        <th>Холбогч</th>\n"
-"    </tr>\n"
-"    % for partner, accounts in values:\n"
-"        % for account in accounts:\n"
-"        <tr>\n"
-"            <td>${partner.name}</td>\n"
-"            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id\"]}"
-"&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-"            <td>${account.date_start} to ${account.date and account.date or "
-"'???'}</td>\n"
-"            <td>\n"
-"            % if account.quantity_max != 0.0:\n"
-"                ${account.remaining_hours}/${account.quantity_max} units\n"
-"            % endif\n"
-"            </td>\n"
-"            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-"email or ''}</td>\n"
-"        </tr>\n"
-"        % endfor\n"
-"    % endfor\n"
-"</table>\n"
-"% endmacro \n"
-"\n"
-"% if \"new\" in ctx[\"data\"]:\n"
-"    <h2>Дараах гэрээнүүдийн хугацаа сая дууссан: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"old\" in ctx[\"data\"]:\n"
-"    <h2>Дараах хугацаа дууссан гэрээнүүд арга хэмжээ авагдаагүй байна: </"
-"h2>\n"
-"    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"future\" in ctx[\"data\"]:\n"
-"    <h2>Дараах гэрээнүүд сараас бага хугацаанд хугацаа дуусна: </h2>\n"
-"    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"<p>\n"
-"    Бүх шинэчлэх шаардлагатай гэрээг дэрээх менюгээр шалгаж болно:\n"
-"</p>\n"
-"<ul>\n"
-"    <li>Борлуулалт / Нэхэмжлэл / Шинэчлэх гэрээнүүд</li>\n"
-"</ul>\n"
-"<p>\n"
-"    Баярлалаа,\n"
-"</p>\n"
-"\n"
-"<pre>\n"
-"-- \n"
-"Odoo автомат эмэйл\n"
-"</pre>\n"
-"\n"
-"            "
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -150,14 +84,9 @@ msgid "Account Manager"
 msgstr "Дансны менежер"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
 msgid "Active"
 msgstr "Идэвхитэй"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "Active templates"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
@@ -185,9 +114,19 @@ msgid "Analytic Lines"
 msgstr "Шинжилгээний мөрүүд"
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+msgid "Archived"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_balance
 msgid "Balance"
 msgstr "Тэнцэл"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
+msgid "Cancel"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -232,7 +171,7 @@ msgid "Click to define a new product."
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_close_reason_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_close_reason_id
 msgid "Close Reason"
 msgstr ""
@@ -240,6 +179,7 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_lost_reason_action
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_tree
 msgid "Close Reasons"
 msgstr ""
@@ -247,6 +187,12 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Close Subscription"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
+msgid "Close/Cancel Reason"
 msgstr ""
 
 #. module: sale_contract
@@ -295,11 +241,6 @@ msgid "Contract expiration reminder ${user.company_id.name}"
 msgstr "Гэрээний хугацаа дуусах сануулга ${user.company_id.name}"
 
 #. module: sale_contract
-#: model:ir.module.category,name:sale_contract.module_category_contract_management
-msgid "Contracts"
-msgstr "Гэрээнүүд"
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Contracts in progress"
 msgstr ""
@@ -328,6 +269,7 @@ msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
 msgid "Created by"
@@ -335,10 +277,24 @@ msgstr "Үүсгэгч"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
 msgid "Created on"
 msgstr "Үүсгэсэн"
+
+#. module: sale_contract
+#: selection:sale.order,subscription_management:0
+msgid "Creation"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_order_subscription_management
+msgid ""
+"Creation: The Sales Order created the subscription\n"
+"Upselling: The Sales Order added lines to the subscription\n"
+"Renewal: The Sales Order replaced the subscription's content with its own"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
@@ -404,6 +360,7 @@ msgstr "Хөнгөлөлт (%)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
@@ -452,7 +409,8 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7486
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_7624
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
@@ -466,29 +424,11 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_order_update_contract
-msgid ""
-"If set, the associated contract will be overwritten by this sale order "
-"(every recurring line of the contract not in this sale order will be "
-"deleted)."
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "In Progress"
 msgstr "Боловсруулагдаж буй"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "Inactive"
-msgstr "Идэвхгүй"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "Inactive templates"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -510,12 +450,14 @@ msgstr "Нэхэмжлэлүүд"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
 msgstr "Сүүлийн засвар хийсэн огноо"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
@@ -523,6 +465,7 @@ msgid "Last Updated by"
 msgstr "Сүүлийн засвар хийсэн"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
@@ -538,7 +481,7 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
-msgid "Manage Contracts"
+msgid "Manage Subscriptions"
 msgstr ""
 
 #. module: sale_contract
@@ -590,12 +533,17 @@ msgid "Pending contracts"
 msgstr "Шийд хүлээсэн гэрээнүүд"
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid "Plan Change Tags"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:182
+#: code:addons/sale_contract/models/sale_subscription.py:183
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "\"%s\" компанид борлуулалтын журналыг тодорхойлно уу."
@@ -651,6 +599,11 @@ msgid "Quantity sold to the customer"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
+msgid "Reason"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
@@ -672,6 +625,11 @@ msgid "Reference"
 msgstr "Дугаар"
 
 #. module: sale_contract
+#: selection:sale.order,subscription_management:0
+msgid "Renewal"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
 msgstr "Тутамд давтах"
@@ -683,8 +641,8 @@ msgstr "(Өдөр/Долооног/Сар/Жил) тутам давтах"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
-msgid "Reports"
-msgstr "Тайлан"
+msgid "Report"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_id
@@ -714,23 +672,13 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
-msgid "See Contracts"
+msgid "See Subscriptions"
 msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
 msgid "Sequence"
 msgstr "Дараалал"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "Set to Active"
-msgstr ""
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-msgid "Set to Inactive"
-msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -756,12 +704,10 @@ msgstr "Эхлэх Сар"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
-#, fuzzy
 msgid "Start Subscription"
-msgstr "Захиалга"
+msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_account_type
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
 msgid "State"
 msgstr "Төлөв"
@@ -778,6 +724,11 @@ msgstr "Төлөв"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
 msgstr "Дэд дүн"
+
+#. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
+msgid "Submit"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
@@ -799,6 +750,11 @@ msgstr ""
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
 msgstr "Захиалгын цуваа"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_management
+msgid "Subscription Management"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_product_template_recurring_invoice
@@ -840,12 +796,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_ids
 #: model:ir.model.fields,field_description:sale_contract.field_res_partner_subscription_count
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_ids
+#: model:ir.module.category,name:sale_contract.module_category_contract_management
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_action
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_root
 #: model:ir.ui.view,arch_db:sale_contract.account_analytic_account_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.res_partner_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_graph
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_pivot
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Subscriptions"
 msgstr "Бүртгэлүүд"
@@ -853,9 +812,8 @@ msgstr "Бүртгэлүүд"
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
-#, fuzzy
 msgid "Subscriptions to Renew"
-msgstr "Захиалгын цуваа"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -897,12 +855,12 @@ msgstr ""
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
-msgid "The user will have write access to contracts."
+msgid "The user will have write access to Subscriptions."
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_order.py:79
-#: code:addons/sale_contract/models/sale_subscription.py:210
+#: code:addons/sale_contract/models/sale_order.py:84
+#: code:addons/sale_contract/models/sale_subscription.py:211
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr ""
@@ -941,8 +899,8 @@ msgid "Unit of Measure"
 msgstr "Хэмжих нэгж"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_order_update_contract
-msgid "Update Contract"
+#: selection:sale.order,subscription_management:0
+msgid "Upselling"
 msgstr ""
 
 #. module: sale_contract
@@ -961,6 +919,13 @@ msgid "Week(s)"
 msgstr "Долоо хоног"
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+msgid ""
+"When a customer wants to change his subscription plan, he has the choice "
+"between all the recurring contracts with the same tags."
+msgstr ""
+
+#. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
 msgstr "Жил(үүд)"
@@ -974,7 +939,7 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:175
+#: code:addons/sale_contract/models/sale_subscription.py:176
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr ""
@@ -990,6 +955,11 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "sale.subscription.close.reason"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
+msgid "sale.subscription.close.reason.wizard"
 msgstr ""
 
 #. module: sale_contract
@@ -1018,235 +988,3 @@ msgstr ""
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "⇒ Renewal Quotation"
 msgstr ""
-
-#~ msgid ""
-#~ "\n"
-#~ "Hello ${object.name},\n"
-#~ "\n"
-#~ "% macro account_table(values):\n"
-#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-#~ "    <tr>\n"
-#~ "        <th>Customer</th>\n"
-#~ "        <th>Contract</th>\n"
-#~ "        <th>Dates</th>\n"
-#~ "        <th>Prepaid Units</th>\n"
-#~ "        <th>Contact</th>\n"
-#~ "    </tr>\n"
-#~ "    % for partner, accounts in values:\n"
-#~ "        % for account in accounts:\n"
-#~ "        <tr>\n"
-#~ "            <td>${partner.name}</td>\n"
-#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
-#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-#~ "            <td>${account.date_start} to ${account.date and account.date "
-#~ "or '???'}</td>\n"
-#~ "            <td>\n"
-#~ "            % if account.quantity_max != 0.0:\n"
-#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
-#~ "            % endif\n"
-#~ "            </td>\n"
-#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-#~ "email or ''}</td>\n"
-#~ "        </tr>\n"
-#~ "        % endfor\n"
-#~ "    % endfor\n"
-#~ "</table>\n"
-#~ "% endmacro \n"
-#~ "\n"
-#~ "% if \"new\" in ctx[\"data\"]:\n"
-#~ "    <h2>The following contracts just expired: </h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "% if \"old\" in ctx[\"data\"]:\n"
-#~ "    <h2>The following expired contracts are still not processed: </h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "% if \"future\" in ctx[\"data\"]:\n"
-#~ "    <h2>The following contracts will expire in less than one month: </"
-#~ "h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "<p>\n"
-#~ "    You can check all contracts to be renewed using the menu:\n"
-#~ "</p>\n"
-#~ "<ul>\n"
-#~ "    <li>Sales / Invoicing / Contracts to Renew</li>\n"
-#~ "</ul>\n"
-#~ "<p>\n"
-#~ "    Thanks,\n"
-#~ "</p>\n"
-#~ "\n"
-#~ "<pre>\n"
-#~ "-- \n"
-#~ "Odoo Automatic Email\n"
-#~ "</pre>\n"
-#~ "\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "Сайн байна уу ${object.name},\n"
-#~ "\n"
-#~ "% macro account_table(values):\n"
-#~ "<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\">\n"
-#~ "    <tr>\n"
-#~ "        <th>Захиалагч</th>\n"
-#~ "        <th>Гэрээ</th>\n"
-#~ "        <th>Огноонууд</th>\n"
-#~ "        <th>Урьдчилсан төлбөрт нэгж</th>\n"
-#~ "        <th>Холбогч</th>\n"
-#~ "    </tr>\n"
-#~ "    % for partner, accounts in values:\n"
-#~ "        % for account in accounts:\n"
-#~ "        <tr>\n"
-#~ "            <td>${partner.name}</td>\n"
-#~ "            <td><a href=\"${ctx[\"base_url\"]}/#action=${ctx[\"action_id"
-#~ "\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-#~ "            <td>${account.date_start} to ${account.date and account.date "
-#~ "or '???'}</td>\n"
-#~ "            <td>\n"
-#~ "            % if account.quantity_max != 0.0:\n"
-#~ "                ${account.remaining_hours}/${account.quantity_max} units\n"
-#~ "            % endif\n"
-#~ "            </td>\n"
-#~ "            <td>${account.partner_id.phone or ''}, ${account.partner_id."
-#~ "email or ''}</td>\n"
-#~ "        </tr>\n"
-#~ "        % endfor\n"
-#~ "    % endfor\n"
-#~ "</table>\n"
-#~ "% endmacro \n"
-#~ "\n"
-#~ "% if \"new\" in ctx[\"data\"]:\n"
-#~ "    <h2>Дараах гэрээнүүдийн хугацаа сая дууссан: </h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "% if \"old\" in ctx[\"data\"]:\n"
-#~ "    <h2>Дараах хугацаа дууссан гэрээнүүд арга хэмжээ авагдаагүй байна: </"
-#~ "h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "% if \"future\" in ctx[\"data\"]:\n"
-#~ "    <h2>Дараах гэрээнүүд сараас бага хугацаанд хугацаа дуусна: </h2>\n"
-#~ "    ${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-#~ "% endif\n"
-#~ "\n"
-#~ "<p>\n"
-#~ "    Бүх шинэчлэх шаардлагатай гэрээг дэрээх менюгээр шалгаж болно:\n"
-#~ "</p>\n"
-#~ "<ul>\n"
-#~ "    <li>Борлуулалт / Нэхэмжлэл / Шинэчлэх гэрээнүүд</li>\n"
-#~ "</ul>\n"
-#~ "<p>\n"
-#~ "    Баярлалаа,\n"
-#~ "</p>\n"
-#~ "\n"
-#~ "<pre>\n"
-#~ "-- \n"
-#~ "Odoo автомат эмэйл\n"
-#~ "</pre>\n"
-#~ "\n"
-#~ "            "
-
-#~ msgid "Action Needed"
-#~ msgstr "Үйлдэл Шаардлагатай"
-
-#~ msgid "Budget Lines"
-#~ msgstr "Төсвийн мөр"
-
-#~ msgid "Check this field if this project manages timesheets"
-#~ msgstr "Хэрвээ энэ төслийн цагийн хуудасыг удирдвал энэ талбарыг шалга"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "Бичлэгт хамгийн сүүлд илгээгдсэн зурвасын огноо."
-
-#~ msgid "Followers"
-#~ msgstr "Дагагчид"
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "Дагагчид (Сувагууд)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "Дагагчид (Харилцагчид)"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr ""
-#~ "Хэрэв тэмдэглэгдсэн бол таныг шинэ зурвасуудад анхаарал хандуулахыг "
-#~ "шаардана."
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "Хэрэв сонгосон бол, шинэ зурвасуудад анхаарал хандуулахыг шаардана."
-
-#~ msgid "Is Follower"
-#~ msgstr "Дагагч эсэх"
-
-#~ msgid "Issues"
-#~ msgstr "Асуудал"
-
-#~ msgid "Last Message Date"
-#~ msgstr "Сүүлийн зурвасын огноо"
-
-#~ msgid "Messages"
-#~ msgstr "Зурвасууд"
-
-#~ msgid "Messages and communication history"
-#~ msgstr "Зурвас болон харилцсан түүх"
-
-#~ msgid "Number of Actions"
-#~ msgstr "Үйлдлийн тоо"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "Үйлдэл шаардлагатай зурвасын тоо"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "Уншаагүй зурвасын тоо"
-
-#~ msgid "Timesheets"
-#~ msgstr "Цагийн Хуваарь"
-
-#~ msgid "Type of Account"
-#~ msgstr "Дансны Төрөл"
-
-#~ msgid "Unread Messages"
-#~ msgstr "Уншаагүй Зурвасууд"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "Уншаагүй зурвасын тоолуур"
-
-#~ msgid "Website Messages"
-#~ msgstr "Вебсайтын зурвасууд"
-
-#~ msgid "Website communication history"
-#~ msgstr "Вебсайтын харилцааны түүх"
-
-#, fuzzy
-#~ msgid "Cancel"
-#~ msgstr "Цуцлагдсан"
-
-#, fuzzy
-#~ msgid "Creation"
-#~ msgstr "Үүсгэсэн"
-
-#, fuzzy
-#~ msgid "Manage Subscriptions"
-#~ msgstr "Бүртгэлүүд"
-
-#, fuzzy
-#~ msgid "Renewal"
-#~ msgstr "Шинэчлэх"
-
-#, fuzzy
-#~ msgid "Report"
-#~ msgstr "Тайлан"
-
-#, fuzzy
-#~ msgid "See Subscriptions"
-#~ msgstr "Бүртгэлүүд"
-
-#, fuzzy
-#~ msgid "Subscription Management"
-#~ msgstr "Захиалгын цуваа"

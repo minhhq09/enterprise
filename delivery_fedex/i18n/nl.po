@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-02-24 23:00+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
@@ -78,6 +78,11 @@ msgstr "Standaard verpakkingstype"
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "Ontwikkelaarssleutel"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
+msgstr "EPL2"
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -177,6 +182,11 @@ msgid "LB"
 msgstr "LB"
 
 #. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "Label File Type"
+msgstr ""
+
+#. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_meter_number
 msgid "Meter Number"
 msgstr "Meternummer"
@@ -222,6 +232,16 @@ msgid "PAPER_LETTER"
 msgstr "PAPER_LETTER"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr "PNG"
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
 msgstr "PRIORITY_OVERNIGHT"
@@ -257,20 +277,50 @@ msgid "STATION"
 msgstr "STATION"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:323
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr "STOCK_4X6"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr "STOCK_4X6.75_LEADING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr "STOCK_4X6.75_TRAILING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr "STOCK_4X8"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr "STOCK_4X9_LEADING_DOC_TAB"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr "STOCK_4X9_TRAILING_DOC_TAB"
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Levering n° %s werd geannuleerd"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:242
-#: code:addons/delivery_fedex/models/delivery_fedex.py:284
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "Levering aangemaakt in Fedex <br/> <b>Traceernummer : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:246
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "Verzendlabel voor pakje %s"
@@ -295,69 +345,11 @@ msgstr ""
 "via e-mail. "
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr "ZPLII"
+
+#. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr "om een FedEx account aan te maken van de volgende soort:"
-
-#~ msgid "FEDEX_10KG_BOX"
-#~ msgstr "FEDEX_10KG_BOX"
-
-#~ msgid "FEDEX_25KG_BOX"
-#~ msgstr "FEDEX_25KG_BOX"
-
-#~ msgid "FEDEX_BOX"
-#~ msgstr "FEDEX_BOX"
-
-#~ msgid "FEDEX_ENVELOPE"
-#~ msgstr "FEDEX_ENVELOPE"
-
-#~ msgid "FEDEX_PAK"
-#~ msgstr "FEDEX_PAK"
-
-#~ msgid "FEDEX_TUBE"
-#~ msgstr "FEDEX_TUBE"
-
-#~ msgid "Fedex packaging type"
-#~ msgstr "Fedex verpakkingstype"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testmodus"
-
-#~ msgid "Uncheck this box to use production Fedex Web Services"
-#~ msgstr "Vink dit vakje uit om de Fedex Web Services in productie te nemen"
-
-#~ msgid "YOUR_PACKAGING"
-#~ msgstr "YOUR_PACKAGING"
-
-#~ msgid "EPL2"
-#~ msgstr "EPL2"
-
-#~ msgid "FEDEX Label File Type"
-#~ msgstr "Fedex label bestand soort"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"
-
-#~ msgid "PNG"
-#~ msgstr "PNG"
-
-#~ msgid "STOCK_4X6"
-#~ msgstr "STOCK_4X6"
-
-#~ msgid "STOCK_4X6.75_LEADING_DOC_TAB"
-#~ msgstr "STOCK_4X6.75_LEADING_DOC_TAB"
-
-#~ msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
-#~ msgstr "STOCK_4X6.75_TRAILING_DOC_TAB"
-
-#~ msgid "STOCK_4X8"
-#~ msgstr "STOCK_4X8"
-
-#~ msgid "STOCK_4X9_LEADING_DOC_TAB"
-#~ msgstr "STOCK_4X9_LEADING_DOC_TAB"
-
-#~ msgid "STOCK_4X9_TRAILING_DOC_TAB"
-#~ msgstr "STOCK_4X9_TRAILING_DOC_TAB"
-
-#~ msgid "ZPLII"
-#~ msgstr "ZPLII"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-02-19 14:22+0000\n"
 "Last-Translator: Martin Trigaux\n"
 "Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
@@ -577,6 +577,12 @@ msgid "Automatic Payment"
 msgstr "Automatsko plaćanje"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
+msgid "Back"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -651,7 +657,7 @@ msgid "Close your contract"
 msgstr "Zatvori svoj ugovor"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:204
+#: code:addons/website_contract/controllers/main.py:203
 #, python-format
 msgid "Closing text : "
 msgstr "Tekst zatvaranja :"
@@ -689,6 +695,7 @@ msgid "Contract Details"
 msgstr "Pojedinosti ugovora"
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "Predložak ugovora"
@@ -783,6 +790,13 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
+msgid ""
+"If set, all recurring products in this Sales Order will be included in a new "
+"Subscription with the selected template"
 msgstr ""
 
 #. module: website_contract
@@ -942,6 +956,11 @@ msgid "Options"
 msgstr "Options"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Order Number"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "Plati odmah"
@@ -994,9 +1013,8 @@ msgstr "Proizvod"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
-#, fuzzy
 msgid "Prorated Invoice"
-msgstr "Djelomični račun"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
@@ -1028,6 +1046,11 @@ msgstr ""
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_option_lines
 msgid "Recurring option lines"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Reference:"
 msgstr ""
 
 #. module: website_contract
@@ -1087,6 +1110,11 @@ msgstr "Prodajni nalog"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Stavka prodajnog naloga"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Sales Orders"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1153,18 +1181,20 @@ msgstr "Puni URL za pristup dokumentu putem web stranice."
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
-#, fuzzy
 msgid ""
 "These modifications will be active immediately, however your next invoice "
 "date will not be changed. Your next invoice will arrive on:"
 msgstr ""
-"Promjene će biti aktivne odmah, međutim datum sljedećeg računa se neće "
-"mijenjati. Vaš slijedeći račun će stići na:"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
 msgid "Total"
 msgstr "Ukupno"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Total Tax Included"
+msgstr ""
 
 #. module: website_contract
 #: sql_constraint:sale.subscription:0
@@ -1212,14 +1242,12 @@ msgid "Valid until:"
 msgstr "Vrijedi do:"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "Vidi ugovor"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Vidi predložak"
@@ -1265,11 +1293,10 @@ msgstr ""
 
 #. module: website_contract
 #: model:ir.actions.act_window,help:website_contract.action_contract_sales_all
-#, fuzzy
 msgid ""
 "You will find here all the quotations and sales orders related to this "
 "subscription."
-msgstr "Ovdje ćete naći sve ponude i narudžbe vezane uz ovu pretplatu."
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contracts
@@ -1302,9 +1329,8 @@ msgstr ""
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_contract_open
-#, fuzzy
 msgid "Your subscription ${object.subscription_id.code} is active!"
-msgstr "Vaša pretplata ${object.code}je aktivna!"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1363,79 +1389,3 @@ msgstr "godina(e)"
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr ""
-
-#~ msgid "&amp;nbsp;"
-#~ msgstr "&amp;nbsp;"
-
-#~ msgid "Actual Quantity"
-#~ msgstr "Stvarna količina"
-
-#~ msgid "Custom Domain"
-#~ msgstr "Domena kupca"
-
-#~ msgid "Customized Module"
-#~ msgstr "Prilagođeni modul"
-
-#~ msgid "Customized Views"
-#~ msgstr "Prilagođeni pogledi"
-
-#~ msgid "Dashboard"
-#~ msgstr "Kontrolna ploča"
-
-#~ msgid "Discount (%)"
-#~ msgstr "Popust (%)"
-
-#~ msgid "Month(s)"
-#~ msgstr "Mjesec(i)"
-
-#~ msgid "Odoo SAAS"
-#~ msgstr "Odoo SAAS"
-
-#~ msgid "Partial Invoice"
-#~ msgstr "Djelomični račun"
-
-#~ msgid "Pay & Confirm"
-#~ msgstr "Plati i potvrdi"
-
-#~ msgid "Quantity actually used by the customer"
-#~ msgstr "Količina stvarno korištena od strane kupca"
-
-#~ msgid "Quantity sold to the customer"
-#~ msgstr "Količina prodana kupcu"
-
-#~ msgid "Sold Quantity"
-#~ msgstr "Prodana količina"
-
-#~ msgid "Sub Total"
-#~ msgstr "Međuzbroj"
-
-#~ msgid ""
-#~ "These modifications will be active immedialy, however your next invoice "
-#~ "date will not be changed. Your next invoice will arrive on:"
-#~ msgstr ""
-#~ "Promjene će biti aktivne odmah, međutim datum sljedećeg računa se neće "
-#~ "mijenjati. Vaš slijedeći račun će stići na:"
-
-#~ msgid "Time"
-#~ msgstr "Vrijeme"
-
-#~ msgid "Unit of Measure"
-#~ msgstr "Jedinica mjere"
-
-#~ msgid "Year(s)"
-#~ msgstr "Godina(e)"
-
-#~ msgid ""
-#~ "You will find here all the quotations and sales orders related to this "
-#~ "subscriptions."
-#~ msgstr "Ovdje ćete naći sve ponude i narudžbe vezane uz ovu pretplatu."
-
-#~ msgid "Your subscription ${object.code}is active!"
-#~ msgstr "Vaša pretplata ${object.code}je aktivna!"
-
-#~ msgid "years(s)"
-#~ msgstr "godina(e)"
-
-#, fuzzy
-#~ msgid "Sales Orders"
-#~ msgstr "Prodajni nalog"

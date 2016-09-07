@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-07-22 04:36+0000\n"
 "Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
@@ -581,6 +581,12 @@ msgid "Automatic Payment"
 msgstr "自动付款"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
+#: model:ir.ui.view,arch_db:website_contract.preview_template
+msgid "Back"
+msgstr "返回"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Basic Plan"
@@ -655,7 +661,7 @@ msgid "Close your contract"
 msgstr "关闭您的合约"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:204
+#: code:addons/website_contract/controllers/main.py:203
 #, python-format
 msgid "Closing text : "
 msgstr "关张文本 : "
@@ -693,6 +699,7 @@ msgid "Contract Details"
 msgstr "合约细节"
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_order_contract_template
 #: model:ir.model.fields,field_description:website_contract.field_sale_quote_template_contract_template
 msgid "Contract Template"
 msgstr "合约模版"
@@ -788,6 +795,13 @@ msgstr "如果勾选此项,用户将能够从前端关闭他的帐户"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_method_id
 msgid "If not set, the default payment method of the partner will be used."
 msgstr "如果没有设置,默认将使用合作伙伴的付款方法。"
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_order_contract_template
+msgid ""
+"If set, all recurring products in this Sales Order will be included in a new "
+"Subscription with the selected template"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
@@ -941,6 +955,11 @@ msgid "Options"
 msgstr "选项"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Order Number"
+msgstr "订单号码"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Pay Now"
 msgstr "现在付款"
@@ -1030,6 +1049,11 @@ msgstr "经常性可选明细行"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
+msgid "Reference:"
+msgstr "参考："
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Remove"
 msgstr "移除"
 
@@ -1088,6 +1112,11 @@ msgstr "销售订单"
 #: model:ir.model,name:website_contract.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "销售订单行"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Sales Orders"
+msgstr "销售订单"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1165,6 +1194,11 @@ msgid "Total"
 msgstr "总计"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_order_view_tree_subscription
+msgid "Total Tax Included"
+msgstr "含税总金额"
+
+#. module: website_contract
 #: sql_constraint:sale.subscription:0
 msgid ""
 "UUIDs (Universally Unique IDentifier) for Sale Subscriptions should be "
@@ -1210,14 +1244,12 @@ msgid "Valid until:"
 msgstr "有效期至"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Contract"
 msgstr "查看合约"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.preview_template
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "查看模板"
@@ -1359,266 +1391,3 @@ msgstr "年"
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
 msgid "⇒ Upsell"
 msgstr "⇒ 超售"
-
-#~ msgid ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>Hello ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            Your subscription (${ctx.get('code')}) has just been renewed\n"
-#~ "            %if ctx.get('total_amount') and ctx.get('payment_method'):\n"
-#~ "                via a payment of ${ctx['total_amount']} "
-#~ "${ctx['currency']} charged on ${ctx['payment_method']}\n"
-#~ "                .\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>You will find your invoice attached.</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          Your next invoice will be on ${ctx.get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>If you have any question, do not hesitate to contact us.</p>\n"
-#~ "        <p>Thank you for choosing ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    Phone:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    Web :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "            \n"
-#~ "    <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, "
-#~ "sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: "
-#~ "rgb(255, 255, 255); \">\n"
-#~ "\n"
-#~ "        <p>你好 ${object.partner_id.name},</p>\n"
-#~ "        \n"
-#~ "        <p>\n"
-#~ "            您的订阅 (${ctx.get('code')}) 刚刚更新\n"
-#~ "            %if ctx.get('total_amount') 以及 ctx.get('payment_method')：\n"
-#~ "                通过付款 ${ctx['total_amount']} ${ctx['currency']} 变更于 "
-#~ "${ctx['payment_method']}\n"
-#~ "                。\n"
-#~ "            %endif\n"
-#~ "        </p>\n"
-#~ "\n"
-#~ "        <p>附件为开具给您的发票</p>\n"
-#~ "\n"
-#~ "        %if ctx.get('next_date'):\n"
-#~ "        <p>\n"
-#~ "          你的下一张发票将在 ${ctx.get('next_date')}.\n"
-#~ "        </p>\n"
-#~ "        %endif\n"
-#~ "\n"
-#~ "        <br/>\n"
-#~ "        <p>如若您有任何疑问或不满，敬请告知我们，感谢您的反馈。</p>\n"
-#~ "        <p>谢谢您选择了我们 ${object.company_id.name or 'us'}!</p>\n"
-#~ "        <br/>\n"
-#~ "        <br/>\n"
-#~ "        <div style=\"width: 375px; margin: 0px; padding: 0px; background-"
-#~ "color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: "
-#~ "5px 5px; background-repeat: repeat no-repeat;\">\n"
-#~ "            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; "
-#~ "color: #DDD;\">\n"
-#~ "                <strong style=\"text-transform:uppercase;\">${object."
-#~ "company_id.name}</strong></h3>\n"
-#~ "        </div>\n"
-#~ "        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-"
-#~ "height: 16px; background-color: #F2F2F2;\">\n"
-#~ "            <span style=\"color: #222; margin-bottom: 5px; display: "
-#~ "block; \">\n"
-#~ "                ${object.company_id.partner_id.sudo()."
-#~ "with_context(show_address=True, html_format=True).name_get()[0][1] | "
-#~ "safe}\n"
-#~ "            </span>\n"
-#~ "            % if object.company_id.phone:\n"
-#~ "                <div style=\"margin-top: 0px; margin-right: 0px; margin-"
-#~ "bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; "
-#~ "padding-bottom: 0px; padding-left: 0px; \">\n"
-#~ "                    电话:&nbsp; ${object.company_id.phone}\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            % if object.company_id.website:\n"
-#~ "                <div>\n"
-#~ "                    网址 :&nbsp;<a href=\"${object.company_id.website}\">"
-#~ "${object.company_id.website}</a>\n"
-#~ "                </div>\n"
-#~ "            % endif\n"
-#~ "            <p></p>\n"
-#~ "        </div>\n"
-#~ "    </div>\n"
-#~ "                \n"
-#~ "        "
-
-#~ msgid "&amp;nbsp;"
-#~ msgstr "&amp;nbsp;"
-
-#~ msgid "Actual Quantity"
-#~ msgstr "实际的数量"
-
-#~ msgid "Custom Domain"
-#~ msgstr "自定义域名"
-
-#~ msgid ""
-#~ "Custom Domain\n"
-#~ "Access your Odoo Instance using your own domain."
-#~ msgstr ""
-#~ "自定义域名\n"
-#~ "使用自己的域名访问您的Odoo"
-
-#~ msgid ""
-#~ "Customize View\n"
-#~ "Customize one or more views (in a single module) to better suit your "
-#~ "needs."
-#~ msgstr "自定义视图一个或多个视图(在单个模块),以更好地满足您的需求。"
-
-#~ msgid "Customized Module"
-#~ msgstr "自定义模块"
-
-#~ msgid ""
-#~ "Customized Module\n"
-#~ "Customize a module to better match your business process."
-#~ msgstr "定制模块自定义模块，以更好的匹配业务流程。"
-
-#~ msgid ""
-#~ "Customized View\n"
-#~ "Customize one or more views (in a single module) to better suit your "
-#~ "needs."
-#~ msgstr "自定义视图一个或多个视图(在单个模块),以更好地满足您的需求。"
-
-#~ msgid "Customized Views"
-#~ msgstr "自定义视图"
-
-#~ msgid "Dashboard"
-#~ msgstr "仪表板"
-
-#~ msgid "Discount (%)"
-#~ msgstr "折扣(%)"
-
-#~ msgid ""
-#~ "If we store your payment information on our server, subscription payments "
-#~ "will be made automatically."
-#~ msgstr "如果我们在服务器存储你的支付信息,订阅将自动支付。"
-
-#~ msgid "Month(s)"
-#~ msgstr "月"
-
-#~ msgid "Odoo SAAS"
-#~ msgstr "Odoo SAAS"
-
-#~ msgid ""
-#~ "Odoo SAAS\n"
-#~ "Access to your Odoo Instance. Stored on our servers: high speed, high "
-#~ "reliability and daily backups."
-#~ msgstr ""
-#~ "Odoo SAAS,访问您的Odoo实例。存储在我们的服务器：高速度，高可靠性和日常备"
-#~ "份。"
-
-#~ msgid "Partial Invoice"
-#~ msgstr "部分发票"
-
-#~ msgid "Pay & Confirm"
-#~ msgstr "支付&确认"
-
-#~ msgid "Quantity actually used by the customer"
-#~ msgstr "客户实际使用的数量"
-
-#~ msgid "Quantity sold to the customer"
-#~ msgstr "卖给客户的数量"
-
-#~ msgid "Revenue KPIs"
-#~ msgstr "收入指标"
-
-#~ msgid "Salesman Dashboard"
-#~ msgstr "销售员仪表板"
-
-#~ msgid "Sold Quantity"
-#~ msgstr "已售数量"
-
-#~ msgid "Sub Total"
-#~ msgstr "小计 "
-
-#~ msgid ""
-#~ "These modifications will be active immedialy, however your next invoice "
-#~ "date will not be changed. Your next invoice will arrive on:"
-#~ msgstr ""
-#~ "这些修改将立即激活，然而你的下一个发票日期不会改变。你的下一张发票将到达："
-
-#~ msgid "Time"
-#~ msgstr "时间"
-
-#~ msgid "Unit of Measure"
-#~ msgstr "计量单位"
-
-#~ msgid "Year(s)"
-#~ msgstr "年"
-
-#~ msgid ""
-#~ "You will find here all the quotations and sales orders related to this "
-#~ "subscriptions."
-#~ msgstr "你会发现这里所有的报价和销售订单与此相关的订阅。"
-
-#~ msgid "Your subscription ${object.code}is active!"
-#~ msgstr "您的订阅 ${object.code}是有效的!"
-
-#~ msgid "years(s)"
-#~ msgstr "年"
-
-#~ msgid "Back"
-#~ msgstr "返回"
-
-#~ msgid "Contracts"
-#~ msgstr "合约"
-
-#~ msgid "Order Number"
-#~ msgstr "订单号码"
-
-#~ msgid "Reference:"
-#~ msgstr "参考："
-
-#~ msgid "Sales Orders"
-#~ msgstr "销售订单"
-
-#~ msgid "Total Tax Included"
-#~ msgstr "含税总金额"

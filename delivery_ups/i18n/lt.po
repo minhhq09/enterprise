@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2015-11-10 08:19+0000\n"
 "Last-Translator: Audrius Palenskis <audrius.palenskis@gmail.com>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/odoo/odoo-9/language/"
@@ -32,9 +32,13 @@ msgstr "Centimetrai"
 
 #. module: delivery_ups
 #: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-#, fuzzy
 msgid "Default Packaging Type"
-msgstr "UPS pakavimo tipas"
+msgstr ""
+
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "EPL"
+msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_package_dimension_unit:0
@@ -47,13 +51,22 @@ msgid "Kilograms"
 msgstr "Kilogramai"
 
 #. module: delivery_ups
-#: model:ir.model,name:delivery_ups.model_product_packaging
-#, fuzzy
-msgid "Packaging"
-msgstr "Pakuotės aukštis"
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "Label File Type"
+msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:207
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "PDF"
+msgstr ""
+
+#. module: delivery_ups
+#: model:ir.model,name:delivery_ups.model_product_packaging
+msgid "Packaging"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/ups_request.py:210
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr "Pateikite siuntimui bent vieną daiktą."
@@ -64,25 +77,30 @@ msgid "Pounds"
 msgstr "Svarai"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:171
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "SPL"
+msgstr ""
+
+#. module: delivery_ups
+#: code:addons/delivery_ups/models/delivery_ups.py:175
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Siunta  N° %s nutraukta"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:135
+#: code:addons/delivery_ups/models/delivery_ups.py:139
 #, python-format
 msgid "Shipment created into UPS <br/> <b>Tracking Number : </b>%s"
 msgstr "Pakuotė sukurta UPS <br/> <b>Sekimo numeris : </b>%s"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/delivery_ups.py:142
+#: code:addons/delivery_ups/models/delivery_ups.py:146
 #, python-format
 msgid "Shipping label for packages"
 msgstr "Siuntos lipdukas pakuotėms"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:182
+#: code:addons/delivery_ups/models/ups_request.py:185
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -92,7 +110,7 @@ msgstr ""
 "(trūksta lauko(ų) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:192
+#: code:addons/delivery_ups/models/ups_request.py:195
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -102,14 +120,14 @@ msgstr ""
 "(trūksta lauko(ų) : %s)"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:215
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr "Pristatymas negalimas,nes trūksta produkto svorio."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:209
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The estimated price cannot be computed because the weight of your product is "
@@ -118,7 +136,7 @@ msgstr ""
 "Prognozuojama kaina negali būti suskaičiuota, nes trūksta produkto svorio."
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:202
+#: code:addons/delivery_ups/models/ups_request.py:205
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -244,62 +262,7 @@ msgstr "UPS pakuotės dydžio vienetai"
 msgid "Ups package weight unit"
 msgstr "UPS pakuotės svorio vienetas"
 
-#~ msgid "10KG Box"
-#~ msgstr "10KG Dėžė"
-
-#~ msgid "25KG Box"
-#~ msgstr "25KG Dėžė"
-
-#~ msgid "Express Box"
-#~ msgstr "Ekspreso dėžė"
-
-#~ msgid "Fixed height if not provided on the product packaging."
-#~ msgstr "Nepateiktas fiksuotas aukštis produkto pakavimo nustatymuose."
-
-#~ msgid "Fixed length if not provided on the product packaging."
-#~ msgstr "Nepateiktas fiksuotas ilgis produkto pakavimo nustatymuose."
-
-#~ msgid "Fixed width if not provided on the product packaging."
-#~ msgstr "Nepateiktas fiksuotas plotis produkto pakavimo nustatymuose."
-
-#~ msgid "Flat Pack"
-#~ msgstr "Plokščia pakuotė"
-
-#~ msgid "Medium Express Box"
-#~ msgstr "Vidutinė ekspreso dėžė"
-
-#~ msgid "Package Height"
-#~ msgstr "Pakuotės aukštis"
-
-#~ msgid "Package Length"
-#~ msgstr "Pakuotės ilgis"
-
-#~ msgid "Package Width"
-#~ msgstr "Pakuotės plotis"
-
-#~ msgid "Package/customer supplied"
-#~ msgstr "Pateikta pakuotė/klientas"
-
-#~ msgid "Pallet"
-#~ msgstr "Paletė"
-
-#~ msgid "Small Express Box"
-#~ msgstr "Maža ekspreso dėžė"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testinis režimas"
-
-#~ msgid "UPS Letter"
-#~ msgstr "UPS Laiškas"
-
-#~ msgid "UPS Packaging Type"
-#~ msgstr "UPS pakavimo tipas"
-
-#~ msgid "UPS Pak"
-#~ msgstr "UPS Pak"
-
-#~ msgid "UPS Tube"
-#~ msgstr "UPS Tube"
-
-#~ msgid "Uncheck this box to use production UPS Web Services"
-#~ msgstr "Nepažymėkite šio lauko, kai gyvai naudosite UPS Web Services"
+#. module: delivery_ups
+#: selection:delivery.carrier,ups_label_file_type:0
+msgid "ZPL"
+msgstr ""

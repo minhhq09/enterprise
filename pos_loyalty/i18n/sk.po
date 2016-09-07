@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
+"POT-Creation-Date: 2016-08-19 11:34+0000\n"
 "PO-Revision-Date: 2016-03-09 19:23+0000\n"
 "Last-Translator: Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>\n"
 "Language-Team: Slovak (http://www.transifex.com/odoo/odoo-9/language/sk/)\n"
@@ -34,7 +34,7 @@ msgid "An internal identification for this loyalty reward"
 msgstr "Interná identifikácia pre túto vernostnú odmenu"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Category"
 msgstr "Kategória"
 
@@ -64,7 +64,7 @@ msgstr "Kumulatívne"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Discount"
 msgstr "Zľava"
 
@@ -81,12 +81,12 @@ msgid "Display Name"
 msgstr "Zobraziť meno"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
 msgid "Does this rule affects products, or a category of products ?"
 msgstr "Ovplyvňuje toto pravidlo produkty, alebo kategóriu produktov?"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Gift"
 msgstr "Dar"
 
@@ -152,12 +152,6 @@ msgid "Last Updated on"
 msgstr "Naposledy upravované"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-msgid "Loyalty Points"
-msgstr "Vernostné body"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
@@ -200,9 +194,15 @@ msgid "Loyalty Rule"
 msgstr "Vernostné pravidlo"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+msgid "Loyalty points"
+msgstr ""
+
+#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-msgid "Minimum Points"
-msgstr "Minimum bodov"
+msgid "Minimum points"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_name
@@ -216,14 +216,14 @@ msgid "Partner"
 msgstr "Partner"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-msgid "Point Cost"
-msgstr "Hodnota bodov"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
 msgid "Point Product"
 msgstr "Produkt bodov"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+msgid "Point cost"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_pos_order
@@ -254,9 +254,9 @@ msgstr "Použité body"
 #. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
-#, fuzzy, python-format
+#, python-format
 msgid "Points Spent:"
-msgstr "Použité body"
+msgstr ""
 
 #. module: pos_loyalty
 #. openerp-web
@@ -268,9 +268,9 @@ msgstr "Vyhrané body"
 #. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:100
-#, fuzzy, python-format
+#, python-format
 msgid "Points Won:"
-msgstr "Vyhrané body"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_pp_currency
@@ -290,12 +290,12 @@ msgid "Points per product"
 msgstr "Body za produkt"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Product"
 msgstr "Produkt"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Resale"
 msgstr "Ďalší predaj"
 
@@ -310,6 +310,11 @@ msgid "Reward the customer with gifts or discounts for loyalty points"
 msgstr "Odmeňte zákazníka darčekmi alebo zľavami za vernostné body"
 
 #. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
+msgid "Reward type"
+msgstr ""
+
+#. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:25
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_reward_ids
@@ -322,6 +327,11 @@ msgstr "Odmeny"
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Rule Name"
 msgstr "Meno pravidla"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
+msgid "Rule type"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rule_ids
@@ -372,8 +382,8 @@ msgstr "Kategória ovplyvnená pravidlom"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-msgid "The cost of the reward per monetary unit discounted"
-msgstr "Hodnota odmeny za zľavnenú menovú jendotku"
+msgid "The cost of the reward"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_discount
@@ -381,12 +391,14 @@ msgid "The discount percentage"
 msgstr "Percentá zľavy"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:56
+#, python-format
 msgid "The discount product field is mandatory for discount rewards"
 msgstr "Pole zľavneného produktu je povinné pre zľavové odmeny"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:50
+#, python-format
 msgid "The gift product field is mandatory for gift rewards"
 msgstr "Pole darčekový produkt je povinné pre darčekové odmeny"
 
@@ -415,7 +427,8 @@ msgstr ""
 "odmenu"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:62
+#, python-format
 msgid "The point product field is mandatory for point resale rewards"
 msgstr "Pole bodov produktu je povinné pre body odmeny ďalšieho predaja"
 
@@ -446,7 +459,7 @@ msgid "The product used to apply discounts"
 msgstr "Produkt používaný pre aplikovanie zliav"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
 msgid "The type of the reward"
 msgstr "Typ odmeny"
 
@@ -460,15 +473,9 @@ msgstr "Body celkovo"
 #. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:122
-#, fuzzy, python-format
+#, python-format
 msgid "Total Points:"
-msgstr "Body celkovo"
-
-#. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
-msgid "Type"
-msgstr "Typ"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
@@ -489,27 +496,3 @@ msgstr "loyalty.rule"
 #: model:ir.model,name:pos_loyalty.model_pos_config
 msgid "pos.config"
 msgstr "pos.config"
-
-#, fuzzy
-#~ msgid "Loyalty points"
-#~ msgstr "Vernostné body"
-
-#, fuzzy
-#~ msgid "Minimum points"
-#~ msgstr "Minimum bodov"
-
-#, fuzzy
-#~ msgid "Point cost"
-#~ msgstr "Hodnota bodov"
-
-#, fuzzy
-#~ msgid "Reward type"
-#~ msgstr "Názov odmeny"
-
-#, fuzzy
-#~ msgid "Rule type"
-#~ msgstr "Meno pravidla"
-
-#, fuzzy
-#~ msgid "The cost of the reward"
-#~ msgstr "Typ odmeny"
