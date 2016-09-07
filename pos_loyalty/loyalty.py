@@ -115,7 +115,7 @@ class pos_order(osv.osv):
         ids = super(pos_order,self).create_from_ui(cr,uid,orders,context=context)
         for order in orders:
             if order['data']['loyalty_points'] != 0 and order['data']['partner_id']:
-                partner = self.pool.get('res.partner').browse(cr,uid,order['data']['partner_id'], context=context)
+                partner = self.pool.get('res.partner').browse(cr,openerp.SUPERUSER_ID,order['data']['partner_id'], context=context)
                 partner.write({'loyalty_points': partner['loyalty_points'] + order['data']['loyalty_points']})
 
         return ids
