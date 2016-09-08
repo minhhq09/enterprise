@@ -258,6 +258,13 @@ class QualityCheck(models.Model):
         return self.redirect_after_pass_fail()
 
     @api.multi
+    def do_measure(self):
+        if self.measure < self.point_id.tolerance_min or self.measure > self.point_id.tolerance_max:
+            return self.do_fail()
+        else:
+            return self.do_pass()
+
+    @api.multi
     def do_alert(self):
         self.ensure_one()
         alert = self.env['quality.alert'].create({

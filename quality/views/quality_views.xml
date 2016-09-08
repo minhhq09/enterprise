@@ -275,14 +275,12 @@
                     </group>
                 </group>
                 <footer>
+                    <button name="do_measure" type="object" class="btn-primary" string="Validate"
+                        attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
                     <button name="do_pass" type="object" class="btn-primary" string="Pass"
-                        attrs="{'invisible': [('measure_success', '=', 'fail')]}"/>
-                    <button name="do_pass" type="object" class="btn-default" string="Pass" groups="base.group_no_one"
-                        attrs="{'invisible': [('measure_success', '!=', 'fail')]}"/>
+                        attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
                     <button name="do_fail" type="object" class="btn-primary" string="Fail"
-                        attrs="{'invisible': [('measure_success', '=', 'pass')]}"/>
-                    <button name="do_fail" type="object" class="btn-default" string="Fail" groups="base.group_no_one"
-                        attrs="{'invisible': [('measure_success', '!=', 'pass')]}"/>
+                        attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
                     <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
