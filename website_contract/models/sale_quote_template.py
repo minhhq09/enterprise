@@ -18,16 +18,12 @@ class sale_quote_template(models.Model):
             'name': mand_line.name,
             'product_uom_qty': mand_line.quantity,
             'product_uom_id': mand_line.uom_id.id,
-            'discount': mand_line.discount,
-            'price_unit': mand_line.price_unit,
         }) for mand_line in self.contract_template.subscription_template_line_ids]
         options = [(0, 0, {
             'product_id': opt_line.product_id.id,
             'uom_id': opt_line.uom_id.id,
             'name': opt_line.name,
             'quantity': opt_line.quantity,
-            'discount': opt_line.discount,
-            'price_unit': opt_line.price_unit,
         }) for opt_line in self.contract_template.subscription_template_option_ids]
         self.quote_line = quote_lines
         self.options = options
