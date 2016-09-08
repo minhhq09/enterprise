@@ -7,7 +7,7 @@ class sale_quote_template(models.Model):
     _name = "sale.quote.template"
     _inherit = "sale.quote.template"
 
-    contract_template = fields.Many2one('sale.subscription.template', 'Contract Template', domain="[('type', '=', 'template')]",
+    contract_template = fields.Many2one('sale.subscription.template', 'Contract Template',
         help="Specify a contract template in order to automatically generate a subscription when products of type subscription are sold.")
 
     @api.onchange('contract_template')
