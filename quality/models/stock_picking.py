@@ -18,13 +18,6 @@ class StockPicking(models.Model):
             self.check_todo = True
 
     @api.multi
-    def do_new_transfer(self):
-        for picking in self:
-            if any([(x.quality_state == 'none') for x in picking.check_ids]):
-                raise UserError(_('You still need to do the quality checks!'))
-        return super(StockPicking, self).do_new_transfer()
-
-    @api.multi
     def check_quality(self):
         self.ensure_one()
         checks = self.check_ids.filtered(lambda check: check.quality_state == 'none')
