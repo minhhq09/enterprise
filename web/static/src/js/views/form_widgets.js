@@ -345,21 +345,10 @@ var FieldEmail = FieldChar.extend({
         this._super.apply(this, arguments);
         this.clickable = true;
     },
-    initialize_content: function() {
-        this._super();
-        this.$el.click(_.bind(this.on_button_clicked, this));
-    },
     render_value: function() {
         this._super();
         if (this.get("effective_readonly") && this.clickable) {
             this.$el.attr('href', this.prefix + ':' + this.get('value'));
-        }
-    },
-    on_button_clicked: function() {
-        if (!this.get('value') || !this.is_syntax_valid()) {
-            this.do_warn(_t("E-mail Error"), _t("Can't send email to invalid e-mail address"));
-        } else {
-            location.href = 'mailto:' + this.get('value');
         }
     }
 });
