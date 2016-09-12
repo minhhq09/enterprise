@@ -271,12 +271,9 @@ class AccountFinancialReportLine(models.Model):
         return round(value, 1)
 
     def _get_gb_name(self, gb_id):
-        if self.groupby == 'account_id':
-            return self.env['account.account'].browse(gb_id).name_get()[0][1]
-        if self.groupby == 'user_type_id':
-            return self.env['account.account.type'].browse(gb_id).name
-        if self.groupby == 'partner_id':
-            return self.env['res.partner'].browse(gb_id).name
+        if self.groupby and self.env['account.move.line']._fields[self.groupby].relational:
+            relation = self.env['account.move.line']._fields[self.groupby].comodel_name
+            return self.env[relation].browse(gb_id).name_get()[0][1]
         return gb_id
 
     def _build_cmp(self, balance, comp):
@@ -431,7 +428,7 @@ class AccountFinancialReportLine(models.Model):
             lines = [vals]
             groupby = line.groupby or 'aml'
             if line in context.unfolded_lines or line.show_domain == 'always':
-                if line.groupby == 'partner_id' or line.groupby == 'account_id':
+                if line.groupby:
                     domain_ids = sorted(list(domain_ids), key=lambda k: line._get_gb_name(k))
                 for domain_id in domain_ids:
                     name = line._get_gb_name(domain_id)
