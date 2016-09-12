@@ -23,7 +23,7 @@ class SaleSubscription(models.Model):
     recurring_inactive_lines = fields.Many2many('sale.subscription.line.option', compute="_compute_options")
     recurring_custom_lines = fields.Many2many('sale.subscription.line', compute="_compute_options")
     user_closable = fields.Boolean(string="Closable by customer", help="If checked, the user will be able to close his account from the frontend")
-    payment_token_id = fields.Many2one('payment.token', 'Payment Token', help='If not set, the default payment token of the partner will be used.', domain="[('partner_id','=',partner_id)]")
+    payment_token_id = fields.Many2one('payment.token', 'Payment Token', help='If not set, the default payment token of the partner will be used.', domain="[('partner_id','=',partner_id)]", oldname='payment_method_id')
     payment_mandatory = fields.Boolean('Automatic Payment', help='If set, payments will be made automatically and invoices will not be generated if payment attempts are unsuccessful.')
     # add tax calculation
     recurring_amount_tax = fields.Float('Taxes', compute="_amount_all")
