@@ -43,7 +43,7 @@ odoo.define('website_sign.PDFIframe', function (require) {
             this.pdfView = (this.$iframe.attr('readonly') === "readonly");
             this.readonlyFields = this.pdfView || this.editMode;
 
-            var viewerURL = "/website/static/lib/pdfjs/web/viewer.html?file=";
+            var viewerURL = "/web/static/lib/pdfjs/web/viewer.html?file=";
             viewerURL += encodeURIComponent(this.attachmentLocation).replace(/'/g,"%27").replace(/"/g,"%22") + "#page=1&zoom=page-width";
             this.$iframe.attr('src', viewerURL);
 
