@@ -604,22 +604,6 @@ class AccountFinancialReportContext(models.TransientModel):
     report_id = fields.Many2one('account.financial.html.report', 'Linked financial report', help='Only if financial report')
     unfolded_lines = fields.Many2many('account.financial.html.report.line', 'context_to_line', string='Unfolded lines')
 
-    @api.model
-    def create(self, vals):
-        force_fy = False
-        if 'force_fy' in vals:
-            del vals['force_fy']
-            force_fy = True
-        res = super(AccountFinancialReportContext, self).create(vals)
-        if force_fy:
-            dates = self.env.user.company_id.compute_fiscalyear_dates(datetime.today())
-            res.write({
-                'date_from': dates['date_from'],
-                'date_to': dates['date_to'],
-                'date_filter': 'this_year'
-            })
-        return res
-
     def get_balance_date(self):
         if self.report_id.report_type == 'no_date_range':
             return self.get_full_date_names(self.date_to)

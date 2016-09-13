@@ -393,7 +393,6 @@ class AccountReportContextCommon(models.TransientModel):
             }
         else:
             update = {
-                'date_from': datetime.today(),
                 'date_to': datetime.today(),
                 'date_filter': 'today',
             }
@@ -451,27 +450,6 @@ class AccountReportContextCommon(models.TransientModel):
             given_context = {}
         result = {}
         if given_context:
-            update = {}
-            for field in given_context:
-                if field.startswith('add_'):
-                    if field.startswith('add_tag_'):
-                        ilike = self.env['account.report.tag.ilike'].create({'text': given_context[field]})
-                        update[field[8:]] = [(4, ilike.id)]
-                    else:
-                        update[field[4:]] = [(4, int(given_context[field]))]
-                if field.startswith('remove_'):
-                    update[field[7:]] = [(3, int(given_context[field]))]
-                if self._fields.get(field) and given_context[field] != 'undefined':
-                    if given_context[field] == 'false':
-                        given_context[field] = False
-                    if given_context[field] == 'none':
-                        given_context[field] = None
-                    if field in ['analytic_account_ids', 'analytic_tag_ids', 'company_ids']: #  Needs to be treated differently as they are many2many
-                        update[field] = [(6, 0, [int(id) for id in given_context[field]])]
-                    else:
-                        update[field] = given_context[field]
-
-            self.write(update)
             if 'force_account' in given_context and (not self.date_from or self.date_from == self.date_to):
                 self.date_from = self.env.user.company_id.compute_fiscalyear_dates(datetime.strptime(self.date_to, "%Y-%m-%d"))['date_from']
                 self.date_filter = 'custom'
@@ -626,20 +604,47 @@ class AccountReportContextCommon(models.TransientModel):
             if c.available_company_ids <= self.env.user.company_ids:
                 context = c
                 break
-        if context and (given_context.get('force_fy') or (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'))):
+        if context and (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id')):
             context.unlink()
             context = self.env[context_model].browse([]) # set it to an empty set to indicate the contexts have been removed
         if not context:
             create_vals = {}
             if report_id:
                 create_vals['report_id'] = report_id
-            if 'force_fy' in given_context:
-                create_vals['force_fy'] = True
             if report_model == 'account.bank.reconciliation.report' and given_context.get('active_id'):
                 create_vals['journal_id'] = given_context['active_id']
             context = self.env[context_model].create(create_vals)
         if 'force_account' in given_context:
             context.unfolded_accounts = [(6, 0, [given_context['active_id']])]
+
+        update = {}
+        for field in given_context:
+            if field.startswith('add_'):
+                if field.startswith('add_tag_'):
+                    ilike = self.env['account.report.tag.ilike'].create({'text': given_context[field]})
+                    update[field[8:]] = [(4, ilike.id)]
+                else:
+                    update[field[4:]] = [(4, int(given_context[field]))]
+            if field.startswith('remove_'):
+                update[field[7:]] = [(3, int(given_context[field]))]
+            if self._fields.get(field) and given_context[field] != 'undefined':
+                if given_context[field] == 'false':
+                    given_context[field] = False
+                if given_context[field] == 'none':
+                    given_context[field] = None
+                if field in ['analytic_account_ids', 'analytic_tag_ids', 'company_ids']: #  Needs to be treated differently as they are many2many
+                    update[field] = [(6, 0, [int(id) for id in given_context[field]])]
+                else:
+                    update[field] = given_context[field]
+
+        if given_context.get('from_report_id') and given_context.get('from_report_model') and report_model == 'account.financial.html.report' and report_id:
+            from_report = self.env[given_context['from_report_model']].browse(given_context['from_report_id'])
+            to_report = self.env[report_model].browse(report_id)
+            if not from_report.get_report_type().date_range and to_report.get_report_type().date_range:
+                dates = self.env.user.company_id.compute_fiscalyear_dates(datetime.today())
+                update['date_from'] = fields.Datetime.to_string(dates['date_from'])
+        if update:
+            context.write(update)
         return [context_model, context.id]
 
 
