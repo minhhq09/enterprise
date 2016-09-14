@@ -250,7 +250,11 @@
             <field name="name">Enable timesheet on project</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority">24</field>
             <field name="arch" type="xml">
+                <div name="options_active" position="attributes">
+                    <attribute name="class"></attribute>
+                </div>
                 <xpath expr="//div[@name='options_active']" position="inside">
                     <div>
                         <field name="allow_timesheets" class="oe_inline" string="Allow timesheets"/>
