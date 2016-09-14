@@ -301,6 +301,7 @@
             <field name="formulas">balance = OP.balance + FI.balance + IN.balance + UNC.balance + REGUL.balance</field>
             <field name="level" eval="0" />
             <field name="financial_report_id" ref="account_financial_report_cashsummary0"/>
+            <field name="special_date_changer">strict_range</field>
         </record>
 
         <record id="account_financial_report_cashsummary_operating0" model="account.financial.html.report.line">
@@ -310,6 +311,7 @@
             <field name="parent_id" ref='account_financial_report_cashsummary_net_increase0'/>
             <field name="formulas">balance = PRECUS.balance + CACUS.balance + PRESUP.balance + LCP.balance</field>
             <field name="level" eval="1" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_prepayments_received0" model="account.financial.html.report.line">
             <field name="name">Advance Payments received from customers</field>
@@ -353,6 +355,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="level" eval="2" />
             <field name="groupby">account_id</field>
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_investing0" model="account.financial.html.report.line">
             <field name="name">Cash flows from investing &amp; extraordinary activities</field>
@@ -361,6 +364,7 @@
             <field name="parent_id" ref='account_financial_report_cashsummary_net_increase0'/>
             <field name="level" eval="1" />
             <field name="formulas">balance = INV_IN.balance + INV_OUT.balance</field>
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_investing_in0" model="account.financial.html.report.line">
             <field name="name">Cash in</field>
@@ -371,6 +375,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_investing_out0" model="account.financial.html.report.line">
             <field name="name">Cash out</field>
@@ -381,6 +386,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_financing0" model="account.financial.html.report.line">
             <field name="name">Cash flows from financing activities</field>
@@ -389,6 +395,7 @@
             <field name="parent_id" ref='account_financial_report_cashsummary_net_increase0'/>
             <field name="level" eval="1" />
             <field name="formulas">balance = FI_IN.balance + FI_OUT.balance</field>
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_financing_in0" model="account.financial.html.report.line">
             <field name="name">Cash in</field>
@@ -399,6 +406,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_financing_out0" model="account.financial.html.report.line">
             <field name="name">Cash out</field>
@@ -409,6 +417,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_unclassified0" model="account.financial.html.report.line">
             <field name="name">Cash flows from unclassified activities</field>
@@ -418,6 +427,7 @@
             <field name="level" eval="1" />
             <field name="formulas">balance = UNC_IN.balance + UNC_OUT.balance</field>
             <field name="hide_if_zero" eval="True" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_unclassified_in0" model="account.financial.html.report.line">
             <field name="name">Cash in</field>
@@ -428,6 +438,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <record id="account_financial_report_cashsummary_unclassified_out0" model="account.financial.html.report.line">
             <field name="name">Cash out</field>
@@ -438,6 +449,7 @@
             <field name="formulas">balance = -sum.balance</field>
             <field name="groupby">account_id</field>
             <field name="level" eval="2" />
+            <field name="special_date_changer">strict_range</field>
         </record>
         <!-- When you register 'Advance payments', you record fluctuations on the bank/cash accounts and let open amounts
         in payable/receivable accounts. Those are displayed in PRECUS and PRESUP but, as they are reconciled with the

@@ -867,7 +867,7 @@ core.form_widget_registry.get('phone').include({
         this.clickable = true;
         _.extend(this.events, {
             'click': function(e) {
-                if(!this.get('effective_readonly')) {
+                if(!this.get('effective_readonly') || this.getParent().dataset.model != 'res.partner') {
                     return;
                 }
 
