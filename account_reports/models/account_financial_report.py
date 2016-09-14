@@ -160,6 +160,60 @@ class AccountFinancialReportLine(models.Model):
                 select = select.replace(field, field + '_cash_basis', number_of_occurence - 1)
         return select, extra_params
 
+    def _get_with_statement(self, financial_report):
+        """ This function allow to define a WITH statement as prologue to the usual queries returned by query_get().
+            It is useful if you need to shadow a table entirely and let the query_get work normally although you're
+            fetching rows from your temporary table (built in the WITH statement) instead of the regular tables.
+
+            @returns: the WITH statement to prepend to the sql query and the parameters used in that WITH statement
+            @rtype: tuple(char, list)
+        """
+        sql = ''
+        params = []
+
+        #Cash flow statement (all lines but 'CASHSTART' and 'CASHEND' because those lines have to be computed on the normal account_move_line table)
+        #--------------------
+        #The cash flow needs to show amount on income/expense accounts, but only when they're paid AND under the payment date in the reporting, so
+        #we have to make a complex query to join aml from the invoice (for the account), aml from the payments (for the date) and partial reconciliation
+        #(for the reconciled amount).
+        #NOTE: This is totally unusual for implementing a complex report but has been done as a bugfix when we realized the generic report was showing
+        #the invoice's account under the _invoice_ date in the reporting (instead of payment date), and it was too late to implement that with a
+        #dedicated custom report.
+        if financial_report == self.env.ref('account_reports.account_financial_report_cashsummary0') and self.code not in ('CASHSTART', 'CASHEND'):
+            #we use query_get() to filter out unrelevant journal items to have a shadowed table as small as possible
+            tables, where_clause, where_params = self.env['account.move.line']._query_get()
+            sql = """WITH account_move_line AS (
+              SELECT \"account_move_line\".id, \"account_move_line\".date, \"account_move_line\".name, \"account_move_line\".debit_cash_basis, \"account_move_line\".credit_cash_basis, \"account_move_line\".move_id, \"account_move_line\".account_id, \"account_move_line\".journal_id, \"account_move_line\".balance_cash_basis, \"account_move_line\".amount_residual, \"account_move_line\".partner_id, \"account_move_line\".reconciled, \"account_move_line\".company_id, \"account_move_line\".company_currency_id
+               FROM """ + tables + """
+               WHERE \"account_move_line\".journal_id IN (SELECT id FROM account_journal WHERE type in ('cash', 'bank'))
+                 AND """ + where_clause + """
+              UNION ALL
+              (
+               WITH payment_table AS (
+                 SELECT aml.move_id, \"account_move_line\".date, CASE WHEN aml.balance = 0 THEN 0 ELSE part.amount / ABS(aml.balance) END as matched_percentage
+                   FROM account_partial_reconcile part LEFT JOIN account_move_line aml ON aml.id = part.debit_move_id, """ + tables + """
+                   WHERE part.credit_move_id = "account_move_line".id
+                    AND """ + where_clause + """
+                 UNION ALL
+                 SELECT aml.move_id, \"account_move_line\".date, CASE WHEN aml.balance = 0 THEN 0 ELSE part.amount / ABS(aml.balance) END as matched_percentage
+                   FROM account_partial_reconcile part LEFT JOIN account_move_line aml ON aml.id = part.credit_move_id, """ + tables + """
+                   WHERE part.debit_move_id = "account_move_line".id
+                    AND """ + where_clause + """
+               )
+               SELECT aml.id, ref.date, aml.name,
+                 CASE WHEN aml.debit > 0 THEN ref.matched_percentage * aml.debit ELSE 0 END AS debit_cash_basis,
+                 CASE WHEN aml.credit > 0 THEN ref.matched_percentage * aml.credit ELSE 0 END AS credit_cash_basis,
+                 aml.move_id, aml.account_id, aml.journal_id,
+                 ref.matched_percentage * aml.balance AS balance_cash_basis,
+                 aml.amount_residual, aml.partner_id, aml.reconciled, aml.company_id, aml.company_currency_id
+                FROM account_move_line aml
+                RIGHT JOIN payment_table ref ON aml.move_id = ref.move_id
+                WHERE journal_id NOT IN (SELECT id FROM account_journal WHERE type in ('cash', 'bank'))
+              )
+            ) """
+            params = where_params + where_params + where_params
+        return sql, params
+
     def _compute_line(self, currency_table, financial_report, group_by=None, domain=[]):
         """ Computes the sum that appeas on report lines when they aren't unfolded. It is using _query_get() function
             of account.move.line which is based on the context, and an additional domain (the field domain on the report
@@ -177,11 +231,20 @@ class AccountFinancialReportLine(models.Model):
         if financial_report.tax_report:
             where_clause += ''' AND "account_move_line".tax_exigible = 't' '''
 
-        select, params = self._query_get_select_sum(currency_table)
-        where_params = params + where_params
+        line = self
+        financial_report = False
+
+        while(not financial_report):
+            financial_report = line.financial_report_id
+            line = line.parent_id
+
+        sql, params = self._get_with_statement(financial_report)
+
+        select, select_params = self._query_get_select_sum(currency_table)
+        where_params = params + select_params + where_params
 
         if (self.env.context.get('sum_if_pos') or self.env.context.get('sum_if_neg')) and group_by:
-            sql = "SELECT account_move_line." + group_by + " as " + group_by + "," + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY account_move_line." + group_by
+            sql = sql + "SELECT account_move_line." + group_by + " as " + group_by + "," + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY account_move_line." + group_by
             self.env.cr.execute(sql, where_params)
             res = {'balance': 0, 'debit': 0, 'credit': 0, 'amount_residual': 0}
             for row in self.env.cr.dictfetchall():
@@ -191,7 +254,7 @@ class AccountFinancialReportLine(models.Model):
             res['currency_id'] = self.env.user.company_id.currency_id.id
             return res
 
-        sql = "SELECT " + select + " FROM " + tables + " WHERE " + where_clause
+        sql = sql + "SELECT " + select + " FROM " + tables + " WHERE " + where_clause
         self.env.cr.execute(sql, where_params)
         results = self.env.cr.dictfetchall()[0]
         results['currency_id'] = self.env.user.company_id.currency_id.id
@@ -275,12 +338,9 @@ class AccountFinancialReportLine(models.Model):
         return round(value, 1)
 
     def _get_gb_name(self, gb_id):
-        if self.groupby == 'account_id':
-            return self.env['account.account'].browse(gb_id).name_get()[0][1]
-        if self.groupby == 'user_type_id':
-            return self.env['account.account.type'].browse(gb_id).name
-        if self.groupby == 'partner_id':
-            return self.env['res.partner'].browse(gb_id).name
+        if self.groupby and self.env['account.move.line']._fields[self.groupby].relational:
+            relation = self.env['account.move.line']._fields[self.groupby].comodel_name
+            return self.env[relation].browse(gb_id).name_get()[0][1]
         return gb_id
 
     def _build_cmp(self, balance, comp):
@@ -319,15 +379,16 @@ class AccountFinancialReportLine(models.Model):
         if self.domain and self.groupby and self.show_domain != 'never':
             aml_obj = self.env['account.move.line']
             tables, where_clause, where_params = aml_obj._query_get(domain=self.domain)
+            sql, params = self._get_with_statement(financial_report)
             if financial_report.tax_report:
                 where_clause += ''' AND "account_move_line".tax_exigible = 't' '''
-            params = []
 
             groupby = self.groupby or 'id'
             if groupby not in self.env['account.move.line']:
                 raise ValueError('Groupby should be a field from account.move.line')
-            select, params = self._query_get_select_sum(currency_table)
-            sql = "SELECT \"account_move_line\"." + groupby + ", " + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY \"account_move_line\"." + groupby
+            select, select_params = self._query_get_select_sum(currency_table)
+            params += select_params
+            sql = sql + "SELECT \"account_move_line\"." + groupby + ", " + select + " FROM " + tables + " WHERE " + where_clause + " GROUP BY \"account_move_line\"." + groupby
 
             params += where_params
             self.env.cr.execute(sql, params)
@@ -437,7 +498,7 @@ class AccountFinancialReportLine(models.Model):
             lines = [vals]
             groupby = line.groupby or 'aml'
             if line in context.unfolded_lines or line.show_domain == 'always':
-                if line.groupby == 'partner_id' or line.groupby == 'account_id':
+                if line.groupby:
                     domain_ids = sorted(list(domain_ids), key=lambda k: line._get_gb_name(k))
                 for domain_id in domain_ids:
                     name = line._get_gb_name(domain_id)

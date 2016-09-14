@@ -177,10 +177,10 @@ class crm_team(models.Model):
                     if lead.id not in leads_done:
                         leads_duplicated = lead.get_duplicated_leads(False)
                         if len(leads_duplicated) > 1:
-                            merged = self.env["crm.lead"].with_context(assign_leads_to_salesteams=True).browse(leads_duplicated).merge_opportunity(False, False)
+                            merged = leads_duplicated.with_context(assign_leads_to_salesteams=True).merge_opportunity(False, False)
                             _logger.debug('Lead [%s] merged of [%s]' % (merged, leads_duplicated))
-                            leads_merged.add(merged)
-                        leads_done.update(leads_duplicated)
+                            leads_merged.add(merged.id)
+                        leads_done.update(leads_duplicated.ids)
                     self._cr.commit()
                 if leads_merged:
                     self.env['website.crm.score'].assign_scores_to_leads(lead_ids=list(leads_merged))

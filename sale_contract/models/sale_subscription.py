@@ -153,6 +153,7 @@ class SaleSubscription(models.Model):
     def set_close(self):
         return self.write({'state': 'close', 'date': fields.Date.from_string(fields.Date.today())})
 
+    @api.multi
     def _prepare_invoice_data(self):
         self.ensure_one()
 
@@ -182,6 +183,7 @@ class SaleSubscription(models.Model):
             'comment': _("This invoice covers the following period: %s - %s") % (next_date, new_date),
         }
 
+    @api.multi
     def _prepare_invoice_line(self, line, fiscal_position):
         account_id = line.product_id.property_account_income_id.id
         if not account_id:
@@ -202,11 +204,13 @@ class SaleSubscription(models.Model):
             'invoice_line_tax_ids': [(6, 0, tax.ids)],
         }
 
+    @api.multi
     def _prepare_invoice_lines(self, fiscal_position):
         self.ensure_one()
         fiscal_position = self.env['account.fiscal.position'].browse(fiscal_position)
         return [(0, 0, self._prepare_invoice_line(line, fiscal_position)) for line in self.recurring_invoice_line_ids]
 
+    @api.multi
     def _prepare_invoice(self):
         invoice = self._prepare_invoice_data()
         invoice['invoice_line_ids'] = self._prepare_invoice_lines(invoice['fiscal_position_id'])
@@ -249,6 +253,7 @@ class SaleSubscription(models.Model):
                         raise
         return invoices
 
+    @api.multi
     def _prepare_renewal_order_values(self):
         res = dict()
         for contract in self:
@@ -330,6 +335,7 @@ class SaleSubscriptionLine(models.Model):
         for line in self:
             line.quantity = max(line.sold_quantity, line.actual_quantity)
 
+    @api.multi
     def _set_quantity(self):
         for line in self:
             line.actual_quantity = line.quantity

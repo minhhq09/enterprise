@@ -47,7 +47,7 @@ class StockBarcodeController(http.Controller):
             internal_picking_type = request.env['stock.picking.type'].search([('code', '=', 'internal')])
             warehouse = corresponding_location.get_warehouse()
             if warehouse:
-                internal_picking_type = internal_picking_type.filtered(lambda r: r.warehouse_id.id == warehouse)
+                internal_picking_type = internal_picking_type.filtered(lambda r: r.warehouse_id == warehouse)
             dest_loc = corresponding_location
             while dest_loc.location_id and dest_loc.location_id.usage == 'internal':
                 dest_loc = dest_loc.location_id

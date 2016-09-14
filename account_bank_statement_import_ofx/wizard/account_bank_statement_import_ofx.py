@@ -91,7 +91,7 @@ class AccountBankStatementImport(models.TransientModel):
             currency_lst.add(account.statement.currency)
             transactions = []
             total_amt = 0.00
-            for transaction in ofx.account.statement.transactions:
+            for transaction in account.statement.transactions:
                 # Since ofxparse doesn't provide account numbers, we'll have to find res.partner and res.partner.bank here
                 # (normal behaviour is to provide 'account_number', which the generic module uses to find partner/bank)
                 bank_account_id = partner_id = False

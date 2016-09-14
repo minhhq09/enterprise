@@ -210,6 +210,7 @@ class SignatureRequest(models.Model):
 
         for follower in followers:
             template = mail_template.sudo().with_context(base_context,
+                lang = follower.lang,
                 template_type = "follower",
                 email_from_usr = email_from_usr,
                 email_from_mail = email_from_mail,
@@ -251,6 +252,7 @@ class SignatureRequest(models.Model):
             if not signer.partner_id:
                 continue
             template = mail_template.with_context(
+                lang = signer.partner_id.lang,
                 email_to = signer.partner_id.email,
                 link = "sign/document/%(request_id)s/%(access_token)s" % {'request_id': self.id, 'access_token': signer.access_token}
             )
@@ -258,6 +260,7 @@ class SignatureRequest(models.Model):
 
         for follower in self.follower_ids:
             template = mail_template.with_context(
+                lang = follower.lang,
                 email_to = follower.email,
                 link = "sign/document/%(request_id)s/%(access_token)s" % {'request_id': self.id, 'access_token': self.access_token}
             )
@@ -438,6 +441,7 @@ class SignatureRequestItem(models.Model):
             if not signer.partner_id:
                 continue
             template = mail_template.sudo().with_context(base_context,
+                lang = signer.partner_id.lang,
                 template_type = "request",
                 email_from_usr = email_from_usr,
                 email_from_mail = email_from_mail,

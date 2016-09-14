@@ -9,6 +9,7 @@ class PrintOrderWizard(models.TransientModel):
     """
 
     _name = 'print.order.wizard'
+    _description = 'Print Order Wizard'
     _rec_name = 'id'
 
     @api.model

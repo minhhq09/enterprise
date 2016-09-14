@@ -36,10 +36,22 @@ class report_account_generic_tax_report(models.AbstractModel):
             strict_range=True,
         )._lines()
 
-    def _compute_from_amls(self, taxes, period_number):
+    def _sql_from_amls_one(self):
         sql = """SELECT "account_move_line".tax_line_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
                     FROM %s
                     WHERE %s AND "account_move_line".tax_exigible GROUP BY "account_move_line".tax_line_id"""
+        return sql
+
+    def _sql_from_amls_two(self):
+        sql = """SELECT r.account_tax_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
+                 FROM %s
+                 INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
+                 INNER JOIN account_tax t ON (r.account_tax_id = t.id)
+                 WHERE %s AND "account_move_line".tax_exigible GROUP BY r.account_tax_id"""
+        return sql
+
+    def _compute_from_amls(self, taxes, period_number):
+        sql = self._sql_from_amls_one()
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
@@ -50,11 +62,7 @@ class report_account_generic_tax_report(models.AbstractModel):
             if result[0] in taxes:
                 taxes[result[0]]['periods'][period_number]['tax'] = result[1]
                 taxes[result[0]]['show'] = True
-        sql = """SELECT r.account_tax_id, COALESCE(SUM("account_move_line".debit-"account_move_line".credit), 0)
-                 FROM %s
-                 INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
-                 INNER JOIN account_tax t ON (r.account_tax_id = t.id)
-                 WHERE %s AND "account_move_line".tax_exigible GROUP BY r.account_tax_id"""
+        sql = self._sql_from_amls_two()
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
         query = sql % (tables, where_clause)
