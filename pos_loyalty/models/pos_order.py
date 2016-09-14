@@ -20,6 +20,6 @@ class PosOrder(models.Model):
         order_ids = super(PosOrder, self).create_from_ui(orders)
         for order in orders:
             if order['data']['loyalty_points'] != 0 and order['data']['partner_id']:
-                partner = self.env['res.partner'].browse(order['data']['partner_id'])
+                partner = self.env['res.partner'].sudo().browse(order['data']['partner_id'])
                 partner.write({'loyalty_points': partner['loyalty_points'] + order['data']['loyalty_points']})
         return order_ids

@@ -72,7 +72,8 @@ class DHLProvider():
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
-                if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
+                if product.findtext('GlobalProductCode') == carrier.dhl_product_code\
+                        and product.findall('ShippingCharge'):
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
                     dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True
@@ -143,7 +144,10 @@ class DHLProvider():
             raise ValidationError(_(error_msg))
         elif root.tag == '{http://www.dhl.com}ErrorResponse':
             condition = root.findall('Response/Status/Condition/')
-            error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+            if isinstance(condition[0], list):
+                error_msg = "%s: %s" % (condition[0][0].text, condition[0][1].text)
+            else:
+                error_msg = "%s: %s" % (condition[0].text, condition[1].text)
             raise ValidationError(_(error_msg))
         elif root.tag == '{http://www.dhl.com}ShipmentResponse':
             label_image = root.findall('LabelImage')
@@ -165,7 +169,8 @@ class DHLProvider():
             products = root.findall('GetQuoteResponse/BkgDetails/QtdShp')
             found = False
             for product in products:
-                if product.findtext('GlobalProductCode') == carrier.dhl_product_code:
+                if product.findtext('GlobalProductCode') == carrier.dhl_product_code\
+                        and product.findall('ShippingCharge'):
                     dict_response['price'] = product.findall('ShippingCharge')[0].text
                     dict_response['currency'] = product.findall('QtdSInAdCur/CurrencyCode')[0].text
                     found = True

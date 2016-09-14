@@ -53,11 +53,8 @@ var ReportWidget = Widget.extend({
         var action_domain = $(e.target).data('action-domain');
         var force_context = $(e.target).data('force-context');
         var additional_context = {};
-        if (active_id) { 
-            additional_context = {active_id: active_id};
-        }
-        else {
-            additional_context = {active_id: id};
+        if (active_id || id) {
+            additional_context = {active_id: active_id || id};
         }
         if (res_model && active_id) { // Open the view form of the given model
             return this.do_action({
@@ -81,7 +78,7 @@ var ReportWidget = Widget.extend({
             var context = {
                 date_filter: this.context.date_filter,
                 date_filter_cmp: this.context.date_filter_cmp,
-                date_from: !this.report_type.date_range ? this.context.date_from : 'none',
+                date_from: this.report_type.date_range ? this.context.date_from : 'none',
                 date_to: this.context.date_to,
                 periods_number: this.context.periods_number,
                 date_from_cmp: this.context.date_from_cmp,
