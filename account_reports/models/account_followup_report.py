@@ -346,7 +346,7 @@ class account_report_context_followup(models.TransientModel):
         email = self.env['res.partner'].browse(self.partner_id.address_get(['invoice'])['invoice']).email
         if email and email.strip():
             email = self.env['mail.mail'].create({
-                'subject': _('%s Payment Reminder') % self.env.user.company_id.name,
+                'subject': _('%s Payment Reminder') % (self.env.user.company_id.name) + ' - ' + self.partner_id.name,
                 'body_html': append_content_to_html(self.with_context(public=True, mode='print').get_html(), self.env.user.signature, plaintext=False),
                 'email_from': self.env.user.email or '',
                 'email_to': email,
