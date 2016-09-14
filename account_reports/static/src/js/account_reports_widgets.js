@@ -53,11 +53,8 @@ var ReportWidget = Widget.extend({
         var action_domain = $(e.target).data('action-domain');
         var force_context = $(e.target).data('force-context');
         var additional_context = {};
-        if (active_id) { 
-            additional_context = {active_id: active_id};
-        }
-        else {
-            additional_context = {active_id: id};
+        if (active_id || id) {
+            additional_context = {active_id: active_id || id};
         }
         if (res_model && active_id) { // Open the view form of the given model
             return this.do_action({
