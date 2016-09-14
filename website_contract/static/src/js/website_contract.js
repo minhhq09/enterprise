@@ -21,6 +21,7 @@ odoo.define('website_contract.website_contract', function (require) {
         $new_payment_method.toggleClass('hidden', has_val);
         $form.find('button').toggleClass('hidden', !has_val);
     });
+    $('#wc-payment-form select[name="pay_meth"]').change() // force change to ensure payment form is correctly displayed
 
     // When creating new pay method: create by json-rpc then continue with the new id in the form
     $new_payment_method.on("click", 'button[type="submit"],button[name="submit"]', function (ev) {
