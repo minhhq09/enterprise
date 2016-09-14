@@ -200,6 +200,8 @@ class Project(models.Model):
 class Task(models.Model):
     _inherit = 'project.task'
 
+    allow_forecast = fields.Boolean('Allow Forecast', readonly=True, related='project_id.allow_forecast', store=False)
+
     @api.multi
     def create_forecast(self):
         view_id = self.env.ref('project_forecast.project_forecast_view_form').id

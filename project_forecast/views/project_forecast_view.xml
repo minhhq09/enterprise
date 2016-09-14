@@ -205,7 +205,8 @@
     <field name="arch" type="xml">
         <xpath expr="//sheet" position="before">
             <header>
-                <button name="create_forecast" string="Create a forecast" type="object"/>
+                <button name="create_forecast" string="Create a forecast" type="object"
+                    attrs="{'invisible':[('allow_forecast', '=', False)]}"/>
             </header>
         </xpath>
         <div name="options_active" position="attributes">
@@ -236,9 +237,11 @@
     <field name="model">project.task</field>
     <field name="inherit_id" ref="project.view_task_form2"/>
     <field name="arch" type="xml">
-      <xpath expr="//header/field[@name='stage_id']" position="before">
-        <button name="create_forecast" string="Create a forecast" type="object"/>
-      </xpath>
+        <xpath expr="//header/field[@name='stage_id']" position="before">
+            <field name="allow_forecast" invisible="1"/>
+            <button name="create_forecast" string="Create a forecast" type="object"
+                attrs="{'invisible':[('allow_forecast', '=', False)]}"/>
+        </xpath>
     </field>
   </record>
 
