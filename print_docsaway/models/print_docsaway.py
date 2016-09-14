@@ -305,12 +305,12 @@ class PrintOrder(models.Model):
     _inherit = 'print.order'
 
     # station fields
-    docsaway_station = fields.Char('Docsaway Station', help="Docsaway Station ID.")
-    docsaway_courier = fields.Char('Docsaway Courier', help="Docsaway Printer ID.")
-    docsaway_zone = fields.Integer('Docsaway Zone', help="Docsaway Station ID.")
+    docsaway_station = fields.Char('Docsaway Station')
+    docsaway_courier = fields.Char('Docsaway Courier')
+    docsaway_zone = fields.Integer('Docsaway Zone')
     # transaction fields
-    docsaway_reference = fields.Char('Docsaway Reference', help="Docsaway Reference Order.")
-    docsaway_status = fields.Char('Docsaway Approved', help="Docsaway Transaction Status.")
+    docsaway_reference = fields.Char('Docsaway Reference')
+    docsaway_status = fields.Char('Docsaway Transaction Status')
 
 
     def _docsaway_prepare_printing(self):
