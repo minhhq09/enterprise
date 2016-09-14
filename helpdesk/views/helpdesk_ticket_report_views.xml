@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="helpdesk_ticket_view_graph_analysis" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.graph.analysis</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <graph string="Helpdesk Ticket Analysis" stacked="True">
+                    <field name="team_id" type="row"/>
+                    <field name="stage_id" type="col"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="helpdesk_ticket_view_pivot_analysis" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.pivot.analysis</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <pivot string="Helpdesk Ticket Analysis" disable_linking="True">
+                    <field name="team_id" type="row"/>
+                    <field name="stage_id" type="col"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="helpdesk_ticket_view_search_analysis" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.search</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <search string="Tickets Search">
+                    <field name="name"/>
+                    <field name="ticket_type_id"/>
+
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                    <filter string="My Tickets" domain="[('user_id','=',uid)]" name="my_ticket"/>
+                    <filter string="Unassigned Tickets" domain="[('user_id','=',False)]" name="unassigned"/>
+                    <separator/>
+                    <filter string="Open Tickets" domain="[('stage_id.is_close','=',False)]" name="is_open"/>
+                    <filter string="Closed Tickets" domain="[('stage_id.is_close','=',True)]" name="is_close"/>
+                    <filter string="Archived" domain="[('active','=',False)]" name="archive"/>
+                    <separator/>
+                    <filter string="SLA Failed" domain="[('sla_fail','&lt;&gt;',False)]" name="sla_failed" groups="helpdesk.group_use_sla"/>
+                    <filter string="SLA Not Failed" domain="[('sla_fail','=',False)]" name="not_sla_failed" groups="helpdesk.group_use_sla"/>
+                    <group expand="0" string="Group By">
+                      <filter string="Assignee" name="assignee" context="{'group_by':'user_id'}"/>
+                      <filter string="Team" name="team" context="{'group_by':'team_id'}"/>
+                    <filter string="Ticket Type" name="ticket_type_id" context="{'group_by':'ticket_type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+         <record id="helpdesk_ticket_view_search_analysis_closed" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.search</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <search string="Tickets Search">
+                    <field name="name"/>
+                    <field name="ticket_type_id"/>
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                    <filter string="My Tickets" domain="[('user_id','=',uid)]" name="my_ticket"/>
+                    <filter string="Unassigned Tickets" domain="[('user_id','=',False)]" name="unassigned"/>
+                    <separator/>
+                    <filter string="Archived" domain="[('active','=',False)]" name="archive"/>
+                    <separator/>
+                    <filter string="SLA Failed" domain="[('sla_fail','&lt;&gt;',False)]" groups="helpdesk.group_use_sla"/>
+                    <group expand="0" string="Group By">
+                      <filter string="Assignee" name="assignee" context="{'group_by':'user_id'}"/>
+                      <filter string="Team" name="team" context="{'group_by':'team_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+      <menuitem name="Reports"
+          id="helpdesk_ticket_report_menu_main" sequence="20"
+          parent="helpdesk.menu_helpdesk_root" groups="helpdesk.group_helpdesk_manager"/>
+
+       <record id="helpdesk_ticket_analysis_action" model="ir.actions.act_window">
+           <field name="name">Helpdesk Ticket Analysis</field>
+           <field name="res_model">helpdesk.ticket</field>
+           <field name="view_type">form</field>
+           <field name="view_mode">pivot,graph</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+       </record>
+       <menuitem id="helpdesk_ticket_report_menu" name="Helpdesk Ticket Analysis"
+            parent="helpdesk_ticket_report_menu_main" action="helpdesk_ticket_analysis_action" sequence="10"
+            groups="helpdesk.group_helpdesk_manager"/>
+
+      <record id="helpdesk_ticket_team_analysis_action" model="ir.actions.act_window">
+            <field name="name">Ticket Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="context">{'search_default_team_id': active_ids, 'search_default_is_open': True}</field>
+      </record>
+
+       <!-- helpdesk team pivot View -->
+      <record id="helpdesk_team_view_pivot_analysis" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.pivot</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <pivot string="Performance Analysis" disable_linking="True">
+                    <field name="stage_id" type="col"/>
+                    <field name="name"/>
+                    <field name="close_hours" type="measure"/>
+                </pivot>
+            </field>
+      </record>
+
+      <record id="helpdesk_team_view_graph_analysis" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.graph</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="arch" type="xml">
+                <graph string="Performance Analysis" stacked="True">
+                    <field name="stage_id" type="col"/>
+                    <field name="team_id" type="row"/>
+                    <field name="close_hours" type="measure"/>
+                </graph>
+            </field>
+      </record>
+
+      <record id="helpdesk_ticket_action_team_performance" model="ir.actions.act_window">
+            <field name="name">Performance Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_team_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_team_view_graph_analysis')})]"/>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="context">{'search_default_team_id': active_ids, 'pivot_measures': ['close_hours', '__count__']}</field>
+      </record>
+
+      <record id="helpdesk_ticket_action_success" model="ir.actions.act_window">
+            <field name="name">Success Rate Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+            <field name="domain" eval="[('close_date', '>=', (DateTime.today() - relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="context">{'search_default_is_close': True, 'search_default_my_ticket': True, 'search_default_not_sla_failed': True,}</field>
+      </record>
+
+      <record id="helpdesk_ticket_action_7dayssuccess" model="ir.actions.act_window">
+            <field name="name">Success Rate Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+            <field name="domain" eval="[('sla_active', '=', False), ('close_date', '>=', (DateTime.today() - relativedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="context">{'search_default_is_close': True, 'search_default_my_ticket': True, 'search_default_not_sla_failed': True,}</field>
+      </record>
+
+      <record id="helpdesk_ticket_action_dashboard" model="ir.actions.act_window">
+            <field name="name">Ticket Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="domain">[('stage_id.is_close', '=', False)]</field>
+            <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_team_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_team_view_graph_analysis')})]"/>
+      </record>
+
+      <record id="helpdesk_ticket_action_dashboard_high_priority" model="ir.actions.act_window">
+            <field name="name">Ticket Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="domain">[('stage_id.is_close', '=', False), ('priority', '=', '2')]</field>
+            <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_team_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_team_view_graph_analysis')})]"/>
+      </record>
+
+      <record id="helpdesk_ticket_action_dashboard_urgent" model="ir.actions.act_window">
+            <field name="name">Ticket Analysis</field>
+            <field name="res_model">helpdesk.ticket</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis"/>
+            <field name="domain">[('stage_id.is_close', '=', False), ('priority', '=', '3')]</field>
+            <field name="context">{'search_default_my_ticket': True, 'pivot_measures': ['close_hours', '__count__']}</field>
+            <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_team_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_team_view_graph_analysis')})]"/>
+      </record>
+
+</odoo>

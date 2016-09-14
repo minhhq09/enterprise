@@ -1,0 +1,286 @@
+<odoo>
+
+    <template id="assets_backend" name="helpdesk assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/helpdesk/static/src/less/helpdesk.less"/>
+            <script type="text/javascript" src="/helpdesk/static/src/js/helpdesk_dashboard.js"></script>
+        </xpath>
+    </template>
+
+    <!-- Action for dashboard button -->
+    <record id="helpdesk_ticket_action_high_priorities" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('priority', '=', '2')]</field>
+        <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_urgent" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('priority', '=', '3')]</field>
+        <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('sla_active', '!=', False), ('priority', '!=', False)]</field>
+        <field name="context">{'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla_high" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('sla_active', '!=', False), ('priority', '=', '2')]</field>
+        <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_sla_urgent" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('sla_active', '!=', False), ('priority', '=', '3')]</field>
+        <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+
+
+    <!-- Reporting action for dashboard -->
+    <record id="helpdesk_ticket_action_close_analysis" model="ir.actions.act_window">
+        <field name="name">Closed Tickets Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis_closed"/>
+        <field name="domain" eval="[('close_date', '>=', (DateTime.today() - relativedelta(hours=12)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+        <field name="context">{'search_default_my_ticket': True}</field>
+        <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+    </record>
+
+    <record id="helpdesk_ticket_action_7days_analysis" model="ir.actions.act_window">
+        <field name="name">Closed Tickets Analysis</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="helpdesk_ticket_view_search_analysis_closed"/>
+        <field name="domain" eval="[('close_date', '>=', (DateTime.today() - relativedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+        <field name="view_ids" 
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'pivot', 'view_id': ref('helpdesk_ticket_view_pivot_analysis')}),
+                          (0, 0, {'view_mode': 'graph', 'view_id': ref('helpdesk_ticket_view_graph_analysis')})]"/>
+        <field name="context">{'search_default_my_ticket': True, 'search_default_close': True}</field>
+    </record>
+
+    <!-- action for halpdask team -->
+    <record id="helpdesk_ticket_action_team" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_team_id': active_id}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_unassigned" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_team_id': active_id, 'search_default_unassigned': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_Archived" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_team_id': active_ids, 'search_default_archive': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_action_slafailed" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_team_id': active_id, 'search_default_sla_failed': True}</field>
+        <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click create a new ticket.
+            </p>
+        </field>
+    </record>
+
+    <record id="helpdesk_team_view_kanban" model="ir.ui.view" >
+        <field name="name">helpdesk.team.dashboard</field>
+        <field name="model">helpdesk.team</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban" create="0" js_class="helpdesk_dashboard">
+                <field name="name"/>
+                <field name="color"/>
+                <field name="use_alias"/>
+                <field name="use_rating"/>
+                <field name="percentage_satisfaction" invisible="1"/>
+                <field name="use_sla"/>
+                <field name="upcoming_sla_fail_tickets"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <small t-if="record.use_alias.value"><i class="fa fa-envelope-o"></i>&amp;nbsp; <field name="alias_id"/></small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="%(helpdesk.helpdesk_ticket_action_team)d" type="action">Tickets</button>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_primary_right">
+                                        <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                            <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="upcoming_sla_fail_tickets"/> SLA to Review</a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="%(helpdesk.helpdesk_ticket_action_unassigned)d" type="action">Unassigned Tickets</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_rating.raw_value">
+                                            <a name="action_view_all_rating" type="object">Customer Satisfaction</a>
+                                        </div>
+                                    </div>
+                                </div><!-- Smiley indicator of rating:
+                                <div t-if="record.use_rating.raw_value and record.percentage_satisfaction.raw_value &gt;= 0" class="row text-center">
+                                    <a name="action_view_all_rating" type="object" title="Percentage of happy people about this team" class="pull-right">
+                                        <h5 t-attf-class="label #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'label-success' : 'label-warning'}">
+                                            <i t-attf-class="fa #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'fa-smile-o' : 'fa-frown-o'}"/> <t t-raw="record.percentage_satisfaction.raw_value"/> %
+                                        </h5>
+                                    </a>
+                                </div> -->
+                            </div><div class="container o_kanban_card_manage_pane o_invisible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>View Tickets</span>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_action_Archived)d" type="action">Archived</a>
+                                        </div>
+                                        <div name="sla_failed" attrs="{'invisible': [('use_sla', '=', False)]}" groups="helpdesk.group_use_sla">
+                                            <a name="%(helpdesk.helpdesk_ticket_action_slafailed)d" type="action">SLA Failed</a>
+                                        </div>
+                                        <div t-if="record.use_rating.raw_value">
+                                            <a name="action_unhappy_rating_ticket" type="object">Not Satisfied</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Reports</span>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_team_analysis_action)d" type="action">Opened Tickets Analysis</a>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_action_team_performance)d" type="action">Performance Analysis</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-xs-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="helpdesk_team_dashboard_action_main" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">helpdesk.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="helpdesk.helpdesk_team_view_kanban"/>
+        <field name="help" type="html">
+            <p>
+                Your teams will appear here.
+            </p>
+        </field>
+    </record>
+    <menuitem
+        action="helpdesk.helpdesk_team_dashboard_action_main"
+        id="helpdesk_menu_team_dashboard"
+        sequence="5" parent="helpdesk.menu_helpdesk_root" groups="helpdesk.group_helpdesk_user"/>
+
+</odoo>

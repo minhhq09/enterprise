@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <template id="portal_my_home_menu_helpdesk" name="Portal layout : helpdesk tickets menu entries" inherit_id="website_portal.portal_layout" priority="25">
+        <xpath expr="//ul[contains(@class,'o_portal_submenu')]" position="inside">
+            <li>
+                <a href="/my/tickets">Tickets</a>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_helpdesk_ticket" name="Portal My Home : Helpdesk Ticket" inherit_id="website_portal.portal_my_home">
+        <xpath expr="//div[contains(@class,'o_my_home_content')]" position="inside">
+            <h3 class="page-header">
+                <a href="/my/tickets">Your Tickets
+                    <small class="ml8">
+                        <t t-if="tickets">
+                            <span class='badge'><t t-esc="tickets"/></span>
+                        </t>
+                        <t t-if="not tickets">
+                            There are currently no Ticket for your account.
+                        </t>
+                    </small>
+                </a>
+            </h3>
+        </xpath>
+    </template>
+
+    <template id="portal_helpdesk_ticket" name="Helpdesk Ticket">
+        <t t-call="website_portal.portal_layout">
+            <h3 class="page-header">Your Tickets</h3>
+            <t t-if="not tickets">
+                <p>There are currently no Ticket for your account.</p>
+            </t>
+            <t t-if="tickets">
+                <table class="table table-hover status_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Ticket Number</th>
+                            <th>Description</th><th/>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="tickets" t-as="ticket">
+                        <tr t-att-class="'hidden to_hide' if ticket_index &gt; 4 else ''">
+                            <td><a t-attf-href="/helpdesk/ticket/#{ticket.id}">#<t t-esc="ticket.id"/></a></td>
+                            <td><span t-field="ticket.name"/></td><td/>
+                            <td><span t-field="ticket.stage_id.name"/></td>
+                        </tr>
+                    </t>
+                    <tr t-att-class="'hidden' if len(tickets) &lt; 6 else ''">
+                        <td colspan="4">
+                            <a href="" class="o_my_show_more btn btn-xs btn-default"><span>Show more</span><span class="hidden">Show less</span></a>
+                        </td>
+                    </tr>
+                </table>
+                 <div t-if="pager" class="o_portal_pager text-center">
+                  <t t-call="website.pager"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_ticket_message_thread" inherit_id="website_mail.message_thread" primary="True">
+        <xpath expr="//section[@id='discussion']/section[1]" position="replace">
+        </xpath>
+    </template>
+
+    <template id="tickets_followup" name="Helpdesk Tickets">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container">
+                    <div class="oe_structure">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <ol class="breadcrumb mt8">
+                                    <li><a href="/my/home"><i class="fa fa-home"/></a></li>
+                                    <li><a href="/my/tickets">My Tickets</a></li>
+                                    <li>#<span t-field="ticket.id"/></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4>
+                                            #<span t-field="ticket.id"/> - <span t-field="ticket.name"/>
+                                            <a class="btn btn-info" t-att-href="'/web#return_label=Website&amp;model=helpdesk.ticket&amp;id=%s&amp;view_type=form' % (ticket.id)" groups="helpdesk.group_helpdesk_user">Edit Ticket</a>
+                                            <span t-field="ticket.stage_id.name" class="pull-right label label-info" title="Current stage of this ticket"/>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="mb8">
+                                    <strong>Date:</strong> <span t-field="ticket.create_date" t-field-options='{"widget": "date"}'/>
+                                </div>
+                                <div class='row'>
+                                    <div class="col-md-6" t-if="ticket.user_id">
+                                        <strong>Assigned to</strong>
+                                        <div>
+                                            <address t-field="ticket.user_id" t-field-options='{"widget": "contact", "fields": ["name", "email", "phone"], "no_marker": true}'/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>Reported by</strong>
+                                        <div t-if="ticket.partner_id">
+                                            <address t-field="ticket.partner_id" t-field-options='{"widget": "contact", "fields": ["name", "email"], "no_marker": true}'/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt32">
+                            <div class="col-md-12">
+                                <h4><strong>Message and communication history</strong></h4>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1 mt16">
+                                <t t-if="ticket.stage_id.is_close">
+                                    <t t-call="website_helpdesk.portal_ticket_message_thread">
+                                        <t t-set="object" t-value="ticket"/>
+                                        <t t-set="chatter_mode" t-value="'json'"/>
+                                    </t>
+                                </t>
+                                <t t-if="not ticket.stage_id.is_close">
+                                    <t t-call="website_mail.message_thread">
+                                        <t t-set="object" t-value="ticket"/>
+                                        <t t-set="chatter_mode" t-value="'json'"/>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="not_published_any_team" name="Helpdesk Team">
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div id="wrap" class="container">
+                <div class="row mb16"> <h1 class="text-center">No teams have been published.</h1></div>
+                <div class="oe_structure"/>
+            </div>
+            <div class="oe_structure"/>
+        </t>
+    </template>
+
+    <!-- Page : default team -->
+    <template id="team" name="Helpdesk Team">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Helpdesk Team</t>
+            <div class="container mt16">
+                <t t-if="len(teams)>1">
+                    <div class="navbar navbar-default">
+                        <div class="navbar-header">
+                            <div class="navbar-brand">Helpdesk</div>
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav team_menu">
+                                <t t-foreach="teams" t-as="tteam">
+                                    <li>
+                                        <a t-attf-href="/helpdesk/#{slug(tteam)}">
+                                            <span t-field="tteam.name"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <form class="navbar-form" role="search" t-attf-action="#" method="get">
+                                        <t t-call="website.website_search_box"/>
+                                        <span class="dropdown" groups="helpdesk.group_helpdesk_manager">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuSupport" data-toggle="dropdown">
+                                            <i class="fa fa-cog"/>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSupport">
+                                            <li role="helpdesk"><a role="menuitem" tabindex="-1" t-attf-href="/web#id=#{team.id}&amp;view_type=form&amp;model=helpdesk.team">Team Settings</a></li>
+                                        </ul>
+                                    </span>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <div id="wrap" class="container">
+                <div class="row mb16">
+                    <div class="oe_structure"/>
+                    <div class="col-sm-9">
+                        <h2 class="page-header mt0 hidden" id="team-page"/>
+                    </div>
+                    <div class="col-sm-3" id="right-column">
+                        <div id="website_published_button" groups="helpdesk.group_helpdesk_manager">
+                            <t t-call="website.publish_management">
+                              <t t-set="object" t-value="team"/>
+                              <t t-set="publish_edit" t-value="True"/>
+                              <t t-set="action" t-value="'helpdesk.helpdesk_team_action'"/>
+                            </t>
+                        </div>
+                        <div class="oe_structure"/>
+                        <t t-if="team.use_website_helpdesk_form">
+                            <div class="btn-group btn-block mb16" style="margin-top: 2em">
+                                <a id="submit-ticket" t-attf-href="/helpdesk/#{team.id}/submit">
+                                 <button t-attf-class="btn btn-primary btn-lg #{'col-sm-10' if multi_type else 'col-sm-12'}">Submit an Issue</button>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-if="team.use_website_helpdesk_form">
+                            <div class="btn-group btn-block mb16">
+                                <a id="submit-ticket" t-attf-href="/my/tickets">
+                                 <button t-attf-class="btn btn-primary btn-lg #{'col-sm-10' if multi_type else 'col-sm-12'}">View my Issues</button>
+                                </a>
+                            </div>
+                        </t>
+                        <t t-if="team.description">
+                            <div class="panel panel-default" id="about_team">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Description</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <span t-field="team.description"/>
+                                </div>
+                            </div>
+                        </t>
+                        <div class="oe_structure"/>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- User Navbar -->
+    <template id="content_new_team" inherit_id="website.user_navbar">
+        <xpath expr="//div[@id='o_website_add_page_modal']//ul" position="inside">
+            <li groups="base.group_user"><a href="#" data-action="new_team"><i class="fa fa-question"/><p>New Team</p></a></li>
+        </xpath>
+    </template>
+
+</data>
+</odoo>
