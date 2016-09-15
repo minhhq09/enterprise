@@ -13,7 +13,7 @@ class HelpdeskTeam(models.Model):
     def _compute_elearning_url(self):
         for team in self:
             if team.elearning_id and team.id:
-                team.elearning_url = '/slides/' + team.elearning_id.name + '-' + str(team.id)
+                team.elearning_url = '/slides/' + team.elearning_id.name + '-' + str(team.elearning_id.id)
             else:
                 team.elearning_url = False
 

@@ -10,8 +10,7 @@
                 <table class="table table-condensed">
                     <tr>
                         <td class="o_text">
-                            <div class="o_highlight">My</div>
-                            Tickets
+                            <div class="o_highlight">My Tickets</div>
                         </td>
                         <td class="o_main" title="My open tickets">
                             <a href="#" class="o_dashboard_action" name="helpdesk.helpdesk_ticket_action_main">
@@ -33,7 +32,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="o_text">Avg Hours</td>
+                        <td class="o_text">Avg Open Hours</td>
                         <td class="o_main">
                             <a href="#" class="o_dashboard_action" name="helpdesk.helpdesk_ticket_action_dashboard"><t t-esc="values['my_all']['hours']"/></a>
                         </td>
@@ -72,7 +71,7 @@
                 <table class="hidden-xs table table-condensed">
                     <tr>
                         <td class="o_text">
-                            <div class="o_highlight">Performance</div>
+                            <div class="o_highlight">My Performance</div>
                             Today
                         </td>
                         <td title="Performance Report" t-att-class="(values and values['helpdesk_target_closed'] and values['today']['count'] >=values['helpdesk_target_closed'])?'o_main':'o_secondary'">

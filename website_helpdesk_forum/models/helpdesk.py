@@ -15,7 +15,7 @@ class HelpdeskTeam(models.Model):
     def _compute_forum_url(self):
         for team in self:
             if team.forum_id and team.id:
-                team.forum_url = '/forum/' + team.forum_id.name + '-' + str(team.id)
+                team.forum_url = '/forum/' + team.forum_id.name + '-' + str(team.forum_id.id)
             else:
                 team.forum_url = False
 
