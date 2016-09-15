@@ -297,9 +297,10 @@
         </field>
     </record>
 
-    <record id="view_helpdesk_ticket_view_kanban" model="ir.ui.view">
+    <record id="helpdesk_ticket_view_kanban" model="ir.ui.view">
         <field name="name">helpdesk.ticket.kanban</field>
         <field name="model">helpdesk.ticket</field>
+        <field name="priority">10</field>
         <field name="arch" type="xml">
             <kanban default_group_by="stage_id" class="o_kanban_small_column">
                 <field name="stage_id"/>
@@ -354,6 +355,20 @@
                     </t>
                 </templates>
             </kanban>
+        </field>
+    </record>
+
+    <record id="helpdesk_ticket_view_kanban_no_create" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.kanban.no.create</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="priority">100</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_kanban"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban[@class='o_kanban_small_column']" position="attributes">
+                <attribute name="create">0</attribute>
+                <attribute name="group_create">0</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -415,6 +430,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="context">{'search_default_my_ticket': True, 'search_default_is_open': True}</field>
         <field name="help" type="html">
             <p>

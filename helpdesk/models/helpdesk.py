@@ -315,7 +315,8 @@ class HelpdeskStage(models.Model):
     fold = fields.Boolean(string='Folded')
     team_ids = fields.Many2many('helpdesk.team', relation='team_stage_rel', string='Team', default=_get_default_team_ids, groups="base.group_no_one",
         help='Specific team that uses this stage. Other teams will not be able to see or use this stage.')
-    template_id = fields.Many2one('mail.template', string="Email Template for Automated Answer", domain="[('model', '=', 'helpdesk.ticket')]")
+    template_id = fields.Many2one('mail.template', string="Email Template for Automated Answer", domain="[('model', '=', 'helpdesk.ticket')]",
+        help="Automated email sent to the ticket's customer when the ticket reaches this stage.")
 
 
 class HelpdeskTicketType(models.Model):

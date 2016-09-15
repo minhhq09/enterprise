@@ -13,12 +13,13 @@
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="domain">[('priority', '=', '2')]</field>
         <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click create a new ticket.
+            <p>
+                No tickets to display.
             </p>
         </field>
     </record>
@@ -28,12 +29,13 @@
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="domain">[('priority', '=', '3')]</field>
         <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True}</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click create a new ticket.
+            <p>
+                No tickets to display.
             </p>
         </field>
     </record>
@@ -43,12 +45,13 @@
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="domain">[('sla_active', '!=', False), ('priority', '!=', False)]</field>
         <field name="context">{'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click create a new ticket.
+            <p>
+                No tickets to display.
             </p>
         </field>
     </record>
@@ -58,12 +61,13 @@
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="domain">[('sla_active', '!=', False), ('priority', '=', '2')]</field>
         <field name="context">{'default_priority': '2', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click create a new ticket.
+            <p>
+                No tickets to display.
             </p>
         </field>
     </record>
@@ -73,12 +77,13 @@
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="helpdesk.helpdesk_ticket_view_kanban_no_create"/>
         <field name="domain">[('sla_active', '!=', False), ('priority', '=', '3')]</field>
         <field name="context">{'default_priority': '3', 'search_default_is_open': True, 'search_default_my_ticket': True, 'search_default_sla_failed': True}</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click create a new ticket.
+            <p>
+                No tickets to display.
             </p>
         </field>
     </record>
