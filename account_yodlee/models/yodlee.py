@@ -250,6 +250,9 @@ class YodleeAccountJournal(models.Model):
         except Exception as e:
             self._raise_exception(e)
         _logger.info('Yodlee response to %s: %s' % (service, resp.json()))
+
+        if service == '/jsonsdk/SiteAccountManagement/getSiteLoginForm' and resp.json().get('errorOccurred'):
+            raise UserError(_('Sorry, this site is not supported anymore'))
         return resp.text
 
 
@@ -324,7 +327,7 @@ class YodleeAccount(models.Model):
                 transactions.append({
                     'id': transaction['viewKey']['transactionId'],
                     'date': datetime.datetime.strftime(transaction_date, DEFAULT_SERVER_DATE_FORMAT),
-                    'description': transaction['description']['description'],
+                    'description': transaction.get('description', {}).get('description', 'No description'),
                     'amount': amount,
                     'end_amount': transaction['account']['accountBalance']['amount'],
                 })
