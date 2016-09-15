@@ -758,7 +758,11 @@ var AbstractField = FormWidget.extend(FieldInterface, {
         return this.get('value') === false;
     },
     _check_css_flags: function() {
-        var show_translate = (!this.get('effective_readonly') && this.field_manager.get('actual_mode') !== "create");
+        var show_translate = (
+            !this.get('effective_readonly') &&
+            !this.get('effective_invisible') &&
+            this.field_manager.get('actual_mode') !== "create"
+        );
         this.$translate.toggleClass('o_translate_active', !!show_translate);
 
         this.$el.add(this.$label)
