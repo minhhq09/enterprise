@@ -53,7 +53,8 @@ class HelpdeskTeam(models.Model):
     use_api = fields.Boolean('API')
     use_rating = fields.Boolean('Ratings')
     use_sla = fields.Boolean('SLA Policies')
-    upcoming_sla_fail_tickets = fields.Integer(string='Upcoming SLA Fail Tickets', compute='_count_upcoming_sla_fail_tickets')
+    upcoming_sla_fail_tickets = fields.Integer(string='Upcoming SLA Fail Tickets', compute='_compute_upcoming_sla_fail_tickets')
+    unassigned_tickets = fields.Integer(string='Unassigned Tickets', compute='_compute_unassigned_tickets')
 
     percentage_satisfaction = fields.Integer(
         compute="_compute_percentage_satisfaction", string="% Happy", store=True, default=-1)
@@ -66,14 +67,23 @@ class HelpdeskTeam(models.Model):
             team.percentage_satisfaction = activities['great'] * 100 / total_activity_values if total_activity_values else -1
 
     @api.multi
-    def _count_upcoming_sla_fail_tickets(self):
-        Ticket = self.env['helpdesk.ticket']
+    def _compute_upcoming_sla_fail_tickets(self):
+        ticket_data = self.env['helpdesk.ticket'].read_group([
+            ('sla_active', '=', True),
+            ('team_id', 'in', self.ids),
+            ('deadline', '!=', False),
+            ('deadline', '<=', fields.Datetime.to_string((datetime.date.today() + relativedelta.relativedelta(days=1)))),
+        ], ['team_id'], ['team_id'])
+        mapped_data = dict((data['team_id'][0], data['team_id_count']) for data in ticket_data)
         for team in self:
-            team.upcoming_sla_fail_tickets = Ticket.search_count([
-                ('sla_active', '=', True),
-                ('deadline', '!=', False),
-                ('deadline', '<=', fields.Datetime.to_string((datetime.date.today() + relativedelta.relativedelta(days=1)))),
-                ('team_id', '=', team.id)])
+            team.upcoming_sla_fail_tickets = mapped_data.get(team.id, 0)
+
+    @api.multi
+    def _compute_unassigned_tickets(self):
+        ticket_data = self.env['helpdesk.ticket'].read_group([('user_id', '=', False), ('team_id', 'in', self.ids)], ['team_id'], ['team_id'])
+        mapped_data = dict((data['team_id'][0], data['team_id_count']) for data in ticket_data)
+        for team in self:
+            team.unassigned_tickets = mapped_data.get(team.id, 0)
 
     @api.onchange('member_ids')
     def _onchange_member_ids(self):

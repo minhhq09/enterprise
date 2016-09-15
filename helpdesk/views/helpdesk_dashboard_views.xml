@@ -184,6 +184,7 @@
                 <field name="percentage_satisfaction" invisible="1"/>
                 <field name="use_sla"/>
                 <field name="upcoming_sla_fail_tickets"/>
+                <field name="unassigned_tickets"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="#{kanban_color(record.color.raw_value)}">
@@ -206,7 +207,7 @@
                                             <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="upcoming_sla_fail_tickets"/> SLA to Review</a>
                                         </div>
                                         <div class="mb4">
-                                            <a name="%(helpdesk.helpdesk_ticket_action_unassigned)d" type="action">Unassigned Tickets</a>
+                                            <a name="%(helpdesk.helpdesk_ticket_action_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="unassigned_tickets"/> Unassigned Tickets</a>
                                         </div>
                                         <div class="mb4" t-if="record.use_rating.raw_value">
                                             <a name="action_view_all_rating" type="object">Customer Satisfaction</a>
