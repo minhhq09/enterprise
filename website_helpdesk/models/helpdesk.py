@@ -4,7 +4,7 @@
 import uuid
 import re
 
-from odoo import api, fields, models
+from odoo import api, exceptions, fields, models
 
 
 class HelpdeskTicket(models.Model):
@@ -16,17 +16,33 @@ class HelpdeskTicket(models.Model):
 
     @api.multi
     def get_access_action(self):
-        """ Override method that generated the link to access the document. Instead
-        of the classic form view, redirect to the post on the website directly """
+        """ Instead of the classic form view, redirect to website for portal users
+        that can read the ticket if the team is available on website. """
         self.ensure_one()
-        if not self.team_id.website_published:
-            return super(HelpdeskTicket, self).get_access_action()
-        return {
-            'type': 'ir.actions.act_url',
-            'url': '/ticket/%s' % self.id,
-            'target': 'self',
-            'res_id': self.id,
-        }
+        if self.sudo().team_id.website_published and self.env.user.share:
+            try:
+                self.check_access_rule('read')
+            except exceptions.AccessError:
+                pass
+            else:
+                return {
+                    'type': 'ir.actions.act_url',
+                    'url': '/ticket/%s' % self.id,
+                    'target': 'self',
+                    'res_id': self.id,
+                }
+        return super(HelpdeskTicket, self).get_access_action()
+
+    @api.multi
+    def _notification_recipients(self, message, groups):
+        groups = super(HelpdeskTicket, self)._notification_recipients(message, groups)
+
+        self.ensure_one()
+        if self.team_id.website_published:
+            for group_name, group_method, group_data in groups:
+                group_data['has_button_access'] = True
+
+        return groups
 
 
 class HelpdeskTeam(models.Model):

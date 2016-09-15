@@ -647,60 +647,26 @@ class HelpdeskTicket(models.Model):
         return super(HelpdeskTicket, self)._track_subtype(init_values)
 
     @api.multi
-    def _notification_group_recipients(self, message, recipients, done_ids, group_data):
-        """ Override the mail.thread method to handle helpdesk users recipients.
-        Indeed those will have specific action in their notification
-        emails: creating tasks, assigning it. """
-        for recipient in recipients:
-            if recipient.id in done_ids:
-                continue
-            if recipient.user_ids and recipient.user_ids[0].has_group('helpdesk.group_helpdesk_user'):
-                group_data['group_helpdesk_user'] |= recipient
-            elif not recipient.user_ids:
-                group_data['partner'] |= recipient
-            elif all(recipient.user_ids.mapped('share')):
-                group_data['partner'] |= recipient
-            else:
-                group_data['user'] |= recipient
-            done_ids.add(recipient.id)
-        return super(HelpdeskTicket, self)._notification_group_recipients(message, recipients, done_ids, group_data)
+    def _notification_recipients(self, message, groups):
+        """ Handle salesman recipients that can convert leads into opportunities
+        and set opportunities as won / lost. """
+        groups = super(HelpdeskTicket, self)._notification_recipients(message, groups)
 
-    @api.multi
-    def _notification_get_recipient_groups(self, message, recipients):
         self.ensure_one()
-        res = super(HelpdeskTicket, self)._notification_get_recipient_groups(message, recipients)
-
-        actions = []
         if not self.user_id:
             take_action = self._notification_link_helper('assign')
-            actions.append({'url': take_action, 'title': _('I take it')})
+            helpdesk_actions = [{'url': take_action, 'title': _('I take it')}]
         else:
             new_action_id = self.env.ref('helpdesk.helpdesk_ticket_action_main').id
             new_action = self._notification_link_helper('new', action_id=new_action_id)
-            actions.append({'url': new_action, 'title': _('New Ticket')})
+            helpdesk_actions = [{'url': new_action, 'title': _('New Ticket')}]
 
-        res['group_helpdesk_user'] = {
-            'actions': actions
-        }
-        return res
+        new_group = (
+            'group_helpdesk_user', lambda partner: bool(partner.user_ids) and any(user.has_group('helpdesk.group_helpdesk_user') for user in partner.user_ids), {
+                'actions': helpdesk_actions,
+            })
 
-    @api.model
-    def message_new(self, msg, custom_values=None):
-        """ Overrides mail_thread message_new that is called by the mailgateway
-            through message_process.
-            This override updates the document according to the email.
-        """
-        if custom_values is None:
-            custom_values = {}
-        email = tools.email_split(msg.get('from')) and tools.email_split(msg.get('from'))[0] or False
-        if email:
-            user = self.env['res.users'].search([('login', '=', email)], limit=1)
-            partner = self.env['res.partner'].search([('email', '=', email)], limit=1)
-            if user or partner:
-                custom_values['partner_id'] = user.partner_id.id or partner.id
-            else:
-                custom_values['partner_email'] = email
-        return super(HelpdeskTicket, self).message_new(msg, custom_values=custom_values)
+        return [new_group] + groups
 
     @api.model
     def message_get_reply_to(self, res_ids, default=None):
