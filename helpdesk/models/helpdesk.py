@@ -379,39 +379,16 @@ class HelpdeskTicket(models.Model):
         if team_id:
             return self.env['helpdesk.stage'].search([('team_ids', 'in', team_id)], order='sequence', limit=1).id
 
-    @api.multi
-    def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None):
-        access_rights_uid = access_rights_uid or self._uid
-        stage_obj = self.env['helpdesk.stage']
-        order = stage_obj._order
-        # lame hack to allow reverting search, should just work in the trivial case
-        if read_group_order == 'stage_id desc':
-            # remove duplicate word
-            # example: YoMama desc desc
-            # result after join: YoMama desc
-            order = "%s desc" % order
-            words = order.split()
-            order = " ".join(sorted(set(words), key=words.index))
-        # write the domain (reminder: self.ids aren't ticket ids but stage ids)
-        # - ('id', 'in', 'ids'): add columns that should be present
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        # write the domain
+        # - ('id', 'in', stages.ids): add columns that should be present
         # - OR ('team_ids', '=', team_id) if team_id: add team columns
-        team_id = self.env.context.get('default_team_id')
-        if team_id:
-            search_domain = ['|', ('id', 'in', self.ids), ('team_ids', 'in', team_id)]
-        else:
-            search_domain = [('id', 'in', self.ids)]
+        search_domain = [('id', 'in', stages.ids)]
+        if self.env.context.get('default_team_id'):
+            search_domain = ['|', ('team_ids', 'in', self.env.context['default_team_id'])] + search_domain
 
-        stages = stage_obj.sudo(access_rights_uid).search(search_domain, order=order)
-        result = stages.sudo(access_rights_uid).name_get()
-
-        fold = {}
-        for stage in stages:
-            fold[stage.id] = stage.fold or False
-        return result, fold
-
-    _group_by_full = {
-        'stage_id': _read_group_stage_ids
-    }
+        return stages.search(search_domain, order=order)
 
     name = fields.Char(string='Subject', required=True, index=True)
 
@@ -432,7 +409,9 @@ class HelpdeskTicket(models.Model):
     partner_email = fields.Char(string='Customer Email')
 
     priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0')
-    stage_id = fields.Many2one('helpdesk.stage', string='Stage', track_visibility='onchange', default=_default_stage_id, index=True, domain="[('team_ids', '=', team_id)]")
+    stage_id = fields.Many2one('helpdesk.stage', string='Stage', track_visibility='onchange',
+                               group_expand='_read_group_stage_ids',
+                               default=_default_stage_id, index=True, domain="[('team_ids', '=', team_id)]")
 
     # next 4 fields are computed in write (or create)
     assign_date = fields.Datetime(string='First assignation date')

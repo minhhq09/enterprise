@@ -22,7 +22,7 @@ class ProjectForecast(models.Model):
     name = fields.Char(compute='_compute_name')
     active = fields.Boolean(default=True)
     user_id = fields.Many2one('res.users', string="User", required=True,
-                              default=default_user_id)
+                              group_expand='all_users', default=default_user_id)
     project_id = fields.Many2one('project.project', string="Project")
     task_id = fields.Many2one('project.task', string="Task", domain="[('project_id', '=', project_id)]")
 
@@ -158,15 +158,11 @@ class ProjectForecast(models.Model):
             duration = timedelta(days=1)
             self.start_date = end - duration
 
-    @api.multi
-    def all_users(self, domain, read_group_order=None, access_rights_uid=None):
-        group = self.env.ref('project.group_project_user') or self.env.ref('base.group_user')
-        name = group.users.name_get()
-        return name, None
-
-    _group_by_full = {
-        'user_id': all_users,
-    }
+    @api.model
+    def all_users(self, users, domain, order):
+        group = self.env.ref('project.group_project_user', False) or \
+                self.env.ref('base.group_user')
+        return group.users.search([('id', 'in', group.users.ids)], order=order)
 
 
 class Project(models.Model):

@@ -144,26 +144,18 @@ class Forecast(models.Model):
         }
         return action
 
-    @api.multi
-    def _read_forecast_tasks(self, domain, read_group_order=None, access_rights_uid=None):
-        task_ids = self.ids # not actually forecast ids despite being on self…
-        Tasks = self.env['project.task']
-        if access_rights_uid:
-            Tasks = Tasks.sudo(access_rights_uid)
-
-        tasks_domain = [('id', 'in', task_ids)]
+    @api.model
+    def _read_forecast_tasks(self, tasks, domain, order):
+        tasks_domain = [('id', 'in', tasks.ids)]
         if 'default_project_id' in self.env.context:
             tasks_domain = expression.OR([
                 tasks_domain,
                 [('project_id', '=', self.env.context['default_project_id'])]
             ])
-        ids = Tasks._search(tasks_domain)
-        return Tasks.browse(ids).name_get(), dict.fromkeys(ids, False)
+        return tasks.sudo().search(tasks_domain, order=order)
 
+    task_id = fields.Many2one(group_expand='_read_forecast_tasks')
 
-    _group_by_full = {
-        'task_id': _read_forecast_tasks
-    }
 
 class Assignment(models.TransientModel):
     _name = 'project.forecast.assignment'

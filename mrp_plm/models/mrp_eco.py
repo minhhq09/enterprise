@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 
-from odoo import api, fields, models, tools, _
+from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.exceptions import UserError
 
 
@@ -108,6 +108,7 @@ class MrpEcoStage(models.Model):
     _name = 'mrp.eco.stage'
     _description = 'Engineering Change Order Stage'
     _order = "sequence, id"
+    _fold_name = 'folded'
 
     name = fields.Char('Name', required=True)
     sequence = fields.Integer('Sequence', default=0)
@@ -139,6 +140,7 @@ class MrpEco(models.Model):
     type_id = fields.Many2one('mrp.eco.type', 'Type', required=True)
     stage_id = fields.Many2one(
         'mrp.eco.stage', 'Stage', copy=False, domain="[('type_id', '=', type_id)]",
+        group_expand='_read_group_stage_ids',
         default=lambda self: self.env['mrp.eco.stage'].search([('type_id', '=', self._context.get('default_type_id'))], limit=1))
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id)
     tag_ids = fields.Many2many('mrp.eco.tag', string='Tags')
@@ -369,34 +371,17 @@ class MrpEco(models.Model):
             self._create_approvals()
         return res
 
-    @api.multi
-    def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None):
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
         """ Read group customization in order to display all the stages of the ECO type
         in the Kanban view, even if there is no ECO in that stage
         """
-        # Check if the different stages
-        stage_obj = self.env['mrp.eco.stage']
-        order = stage_obj._order
-        access_rights_uid = access_rights_uid or self._uid
-        if read_group_order == 'stage_id desc':
-            order = '%s desc' % order
-
         search_domain = []
         if self._context.get('default_type_id'):
             search_domain = [('type_id', '=', self._context['default_type_id'])]
-        category_ids = stage_obj._search(search_domain, order=order, access_rights_uid=access_rights_uid)
-        result = [category.name_get()[0] for category in stage_obj.browse(category_ids)]
-        # restore order of the search
-        result.sort(lambda x, y: cmp(category_ids.index(x[0]), category_ids.index(y[0])))
 
-        fold = {}
-        for stage in stage_obj.browse(category_ids):
-            fold[stage.id] = stage.folded
-        return result, fold
-
-    _group_by_full = {
-        'stage_id': _read_group_stage_ids
-    }
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        return stages.browse(stage_ids)
 
     @api.multi
     @api.returns('self', lambda value: value.id)
