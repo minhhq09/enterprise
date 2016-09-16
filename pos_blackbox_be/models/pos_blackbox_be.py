@@ -197,7 +197,7 @@ class pos_session(models.Model):
                     self.total_corrections += line.price_subtotal_incl
 
     @api.multi
-    def wkf_action_closing_control(self):
+    def action_pos_session_closing_control(self):
         # The government does not want PS orders that have not been
         # finalized into an NS before we close a session
         pro_forma_orders = self.env['pos.order_pro_forma'].search([('session_id', '=', self.id)])
@@ -211,7 +211,7 @@ class pos_session(models.Model):
         if non_finalized_orders:
             raise UserError(_("Your session still contains open orders (%s). Please close all of them first.") % ', '.join(non_finalized_orders))
 
-        return super(pos_session, self).wkf_action_closing_control()
+        return super(pos_session, self).action_pos_session_closing_control()
 
     def get_total_sold_per_category(self, group_by_user_id=None):
         total_sold_per_user_per_category = {}
