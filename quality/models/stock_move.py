@@ -3,7 +3,8 @@
 
 from collections import defaultdict
 
-from odoo import api, models
+from odoo import api, models, _
+from odoo.exceptions import UserError
 
 
 class StockMove(models.Model):
@@ -39,3 +40,10 @@ class StockMove(models.Model):
                                 'product_id': product.id,
                             })
         return moves
+
+    @api.multi
+    def action_done(self):
+        # It is good to put the check at the lowest level
+        if self.mapped('picking_id').mapped('check_ids').filtered(lambda x: x.quality_state == 'none'):
+            raise UserError(_('You still need to do the quality checks!'))
+        super(StockMove, self).action_done()

@@ -849,6 +849,7 @@ core.action_registry.add("transfer_call", transfer_call);
 
 // Redefinition of FieldPhone
 core.form_widget_registry.get('phone').include({
+    events: _.clone(core.form_widget_registry.get('phone').prototype.events),
     init: function() {
         this._super.apply(this, arguments);
         this.clickable = true;

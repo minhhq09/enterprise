@@ -470,7 +470,7 @@ class YodleeAccount(models.Model):
                 transactions.append({
                     'id': str(tr.get('id'))+':'+tr.get('CONTAINER'),
                     'date': date,
-                    'description': tr.get('description',{}).get('original'),
+                    'description': tr.get('description',{}).get('original', 'No description'),
                     'amount': amount * -1 if tr.get('baseType') == 'DEBIT' else amount,
                     'end_amount': self.balance,
                     })

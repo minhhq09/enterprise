@@ -243,9 +243,14 @@ class AccountBankStatement(models.Model):
                 last_date = transaction['date']
             lines.append((0, 0, line))
 
+        # Search for previous transaction end amount
+        balance_start = None
+        previous_statement = self.search([('journal_id', '=', journal.id)], order="date desc, id desc", limit=1)
+        if previous_statement:
+            balance_start = previous_statement.balance_end_real
         # For first synchronization, an opening bank statement line is created to fill the missing bank statements
         all_statement = self.search_count([('journal_id', '=', journal.id)])
-        if all_statement == 0 and end_amount - total != 0:
+        if all_statement == 0 and end_amount - total != 0 and balance_start == None:
             lines.append((0, 0, {
                 'date': datetime.datetime.now(),
                 'name': _("Opening statement : first synchronization"),
@@ -255,7 +260,7 @@ class AccountBankStatement(models.Model):
 
         # If there is no new transaction, the bank statement is not created
         if lines:
-            self.create({'journal_id': journal.id, 'line_ids': lines, 'balance_end_real': end_amount, 'balance_start': end_amount - total})
+            self.create({'journal_id': journal.id, 'line_ids': lines, 'balance_end_real': end_amount if balance_start == None else balance_start + total, 'balance_start': (end_amount - total) if balance_start == None else balance_start})
         journal.account_online_journal_id.last_sync = last_date
         return len(lines)
 

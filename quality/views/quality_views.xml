@@ -159,7 +159,7 @@
         <field name="model">quality.alert</field>
         <field name="priority" eval="2"/>
         <field name="arch" type="xml">
-            <calendar string="Quality Alert" date_start="date_assign" color="user_id">
+            <calendar string="Quality Alert" date_start="date_assign" color="user_id" quick_add="false">
                 <field name="user_id"/>
                 <field name="reason_id"/>
             </calendar>
@@ -208,7 +208,9 @@
             <form>
                 <header>
                     <button name="do_pass" type="object" class="btn-primary" attrs="{'invisible': [('quality_state', '!=', 'none')]}" string="Pass"/>
+                    <button name="do_pass" type="object" attrs="{'invisible': [('quality_state', '!=', 'fail')]}" groups="quality.group_quality_manager" string="Pass"/>
                     <button name="do_fail" type="object" class="btn-primary" attrs="{'invisible': [('quality_state', '!=', 'none')]}" string="Fail"/>
+                    <button name="do_fail" type="object" attrs="{'invisible': [('quality_state', '!=', 'pass')]}" groups="quality.group_quality_manager" string="Fail"/>
                     <button name="do_alert" type="object" attrs="{'invisible': ['|', ('alert_ids', '!=', []), ('quality_state', '!=', 'pass')]}" string="Make Alert"/>
                     <button name="do_alert" type="object" class="btn-primary" attrs="{'invisible': ['|', ('alert_ids', '!=', []), ('quality_state', '!=', 'fail')]}" string="Make Alert"/>
                     <field name="quality_state" widget="statusbar"/>
@@ -273,14 +275,12 @@
                     </group>
                 </group>
                 <footer>
+                    <button name="do_measure" type="object" class="btn-primary" string="Validate"
+                        attrs="{'invisible': [('test_type', '!=', 'measure')]}"/>
                     <button name="do_pass" type="object" class="btn-primary" string="Pass"
-                        attrs="{'invisible': [('measure_success', '=', 'fail')]}"/>
-                    <button name="do_pass" type="object" class="btn-default" string="Pass" groups="base.group_no_one"
-                        attrs="{'invisible': [('measure_success', '!=', 'fail')]}"/>
+                        attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
                     <button name="do_fail" type="object" class="btn-primary" string="Fail"
-                        attrs="{'invisible': [('measure_success', '=', 'pass')]}"/>
-                    <button name="do_fail" type="object" class="btn-default" string="Fail" groups="base.group_no_one"
-                        attrs="{'invisible': [('measure_success', '!=', 'pass')]}"/>
+                        attrs="{'invisible': [('test_type', '=', 'measure')]}"/>
                     <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
@@ -371,6 +371,9 @@
                 <field name="team_id"/>
                 <field name="picking_id"/>
                 <field name="quality_state"/>
+                <filter string="In Progress" domain="[('quality_state', '=', 'none')]" name="progress"/>
+                <filter string="Passed" domain="[('quality_state', '=', 'pass')]" name="passed"/>
+                <filter string="Failed" domain="[('quality_state', '=', 'fail')]" name="failed"/>
                 <group expand="0" string="Group By">
                     <filter string="State" context="{'group_by': 'quality_state'}"/>
                 </group>
@@ -394,7 +397,8 @@
         <field name="domain">[('team_id', '=', active_id)]</field>
         <field name="context">{
             'default_team_id': active_id,
-            'search_default_team_id': [active_id]}
+            'search_default_team_id': [active_id],
+            'search_default_progress': "1"}
         </field>
         <field name="help" type="html">
             <p>
@@ -484,17 +488,6 @@
                                     <div class="col-xs-6 o_kanban_primary_right">
                                         <div class="row">
                                             <div class="col-xs-9">
-                                                <a name="%(quality_alert_action_team)d" type="action">
-                                                    Quality Alerts
-                                                </a>
-                                            </div>
-                                            <div class="col-xs-3">
-                                                <field name="alert_count"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-xs-9">
                                                 <a class="oe_kanban_stock_picking_type_list" name="%(quality_check_action_team)d" type="action">
                                                     Checks In Progress
                                                 </a>
@@ -504,15 +497,10 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div><div class="container o_kanban_card_manage_pane o_invisible">
                                 <div class="row">
                                     <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
-                                        <div class="o_kanban_card_manage_title">
-                                            <span>View</span>
-                                        </div>
-
                                     </div>
                                     <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_new">
                                     </div>
