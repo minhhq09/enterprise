@@ -102,11 +102,6 @@ class Employee(models.Model):
         "Timesheets validation limit",
         help="Date until which the employee's timesheets have been validated")
 
-class Project(models.Model):
-    _inherit = 'project.project'
-
-    allow_timesheets = fields.Boolean("Allow timesheets", default=True)
-
 class Validation(models.TransientModel):
     _name = 'timesheet_grid.validation'
 
