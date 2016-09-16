@@ -52,7 +52,7 @@ class report_account_followup_report(models.AbstractModel):
                     date_due = (date_due, 'color: red;')
                 if is_payment:
                     date_due = ''
-                amount = formatLang(self.env, amount, currency_obj=currency)
+                amount = formatLang(self.env, amount, currency_obj=currency).replace(' ', '&nbsp;')
                 line_num += 1
                 lines.append({
                     'id': aml.id,
@@ -65,7 +65,7 @@ class report_account_followup_report(models.AbstractModel):
                     'columns': [formatLangDate(aml.date), date_due, aml.invoice_id.reference] + (not public and [aml.expected_pay_date and (aml.expected_pay_date, aml.internal_note) or ('', ''), aml.blocked] or []) + [amount],
                     'blocked': aml.blocked,
                 })
-            total = formatLang(self.env, total, currency_obj=currency)
+            total = formatLang(self.env, total, currency_obj=currency).replace(' ', '&nbsp;')
             line_num += 1
             lines.append({
                 'id': line_num,
@@ -77,7 +77,7 @@ class report_account_followup_report(models.AbstractModel):
                 'columns': (not public and ['', ''] or []) + ['', '', total >= 0 and _('Total Due') or ''] + [total],
             })
             if total_issued > 0:
-                total_issued = formatLang(self.env, total_issued, currency_obj=currency)
+                total_issued = formatLang(self.env, total_issued, currency_obj=currency).replace(' ', '&nbsp;')
                 line_num += 1
                 lines.append({
                     'id': line_num,
@@ -303,6 +303,11 @@ class account_report_context_followup(models.TransientModel):
             return ['date', 'date', 'text', 'number']
         return ['date', 'date', 'text', 'date', 'checkbox', 'number']
 
+    def _get_summary(self, column_number):
+        if column_number in (1,3):
+            return 'o_followup_letter_display_none'
+        return ''
+
     def get_pdf(self, log=False):
         bodies = []
         headers = []
@@ -341,6 +346,9 @@ class account_report_context_followup(models.TransientModel):
 
         return self.env['report']._run_wkhtmltopdf(headers, footers, bodies, False, self.env.user.company_id.paperformat_id)
 
+    def _get_email_sent_log(self):
+        return _('Sent a followup email')
+
     @api.multi
     def send_email(self):
         email = self.env['res.partner'].browse(self.partner_id.address_get(['invoice'])['invoice']).email
@@ -351,7 +359,8 @@ class account_report_context_followup(models.TransientModel):
                 'email_from': self.env.user.email or '',
                 'email_to': email,
             })
-            msg = _('Sent a followup email')
+            msg = self._get_email_sent_log()
+            msg += '<br>' + self.with_context(public=True, mode='print').get_html()
             self.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
             return True
         return False

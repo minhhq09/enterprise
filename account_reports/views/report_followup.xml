@@ -40,10 +40,10 @@
         <t t-set="tooltip" t-value="''" />
         <t t-if="column == 4 and a['type'] == 'unreconciled_aml' and not context.env.context.get('public')"><t t-set="tooltip" t-value="c[1]" /><t t-set="c" t-value="c[0]" /></t>
     </xpath>
-    <xpath expr="//tr/t/td/span" position="attributes">
+    <xpath expr="//tr/t//td/span" position="attributes">
         <attribute name="t-if">column != 5 or a['type'] != 'unreconciled_aml' or context.env.context.get('public')</attribute>
     </xpath>
-    <xpath expr="//tr/t/td/span" position="after">
+    <xpath expr="//tr/t/t/td/span" position="after">
         <span t-att-class='align' t-if="column == 5 and a['type'] == 'unreconciled_aml'">
             <input t-if="c == False" type="checkbox" name="blocked" value="True" />
             <input t-if="c == True" type="checkbox" name="blocked" value="True" checked="checked" />

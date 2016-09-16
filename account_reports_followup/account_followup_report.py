@@ -57,6 +57,11 @@ class account_report_context_followup(models.TransientModel):
             msg = _('Manual action done\n') + context.level.manual_action_note
             context.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
 
+    def _get_email_sent_log(self):
+        res = super(account_report_context_followup, self)._get_email_sent_log()
+        res += ' - ' + _('Level: ') + self.level.name
+        return res
+
     @api.model
     def create(self, vals):
         if 'level' in vals:
