@@ -169,10 +169,11 @@
             <field name="model">website_version.version</field> 
             <field name="arch" type="xml">
                 <form string="version Form">
+                    <header>
+                        <button icon="fa-pencil" name="action_publish" string="Publish" type="object" class="oe_highlight"
+                            confirm="This will overwrite the current Master version of your website with this one."/>
+                    </header>
                     <sheet string="Snap">
-                        <group>
-                            <button icon="fa-pencil" name="action_publish" string="Publish" type="object" class="pull-right"/>
-                        </group>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
                             <h1>
