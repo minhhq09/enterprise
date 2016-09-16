@@ -74,50 +74,51 @@ class AccountBankStmtImportCSV(models.TransientModel):
     def _parse_import_data(self, cr, uid, data, import_fields, record, options, context=None):
         data = super(AccountBankStmtImportCSV, self)._parse_import_data(cr, uid, data, import_fields, record, options, context)
         statement_id = context.get('bank_statement_id', False)
+        if not statement_id:
+            return data
         ret_data = []
-        if statement_id:
-            import_fields.append('statement_id/.id')
-            import_fields.append('sequence')
-            index_balance = False
-            convert_to_amount = False
-            if 'debit' in import_fields and 'credit' in import_fields:
-                index_debit = import_fields.index('debit')
-                index_credit = import_fields.index('credit')
-                self._parse_float_from_data(cr, uid, data, index_debit, 'debit', options, context=context)
-                self._parse_float_from_data(cr, uid, data, index_credit, 'credit', options, context=context)
-                import_fields.append('amount')
-                convert_to_amount = True
-            # add starting balance and ending balance to context
-            if 'balance' in import_fields:
-                index_balance = import_fields.index('balance')
-                self._parse_float_from_data(cr, uid, data, index_balance, 'balance', options, context=context)
-                context['starting_balance'] = self._convert_to_float(data[0][index_balance])
-                context['starting_balance'] -= self._convert_to_float(data[0][import_fields.index('amount')]) \
-                                                if not convert_to_amount \
-                                                else self._convert_to_float(data[0][index_debit])-self._convert_to_float(data[0][index_credit])
-                context['ending_balance'] = data[len(data)-1][index_balance]
-                import_fields.remove('balance')
-            # Remove debit/credit field from import_fields
+        import_fields.append('statement_id/.id')
+        import_fields.append('sequence')
+        index_balance = False
+        convert_to_amount = False
+        if 'debit' in import_fields and 'credit' in import_fields:
+            index_debit = import_fields.index('debit')
+            index_credit = import_fields.index('credit')
+            self._parse_float_from_data(cr, uid, data, index_debit, 'debit', options, context=context)
+            self._parse_float_from_data(cr, uid, data, index_credit, 'credit', options, context=context)
+            import_fields.append('amount')
+            convert_to_amount = True
+        # add starting balance and ending balance to context
+        if 'balance' in import_fields:
+            index_balance = import_fields.index('balance')
+            self._parse_float_from_data(cr, uid, data, index_balance, 'balance', options, context=context)
+            context['starting_balance'] = self._convert_to_float(data[0][index_balance])
+            context['starting_balance'] -= self._convert_to_float(data[0][import_fields.index('amount')]) \
+                                            if not convert_to_amount \
+                                            else self._convert_to_float(data[0][index_debit])-self._convert_to_float(data[0][index_credit])
+            context['ending_balance'] = data[len(data)-1][index_balance]
+            import_fields.remove('balance')
+        # Remove debit/credit field from import_fields
+        if convert_to_amount:
+            import_fields.remove('debit')
+            import_fields.remove('credit')
+
+        for index, line in enumerate(data):
+            line.append(statement_id)
+            line.append(index)
+            remove_index = []
             if convert_to_amount:
-                import_fields.remove('debit')
-                import_fields.remove('credit')
-                
-            for index, line in enumerate(data):
-                line.append(statement_id)
-                line.append(index)
-                remove_index = []
-                if convert_to_amount:
-                    line.append(self._convert_to_float(line[index_debit])-self._convert_to_float(line[index_credit]))
-                    remove_index.extend([index_debit, index_credit])
-                if index_balance:
-                    remove_index.append(index_balance)
-                # Remove added field debit/credit/balance
-                for index in sorted(remove_index, reverse=True):
-                    line.remove(line[index])
-                if line[import_fields.index('amount')]:
-                    ret_data.append(line)
-            if 'date' in import_fields:
-                context['date'] = data[len(data)-1][import_fields.index('date')]
+                line.append(self._convert_to_float(line[index_debit])-self._convert_to_float(line[index_credit]))
+                remove_index.extend([index_debit, index_credit])
+            if index_balance:
+                remove_index.append(index_balance)
+            # Remove added field debit/credit/balance
+            for index in sorted(remove_index, reverse=True):
+                line.remove(line[index])
+            if line[import_fields.index('amount')]:
+                ret_data.append(line)
+        if 'date' in import_fields:
+            context['date'] = data[len(data)-1][import_fields.index('date')]
         return ret_data
 
     def parse_preview(self, cr, uid, id, options, count=10, context=None):
