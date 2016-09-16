@@ -13,7 +13,6 @@ class AnalyticLine(models.Model):
     # reset amount on copy
     amount = fields.Monetary(copy=False)
     validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
-    project_id = fields.Many2one(domain=[('allow_timesheets', '=', True)])
     is_timesheet = fields.Boolean(
         string="Timesheet Line",
         compute='_compute_is_timesheet', search='_search_is_timesheet',
