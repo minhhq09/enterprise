@@ -27,18 +27,18 @@ class SaleOrder(models.Model):
                 'name': mand_line.name,
                 'product_uom_qty': mand_line.quantity,
                 'product_uom': mand_line.uom_id.id,
-                'discount': mand_line.discount,
-                'price_unit': mand_line.price_unit,
+                'price_unit': self.pricelist_id.get_product_price(mand_line.product_id, 1, self.partner_id, uom_id=mand_line.uom_id.id) if self.pricelist_id else 0,
             }) for mand_line in self.contract_template.subscription_template_line_ids]
             options = [(0, 0, {
                 'product_id': opt_line.product_id.id,
                 'uom_id': opt_line.uom_id.id,
                 'name': opt_line.name,
                 'quantity': opt_line.quantity,
-                'discount': opt_line.discount,
-                'price_unit': opt_line.price_unit,
+                'price_unit': self.pricelist_id.get_product_price(mand_line.product_id, 1, self.partner_id, uom_id=mand_line.uom_id.id) if self.pricelist_id else 0,
             }) for opt_line in self.contract_template.subscription_template_option_ids]
             self.order_line = subscription_lines
+            for line in self.order_line:
+                line._compute_tax_id()
             self.options = options
             self.note = self.contract_template.description
 
