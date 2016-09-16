@@ -225,6 +225,9 @@ class AccountReportContextCommon(models.TransientModel):
         self.write({'next_footnote_number': num})
         return
 
+    def _get_summary(self, column_number):
+        return ''
+
     def get_columns_names(self):
         raise Warning(_('get_columns_names not implemented'))
 
