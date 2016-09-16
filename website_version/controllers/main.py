@@ -134,7 +134,8 @@ class Versioning_Controller(Website):
                 check_conf = GOOGLE_ANALYTICS_PARTIALLY_CONFIGURED
         else:
             check_conf = GOOGLE_ANALYTICS_NOT_CONFIGURED
-        return {'tab_version': tab_version, 'tab_goal': tab_goal, 'check_conf': check_conf}
+        has_config_rights = request.env['res.users'].has_group('base.group_system')
+        return {'tab_version': tab_version, 'tab_goal': tab_goal, 'check_conf': check_conf, 'has_config_rights': has_config_rights}
 
     @http.route('/website_version/launch_experiment', type='json', auth="user", website=True)
     def launch_experiment(self, name, version_ids, goal_id):

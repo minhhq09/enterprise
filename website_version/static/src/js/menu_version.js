@@ -172,7 +172,7 @@ var EditorVersion = Widget.extend({
     create_experiment: function() {
         var view_id = parseInt($('html').attr('data-main-object').match(/\d+/));
         ajax.jsonRpc( '/website_version/all_versions_all_goals', 'call', { 'view_id': view_id }).then(function (result) {
-            var wizardA = $(qweb.render("website_version.create_experiment",{versions:result.tab_version, goals:result.tab_goal, config:result.check_conf}));
+            var wizardA = $(qweb.render("website_version.create_experiment",{versions:result.tab_version, goals:result.tab_goal, config:result.check_conf, has_config_rights: result.has_config_rights}));
             wizardA.appendTo($('body')).modal({"keyboard" :true});
 
             wizardA.on('click','.o_launch', function(){
