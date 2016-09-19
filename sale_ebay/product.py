@@ -345,7 +345,7 @@ class product_template(models.Model):
                        devid=dev_id,
                        certid=cert_id,
                        token=token,
-                       siteid=int(site.ebay_id))
+                       siteid=site.ebay_id)
 
     @api.model
     def ebay_execute(self, verb, data=None, list_nodes=[], verb_attrs=None, files=None):
