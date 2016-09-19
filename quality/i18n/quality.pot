@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 09:57+0000\n"
-"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,11 +49,6 @@ msgstr ""
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_alert_team_view_kanban
 msgid "<span>Quality Alerts</span>"
-msgstr ""
-
-#. module: quality
-#: model:ir.ui.view,arch_db:quality.quality_alert_team_view_kanban
-msgid "<span>View</span>"
 msgstr ""
 
 #. module: quality
@@ -347,6 +342,7 @@ msgid "Fail"
 msgstr ""
 
 #. module: quality
+#: model:ir.ui.view,arch_db:quality.quality_check_view_search
 #: selection:quality.check,quality_state:0
 msgid "Failed"
 msgstr ""
@@ -387,6 +383,11 @@ msgstr ""
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team_alias_parent_thread_id
 msgid "ID of the parent record holding the alias (example: project holding the task creation alias)"
+msgstr ""
+
+#. module: quality
+#: model:ir.ui.view,arch_db:quality.quality_check_view_search
+msgid "In Progress"
 msgstr ""
 
 #. module: quality
@@ -503,12 +504,12 @@ msgstr ""
 #: code:addons/quality/models/quality.py:22
 #: code:addons/quality/models/quality.py:81
 #: code:addons/quality/models/quality.py:82
-#: code:addons/quality/models/quality.py:190
-#: code:addons/quality/models/quality.py:244
+#: code:addons/quality/models/quality.py:191
 #: code:addons/quality/models/quality.py:245
-#: code:addons/quality/models/quality.py:318
-#: code:addons/quality/models/quality.py:352
-#: code:addons/quality/models/quality.py:353
+#: code:addons/quality/models/quality.py:246
+#: code:addons/quality/models/quality.py:326
+#: code:addons/quality/models/quality.py:360
+#: code:addons/quality/models/quality.py:361
 #, python-format
 msgid "New"
 msgstr ""
@@ -595,6 +596,7 @@ msgid "Pass - Fail"
 msgstr ""
 
 #. module: quality
+#: model:ir.ui.view,arch_db:quality.quality_check_view_search
 #: selection:quality.check,quality_state:0
 msgid "Passed"
 msgstr ""
@@ -667,8 +669,8 @@ msgid "Quality"
 msgstr ""
 
 #. module: quality
-#: code:addons/quality/models/quality.py:276
-#: code:addons/quality/models/quality.py:289
+#: code:addons/quality/models/quality.py:284
+#: code:addons/quality/models/quality.py:297
 #: model:ir.model,name:quality.model_quality_alert
 #: model:ir.ui.view,arch_db:quality.quality_alert_view_calendar
 #, python-format
@@ -713,7 +715,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:quality.quality_alert_action_team
 #: model:ir.ui.menu,name:quality.menu_quality_alert
 #: model:ir.ui.menu,name:quality.menu_quality_alert_report
-#: model:ir.ui.view,arch_db:quality.quality_alert_team_view_kanban
 msgid "Quality Alerts"
 msgstr ""
 
@@ -723,7 +724,7 @@ msgid "Quality Alerts can be created. I know this is difficult to believe."
 msgstr ""
 
 #. module: quality
-#: code:addons/quality/models/quality.py:363
+#: code:addons/quality/models/quality.py:371
 #: model:ir.model,name:quality.model_quality_check
 #, python-format
 msgid "Quality Check"
@@ -873,7 +874,7 @@ msgid "Settings"
 msgstr ""
 
 #. module: quality
-#: model:ir.model.fields,field_description:quality.field_quality_alert_stage_id_8347
+#: model:ir.model.fields,field_description:quality.field_quality_alert_stage_id_9078
 #: model:ir.ui.view,arch_db:quality.quality_alert_view_search
 msgid "Stage"
 msgstr ""
@@ -899,7 +900,7 @@ msgid "Tags"
 msgstr ""
 
 #. module: quality
-#: model:ir.model.fields,field_description:quality.field_quality_alert_team_id_8325
+#: model:ir.model.fields,field_description:quality.field_quality_alert_team_id_9056
 #: model:ir.model.fields,field_description:quality.field_quality_check_team_id
 #: model:ir.model.fields,field_description:quality.field_quality_point_team_id
 msgid "Team"
@@ -968,6 +969,11 @@ msgid "Used in the kanban view"
 msgstr ""
 
 #. module: quality
+#: model:ir.ui.view,arch_db:quality.quality_check_view_form_small
+msgid "Validate"
+msgstr ""
+
+#. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_partner_id
 msgid "Vendor"
 msgstr ""
@@ -983,7 +989,7 @@ msgid "Week(s)"
 msgstr ""
 
 #. module: quality
-#: code:addons/quality/models/stock_picking.py:24
+#: code:addons/quality/models/stock_move.py:48
 #, python-format
 msgid "You still need to do the quality checks!"
 msgstr ""

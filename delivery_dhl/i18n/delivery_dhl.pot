@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 09:57+0000\n"
-"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -66,23 +66,28 @@ msgid "8X4_thermal"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_accessory_product_ids
+msgid "Accessories show up when the customer reviews the cart before paying (cross-sell strategy, e.g. for computers: mouse, keyboard, etc.). An algorithm figures out a list of accessories based on all the products added to cart."
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_accessory_product_ids
 msgid "Accessory Products"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid "Adds an availability status on the web product page."
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_alternative_product_ids
+msgid "Alternative Products"
+msgstr ""
+
+#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
 msgid "America"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_alternative_product_ids
-msgid "Appear on the product page"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_accessory_product_ids
-msgid "Appear on the shopping cart"
 msgstr ""
 
 #. module: delivery_dhl
@@ -103,6 +108,11 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model,name:delivery_dhl.model_delivery_carrier
 msgid "Carrier"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
+msgid "Categories can be published on the Shop page (online catalog grid) to help customers find all the items within a category. To publish them, go to the Shop page, hit Customize and turn *Product Categories* on. A product can belong to several categories."
 msgstr ""
 
 #. module: delivery_dhl
@@ -141,7 +151,7 @@ msgid "DHL Password"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:368
+#: code:addons/delivery_dhl/models/dhl_request.py:373
 #, python-format
 msgid "DHL Site ID is missing, please modify your delivery method settings."
 msgstr ""
@@ -164,13 +174,13 @@ msgid "DHL USA -> International"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:372
+#: code:addons/delivery_dhl/models/dhl_request.py:377
 #, python-format
 msgid "DHL account number is missing, please modify your delivery method settings."
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:370
+#: code:addons/delivery_dhl/models/dhl_request.py:375
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr ""
@@ -241,13 +251,13 @@ msgid "N - Domestic Express"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:173
+#: code:addons/delivery_dhl/models/dhl_request.py:178
 #, python-format
 msgid "No service available for the selected product"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:80
+#: code:addons/delivery_dhl/models/dhl_request.py:81
 #, python-format
 msgid "No shipping available for the selected DHL product"
 msgstr ""
@@ -273,7 +283,7 @@ msgid "Packaging"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:390
+#: code:addons/delivery_dhl/models/dhl_request.py:395
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr ""
@@ -335,8 +345,8 @@ msgid "Styles"
 msgstr ""
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_alternative_product_ids
-msgid "Suggested Products"
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_alternative_product_ids
+msgid "Suggest more expensive alternatives to your customers (upsell strategy). Those products show up on the product page."
 msgstr ""
 
 #. module: delivery_dhl
@@ -345,21 +355,21 @@ msgid "T - Express 12:00"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:378
+#: code:addons/delivery_dhl/models/dhl_request.py:383
 #, python-format
 msgid "The address of the custommer is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:386
+#: code:addons/delivery_dhl/models/dhl_request.py:391
 #, python-format
 msgid "The address of your company warehouse is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:392
+#: code:addons/delivery_dhl/models/dhl_request.py:397
 #, python-format
 msgid "The estimated price cannot be computed because the weight of your product is missing."
 msgstr ""
@@ -367,16 +377,6 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_website_url
 msgid "The full URL to access the document through the website."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
-msgid "This field is used to display a availability banner with a message on the ecommerce"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
-msgid "Those categories are used to group similar products for e-commerce."
 msgstr ""
 
 #. module: delivery_dhl
