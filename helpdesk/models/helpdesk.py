@@ -398,7 +398,15 @@ class HelpdeskTicket(models.Model):
     tag_ids = fields.Many2many('helpdesk.tag', string='Tags')
     company_id = fields.Many2one(related='team_id.company_id', string='Company', store=True, readonly=True)
     color = fields.Integer(string='Color Index')
-
+    kanban_state = fields.Selection([
+        ('normal', 'Normal'),
+        ('blocked', 'Blocked'),
+        ('done', 'Ready for next stage')], string='Kanban State',
+        default='normal', required=True, track_visibility='onchange',
+        help="A ticket's kanban state indicates special situations affecting it:\n"
+             "* Normal is the default situation\n"
+             "* Blocked indicates something is preventing the progress of this issue\n"
+             "* Ready for next stage indicates the issue is ready to be pulled to the next stage")
     user_id = fields.Many2one('res.users', string='Assigned to', track_visibility='onchange')
     partner_id = fields.Many2one('res.partner', string='Customer')
     partner_tickets = fields.Integer('Number of tickets from the same partner', compute='_compute_partner_tickets')
