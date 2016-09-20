@@ -21,33 +21,33 @@ class HelpdeskTeam(models.Model):
     _description = "Helpdesk Team"
     _order = 'sequence,name'
 
-    name = fields.Char(string='Helpdesk Team', required=True, translate=True)
-    description = fields.Text(string='About Team', translate=True)
+    name = fields.Char('Helpdesk Team', required=True, translate=True)
+    description = fields.Text('About Team', translate=True)
     company_id = fields.Many2one(
         'res.company', string='Company',
         default=lambda self: self.env['res.company']._company_default_get('helpdesk.team'))
     sequence = fields.Integer(default=10)
     color = fields.Integer('Color Index')
-    stage_ids = fields.Many2many('helpdesk.stage', relation='team_stage_rel', string='Stages', default=[(0, 0, {'name': 'New', 'sequence': 0})],
+    stage_ids = fields.Many2many(
+        'helpdesk.stage', relation='team_stage_rel', string='Stages',
+        default=[(0, 0, {'name': 'New', 'sequence': 0})],
         help="Stages the team will use. This team's tickets will only be able to be in these stages.")
     assign_method = fields.Selection([
         ('manual', 'Manually'),
         ('randomly', 'Randomly'),
-        ('balanced', 'Balanced'),
-    ], string='Assignation Method', required=True, default='manual',
-        help='''Automatic assignation method for new tickets:
-
-        Manually: manual
-        Randomly: randomly but everyone gets the same amount
-        Balanced: to the person with the least amount of open tickets''')
+        ('balanced', 'Balanced')], string='Assignation Method',
+        default='manual', required=True,
+        help='Automatic assignation method for new tickets:\n'
+             '\tManually: manual\n'
+             '\tRandomly: randomly but everyone gets the same amount\n'
+             '\tBalanced: to the person with the least amount of open tickets')
     member_ids = fields.Many2many('res.users', string='Team Members')
     ticket_ids = fields.One2many('helpdesk.ticket', 'team_id', string='Tickets')
 
     use_alias = fields.Boolean('Email alias')
     use_website_helpdesk_form = fields.Boolean('Website Form')
     use_website_helpdesk_livechat = fields.Boolean('Live chat',
-        help="""In Channel: You can create a new ticket by typing "/helpdesk [ticket title]". \
-        You can search ticket by typing "/helpdesk_search [Keyword1],[Keyword2],etc".""")
+        help="In Channel: You can create a new ticket by typing /helpdesk [ticket title]. You can search ticket by typing /helpdesk_search [Keyword1],[Keyword2],.")
     use_website_helpdesk_forum = fields.Boolean('Help Center')
     use_website_helpdesk_slides = fields.Boolean('eLearning')
     use_website_helpdesk_rating = fields.Boolean('Website Rating')
@@ -57,7 +57,6 @@ class HelpdeskTeam(models.Model):
     use_sla = fields.Boolean('SLA Policies')
     upcoming_sla_fail_tickets = fields.Integer(string='Upcoming SLA Fail Tickets', compute='_compute_upcoming_sla_fail_tickets')
     unassigned_tickets = fields.Integer(string='Unassigned Tickets', compute='_compute_unassigned_tickets')
-
     percentage_satisfaction = fields.Integer(
         compute="_compute_percentage_satisfaction", string="% Happy", store=True, default=-1)
 
@@ -312,12 +311,20 @@ class HelpdeskStage(models.Model):
             return [(4, team_id, 0)]
 
     name = fields.Char(required=True)
-    sequence = fields.Integer(string='Sequence', default=10)
-    is_close = fields.Boolean(string='Is a closed stage')
-    fold = fields.Boolean(string='Folded')
-    team_ids = fields.Many2many('helpdesk.team', relation='team_stage_rel', string='Team', default=_get_default_team_ids, groups="base.group_no_one",
+    sequence = fields.Integer('Sequence', default=10)
+    is_close = fields.Boolean(
+        'Closing Kanban Stage',
+        help='Tickets in this stage are considered as done. This is used notably when'
+             'computing SLAs and KPIs on tickets.')
+    fold = fields.Boolean(
+        'Folded', help='Folded in kanban view')
+    team_ids = fields.Many2many(
+        'helpdesk.team', relation='team_stage_rel', string='Team',
+        default=_get_default_team_ids, groups="base.group_no_one",
         help='Specific team that uses this stage. Other teams will not be able to see or use this stage.')
-    template_id = fields.Many2one('mail.template', string="Email Template for Automated Answer", domain="[('model', '=', 'helpdesk.ticket')]",
+    template_id = fields.Many2one(
+        'mail.template', 'Automated Answer Email Template',
+        domain="[('model', '=', 'helpdesk.ticket')]",
         help="Automated email sent to the ticket's customer when the ticket reaches this stage.")
 
 
@@ -352,18 +359,22 @@ class HelpdeskSLA(models.Model):
     _order = "name"
     _description = "Helpdesk SLA Policies"
 
-    name = fields.Char(string='SLA Policy Name', required=True, index=True)
-    description = fields.Text(string='SLA Policy Description')
-    active = fields.Boolean(string='Active', default=True)
-    team_id = fields.Many2one('helpdesk.team', string='Team', required=True)
-    ticket_type_id = fields.Many2one('helpdesk.ticket.type', string="Ticket Type", help="Only apply the SLA to a specific ticket type. If left empty it will apply to all types.")
-    stage_id = fields.Many2one('helpdesk.stage', string='Stage', required=True)
-    priority = fields.Selection(TICKET_PRIORITY, string='Minimum Priority', required=True, default='0')
-    company_id = fields.Many2one(related='team_id.company_id', string='Company', store=True, readonly=True)
-
-    time_days = fields.Integer(string='Days', help="Time to reach given stage based on ticket creation date")
-    time_hours = fields.Integer(string='Hours', help="Time to reach given stage based on ticket creation date")
-    time_minutes = fields.Integer(string='Minutes', help="Time to reach given stage based on ticket creation date")
+    name = fields.Char('SLA Policy Name', required=True, index=True)
+    description = fields.Text('SLA Policy Description')
+    active = fields.Boolean('Active', default=True)
+    team_id = fields.Many2one('helpdesk.team', 'Team', required=True)
+    ticket_type_id = fields.Many2one(
+        'helpdesk.ticket.type', "Ticket Type",
+        help="Only apply the SLA to a specific ticket type. If left empty it will apply to all types.")
+    stage_id = fields.Many2one('helpdesk.stage', 'Stage', required=True)
+    priority = fields.Selection(
+        TICKET_PRIORITY, string='Minimum Priority',
+        default='0', required=True,
+        help='Tickets under this priority will not be taken into account.')
+    company_id = fields.Many2one('res.company', 'Company', related='team_id.company_id', readonly=True, store=True)
+    time_days = fields.Integer('Days', help="Days to reach given stage based on ticket creation date")
+    time_hours = fields.Integer('Hours', help="Hours to reach given stage based on ticket creation date")
+    time_minutes = fields.Integer('Minutes', help="Minutes to reach given stage based on ticket creation date")
 
 
 class HelpdeskTicket(models.Model):
