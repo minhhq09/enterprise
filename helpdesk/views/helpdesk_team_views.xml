@@ -322,10 +322,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" help="Follow this team to automatically track the events associated to tickets of this team." groups="base.group_user"/>
-                    </div>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" help="Follow this team to automatically track the events associated to tickets of this team." groups="base.group_user"/>
+                </div>
             </form>
         </field>
     </record>
@@ -382,13 +382,19 @@
                                     </div>
                                     <div class="col-xs-6 o_kanban_primary_right">
                                         <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
-                                            <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="upcoming_sla_fail_tickets"/> SLA to Review</a>
+                                            <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="upcoming_sla_fail_tickets"/> Tickets to Review</a>
                                         </div>
                                         <div class="mb4">
                                             <a name="%(helpdesk.helpdesk_ticket_action_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="unassigned_tickets"/> Unassigned Tickets</a>
                                         </div>
                                         <div class="mb4" t-if="record.use_rating.raw_value">
-                                            <a name="action_view_all_rating" type="object">Customer Satisfaction</a>
+                                            <a name="action_view_all_rating" type="object">See Customer Satisfaction</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_sla.raw_value">
+                                            <a name="%(helpdesk_sla_action_main)d" type="action"
+                                                    context="{'search_default_team_id': active_id, 'default_team_id': active_id}">
+                                                See SLAs
+                                            </a>
                                         </div>
                                     </div>
                                 </div><!-- Smiley indicator of rating:
