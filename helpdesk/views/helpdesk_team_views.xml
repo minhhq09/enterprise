@@ -110,18 +110,20 @@
                                     </div>
                                     <div attrs="{'invisible': [('use_alias','=',False)]}">
                                         <hr class="mt8 mb8"/>
-                                        <group class="oe_edit_only">
+                                        <group class="oe_edit_only" attrs="{'invisible': [('alias_domain', '=', False)]}">
                                             <label for="alias_id" string="Choose an Email:"/>
                                             <div class="oe_inline" name="edit_alias" style="display: inline;" >
                                                 <field name="alias_name" class="oe_inline" attrs="{'required': [('use_alias','=',True)]}"/>@<field name="alias_domain" class="oe_inline" readonly="1"/>
-                                                <a type="action" name="%(base_setup.action_general_configuration)d" class="oe_inline" style="margin-left: 1em; cursor: pointer">configure domain name</a>
                                             </div>
                                         </group>
-                                        <p class="oe_read_only">Send emails to
+                                        <p class="oe_read_only" attrs="{'invisible': [('alias_domain', '=', False)]}">Send emails to
                                             <strong>
                                                 <field name="alias_id" class="oe_read_only oe_inline" required="False"/>
                                             </strong>
                                             to create tickets.
+                                        </p>
+                                        <p attrs="{'invisible': [('alias_domain', '!=', False)]}">
+                                            <a type="action" name="%(base_setup.action_general_configuration)d" class="oe_inline">--> Configure domain name</a>
                                         </p>
                                     </div>
                                 </div>

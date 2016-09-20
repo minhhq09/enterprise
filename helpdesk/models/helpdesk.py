@@ -102,7 +102,7 @@ class HelpdeskTeam(models.Model):
     @api.onchange('use_alias')
     def _onchange_use_alias(self):
         if not self.alias_name:
-            self.alias_name = self.name if self.use_alias else False
+            self.alias_name = self.env['mail.alias']._clean_and_make_unique(self.name) if self.use_alias else False
 
     @api.model
     def create(self, vals):
