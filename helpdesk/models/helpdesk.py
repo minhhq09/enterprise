@@ -119,6 +119,12 @@ class HelpdeskTeam(models.Model):
         return result
 
     @api.multi
+    def unlink(self):
+        stages = self.mapped('stage_ids').filtered(lambda stage: stage.team_ids <= self)
+        stages.unlink()
+        return super(HelpdeskTeam, self).unlink()
+
+    @api.multi
     def _check_sla_group(self):
         for team in self:
             if team.use_sla and not self.user_has_groups('helpdesk.group_use_sla'):
