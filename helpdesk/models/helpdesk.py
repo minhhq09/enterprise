@@ -2,7 +2,10 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import datetime
+import random
+
 from dateutil import relativedelta
+
 from odoo import api, fields, models, _, tools
 from odoo.exceptions import UserError, AccessError, ValidationError
 
@@ -299,6 +302,18 @@ class HelpdeskTeam(models.Model):
         else:
             raise UserError(_('This target does not exist.'))
 
+    @api.multi
+    def get_new_user(self):
+        self.ensure_one()
+        new_user = self.env['res.users']
+        if self.assign_method == 'randomly':
+            new_user = random.choice(self.member_ids)
+        elif self.assign_method == 'balanced':
+            read_group_res = self.env['helpdesk.ticket'].read_group([('stage_id.is_close', '=', False), ('user_id', 'in', self.member_ids.ids)], ['user_id'], ['user_id'])
+            count_dict = dict((data['user_id'][0], data['user_id_count']) for data in read_group_res)
+            new_user = self.env['res.users'].browse(min(count_dict, key=count_dict.get))
+        return new_user
+
 
 class HelpdeskStage(models.Model):
     _name = 'helpdesk.stage'
@@ -383,13 +398,19 @@ class HelpdeskTicket(models.Model):
     _order = 'priority desc, id desc'
     _inherit = ['mail.thread', 'ir.needaction_mixin', 'utm.mixin', 'rating.mixin']
 
+    @api.model
+    def default_get(self, fields):
+        res = super(HelpdeskTicket, self).default_get(fields)
+        if res.get('team_id'):
+            update_vals = self._onchange_team_get_values(self.env['helpdesk.team'].browse(res['team_id']))
+            if (not fields or 'user_id' in fields) and 'user_id' not in res:
+                res['user_id'] = update_vals['user_id']
+            if (not fields or 'stage_id' in fields) and 'stage_id' not in res:
+                res['user_id'] = update_vals['stage_id']
+        return res
+
     def _default_team_id(self):
         return self._context.get('default_team_id')
-
-    def _default_stage_id(self):
-        team_id = self._default_team_id()
-        if team_id:
-            return self.env['helpdesk.stage'].search([('team_ids', 'in', team_id)], order='sequence', limit=1).id
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
@@ -404,7 +425,7 @@ class HelpdeskTicket(models.Model):
 
     name = fields.Char(string='Subject', required=True, index=True)
 
-    team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', index=True, default=_default_team_id)
+    team_id = fields.Many2one('helpdesk.team', string='Helpdesk Team', default=_default_team_id, index=True)
     description = fields.Text()
     active = fields.Boolean(default=True)
     ticket_type_id = fields.Many2one('helpdesk.ticket.type', string="Ticket Type")
@@ -431,7 +452,7 @@ class HelpdeskTicket(models.Model):
     priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0')
     stage_id = fields.Many2one('helpdesk.stage', string='Stage', track_visibility='onchange',
                                group_expand='_read_group_stage_ids',
-                               default=_default_stage_id, index=True, domain="[('team_ids', '=', team_id)]")
+                               index=True, domain="[('team_ids', '=', team_id)]")
 
     # next 4 fields are computed in write (or create)
     assign_date = fields.Datetime(string='First assignation date')
@@ -445,26 +466,20 @@ class HelpdeskTicket(models.Model):
     sla_active = fields.Boolean(string='SLA active', compute='_compute_sla_fail', store=True)
     sla_fail = fields.Boolean(string='Failed SLA Policy', compute='_compute_sla_fail', store=True)
 
+    def _onchange_team_get_values(self, team):
+        return {
+            'user_id': team.get_new_user().id,
+            'stage_id': self.env['helpdesk.stage'].search([('team_ids', 'in', team.id)], order='sequence', limit=1).id
+        }
+
     @api.onchange('team_id')
     def _onchange_team_id(self):
         if self.team_id:
-            if not self.user_id or not (self.user_id in self.team_id.member_ids or self.team_id.member_ids):
-                member_ids = self.team_id.member_ids.ids
-                if self.team_id.assign_method == 'randomly' and member_ids:
-                    previous_assigned_user = self.env['helpdesk.ticket'].search([('team_id', '=', self.team_id.id)], order='create_date desc', limit=1).user_id
-                    # handle the case if the previous_assigned_user has left the team.
-                    if previous_assigned_user.id in member_ids:
-                        previous_index = member_ids.index(previous_assigned_user.id)
-                        self.user_id = member_ids[(previous_index + 1) % len(member_ids)]
-                    else:
-                        self.user_id = member_ids[0]
-                elif self.team_id.assign_method == 'balanced' and member_ids:
-                    member_of_team = dict.fromkeys(member_ids, 0)
-                    for member_id in member_of_team:
-                        member_of_team[member_id] = len(self.search([('user_id', '=', member_id), ('stage_id.is_close', '=', False)]))
-                    self.user_id = min(member_of_team, key=member_of_team.get)
+            udpate_vals = self._onchange_team_get_values(self.team_id)
+            if not self.user_id:
+                self.user_id = udpate_vals['user_id']
             if not self.stage_id or self.stage_id not in self.team_id.stage_ids:
-                self.stage_id = self.env['helpdesk.stage'].search([('team_ids', 'in', self.team_id.id)], order='sequence', limit=1)
+                self.stage_id = udpate_vals['stage_id']
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
@@ -521,6 +536,9 @@ class HelpdeskTicket(models.Model):
 
     @api.model
     def create(self, vals):
+        if vals.get('team_id'):
+            vals.update(self._onchange_team_get_values(self.env['helpdesk.team'].browse(vals['team_id'])))
+
         # context: no_log, because subtype already handle this
         ticket = super(HelpdeskTicket, self.with_context(mail_create_nolog=True)).create(vals)
         if ticket.partner_id:
@@ -529,8 +547,6 @@ class HelpdeskTicket(models.Model):
         if ticket.user_id:
             ticket.assign_date = ticket.create_date
             ticket.assign_hours = 0
-        if ticket.team_id:
-            ticket._onchange_team_id()
         if vals.get('stage_id'):
             ticket._email_send()
 
