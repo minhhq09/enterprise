@@ -553,8 +553,6 @@ class HelpdeskTicket(models.Model):
         if ticket.user_id:
             ticket.assign_date = ticket.create_date
             ticket.assign_hours = 0
-        if vals.get('stage_id'):
-            ticket._email_send()
 
         return ticket
 
@@ -581,8 +579,7 @@ class HelpdeskTicket(models.Model):
         }))
         if vals.get('partner_id'):
             self.message_subscribe([vals['partner_id']])
-        if vals.get('stage_id'):
-            self._email_send()
+
         return res
 
     @api.multi
@@ -615,11 +612,6 @@ class HelpdeskTicket(models.Model):
             'context': {'search_default_is_open': True, 'search_default_partner_id': self.partner_id.id}
         }
 
-    @api.multi
-    def _email_send(self):
-        for ticket in self.filtered(lambda ticket: ticket.stage_id and ticket.stage_id.template_id):
-            ticket.stage_id.template_id.send_mail(res_id=ticket.id, force_send=True)
-
     #DVE FIXME: if partner gets created when sending the message it should be set as partner_id of the ticket.
     @api.multi
     def message_get_suggested_recipients(self):
@@ -633,6 +625,15 @@ class HelpdeskTicket(models.Model):
         except AccessError:  # no read access rights -> just ignore suggested recipients because this implies modifying followers
             pass
         return recipients
+
+    @api.multi
+    def _track_template(self, tracking):
+        res = super(HelpdeskTicket, self)._track_template(tracking)
+        ticket = self[0]
+        changes, tracking_value_ids = tracking[ticket.id]
+        if 'stage_id' in changes and ticket.stage_id.template_id:
+            res['stage_id'] = (ticket.stage_id.template_id, {'composition_mode': 'mass_mail', 'auto_delete_message': True})
+        return res
 
     @api.multi
     def _track_subtype(self, init_values):
