@@ -14,6 +14,13 @@
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
     </record>
 
+    <record id="hr_appraisal.group_hr_appraisal_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="base.module_category_hr_appraisal"/>
+        <field name="implied_ids" eval="[(4, ref('hr_appraisal.group_hr_appraisal_user')), (4, ref('survey.group_survey_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+
     <record id="base.default_user" model="res.users">
         <field name="groups_id" eval="[(4,ref('hr_appraisal.group_hr_appraisal_manager'))]"/>
     </record>
