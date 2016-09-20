@@ -369,7 +369,6 @@ class HelpdeskTicket(models.Model):
     _description = 'Ticket'
     _order = 'priority desc, id desc'
     _inherit = ['mail.thread', 'ir.needaction_mixin', 'utm.mixin', 'rating.mixin']
-    _mail_mass_mailing = _('Tickets')
 
     def _default_team_id(self):
         return self._context.get('default_team_id')
