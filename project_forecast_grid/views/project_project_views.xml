@@ -42,11 +42,11 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project_forecast.project_view_kanban_inherit_project_forecast"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[contains(@class, 'o_kanban_card_manage_section')]/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
+            <xpath expr="//div[contains(@class, 'o_kanban_card_manage_section')]/div/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
                 <attribute name="type">object</attribute>
                 <attribute name="name">view_monthly_forecast</attribute>
             </xpath>
-            <xpath expr="//div[contains(@class, 'o_project_kanban_boxes')]/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
+            <xpath expr="//div[contains(@class, 'o_project_kanban_boxes')]/div/a[@name='%(project_forecast.project_forecast_action_project)d']" position="attributes">
                 <attribute name="type">object</attribute>
                 <attribute name="name">view_monthly_forecast</attribute>
             </xpath>
