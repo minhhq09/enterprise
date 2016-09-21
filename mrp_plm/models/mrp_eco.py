@@ -354,11 +354,10 @@ class MrpEco(models.Model):
             if any(not eco.allow_change_stage for eco in self):
                 raise UserError(_('You cannot change the stage, as approvals are still required.'))
             new_stage = self.env['mrp.eco.stage'].browse(vals['stage_id'])
-            minimal_sequence = min(self.mapped('stage_id').mapped('sequence') + [new_stage.sequence])
-            maximal_sequence = max(self.mapped('stage_id').mapped('sequence') + [new_stage.sequence])
+            minimal_sequence = min(self.mapped('stage_id').mapped('sequence'))
             has_blocking_stages = self.env['mrp.eco.stage'].search_count([
                 ('sequence', '>=', minimal_sequence),
-                ('sequence', '<=', maximal_sequence),
+                ('sequence', '<=', new_stage.sequence),
                 ('type_id', 'in', self.mapped('type_id').ids),
                 ('id', 'not in', self.mapped('stage_id').ids + [vals['stage_id']]),
                 ('is_blocking', '=', True)])
