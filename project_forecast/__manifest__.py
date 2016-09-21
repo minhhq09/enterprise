@@ -20,9 +20,11 @@
 
     # always loaded
     'data': [
+        'data/project_forecast_data.xml',
         'security/ir.model.access.csv',
         'security/project_forecast_security.xml',
-        'views/project_forecast_view.xml',
+        'views/project_forecast_views.xml',
+        'views/project_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

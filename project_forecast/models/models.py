@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
+
 from datetime import date, datetime, time, timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
 
-class User(models.Model):
-    _inherit = 'res.users'
-
-    resource_ids = fields.One2many('resource.resource', 'user_id')
 
 class ProjectForecast(models.Model):
     _name = 'project.forecast'
@@ -163,54 +160,3 @@ class ProjectForecast(models.Model):
         group = self.env.ref('project.group_project_user', False) or \
                 self.env.ref('base.group_user')
         return group.users.search([('id', 'in', group.users.ids)], order=order)
-
-
-class Project(models.Model):
-    _inherit = 'project.project'
-
-    allow_forecast = fields.Boolean("Allow forecast", default=False, help="This feature shows the Forecast link in the kanban view")
-
-    @api.multi
-    def write(self, vals):
-        if 'active' in vals:
-            self.env['project.forecast'].with_context(active_test=False).search([('project_id', 'in', self.ids)]).write({'active': vals['active']})
-        return super(Project, self).write(vals)
-
-    @api.multi
-    def create_forecast(self):
-        view_id = self.env.ref('project_forecast.project_forecast_view_form').id
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.forecast',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': view_id,
-            'target': 'current',
-            'context': {
-                'default_project_id': self.id,
-                'default_user_id': self.user_id.id,
-            }
-        }
-
-
-class Task(models.Model):
-    _inherit = 'project.task'
-
-    allow_forecast = fields.Boolean('Allow Forecast', readonly=True, related='project_id.allow_forecast', store=False)
-
-    @api.multi
-    def create_forecast(self):
-        view_id = self.env.ref('project_forecast.project_forecast_view_form').id
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.forecast',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': view_id,
-            'target': 'current',
-            'context': {
-                'default_project_id': self.project_id.id,
-                'default_task_id': self.id,
-                'default_user_id': self.user_id.id,
-            }
-        }
