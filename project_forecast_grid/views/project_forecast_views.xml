@@ -4,7 +4,7 @@
             <field name="name">Project Forecast: Grid View</field>
             <field name="model">project.forecast</field>
             <field name="arch" type="xml">
-                <grid string="Monthly Forecast" create="false" adjustment="object" adjust_name="adjust_grid">
+                <grid string="Monthly Forecast" adjustment="object" adjust_name="adjust_grid">
                     <field name="task_id" type="row" section="1"/>
                     <field name="user_id" type="row"/>
                     <field name="start_date" type="col">
@@ -21,7 +21,7 @@
             <field name="name">Project Forecast: grid by user</field>
             <field name="model">project.forecast</field>
             <field name="arch" type="xml">
-                <grid string="Project Forecast By User" create="false">
+                <grid string="Project Forecast By User">
                     <field name="user_id" type="row"/>
                     <field name="start_date" type="col">
                         <range name="week" string="Week" span="week" step="day"/>
@@ -32,6 +32,7 @@
                 </grid>
             </field>
         </record>
+
         <record id="action_project_forecast_grid_by_user" model="ir.actions.act_window">
             <field name="name">Forecast By User</field>
             <field name="res_model">project.forecast</field>
@@ -44,7 +45,7 @@
             <field name="name">Project Forecast: grid by project</field>
             <field name="model">project.forecast</field>
             <field name="arch" type="xml">
-                <grid string="Project Forecast By User" create="false">
+                <grid string="Project Forecast By User">
                     <field name="project_id" type="row"/>
                     <field name="start_date" type="col">
                         <range name="week" string="Week" span="week" step="day"/>
@@ -80,5 +81,14 @@
         <record id="project_forecast.project_forecast_group_by_project" model="ir.ui.menu">
             <field name="parent_id" ref="project_forecast_gantt"/>
         </record>
+
+        <record id="project_forecast.project_forecast_action_project" model="ir.actions.act_window">
+            <field name="view_mode">grid,gantt,tree,form,pivot</field>
+        </record>
+
+        <record id="project_forecast.project_forecast_action_from_task" model="ir.actions.act_window">
+            <field name="view_mode">grid,gantt,tree,form,pivot</field>
+        </record>
+
     </data>
 </odoo>
