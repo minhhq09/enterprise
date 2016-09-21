@@ -23,7 +23,9 @@ class HelpdeskTeam(models.Model):
 
     name = fields.Char(string='Helpdesk Team', required=True, translate=True)
     description = fields.Text(string='About Team', translate=True)
-    company_id = fields.Many2one('res.company', string='Company')
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        default=lambda self: self.env['res.company']._company_default_get('helpdesk.team'))
     sequence = fields.Integer(default=10)
     color = fields.Integer('Color Index')
     stage_ids = fields.Many2many('helpdesk.stage', relation='team_stage_rel', string='Stages', default=[(0, 0, {'name': 'New', 'sequence': 0})],
