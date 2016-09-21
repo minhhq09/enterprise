@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <odoo>
 
-    <!-- Teams -->
+    <!-- HELPDESK.TEAM -->
     <record id="helpdesk_team_view_tree" model="ir.ui.view">
         <field name="name">helpdesk.team.tree</field>
         <field name="model">helpdesk.team</field>
@@ -110,18 +110,20 @@
                                     </div>
                                     <div attrs="{'invisible': [('use_alias','=',False)]}">
                                         <hr class="mt8 mb8"/>
-                                        <group class="oe_edit_only">
+                                        <group class="oe_edit_only" attrs="{'invisible': [('alias_domain', '=', False)]}">
                                             <label for="alias_id" string="Choose an Email:"/>
                                             <div class="oe_inline" name="edit_alias" style="display: inline;" >
                                                 <field name="alias_name" class="oe_inline" attrs="{'required': [('use_alias','=',True)]}"/>@<field name="alias_domain" class="oe_inline" readonly="1"/>
-                                                <a type="action" name="%(base_setup.action_general_configuration)d" class="oe_inline" style="margin-left: 1em; cursor: pointer">configure domain name</a>
                                             </div>
                                         </group>
-                                        <p class="oe_read_only">Send emails to
+                                        <p class="oe_read_only" attrs="{'invisible': [('alias_domain', '=', False)]}">Send emails to
                                             <strong>
                                                 <field name="alias_id" class="oe_read_only oe_inline" required="False"/>
                                             </strong>
                                             to create tickets.
+                                        </p>
+                                        <p attrs="{'invisible': [('alias_domain', '!=', False)]}">
+                                            <a type="action" name="%(base_setup.action_general_configuration)d" class="oe_inline">--> Configure domain name</a>
                                         </p>
                                     </div>
                                 </div>
@@ -322,10 +324,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" help="Follow this team to automatically track the events associated to tickets of this team." groups="base.group_user"/>
-                    </div>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" help="Follow this team to automatically track the events associated to tickets of this team." groups="base.group_user"/>
+                </div>
             </form>
         </field>
     </record>
@@ -344,9 +346,128 @@
           </p>
         </field>
     </record>
-    <menuitem
-        action="helpdesk_team_action"
-        id="helpdesk_team_menu"
-        sequence="1" parent="helpdesk.helpdesk_menu_config" groups="helpdesk.group_helpdesk_manager"/>
+
+    <menuitem id="helpdesk_team_menu" action="helpdesk_team_action"
+        sequence="1" parent="helpdesk.helpdesk_menu_config"
+        groups="helpdesk.group_helpdesk_manager"/>
+
+    <record id="helpdesk_team_view_kanban" model="ir.ui.view" >
+        <field name="name">helpdesk.team.dashboard</field>
+        <field name="model">helpdesk.team</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_helpdesk_kanban" create="0" js_class="helpdesk_dashboard">
+                <field name="name"/>
+                <field name="color"/>
+                <field name="use_alias"/>
+                <field name="use_rating"/>
+                <field name="percentage_satisfaction" invisible="1"/>
+                <field name="use_sla"/>
+                <field name="upcoming_sla_fail_tickets"/>
+                <field name="unassigned_tickets"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)}">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><field name="name"/></div>
+                                    <small t-if="record.use_alias.value"><i class="fa fa-envelope-o"></i>&amp;nbsp; <field name="alias_id"/></small>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_primary_left">
+                                        <button class="btn btn-primary" name="%(helpdesk.helpdesk_ticket_action_team)d" type="action">Tickets</button>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_primary_right">
+                                        <div class="mb4" groups="helpdesk.group_use_sla" attrs="{'invisible': [('use_sla', '=', False)]}">
+                                            <a name="%(helpdesk.action_upcoming_sla_fail_all_tickets)d" type="action"  context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="upcoming_sla_fail_tickets"/> Tickets to Review</a>
+                                        </div>
+                                        <div class="mb4">
+                                            <a name="%(helpdesk.helpdesk_ticket_action_unassigned)d" type="action" context="{'search_default_team_id': active_id, 'default_team_id': active_id}"><field name="unassigned_tickets"/> Unassigned Tickets</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_rating.raw_value">
+                                            <a name="action_view_all_rating" type="object">See Customer Satisfaction</a>
+                                        </div>
+                                        <div class="mb4" t-if="record.use_sla.raw_value">
+                                            <a name="%(helpdesk_sla_action_main)d" type="action"
+                                                    context="{'search_default_team_id': active_id, 'default_team_id': active_id}">
+                                                See SLAs
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div><!-- Smiley indicator of rating:
+                                <div t-if="record.use_rating.raw_value and record.percentage_satisfaction.raw_value &gt;= 0" class="row text-center">
+                                    <a name="action_view_all_rating" type="object" title="Percentage of happy people about this team" class="pull-right">
+                                        <h5 t-attf-class="label #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'label-success' : 'label-warning'}">
+                                            <i t-attf-class="fa #{record.percentage_satisfaction.raw_value &gt;= 50 ? 'fa-smile-o' : 'fa-frown-o'}"/> <t t-raw="record.percentage_satisfaction.raw_value"/> %
+                                        </h5>
+                                    </a>
+                                </div> -->
+                            </div><div class="container o_kanban_card_manage_pane o_invisible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>View Tickets</span>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_action_Archived)d" type="action">Archived</a>
+                                        </div>
+                                        <div name="sla_failed" attrs="{'invisible': [('use_sla', '=', False)]}" groups="helpdesk.group_use_sla">
+                                            <a name="%(helpdesk.helpdesk_ticket_action_slafailed)d" type="action">SLA Failed</a>
+                                        </div>
+                                        <div t-if="record.use_rating.raw_value">
+                                            <a name="action_unhappy_rating_ticket" type="object">Not Satisfied</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div class="o_kanban_card_manage_title">
+                                            <span>Reports</span>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_team_analysis_action)d" type="action">Opened Tickets Analysis</a>
+                                        </div>
+                                        <div>
+                                            <a name="%(helpdesk.helpdesk_ticket_action_team_performance)d" type="action">Performance Analysis</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-xs-8">
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a type="edit">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="helpdesk_team_dashboard_action_main" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">helpdesk.team</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="helpdesk.helpdesk_team_view_kanban"/>
+        <field name="help" type="html">
+            <p>
+                Your teams will appear here.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="helpdesk_menu_team_dashboard" action="helpdesk.helpdesk_team_dashboard_action_main"
+        sequence="5" parent="helpdesk.menu_helpdesk_root"
+        groups="helpdesk.group_helpdesk_user"/>
 
 </odoo>
