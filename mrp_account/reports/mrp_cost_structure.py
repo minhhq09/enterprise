@@ -33,7 +33,7 @@ class MrpCostStructure(models.AbstractModel):
                             """
                 self.env.cr.execute(query_str, (tuple(Workorders.ids), ))
                 for op_id, op_name, user, duration, cost_hour in self.env.cr.fetchall():
-                    operations.append([user, op_id, op_name, duration, cost_hour])
+                    operations.append([user, op_id, op_name, duration / 60.0, cost_hour])
 
             #get the cost of raw material effectively used
             raw_material_moves = []
