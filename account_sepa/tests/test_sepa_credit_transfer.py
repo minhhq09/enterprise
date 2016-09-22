@@ -12,7 +12,8 @@ class TestSEPACreditTransfer(AccountingTestCase):
         super(TestSEPACreditTransfer, self).setUp()
 
         # Get some records
-        self.suppliers = self.env['res.partner'].search([('supplier', '=', True)])
+        self.asustek_sup = self.env['res.partner'].search([('name', 'ilike', 'asustek'), ('supplier', '=', True)])
+        self.suppliers = self.env['res.partner'].search([('name', 'not ilike', 'asustek'), ('supplier', '=', True)])
         self.sepa_ct = self.env.ref('account_sepa.account_payment_method_sepa_ct')
 
         # Create an IBAN bank account and its journal
@@ -29,25 +30,25 @@ class TestSEPACreditTransfer(AccountingTestCase):
             self.bank_journal.write({'currency_id': self.env.ref("base.EUR").id})
 
         # Make sure all suppliers have exactly one bank account
-        self.setSingleBankAccountToPartner(self.suppliers[0], {
+        self.setSingleBankAccountToPartner(self.asustek_sup, {
             'acc_type': 'iban',
-            'partner_id': self.suppliers[0].id,
+            'partner_id': self.asustek_sup[0].id,
             'acc_number': 'BE39103123456719',
             'bank_id': self.env.ref('base.bank_crelan').id,
         })
-        self.setSingleBankAccountToPartner(self.suppliers[1], {
+        self.setSingleBankAccountToPartner(self.suppliers[0], {
             'acc_type': 'bank',
-            'partner_id': self.suppliers[1].id,
+            'partner_id': self.suppliers[0].id,
             'acc_number': '123456789',
             'bank_name': 'Mock & Co',
         })
 
         # Create 1 payment per supplier
-        self.payment_1 = self.createPayment(self.suppliers[0], 500)
+        self.payment_1 = self.createPayment(self.asustek_sup, 500)
         self.payment_1.post()
-        self.payment_2 = self.createPayment(self.suppliers[0], 600)
+        self.payment_2 = self.createPayment(self.asustek_sup, 600)
         self.payment_2.post()
-        self.payment_3 = self.createPayment(self.suppliers[1], 700)
+        self.payment_3 = self.createPayment(self.suppliers[0], 700)
         self.payment_3.post()
 
         # Get a pain.001.001.03 schema validator
