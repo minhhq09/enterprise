@@ -15,7 +15,10 @@ class Forecast(models.Model):
         if span != 'project':
             return super(Forecast, self)._grid_start_of(span, step, anchor)
 
-        project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        if self.env.context.get('default_project_id'):
+            project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        elif self.env.context.get('default_task_id'):
+            project = self.env['project.task'].browse(self.env.context['default_task_id']).project_id
 
         if step != 'month':
             raise odoo.exceptions.UserError(
@@ -34,7 +37,11 @@ class Forecast(models.Model):
         if span != 'project':
             return super(Forecast, self)._grid_end_of(span, step, anchor)
 
-        project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        if self.env.context.get('default_project_id'):
+            project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        elif self.env.context.get('default_task_id'):
+            project = self.env['project.task'].browse(self.env.context['default_task_id']).project_id
+
         if not project.date:
             raise odoo.exceptions.UserError(
                 _("A project must have an end date to use a forecast grid, "
@@ -95,7 +102,8 @@ class Forecast(models.Model):
         [action] = self.env.ref('project_forecast_grid.action_project_forecast_assign').read()
 
         action['context'] = {
-            'default_project_id': self.env.context['default_project_id']
+            'default_project_id': self.env.context.get('default_project_id'),
+            'default_task_id': self.env.context.get('default_task_id')
         }
         return action
 
