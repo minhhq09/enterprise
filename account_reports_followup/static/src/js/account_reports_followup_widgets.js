@@ -30,7 +30,7 @@ account_report_followup_generic.include({
     _create_context: function() {
         var self = this;
         var create_vals = this.followup_all ? {valuemax: self.partners_number} : (self.partners_data[self.partner_id] ? {partner_id: self.partner_id, level: self.partners_data[self.partner_id][0]} : {partner_id: self.partner_id});
-        return self.context_model.call('create', [create_vals]).then(function (result) { // Eventually, create the report
+        return self.context_model.call('create', [create_vals, self.odoo_context]).then(function (result) { // Eventually, create the report
             self.context_id = result;
             return self._do_fetch_html();
         });
