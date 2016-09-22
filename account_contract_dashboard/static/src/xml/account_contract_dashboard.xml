@@ -9,12 +9,18 @@
             <div class="o_welcome_image"><span class="fa fa-smile-o fa-5x"/></div>
             <div t-if="has_template" class="o_welcome_content">
                 <h2>Hi there!</h2>
-                <p class="mt0">Now that you have defined a subscription template, invoice your first subscription<br/>to activate your dashboard.</p>
-                <a class="btn btn-primary on_demo_contracts">Your Subscriptions</a>
+                <t t-if="has_def_revenues">
+                    <p class="mt0">Now that you have defined a subscription template and your revenues types,<br/> invoice your first subscription to activate your dashboard.</p>
+                    <a class="btn btn-primary on_demo_contracts">Your Subscriptions</a>
+                </t>
+                <t t-if="!has_def_revenues">
+                    <p class="mt0">You're just missing some Deferred Revenue Types to ensure your dashboard works correctly.</p>
+                    <a class="btn btn-primary on_demo_templates">Edit your Templates</a>
+                </t>
             </div>
             <div t-if="!has_template" class="o_welcome_content">
                 <h2>Hi there!</h2>
-                <p class="mt0">This is a sample dashboard. Your actual dashboard will be activated after<br/>having defined a subscription template and invoiced your first subscription.</p>
+                <p class="mt0">This is a sample dashboard. Your actual dashboard will be activated after<br/>having defined your subscription templates and deferred revenue categories and invoiced your first subscription.</p>
                 <a class="btn btn-primary on_demo_templates">Create a Template</a>
             </div>
         </div>

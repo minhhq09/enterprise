@@ -147,6 +147,7 @@ class RevenueKPIsDashboard(http.Controller):
             'tags': request.env['account.analytic.tag'].search_read([], fields=['name']),
             'companies': request.env['res.company'].search_read([], fields=['name']),
             'has_template': bool(request.env['sale.subscription.template'].search_count([])),
+            'has_def_revenues': bool(request.env['sale.subscription.template'].search([]).mapped('template_asset_category_id')),
             'has_mrr': bool(request.env['account.invoice.line'].search_count([('asset_start_date', '!=', False)])),
         }
 

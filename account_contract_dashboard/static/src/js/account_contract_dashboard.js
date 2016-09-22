@@ -259,6 +259,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
             self.tags = result.tags;
             self.companies = result.companies;
             self.has_mrr = result.has_mrr;
+            self.has_def_revenues = result.has_def_revenues;
             self.has_template = result.has_template;
         });
     },
@@ -267,6 +268,7 @@ var account_contract_dashboard_main = account_contract_dashboard_abstract.extend
         this.$main_dashboard = $(QWeb.render("account_contract_dashboard.dashboard", {
             has_mrr: this.has_mrr,
             has_template: this.has_template,
+            has_def_revenues: this.has_def_revenues,
             stat_types: _.sortBy(_.values(this.stat_types), 'prior'),
             forecast_stat_types:  _.sortBy(_.values(this.forecast_stat_types), 'prior'),
             start_date: this.start_date,
