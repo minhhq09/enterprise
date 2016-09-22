@@ -332,16 +332,6 @@ class AccountSepaCreditTransfer(models.TransientModel):
             BIC.text = val_BIC
         elif not self.is_generic:
             raise UserError(_("There is no Bank Identifier Code recorded for bank account '%s'") % bank_account.acc_number)
-        #Nm = etree.SubElement(FinInstnId, "Nm")
-        #Nm.text = prepare_SEPA_string(bank_account.bank_name) or bank and prepare_SEPA_string(bank.name) or ''
-        if bank and bank.street and bank.city and bank.zip and bank.country:
-            PstlAdr = etree.SubElement(FinInstnId, "PstlAdr")
-            Ctry = etree.SubElement(PstlAdr, "Ctry")
-            Ctry.text = bank.country.code
-            AdrLine = etree.SubElement(PstlAdr, "AdrLine")
-            AdrLine.text = prepare_SEPA_string(bank.street)
-            AdrLine2 = etree.SubElement(PstlAdr, "AdrLine")
-            AdrLine2.text = prepare_SEPA_string(bank.zip) + " " + prepare_SEPA_string(bank.city)
 
         return CdtrAgt
 

@@ -181,3 +181,13 @@ class AccountReportContextTax(models.TransientModel):
             for period in self.get_cmp_periods(display=True):
                 types += ['number', 'number']
         return types
+
+
+    @api.multi
+    def get_html_and_data(self, given_context=None):
+        res = super(AccountReportContextTax, self).get_html_and_data(given_context=given_context)
+        if len(res['available_companies']) > 1:
+            res['available_companies'] = [
+                [c.id, c.name] for c in self.env.user.company_ids if c.currency_id == self.env.user.company_id.currency_id
+            ]
+        return res

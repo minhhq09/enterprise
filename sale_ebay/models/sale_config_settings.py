@@ -36,21 +36,21 @@ class EbayConfiguration(models.TransientModel):
     @api.multi
     def set_ebay(self):
         ebay_dev_id = self[0].ebay_dev_id or ''
-        self.env['ir.config_parameter'].set_param('ebay_dev_id', ebay_dev_id, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_dev_id', ebay_dev_id, groups=["base.group_system"])
         ebay_sales_team = self[0].ebay_sales_team or self.env['crm.team'].search([])[0]
         self.env['ir.config_parameter'].set_param('ebay_sales_team', ebay_sales_team.id)
         sandbox_token = self[0].ebay_sandbox_token or ''
-        self.env['ir.config_parameter'].set_param('ebay_sandbox_token', sandbox_token, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_sandbox_token', sandbox_token, groups=["base.group_system"])
         sandbox_app_id = self[0].ebay_sandbox_app_id or ''
-        self.env['ir.config_parameter'].set_param('ebay_sandbox_app_id', sandbox_app_id, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_sandbox_app_id', sandbox_app_id, groups=["base.group_system"])
         sandbox_cert_id = self[0].ebay_sandbox_cert_id or ''
-        self.env['ir.config_parameter'].set_param('ebay_sandbox_cert_id', sandbox_cert_id, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_sandbox_cert_id', sandbox_cert_id, groups=["base.group_system"])
         prod_token = self[0].ebay_prod_token or ''
-        self.env['ir.config_parameter'].set_param('ebay_prod_token', prod_token, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_prod_token', prod_token, groups=["base.group_system"])
         prod_app_id = self[0].ebay_prod_app_id or ''
-        self.env['ir.config_parameter'].set_param('ebay_prod_app_id', prod_app_id, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_prod_app_id', prod_app_id, groups=["base.group_system"])
         prod_cert_id = self[0].ebay_prod_cert_id or ''
-        self.env['ir.config_parameter'].set_param('ebay_prod_cert_id', prod_cert_id, groups="base.group_system")
+        self.env['ir.config_parameter'].set_param('ebay_prod_cert_id', prod_cert_id, groups=["base.group_system"])
         domain = self[0].ebay_domain or ''
         self.env['ir.config_parameter'].set_param('ebay_domain', domain)
         currency = self[0].ebay_currency or self.env['res.currency'].search(

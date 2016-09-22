@@ -386,6 +386,23 @@ var GridView = View.extend({
             }), [h('td.o_grid_total', _this._cell_field.format(totals[row_index]))]));
         });
     },
+    _render_cell_inner: function (formatted_value, is_readonly) {
+        if (is_readonly) {
+            return h('div.o_grid_show', formatted_value)
+        } else {
+            return h('div.o_grid_input', {attrs: {contentEditable: "true"}}, formatted_value);
+        }
+    },
+    _render_cell_content: function (cell_value, is_readonly, classmap, path) {
+        return h('div', { class: classmap, attrs: {'data-path': path}}, [
+            h('i.fa.fa-search-plus.o_grid_cell_information', {
+                attrs: {
+                    title: _("See all the records aggregated in this cell")
+                }
+            }, []),
+            this._render_cell_inner(cell_value, is_readonly)
+        ]);
+    },
     _render_cell: function (cell, path) {
         var is_readonly = this._cell_is_readonly(cell);
 
@@ -405,19 +422,8 @@ var GridView = View.extend({
         });
 
         var cell_value = this._cell_field.format(cell.value);
-        var cell_content = is_readonly
-            ? h('div.o_grid_show', cell_value)
-            : h('div.o_grid_input', {attrs: {contentEditable: "true"}}, cell_value);
-
         return h('td', {class: {o_grid_current: cell.is_current}}, [
-            h('div', { class: classmap, attrs: { 'data-path': path } }, [
-                h('i.fa.fa-search-plus.o_grid_cell_information', {
-                    attrs: {
-                        title: _("See all the records aggregated in this cell")
-                    }
-                }, []),
-                cell_content
-            ])
+            this._render_cell_content(cell_value, is_readonly, classmap, path)
         ]);
     },
     /**

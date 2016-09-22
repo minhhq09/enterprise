@@ -122,6 +122,9 @@ var FormRenderingEngine = require('web.FormRenderingEngine');
 
 return FormRenderingEngine.extend({
     fill_statusbar_buttons: function ($statusbar_buttons, $buttons) {
+        if(!$buttons.length) {
+            return;
+        }
         var $statusbar_buttons_dropdown = this.render_element('FormRenderingStatusBar_DropDown', {});
         $buttons.each(function(i, el) {
             $statusbar_buttons_dropdown.find('.dropdown-menu').append($('<li/>').append(el));

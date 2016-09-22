@@ -236,6 +236,8 @@ class AccountFinancialReportLine(models.Model):
 
         while(not financial_report):
             financial_report = line.financial_report_id
+            if not line.parent_id:
+                break
             line = line.parent_id
 
         sql, params = self._get_with_statement(financial_report)
