@@ -103,7 +103,7 @@ class TestContractCommon(common.TransactionCase):
         self.contract = Contract.create({
             'name': 'TestContract',
             'recurring_rule_type': 'yearly',
-            'pricelist_id': self.env.ref('product.list0').id,
+            'pricelist_id': self.env.ref('website_sale.list_europe').id,
             'state': 'open',
             'partner_id': self.user_portal.partner_id.id,
             'template_id': self.contract_tmpl_1.id,
