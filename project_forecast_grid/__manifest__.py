@@ -6,11 +6,13 @@
     'summary': "Add Grid view on Project Forecasts",
     'description': """Bridge module between Project Forecast and Grid View
 """,
-    'category': 'Project Management',
+    'category': 'Project',
     'version': '1.0',
     'depends': ['project_forecast', 'grid'],
     'data': [
-        'views/views.xml',
+        'views/project_project_views.xml',
+        'views/project_forecast_views.xml',
+        'wizard/project_forecast_assignment_views.xml',
     ],
     'demo': [
         'demo/demo.xml',

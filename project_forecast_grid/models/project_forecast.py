@@ -1,57 +1,12 @@
 # -*- coding: utf-8 -*-
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import models, fields, api, _
-import odoo.exceptions
 from odoo.osv import expression
 
+import odoo.exceptions
 
-class Project(models.Model):
-    _inherit = "project.project"
-
-    @api.multi
-    def view_monthly_forecast(self):
-        self.env.cr.execute("""
-            SELECT count(*)
-            FROM project_forecast
-            WHERE project_id = %s
-              AND date_trunc('month', start_date) != date_trunc('month', end_date);
-        """, [self.id])
-        [count] = self.env.cr.fetchone()
-        if count:
-            raise odoo.exceptions.UserError(
-                _("Can only be used for forecasts not spanning multiple months, "
-                  "found %(forecast_count)d forecast(s) spanning across "
-                  "months in %(project_name)s") % {
-                    'forecast_count': count,
-                    'project_name': self.display_name,
-                }
-            )
-
-        # forecast grid requires start and end dates on the project
-        if not (self.date_start and self.date):
-            return {
-                'name': self.display_name,
-                'type': 'ir.actions.act_window',
-                'res_model': 'project.project',
-                'target': 'new',
-                'res_id': self.id,
-                'view_mode': 'form',
-                'view_id': self.env.ref('project_forecast_grid.view_project_set_dates').id,
-            }
-
-
-        return {
-            'name': _("Forecast"),
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.forecast',
-            'view_id': self.env.ref('project_forecast_grid.project_forecast_grid').id,
-            'view_mode': 'grid',
-            'domain': [['project_id', '=', self.id]],
-            'context': {
-                'default_project_id': self.id,
-            }
-        }
 
 class Forecast(models.Model):
     _inherit = "project.forecast"
@@ -60,7 +15,10 @@ class Forecast(models.Model):
         if span != 'project':
             return super(Forecast, self)._grid_start_of(span, step, anchor)
 
-        project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        if self.env.context.get('default_project_id'):
+            project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        elif self.env.context.get('default_task_id'):
+            project = self.env['project.task'].browse(self.env.context['default_task_id']).project_id
 
         if step != 'month':
             raise odoo.exceptions.UserError(
@@ -79,7 +37,11 @@ class Forecast(models.Model):
         if span != 'project':
             return super(Forecast, self)._grid_end_of(span, step, anchor)
 
-        project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        if self.env.context.get('default_project_id'):
+            project = self.env['project.project'].browse(self.env.context['default_project_id'])
+        elif self.env.context.get('default_task_id'):
+            project = self.env['project.task'].browse(self.env.context['default_task_id']).project_id
+
         if not project.date:
             raise odoo.exceptions.UserError(
                 _("A project must have an end date to use a forecast grid, "
@@ -140,7 +102,8 @@ class Forecast(models.Model):
         [action] = self.env.ref('project_forecast_grid.action_project_forecast_assign').read()
 
         action['context'] = {
-            'default_project_id': self.env.context['default_project_id']
+            'default_project_id': self.env.context.get('default_project_id'),
+            'default_task_id': self.env.context.get('default_task_id')
         }
         return action
 
@@ -155,30 +118,3 @@ class Forecast(models.Model):
         return tasks.sudo().search(tasks_domain, order=order)
 
     task_id = fields.Many2one(group_expand='_read_forecast_tasks')
-
-
-class Assignment(models.TransientModel):
-    _name = 'project.forecast.assignment'
-
-    project_id = fields.Many2one('project.project', string="Project", required=True)
-    task_id = fields.Many2one('project.task', string="Task", required=True,
-                              domain="[('project_id', '=', project_id)]")
-    user_id = fields.Many2one('res.users', string="User", required=True)
-
-    @api.multi
-    def create_assignment(self):
-        # create a project.forecast on the project's first month
-        project_start = fields.Date.from_string(self.project_id.date_start)
-        month_start = fields.Date.to_string(project_start + relativedelta(day=1))
-        month_end = fields.Date.to_string(project_start + relativedelta(months=1, day=1, days=-1))
-
-        self.env['project.forecast'].create({
-            'project_id': self.project_id.id,
-            'task_id': self.task_id.id,
-            'user_id': self.user_id.id,
-            'start_date': month_start,
-            'end_date': month_end,
-            'time': 0,
-        })
-
-        return {'type': 'ir.actions.act_window_close'}

@@ -1,1 +1,2 @@
-from . import forecast
+import project
+import project_forecast
