@@ -113,8 +113,8 @@ class AccountBankStatementImport(models.TransientModel):
                 'transactions': transactions,
                 # WARNING: the provided ledger balance is not necessarily the ending balance of the statement
                 # see https://github.com/odoo/odoo/issues/3003
-                'balance_start': float(ofx.account.statement.balance) - total_amt,
-                'balance_end_real': ofx.account.statement.balance,
+                'balance_start': float(account.statement.balance) - total_amt,
+                'balance_end_real': account.statement.balance,
             })
 
         if account_lst and len(account_lst) == 1:
