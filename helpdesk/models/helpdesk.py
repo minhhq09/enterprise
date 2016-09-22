@@ -412,7 +412,7 @@ class HelpdeskTicket(models.Model):
             if (not fields or 'user_id' in fields) and 'user_id' not in res:
                 res['user_id'] = update_vals['user_id']
             if (not fields or 'stage_id' in fields) and 'stage_id' not in res:
-                res['user_id'] = update_vals['stage_id']
+                res['stage_id'] = update_vals['stage_id']
         return res
 
     def _default_team_id(self):
