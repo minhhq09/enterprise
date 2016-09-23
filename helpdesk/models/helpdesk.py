@@ -416,7 +416,12 @@ class HelpdeskTicket(models.Model):
         return res
 
     def _default_team_id(self):
-        return self._context.get('default_team_id')
+        team_id = self._context.get('default_team_id')
+        if not team_id:
+            team_id = self.env['helpdesk.team'].search([('member_ids', 'in', self.env.uid)], limit=1).id
+        if not team_id:
+            team_id = self.env['helpdesk.team'].search([], limit=1).id
+        return team_id
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
