@@ -154,7 +154,7 @@ class HelpdeskTeam(models.Model):
                 slides_module.button_immediate_install()
                 module_installed = True
 
-            rating_module = self.env['ir.module.module'].search([('name', '=', 'website_helpdesk_rating')])
+            rating_module = self.env['ir.module.module'].search([('name', '=', 'website_helpdesk')])
             if self.use_website_helpdesk_rating and rating_module.state not in ('installed', 'to install', 'to upgrade'):
                 rating_module.button_immediate_install()
                 module_installed = True

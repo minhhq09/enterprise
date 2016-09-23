@@ -3,9 +3,9 @@
 <data noupdate="0">
 
     <!-- CSS Style Bundle -->
-    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Rating Helpdesk Ticket Assets">
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Helpdesk">
         <xpath expr="." position="inside">
-            <link rel="stylesheet" href="/website_helpdesk_rating/static/src/css/website_helpdesk_rating_ticket.css"/>
+            <link rel="stylesheet" href="/website_helpdesk/static/src/css/website_helpdesk.css"/>
         </xpath>
     </template>
 
@@ -328,19 +328,19 @@
                 <h5>Last 7 days</h5>
                 <t t-set="duration" t-value="7"/>
                 <t t-set="stats" t-value="stats"/>
-                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+                <t t-call="website_helpdesk.team_rating_progress_data"/>
             </div>
             <div class="col-sm-4">
                 <h5>Last 30 days</h5>
                 <t t-set="duration" t-value="30"/>
                 <t t-set="stats" t-value="stats"/>
-                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+                <t t-call="website_helpdesk.team_rating_progress_data"/>
             </div>
             <div class="col-sm-4">
                 <h5>Last 3 months</h5>
                 <t t-set="duration" t-value="90"/>
                 <t t-set="stats" t-value="stats"/>
-                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+                <t t-call="website_helpdesk.team_rating_progress_data"/>
             </div>
 
         </div>
@@ -358,7 +358,7 @@
                     <h1 t-esc="team.name" class="text-center"/>
                     <div class="row mb32">
                         <div class="col-md-8">
-                            <t t-call="website_helpdesk_rating.team_rating_data"/>                 
+                            <t t-call="website_helpdesk.team_rating_data"/>                 
                         </div>
                     </div>
                 </div>
