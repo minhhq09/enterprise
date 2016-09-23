@@ -8,14 +8,7 @@ class HelpdeskTeam(models.Model):
     _inherit = "helpdesk.team"
 
     elearning_id = fields.Many2one('slide.channel', 'eLearning')
-    elearning_url = fields.Char('Presentations URL', readonly=True, compute='_compute_elearning_url')
-
-    def _compute_elearning_url(self):
-        for team in self:
-            if team.elearning_id and team.id:
-                team.elearning_url = '/slides/' + team.elearning_id.name + '-' + str(team.elearning_id.id)
-            else:
-                team.elearning_url = False
+    elearning_url = fields.Char('Presentations URL', readonly=True, related='elearning_id.website_url')
 
     @api.onchange('use_website_helpdesk_slides')
     def _onchange_use_website_helpdesk_slides(self):

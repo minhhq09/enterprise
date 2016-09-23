@@ -10,14 +10,7 @@ class HelpdeskTeam(models.Model):
     _inherit = "helpdesk.team"
 
     forum_id = fields.Many2one('forum.forum', string='Help Center Forum')
-    forum_url = fields.Char(string='Help Center Forum URL', readonly=True, compute='_compute_forum_url')
-
-    def _compute_forum_url(self):
-        for team in self:
-            if team.forum_id and team.id:
-                team.forum_url = '/forum/' + team.forum_id.name + '-' + str(team.forum_id.id)
-            else:
-                team.forum_url = False
+    forum_url = fields.Char('Help Center Forum URL', readonly=True, related='forum_id.website_url')
 
     @api.onchange('use_website_helpdesk_forum')
     def _onchange_use_website_helpdesk_forum(self):
