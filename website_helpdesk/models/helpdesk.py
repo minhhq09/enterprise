@@ -2,8 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import uuid
-import re
 
+from odoo.addons.website.models.website import slug
 from odoo import api, exceptions, fields, models
 
 
@@ -53,12 +53,13 @@ class HelpdeskTeam(models.Model):
 
     def _compute_website_rating_url(self):
         for team in self.filtered(lambda team: team.name and team.use_website_helpdesk_rating and team.id):
-            team.website_rating_url = (team.use_website_helpdesk_rating and team.id) and ('/helpdesk/rating/' + team.name + '-' + str(team.id)) or False
+            team.website_rating_url = '/helpdesk/rating/%s' % slug(team)
 
     @api.multi
     def _compute_website_url(self):
+        super(HelpdeskTeam, self)._compute_website_url()
         for team in self:
-            team.website_url = "/helpdesk/" + re.sub('\W+', '-', team.name) + '-' + str(team.id)
+            team.website_url = "/helpdesk/%s" % slug(team)
 
     @api.onchange('use_website_helpdesk_form', 'use_website_helpdesk_forum', 'use_website_helpdesk_slides')
     def _onchange_use_website_helpdesk(self):

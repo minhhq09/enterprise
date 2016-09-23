@@ -2,6 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _
+from odoo.addons.website.models.website import slug
 from odoo.exceptions import UserError
 from odoo.tools import plaintext2html
 
@@ -10,7 +11,14 @@ class HelpdeskTeam(models.Model):
     _inherit = "helpdesk.team"
 
     forum_id = fields.Many2one('forum.forum', string='Help Center Forum')
-    forum_url = fields.Char('Help Center Forum URL', readonly=True, related='forum_id.website_url')
+    forum_url = fields.Char(string='Help Center Forum URL', readonly=True, compute='_compute_forum_url')
+
+    def _compute_forum_url(self):
+        for team in self:
+            if team.forum_id and team.id:
+                team.forum_url = '/forum/%s' % slug(team.forum_id)
+            else:
+                team.forum_url = False
 
     @api.onchange('use_website_helpdesk_forum')
     def _onchange_use_website_helpdesk_forum(self):
