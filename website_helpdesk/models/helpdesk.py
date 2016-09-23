@@ -46,9 +46,19 @@ class HelpdeskTicket(models.Model):
 
 
 class HelpdeskTeam(models.Model):
-
     _name = "helpdesk.team"
     _inherit = ['helpdesk.team', 'website.published.mixin']
+
+    website_rating_url = fields.Char('URL to Submit Issue', readonly=True, compute='_compute_website_rating_url')
+
+    def _compute_website_rating_url(self):
+        for team in self.filtered(lambda team: team.name and team.use_website_helpdesk_rating and team.id):
+            team.website_rating_url = (team.use_website_helpdesk_rating and team.id) and ('/helpdesk/rating/' + team.name + '-' + str(team.id)) or False
+
+    @api.multi
+    def _compute_website_url(self):
+        for team in self:
+            team.website_url = "/helpdesk/" + re.sub('\W+', '-', team.name) + '-' + str(team.id)
 
     @api.onchange('use_website_helpdesk_form', 'use_website_helpdesk_forum', 'use_website_helpdesk_slides')
     def _onchange_use_website_helpdesk(self):
@@ -56,6 +66,12 @@ class HelpdeskTeam(models.Model):
             self.website_published = False
 
     @api.multi
-    def _compute_website_url(self):
-        for team in self:
-            team.website_url = "/helpdesk/" + re.sub('\W+', '-', team.name) + '-' + str(team.id)
+    def action_view_all_rating(self):
+        """ Override this method without calling parent to redirect to rating website team page """
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'name': "Redirect to the Website Helpdesk Rating Page",
+            'target': 'self',
+            'url': "/helpdesk/rating/%s" % (self.id,)
+        }

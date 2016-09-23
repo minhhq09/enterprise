@@ -2,6 +2,20 @@
 <odoo>
 <data noupdate="0">
 
+    <!-- CSS Style Bundle -->
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Rating Helpdesk Ticket Assets">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/website_helpdesk_rating/static/src/css/website_helpdesk_rating_ticket.css"/>
+        </xpath>
+    </template>
+
+    <!-- Layout add footer -->
+    <template id="header_footer_custom" inherit_id="website.footer_default" name="Helpdesk Ticket Rating Footer Link">
+        <xpath expr="//ul[@id='products']" position="inside">
+            <li><a href="/helpdesk/rating/">Helpdesk Team Customer Satisfaction</a></li>
+        </xpath>
+    </template>
+
     <template id="portal_my_home_menu_helpdesk" name="Portal layout : helpdesk tickets menu entries" inherit_id="website_portal.portal_layout" priority="25">
         <xpath expr="//ul[contains(@class,'o_portal_submenu')]" position="inside">
             <li>
@@ -242,6 +256,115 @@
         <xpath expr="//div[@id='o_website_add_page_modal']//ul" position="inside">
             <li groups="base.group_user"><a href="#" data-action="new_team"><i class="fa fa-question"/><p>New Team</p></a></li>
         </xpath>
+    </template>
+
+    <!-- Page : List of project -->
+    <template id="index" name="Helpdesk Ticket Rating List">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Helpdesk Team Satisfaction</t>
+            <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container oe_website_rating_team">
+                    <div class="row text-center">
+                        <h2>Teams</h2>
+                    </div>
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <t t-foreach="teams" t-as="team">
+                            <div t-if="team.percentage_satisfaction != -1" class="col-sm-6 col-xs-4 col-md-4 col-lg-4">
+                                <div class="thumbnail">
+                                    <div>
+                                        <div class="caption">
+                                            <h4><t t-esc="team.name"/></h4>
+                                            <p t-if="team.percentage_satisfaction"  class="text-muted">
+                                                <i/> Customer Satisfaction Ration: <t t-esc="team.percentage_satisfaction"/> %
+                                            </p>
+                                            <p t-if="team.alias_name and team.alias_domain"  class="text-muted">
+                                                <i class="fa fa-envelope"/> Email : <t t-esc="team.alias_name"/>@<t t-esc="team.alias_domain"/>
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-md-16 text-center">
+                                                    <h2><t t-esc="len(team.ticket_ids)"/></h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="caption">
+                                            <p>
+                                                <a t-att-href="'/helpdesk/rating/%s' % team.id" class="btn btn-primary btn-lg btn-block">
+                                                    <i class="fa fa-arrow-circle-right "/> See the feedbacks
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+          </div>
+        </t>
+    </template>
+
+    <!-- Page : Rating of a particular team -->
+    <template id="team_rating_progress_data" name="Ticket Rating Page">
+        <div class="progress">
+            <div class="progress-bar progress-bar-success" t-attf-style="width: #{stats[duration][10]}%;" title="Happy">
+                <t t-esc="int(stats[duration][10])"/>%
+            </div>
+            <div class="progress-bar progress-bar-warning" t-attf-style="width: #{stats[duration][5]}%;" title="Average">
+                <t t-esc="int(stats[duration][5])"/>%
+            </div>
+            <div class="progress-bar progress-bar-danger" t-attf-style="width: #{stats[duration][1]}%;" title="Bad">
+                <t t-esc="int(stats[duration][1])"/>%
+            </div>
+        </div>
+    </template>
+
+    <template id="team_rating_data" name="Helpdesk Ticket Rating Page">
+        <h3 class="page-header">Customer Satisfaction</h3>
+        <div class="row">
+            <div class="col-sm-4">
+                <h5>Last 7 days</h5>
+                <t t-set="duration" t-value="7"/>
+                <t t-set="stats" t-value="stats"/>
+                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+            </div>
+            <div class="col-sm-4">
+                <h5>Last 30 days</h5>
+                <t t-set="duration" t-value="30"/>
+                <t t-set="stats" t-value="stats"/>
+                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+            </div>
+            <div class="col-sm-4">
+                <h5>Last 3 months</h5>
+                <t t-set="duration" t-value="90"/>
+                <t t-set="stats" t-value="stats"/>
+                <t t-call="website_helpdesk_rating.team_rating_progress_data"/>
+            </div>
+
+        </div>
+        <h5 class="page-header">Latest Feedbacks</h5>
+        <t t-foreach="ratings" t-as="rating" class="media">
+            <img t-attf-src='/rating/static/src/img/rating_#{int(rating.rating)}.png' t-att-alt="rating.res_name" t-att-title="rating.res_name"/>
+        </t>
+    </template>
+
+    <template id="team_rating_page" name="Helpdesk Ticket Rating Page">
+        <t t-call="website.layout">
+             <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container oe_website_rating_team">
+                    <h1 t-esc="team.name" class="text-center"/>
+                    <div class="row mb32">
+                        <div class="col-md-8">
+                            <t t-call="website_helpdesk_rating.team_rating_data"/>                 
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+            </div>
+        </t>
     </template>
 
 </data>
