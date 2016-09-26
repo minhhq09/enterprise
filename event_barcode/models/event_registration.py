@@ -23,7 +23,7 @@ class EventRegistration(models.Model):
          """
         return str(int(uuid.uuid4().bytes[:8].encode('hex'), 16))
 
-    barcode = fields.Char(default=_get_random_token, readonly=True)
+    barcode = fields.Char(default=_get_random_token, readonly=True, copy=False)
 
     _sql_constraints = [
         ('barcode_event_uniq', 'unique(barcode, event_id)', "Barcode should be unique per event")
