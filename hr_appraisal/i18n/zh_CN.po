@@ -1,26 +1,28 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * hr_appraisal
-#
+# 
 # Translators:
-# fausthuang, 2016
-# fausthuang, 2016
-# Gary Wei <Gary.wei@elico-corp.com>, 2015-2016
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
-# 卓忆科技 <zhanghao@jointd.com>, 2015
+# ChinaMaker <tiexinliu@126.com>, 2016
+# Talway <9010446@qq.com>, 2016
+# fausthuang <faust_huang@hotmail.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
+# xiaobin wu <bd5dml@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-07-12 01:00+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: xiaobin wu <bd5dml@gmail.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: hr_appraisal
@@ -28,20 +30,15 @@ msgstr ""
 msgid ""
 "\n"
 "                \n"
-"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, "
-"Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
 "                    <p>Dear ${ctx.get('employee').name},</p>\n"
 "                    % if ctx.get('employee').id == object.employee_id.id:\n"
-"                        <p>Please fill out the following survey related to "
-"your appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to your appraisal.</p>\n"
 "                    % else:\n"
-"                        <p>Please fill out the following survey related to "
-"${object.employee_id.name}'s appraisal.</p>\n"
+"                        <p>Please fill out the following survey related to ${object.employee_id.name}'s appraisal.</p>\n"
 "                    % endif\n"
-"                    <p><a href=\"__URL__\">Click here to access the survey.</"
-"a></p>\n"
-"                    <p>Post your response for the appraisal till : ${object."
-"date_close}</p>\n"
+"                    <p><a href=\"__URL__\">Click here to access the survey.</a></p>\n"
+"                    <p>Post your response for the appraisal till : ${object.date_close}</p>\n"
 "                    <p>Thank you for your participation.</p>\n"
 "                </div>\n"
 "                \n"
@@ -49,14 +46,12 @@ msgid ""
 msgstr ""
 "\n"
 "                \n"
-"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, "
-"Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
+"                <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); \">\n"
 "                    <p>亲爱的 ${ctx.get('employee').name},</p>\n"
 "                    % if ctx.get('employee').id == object.employee_id.id:\n"
 "                        <p>请填写下列与您评价相关的调查.</p>\n"
 "                    % else:\n"
-"                        <p>请填写下列${object.employee_id.name} 评价相关的调"
-"查.</p>\n"
+"                        <p>请填写下列${object.employee_id.name} 评价相关的调查.</p>\n"
 "                    % endif\n"
 "                    <p><a href=\"__URL__\">点击这里保存调查.</a></p>\n"
 "                    <p>附上您的回答 : ${object.date_close}</p>\n"
@@ -106,6 +101,11 @@ msgid ""
 "Actions by Executive management show genuine interest in the well-being of "
 "employees"
 msgstr "显示由行政管理行为在员工的幸福感兴趣"
+
+#. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_active
+msgid "Active"
+msgstr "有效"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_13
@@ -173,7 +173,12 @@ msgid "Appraisal Form..."
 msgstr "评价表"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:117
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+msgid "Appraisal Frequency"
+msgstr ""
+
+#. module: hr_appraisal
+#: code:addons/hr_appraisal/models/hr_appraisal.py:118
 #, python-format
 msgid "Appraisal Meeting For %s"
 msgstr "%s的评价会议"
@@ -181,7 +186,7 @@ msgstr "%s的评价会议"
 #. module: hr_appraisal
 #: model:survey.page,title:hr_appraisal.opinion_1
 msgid "Appraisal Process"
-msgstr "评价过程"
+msgstr "评价阶段"
 
 #. module: hr_appraisal
 #: model:mail.template,subject:hr_appraisal.send_appraisal_template
@@ -189,7 +194,12 @@ msgid "Appraisal Regarding"
 msgstr "评价关于"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
+msgid "Appraisal Repeat Every"
+msgstr ""
+
+#. module: hr_appraisal
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:mail.message.subtype,description:hr_appraisal.mt_appraisal_sent
@@ -238,7 +248,7 @@ msgid "Appraisal(s)"
 msgstr "评价"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:160
+#: code:addons/hr_appraisal/models/hr_appraisal.py:161
 #, python-format
 msgid "Appraisal(s) form have been sent"
 msgstr "评价表已经发送"
@@ -258,6 +268,11 @@ msgstr "待处理评价"
 #: model:survey.question,question:hr_appraisal.appraisal_1_5
 msgid "Appraiser"
 msgstr "评估人"
+
+#. module: hr_appraisal
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
+msgid "Archived"
+msgstr "已归档"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -280,7 +295,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #, python-format
 msgid "Cancelled"
@@ -369,7 +384,7 @@ msgstr "创建日期"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_create_uid
 msgid "Created by"
-msgstr "创建者"
+msgstr "创建人"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_create_date
@@ -439,7 +454,6 @@ msgid "Demonstrates genuine concern for me as a person"
 msgstr "说明真正关心我的人"
 
 #. module: hr_appraisal
-#: model:ir.model,name:hr_appraisal.model_hr_department
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_department_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_department_id
 msgid "Department"
@@ -458,7 +472,7 @@ msgid "Display Name"
 msgstr "显示名称"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -483,12 +497,12 @@ msgstr "评价的邮件模板"
 
 #. module: hr_appraisal
 #: model:ir.model,name:hr_appraisal.model_hr_employee
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_employee_id
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_self
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_search
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
+#: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
 msgid "Employee"
 msgstr "员工"
 
@@ -524,6 +538,11 @@ msgid "Employee Performance in Key Areas"
 msgstr "在关键领域的绩效"
 
 #. module: hr_appraisal
+#: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_employee_appraisal
+msgid "Employee appraisal"
+msgstr "员工评价"
+
+#. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_colleagues_survey_id
 msgid "Employee's Appraisal"
 msgstr "员工的评价"
@@ -536,7 +555,7 @@ msgstr "员工姓名"
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.opinion_2_1
 msgid "Engagement"
-msgstr "承诺"
+msgstr "决战"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.arow_3_1_2
@@ -562,7 +581,7 @@ msgstr "超过标准和期望"
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Extended Filters..."
-msgstr "扩展过滤器..."
+msgstr "扩展筛选..."
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_hr_appraisal_form
@@ -572,7 +591,7 @@ msgstr "最终评估"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_date_final_interview
 msgid "Final Interview"
-msgstr "最终面谈"
+msgstr "最终面试"
 
 #. module: hr_appraisal
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
@@ -596,9 +615,12 @@ msgid ""
 "their supervisor's leadership and to give their opinion about their own "
 "engagement and effectiveness, the continuous improvement and openness in "
 "action in thecompany..."
-msgstr ""
-"他的直接报告将被邀请通过Odoo，来表达他们对于主管的领导力的反馈和他们自己的参"
-"与的和有效性的意见，在公司中的不断完善和开放的行动"
+msgstr "他的直接报告将被邀请通过Odoo，来表达他们对于主管的领导力的反馈和他们自己的参与的和有效性的意见，在公司中的不断完善和开放的行动"
+
+#. module: hr_appraisal
+#: model:ir.model,name:hr_appraisal.model_hr_department
+msgid "Hr Department"
+msgstr "部门"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_1_1
@@ -622,8 +644,7 @@ msgstr "我相信这些信息来自我的个人报告。"
 msgid ""
 "I consistently acquire new knowledge, skills or understanding through "
 "contact with my supervisor. He helps me growing my compete"
-msgstr ""
-"我一贯通过与我的上司接触学习新知识，技能或共识。他帮助我日益增长我的竞争力"
+msgstr "我一贯通过与我的上司接触学习新知识，技能或共识。他帮助我日益增长我的竞争力"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_3_2
@@ -675,11 +696,9 @@ msgstr "ID"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_4
 msgid ""
-"Identify professional, performance, or project objectives you recommend for "
-"employee’s continued career development\n"
+"Identify professional, performance, or project objectives you recommend for employee’s continued career development\n"
 "over the coming year."
-msgstr ""
-"在新的一年中，为你的员工的可持续的职业发展规划确定专业，职能，项目目标。"
+msgstr "在新的一年中，为你的员工的可持续的职业发展规划确定专业，职能，项目目标。"
 
 #. module: hr_appraisal
 #: model:survey.question,comments_message:hr_appraisal.appraisal_1_1
@@ -728,29 +747,22 @@ msgstr "主动性和自主性"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report_final_interview
 msgid "Interview"
-msgstr "面谈"
+msgstr "面试"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the joint responsibility of the employee and the supervisor "
-"(appraiser) to establish a feasible work plan for the\n"
-"coming year, including major employee responsibilities and corresponding "
-"benchmarks against which results will be\n"
+"It is the joint responsibility of the employee and the supervisor (appraiser) to establish a feasible work plan for the\n"
+"coming year, including major employee responsibilities and corresponding benchmarks against which results will be\n"
 "evaluated."
-msgstr ""
-"这是员工和主管的共同责任(评估者)对未来一年，针对将被评价的结果，建立一个切实"
-"可行的工作计划，主要包括员工的责任与相应的基准。"
+msgstr "这是员工和主管的共同责任(评估者)对未来一年，针对将被评价的结果，建立一个切实可行的工作计划，主要包括员工的责任与相应的基准。"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"It is the primary responsibility of the supervisor to gather the necessary "
-"input from the appropriate sources of feedback\n"
-"(internal and/or external customers, peers). In case of collaboration with "
-"Odoo SA Belgium, the supervisor must\n"
-"receive completed evaluation form from the employee's Belgian project "
-"manager."
+"It is the primary responsibility of the supervisor to gather the necessary input from the appropriate sources of feedback\n"
+"(internal and/or external customers, peers). In case of collaboration with Odoo SA Belgium, the supervisor must\n"
+"receive completed evaluation form from the employee's Belgian project manager."
 msgstr ""
 "从适当的反馈来源收集必要的投入，这是主管的首要责任\n"
 "(内部和/或外部客户，同行)。与比利时Odoo SA合作，主管必须\n"
@@ -760,12 +772,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal___last_update
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_report___last_update
 msgid "Last Modified on"
-msgstr "最后修改时间"
+msgstr "最后修改日"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_write_uid
 msgid "Last Updated by"
-msgstr "最后更新者"
+msgstr "最后更新人"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_write_date
@@ -792,14 +804,14 @@ msgstr "领导：在维持其专业成长的下属"
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_2_3
 msgid ""
-"Listens and takes into account all ideas and do his best to put in place the "
-"best of these"
+"Listens and takes into account all ideas and do his best to put in place the"
+" best of these"
 msgstr "听取并考虑到所有的想法和把这些最好的做到最好"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_appraisal
 msgid "Manager"
-msgstr "管理员"
+msgstr "经理"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_manager_ids
@@ -843,7 +855,7 @@ msgstr "杂项"
 #: selection:hr.employee,appraisal_frequency_unit:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 msgid "Month"
-msgstr "月份"
+msgstr "月"
 
 #. module: hr_appraisal
 #: model:survey.label,value:hr_appraisal.oprow_2_5_2
@@ -878,7 +890,7 @@ msgstr "你的直接上司的名字"
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_date
 msgid "Next Appraisal Date"
-msgstr "下一评价日期"
+msgstr "下一个评价日期"
 
 #. module: hr_appraisal
 #: model:ir.model.fields,field_description:hr_appraisal.field_hr_appraisal_count_completed_survey
@@ -976,15 +988,14 @@ msgid "Related partner id"
 msgstr "相关业务伙伴id"
 
 #. module: hr_appraisal
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency
-#: model:ir.model.fields,field_description:hr_appraisal.field_hr_employee_appraisal_frequency_unit
+#: model:ir.ui.view,arch_db:hr_appraisal.hr_employee_view_form
 msgid "Repeat Every"
-msgstr "逐个重复"
+msgstr "重复"
 
 #. module: hr_appraisal
 #: model:ir.ui.menu,name:hr_appraisal.menu_hr_appraisal_report
 msgid "Reports"
-msgstr "报告"
+msgstr "报表"
 
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_2_2
@@ -1116,14 +1127,6 @@ msgid "The answer you entered has an invalid format."
 msgstr "您输入的答案格式不正确。"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:192
-#, python-format
-msgid ""
-"The appraisal deadline must be in the future to allow employees to answer "
-"the survey."
-msgstr "评价的最后期限必须使员工能有足够的时间来完成调查。"
-
-#. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The appraiser should rate the employee's major work accomplishments and "
@@ -1133,8 +1136,7 @@ msgstr "考核人员应该对员工的主要工作的完成度和表现按以下
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_3
 msgid ""
-"The appraiser should rate the employee’s major work accomplishments and "
-"performance according to the metric provided\n"
+"The appraiser should rate the employee’s major work accomplishments and performance according to the metric provided\n"
 "below:"
 msgstr "考核人员应该对员工的主要工作的完成度和表现按以下提供的标准进行评级："
 
@@ -1149,7 +1151,7 @@ msgstr "下一次的评价时间不能是过去的时间"
 msgid ""
 "The date of the next appraisal is computed by the appraisal plan's dates "
 "(first appraisal + periodicity)."
-msgstr "下次评价的日期是按评价计划的日期计算出来的 （首次评价 + 周期）"
+msgstr "下次评价的日期是按评价计划的日期计算出来的 （首次评价+ 周期）"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1161,10 +1163,8 @@ msgstr "雇员可以对已经完成的审核给出意见和解释"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The employee will be responsible for completing a draft of the Appraisal "
-"Form as a tool for self-appraisal and a starting\n"
-"point for the supervisor’s evaluation. The employee can add examples of "
-"achievements for each criterion.\n"
+"The employee will be responsible for completing a draft of the Appraisal Form as a tool for self-appraisal and a starting\n"
+"point for the supervisor’s evaluation. The employee can add examples of achievements for each criterion.\n"
 "Once the form had been filled, the employee send it to his supervisor."
 msgstr ""
 "雇员将负责完成评价的草案，作为自我评价的工具和开始\n"
@@ -1175,11 +1175,9 @@ msgstr ""
 #: model:survey.page,description:hr_appraisal.opinion_1
 msgid ""
 "The employees will send back their anonymous answers to Odoo. The data will "
-"be handled by the HR manager and a brief summary of the data will be sent to "
-"the concerned supervisor, to his team and to the supervisor's supervisor."
-msgstr ""
-"员工会把他们的匿名回答给Odoo。这些数据将由人事经理处理，并将数据的简要汇总发"
-"送给有关主管，他的团队以及主管的主管。"
+"be handled by the HR manager and a brief summary of the data will be sent to"
+" the concerned supervisor, to his team and to the supervisor's supervisor."
+msgstr "员工会把他们的匿名回答给Odoo。这些数据将由人事经理处理，并将数据的简要汇总发送给有关主管，他的团队以及主管的主管。"
 
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
@@ -1190,8 +1188,7 @@ msgstr "领导把表格发给印度和比利时的人资部门"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"The supervisor synthesizes and integrates all input into the completed "
-"appraisal. The motivation of the evaluation\n"
+"The supervisor synthesizes and integrates all input into the completed appraisal. The motivation of the evaluation\n"
 "is explained in the ad hoc fields."
 msgstr ""
 
@@ -1253,7 +1250,7 @@ msgid "Time management: projects/tasks are completed on time"
 msgstr "时间管理：项目/任务按时完成"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:212
+#: code:addons/hr_appraisal/models/hr_appraisal.py:211
 #: selection:hr.appraisal,state:0 selection:hr.appraisal.report,state:0
 #: model:ir.ui.view,arch_db:hr_appraisal.view_appraisal_report_search
 #, python-format
@@ -1263,8 +1260,7 @@ msgstr "开始"
 #. module: hr_appraisal
 #: model:survey.page,description:hr_appraisal.appraisal_1
 msgid ""
-"To assist employees in their professional growth, through the identification "
-"of strengths and opportunities for\n"
+"To assist employees in their professional growth, through the identification of strengths and opportunities for\n"
 "development"
 msgstr "通过优势和机会的识别帮助员工的职业发展。"
 
@@ -1276,8 +1272,8 @@ msgstr "发起一个清晰的，公开交流的业绩预期。"
 #. module: hr_appraisal
 #: model:survey.question,question:hr_appraisal.appraisal_5_1
 msgid ""
-"Use the following space to make any comments regarding the above performance "
-"evaluation."
+"Use the following space to make any comments regarding the above performance"
+" evaluation."
 msgstr "请使用以下的空间，对上述绩效评估作任何评论。"
 
 #. module: hr_appraisal
@@ -1298,7 +1294,7 @@ msgid "Year"
 msgstr "年"
 
 #. module: hr_appraisal
-#: code:addons/hr_appraisal/models/hr_appraisal.py:206
+#: code:addons/hr_appraisal/models/hr_appraisal.py:205
 #, python-format
 msgid "You cannot delete appraisal which is in '%s' state"
 msgstr "你不能删除在 '%s'状态的评价"
@@ -1306,8 +1302,7 @@ msgstr "你不能删除在 '%s'状态的评价"
 #. module: hr_appraisal
 #: model:ir.actions.act_window,help:hr_appraisal.open_view_hr_appraisal_tree
 msgid ""
-"You will be able to choose which forms will be sent (Employee,Managers,"
-"Collaborators or Colleagues),\n"
+"You will be able to choose which forms will be sent (Employee,Managers,Collaborators or Colleagues),\n"
 "            to whom and the evaluation deadline. Once you have defined it,\n"
 "            change the stage to send it and view the results."
 msgstr ""
@@ -1323,76 +1318,3 @@ msgstr "合作者的评价"
 #: model:ir.ui.view,arch_db:hr_appraisal.hr_appraisal_kanban
 msgid "oe_kanban_text_red"
 msgstr "oe_kanban_text_red"
-
-#~ msgid "Action Needed"
-#~ msgstr "所需行动"
-
-#~ msgid "Date of the last message posted on the record."
-#~ msgstr "发布到记录上的最后消息的日期"
-
-#~ msgid "Followers"
-#~ msgstr "关注者"
-
-#~ msgid "Followers (Channels)"
-#~ msgstr "关注者(频道)"
-
-#~ msgid "Followers (Partners)"
-#~ msgstr "关注者（业务伙伴）"
-
-#~ msgid "HR Department"
-#~ msgstr "HR 部门"
-
-#~ msgid "If checked new messages require your attention."
-#~ msgstr "查看是否有需要留意的新信息。"
-
-#~ msgid "If checked, new messages require your attention."
-#~ msgstr "确认后, 会出现新消息."
-
-#~ msgid "If other, precise:"
-#~ msgstr "如其他的，精确的："
-
-#~ msgid "Is Follower"
-#~ msgstr "是关注者"
-
-#~ msgid "Last Message Date"
-#~ msgstr "最后消息日期"
-
-#~ msgid "Messages"
-#~ msgstr "消息"
-
-#~ msgid "Number of Actions"
-#~ msgstr "动作的序列号"
-
-#~ msgid "Number of messages which requires an action"
-#~ msgstr "需要动作的消息编号"
-
-#~ msgid "Number of unread messages"
-#~ msgstr "未读的消息数量"
-
-#~ msgid ""
-#~ "The supervisor synthesizes and integrates all input into the completed "
-#~ "appraisal. He motivates his evaluation in the ad\n"
-#~ "hoc fields."
-#~ msgstr ""
-#~ "主管合成并将所有输入集成到已完成的评价中。他激励他的评价在研究领域。"
-
-#~ msgid "Unread Messages"
-#~ msgstr "未读消息"
-
-#~ msgid "Unread Messages Counter"
-#~ msgstr "未读消息计数器"
-
-#~ msgid "Website Messages"
-#~ msgstr "网站消息"
-
-#~ msgid "Website communication history"
-#~ msgstr "网站沟通记录"
-
-#~ msgid "Active"
-#~ msgstr "有效"
-
-#~ msgid "Archived"
-#~ msgstr "已归档"
-
-#~ msgid "Hr Department"
-#~ msgstr "部门"

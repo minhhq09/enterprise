@@ -1,23 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
+# 
 # Translators:
-# krnkris, 2015
-# krnkris, 2016
+# krnkris <krnkris@freemail.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Oregional <geza.nagy@oregional.hu>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2016-06-06 19:55+0000\n"
-"Last-Translator: krnkris\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
-"hu/)\n"
-"Language: hu\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: sale_contract
@@ -27,8 +27,7 @@ msgid ""
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
 "<tr>\n"
 "    <th>Customer</th>\n"
 "    <th>Contract</th>\n"
@@ -40,18 +39,14 @@ msgid ""
 "    % for account in accounts:\n"
 "    <tr>\n"
 "        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
-"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
-"td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
-"and account.date or '???'}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
 "        <td style=\"width:80px;\">\n"
 "        % if account.quantity_max != 0.0:\n"
 "            ${account.remaining_hours}/${account.quantity_max} units\n"
 "        % endif\n"
 "        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
 "    % endfor\n"
 "% endfor\n"
@@ -73,8 +68,7 @@ msgid ""
 "${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
@@ -83,7 +77,7 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
-msgstr "Felelős"
+msgstr "Könyvelési igazgató"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
@@ -108,7 +102,7 @@ msgstr "Online megrendelés engedélyezése"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
 msgid "Analytic Account"
-msgstr "Gyűjtő/elemző könyvelés"
+msgstr "Analitikus/elemző könyvelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
@@ -140,19 +134,19 @@ msgstr "Feliratkozás érvénytelenítése"
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "Cancelled"
-msgstr "Törölt"
+msgstr "Visszavont"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
-msgstr "Visszavont szerződések"
+msgstr "Érvénytelenített szerződések"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
 msgid "Check this box to manage internal activities through this project"
 msgstr ""
-"Jelölje ki ezt a négyzetet az ehhez a projekthez tartozó belső tevékenységek "
-"kezeléséhez."
+"Jelölje ki ezt a négyzetet az ehhez a projekt témáhpoz tartozó belső "
+"tevékenységek kezeléséhez."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
@@ -310,13 +304,13 @@ msgstr "Követel"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
 msgid "Currency"
-msgstr "Valuta"
+msgstr "Pénznem"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_partner_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_partner_id
 msgid "Customer"
-msgstr "Vevő"
+msgstr "Vásárló"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_date_end
@@ -337,7 +331,7 @@ msgstr "Következő számla dátuma"
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Day(s)"
-msgstr "nap"
+msgstr "Nap(ok)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
@@ -371,7 +365,7 @@ msgstr "Árengedmény (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
 msgid "Display Name"
-msgstr "Név megjelenítése"
+msgstr "Megjelenített név"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -407,7 +401,7 @@ msgstr "Hamarosan lejár"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Group By"
-msgstr "Csoportosítás..."
+msgstr "Csoportosítás"
 
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
@@ -415,21 +409,21 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Segítséget nyújt a feliratkozások és ismétlődő számlázás kezelésében."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8705
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
 msgid "ID"
-msgstr "ID"
+msgstr "Azonosító ID"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
 msgstr ""
-"Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés jóváhagyása "
-"egy feliratkozást fog létrehozni"
+"Ha beállított, akkor ezzel a termékkel  egy vásárlói megrendelés jóváhagyása"
+" egy feliratkozást fog létrehozni"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
@@ -469,7 +463,7 @@ msgstr "Számlák"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
-msgstr "Utolsó frissítés dátuma"
+msgstr "Utoljára frissítve ekkor"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
@@ -477,7 +471,7 @@ msgstr "Utolsó frissítés dátuma"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
 msgid "Last Updated by"
-msgstr "Utoljára frissítve, által"
+msgstr "Utoljára frissítette"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
@@ -536,14 +530,11 @@ msgstr "Új szerződések"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
-"Odoo rendszer automatikusan beállítja a szerződéseket megújítandónak, ha "
-"azok függő\n"
-"            állapotúak. Tárgyalás után, az értékesítőnek le kell zárnia vagy "
-"megújítania a \n"
+"Odoo rendszer automatikusan beállítja a szerződéseket megújítandónak, ha azok függő\n"
+"            állapotúak. Tárgyalás után, az értékesítőnek le kell zárnia vagy megújítania a \n"
 "            függőben lévő szerződéseket."
 
 #. module: sale_contract
@@ -590,7 +581,7 @@ msgstr "Termék"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
 msgid "Product Category"
-msgstr "Termék kategória"
+msgstr "Termékkategória"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
@@ -692,7 +683,7 @@ msgstr "Értékesítés előjegyzések"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
 msgid "Sales Order"
-msgstr "Vevői megrendelés"
+msgstr "Vásárlói megrendelés"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
@@ -879,8 +870,7 @@ msgid ""
 "            procurement methods, etc."
 msgstr ""
 "A termék űrlap információkat tartalmaz az értékesítési folyamat \n"
-"            egyszerűsítésére:  ár, megjegyzések az árajánlaton, "
-"könyvelési  \n"
+"            egyszerűsítésére:  ár, megjegyzések az árajánlaton, könyvelési  \n"
 "            adatok, beszerzési módok, stb."
 
 #. module: sale_contract
@@ -909,13 +899,10 @@ msgstr "Ez a megrendelés hozzá van fűzve egy feliratkozáshoz."
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
 msgid ""
 "This will set the unit of measure used in projects and tasks.\n"
-"If you use the timesheet linked to projects, don't forget to setup the right "
-"unit of measure in your employees."
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
 msgstr ""
 "Ez állítja be a projektekben és a feladatokban használt mértékegységet. \n"
-"Ha használja a projektekhez kapcsolt munkaidő-kimutatást (project_timesheet "
-"modul), ne felejtse el beállítani a helyes mértékegységet az alkalmazotti "
-"űrlapon."
+"Ha használja a projektekhez kapcsolt munkaidő-kiosztás, ne felejtse el beállítani a helyes mértékegységet az alkalmazotti űrlapon."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -959,18 +946,13 @@ msgstr "Használaja az ügyeket"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
 "Használja a szerződéseket a folyamatok, ügyek, időtáblák vagy \n"
-"                számlázások elvégzett feladatok,  kiadások és/vagy vevői "
-"megrendelések \n"
-"                alapján való nyomon követésére. Odoo rendszer "
-"automatikusan \n"
-"                kezeli a megfelelő értékesítő felé a szerződés megújítására "
-"vonatkozó figyelmeztetéseket."
+"                számlázások elvégzett feladatok,  kiadások és/vagy vevői megrendelések \n"
+"                alapján való nyomon követésére. Odoo rendszer automatikusan \n"
+"                kezeli a megfelelő értékesítő felé a szerződés megújítására vonatkozó figyelmeztetéseket."
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
@@ -997,8 +979,7 @@ msgid ""
 "            customers."
 msgstr ""
 "Mindene amit értékesít egy terméket kell meghatároznia,\n"
-"            akár egy fizikai termék, egy fogyó termék vagy egy "
-"szolgáltatás \n"
+"            akár egy fizikai termék, egy fogyó termék vagy egy szolgáltatás \n"
 "            melyet a vársárlóinak értékesít."
 
 #. module: sale_contract

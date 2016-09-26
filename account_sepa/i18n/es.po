@@ -1,23 +1,32 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_sepa
-#
+# 
 # Translators:
-# Esteban Echeverry <tebanep@nubark.com>, 2015
-# Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>, 2015
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2015
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Sergio Flores <vitavitae1@gmail.com>, 2016
+# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
+# Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
+# Luis Martínez Ontalba <tecnisagra.ontalba@gmail.com>, 2016
+# Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
+# Ana Juaristi <ajuaristio@gmail.com>, 2016
+# oihane <oihanecruce@gmail.com>, 2016
+# Carles Antoli <carlesantoli@hotmail.com>, 2016
+# Antonio Trueba <atgayol@gmail.com>, 2016
+# Ivan Nieto <ivan.n.s@tuta.io>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2015-11-26 22:26+0000\n"
-"Last-Translator: Jesus Alan Ramos Rodriguez <alan.ramos@jarsa.com.mx>\n"
-"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
-"Language: es\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Ivan Nieto <ivan.n.s@tuta.io>, 2016\n"
+"Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_sepa
@@ -64,12 +73,12 @@ msgstr "Creado por"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_create_date
 msgid "Created on"
-msgstr "Creado en"
+msgstr "Creado el"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Nombre a mostrar"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -106,7 +115,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
 msgid "ID"
-msgstr "ID (identificación)"
+msgstr "ID"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_id
@@ -152,12 +161,12 @@ msgstr "Última modificación en"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_write_uid
 msgid "Last Updated by"
-msgstr "Última actualización de"
+msgstr "Última actualización por"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_write_date
 msgid "Last Updated on"
-msgstr "Última actualización en"
+msgstr "Última actualización el"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -226,8 +235,8 @@ msgstr "Archivo SEPA XML"
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
 msgid ""
 "SEPA may be a generic format, some countries differ from the SEPA "
-"recommandations made by the EPC (European Payment Councile) and thus the XML "
-"created need some tweakenings."
+"recommandations made by the EPC (European Payment Councile) and thus the XML"
+" created need some tweakenings."
 msgstr ""
 
 #. module: account_sepa
@@ -245,13 +254,13 @@ msgstr ""
 msgid ""
 "Technical feature used during the file creation. A SEPA message is said to "
 "be 'generic' if it cannot be considered as a standard european credit "
-"transfer. That is if the bank journal is not in €, a transaction is not in € "
-"or a payee is not identified by an IBAN account number and a bank BIC."
+"transfer. That is if the bank journal is not in €, a transaction is not in €"
+" or a payee is not identified by an IBAN account number and a bank BIC."
 msgstr ""
 "Característica técnica usada durante la creación de archivos. Un mensaje "
 "SEPA es 'genérico' si no puede ser considerado como una transferencia de "
-"crédito europea estándar. Esto ocurre si el diario de un banco no está en €, "
-"una transacción no es en € o el beneficiario no está identificado por un "
+"crédito europea estándar. Esto ocurre si el diario de un banco no está en €,"
+" una transacción no es en € o el beneficiario no está identificado por un "
 "número de cuenta IBAN y un banco BIC."
 
 #. module: account_sepa
@@ -289,7 +298,8 @@ msgstr ""
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
-msgstr "El importe del pago '%s' es demasiado alto. El máximo permitido es %s."
+msgstr ""
+"El importe del pago '%s' es demasiado alto. El máximo permitido es %s."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:129
@@ -309,11 +319,9 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
 #, python-format
 msgid ""
-"The generated payment file is not a generic SEPA credit transfer. Be aware "
-"that some banks may reject it because it is not implemented on their side.\n"
+"The generated payment file is not a generic SEPA credit transfer. Be aware that some banks may reject it because it is not implemented on their side.\n"
 "\n"
-"In particular, the reason why it this payment file is not a generic is the "
-"following:\n"
+"In particular, the reason why it this payment file is not a generic is the following:\n"
 "   "
 msgstr ""
 
@@ -348,8 +356,7 @@ msgid ""
 "0 1 2 3 4 5 6 7 8 9\n"
 "/ - ? : ( ) . , ' + (space)"
 msgstr ""
-"El texto usado en los archivos SEPA files sólo puede contener los siguientes "
-"caracteres:\n"
+"El texto usado en los archivos SEPA files sólo puede contener los siguientes caracteres:\n"
 "\n"
 "a b c d e f g h i j k l m n o p q r s t u v w x y z\n"
 "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"

@@ -1,24 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
+# 
 # Translators:
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
-# liAnGjiA <liangjia@qq.com>, 2015
-# liAnGjiA <liangjia@qq.com>, 2015
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
+# waveyeung <waveyeung@qq.com>, 2016
+# Luke <cialuo@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2016-08-03 04:06+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Luke <cialuo@qq.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: sale_contract
@@ -28,8 +28,7 @@ msgid ""
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
 "<tr>\n"
 "    <th>Customer</th>\n"
 "    <th>Contract</th>\n"
@@ -41,18 +40,14 @@ msgid ""
 "    % for account in accounts:\n"
 "    <tr>\n"
 "        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
-"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
-"td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
-"and account.date or '???'}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
 "        <td style=\"width:80px;\">\n"
 "        % if account.quantity_max != 0.0:\n"
 "            ${account.remaining_hours}/${account.quantity_max} units\n"
 "        % endif\n"
 "        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
 "    % endfor\n"
 "% endfor\n"
@@ -74,8 +69,7 @@ msgid ""
 "${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
@@ -84,7 +78,7 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
-msgstr "客户经理"
+msgstr "账户管理者"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
@@ -146,7 +140,7 @@ msgstr "已取消"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Cancelled contracts"
-msgstr "已取消合约"
+msgstr "已取消的合约"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
@@ -171,7 +165,7 @@ msgstr "点击来定义一个新的合约"
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
 msgid "Click to define a new product."
-msgstr "单击去定义一个新产品."
+msgstr "单击去定义新产品."
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id
@@ -203,7 +197,7 @@ msgstr "关闭/取消理由"
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "Closed"
-msgstr "关闭的"
+msgstr "已关闭"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -276,7 +270,7 @@ msgstr "在确认时，创建一个覆盖这个合约的销售订单"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
 msgid "Created by"
-msgstr "创建者"
+msgstr "创建人"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_create_date
@@ -307,7 +301,7 @@ msgstr "贷方"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
 msgid "Currency"
-msgstr "货币"
+msgstr "币种"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_partner_id
@@ -329,12 +323,12 @@ msgstr "开始日期"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_next_date
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Date of Next Invoice"
-msgstr "下一个发票日期"
+msgstr "下一次开票的日期"
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Day(s)"
-msgstr "天"
+msgstr "天(s)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
@@ -373,7 +367,7 @@ msgstr "显示名称"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
 msgid "End Date"
-msgstr "终止日期"
+msgstr "结束日期"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -412,7 +406,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "帮你处理订阅和定期开票"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8705
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
@@ -448,7 +442,7 @@ msgstr "发票行"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_rule_type
 msgid "Invoice automatically repeat at specified interval"
-msgstr "在特定区间自动产生同样的发票"
+msgstr "发票按特定的间隔自动重复"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -462,7 +456,7 @@ msgstr "发票"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
-msgstr "最后修改时间"
+msgstr "最后修改日"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
@@ -470,7 +464,7 @@ msgstr "最后修改时间"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
 msgid "Last Updated by"
-msgstr "最后更新者"
+msgstr "最后更新人"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
@@ -485,8 +479,7 @@ msgstr "最后更新时间"
 msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
-msgstr ""
-"如果你本想在前台让客户看到合约模板，那么就留空这个（可以试一下，不要钱的）"
+msgstr "如果你本想在前台让客户看到合约模板，那么就留空这个（可以试一下，不要钱的）"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
@@ -514,7 +507,7 @@ msgstr "名称"
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "New"
-msgstr "新建"
+msgstr "新的"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -525,8 +518,7 @@ msgstr "新合约"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
 "待定状态的合约能被Odoo自动的设置为待更新\n"
@@ -551,13 +543,13 @@ msgstr "方案变更标签"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
 msgid "Plan Description"
-msgstr "计划描述"
+msgstr "方案说明"
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:175
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
-msgstr "请给公司定义一个销售日记账\"%s\""
+msgstr "请给公司\"%s\"定义一个销售日记账"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_pricelist_id
@@ -623,7 +615,7 @@ msgstr "原因"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Recurrency"
-msgstr "循环"
+msgstr "定期"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_total
@@ -638,7 +630,7 @@ msgstr "经常性价格(按期间)"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_code
 msgid "Reference"
-msgstr "引用"
+msgstr "参考"
 
 #. module: sale_contract
 #: selection:sale.order,subscription_management:0
@@ -648,12 +640,12 @@ msgstr "续约"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
-msgstr "逐个重复"
+msgstr "重复"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
-msgstr "重复间隔（日/周/月/年）"
+msgstr "重复间隔 (日/周/月/年)"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
@@ -668,7 +660,7 @@ msgstr "负责人"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr "认购"
+msgstr "销售订阅"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
@@ -684,7 +676,7 @@ msgstr "销售订单"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_manager_id
 msgid "Sales Rep"
-msgstr "销售Rep"
+msgstr "销售代表"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
@@ -739,7 +731,7 @@ msgstr "状态"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_subtotal
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
-msgstr "小计 :"
+msgstr "小计 "
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
@@ -765,7 +757,7 @@ msgstr "订阅分析"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
-msgstr "订阅行"
+msgstr "订阅明细行"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_management
@@ -863,8 +855,7 @@ msgid ""
 "The product form contains information to simplify the sale\n"
 "            process: price, notes in the quotation, accounting data,\n"
 "            procurement methods, etc."
-msgstr ""
-"产品表单中包含了简化销售的信息：价格，询价单中的说明，会计数据，补货方法等等"
+msgstr "产品表单中包含了简化销售的信息：价格，询价单中的说明，会计数据，补货方法等等"
 
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_view
@@ -892,8 +883,7 @@ msgstr "订单和订阅链接起来"
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
 msgid ""
 "This will set the unit of measure used in projects and tasks.\n"
-"If you use the timesheet linked to projects, don't forget to setup the right "
-"unit of measure in your employees."
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
 msgstr ""
 
 #. module: sale_contract
@@ -902,7 +892,7 @@ msgstr ""
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "To Renew"
-msgstr "要续签的"
+msgstr "待续约"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_type
@@ -938,10 +928,8 @@ msgstr "使用任务"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
 "用合同跟踪任务，问题，记工单或者已经完成的工作\n"
 "费用和／或销售订单。Odoo会自动管理合约更新的警告给到正确的销售人员"
@@ -983,9 +971,7 @@ msgid ""
 "You will find here the contracts to be renewed because the\n"
 "            end date is passed or the working effort is higher than the\n"
 "            maximum authorized one."
-msgstr ""
-"你会在这里找到因为过了最后日期的或者实际工作时间远远大于最大估计时间的待更新"
-"的合约"
+msgstr "你会在这里找到因为过了最后日期的或者实际工作时间远远大于最大估计时间的待更新的合约"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason

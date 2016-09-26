@@ -1,25 +1,25 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
+# 
 # Translators:
-# Eric Geens <ericgeens@yahoo.com>, 2015
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2015
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
+# Eric Geens <ericgeens@yahoo.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
-# Volluta <volluta@tutanota.com>, 2015
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2015
+# Martin Trigaux <mat@odoo.com>, 2016
+# Cas Vissers <casvissers@brahoo.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2016-06-25 10:57+0000\n"
-"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
-"Language-Team: Dutch (http://www.transifex.com/odoo/odoo-9/language/nl/)\n"
-"Language: nl\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Cas Vissers <casvissers@brahoo.nl>, 2016\n"
+"Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: sale_contract
@@ -29,8 +29,7 @@ msgid ""
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
 "<tr>\n"
 "    <th>Customer</th>\n"
 "    <th>Contract</th>\n"
@@ -42,18 +41,14 @@ msgid ""
 "    % for account in accounts:\n"
 "    <tr>\n"
 "        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
-"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
-"td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
-"and account.date or '???'}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
 "        <td style=\"width:80px;\">\n"
 "        % if account.quantity_max != 0.0:\n"
 "            ${account.remaining_hours}/${account.quantity_max} units\n"
 "        % endif\n"
 "        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
 "    % endfor\n"
 "% endfor\n"
@@ -75,8 +70,7 @@ msgid ""
 "${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
@@ -110,7 +104,7 @@ msgstr "Sta online orders toe"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
 msgid "Analytic Account"
-msgstr "Kostenplaatsen"
+msgstr "Kostenplaats"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
@@ -152,7 +146,8 @@ msgstr "Geannuleerde contracten"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_use_tasks
 msgid "Check this box to manage internal activities through this project"
-msgstr "Vink deze optie aan om interne activiteiten te beheren via dit project"
+msgstr ""
+"Vink deze optie aan om interne activiteiten te beheren via dit project"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
@@ -204,7 +199,7 @@ msgstr "Afsluit/Annuleer reden"
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "Closed"
-msgstr "Gesloten"
+msgstr "Afgesloten"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -214,14 +209,14 @@ msgstr "Afgesloten contracten"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Commercial Partner"
-msgstr ""
+msgstr "Commerciële relatie"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_company_id
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Company"
-msgstr "Bedrijf"
+msgstr "Bedijf"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_uom_id
@@ -407,7 +402,7 @@ msgstr "Verloopt binnenkort"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Group By"
-msgstr "Groeperen op"
+msgstr "Groepeer op"
 
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
@@ -415,7 +410,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Helpt u abonnementen en herhalende facturen te beheren."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8705
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
@@ -445,7 +440,7 @@ msgstr ""
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "In Progress"
-msgstr "In behandeling"
+msgstr "In Behandeling"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -493,13 +488,13 @@ msgid ""
 "Leave this unchecked if you don't want this contract template to be "
 "available to the customer in the frontend (for a free trial, for example)"
 msgstr ""
-"Laat dit uitgevinkt als u dit contractsjabloon niet beschikbaar wilt voor de "
-"klant in de frontend (voor een gratis trial, bijvoorbeeld)"
+"Laat dit uitgevinkt als u dit contractsjabloon niet beschikbaar wilt voor de"
+" klant in de frontend (voor een gratis trial, bijvoorbeeld)"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
 msgid "Manage Subscriptions"
-msgstr ""
+msgstr "Beheer abbonementen"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_quantity
@@ -512,7 +507,7 @@ msgstr ""
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Month(s)"
-msgstr "Maand(en)"
+msgstr "Maand(e)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_name
@@ -535,13 +530,11 @@ msgstr "Nieuwe contracten"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
 "Odoo stelt automatisch contracten die vernieuwd moeten worden in \n"
-"een afwachting fase. Na de onderhandeling zal de verkoper kiezen om de "
-"wachtende contracten\n"
+"een afwachting fase. Na de onderhandeling zal de verkoper kiezen om de wachtende contracten\n"
 "te sluiten of te vernieuwen."
 
 #. module: sale_contract
@@ -665,7 +658,7 @@ msgstr "Herhaal iedere"
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
-msgstr "Elke (Dag/Week/Maand/Jaar) herhalen"
+msgstr "Herhaal eke (Dag/Week/Maand/Jaar) herhalen"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
@@ -690,7 +683,7 @@ msgstr "Verkoop abonnementen"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
 msgid "Sales Order"
-msgstr "Verkoop orders"
+msgstr "Verkooporder"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
@@ -701,7 +694,7 @@ msgstr "Verkoper"
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
 msgid "See Subscriptions"
-msgstr ""
+msgstr "Zie abonnementen"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
@@ -733,7 +726,7 @@ msgstr "Startmaand"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Start Subscription"
-msgstr ""
+msgstr "Start abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
@@ -847,7 +840,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
 msgid "Susbcription Count"
-msgstr ""
+msgstr "Aantal abbonementen"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -888,7 +881,7 @@ msgstr "De gebruiker heeft leesrechten op contracten."
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
 msgid "The user will have write access to Subscriptions."
-msgstr ""
+msgstr "De gebruiker heeft schrijfrechten op abonnementen."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:83
@@ -906,9 +899,10 @@ msgstr "Deze order is gelinkt aan een abonnement."
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
 msgid ""
 "This will set the unit of measure used in projects and tasks.\n"
-"If you use the timesheet linked to projects, don't forget to setup the right "
-"unit of measure in your employees."
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
 msgstr ""
+"Hiermee wordt de gebruikte maateenheid ingesteld die wordt gebruikt in projecten en taken.\n"
+"Wanneer u gebruik maakt van urenstaten gekoppeld aan projecten, vergeet dan niet de juiste eenheid voor uw werknemers in te stellen."
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -952,21 +946,17 @@ msgstr "Gebruik taken"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
-"Gebruikt contracten om taken, issues, urenstaten te volgen of te factureren "
-"gebaseerd op\n"
-"gedaan werk, uitgaven en/of verkooporders. Odoo zal automatisch de "
-"meldingen\n"
+"Gebruikt contracten om taken, issues, urenstaten te volgen of te factureren gebaseerd op\n"
+"gedaan werk, uitgaven en/of verkooporders. Odoo zal automatisch de meldingen\n"
 "beheren voor de correcte verkoper voor het vernieuwen van de contracten."
 
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Week(s)"
-msgstr "We(e)k(en)"
+msgstr "Week/weken"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -978,7 +968,7 @@ msgstr ""
 #. module: sale_contract
 #: selection:sale.subscription,recurring_rule_type:0
 msgid "Year(s)"
-msgstr "Jaar(en)"
+msgstr "Jaar/jaren"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -1016,7 +1006,7 @@ msgstr "sale.subscription.close.reason"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
 msgid "sale.subscription.close.reason.wizard"
-msgstr ""
+msgstr "sale.subscription.close.reason.wizard"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line

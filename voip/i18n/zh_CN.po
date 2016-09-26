@@ -1,22 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-#
+# 
 # Translators:
-# Martin Trigaux, 2016
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
+# Xu Lei <xulei8@qq.com>, 2016
+# Rona Lin <ssauapw@qq.com>, 2016
+# fausthuang <faust_huang@hotmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2016-08-22 07:15+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/"
-"language/zh_CN/)\n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2016-09-06 08:39+0000\n"
+"PO-Revision-Date: 2016-09-06 08:39+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: voip
@@ -37,8 +41,8 @@ msgstr "应收账款"
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
 msgid ""
-"All your outbound calls will be redirected to your handset when the customer "
-"accepts your call"
+"All your outbound calls will be redirected to your handset when the customer"
+" accepts your call"
 msgstr ""
 
 #. module: voip
@@ -65,7 +69,7 @@ msgstr "合约"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
 msgid "Created by"
-msgstr "创建者"
+msgstr "创建人"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_date
@@ -152,12 +156,12 @@ msgstr "日记账项目"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
 msgid "Last Modified on"
-msgstr "最后修改时间"
+msgstr "最后修改日"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
 msgid "Last Updated by"
-msgstr "最后更新者"
+msgstr "最后更新人"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_date
@@ -175,9 +179,7 @@ msgid ""
 "Last time the invoices & payments matching was performed for this partner. "
 "It is set either if there's not at least an unreconciled debit and an "
 "unreconciled credit or if you click the \"Done\" button."
-msgstr ""
-"上次这个业务伙伴的发票和付款是匹配的。设置为调节的借方或者未调节的贷方或者你"
-"点击\"完成\"按钮"
+msgstr "上次这个业务伙伴的发票和付款是匹配的。设置为调节的借方或者未调节的贷方或者你点击\"完成\"按钮"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_last_time_entries_checked
@@ -223,8 +225,8 @@ msgstr "请检查你的配置。</br> ( 收到的理由 :"
 #: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access "
-"your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access"
+" your microphone from your browser."
 msgstr "链接中的问题。检查是否有权限使用这个应用浏览器中的话筒"
 
 #. module: voip
@@ -280,9 +282,7 @@ msgstr ""
 msgid ""
 "The partner has at least one unreconciled debit and credit since last time "
 "the invoices & payments matching was performed."
-msgstr ""
-"自动上次这个业务伙伴的发票和付款完全一致。这个业务伙伴至少有一个未调节的借方"
-"和贷方"
+msgstr "自动上次这个业务伙伴的发票和付款完全一致。这个业务伙伴至少有一个未调节的借方和贷方"
 
 #. module: voip
 #. openerp-web
@@ -297,7 +297,7 @@ msgstr "服务器的配置估计有误。请检查配置"
 #: code:addons/voip/static/src/js/sip_js.js:47
 #, python-format
 msgid "The websocket uri could be wrong. Please check your configuration."
-msgstr "websocket uri可能错了，请检查你的配置"
+msgstr "websocket uri可能是错误的，请检查你的配置"
 
 #. module: voip
 #: model:ir.model.fields,help:voip.field_res_users_property_account_payable_id
@@ -376,7 +376,8 @@ msgstr "供应商付款条款"
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid "Your browser could not support WebRTC. Please check your configuration."
+msgid ""
+"Your browser could not support WebRTC. Please check your configuration."
 msgstr "你的浏览器不支持WebRTC，请检查配置"
 
 #. module: voip
@@ -384,7 +385,7 @@ msgstr "你的浏览器不支持WebRTC，请检查配置"
 #: code:addons/voip/static/src/js/sip_js.js:152
 #, python-format
 msgid "the connection cannot be made. "
-msgstr "无法链接"
+msgstr "连接无法建立."
 
 #. module: voip
 #: model:ir.model,name:voip.model_voip_configurator

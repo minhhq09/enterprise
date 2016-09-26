@@ -1,24 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * sale_contract
-#
+# 
 # Translators:
+# grazziano <g.negocios@outlook.com.br>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Mateus Lopes <mateus1@gmail.com>, 2016
 # danimaribeiro <danimaribeiro@gmail.com>, 2016
-# grazziano <g.negocios@outlook.com.br>, 2015
-# Mateus Lopes <mateus1@gmail.com>, 2015
+# Adriel Kotviski <kotviski@gmail.com>, 2016
+# francisco alexandre bezerra da silva <falexandresilva@gmail.com>, 2016
+# Luiz Carlos de Lima <luiz.carlos@akretion.com.br>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 08:30+0000\n"
-"PO-Revision-Date: 2016-07-15 20:47+0000\n"
-"Last-Translator: danimaribeiro <danimaribeiro@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
-"language/pt_BR/)\n"
-"Language: pt_BR\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Luiz Carlos de Lima <luiz.carlos@akretion.com.br>, 2016\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/odoo/teams/41243/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: sale_contract
@@ -28,8 +31,7 @@ msgid ""
 "<p>Dear ${object.name},</p>\n"
 "\n"
 "% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;"
-"max-width:600px\">\n"
+"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
 "<tr>\n"
 "    <th>Customer</th>\n"
 "    <th>Contract</th>\n"
@@ -41,18 +43,14 @@ msgid ""
 "    % for account in accounts:\n"
 "    <tr>\n"
 "        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action="
-"${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></"
-"td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date "
-"and account.date or '???'}</td>\n"
+"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
+"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
 "        <td style=\"width:80px;\">\n"
 "        % if account.quantity_max != 0.0:\n"
 "            ${account.remaining_hours}/${account.quantity_max} units\n"
 "        % endif\n"
 "        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, "
-"${account.partner_id.email or ''}</td>\n"
+"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
 "    </tr>\n"
 "    % endfor\n"
 "% endfor\n"
@@ -74,8 +72,7 @@ msgid ""
 "${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
 "% endif\n"
 "\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / "
-"Invoicing / Contracts to Renew</strong>.</p>\n"
+"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
 "<p>Best regards,</p>\n"
 "<p>--<br />\n"
 "Odoo</p>"
@@ -109,7 +106,7 @@ msgstr "Permitir Pedido On-line"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_analytic_account_id
 msgid "Analytic Account"
-msgstr "Centro de Custo"
+msgstr "Conta Analítica"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_ids
@@ -209,7 +206,7 @@ msgstr "Fechado"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Closed contracts"
-msgstr "Contratos finalizados"
+msgstr "Contratos fechados"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
@@ -242,7 +239,7 @@ msgstr "Contrato"
 #. module: sale_contract
 #: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
 msgid "Contract expiration reminder ${user.company_id.name}"
-msgstr "Aviso de vencimento de contrato ${user.company_id.name}"
+msgstr "Aviso de vencimento do contrato ${user.company_id.name}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -371,7 +368,7 @@ msgstr "Desconto (%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr "Nome para Exibição"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date
@@ -407,7 +404,7 @@ msgstr "Vencendo em breve"
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Group By"
-msgstr "Agrupar por"
+msgstr "Agrupar Por"
 
 #. module: sale_contract
 #: model:ir.module.category,description:sale_contract.module_category_contract_management
@@ -415,7 +412,7 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "Ajuda você a lidar com assinaturas e faturamento recorrente."
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8705
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8700
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
@@ -445,7 +442,7 @@ msgstr ""
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "In Progress"
-msgstr "Em Progresso"
+msgstr "Em Andamento"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_invoice_line_ids
@@ -469,7 +466,7 @@ msgstr "Faturas"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr "Última Modificação em"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
@@ -535,8 +532,7 @@ msgstr "Novos Contratos"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_pending
 msgid ""
 "Odoo automatically sets contracts to be renewed in a pending\n"
-"            state. After the negociation, the salesman should close or "
-"renew\n"
+"            state. After the negociation, the salesman should close or renew\n"
 "            pending contracts."
 msgstr ""
 "Odoo define automaticamente contratos a renovar em um estado\n"
@@ -575,7 +571,7 @@ msgstr "Por favor defina um diário para a empresa \"%s\"."
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_pricelist_id
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Pricelist"
-msgstr "Lista de Preços"
+msgstr "Lista de Preço"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_product_id
@@ -587,7 +583,7 @@ msgstr "Produto"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_categ_id
 msgid "Product Category"
-msgstr "Categoria de Produto"
+msgstr "Categoria de Produtos"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_product_template
@@ -659,12 +655,12 @@ msgstr "Renovação"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat Every"
-msgstr "Repetir a cada"
+msgstr "Repetir a Cada"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
-msgstr "Repetir a cada (Dia/Semana/Mês/Ano)"
+msgstr "Repetir a cada (Dias/Semana/Mês/Ano)"
 
 #. module: sale_contract
 #: model:ir.ui.menu,name:sale_contract.menu_report_product_all
@@ -679,7 +675,7 @@ msgstr "Responsável"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
 msgid "Sale Subscription"
-msgstr "Subscrição de Vendas"
+msgstr "Subscrição de Venda"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
@@ -689,7 +685,7 @@ msgstr "Assinaturas de Venda"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de Venda"
+msgstr "Ordem de Venda"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
@@ -750,7 +746,7 @@ msgstr "Situação"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_subtotal
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
-msgstr "Sub Total"
+msgstr "Subtotal"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_close_reason_view_form
@@ -905,8 +901,7 @@ msgstr "Este pedido está relacionado a uma assinatura."
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_company_uom_id
 msgid ""
 "This will set the unit of measure used in projects and tasks.\n"
-"If you use the timesheet linked to projects, don't forget to setup the right "
-"unit of measure in your employees."
+"If you use the timesheet linked to projects, don't forget to setup the right unit of measure in your employees."
 msgstr ""
 
 #. module: sale_contract
@@ -935,7 +930,7 @@ msgstr "Preço Unitário"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_uom
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_uom_id
 msgid "Unit of Measure"
-msgstr "Unidade de Medida - UdM"
+msgstr "Unidade de Medida"
 
 #. module: sale_contract
 #: selection:sale.order,subscription_management:0
@@ -951,15 +946,11 @@ msgstr "Utilize as Tarefas"
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_action
 msgid ""
 "Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
-"                work done, expenses and/or sales orders. Odoo will "
-"automatically manage\n"
-"                the alerts for the renewal of the contracts to the right "
-"salesperson."
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
-"Use contratos para acompanhar tarefas, questões, quadros de horários ou "
-"faturamento com base em\n"
-"trabalho realizado, despesas e/ou pedido de vendas. Odoo irá gerir "
-"automaticamente\n"
+"Use contratos para acompanhar tarefas, questões, quadros de horários ou faturamento com base em\n"
+"trabalho realizado, despesas e/ou pedido de vendas. Odoo irá gerir automaticamente\n"
 "os alertas para a renovação dos contratos para o vendedor correto."
 
 #. module: sale_contract

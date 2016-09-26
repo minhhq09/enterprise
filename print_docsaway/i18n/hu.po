@@ -1,22 +1,21 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print_docsaway
-#
+# 
 # Translators:
-# Kris Krnacs, 2015
+# krnkris <krnkris@freemail.hu>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-12-30 22:07+0000\n"
-"Last-Translator: Kris Krnacs\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
-"hu/)\n"
-"Language: hu\n"
+"POT-Creation-Date: 2016-09-14 12:20+0000\n"
+"PO-Revision-Date: 2016-09-14 12:20+0000\n"
+"Last-Translator: krnkris <krnkris@freemail.hu>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: print_docsaway
@@ -44,11 +43,6 @@ msgid "Docsaway Account Email"
 msgstr "Docsaway Fiók Email"
 
 #. module: print_docsaway
-#: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_status
-msgid "Docsaway Approved"
-msgstr "Docsaway jóváhagyott"
-
-#. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid "Docsaway Configuration"
 msgstr "Docsaway beállítás"
@@ -74,20 +68,10 @@ msgid "Docsaway Name"
 msgstr "Docsaway neve"
 
 #. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_courier
-msgid "Docsaway Printer ID."
-msgstr "Docsaway nyomtató ID azonosító"
-
-#. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_reference
 #: model:ir.model.fields,field_description:print_docsaway.field_print_provider_docsaway_reference
 msgid "Docsaway Reference"
 msgstr "Docsaway hivatkozás"
-
-#. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_reference
-msgid "Docsaway Reference Order."
-msgstr "Docsaway megrend. hivatkozás"
 
 #. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_station
@@ -95,15 +79,9 @@ msgid "Docsaway Station"
 msgstr "Docsaway állomás"
 
 #. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_station
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_zone
-msgid "Docsaway Station ID."
-msgstr "Docsaway állomás ID azon."
-
-#. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_status
-msgid "Docsaway Transaction Status."
-msgstr "Docsaway ügylet állapota."
+#: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_status
+msgid "Docsaway Transaction Status"
+msgstr ""
 
 #. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_provider_docsaway_volume
@@ -118,8 +96,8 @@ msgstr "Docsaway Zóna"
 #. module: print_docsaway
 #: model:ir.model.fields,help:print_docsaway.field_print_provider_docsaway_email
 msgid ""
-"Docsaway account email. Required to contact DocsAway server, it can be found "
-"into docsaway account preference (on docsaway.com)"
+"Docsaway account email. Required to contact DocsAway server, it can be found"
+" into docsaway account preference (on docsaway.com)"
 msgstr ""
 "Docsaway fiók email. Szükséges a DocsAway szerver csatlakozáshoz, "
 "megtalálható a Docsaway fiók beállításoknál (a  docsaway.com oldalon)"
@@ -142,7 +120,7 @@ msgstr "Sikertelen igénylés."
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid "Go to"
-msgstr "Menjen a"
+msgstr "Menjen ide"
 
 #. module: print_docsaway
 #: code:addons/print_docsaway/models/print_docsaway.py:95
@@ -153,47 +131,31 @@ msgstr "Gazdagép elérhetetlen."
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In Email Document &gt; Settings, setup your account : Active must be set on "
-"'ON' to receive document, and the Module Mode should be in LIVE to really "
-"send the document. Check TEST to use docsaway as a sandbox."
+"In Email Document &gt; Settings, setup your account: Active must be set to "
+"'ON' to receive documents, and the Module Mode should be LIVE to really send"
+" the document. Select TEST to use Docsaway as a sandbox."
 msgstr ""
-"Az Email Dokumentumban &gt; Beállítások, fiókjának beállítása : Az aktívnak "
-"'BE' kell lenni kapcsolva, hogy dokumentumot tudjon fogadni, és a Modul "
-"Módnak ÉLŐ-nek kell lennie a tényleges dokumentum küldéshez. Ellenőrizze a "
-"TESZT-el a DocsWay használatát sandboxban."
+
+#. module: print_docsaway
+#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
+msgid "In General &gt; Add Funds, you can add credit to your account."
+msgstr ""
 
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In General &gt; Add funds, you can add money on your provider credit. Note "
-"that docsaway only use Australian dollar as currency."
+"In General &gt; Preferences, you will find your Docsaway email and Docsaway "
+"key. Copy them to the 'DocsAway Details' tab of the postal provider you want"
+" to configure."
 msgstr ""
-"Általában &gt; Tőke hozzáadással, pénzzel töltheti fel a szolgáltatójánál "
-"lévő hitelkeretét. Felhívjuk a figyelmét, hogy a docsaway kizárólag Ausztrál "
-"dollár pénznemet fogad el."
 
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In General &gt; Preference, you will find your Docsaway email and Docsaway "
-"key. Copy/paste them to the 'DocsAway Details' tab of the postal provider "
-"you want to configure."
+"In History, you can find documents that were sent both in TEST or LIVE "
+"environment. This can help you to test your account. Be careful to correctly"
+" select the environment in your postal provider in Odoo."
 msgstr ""
-"Általában &gt; Beállításokban, megtalálja a Docsaway emailt és Docsaway "
-"kulcsot. Másol/Beilleszt paranccsal illessze a 'DocsAway részletek' fülnél a "
-"beállítani kívánt postai szolgáltatójához."
-
-#. module: print_docsaway
-#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
-msgid ""
-"In History, you can find the sent document in TEST or LIVE environment. This "
-"can help you to test your account. Be carfull to correctly setup the "
-"environment in your postal provider in Odoo."
-msgstr ""
-"Az előzményekben, megtalálja a TESZT vagy ÉLŐ környezetben elküldött "
-"dokumentumokat. Ez segítséget nyújthat a fiókja tesztelésében. Legyen óvatos "
-"az Odoo rendszer postai kiszolgálójának pontos környezeti beállításának "
-"elvégzésében."
 
 #. module: print_docsaway
 #: model:ir.model.fields,help:print_docsaway.field_print_provider_docsaway_name
@@ -229,6 +191,11 @@ msgid "Print Order"
 msgstr "Nyomtatási szabály"
 
 #. module: print_docsaway
+#: model:ir.model,name:print_docsaway.model_print_order_wizard
+msgid "Print Order Wizard"
+msgstr "Nyomtatási szabály varázsló"
+
+#. module: print_docsaway
 #: model:ir.model,name:print_docsaway.model_print_provider
 msgid "Print Provider"
 msgstr "Nyomtatási szolgáltató"
@@ -241,11 +208,11 @@ msgstr "A Docsaway fiók hivatkozási kódja."
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"The 'Update' button will update this field, once your Docsaway Configuration "
-"is set up."
+"The 'Update' button will update this field, once your Docsaway Configuration"
+" is set up."
 msgstr ""
-"A  'Frissítés' gombbal frissíti ezt a mezőt, miután a Docsaway Beállításokat "
-"elvégezte."
+"A  'Frissítés' gombbal frissíti ezt a mezőt, miután a Docsaway Beállításokat"
+" elvégezte."
 
 #. module: print_docsaway
 #: code:addons/print_docsaway/models/print_docsaway.py:105
@@ -274,16 +241,3 @@ msgstr ""
 "A szolgáltatója hitelező kerete túl kicsi. Kérem, állítsa be a számláját (> "
 "Beállítások > Szolgáltató nyomtatása), és tegyen a számlára  hitelkeretet, "
 "mivel éles módban üzemel."
-
-#. module: print_docsaway
-#: model:ir.model,name:print_docsaway.model_print_order_wizard
-msgid "print.order.wizard"
-msgstr "print.order.wizard"
-
-#. module: print_docsaway
-#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
-msgid "www.docsaway.com"
-msgstr "www.docsaway.com"
-
-#~ msgid "Docsaway Transation Status."
-#~ msgstr "Docsaway ügylet állapota."

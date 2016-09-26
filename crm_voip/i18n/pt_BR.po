@@ -1,24 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * crm_voip
-#
+# 
 # Translators:
-# Grazziano Duarte <g.negocios@outlook.com.br>, 2015
-# Mateus Cerqueira Lopes <mateus1@gmail.com>, 2015
+# grazziano <g.negocios@outlook.com.br>, 2016
+# Mateus Lopes <mateus1@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Clemilton Clementino <clemylton@hotmail.com>, 2016
+# francisco alexandre bezerra da silva <falexandresilva@gmail.com>, 2016
 # Rodrigo Macedo <rodrigomacedo@rmsolucoeseminformatica.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-22 10:33+0000\n"
-"PO-Revision-Date: 2016-02-19 14:21+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/odoo/odoo-9/"
-"language/pt_BR/)\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Rodrigo Macedo <rodrigomacedo@rmsolucoeseminformatica.com>, 2016\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/odoo/teams/41243/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: crm_voip
@@ -28,8 +30,7 @@ msgid ""
 "<p>Hello ${object.partner_id.name},</p>\n"
 "\n"
 "<p>It seems that we have been interrupted during our conversation about\n"
-"    '${object.name}'. Can you please give me your availability in order to "
-"schedule \n"
+"    '${object.name}'. Can you please give me your availability in order to schedule \n"
 "    a new call? </p>\n"
 "<p>Best regards,</p>"
 msgstr ""
@@ -39,8 +40,7 @@ msgstr ""
 msgid ""
 "\n"
 "<p>Hello ${object.partner_id.name},</p>\n"
-"<p>I just tried to call you concerning the subject '${object.name}'. Can "
-"you\n"
+"<p>I just tried to call you concerning the subject '${object.name}'. Can you\n"
 "    please give me your availability in order to schedule a new call?</p>\n"
 "<p>Best regards,</p>"
 msgstr ""
@@ -48,16 +48,16 @@ msgstr ""
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_nbr
 msgid "# of Cases"
-msgstr "Nº de Casos"
+msgstr "# de Casos"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
-"[('show_duration', '=',True)]}\">min(s)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
+"'required':[('show_duration', '=',True)]}\">min(s)</span>"
 msgstr ""
-"<span attrs=\"{'invisible': [('show_duration', '=', False)], 'required':"
-"[('show_duration', '=',True)]}\">min(s)</span>"
+"<span attrs=\"{'invisible': [('show_duration', '=', False)], "
+"'required':[('show_duration', '=',True)]}\">min(s)</span>"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_voip_view
@@ -323,9 +323,9 @@ msgstr "Exibir Painel de Discagem"
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:68
-#, fuzzy, python-format
+#, python-format
 msgid "Display Keypad"
-msgstr "Nome para exibição"
+msgstr ""
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_display_name
@@ -336,7 +336,7 @@ msgstr "Nome para exibição"
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_display_name
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_display_name
 msgid "Display Name"
-msgstr "Nome para exibição"
+msgstr "Nome para Exibição"
 
 #. module: crm_voip
 #: selection:crm.phonecall.log.wizard,reschedule_option:0
@@ -388,8 +388,8 @@ msgid ""
 "the report."
 msgstr ""
 "A partir deste relatório, é possível analisar o desempenho de sua equipe de "
-"vendas, com base nas suas chamadas telefônicas. Você pode agrupar ou filtrar "
-"as informações de acordo com vários critérios e detalhamentos das "
+"vendas, com base nas suas chamadas telefônicas. Você pode agrupar ou filtrar"
+" as informações de acordo com vários critérios e detalhamentos das "
 "informações, pela adição de mais grupos no relatório."
 
 #. module: crm_voip
@@ -401,7 +401,7 @@ msgstr "Fornece a ordem sequencial ao exibir uma lista de telefonemas."
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Group By"
-msgstr "Agrupar por"
+msgstr "Agrupar Por"
 
 #. module: crm_voip
 #. openerp-web
@@ -486,7 +486,7 @@ msgstr "Só é possível converter uma ligação telefônica de cada vez."
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report___last_update
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard___last_update
 msgid "Last Modified on"
-msgstr "Última modificação em"
+msgstr "Última Modificação em"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_custom_phonecall_wizard_write_uid
@@ -617,7 +617,7 @@ msgstr "Pendente"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall2phonecall_note
 msgid "Note"
-msgstr "Observação"
+msgstr "Nota"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.crm_phonecall_view
@@ -732,8 +732,8 @@ msgstr "Ligações Telefônicas"
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
 msgid "Phone calls that are assigned to one of the sale teams I manage"
 msgstr ""
-"Ligações telefônicas que foram atribuídas a alguém das equipes de vendas que "
-"gerencio."
+"Ligações telefônicas que foram atribuídas a alguém das equipes de vendas que"
+" gerencio."
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_report_crm_phonecall_filter
@@ -986,8 +986,7 @@ msgid ""
 msgstr ""
 "O status é definido como Confirmado, quando um caso é criado.\n"
 "Quando a chamada é longo, o status é definido como Segurado.\n"
-"Se a chamada não mais aplicáveis ​​, o estado pode ser definido como "
-"Cancelado ."
+"Se a chamada não mais aplicáveis ​​, o estado pode ser definido como Cancelado ."
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -1039,7 +1038,7 @@ msgstr "Não atribuído"
 #: code:addons/crm_voip/static/src/js/crm_voip.js:31
 #, python-format
 msgid "Unknown"
-msgstr "Desconhecido"
+msgstr "Desconhecido(a)"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_voip_config
@@ -1064,8 +1063,8 @@ msgid ""
 "Wrong configuration for the call. There is no external phone number "
 "configured"
 msgstr ""
-"Configuração errada para a chamada. Não existe um número de telefone externo "
-"configurado"
+"Configuração errada para a chamada. Não existe um número de telefone externo"
+" configurado"
 
 #. module: crm_voip
 #. openerp-web
@@ -1146,69 +1145,3 @@ msgstr "transferir para outro Telefone Externo"
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
 msgstr "transferir para seu telefone externo"
-
-#~ msgid ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "\n"
-#~ "                    <p>Hello ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>I just tried to call you.\n"
-#~ "                        Can you please give me your availability in order "
-#~ "to schedule a new call?</p>\n"
-#~ "                    <p>Yours Sincerly</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
-#~ "serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "
-#~ "\">\n"
-#~ "\n"
-#~ "<p>Olá ${object.name},</p>\n"
-#~ "\n"
-#~ "<p>Eu tentei ligar para você.\n"
-#~ "Você pode por favor me informar sua disponibilidade a fim de marcar uma "
-#~ "nova chamada?</p>\n"
-#~ "<p>Atenciosamente</p>\n"
-#~ "<p>${user.name}</p>\n"
-#~ "\n"
-#~ "</div>"
-
-#~ msgid ""
-#~ "\n"
-#~ "                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
-#~ "Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-"
-#~ "color: #FFF; \">\n"
-#~ "                    <p>Hello ${object.name},</p>\n"
-#~ "\n"
-#~ "                    <p>It seems that we have been interrupted during our "
-#~ "conversation. Can you please give me your availability in order to "
-#~ "schedule \n"
-#~ "                        a new call? </p>\n"
-#~ "                    <p>Yours Sincerly</p>\n"
-#~ "                    <p>${user.name}</p>\n"
-#~ "\n"
-#~ "                </div>\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-"
-#~ "serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; "
-#~ "\">\n"
-#~ "<p>Olá ${object.name},</p>\n"
-#~ "\n"
-#~ "<p>Parece que fomos interrompidos durante nossa conversa. Você pode por "
-#~ "favor me informar sua disponibilidade a fim de marcar \n"
-#~ "uma nova chamada? </p>\n"
-#~ "<p>Atenciosamente</p>\n"
-#~ "<p>${user.name}</p>\n"
-#~ "\n"
-#~ "</div>"
-
-#~ msgid "e.g. +32.81.81.37.00"
-#~ msgstr "ex. (11) 1234-9999"

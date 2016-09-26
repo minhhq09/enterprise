@@ -1,29 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-#
+# 
 # Translators:
-# krnkris, 2015
-# krnkris, 2016
+# krnkris <krnkris@freemail.hu>, 2016
+# Oregional <geza.nagy@oregional.hu>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 9.saas~12e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-06-06 19:55+0000\n"
-"Last-Translator: krnkris\n"
-"Language-Team: Hungarian (http://www.transifex.com/odoo/odoo-9/language/"
-"hu/)\n"
-"Language: hu\n"
+"POT-Creation-Date: 2016-08-22 10:33+0000\n"
+"PO-Revision-Date: 2016-08-22 10:33+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#. module: project_forecast
-#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "% of time"
-msgstr "% időből"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_kanban_inherit_project_forecast
@@ -34,6 +29,11 @@ msgstr "<span class=\"o_label\">Előrejelzés</span>"
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
 msgid "<span>Forecast</span>"
 msgstr "<span>Előrejelzés</span>"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_active
+msgid "Active"
+msgstr "Aktív"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_report_activities
@@ -51,6 +51,16 @@ msgid "Allow forecast"
 msgstr "Előrejelzés engedélyezése"
 
 #. module: project_forecast
+#: model:ir.actions.server,name:project_forecast.project_forecast_server_action_archive
+msgid "Archive/Unarchive"
+msgstr "Archivál/Archiválásból visszatölt"
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
+msgid "Archived"
+msgstr "Archivált"
+
+#. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_project
 msgid "By Project"
 msgstr "Projekt témánként"
@@ -64,6 +74,11 @@ msgstr "Felh. szerint"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_color
 msgid "Color"
 msgstr "Szín"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_count
+msgid "Count Payment Token"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
@@ -84,7 +99,7 @@ msgstr "Létrehozás dátuma"
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_display_name
 msgid "Display Name"
-msgstr "Név megjelenítése"
+msgstr "Megjelenített név"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_effective_hours
@@ -130,6 +145,12 @@ msgid "Forecast by user"
 msgstr "Előrejelzés felhasználónként"
 
 #. module: project_forecast
+#: code:addons/project_forecast/models/models.py:121
+#, python-format
+msgid "Forecasted time must be positive"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Future"
 msgstr "Jövő"
@@ -147,7 +168,7 @@ msgstr "Grafikon"
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Group By"
-msgstr "Csoportosítás ezzel..."
+msgstr "Csoportosítás"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_id
@@ -155,14 +176,19 @@ msgid "ID"
 msgstr "Azonosító ID"
 
 #. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_has_address
+msgid "Is address valid"
+msgstr "Cím érvényes lehet"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast___last_update
 msgid "Last Modified on"
-msgstr "Utolsó frissítés dátuma"
+msgstr "Utoljára frissítve ekkor"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_uid
 msgid "Last Updated by"
-msgstr "Utoljára frissítve, által"
+msgstr "Utoljára frissítette"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_write_date
@@ -187,7 +213,12 @@ msgstr "Név"
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Past"
-msgstr "Múlt"
+msgstr "Elmúlt"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_ids
+msgid "Payment Tokens"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_forecast_time
@@ -209,7 +240,17 @@ msgstr "Folyamatok"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_project_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Project"
-msgstr "Projekt"
+msgstr "Projekt téma"
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
+msgid "Project Forecast"
+msgstr "Projekt előrejelzés"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_resource_ids
+msgid "Resource ids"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_start_date
@@ -221,7 +262,7 @@ msgstr "Kezdő dátum"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_task_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Task"
-msgstr "Feladat"
+msgstr "Fladat"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_stage_id
@@ -234,16 +275,10 @@ msgid "Task tags"
 msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:136
+#: code:addons/project_forecast/models/models.py:133
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr "Az elkezdési dátumának előbbinek kell lennie a befejezés dátumánál."
-
-#. module: project_forecast
-#: code:addons/project_forecast/models/models.py:124
-#, python-format
-msgid "The time must be positive"
-msgstr "Az időnek pozitívnak kell lennie"
 
 #. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_project_allow_forecast
@@ -257,13 +292,23 @@ msgid "Time"
 msgstr "Idő"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
+msgid "Time Scheduling"
+msgstr "Idő ütemezés"
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_user_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "User"
 msgstr "Felhasználó"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:130
+#: model:ir.model,name:project_forecast.model_res_users
+msgid "Users"
+msgstr "Felhasználók"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:127
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr "Feladata nem a kiválasztott projekt témában van."
@@ -274,28 +319,7 @@ msgid "project.forecast"
 msgstr "project.forecast"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:59
+#: code:addons/project_forecast/models/models.py:63
 #, python-format
 msgid "undefined"
 msgstr "nincs meghatározva"
-
-#~ msgid "Active"
-#~ msgstr "Aktív"
-
-#~ msgid "Archive/Unarchive"
-#~ msgstr "Archivál/Archiválásból visszatölt"
-
-#~ msgid "Archived"
-#~ msgstr "Archivált"
-
-#~ msgid "Is address valid"
-#~ msgstr "Cím érvényes lehet"
-
-#~ msgid "Project Forecast"
-#~ msgstr "Projekt előrejelzés"
-
-#~ msgid "Time Scheduling"
-#~ msgstr "Idő ütemezés"
-
-#~ msgid "Users"
-#~ msgstr "Felhasználók"
