@@ -69,11 +69,17 @@ class AccountReportAnalyticManager(models.TransientModel):
 
     @api.multi
     def get_available_analytic_tag_ids_and_names(self):
-        return [[t.id, t.name] for t in self.env['account.analytic.tag'].search([])]
+        group_analytic = self.env.ref('analytic.group_analytic_accounting')
+        if self.create_uid.id in group_analytic.users.ids:
+            return [[t.id, t.name] for t in self.env['account.analytic.tag'].search([])]
+        return []
 
     @api.multi
     def get_available_analytic_account_ids_and_names(self):
-        return [[a.id, a.name] for a in self.env['account.analytic.account'].search([])]
+        group_analytic = self.env.ref('analytic.group_analytic_accounting')
+        if self.create_uid.id in group_analytic.users.ids:
+            return [[a.id, a.name] for a in self.env['account.analytic.account'].search([])]
+        return []
 
     @api.one
     def _get_analytic(self):
