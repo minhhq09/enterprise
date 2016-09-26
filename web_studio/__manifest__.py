@@ -21,6 +21,7 @@ Note: Only the admin user is allowed to make those customizations.
         'assets.xml',
         'views/actions.xml',
         'views/ir_actions_report_xml.xml',
+        'views/ir_model.xml',
         'views/ir_model_data.xml',
     ],
     'qweb': [
