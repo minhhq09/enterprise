@@ -36,6 +36,12 @@ class SaleSubscription(models.Model):
     user_id = fields.Many2one('res.users', string='Sales Rep', track_visibility='onchange')
     invoice_count = fields.Integer(compute='_compute_invoice_count')
 
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if 'state' in init_values:
+            return 'sale_contract.subtype_state_change'
+        return super(SaleSubscription, self)._track_subtype(init_values)
+
     def _compute_invoice_count(self):
         orders = self.env['sale.order'].search_read(domain=[('subscription_id', 'in', self.ids)], fields=['name'])
         order_names = [order['name'] for order in orders]

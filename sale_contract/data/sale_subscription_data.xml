@@ -38,6 +38,15 @@
         <field name="name">Other</field>
     </record>
 
+    <!-- Subtypes -->
+    <record id="subtype_state_change" model="mail.message.subtype">
+        <field name="name">State Change</field>
+        <field name="res_model">sale.subscription</field>
+        <field name="default" eval="True"/>
+        <field name="internal" eval="True"/>
+        <field name="description">Subscription state has changed</field>
+    </record>
+
 
     <data noupdate="1">
         <record id="seq_sale_subscription" model="ir.sequence">
