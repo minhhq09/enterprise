@@ -455,9 +455,9 @@ class AccountReportContextCommon(models.TransientModel):
         sheet = book.add_sheet(report_id.get_title())
 
         title_style = xlwt.easyxf('font: bold true; borders: bottom medium;', num_format_str='#,##0.00')
-        level_0_style = xlwt.easyxf('font: bold true; borders: bottom medium, top medium; pattern: pattern solid;', num_format_str='#,##0.00')
-        level_0_style_left = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, left medium; pattern: pattern solid;', num_format_str='#,##0.00')
-        level_0_style_right = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, right medium; pattern: pattern solid;', num_format_str='#,##0.00')
+        level_0_style = xlwt.easyxf('font: bold true; borders: bottom medium, top medium; pattern: pattern solid, fore-colour grey25;', num_format_str='#,##0.00')
+        level_0_style_left = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, left medium; pattern: pattern solid, fore-colour grey25;', num_format_str='#,##0.00')
+        level_0_style_right = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, right medium; pattern: pattern solid, fore-colour grey25;', num_format_str='#,##0.00')
         level_1_style = xlwt.easyxf('font: bold true; borders: bottom medium, top medium;', num_format_str='#,##0.00')
         level_1_style_left = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, left medium;', num_format_str='#,##0.00')
         level_1_style_right = xlwt.easyxf('font: bold true; borders: bottom medium, top medium, right medium;', num_format_str='#,##0.00')
