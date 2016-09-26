@@ -251,13 +251,6 @@
         </t>
     </template>
 
-    <!-- User Navbar -->
-    <template id="content_new_team" inherit_id="website.user_navbar">
-        <xpath expr="//div[@id='o_website_add_page_modal']//ul" position="inside">
-            <li groups="base.group_user"><a href="#" data-action="new_team"><i class="fa fa-question"/><p>New Team</p></a></li>
-        </xpath>
-    </template>
-
     <!-- Page : List of project -->
     <template id="index" name="Helpdesk Ticket Rating List">
         <t t-call="website.layout">
@@ -358,7 +351,7 @@
                     <h1 t-esc="team.name" class="text-center"/>
                     <div class="row mb32">
                         <div class="col-md-8">
-                            <t t-call="website_helpdesk.team_rating_data"/>                 
+                            <t t-call="website_helpdesk.team_rating_data"/>
                         </div>
                     </div>
                 </div>
