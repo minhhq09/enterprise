@@ -294,7 +294,7 @@
         <field name="name">mrp.eco.kanban</field>
         <field name="model">mrp.eco</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="stage_id" class="o_kanban_small_column">
+            <kanban default_group_by="stage_id" class="o_kanban_small_column" quick_create="false">
                 <field name="name"/>
                 <field name="bom_id"/>
                 <field name="effectivity_date"/>
@@ -666,7 +666,7 @@
         name="PLM"
         web_icon="mrp_plm,static/description/icon.png"
         sequence="52"
-        groups="base.group_user"/>
+        groups="mrp_plm.group_plm_user"/>
 
     <menuitem
         id="menu_mrp_plm_dashboard"
@@ -729,6 +729,7 @@
         id="menu_mrp_plm_reporting"
         name="Reporting"
         parent="menu_mrp_plm_root"
+        groups="mrp_plm.group_plm_manager"
         sequence="25"/>
     <menuitem
         id="menu_mrp_plm_eco_report"
@@ -741,6 +742,7 @@
         id="menu_mrp_plm_configuration"
         name="Configuration"
         parent="menu_mrp_plm_root"
+        groups="mrp_plm.group_plm_manager"
         sequence="25"/>
     <menuitem
         id="menu_mrp_plm_eco_stages"
