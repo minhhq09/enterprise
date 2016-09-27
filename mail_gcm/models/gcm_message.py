@@ -3,8 +3,14 @@ import logging
 import re
 import threading
 
-from gcm import GCM
-from gcm.gcm import GCMAuthenticationException, GCMUnavailableException
+_logger = logging.getLogger(__name__)
+try:
+    from gcm import GCM
+    from gcm.gcm import GCMAuthenticationException, GCMUnavailableException
+except ImportError:
+    gcm = GCM = GCMAuthenticationException = GCMUnavailableException = None
+    _logger.warning("Google Cloud Messaging module is not installed.")
+
 from requests.exceptions import ConnectionError
 
 from openerp import models, api
