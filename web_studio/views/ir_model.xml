@@ -8,6 +8,9 @@
             <field name="transient" position="after">
                 <field name="mail_thread" attrs="{'readonly': [('state','!=', 'manual')]}" groups="base.group_no_one"/>
             </field>
+            <xpath expr="//field[@name='field_id']//field[@name='copy']" position="after">
+                <field name="track_visibility" attrs="{'readonly': [('state','!=', 'manual')]}"/>
+            </xpath>
         </field>
     </record>
 
@@ -17,6 +20,16 @@
         <field name="arch" type="xml">
             <field name="model" position="after">
                 <filter string="Mail Thread" name="mail_thread" domain="[('mail_thread', '=', True)]"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="field_form_view" model="ir.ui.view">
+        <field name="model">ir.model.fields</field>
+        <field name="inherit_id" ref="base.view_model_fields_form"/>
+        <field name="arch" type="xml">
+            <field name="copy" position="after">
+                <field name="track_visibility" attrs="{'readonly': [('state','!=', 'manual')]}"/>
             </field>
         </field>
     </record>

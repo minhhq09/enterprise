@@ -47,3 +47,30 @@ class IrModel(models.Model):
             parents = [parents] if isinstance(parents, basestring) else parents
             model_class._inherit = parents + ['mail.thread']
         return model_class
+
+
+class IrModelField(models.Model):
+    _inherit = 'ir.model.fields'
+
+    track_visibility = fields.Selection(
+        [('onchange', "On Change"), ('always', "Always")], string="Tracking",
+        compute='_compute_track_visibility', inverse='_inverse_track_visibility', store=True,
+        help="When set, every modification to this field will be tracked in the chatter.",
+    )
+
+    @api.depends('name')
+    def _compute_track_visibility(self):
+        for rec in self:
+            if rec.model in self.env:
+                field = self.env[rec.model]._fields.get(rec.name)
+                rec.track_visibility = getattr(field, 'track_visibility', False)
+
+    def _inverse_track_visibility(self):
+        pass        # do nothing; this enables to set the value of the field
+
+    @api.model
+    def _instanciate(self, field_data, partial):
+        field = super(IrModelField, self)._instanciate(field_data, partial)
+        if field and field_data.get('track_visibility'):
+            field.args = dict(field.args, track_visibility=field_data['track_visibility'])
+        return field
