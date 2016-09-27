@@ -55,7 +55,7 @@ class MrpProductionWorkcenterLine(models.Model):
         if action_rec:
             action = action_rec.read([])[0]
             action['views'] = [(view_id, mode) for (view_id, mode) in action['views'] if mode == 'form'] or action['views']
-            action['context'] = {'default_product_tmpl_id': self.product_id.product_tmpl_id.id, 'default_operation_id': self.id}
+            action['context'] = {'default_product_id': self.product_id.product_tmpl_id.id, 'default_product_tmpl_id': self.product_id.product_tmpl_id.id, 'default_operation_id': self.id}
             return action
 
     @api.multi
