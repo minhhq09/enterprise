@@ -43,8 +43,16 @@ WebClient.include({
     init: function() {
         this._super.apply(this, arguments);
         this.studio_on = false;
+        this.current_menu_id = null;
+
         bus.on('studio_toggled', this, function (mode) {
             this.studio_on = !!mode;
+        });
+
+        var self = this;
+        core.bus.on('change_menu_section', null, function (id) {
+            var menu_item = _.findWhere(self.menu_data.children, {id: id});
+            self.current_menu_id = menu_item.id;
         });
     },
 
@@ -93,6 +101,16 @@ WebClient.include({
         var action_desc = action && action.action_descr || null;
         var active_view = action && action.get_active_view();
         var mode = this.studio_on && (this.app_switcher_displayed ? 'app_creator' : 'main');
+
+        if (mode) {
+            session.user_context.studio = 1;
+            if (mode === 'main') {
+                session.user_context.studio_menu_id = this.current_menu_id;
+            }
+        } else {
+            delete session.user_context.studio;
+            delete session.user_context.studio_menu_id;
+        }
 
         var def;
         if (this.studio_on) {
@@ -167,6 +185,7 @@ WebClient.include({
             return self.do_action('action_web_studio_' + mode, action_options);
         });
     },
+
     do_action: function(action, options) {
         if (this.studio_on) {
             options.ids = this.studio_ids;
@@ -175,6 +194,7 @@ WebClient.include({
         }
         return this._super.apply(this, arguments);
     },
+
     close_studio: function () {
         this.studio_on = false;
         this.edited_action = undefined;

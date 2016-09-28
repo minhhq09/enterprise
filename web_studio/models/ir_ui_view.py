@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import models
+
+from odoo import api, models
 import json
 
 
 class View(models.Model):
     _inherit = 'ir.ui.view'
+
+    @api.model
+    def create(self, vals):
+        res = super(View, self).create(vals)
+
+        if self._context.get('studio'):
+            res.create_studio_model_data(res.name)
+
+        return res
 
     def _apply_group(self, model, node, modifiers, fields):
         # apply_group only returns the view groups ids.

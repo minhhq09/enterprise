@@ -790,7 +790,7 @@ var Model = Class.extend({
     },
     name_create: function(model, name, context) {  // fixme: move to kanban_view?
         return this.perform_model_rpc(model, 'name_create', [name], {
-            context: context,
+            context: _.extend({}, session.user_context, context),
         });
     },
     name_get: function(model, ids, context) {

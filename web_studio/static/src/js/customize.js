@@ -2,19 +2,11 @@ odoo.define('web_studio.customize', function(require) {
 "use strict";
 
 var ajax = require('web.ajax');
-var core = require('web.core');
 var data_manager = require('web.data_manager');
 var Dialog = require('web.Dialog');
-var web_client = require('web.web_client');
 var studio_bus = require('web_studio.bus');
+var session = require('web.session');
 
-// this is the id for the root menu of the current action
-var current_menu_id = null;
-
-core.bus.on('change_menu_section', null, function (id) {
-    var menu_item = _.findWhere(web_client.menu_data.children, {id: id});
-    current_menu_id = menu_item.id;
-});
 
 // this file should regroup all methods required to do a customization,
 // so, basically all write/update/delete operations made in web_studio.
@@ -27,6 +19,7 @@ return {
             model_id: model_id,
             is_app: true,
             icon: icon,
+            context: session.user_context,
         });
     },
 
@@ -36,7 +29,7 @@ return {
             name: name,
             model_id: model_id,
             parent_id: parent_id,
-            menu_id: current_menu_id,
+            context: session.user_context,
         });
     },
 
@@ -48,6 +41,7 @@ return {
             action_type: action.type,
             action_id: action.id,
             args: args,
+            context: session.user_context,
         }).then(function(result) {
             if (result !== true) {
                 Dialog.alert(this, result);
@@ -68,6 +62,7 @@ return {
             action_id: action_id,
             view_mode: view_mode,
             view_id: view_id,
+            context: session.user_context,
         }).then(function() {
             return self._reload_action(action_id);
         });
@@ -75,14 +70,13 @@ return {
 
     // The point of this function is to receive a list of customize operations
     // to do. This is the "operations" variable.
-    edit_view: function(view_id, studio_view_name, studio_view_arch, operations) {
+    edit_view: function(view_id, studio_view_arch, operations) {
         data_manager.invalidate();
         return ajax.jsonRpc('/web_studio/edit_view', 'call', {
             view_id: view_id,
-            studio_view_name: studio_view_name,
             studio_view_arch: studio_view_arch,
             operations: operations,
-            menu_id: current_menu_id,
+            context: session.user_context,
         });
     },
 
@@ -93,6 +87,7 @@ return {
         return ajax.jsonRpc('/web_studio/edit_view_arch', 'call', {
             view_id: view_id,
             view_arch: view_arch,
+            context: session.user_context,
         });
     },
 
@@ -101,7 +96,7 @@ return {
             model: model,
             view_type: view_type,
             view_id: view_id,
-            menu_id: current_menu_id,
+            context: session.user_context,
         });
     },
 

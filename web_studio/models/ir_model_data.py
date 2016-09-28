@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from odoo import fields, models
+
+from odoo import api, fields, models
 
 
 class IrModelData(models.Model):
@@ -8,11 +9,19 @@ class IrModelData(models.Model):
 
     studio = fields.Boolean(help='Checked if it has been edited with Studio.')
 
-    def set_studio_modification(self):
+    @api.model
+    def create(self, vals):
+        if self._context.get('studio'):
+            vals['noupdate'] = True
+            vals['studio'] = True
+        return super(IrModelData, self).create(vals)
+
+    @api.model
+    def write(self, vals):
         """ When editing an ir.model.data with Studio, we put it in noupdate to
                 avoid the customizations to be dropped when upgrading the module.
         """
-        self.write({
-            'noupdate': True,
-            'studio': True,
-        })
+        if self._context.get('studio'):
+            vals['noupdate'] = True
+            vals['studio'] = True
+        return super(IrModelData, self).write(vals)

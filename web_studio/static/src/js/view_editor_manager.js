@@ -124,7 +124,6 @@ return Widget.extend({
             return customize.get_studio_view_arch(self.model, self.view_type, self.view_id).then(function(result) {
                 self.view_id = result.view_id;
                 self.studio_view_id = result.studio_view_id;
-                self.studio_view_name = result.studio_view_name;
                 self.studio_view_arch = result.studio_view_arch;
             });
         });
@@ -407,7 +406,6 @@ return Widget.extend({
         } else {
             def = customize.edit_view(
                 this.view_id,
-                this.studio_view_name,
                 this.studio_view_arch,
                 _.filter(this.operations, function(el) {return el.type !== 'replace_arch'; })
             );

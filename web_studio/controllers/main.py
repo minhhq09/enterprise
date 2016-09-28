@@ -1,32 +1,11 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import uuid
-import unicodedata
-import re
-
 from lxml import etree
 from StringIO import StringIO
 from openerp import http, _
 from openerp.http import request
 from odoo.exceptions import UserError
-from odoo.tools import ustr
-
-def sanitize_for_xmlid(s):
-    """ Transform a string to a name suitable for use in xml_id.
-        For example, My new application -> my_new_application.
-        It will process string by stripping leading and ending spaces,
-        converting unicode chars to ascii, lowering all chars and replacing spaces
-        with underscore.
-        :param s: str
-        :rtype: str
-    """
-    s = ustr(s)
-    uni = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('ascii')
-
-    slug_str = re.sub('[\W]', ' ', uni).strip().lower()
-    slug_str = re.sub('[-\s]+', '_', slug_str)
-    return slug_str
 
 
 class WebStudioController(http.Controller):
@@ -163,40 +142,8 @@ class WebStudioController(http.Controller):
 
         return action
 
-    def _create_or_get_module(self, menu_id=None, description=None):
-        if menu_id:
-            root_menu = request.env['ir.ui.menu'].browse([menu_id])
-            model_data = request.env['ir.model.data'].search([['res_id', '=', root_menu.id], ['model', '=', 'ir.ui.menu']])
-
-            if model_data.module.startswith('studio_custom_app_'):
-                # this is an application made by Studio, so all modifications
-                # should be made in the same module
-                module_name = model_data.module
-            else:
-                # this is a customization for an existing application
-                module_name = 'studio_customization_%s' % (model_data.module or 'web_studio')
-                module_description = root_menu.name
-                is_app = False
-        else:
-            # this is a totally new application
-            module_name = 'studio_custom_app_%s' % sanitize_for_xmlid(description)
-            module_description = description
-            is_app = True
-
-        if not request.env['ir.module.module'].search_count([['name', '=', module_name]]):
-            # need to create a module from scratch
-            request.env['ir.module.module'].create({
-                'name': module_name,
-                'application': is_app,
-                'shortdesc': module_description,
-                'state': 'installed',
-                'imported': True,
-            })
-
-        return module_name
-
     @http.route('/web_studio/create_new_menu', type='json', auth='user')
-    def create_new_menu(self, name, model_id, is_app=False, parent_id=None, icon=None, menu_id=None):
+    def create_new_menu(self, name, model_id, is_app=False, parent_id=None, icon=None):
         """ Create a new menu @name, linked to a new action associated to the model_id
             @param is_app: if True, create an extra menu (app, without parent)
             @param parent_id: the parent of the new menu.
@@ -204,10 +151,10 @@ class WebStudioController(http.Controller):
             @param icon: the icon of the new app, like [icon, icon_color, background_color].
                 To be set if is_app is True.
         """
-        model_id = request.env['ir.model'].browse(model_id)
+        model = request.env['ir.model'].browse(model_id)
         new_action = request.env['ir.actions.act_window'].create({
             'name': name,
-            'res_model': model_id.model,
+            'res_model': model.model,
             'help': """
                 <p>
                     This is your new action ; by default, it contains a list view and a form view.
@@ -219,45 +166,38 @@ class WebStudioController(http.Controller):
             """,
         })
 
-        module_name = self._create_or_get_module(menu_id, name)
-
         if is_app:
             # we cannot create a menu without action without the context `full_list`
-            new_menu = request.env['ir.ui.menu'].with_context({'ir.ui.menu.full_list': True}).create({
+            new_context = dict(request.context)
+            new_context.update({'ir.ui.menu.full_list': True})
+            new_menu = request.env['ir.ui.menu'].with_context(new_context).create({
                 'name': name,
                 'web_icon': ','.join(icon),
                 'child_id': [(0, 0, {
-                    'name': model_id.name,
+                    'name': name,
                     'action': 'ir.actions.act_window,' + str(new_action.id),
                 })]
             })
+            # if a model has been created for the app but *before* it,
+            # the `module` on model_data for the model and its fields should be changed
+            if model.state == 'manual':
+                module_name = request.env['ir.module.module'].create_or_get_studio_module(new_menu.id)
+                request.env['ir.model.data'].search([
+                    '|',
+                    '&', ('model', '=', 'ir.model'), ('res_id', '=', model.id),
+                    '&', ('model', '=', 'ir.model.fields'), ('res_id', 'in', model.field_id.ids)
+                ]).write({'module': module_name})
         else:
             new_menu = request.env['ir.ui.menu'].create({
                 'name': name,
                 'action': 'ir.actions.act_window,' + str(new_action.id),
-                'parent_id': parent_id,
+                'parent_id': request.context.get('studio_menu_id'),
             })
-
-        # Create model data
-        self._create_model_data('action_%s' % uuid.uuid4(), 'ir.actions.act_window', new_action.id, module_name)
-        self._create_model_data('menu_%s' % uuid.uuid4(), 'ir.ui.menu', new_menu.id, module_name)
-
-        if is_app:
-            self._create_model_data('menu_%s' % uuid.uuid4(), 'ir.ui.menu', new_menu.child_id[0].id, module_name)
 
         return {
             'menu_id': new_menu.id,
             'action_id': new_action.id,
         }
-
-    def _create_model_data(self, name, model, res_id, module):
-        model_data = request.env['ir.model.data'].create({
-            'name': name,
-            'model': model,
-            'res_id': res_id,
-            'module': module,
-        })
-        model_data.set_studio_modification()
 
     @http.route('/web_studio/edit_action', type='json', auth='user')
     def edit_action(self, action_type, action_id, args):
@@ -291,15 +231,10 @@ class WebStudioController(http.Controller):
                     if view_id.view_mode in view_modes:
                         view_id.sequence = view_modes.index(view_id.view_mode)
                         view_xml_id = request.env['ir.model.data'].search([('model', '=', 'ir.actions.act_window.view'), ('res_id', '=', view_id.id)])
-                        if view_xml_id:
-                            view_xml_id.set_studio_modification()
                     else:
                         view_id.unlink()
 
             action_id.write(args)
-
-            if action_id.xml_id:
-                self._edit_model_data(action_id.xml_id)
 
         return True
 
@@ -313,42 +248,29 @@ class WebStudioController(http.Controller):
 
         window_view.view_id = view_id
 
-        if action_id.xml_id:
-            self._edit_model_data(action_id.xml_id)
-
         return True
 
-    def _edit_model_data(self, xml_id):
-        xml_id = xml_id.split('.')
-        model_data = request.env['ir.model.data'].search([('module', '=', xml_id[0]), ('name', '=', xml_id[1])])
-        model_data.set_studio_modification()
+    def _get_studio_view(self, view):
+        return request.env['ir.ui.view'].search([('inherit_id', '=', view.id), ('name', 'ilike', '%studio%customization%')], limit=1)
 
     @http.route('/web_studio/get_studio_view_arch', type='json', auth='user')
-    def get_studio_view_arch(self, model, view_type, view_id=False, menu_id=None):
+    def get_studio_view_arch(self, model, view_type, view_id=False):
         view_type = 'tree' if view_type == 'list' else view_type  # list is stored as tree in db
 
         # We have to create a view with the default view if we want to customize it.
         view = self._get_or_create_default_view(model, view_type, view_id)
-        studio_view_name = '%s-%s' % (model, view.id)
-        module_name = self._create_or_get_module(menu_id)
-        studio_view = request.env.ref(module_name + '.' + studio_view_name, raise_if_not_found=False)
+        studio_view = self._get_studio_view(view)
 
         return {
             'view_id': view.id,
             'studio_view_id': studio_view and studio_view.id or False,
-            'studio_view_name': studio_view and studio_view_name or False,
             'studio_view_arch': studio_view and studio_view.arch_db or "<data/>",
         }
 
     @http.route('/web_studio/edit_view', type='json', auth='user')
-    def edit_view(self, view_id, studio_view_name, studio_view_arch, operations=None, menu_id=None):
+    def edit_view(self, view_id, studio_view_arch, operations=None):
         view = request.env['ir.ui.view'].browse(view_id)
-
-        if not studio_view_name:
-            studio_view_name = '%s-%s' % (view.model, view.id)
-
-        module_name = self._create_or_get_module(menu_id)
-        studio_view = request.env.ref(module_name + '.' + studio_view_name, raise_if_not_found=False)
+        studio_view = self._get_studio_view(view)
 
         parser = etree.XMLParser(remove_blank_text=True)
         arch = etree.parse(StringIO(studio_view_arch), parser).getroot()
@@ -357,7 +279,7 @@ class WebStudioController(http.Controller):
             # Call the right operation handler
             if 'node' in op:
                 op['node'] = self._preprocess_attrs(op['node'])
-            getattr(self, '_operation_%s' % (op['type']))(arch, op, view.model, module_name)
+            getattr(self, '_operation_%s' % (op['type']))(arch, op, view.model)
 
         # Save or create changes into studio view, identifiable by xmlid
         # Example for view id 42 of model crm.lead: web-studio_crm.lead-42
@@ -382,13 +304,6 @@ class WebStudioController(http.Controller):
                 'arch': new_arch,
                 'name': "Odoo Studio: %s customization" % (view.name),
             })
-            # Create the xmlid of the customization view to append to it later
-            request.env['ir.model.data'].create({
-                'name': studio_view_name,
-                'model': 'ir.ui.view',
-                'module': module_name,
-                'res_id': studio_view.id,
-            })
 
         fields_view = request.env[view.model].with_context({'studio': True}).fields_view_get(view.id, view.type)
 
@@ -400,9 +315,6 @@ class WebStudioController(http.Controller):
 
         if view:
             view.write({'arch': view_arch})
-
-            if view.xml_id:
-                self._edit_model_data(view.xml_id)
 
             if view.model:
                 try:
@@ -430,7 +342,7 @@ class WebStudioController(http.Controller):
                 'type': view_type,
                 'model': model,
                 'arch': fields_view['arch'],
-                'name': "Odoo Studio: Default %s view for %s" % (view_type, model),
+                'name': "Default %s view for %s" % (view_type, model),
             })
         return view
 
@@ -464,7 +376,7 @@ class WebStudioController(http.Controller):
 
         return xpath_node
 
-    def _operation_remove(self, arch, operation, model=None, module_name=None):
+    def _operation_remove(self, arch, operation, model=None):
         expr = self._node_to_expr(operation['target'])
 
         # Did we add this field from studio ? If yes, delete it.
@@ -487,7 +399,7 @@ class WebStudioController(http.Controller):
                 'position': 'replace'
             })
 
-    def _operation_add(self, arch, operation, model, module_name):
+    def _operation_add(self, arch, operation, model):
         node = operation['node']
         xpath_node = self._get_xpath_node(arch, operation)
 
@@ -514,7 +426,7 @@ class WebStudioController(http.Controller):
             # (2) [button_count_field] is a non-stored computed field (to always have the good value in the stat button, if access rights)
             # (3) [button_action] an act_window action to jump in the related model
             button_field = request.env['ir.model.fields'].browse(node['field'])
-            button_count_field, button_action,  = self._get_or_create_fields_for_button(model, button_field, node['string'], module_name)
+            button_count_field, button_action,  = self._get_or_create_fields_for_button(model, button_field, node['string'])
 
             # the XML looks like <button> <field/> </button : a element `field` needs to be inserted inside the button
             xml_node_field = etree.Element('field', {'widget': 'statinfo', 'name': button_count_field.name, 'string': node['string'] or button_count_field.field_description})
@@ -526,7 +438,7 @@ class WebStudioController(http.Controller):
             xml_node.text = node.get('text')
         xpath_node.insert(0, xml_node)
 
-    def _get_or_create_fields_for_button(self, model, field, button_name, module_name):
+    def _get_or_create_fields_for_button(self, model, field, button_name):
         """ Returns the button_count_field and the button_action link to a stat button.
             @param field: a many2one field
         """
@@ -550,7 +462,6 @@ class WebStudioController(http.Controller):
                 'store': False,
                 'compute': """for record in self: record['%s'] = self.env['%s'].search_count([('%s', '=', record.id)])""" % (button_count_field_name, field.model, field.name),
             })
-            self._create_model_data('new_button_field_%s' % uuid.uuid4(), 'ir.model.fields', button_count_field.id, module_name)
 
         # Link the button with an associated act_window
         button_action = request.env['ir.actions.act_window'].create({
@@ -561,16 +472,15 @@ class WebStudioController(http.Controller):
             'domain': "[('%s', '=', active_id)]" % (field.name),
             'context': "{'search_default_%s': active_id,'default_%s': active_id}" % (field.name, field.name)
         })
-        self._create_model_data('new_button_action_%s' % uuid.uuid4(), 'ir.actions.act_window', button_action.id, module_name)
 
         return button_count_field, button_action
 
-    def _operation_move(self, arch, operation, model=None, module_name=None):
+    def _operation_move(self, arch, operation, model=None):
         self._operation_remove(arch, dict(operation, target=operation['node']))
         self._operation_add(arch, operation)
 
     # Create or update node for each attribute
-    def _operation_attributes(self, arch, operation, model=None, module_name=None):
+    def _operation_attributes(self, arch, operation, model=None):
         ir_model_data = request.env['ir.model.data']
         new_attrs = operation['new_attrs']
 
@@ -598,7 +508,7 @@ class WebStudioController(http.Controller):
             else:
                 xml_node.text = new_attr
 
-    def _operation_buttonbox(self, arch, operation, model=None, module_name=None):
+    def _operation_buttonbox(self, arch, operation, model=None):
         studio_view_arch = arch  # The actual arch is the studio view arch
         # Get the arch of the form view with inherited views applied
         arch = request.env[model].fields_view_get(view_type='form')['arch']
@@ -622,7 +532,7 @@ class WebStudioController(http.Controller):
             buttonbox_node = etree.Element('div', {'name': 'button_box', 'class': 'oe_button_box'})
             xpath_node.append(buttonbox_node)
 
-    def _operation_chatter(self, arch, operation, model=None, module_name=None):
+    def _operation_chatter(self, arch, operation, model=None):
         def _get_remove_field_op(arch, field_name):
             return {
                 'type': 'remove',

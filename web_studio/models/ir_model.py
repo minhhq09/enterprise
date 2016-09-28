@@ -1,7 +1,30 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+import uuid
+
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+
+
+class Base(models.AbstractModel):
+    _inherit = 'base'
+
+    def create_studio_model_data(self, description=None):
+        """ We want to keep track of created records with studio
+            (ex: model, field, view, action, menu, etc.).
+            An ir.model.data is created whenever a record of one of these models
+            is created, tagged with studio.
+        """
+        menu_id = self._context.get('studio_menu_id')
+        module_name = self.env['ir.module.module'].create_or_get_studio_module(menu_id, description)
+
+        self.env['ir.model.data'].create({
+            'name': '%s_%s' % (self.name, uuid.uuid4()),
+            'model': self._name,
+            'res_id': self.id,
+            'module': module_name,
+        })
 
 
 class IrModel(models.Model):
@@ -21,6 +44,15 @@ class IrModel(models.Model):
 
     def _inverse_mail_thread(self):
         pass        # do nothing; this enables to set the value of the field
+
+    @api.model
+    def create(self, vals):
+        res = super(IrModel, self).create(vals)
+
+        if self._context.get('studio'):
+            res.create_studio_model_data(res.name)
+
+        return res
 
     @api.multi
     def write(self, vals):
@@ -74,3 +106,12 @@ class IrModelField(models.Model):
         if field and field_data.get('track_visibility'):
             field.args = dict(field.args, track_visibility=field_data['track_visibility'])
         return field
+
+    @api.model
+    def create(self, vals):
+        res = super(IrModelField, self).create(vals)
+
+        if self._context.get('studio'):
+            res.create_studio_model_data(res.name)
+
+        return res
