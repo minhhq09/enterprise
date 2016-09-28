@@ -24,11 +24,11 @@ class MailChannel(models.Model):
             receiver_ids |= message.partner_ids
             receiver_ids |= message.needaction_partner_ids
             identities = receiver_ids.mapped('device_identity_ids')
-
-            for service, service_str in self.env['device.identity']._default_service_type():
-                message_dispatcher = self.env['cloud.message.dispatch']
-                method_name = "send_%s" % (service)
-                if hasattr(message_dispatcher, method_name):
-                    method = getattr(message_dispatcher, method_name)
-                    service_identities = identities.filtered(lambda r: r.service_type == service)
-                    method(service_identities, message)
+            if identities:
+                for service, service_str in self.env['device.identity']._default_service_type():
+                    message_dispatcher = self.env['cloud.message.dispatch']
+                    method_name = "send_%s" % (service)
+                    if hasattr(message_dispatcher, method_name):
+                        method = getattr(message_dispatcher, method_name)
+                        service_identities = identities.filtered(lambda r: r.service_type == service)
+                        method(service_identities, message)
