@@ -10,10 +10,22 @@ var _t = core._t;
 
 
 var WorkorderBarcodeHandler = FormViewBarcodeHandler.extend({
+
+    init: function(parent, context) {
+        if (parent.ViewManager.action) {
+            this.form_view_initial_mode = parent.ViewManager.action.context.form_view_initial_mode;
+        } else if (parent.ViewManager.view_form) {
+            this.form_view_initial_mode = parent.ViewManager.view_form.options.initial_mode;
+        }
+        return this._super.apply(this, arguments);
+    },
     start: function() {
-        var def = this._super.apply(this, arguments);
+        this._super();
+        this.MrpWorkorder = new Model("mrp.workorder");
         this.form_view.options.disable_autofocus = 'true';
-        return def;
+        if (this.form_view_initial_mode) {
+            this.form_view.options.initial_mode = this.form_view_initial_mode;
+        }
     },
 });
 
@@ -21,4 +33,3 @@ var WorkorderBarcodeHandler = FormViewBarcodeHandler.extend({
 core.form_widget_registry.add('workorder_barcode_handler', WorkorderBarcodeHandler);
 
 });
-
