@@ -2,20 +2,18 @@
     &.ui-state-focus {
         background-color: @dropdown-link-hover-bg;
     }
-    &.o_m2o_dropdown_option > a {
-        color: @odoo-brand-optional;
-        &:hover {
-            color: @odoo-brand-optional;
-        }
-    }
     &.ui-state-focus > a {
         color: @dropdown-link-color;
         &:hover {
             color: @dropdown-link-color;
         }
     }
-    &.ui-state-focus.o_m2o_dropdown_option > a:hover {
+    &.o_m2o_dropdown_option > a,
+    &.ui-state-focus.o_m2o_dropdown_option > a {
         color: @odoo-brand-optional;
+        &:hover {
+            color: @odoo-brand-optional;
+        }
     }
 }
 

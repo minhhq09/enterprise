@@ -7,6 +7,7 @@ var Widget = require('web.Widget');
 var SystrayMenu = require('web.SystrayMenu');
 var UserMenu = require('web.UserMenu');
 
+UserMenu.prototype.sequence = 0; // force UserMenu to be the right-most item in the systray
 SystrayMenu.Items.push(UserMenu);
 
 var QWeb = core.qweb;
@@ -49,6 +50,7 @@ var Menu = Widget.extend({
 
         // Bus event
         core.bus.on('change_menu_section', this, this.change_menu_section);
+        core.bus.on('toggle_mode', this, this.toggle_mode);
     },
     start: function () {
         var self = this;

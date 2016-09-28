@@ -23,7 +23,8 @@
             t-att-data-action-id="app.action"
             t-att-data-menu-xmlid="app.xmlid"
             t-att-href="app.href ? app.href : ('#menu_id='+app.id+'&amp;action_id='+app.action)">
-            <img class="o_app_icon" t-att-src="app.icon" />
+            <img t-if="app.web_icon_data" class="o_app_icon" t-att-src="app.web_icon_data"/>
+            <t t-if="!app.web_icon_data" t-raw="app.web_icon"/>
             <div class="o_caption"><t t-esc="app.label"/></div>
           </a>
         </t>
@@ -119,13 +120,15 @@
     </div>
 </t>
 
-<nav t-name="Menu" class="o_main_navbar">
-    <a href="#" class="fa o_menu_toggle"/>
-    <button type="button" class="fa fa-bars pull-right visible-xs-block o_mobile_menu_toggle"/>
+<nav t-name="Menu">
+    <div class="o_main_navbar">
+        <a href="#" class="fa o_menu_toggle"/>
+        <button type="button" class="fa fa-bars pull-right visible-xs-block o_mobile_menu_toggle"/>
 
-    <div class="o_menu_brand"/>
-    <ul class="o_menu_sections"/>
-    <ul class="o_menu_systray"/>
+        <div class="o_menu_brand"/>
+        <ul class="o_menu_sections"/>
+        <ul class="o_menu_systray"/>
+    </div>
 </nav>
 
 <t t-name="Menu.link">
