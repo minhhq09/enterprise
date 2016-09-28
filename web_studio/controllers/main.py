@@ -453,6 +453,16 @@ class WebStudioController(http.Controller):
         button_count_field_name = 'x_%s_count' % field.name
         button_count_field = request.env['ir.model.fields'].search([('name', '=', button_count_field_name), ('model_id', '=', model.id)])
         if not button_count_field:
+            compute_function = """
+                    results = self.env['%(model)s'].read_group([('%(field)s', 'in', self.ids)], '%(field)s', '%(field)s')
+                    dic = {}
+                    for x in results: dic[x['%(field)s'][0]] = x['%(field)s_count']
+                    for record in self: record['%(count_field)s'] = dic.get(record.id, 0)
+                """ % {
+                    'model': field.model,
+                    'field': field.name,
+                    'count_field': button_count_field_name,
+                }
             button_count_field = request.env['ir.model.fields'].create({
                 'name': button_count_field_name,
                 'field_description': '%s count' % field.field_description,
@@ -460,7 +470,7 @@ class WebStudioController(http.Controller):
                 'model_id': model.id,
                 'ttype': 'integer',
                 'store': False,
-                'compute': """for record in self: record['%s'] = self.env['%s'].search_count([('%s', '=', record.id)])""" % (button_count_field_name, field.model, field.name),
+                'compute': compute_function.replace('    ', ''),  # remove indentation for safe_eval
             })
 
         # Link the button with an associated act_window
