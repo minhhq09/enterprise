@@ -73,10 +73,7 @@ return AbstractWebClient.extend({
             }
         });
     },
-    show_application: function () {
-        var self = this;
-        this.set_title();
-
+    load_menus: function () {
         var Menus = new Model('ir.ui.menu');
         return Menus.call('load_menus', [core.debug], {context: session.user_context}).then(function(menu_data) {
             // Compute action_id if not defined on a top menu item
@@ -92,18 +89,14 @@ return AbstractWebClient.extend({
                     }
                 }
             }
+            return menu_data;
+        });
+    },
+    show_application: function () {
+        var self = this;
+        this.set_title();
 
-            // Here, we instanciate every menu widgets and we immediately append them into dummy
-            // document fragments, so that their `start` method are executed before inserting them
-            // into the DOM.
-            self.app_switcher = new AppSwitcher(self, menu_data);
-            self.menu = new Menu(self, menu_data);
-
-            var defs = [];
-            defs.push(self.app_switcher.appendTo(document.createDocumentFragment()));
-            defs.push(self.menu.prependTo(self.$el));
-            return $.when.apply($, defs);
-        }).then(function () {
+        return this.instanciate_menu_widgets().then(function () {
             $(window).bind('hashchange', self.on_hashchange);
 
             // If the url's state is empty, we execute the user's home action if there is one (we
@@ -122,10 +115,35 @@ return AbstractWebClient.extend({
                     }
                 });
             } else {
-                $(window).trigger('hashchange');
+                return self.on_hashchange();
             }
         });
     },
+
+    instanciate_menu_widgets: function() {
+        var self = this;
+        var defs = [];
+        return this.load_menus().then(function(menu_data) {
+            self.menu_data = menu_data;
+
+            // Here, we instanciate every menu widgets and we immediately append them into dummy
+            // document fragments, so that their `start` method are executed before inserting them
+            // into the DOM.
+            if (self.app_switcher) {
+                self.app_switcher.destroy();
+            }
+            if (self.menu) {
+                self.menu.destroy();
+            }
+            self.app_switcher = new AppSwitcher(self, menu_data);
+            self.menu = new Menu(self, menu_data);
+
+            defs.push(self.app_switcher.appendTo(document.createDocumentFragment()));
+            defs.push(self.menu.prependTo(self.$el));
+            return $.when.apply($, defs);
+        });
+    },
+
     set_action_manager: function () {
         this.action_manager = new ActionManager(this, {webclient: this});
         return this.action_manager.appendTo(this.$el);
@@ -153,15 +171,16 @@ return AbstractWebClient.extend({
     // --------------------------------------------------------------
     // URL state handling
     // --------------------------------------------------------------
-    on_hashchange: function(event) {
+    on_hashchange: function() {
+        var def;
         if (!this._ignore_hashchange) {
             var self = this;
-            var stringstate = event.getState(false);
+            var stringstate = $.bbq.getState(false);
             if (!_.isEqual(this._current_state, stringstate)) {
-                var state = event.getState(true);
+                var state = $.bbq.getState(true);
                 if (state.action || (state.model && (state.view_type || state.id))) {
                     state._push_me = false;  // no need to push state back...
-                    self.action_manager.do_load_state(state, !!this._current_state).then(function () {
+                    def = self.action_manager.do_load_state(state, !!this._current_state).then(function () {
                         if (state.menu_id) {
                             if (state.menu_id !== self.menu.current_primary_menu) {
                                 core.bus.trigger('change_menu_section', state.menu_id);
@@ -179,7 +198,7 @@ return AbstractWebClient.extend({
                     }).fail(this.toggle_app_switcher.bind(this, true));
                 } else if (state.menu_id) {
                     var action_id = self.menu.menu_id_to_action_id(state.menu_id);
-                    self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
+                    def = self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
                         core.bus.trigger('change_menu_section', state.menu_id);
                         self.toggle_app_switcher(false);
                     });
@@ -190,6 +209,7 @@ return AbstractWebClient.extend({
             this._current_state = stringstate;
         }
         this._ignore_hashchange = false;
+        return $.when(def);
     },
     // --------------------------------------------------------------
     // Menu handling

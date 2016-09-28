@@ -30,11 +30,7 @@ var AppSwitcher = Widget.extend({
             }
             this.update({search: e.target.value, focus: 0});
         },
-        'click .o_menuitem': function (e) {
-            e.preventDefault();
-            var menu_id = $(e.currentTarget).data('menu');
-            this.open_menu(_.findWhere(this.menu_data, {id: menu_id}));
-        },
+        'click .o_menuitem': 'on_menuitem_click',
     },
     init: function (parent, menu_data) {
         this._super.apply(this, arguments);
@@ -67,12 +63,24 @@ var AppSwitcher = Widget.extend({
                 xmlid: menu_item.xmlid,
                 action: menu_item.action ? menu_item.action.split(',')[1] : '',
                 is_app: !menu_item.parent_id,
+                web_icon: menu_item.web_icon,
             };
             if (!menu_item.parent_id) {
                 if (menu_item.web_icon_data) {
-                    item.icon = 'data:image/png;base64,' + menu_item.web_icon_data;
+                    item.web_icon_data = 'data:image/png;base64,' + menu_item.web_icon_data;
+                } else if (item.web_icon) {
+                    var icon_data = item.web_icon.split(',');
+                    var $icon = $('<div>')
+                        .addClass('o_app_icon')
+                        .css('background-color', icon_data[2])
+                        .append(
+                            $('<i>')
+                                .addClass(icon_data[0])
+                                .css('color', icon_data[1])
+                        );
+                    item.web_icon = $icon[0].outerHTML;
                 } else {
-                    item.icon = '/web_enterprise/static/src/img/default_icon_app.png';
+                    item.web_icon_data = '/web_enterprise/static/src/img/default_icon_app.png';
                 }
             } else {
                 item.menu_id = parents[1].id;
@@ -151,6 +159,11 @@ var AppSwitcher = Widget.extend({
                     this.$input.focus();
                 }
         }
+    },
+    on_menuitem_click: function (e) {
+        e.preventDefault();
+        var menu_id = $(e.currentTarget).data('menu');
+        this.open_menu(_.findWhere(this.menu_data, {id: menu_id}));
     },
     update: function(data) {
         var self = this;
