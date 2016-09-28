@@ -180,9 +180,8 @@ class Base(models.AbstractModel):
             if context_anchor:
                 anchor = field.from_string(context_anchor)
 
-            labelize = partial(babel.dates.format_date,
-                               format=FORMAT[step],
-                               locale=self.env.context.get('lang', 'en_US'))
+            labelize = self._get_date_formatter(
+                step, locale=self.env.context.get('lang', 'en_US'))
             r = self._grid_range_of(span, step, anchor)
 
             period_prev, period_next = self._grid_pagination(field, span, step, anchor)
@@ -211,6 +210,45 @@ class Base(models.AbstractModel):
             )
         else:
             raise ValueError(_("Can not use fields of type %s as grid columns") % field.type)
+
+    def _get_date_formatter(self, step, locale):
+        """ Returns a callable taking a single positional date argument and
+        formatting it for the step and locale provided.
+        """
+        if hasattr(babel.dates, 'format_skeleton'):
+            def _format(d, _fmt=babel.dates.format_skeleton, _sk=SKELETONS[step], _l=locale):
+                result = _fmt(datetime=d, skeleton=_sk, locale=_l)
+                # approximate distribution over two lines, for better
+                # precision should be done by rendering with an actual
+                # proportional font, for even better precision should be done
+                # using the fonts the browser asks for, here we just use
+                # non-whitespace length which is really gross. Also may need
+                # word-splitting in non-latin scripts.
+                #
+                # also ideally should not split the lines at all under a
+                # certain width
+                cl = lambda l: sum(len(s) for s in l)
+                line1 = result.split(u' ')
+                halfway = cl(line1) / 2.
+                line2 = collections.deque(maxlen=int(halfway) + 1)
+                while cl(line1) > halfway:
+                    line2.appendleft(line1.pop())
+
+                middle = line2.popleft()
+                if cl(line1) < cl(line2):
+                    line1.append(middle)
+                else:
+                    line2.appendleft(middle)
+
+                return u"%s\n%s" % (
+                    u'\u00A0'.join(line1),
+                    u'\u00A0'.join(line2),
+                )
+            return _format
+        else:
+            return partial(babel.dates.format_date,
+                           format=FORMAT[step],
+                           locale=locale)
 
     def _grid_pagination(self, field, span, step, anchor):
         if field.type == 'date':
@@ -264,7 +302,12 @@ STEP_BY = {
     'month': relativedelta(months=1),
     'year': relativedelta(years=1),
 }
+
 FORMAT = {
     'day': u"EEE\nMMM\u00A0dd",
     'month': u'MMMM\u00A0yyyy',
+}
+SKELETONS = {
+    'day': u"MMMEEEdd",
+    'month': u'yyyyMMMM',
 }
