@@ -46,7 +46,7 @@ var EditMenuDialog = Dialog.extend({
             subtitle: _t('Drag a menu to the right to create a sub-menu'),
             size: 'medium',
             buttons: [
-                {text: _t("Confirm"), classes: 'btn-primary js_confirm', click: _.bind(this.save, this)},
+                {text: _t("Confirm"), classes: 'btn-primary', click: _.bind(this.save, this)},
                 {text: _t("Cancel"), close: true},
             ],
         };
@@ -80,11 +80,6 @@ var EditMenuDialog = Dialog.extend({
         return this._super.apply(this, arguments);
     },
 
-    set_buttons: function() {
-        this._super.apply(this, arguments);
-        this.$footer.find('.js_confirm').prop('disabled', true);
-    },
-
     get_menu_data_filtered: function(menu_data) {
         var self = this;
         var menus = menu_data.children.filter(function (el) {
@@ -110,7 +105,6 @@ var EditMenuDialog = Dialog.extend({
             this.to_delete.push(menu_id);
         }
         $menu.remove();
-        this.enable_confirm_button();
     },
 
     edit_menu: function (ev) {
@@ -146,12 +140,6 @@ var EditMenuDialog = Dialog.extend({
                 self.to_move[menu_id] = {sequence: $(el).index()};
             }
         });
-
-        this.enable_confirm_button();
-    },
-
-    enable_confirm_button: function() {
-        this.$footer.find('.js_confirm').prop('disabled', false);
     },
 
     save: function () {
