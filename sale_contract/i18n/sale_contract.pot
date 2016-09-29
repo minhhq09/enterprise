@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 09:57+0000\n"
-"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"POT-Creation-Date: 2016-09-29 14:58+0000\n"
+"PO-Revision-Date: 2016-09-29 14:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -340,12 +340,12 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr ""
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8430
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_9158
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id_8438
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id_9166
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_id
 msgid "ID"
 msgstr ""
@@ -486,7 +486,7 @@ msgid "Plan Change Tags"
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:165
+#: code:addons/sale_contract/models/sale_subscription.py:172
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr ""
@@ -668,6 +668,11 @@ msgid "State"
 msgstr ""
 
 #. module: sale_contract
+#: model:mail.message.subtype,name:sale_contract.subtype_state_change
+msgid "State Change"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_state
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Status"
@@ -755,6 +760,11 @@ msgid "Subscription products"
 msgstr ""
 
 #. module: sale_contract
+#: model:mail.message.subtype,description:sale_contract.subtype_state_change
+msgid "Subscription state has changed"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_res_partner
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_ids
@@ -809,6 +819,11 @@ msgid "Template"
 msgstr ""
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
+msgid "Template Name"
+msgstr ""
+
+#. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.sale_subscription_template_action
 msgid "Templates are used to prefigure subscription that\n"
 "                can be selected by the salespeople to quickly configure the\n"
@@ -839,7 +854,7 @@ msgstr ""
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:83
-#: code:addons/sale_contract/models/sale_subscription.py:182
+#: code:addons/sale_contract/models/sale_subscription.py:189
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr ""
@@ -917,7 +932,7 @@ msgid "You must define a product for everything you sell, whether it's\n"
 msgstr ""
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:160
+#: code:addons/sale_contract/models/sale_subscription.py:167
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr ""

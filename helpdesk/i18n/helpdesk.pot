@@ -6,134 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-19 12:58+0000\n"
-"PO-Revision-Date: 2016-09-19 12:58+0000\n"
+"POT-Creation-Date: 2016-09-29 14:58+0000\n"
+"PO-Revision-Date: 2016-09-29 14:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: helpdesk
-#: model:mail.template,body_html:helpdesk.solved_ticket_request_email_template
-msgid "\n"
-"            <body>\n"
-"                <div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
-"                    <div style=\"margin-left:30px;align=center;\">\n"
-"                        Dear ${object.partner_id.name or 'Madam, Sir'},\n"
-"                    </div>\n"
-"                    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
-"                        This automatic message informs you that we have closed your ticket (reference ${object.id}).\n"
-"\n"
-"                        We hope that the services provided have met your expectations.\n"
-"                        If you have any more questions or comments, don't hesitate to reply to this e-mail to re-open your ticket.\n"
-"\n"
-"                        Thank you for your cooperation.\n"
-"                    </div><br>\n"
-"                    <span style=\"margin-left:30px;font-weight:normal;\">Kind regards, </span>\n"
-"                    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or ''} Team.</span>\n"
-"                </div>\n"
-"            </body>\n"
-"        "
-msgstr ""
-
-#. module: helpdesk
-#: model:mail.template,body_html:helpdesk.new_ticket_request_email_template
-msgid "\n"
-"            <body>\n"
-"                <div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
-"                    <div style=\"margin-left:30px;align=center;\">\n"
-"                        This is an automatic message:<br>\n"
-"                        Dear ${object.partner_id.name or 'Madam, Sir'},\n"
-"                    </div>\n"
-"                    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
-"                        Your request\n"
-"                        % if object.access_token:\n"
-"                        <a href=\"/helpdesk/ticket/${object.id}/${object.access_token}\">${object.name}</a>\n"
-"                        % endif\n"
-"                        has been received and is being reviewed by our ${object.team_id.name or ''} team.\n"
-"                        The reference of your ticket is ${object.id}.\n"
-"                        <br>To add additional comments, reply to this email.\n"
-"                    </div><br>\n"
-"                    <span style=\"margin-left:30px;font-weight:normal;\">Thank you </span>\n"
-"                    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or ''} Team.</span>\n"
-"                </div>\n"
-"            </body>\n"
-"        "
-msgstr ""
-
-#. module: helpdesk
-#: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
-msgid "\n"
-"    <div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
-"    % set access_token = object.rating_get_access_token()\n"
-"        <table style=\"width:600px;margin:5px auto;\">\n"
-"            <tbody>\n"
-"                <tr><td>\n"
-"                    <a href=\"/\"><img src=\"/web/binary/company_logo\" style=\"vertical-align:baseline;max-width:100px;\" /></a>\n"
-"                </td><td style=\"text-align:right;vertical-align:middle;\">\n"
-"                        Satisfaction Survey\n"
-"                </td></tr>\n"
-"            </tbody>\n"
-"        </table>\n"
-"        <table style=\"width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;\">\n"
-"            <tbody>\n"
-"                <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
-"                    <p>Hello,</p>\n"
-"                    <p>Please take a moment to rate our services related to the ticket \"<strong>${object.name}</strong>\"\n"
-"                       assigned to <strong>${object.rating_get_rated_partner_id().name}</strong>.</p>\n"
-"                    <p>We appreciate your feedback. It helps us to improve continuously.</p>\n"
-"                </td></tr>\n"
-"                <tr><td style=\"padding:10px 20px\">\n"
-"                    <table style=\"width:100%;border-top:1px solid #e1e1e1;\">\n"
-"                        <tr>\n"
-"                            <td style=\"text-align:center;\">\n"
-"                                <h2 style=\"font-weight:300;font-size:18px;\">\n"
-"                                    Tell us how you feel about our service:\n"
-"                                </h2>\n"
-"                                <div style=\"text-color: #888888\">(click on one of these smileys)</div>\n"
-"                            </td>\n"
-"                        </tr>\n"
-"                        <tr>\n"
-"                            <td style=\"padding:10px 10px;\">\n"
-"                                <table style=\"width:100%;text-align:center;\">\n"
-"                                    <tr>\n"
-"                                        <td>\n"
-"                                            <a href=\"/rating/${access_token}/10\">\n"
-"                                                <img alt=\"Satisfied\" src=\"/rating/static/src/img/rating_10.png\" title=\"Satisfied\"/>\n"
-"                                            </a>\n"
-"                                        </td>\n"
-"                                        <td>\n"
-"                                            <a href=\"/rating/${access_token}/5\">\n"
-"                                                <img alt=\"Not satisfied\" src=\"/rating/static/src/img/rating_5.png\" title=\"Not satisfied\"/>\n"
-"                                            </a>\n"
-"                                        </td>\n"
-"                                        <td>\n"
-"                                            <a href=\"/rating/${access_token}/1\">\n"
-"                                                <img alt=\"Highly Dissatisfied\" src=\"/rating/static/src/img/rating_1.png\" title=\"Highly Dissatisfied\"/>\n"
-"                                            </a>\n"
-"                                        </td>\n"
-"                                    </tr>\n"
-"                                </table>\n"
-"                            </td>\n"
-"                        </tr>\n"
-"                    </table>\n"
-"                </td></tr>\n"
-"                <tr><td style=\"padding:15px 20px 10px 20px;\">${object.user_id.signature or '' | safe}</td></tr>\n"
-"            </tbody>\n"
-"        </table>\n"
-"        <table style=\"width:600px;margin:auto;text-align:center;font-size:12px;\">\n"
-"            <tbody>\n"
-"                <tr><td style=\"padding-top:10px;color:#afafaf;\">\n"
-"                    <p>This customer survey has been sent because your ticket has been moved to the stage <b>${object.stage_id.name}</b></p>\n"
-"                    <p>Email automatically sent by <a href=\"https://www.odoo.com/page/helpdesk\" style=\"color:#a24689;text-decoration:none;\">Odoo Helpdesk</a> for <a href=\"${object.company_id.website}\" style=\"color:#a24689;text-decoration:none;\">${object.company_id.name}</a></p>\n"
-"                </td></tr>\n"
-"            </tbody>\n"
-"        </table>\n"
-"    </div>\n"
-"    "
-msgstr ""
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.rating_ticket_request_email_template
@@ -149,6 +29,127 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_percentage_satisfaction
 msgid "% Happy"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
+msgid "--&gt; Configure domain name"
+msgstr ""
+
+#. module: helpdesk
+#: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
+msgid "<?xml version=\"1.0\"?>\n"
+"<div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"% set access_token = object.rating_get_access_token()\n"
+"    <table style=\"width:600px;margin:5px auto;\">\n"
+"        <tbody>\n"
+"            <tr><td>\n"
+"                <a href=\"/\"><img src=\"/web/binary/company_logo\" style=\"vertical-align:baseline;max-width:100px;\"/></a>\n"
+"            </td><td style=\"text-align:right;vertical-align:middle;\">\n"
+"                    Satisfaction Survey\n"
+"            </td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"    <table style=\"width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;\">\n"
+"        <tbody>\n"
+"            <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
+"                <p>Hello,</p>\n"
+"                <p>Please take a moment to rate our services related to the ticket \"<strong>${object.name}</strong>\"\n"
+"                   assigned to <strong>${object.rating_get_rated_partner_id().name}</strong>.</p>\n"
+"                <p>We appreciate your feedback. It helps us to improve continuously.</p>\n"
+"            </td></tr>\n"
+"            <tr><td style=\"padding:10px 20px\">\n"
+"                <table style=\"width:100%;border-top:1px solid #e1e1e1;\">\n"
+"                    <tr>\n"
+"                        <td style=\"text-align:center;\">\n"
+"                            <h2 style=\"font-weight:300;font-size:18px;\">\n"
+"                                Tell us how you feel about our service:\n"
+"                            </h2>\n"
+"                            <div style=\"text-color: #888888\">(click on one of these smileys)</div>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <td style=\"padding:10px 10px;\">\n"
+"                            <table style=\"width:100%;text-align:center;\">\n"
+"                                <tr>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/10\">\n"
+"                                            <img alt=\"Satisfied\" src=\"/rating/static/src/img/rating_10.png\" title=\"Satisfied\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/5\">\n"
+"                                            <img alt=\"Not satisfied\" src=\"/rating/static/src/img/rating_5.png\" title=\"Not satisfied\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/1\">\n"
+"                                            <img alt=\"Highly Dissatisfied\" src=\"/rating/static/src/img/rating_1.png\" title=\"Highly Dissatisfied\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </table>\n"
+"            </td></tr>\n"
+"            <tr><td style=\"padding:15px 20px 10px 20px;\">${(object.user_id.signature or '') | safe}</td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"    <table style=\"width:600px;margin:auto;text-align:center;font-size:12px;\">\n"
+"        <tbody>\n"
+"            <tr><td style=\"padding-top:10px;color:#afafaf;\">\n"
+"                <p>This customer survey has been sent because your ticket has been moved to the stage <b>${object.stage_id.name}</b></p>\n"
+"                <p>Email automatically sent by <a href=\"https://www.odoo.com/page/helpdesk\" style=\"color:#a24689;text-decoration:none;\">Odoo Helpdesk</a> for <a href=\"${object.team_id.company_id.website}\" style=\"color:#a24689;text-decoration:none;\">${object.team_id.company_id.name}</a></p>\n"
+"            </td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"</div>\n"
+"        "
+msgstr ""
+
+#. module: helpdesk
+#: model:mail.template,body_html:helpdesk.solved_ticket_request_email_template
+msgid "<?xml version=\"1.0\"?>\n"
+"<div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
+"    <div style=\"margin-left:30px;align=center;\">\n"
+"        Dear ${object.partner_id.name or 'Madam, Sir'},\n"
+"    </div>\n"
+"    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
+"        This automatic message informs you that we have closed your ticket (reference ${object.id}).\n"
+"\n"
+"        We hope that the services provided have met your expectations.\n"
+"        If you have any more questions or comments, don't hesitate to reply to this e-mail to re-open your ticket.\n"
+"\n"
+"        Thank you for your cooperation.\n"
+"    </div><br/>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">Kind regards, </span>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or 'Helpdesk'} Team.</span>\n"
+"</div>\n"
+"        "
+msgstr ""
+
+#. module: helpdesk
+#: model:mail.template,body_html:helpdesk.new_ticket_request_email_template
+msgid "<?xml version=\"1.0\"?>\n"
+"<div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
+"    <div style=\"margin-left:30px;align=center;\">\n"
+"        This is an automatic message:<br/>\n"
+"        Dear ${object.partner_id.name or 'Madam, Sir'},\n"
+"    </div>\n"
+"    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
+"        Your request\n"
+"        % if object.access_token:\n"
+"        <a href=\"/helpdesk/ticket/${object.id}/${object.access_token}\">${object.name}</a>\n"
+"        % endif\n"
+"        has been received and is being reviewed by our ${object.team_id.name or ''} team.\n"
+"        The reference of your ticket is ${object.id}.\n"
+"        <br/>To add additional comments, reply to this email.\n"
+"    </div><br/>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">Thank you </span>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or 'Helpdesk'} Team.</span>\n"
+"</div>\n"
+"        "
 msgstr ""
 
 #. module: helpdesk
@@ -182,6 +183,14 @@ msgstr ""
 msgid "A service level agreement is a contract between you and your\n"
 "            customers that specifies performance measures for support\n"
 "            by ticket priority."
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket_kanban_state
+msgid "A ticket's kanban state indicates special situations affecting it:\n"
+"* Normal is the default situation\n"
+"* Blocked indicates something is preventing the progress of this issue\n"
+"* Ready for next stage indicates the issue is ready to be pulled to the next stage"
 msgstr ""
 
 #. module: helpdesk
@@ -289,6 +298,11 @@ msgid "Assignee"
 msgstr ""
 
 #. module: helpdesk
+#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_template_id
+msgid "Automated Answer Email Template"
+msgstr ""
+
+#. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_template_id
 msgid "Automated email sent to the ticket's customer when the ticket reaches this stage."
 msgstr ""
@@ -296,22 +310,21 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_assign_method
 msgid "Automatic assignation method for new tickets:\n"
-"\n"
-"        Manually: manual\n"
-"        Randomly: randomly but everyone gets the same amount\n"
-"        Balanced: to the person with the least amount of open tickets"
+"	Manually: manual\n"
+"	Randomly: randomly but everyone gets the same amount\n"
+"	Balanced: to the person with the least amount of open tickets"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:104
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:104
 #, python-format
 msgid "Avg 7 days"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:35
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:35
 #, python-format
 msgid "Avg Open Hours"
 msgstr ""
@@ -324,6 +337,11 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_bank_account_count
 msgid "Bank"
+msgstr ""
+
+#. module: helpdesk
+#: selection:helpdesk.ticket,kanban_state:0
+msgid "Blocked"
 msgstr ""
 
 #. module: helpdesk
@@ -379,12 +397,12 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:123
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:127
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:136
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:140
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:149
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:153
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:123
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:127
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:136
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:140
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:149
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:153
 #, python-format
 msgid "Click to set"
 msgstr ""
@@ -396,7 +414,7 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:81
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:81
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 #, python-format
@@ -407,6 +425,11 @@ msgstr ""
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_7days_analysis
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_close_analysis
 msgid "Closed Tickets Analysis"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_is_close
+msgid "Closing Kanban Stage"
 msgstr ""
 
 #. module: helpdesk
@@ -479,14 +502,14 @@ msgid "Currency"
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:588
+#: code:addons/helpdesk/models/helpdesk.py:627
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_partner_id
 #, python-format
 msgid "Customer"
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:590
+#: code:addons/helpdesk/models/helpdesk.py:629
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_partner_email
 #, python-format
 msgid "Customer Email"
@@ -504,18 +527,13 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:89
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:89
 #, python-format
 msgid "Customer Rating"
 msgstr ""
 
 #. module: helpdesk
-#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
-msgid "Customer Satisfaction"
-msgstr ""
-
-#. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:570
+#: code:addons/helpdesk/models/helpdesk.py:614
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_form
 #, python-format
 msgid "Customer Tickets"
@@ -523,14 +541,14 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:85
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:85
 #, python-format
 msgid "Customer satisfaction analysis"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:121
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:121
 #, python-format
 msgid "Daily Target"
 msgstr ""
@@ -547,6 +565,11 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_time_days
 msgid "Days"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_days
+msgid "Days to reach given stage based on ticket creation date"
 msgstr ""
 
 #. module: helpdesk
@@ -600,11 +623,6 @@ msgid "Edit"
 msgstr ""
 
 #. module: helpdesk
-#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_template_id
-msgid "Email Template for Automated Answer"
-msgstr ""
-
-#. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.action_helpdesk_email_template_tree
 #: model:ir.ui.menu,name:helpdesk.helpdesk_templates_menu
 msgid "Email Templates"
@@ -633,6 +651,11 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_fold
 msgid "Folded"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_fold
+msgid "Folded in kanban view"
 msgstr ""
 
 #. module: helpdesk
@@ -718,14 +741,14 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:170
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:170
 #, python-format
 msgid "Hi there."
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:23
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:23
 #, python-format
 msgid "High Priority ("
 msgstr ""
@@ -742,12 +765,17 @@ msgid "Hours"
 msgstr ""
 
 #. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_hours
+msgid "Hours to reach given stage based on ticket creation date"
+msgstr ""
+
+#. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "How to assign newly created tickets to the right person."
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:633
+#: code:addons/helpdesk/models/helpdesk.py:663
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_form
 #, python-format
 msgid "I take it"
@@ -775,7 +803,7 @@ msgstr ""
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_use_website_helpdesk_livechat
-msgid "In Channel: You can create a new ticket by typing \"/helpdesk [ticket title]\".         You can search ticket by typing \"/helpdesk_search [Keyword1],[Keyword2],etc\"."
+msgid "In Channel: You can create a new ticket by typing /helpdesk [ticket title]. You can search ticket by typing /helpdesk_search [Keyword1],[Keyword2],."
 msgstr ""
 
 #. module: helpdesk
@@ -794,11 +822,6 @@ msgid "Invoices"
 msgstr ""
 
 #. module: helpdesk
-#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_is_close
-msgid "Is a closed stage"
-msgstr ""
-
-#. module: helpdesk
 #: model:helpdesk.ticket.type,name:helpdesk.type_incident
 msgid "Issue"
 msgstr ""
@@ -807,6 +830,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_issued_total
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_journal_item_count
 msgid "Journal Items"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_kanban_state
+msgid "Kanban State"
 msgstr ""
 
 #. module: helpdesk
@@ -891,20 +919,25 @@ msgid "Minutes"
 msgstr ""
 
 #. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_minutes
+msgid "Minutes to reach given stage based on ticket creation date"
+msgstr ""
+
+#. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 msgid "More <i class=\"fa fa-caret-down\"/>"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:74
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:74
 #, python-format
 msgid "My Performance"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:13
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:13
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
@@ -914,21 +947,21 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:21
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:21
 #, python-format
 msgid "My high priority tickets"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:15
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:15
 #, python-format
 msgid "My open tickets"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:27
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:27
 #, python-format
 msgid "My urgent tickets"
 msgstr ""
@@ -941,7 +974,7 @@ msgid "Name"
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:637
+#: code:addons/helpdesk/models/helpdesk.py:667
 #, python-format
 msgid "New Ticket"
 msgstr ""
@@ -955,6 +988,11 @@ msgstr ""
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_action_sla_urgent
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_action_urgent
 msgid "No tickets to display."
+msgstr ""
+
+#. module: helpdesk
+#: selection:helpdesk.ticket,kanban_state:0
+msgid "Normal"
 msgstr ""
 
 #. module: helpdesk
@@ -1040,8 +1078,8 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:77
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:94
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:77
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:94
 #, python-format
 msgid "Performance Report"
 msgstr ""
@@ -1106,8 +1144,13 @@ msgid "Reach Stage"
 msgstr ""
 
 #. module: helpdesk
+#: selection:helpdesk.ticket,kanban_state:0
+msgid "Ready for next stage"
+msgstr ""
+
+#. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:171
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:171
 #, python-format
 msgid "Ready to boost your customer service?"
 msgstr ""
@@ -1124,7 +1167,7 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:51
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:51
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
@@ -1174,11 +1217,6 @@ msgid "SLA active"
 msgstr ""
 
 #. module: helpdesk
-#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
-msgid "SLA to Review"
-msgstr ""
-
-#. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Save this page and refresh to activate the feature"
 msgstr ""
@@ -1186,6 +1224,16 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_search
 msgid "Search SLA Policies"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
+msgid "See Customer Satisfaction"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
+msgid "See SLAs"
 msgstr ""
 
 #. module: helpdesk
@@ -1245,6 +1293,11 @@ msgid "Stage"
 msgstr ""
 
 #. module: helpdesk
+#: model:mail.message.subtype,name:helpdesk.mt_ticket_stage
+msgid "Stage Changed"
+msgstr ""
+
+#. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_stage_view_form
 msgid "Stage Search"
 msgstr ""
@@ -1269,7 +1322,6 @@ msgstr ""
 
 #. module: helpdesk
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_stage
-#: model:mail.message.subtype,name:helpdesk.mt_ticket_stage
 msgid "Status Changed"
 msgstr ""
 
@@ -1290,7 +1342,7 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:98
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:98
 #, python-format
 msgid "Success Rate"
 msgstr ""
@@ -1313,7 +1365,7 @@ msgid "Tag"
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:344
+#: code:addons/helpdesk/models/helpdesk.py:374
 #: sql_constraint:helpdesk.tag:0
 #, python-format
 msgid "Tag name already exists !"
@@ -1411,7 +1463,7 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:172
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:172
 #, python-format
 msgid "This dashboard will activate once you have created your first ticket."
 msgstr ""
@@ -1427,7 +1479,7 @@ msgid "This payment term will be used instead of the default one for sale orders
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:299
+#: code:addons/helpdesk/models/helpdesk.py:309
 #, python-format
 msgid "This target does not exist."
 msgstr ""
@@ -1443,6 +1495,12 @@ msgstr ""
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_dashboard_urgent
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_team_analysis_action
 msgid "Ticket Analysis"
+msgstr ""
+
+#. module: helpdesk
+#: model:mail.message.subtype,name:helpdesk.mt_team_ticket_assigned
+#: model:mail.message.subtype,name:helpdesk.mt_ticket_assigned
+msgid "Ticket Assigned"
 msgstr ""
 
 #. module: helpdesk
@@ -1474,14 +1532,14 @@ msgid "Ticket Type"
 msgstr ""
 
 #. module: helpdesk
+#: model:mail.message.subtype,description:helpdesk.mt_ticket_assigned
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_new
 msgid "Ticket created"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/models/helpdesk.py:372
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:17
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:17
 #: model:ir.actions.act_window,name:helpdesk.action_upcoming_sla_fail_all_tickets
 #: model:ir.actions.act_window,name:helpdesk.action_upcoming_sla_fail_tickets
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_Archived
@@ -1509,20 +1567,28 @@ msgid "Tickets Search"
 msgstr ""
 
 #. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_is_close
+msgid "Tickets in this stage are considered as done. This is used notably whencomputing SLAs and KPIs on tickets."
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
+msgid "Tickets to Review"
+msgstr ""
+
+#. module: helpdesk
+#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_priority
+msgid "Tickets under this priority will not be taken into account."
+msgstr ""
+
+#. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_assign_hours
 msgid "Time to first assignation (hours)"
 msgstr ""
 
 #. module: helpdesk
-#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_days
-#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_hours
-#: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_minutes
-msgid "Time to reach given stage based on ticket creation date"
-msgstr ""
-
-#. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:74
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:74
 #, python-format
 msgid "Today"
 msgstr ""
@@ -1563,7 +1629,7 @@ msgid "Type allows to organize tickets."
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:331
+#: code:addons/helpdesk/models/helpdesk.py:361
 #: sql_constraint:helpdesk.ticket.type:0
 #, python-format
 msgid "Type name already exists !"
@@ -1601,7 +1667,7 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:29
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:29
 #, python-format
 msgid "Urgent ("
 msgstr ""
@@ -1628,21 +1694,21 @@ msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:52
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:52
 #, python-format
 msgid "View failed tickets"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:57
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:57
 #, python-format
 msgid "View high priority failed tickets"
 msgstr ""
 
 #. module: helpdesk
 #. openerp-web
-#: code:addons/helpdesk/static/src/xml/helpdesk_dashboard_views.xml:62
+#: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:62
 #, python-format
 msgid "View urgent failed tickets"
 msgstr ""
@@ -1665,7 +1731,7 @@ msgid "Wrong value entered!"
 msgstr ""
 
 #. module: helpdesk
-#: code:addons/helpdesk/models/helpdesk.py:96
+#: code:addons/helpdesk/models/helpdesk.py:100
 #, python-format
 msgid "You must have team members assigned to change the assignation method."
 msgstr ""
@@ -1673,11 +1739,6 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_team_dashboard_action_main
 msgid "Your teams will appear here."
-msgstr ""
-
-#. module: helpdesk
-#: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
-msgid "configure domain name"
 msgstr ""
 
 #. module: helpdesk
