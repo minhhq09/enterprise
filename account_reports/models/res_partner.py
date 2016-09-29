@@ -54,3 +54,19 @@ class ResPartner(models.Model):
         if batch:
             return self.env['res.partner']
         return
+
+    @api.multi
+    def open_action_followup(self):
+        self.ensure_one()
+        ctx = self.env.context.copy()
+        ctx.update({
+            'url': '/account_reports/followup_report/', 
+            'addActiveId': True, 
+            'model': 'account.followup.report', 
+            'lang': self.lang,
+        })
+        return {
+                'type': 'ir.actions.client',
+                'tag': 'account_report_followup_generic',
+                'context': ctx,
+            }
