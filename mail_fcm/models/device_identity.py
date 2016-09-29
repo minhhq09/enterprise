@@ -8,5 +8,5 @@ class DeviceIdentity(models.Model):
     @api.model
     def _default_service_type(self):
         selection = super(DeviceIdentity, self)._default_service_type()
-        selection.append(('gcm', 'GCM'))
+        selection.append(('fcm', 'FCM'))
         return selection

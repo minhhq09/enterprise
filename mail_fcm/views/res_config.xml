@@ -7,9 +7,9 @@
         <field name="inherit_id" ref="base_setup.view_general_configuration"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='google']" position="before">
-                <group string="Google Push Notification">
-                    <field name="gcm_api_key" />
-                    <field name="gcm_project_id" />
+                <group string="Google Firebase Push Notification">
+                    <field name="fcm_api_key" />
+                    <field name="fcm_project_id" />
                     <label string=""/>
                     <a href="https://developers.google.com/mobile/add?platform=android&amp;cntapi=gcm&amp;cntapp=OdooNotifications&amp;cntpkg=com.odoo.mobile" target="new">
                         Generate API and Sender ID
