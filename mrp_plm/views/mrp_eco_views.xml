@@ -269,9 +269,13 @@
                     <field name="stage_id" string="Stage" filter_domain="[('stage_id','ilike', self)]"/>
                     <filter name="mychange" string="My Change Orders" domain="[('user_id','=',uid)]"/>
                     <separator/>
-                    <filter name="toapprove_my" string="Waiting my Validation" domain="[('approval_ids.status','=','none')]"/>
-                    <filter name="toapprove" string="Waiting any Validation" domain="[('approval_ids.status','=','none')]"/>
-                    <filter name="changetoapply" string="To Apply" domain="[('allow_apply_change','=',True), ('state', '!=', 'done')]"/>
+                    <filter name="toapprove_my" string="Waiting My Validation" domain="[('approval_ids.status','=','none')]"/>
+                    <filter name="toapprove" string="Waiting Any Validation" domain="[('approval_ids.status','=','none')]"/>
+                    <filter name="changetoapply" string="To Apply" domain="[('stage_id.allow_apply_change','=',True), ('state', '=', 'progress')]"/>
+                    <separator/>
+                    <filter name="confirmed" string="To Do" domain="[('state', '=', 'confirmed')]"/>
+                    <filter name="progress" string="In Progress" domain="[('state', '=', 'progress')]"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
                     <separator/>
                     <filter name="bomchange" string="BoM" domain="[('type', '!=', 'routing')]"/>
                     <filter name="routingchange" string="Routing" domain="[('type', '!=', 'bom')]"/>

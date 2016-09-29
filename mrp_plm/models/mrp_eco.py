@@ -25,11 +25,11 @@ class MrpEcoType(models.Model):
     def _compute_nb(self):
         # TDE FIXME: this seems not good for performances, to check (replace by read_group later on)
         MrpEco = self.env['mrp.eco']
-        for eco in self:
-            eco.nb_ecos = MrpEco.search_count([('type_id', '=', eco.id)])
-            eco.nb_validation = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('allow_apply_change', '=', True), ('state', '!=', 'done')])
-            eco.nb_approvals = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('approval_ids.status', '=', 'none')])
-            eco.nb_approvals_my = MrpEco.search_count([('stage_id.type_id', '=', eco.id), ('approval_ids.status', '=', 'none'), 
+        for eco_type in self:
+            eco_type.nb_ecos = MrpEco.search_count([('type_id', '=', eco_type.id)])
+            eco_type.nb_validation = MrpEco.search_count([('stage_id.type_id', '=', eco_type.id), ('stage_id.allow_apply_change', '=', True), ('state', '=', 'progress')])
+            eco_type.nb_approvals = MrpEco.search_count([('stage_id.type_id', '=', eco_type.id), ('approval_ids.status', '=', 'none')])
+            eco_type.nb_approvals_my = MrpEco.search_count([('stage_id.type_id', '=', eco_type.id), ('approval_ids.status', '=', 'none'), 
                                                        ('approval_ids.required_user_ids', '=', self.env.user.id)])
 
     def get_alias_model_name(self, vals):
@@ -356,11 +356,10 @@ class MrpEco(models.Model):
             if any(not eco.allow_change_stage for eco in self):
                 raise UserError(_('You cannot change the stage, as approvals are still required.'))
             new_stage = self.env['mrp.eco.stage'].browse(vals['stage_id'])
-            minimal_sequence = min(self.mapped('stage_id').mapped('sequence') + [new_stage.sequence])
-            maximal_sequence = max(self.mapped('stage_id').mapped('sequence') + [new_stage.sequence])
+            minimal_sequence = min(self.mapped('stage_id').mapped('sequence'))
             has_blocking_stages = self.env['mrp.eco.stage'].search_count([
                 ('sequence', '>=', minimal_sequence),
-                ('sequence', '<=', maximal_sequence),
+                ('sequence', '<=', new_stage.sequence),
                 ('type_id', 'in', self.mapped('type_id').ids),
                 ('id', 'not in', self.mapped('stage_id').ids + [vals['stage_id']]),
                 ('is_blocking', '=', True)])

@@ -383,7 +383,7 @@
 
     <div t-name="account_contract_dashboard.stat_box_content" class="box o_stat_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
-            <h2 style="color: #2693d5;">
+            <h2 class="o_stat_box_card_amount">
                 <t t-if="widget.has_mrr" t-esc="widget.format_number(widget.value)"/>
                 <t t-if="!widget.has_mrr" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>
@@ -403,7 +403,7 @@
 
     <div t-name="account_contract_dashboard.forecast_stat_box_content" class="box o_forecast_box" t-att-name="widget.box_name" t-att-code="widget.stat_type">
         <div style="position: relative;">
-            <h2 style="color: #2693d5;">
+            <h2 class="o_stat_box_card_amount">
                 <t t-if="widget.has_mrr" t-esc="widget.format_number(widget.value)"/>
                 <t t-if="!widget.has_mrr" t-esc="widget.format_number(widget.demo_values[widget.stat_type])"/>
             </h2>

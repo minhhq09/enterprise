@@ -49,7 +49,9 @@ class account_report_context_followup(models.TransientModel):
     _inherit = "account.report.context.followup"
 
     level = fields.Many2one('account_followup.followup.line')
-    summary = fields.Char(default=lambda s: s.level and s.level.description.replace('\n', '<br />') or s.env['res.company'].default_get(['overdue_msg'])['overdue_msg'])
+    summary = fields.Char(default=lambda s: (s.level and s.level.description.replace('\n', '<br />')) 
+        or (s.env.user.company_id.overdue_msg and s.env.user.company_id.overdue_msg.replace('\n', '<br />')) 
+        or s.env['res.company'].default_get(['overdue_msg'])['overdue_msg'])
 
     @api.multi
     def do_manual_action(self):

@@ -35,7 +35,7 @@ class Lead(models.Model):
     lang_id = fields.Many2one('res.lang', string='Language', help="Language from the website when lead has been created")
 
     def encode(self, lead_id):
-        md5_lead_id = md5.new("%s%s" % (lead_id, self.get_key())).hexdigest()
+        md5_lead_id = md5.new("%s%s" % (lead_id, self._get_key())).hexdigest()
         return "%s-%s" % (str(lead_id), md5_lead_id)
 
     def decode(self, request):
@@ -44,13 +44,13 @@ class Lead(models.Model):
         cookie_content = request.httprequest.cookies.get('lead_id') or ''
         if cookie_content and '-' in cookie_content:
             lead_id, md5_lead_id = cookie_content.split('-', 1)
-            expected_encryped_lead_id = md5.new("%s%s" % (lead_id, self.get_key())).hexdigest()
+            expected_encryped_lead_id = md5.new("%s%s" % (lead_id, self._get_key())).hexdigest()
             if md5_lead_id == expected_encryped_lead_id:
                 return int(lead_id)
             else:
                 return None
 
-    def get_key(self):
+    def _get_key(self):
         return self.env['ir.config_parameter'].sudo().get_param('database.secret')
 
     def get_score_domain_cookies(self):

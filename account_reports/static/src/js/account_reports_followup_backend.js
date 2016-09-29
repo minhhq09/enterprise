@@ -48,7 +48,7 @@ var account_report_followup_generic = account_report_generic.extend({
     _create_context: function() {
         var self = this;
         var create_vals = this.followup_all ? {valuemax: self.partners_number} : {partner_id: self.partner_id};
-        return self.context_model.call('create', [create_vals]).then(function (result) {
+        return self.context_model.call('create', [create_vals, self.odoo_context]).then(function (result) {
             self.context_id = result;
             return self._do_fetch_html();
         });

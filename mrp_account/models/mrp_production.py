@@ -20,12 +20,12 @@ class MrpProduction(models.Model):
             duration = 0
             for work_order in self.workorder_ids:
                 time_lines = work_order.time_ids.filtered(lambda x: x.date_end and not x.cost_already_recorded)
-                duration += sum(time_lines.mapped('duration'))
+                duration = sum(time_lines.mapped('duration'))
                 time_lines.write({'cost_already_recorded': True})
-                work_center_cost += (duration / 60) * work_order.workcenter_id.costs_hour
+                work_center_cost += (duration / 60.0) * work_order.workcenter_id.costs_hour
         for move in self.move_finished_ids.filtered(lambda x: x.product_id == self.product_id and x.state not in ('done', 'cancel')):
             if move.product_id.cost_method in ('real', 'average'):
-                move.price_unit = (sum([q.qty * q.cost for q in consumed_moves.mapped('quant_ids')]) + work_center_cost) / move.product_qty
+                move.price_unit = (sum([q.qty * q.cost for q in consumed_moves.mapped('quant_ids').filtered(lambda x: x.qty > 0.0)]) + work_center_cost) / move.product_qty
         return True
 
     def _costs_generate(self):

@@ -71,8 +71,6 @@ class QualityPoint(models.Model):
 
     @api.onchange('norm')
     def onchange_norm(self):
-        if self.tolerance_min == 0.0:
-            self.tolerance_min = self.norm
         if self.tolerance_max == 0.0:
             self.tolerance_max = self.norm
 
