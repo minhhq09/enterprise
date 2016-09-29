@@ -635,8 +635,14 @@ class WebStudioController(http.Controller):
             }
 
         if not self._is_chatter_allowed(operation['model']):
-            # Chatter can only be activated form models that inherit from mail.thread
+            # Chatter can only be activated form models that (can) inherit from mail.thread
             return
+
+        # From this point, the model is either a custom model or inherits from mail.thread
+        model = request.env['ir.model'].search([('model', '=', operation['model'])])
+        if model.state == 'manual' and not model.mail_thread:
+            # Activate mail.thread inheritance on the custom model
+            model.write({'mail_thread': True})
 
         # Remove message_ids and message_follower_ids if already defined in form view
         if operation['remove_message_ids']:
@@ -656,5 +662,8 @@ class WebStudioController(http.Controller):
         xpath_node.append(chatter_node)
 
     def _is_chatter_allowed(self, model):
-        # Returns True if the model inherits from mail.thread, False otherwise
-        return isinstance(request.env[model], type(request.env['mail.thread']))
+        # Returns True if a chatter can be activated on the model's form views, i.e. if
+        #  - it is a custom model (since we can make it inherit from mail.thread), or
+        #  - it already inherits from mail.thread.
+        Model = request.env[model]
+        return Model._custom or isinstance(Model, type(request.env['mail.thread']))

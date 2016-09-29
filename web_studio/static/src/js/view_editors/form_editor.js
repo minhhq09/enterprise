@@ -58,7 +58,7 @@ var FormEditor =  FormRenderer.extend({
                     .append($('<span>', {
                         text: _t('Add Chatter Widget'),
                     }));
-                self.$('.o_form_sheet_bg').append($chatter_hook);
+                $chatter_hook.insertAfter(self.$('.o_form_sheet'));
             }
             // Add buttonbox hook
             if (!self.$('.oe_button_box').length) {
