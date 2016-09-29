@@ -172,31 +172,32 @@ return Widget.extend({
         });
     },
     render_content: function (replace, options) {
+        var self = this;
+
         this.renderer_scrolltop = this.$('.o_web_studio_view_renderer').scrollTop();
+        var local_state = this.editor ? this.editor.get_local_state() : false;
+
         if (replace && this.editor) {
             this.editor.destroy();
             this.editor = undefined;
         }
-        if (replace && this.renderer) {
-            this.renderer.destroy();
-            this.renderer = undefined;
-        }
 
-        var to_append;
         options = _.extend({}, options, {chatter_allowed: this.chatter_allowed});
         if (this.mode === 'edition') {
             if (!this.editor) {
                 this.editor = new Editors[this.view_type](this, this.fields_view.arch, this.fields_view.fields, this.demo_data, field_registry, options);
             }
-            to_append = this.editor;
         } else {
             if (!this.renderer) {
-                this.renderer = Renderers[this.view_type] && new Renderers[this.view_type](this, this.fields_view.arch, this.fields_view.fields, this.demo_data, field_registry, options);
+                this.editor = Renderers[this.view_type] && new Renderers[this.view_type](this, this.fields_view.arch, this.fields_view.fields, this.demo_data, field_registry, options);
             }
-            to_append = this.renderer || this.editor;  // some views don't have an renderer yet
         }
 
-        return this._append_content(to_append);
+        return this._append_content(this.editor).then(function() {
+            if (local_state) {
+                self.editor.set_local_state(local_state);
+            }
+        });
     },
     _append_content: function(content) {
         try {
@@ -435,7 +436,7 @@ return Widget.extend({
         });
     },
     unselect_element: function() {
-        if (this.editor) {
+        if (this.editor && this.editor._reset_clicked_style) {
             this.editor._reset_clicked_style(); // FIXME: this function should be written in an AbstractEditor
         }
     },

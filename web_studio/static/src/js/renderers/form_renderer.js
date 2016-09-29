@@ -59,6 +59,33 @@ return AbstractRenderer.extend({
         });
         return invalid_fields;
     },
+    // return active tab pages for each notebook
+    get_local_state: function() {
+        var state = {};
+        this.$('div.o_notebook').each(function() {
+            var $notebook = $(this);
+            var name = $notebook.data('name');
+            var index = -1;
+            $notebook.find('li').each(function (i) {
+                if ($(this).hasClass('active')) {
+                    index = i;
+                }
+            });
+            state[name] = index;
+        });
+        return state;
+    },
+    // restore active tab pages for each notebook
+    set_local_state: function(state) {
+        this.$('div.o_notebook').each(function() {
+            var $notebook = $(this);
+            var name = $notebook.data('name');
+            if (name) {
+                var $active_page = $notebook.find('li a').get(state[name]);
+                $active_page.click();
+            }
+        });
+    },
     _render: function() {
         var self = this;
         this.$el.empty();
@@ -288,6 +315,7 @@ return AbstractRenderer.extend({
             $pages.append($page);
         });
         return $('<div class="o_notebook">')
+                .data('name', node.attrs.name || '_default_')
                 .append($headers)
                 .append($pages);
     },

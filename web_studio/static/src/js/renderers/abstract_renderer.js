@@ -38,8 +38,9 @@ return Widget.extend({
     },
     // update the state of the view.  It always retrigger a full rerender.
     update: function(state) {
+        var local_state = this.get_local_state();
         this.state = state;
-        return this.render();
+        return this.render().then(this.set_local_state.bind(this, local_state));
     },
     // Render the view
     // Be aware that the current field widgets will always be destroyed
@@ -78,6 +79,20 @@ return Widget.extend({
                 });
             }
         });
+    },
+    // this method is used to get local state unknown by renderer parent, but
+    // necessary to restore the renderer to a full state after an update.  For
+    // example, the currently opened tabs in a form view, or the current scrolling
+    // position
+    get_local_state: function() {
+        // to be implemented by actual renderer
+    },
+    // this method is used after an update (and may also be used after a new renderer
+    // is instantiated).  For example, opening a new record in a form view is
+    // done by instantiating a new renderer.  But the curently opened page should
+    // be maintained if possible.
+    set_local_state: function(local_state) {
+        // to be implemented by actual renderer
     },
 });
 

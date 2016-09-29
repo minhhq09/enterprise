@@ -152,7 +152,6 @@ var FormEditor =  FormRenderer.extend({
         $result.data('handle_studio_event', true);
         $result.click(function(event) {
             event.preventDefault();
-            event.originalEvent.studio_already_handled = true;
             self.trigger_up('page_clicked', page);
         });
         this._set_style_events($result);
