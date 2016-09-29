@@ -308,10 +308,10 @@ return AbstractRenderer.extend({
     },
     _render_button_box: function(node) {
         var $result = $('<' + node.tag + '>', { 'class': 'o_not_full' });
-        if (!this.state.res_id) {
+        // Avoid to show buttons if we are in create mode (edit mode without res_id)
+        if (this.mode === 'edit' && !this.state.res_id) {
             return $result;
         }
-
         var buttons = _.map(node.children, this._render_stat_button.bind(this));
         var buttons_partition = _.partition(buttons, function($button) {
             return $button.is('.o_form_invisible');

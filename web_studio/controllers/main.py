@@ -598,6 +598,30 @@ class WebStudioController(http.Controller):
             else:
                 xml_node.text = new_attr
 
+    def _operation_buttonbox(self, arch, operation, model=None, module_name=None):
+        studio_view_arch = arch  # The actual arch is the studio view arch
+        # Get the arch of the form view with inherited views applied
+        arch = request.env[model].fields_view_get(view_type='form')['arch']
+        parser = etree.XMLParser(remove_blank_text=True)
+        arch = etree.parse(StringIO(arch), parser).getroot()
+
+        # Create xpath to put the buttonbox as the first child of the sheet
+        if arch.find('sheet'):
+            sheet_node = arch.find('sheet')
+            if list(sheet_node): # Check if children exists
+                xpath_node = etree.SubElement(studio_view_arch, 'xpath', {
+                    'expr': '//sheet/*[1]',
+                    'position': 'before'
+                })
+            else:
+                xpath_node = etree.SubElement(studio_view_arch, 'xpath', {
+                    'expr': '//sheet',
+                    'position': 'inside'
+                })
+            # Create and insert the buttonbox node inside the xpath node
+            buttonbox_node = etree.Element('div', {'name': 'button_box', 'class': 'oe_button_box'})
+            xpath_node.append(buttonbox_node)
+
     def _operation_chatter(self, arch, operation, model=None, module_name=None):
         def _get_remove_field_op(arch, field_name):
             return {

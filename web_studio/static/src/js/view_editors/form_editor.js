@@ -34,7 +34,6 @@ var FormEditor =  FormRenderer.extend({
         },
         'click .o_web_studio_buttonbox_hook': function() {
             this.trigger_up('view_change', {
-                type: 'add',
                 structure: 'buttonbox',
             });
         }

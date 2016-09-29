@@ -458,18 +458,7 @@ return Widget.extend({
     },
     _add_buttonbox: function(type) {
         this.do({
-            type: type,
-            target: {
-                tag: 'group',  // the buttonbox is located before any group
-            },
-            position: 'before',
-            node: {
-                tag: 'div',
-                attrs: {
-                    name: 'button_box',
-                    class: 'oe_button_box',
-                }
-            },
+            type: 'buttonbox',
         });
     },
     _add_button: function(type) {
