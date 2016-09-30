@@ -211,7 +211,7 @@ return Widget.extend({
             });
         } catch(e) {
             this.do_warn(_t("Error"), _t("The requested change caused an error in the view.  It could be because a field was deleted, but still used somewhere else."));
-            this.undo();
+            this.undo(true);
             return $.when();
         }
     },
@@ -347,12 +347,14 @@ return Widget.extend({
 
         return this.apply_changes(false, op.type === 'replace_arch');
     },
-    undo: function() {
+    undo: function(forget) {
         if (!this.operations.length) {
             return;
         }
         var op = this.operations.pop();
-        this.operations_undone.push(op);
+        if (!forget) {
+            this.operations_undone.push(op);
+        }
 
         if (op.type === 'replace_arch') {
             // as the whole arch has been replace (A -> B),
@@ -379,16 +381,16 @@ return Widget.extend({
     update_buttons: function() {
         // Undo button
         if (this.operations.length) {
-            bus.trigger('undo_available', this);
+            bus.trigger('undo_available');
         } else {
-            bus.trigger('undo_not_available', this);
+            bus.trigger('undo_not_available');
         }
 
         // Redo button
         if (this.operations_undone.length) {
-            bus.trigger('redo_available', this);
+            bus.trigger('redo_available');
         } else {
-            bus.trigger('redo_not_available', this);
+            bus.trigger('redo_not_available');
         }
     },
     apply_changes: function(remove_last_op, from_xml) {
@@ -414,7 +416,7 @@ return Widget.extend({
         return def.then(function (fields_view) {
             if (!fields_view) {
                 self.do_warn(_t("Error"), _t("This operation caused an error, probably because a xpath was broken"));
-                return self.undo();
+                return self.undo(true);
             }
             self.fields_view = data_manager._postprocess_fvg(fields_view);
 
@@ -593,8 +595,8 @@ return Widget.extend({
         });
     },
     destroy: function() {
-        bus.trigger('undo_not_available', this);
-        bus.trigger('redo_not_available', this);
+        bus.trigger('undo_not_available');
+        bus.trigger('redo_not_available');
 
         this._super.apply(this, arguments);
     }

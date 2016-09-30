@@ -83,11 +83,11 @@ var SubMenu = Widget.extend({
         this.render_breadcrumb();
     },
     on_undo: function() {
-        bus.trigger('undo_clicked', this);
+        bus.trigger('undo_clicked');
     },
 
     on_redo: function() {
-        bus.trigger('redo_clicked', this);
+        bus.trigger('redo_clicked');
     },
     toggle_undo: function(display) {
         if (display && !this.undo_displayed) {
