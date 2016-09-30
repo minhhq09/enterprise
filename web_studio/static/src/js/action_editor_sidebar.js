@@ -35,7 +35,7 @@ return Widget.extend(FieldManagerMixin, {
     willStart: function() {
         var self = this;
         return this._super.apply(this, arguments).then(function() {
-            if (!self.action.groups_id) { return; }
+            if (self.action.groups_id.length === 0) { return; }
 
             // many2many field expects to receive: a list of {id, name, display_name}
             var def = new Model('res.groups')
