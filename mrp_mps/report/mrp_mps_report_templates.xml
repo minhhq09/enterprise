@@ -70,7 +70,7 @@
                                                 <t t-esc="'%.2f' % item['to_supply']"/>
                                             </span>
 
-                                            <input t-if="item['mode']=='manual'" type="text" data-name="to_supply" t-att-value="'%.2f' % item['to_supply']" t-att-data-product="product[0].id" t-att-data-date="item['date']" t-att-data-date_to="item['date_to']" style="background-color: #fffdbb" class="text-right o_mps_save_input_supply" title="double click to reset to automatic computation"/>
+                                            <input t-if="item['mode']=='manual'" type="text" data-name="to_supply" t-att-value="'%.2f' % item['to_supply']" t-att-data-product="product[0].id" t-att-data-date="item['date']" t-att-data-date_to="item['date_to']" style="background-color: #fffdbb" class="text-right o_mps_save_input_supply" title="double click in order to empty"/>
                                         </td>
                                     </t>
                                 </t>
