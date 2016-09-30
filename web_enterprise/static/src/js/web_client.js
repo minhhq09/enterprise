@@ -246,7 +246,6 @@ return AbstractWebClient.extend({
                     var completed = $.Deferred();
                     $.when(self.do_action(result, {
                         clear_breadcrumbs: true,
-                        action_menu_id: ev.data.menu_id,
                     })).always(function () {
                         completed.resolve();
                     });
