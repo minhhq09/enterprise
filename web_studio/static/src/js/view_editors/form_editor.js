@@ -100,7 +100,7 @@ var FormEditor =  FormRenderer.extend({
         // Add click event to see group properties in sidebar
         $result.click(function(event) {
             if (!_is_handled(event)) {
-                self.trigger_up('group_clicked', node);
+                self.trigger_up('group_clicked', {node: node});
             }
         });
         this._set_style_events($result);
@@ -152,7 +152,7 @@ var FormEditor =  FormRenderer.extend({
         $result.data('handle_studio_event', true);
         $result.click(function(event) {
             event.preventDefault();
-            self.trigger_up('page_clicked', page);
+            self.trigger_up('page_clicked', {node: page});
         });
         this._set_style_events($result);
         return $result;
@@ -188,7 +188,7 @@ var FormEditor =  FormRenderer.extend({
         $button.click(function(ev) {
             if (! $(ev.target).closest('.o_form_field').length) {
                 // click on the button and not on the field inside this button
-                self.trigger_up('button_clicked', node);
+                self.trigger_up('button_clicked', {node: node});
             }
         });
         this._set_style_events($button);
@@ -212,7 +212,7 @@ var FormEditor =  FormRenderer.extend({
             $el.click(function(event) {
                 event.preventDefault();
                 event.stopPropagation();
-                self.trigger_up('field_clicked', {field_name: node.attrs.name});
+                self.trigger_up('field_clicked', {node: node});
             });
             this._set_style_events($el);
         }

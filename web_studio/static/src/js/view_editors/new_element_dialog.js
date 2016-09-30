@@ -29,15 +29,11 @@ var NewElementDialog = Dialog.extend({
         var self = this;
         var element = $(event.currentTarget).attr('data-element');
         var nodeClass = '.o_' + this.node.tag;
-        var nodeIndex = $(event.currentTarget).closest(nodeClass)
-            .prevAll().closest('.o_form_sheet > *').find(nodeClass).addBack(nodeClass)
-            .length + 1;
         this.trigger_up('view_change', {
             type: 'add',
             structure: element,
             node: this.node,
             position: this.position,
-            nodeIndex: nodeIndex,
             on_success: function() {
                 self.close();
             },

@@ -366,12 +366,12 @@ class WebStudioController(http.Controller):
         return E.form(E.sheet(group, string=model._description))
 
     def _node_to_expr(self, node):
-        # Format of expr is //tag[@attr1_name=attr1_value][@attr2_name=attr2_value][...]
-        expr = '//' + node['tag'] + ''.join(['[@%s=\'%s\']' % (k, v) for k, v in node.get('attrs', {}).items()])
-
-        # Special case when no attrs
-        if not node.get('attrs') and node.get('index'):
-            expr = expr + '[' + str(node['index']) + ']'
+        if not node.get('attrs') and node.get('xpath_info'):
+            # Format of expr is /form/tag1[]/tag2[]/[...]/tag[]
+            expr = ''.join(['/%s[%s]' % (parent['tag'], parent['indice']) for parent in node.get('xpath_info')])
+        else:
+            # Format of expr is //tag[@attr1_name=attr1_value][@attr2_name=attr2_value][...]
+            expr = '//' + node['tag'] + ''.join(['[@%s=\'%s\']' % (k, v) for k, v in node.get('attrs', {}).items()])
 
         # Special case when we have <label/><div/> instead of <field>
         # TODO: This is very naive, couldn't the js detect such a situation and

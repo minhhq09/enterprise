@@ -43,16 +43,19 @@ return Widget.extend(FieldManagerMixin, {
     },
     toggle_mode: function(mode, options) {
         if (options && options.field) {
-            this.field_name = options.field_name;
             this.field_parameters = options.field;
+            this.node = options.node;
             this.attrs = options.field.__attrs;
             this.modifiers = JSON.parse(options.field.__attrs.modifiers);
             this.compute_field_attrs();
         } else if (options && options.page) {
+            this.node = options.page;
             this.attrs = options.page.attrs;
         } else if (options && options.group) {
+            this.node = options.group;
             this.attrs = options.group.attrs;
         } else if (options && options.button) {
+            this.node = options.button;
             this.attrs = options.button.attrs;
         }
 
@@ -107,7 +110,7 @@ return Widget.extend(FieldManagerMixin, {
         this.trigger_up('open_view_form');
     },
     on_field_parameters: function() {
-        this.trigger_up('open_field_form', {field_name: this.field_name});
+        this.trigger_up('open_field_form', {field_name: this.node.attrs.name});
     },
     toggle_form_invisible: function(ev) {
         this.trigger_up('toggle_form_invisible', ev);
@@ -143,12 +146,7 @@ return Widget.extend(FieldManagerMixin, {
             this.trigger_up('view_change', {
                 type: 'attributes',
                 structure: 'edit_attributes',
-                node: {
-                    tag: this.tag,
-                    attrs: {
-                        name: this.attrs.name,
-                    }
-                },
+                node: this.node,
                 new_attrs: new_attrs,
             });
             _.extend(this.attrs, new_attrs);
@@ -160,12 +158,7 @@ return Widget.extend(FieldManagerMixin, {
         this.trigger_up('view_change', {
             type: 'attributes',
             structure: 'edit_attributes',
-            node: {
-                tag: this.tag,
-                attrs: {
-                    name: this.attrs.name,
-                }
-            },
+            node: this.node,
             new_attrs: new_attrs,
         });
 

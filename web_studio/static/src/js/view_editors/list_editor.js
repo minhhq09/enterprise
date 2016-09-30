@@ -164,7 +164,10 @@ return ListRenderer.extend({
     on_existing_column: function(ev) {
         var $el = $(ev.currentTarget);
         var field_name = $el.closest('table').find('th').eq($el.index()).data('name');
-        this.trigger_up('field_clicked', {field_name: field_name});
+        var node = _.find(this.columns, function (column) {
+            return column.attrs.name === field_name;
+        });
+        this.trigger_up('field_clicked', {node: node});
     },
 
     on_new_column: function(ev) {
@@ -174,18 +177,15 @@ return ListRenderer.extend({
         // The information (position & field name) is on the corresponding th of the clicked element.
         var position = $el.closest('table').find('th').eq($el.index()).data('position') || 'after';
         var hooked_field_index = position === 'before' && $el.index() + 1 || $el.index() - 1;
-        var hooked_field = $el.closest('table').find('th').eq(hooked_field_index).data('name');
-
+        var field_name = $el.closest('table').find('th').eq(hooked_field_index).data('name');
+        var node = _.find(this.columns, function (column) {
+            return column.attrs.name === field_name;
+        });
         self.trigger_up('view_change', {
             type: 'add',
             structure: 'field',
             position: position,
-            node: {
-                tag: 'field',
-                attrs: {
-                    name: hooked_field,
-                }
-            },
+            node: node,
         });
     },
 
