@@ -547,6 +547,9 @@ class AccountReportContextCommon(models.TransientModel):
 
         lines = report_id.with_context(no_format=True, print_mode=True).get_lines(self)
 
+        if lines:
+            max_width = max([len(l['columns']) for l in lines])
+
         for y in range(0, len(lines)):
             if lines[y].get('level') == 0 and lines[y].get('type') == 'line':
                 for x in range(0, len(lines[y]['columns']) + 1):
@@ -579,19 +582,21 @@ class AccountReportContextCommon(models.TransientModel):
                 style_left = def_style
                 style_right = def_style
             sheet.write(y + y_offset, 0, lines[y]['name'], style_left)
+            for x in xrange(1, max_width - len(lines[y]['columns']) + 1):
+                sheet.write(y + y_offset, x, None, style)
             for x in xrange(1, len(lines[y]['columns']) + 1):
                 if isinstance(lines[y]['columns'][x - 1], tuple):
                     lines[y]['columns'][x - 1] = lines[y]['columns'][x - 1][0]
                 if x < len(lines[y]['columns']):
-                    sheet.write(y + y_offset, x, lines[y]['columns'][x - 1], style)
+                    sheet.write(y + y_offset, x+lines[y].get('colspan', 1)-1, lines[y]['columns'][x - 1], style)
                 else:
-                    sheet.write(y + y_offset, x, lines[y]['columns'][x - 1], style_right)
+                    sheet.write(y + y_offset, x+lines[y].get('colspan', 1)-1, lines[y]['columns'][x - 1], style_right)
             if lines[y]['type'] == 'total' or lines[y].get('level') == 0:
                 for x in xrange(0, len(lines[0]['columns']) + 1):
                     sheet.write(y + 1 + y_offset, x, None, upper_line_style)
                 y_offset += 1
         if lines:
-            for x in xrange(0, len(lines[0]['columns']) + 1):
+            for x in xrange(0, max_width+1):
                 sheet.write(len(lines) + y_offset, x, None, upper_line_style)
 
         workbook.close()
