@@ -120,8 +120,8 @@
         <h4 class='text-muted' t-esc="context.create_uid.company_id.name"/>
         <div class="row" t-if="mode == 'print' and not context.env.context.get('public')" style='margin-top: 20px; margin-bottom: 20px;'>
             <div class="col-xs-4">
-                <t t-if="context.get_report_obj().get_report_type() in ['no_date_range', 'bank_reconciliation']"><t t-raw="context.get_full_date_names(context.date_to)" /></t>
-                <t t-if="context.get_report_obj().get_report_type() not in ['no_date_range', 'bank_reconciliation']"><t t-raw="context.get_full_date_names(context.date_to, context.date_from)" /></t>
+                <t t-if="not context.get_report_obj().get_report_type().date_range"><t t-raw="context.get_full_date_names(context.date_to)" /></t>
+                <t t-if="context.get_report_obj().get_report_type().date_range"><t t-raw="context.get_full_date_names(context.date_to, context.date_from)" /></t>
             </div>
             <div class="col-xs-4">
                 <t t-if="context.cash_basis">Cash Basis</t><t t-if="not context.cash_basis">Accrual Basis</t><br/>
