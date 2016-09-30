@@ -80,7 +80,7 @@ return AbstractRenderer.extend({
         this.$('div.o_notebook').each(function() {
             var $notebook = $(this);
             var name = $notebook.data('name');
-            if (name) {
+            if (name in state) {
                 var $active_page = $notebook.find('li a').get(state[name]);
                 $active_page.click();
             }
