@@ -110,7 +110,7 @@ return Widget.extend({
             'div': ['class'],
             'button': ['name'],
         };
-        this.ids = options.ids;
+        this.ids = options.ids || [];
         this.res_id = options.res_id;
         this.chatter_allowed = options.chatter_allowed;
         this.renderer_scrolltop = 0;

@@ -61,15 +61,13 @@
             text-align: center;
             padding: 0;
             border-left: none;
+        }
 
-            &:hover {
-                &:before {
-                    content: "\f0fe";
-                    font-family: FontAwesome;
-                    font-size: 16px;
-                    color: @odoo-brand-optional;
-                }
-            }
+        .oe_button_box:hover .o_web_studio_button_hook:before {
+            content: "\f0fe";
+            font-family: FontAwesome;
+            font-size: 16px;
+            color: @odoo-brand-optional;
         }
         .o_web_studio_buttonbox_hook {
             .o-flex-display();
