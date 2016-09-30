@@ -136,7 +136,7 @@ return Widget.extend(FieldManagerMixin, {
         if (attribute) {
             var new_attrs = {};
             if ($input.attr('type') === 'checkbox') {
-                new_attrs[attribute] = $input.is(':checked') === true ? 'True': 'false';
+                new_attrs[attribute] = $input.is(':checked') === true ? 'True': 'False';
             } else {
                 new_attrs[attribute] = $input.val();
             }
