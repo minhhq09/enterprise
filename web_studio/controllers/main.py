@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import uuid
 from lxml import etree
+from lxml.builder import E
 from StringIO import StringIO
 from openerp import http, _
 from openerp.http import request
@@ -257,12 +259,15 @@ class WebStudioController(http.Controller):
     def get_studio_view_arch(self, model, view_type, view_id=False):
         view_type = 'tree' if view_type == 'list' else view_type  # list is stored as tree in db
 
+        if not view_id:
+            # TOFIX: it's possibly not the used view ; see fields_get_view
+            # try to find the lowest priority matching ir.ui.view
+            view_id = request.env['ir.ui.view'].default_view(request.env[model]._name, view_type)
         # We have to create a view with the default view if we want to customize it.
         view = self._get_or_create_default_view(model, view_type, view_id)
         studio_view = self._get_studio_view(view)
 
         return {
-            'view_id': view.id,
             'studio_view_id': studio_view and studio_view.id or False,
             'studio_view_arch': studio_view and studio_view.arch_db or "<data/>",
         }
@@ -337,14 +342,28 @@ class WebStudioController(http.Controller):
         if view_id:
             view = View.browse(view_id)
         else:
-            fields_view = request.env[model].fields_view_get(view_id, view_type)
+            if view_type == 'form':
+                arch = etree.tostring(self._get_simplified_default_form_view(model), encoding='utf-8')
+            else:
+                arch = request.env[model].fields_view_get(view_id, view_type)['arch']
             view = View.create({
                 'type': view_type,
                 'model': model,
-                'arch': fields_view['arch'],
+                'arch': arch,
                 'name': "Default %s view for %s" % (view_type, model),
             })
         return view
+
+    def _get_simplified_default_form_view(self, model):
+        model = request.env[model]
+        rec_name = model._rec_name_fallback()
+
+        field = E.field(name=rec_name, required='1')
+        group_1 = E.group(field, name=str(uuid.uuid4())[:6], string='Left Title')
+        group_2 = E.group(name=str(uuid.uuid4())[:6], string='Right Title')
+        group = E.group(group_1, group_2, name=str(uuid.uuid4())[:6])
+
+        return E.form(E.sheet(group, string=model._description))
 
     def _node_to_expr(self, node):
         # Format of expr is //tag[@attr1_name=attr1_value][@attr2_name=attr2_value][...]

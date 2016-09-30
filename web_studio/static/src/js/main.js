@@ -79,26 +79,33 @@ var Main = Widget.extend({
         var searchview_id = this.action.search_view_id && this.action.search_view_id[0];
         views.push([searchview_id || false, 'search']);
 
+        var view = _.find(views, function(el) { return el[1] === view_type; });
+        var view_id = view && view[0];
 
-        return data_manager.load_views(dataset, views, options).then(function (fields_views) { // todo: call with same arguments as ViewManager
-            var options = {
-                ids: self.ids,
-                res_id: self.res_id,
-                chatter_allowed: self.chatter_allowed,
-            };
-            self.view_editor = new ViewEditorManager(self, self.action.res_model, fields_views[view_type], view_type, options);
+        // The default view needs to be created before `load_views` or the renderer will not be aware that a new view exists
+        return customize.get_studio_view_arch(this.action.res_model, view_type, view_id).then(function(studio_view) {
+            return data_manager.load_views(dataset, views, options).then(function (fields_views) { // todo: call with same arguments as ViewManager
+                var options = {
+                    ids: self.ids,
+                    res_id: self.res_id,
+                    chatter_allowed: self.chatter_allowed,
+                    studio_view_id: studio_view.studio_view_id,
+                    studio_view_arch: studio_view.studio_view_arch,
+                };
+                self.view_editor = new ViewEditorManager(self, self.action.res_model, fields_views[view_type], view_type, options);
 
-            var fragment = document.createDocumentFragment();
-            return self.view_editor.appendTo(fragment).then(function () {
-                if (self.action_editor) {
-                    framework.detach([{widget: self.action_editor}]);
-                }
-                framework.append(self.$el, [fragment], {
-                    in_DOM: true,
-                    callbacks: [{widget: self.view_editor}],
+                var fragment = document.createDocumentFragment();
+                return self.view_editor.appendTo(fragment).then(function () {
+                    if (self.action_editor) {
+                        framework.detach([{widget: self.action_editor}]);
+                    }
+                    framework.append(self.$el, [fragment], {
+                        in_DOM: true,
+                        callbacks: [{widget: self.view_editor}],
+                    });
+
+                    bus.trigger('edition_mode_entered', view_type);
                 });
-
-                bus.trigger('edition_mode_entered', view_type);
             });
         });
     },

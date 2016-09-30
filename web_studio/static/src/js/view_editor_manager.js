@@ -114,19 +114,11 @@ return Widget.extend({
         this.res_id = options.res_id;
         this.chatter_allowed = options.chatter_allowed;
         this.renderer_scrolltop = 0;
+        this.studio_view_id = options.studio_view_id;
+        this.studio_view_arch = options.studio_view_arch;
 
         bus.on('undo_clicked', this, this.undo);
         bus.on('redo_clicked', this, this.redo);
-    },
-    willStart: function () {
-        var self = this;
-        return this._super.apply(this, arguments).then(function() {
-            return customize.get_studio_view_arch(self.model, self.view_type, self.view_id).then(function(result) {
-                self.view_id = result.view_id;
-                self.studio_view_id = result.studio_view_id;
-                self.studio_view_arch = result.studio_view_arch;
-            });
-        });
     },
     start: function () {
         var self = this;
