@@ -82,6 +82,7 @@ var AppCreator = Widget.extend(FieldManagerMixin, {
                 name: 'model',
                 relation: 'ir.model',
                 type: 'many2one',
+                domain: [['transient', '=', false], ['abstract', '=', false]]
             }]);
             var options = {
                 mode: 'edit',
