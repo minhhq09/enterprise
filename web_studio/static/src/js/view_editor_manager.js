@@ -263,8 +263,8 @@ return Widget.extend({
             old_arch: event.data.old_arch,
             new_arch: event.data.new_arch,
         }).then(function() {
-            if (event.data.def) {
-                event.data.def.resolve();
+            if (event.data.on_success) {
+                event.data.on_success();
             }
         });
     },
@@ -416,7 +416,9 @@ return Widget.extend({
         return def.then(function (fields_view) {
             if (!fields_view) {
                 self.do_warn(_t("Error"), _t("This operation caused an error, probably because a xpath was broken"));
-                return self.undo(true);
+                return self.undo(true).then(function () {
+                    return $.Deferred().reject(); // indicate that the operation can't be applied
+                });
             }
             self.fields_view = data_manager._postprocess_fvg(fields_view);
 

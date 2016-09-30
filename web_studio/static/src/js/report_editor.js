@@ -80,8 +80,8 @@ var ReportEditor = ReportAction.extend({
             // reload iframe
             self.$('iframe').attr('src', self.report_url);
 
-            if (event.data.def) {
-                event.data.def.resolve();
+            if (event.data.on_success) {
+                event.data.on_success();
             }
         });
     },

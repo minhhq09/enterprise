@@ -63,12 +63,14 @@ var XMLEditor = ace.ViewEditor.extend({
 
         if (isWellFormed === true) {
             this.trigger_up('save_xml_editor', {
-                def: def,
                 view_id: session.id,
                 old_arch: old_arch,
                 new_arch: new_arch,
+                on_success: function () {
+                    def.resolve();
+                    view.arch = new_arch;
+                },
             });
-            view.arch = new_arch;
         } else {
             def.reject(null, session, isWellFormed);
         }
