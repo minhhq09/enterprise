@@ -17,7 +17,7 @@ class StockMove(models.Model):
         for move in moves:
             pick_moves[move.picking_id] |= move
         for picking, moves in pick_moves.iteritems():
-            quality_points = self.env['quality.point'].search([
+            quality_points = self.env['quality.point'].sudo().search([
                 ('picking_type_id', '=', picking.picking_type_id.id),
                 '|', ('product_id', 'in', moves.mapped('product_id').ids),
                 '&', ('product_id', '=', False), ('product_tmpl_id', 'in', moves.mapped('product_id').mapped('product_tmpl_id').ids)])

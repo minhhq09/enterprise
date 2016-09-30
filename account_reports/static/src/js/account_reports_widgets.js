@@ -57,7 +57,7 @@ var ReportWidget = Widget.extend({
         if (active_id || id) {
             additional_context = {active_id: active_id || id};
         }
-        additional_context.from_report_id = self.odoo_context.id;
+        additional_context.from_report_id = self.odoo_context.id || null;
         additional_context.from_report_model = self.odoo_context.model;
         if (res_model && active_id) { // Open the view form of the given model
             return this.do_action({

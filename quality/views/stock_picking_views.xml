@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <button name="do_prepare_partial" position="after">
                 <button string="Quality Checks" name="check_quality" type="object" class="oe_highlight"
-                        attrs="{'invisible': ['|', ('check_todo', '=', False), ('state', '=', 'done')]}" groups="stock.group_stock_user"/>
+                        attrs="{'invisible': ['|', ('check_todo', '=', False), ('state', '=', 'done')]}" groups="quality.group_quality_user"/>
                 <field name="check_ids" invisible="1"/>
                 <field name="check_todo" invisible="1"/>
             </button>
