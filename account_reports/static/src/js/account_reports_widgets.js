@@ -16,6 +16,7 @@ var ReportWidget = Widget.extend({
         'click .o_account_reports_unfoldable': 'unfold',
         'click .fa-trash-o': 'rmContent',
         'click .o_account_reports_saved_summary > span': 'editSummary',
+        'click .o_account_reports_edit_summary_pencil': 'editSummary',
         "click input[name='summary']": 'onClickSummary',
         "click button.saveSummary": 'saveSummary',
         'click button.saveContent': 'saveContent',
@@ -158,7 +159,7 @@ var ReportWidget = Widget.extend({
     editSummary: function(e) {
         e.stopPropagation();
         e.preventDefault();
-        var $el = $(e.target);
+        var $el = $(e.target).parents('.o_account_reports_summary').find('.o_account_reports_saved_summary span');
         var height = Math.max($el.height(), 100); // Compute the height that will be needed
         var text = $el.html().replace(/\s+/g, ' ').replace(/\r?\n/g, '').replace(/<br>/g, '\n').replace(/(\n\s*)+$/g, ''); // Remove unnecessary spaces and line returns
         var par = $el.parents("div.o_account_reports_summary");
