@@ -21,6 +21,9 @@ _logger = logging.getLogger(__name__)
 class CloudMessageDispatch(models.AbstractModel):
     _inherit = 'cloud.message.dispatch'
 
+    def _get_default_fcm_credentials(self):
+        return self.env['base.config.settings'].get_default_fcm_credentials()
+
     @api.model
     def send_fcm(self, identities, message):
         # Divided into chunks because FCM supports only 1000 users in multi-cast
@@ -29,7 +32,7 @@ class CloudMessageDispatch(models.AbstractModel):
         payload = self.prepare_fcm_payload(message)
         for identities in identities_chunks:
             subscription_ids = identities.mapped('subscription_id')
-            fcm_api_key = self.env['base.config.settings'].get_default_fcm_credentials().get('fcm_api_key')
+            fcm_api_key = self._get_default_fcm_credentials()['fcm_api_key']
             threaded_sending = threading.Thread(target=self._send_fcm_notification, args=(
                 subscription_ids,
                 payload,
