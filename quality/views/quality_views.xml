@@ -723,7 +723,8 @@
         name="Quality"
         web_icon="quality,static/description/icon.png"
         sequence="51"
-        groups="base.group_user"/>
+        groups="quality.group_quality_user"/>
+
     <menuitem
         id="menu_quality_dashboard"
         name="Dashboard"
@@ -746,6 +747,7 @@
         name="Control Points"
         parent="menu_quality_controls"
         action="quality_point_action"
+        groups="quality.group_quality_manager"
         sequence="17"/>
     <menuitem
         id="menu_quality_checks"
@@ -768,6 +770,7 @@
     <menuitem
         id="menu_quality_configuration"
         name="Configuration"
+        groups="quality.group_quality_manager"
         parent="menu_quality_root"
         sequence="25"/>
     <menuitem
@@ -786,6 +789,7 @@
     <menuitem
         id="menu_quality_reporting"
         name="Reporting"
+        groups="quality.group_quality_manager"
         parent="menu_quality_root"
         sequence="20"/>
     <menuitem
