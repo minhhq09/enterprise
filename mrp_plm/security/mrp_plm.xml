@@ -24,4 +24,11 @@
     <record model="res.users" id="base.user_root">
        <field eval="[(4,ref('mrp_plm.group_plm_manager'))]" name="groups_id"/>         
    	</record>
+
+    <record model="ir.rule" id="mrp_eco_comp_rule">
+        <field name="name">Manufacturing ECO company rule</field>
+        <field name="model_id" ref="model_mrp_eco"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
 </odoo>
