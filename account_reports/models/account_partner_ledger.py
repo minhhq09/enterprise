@@ -100,7 +100,7 @@ class ReportPartnerLedger(models.AbstractModel):
                 'level': 2,
                 'unfoldable': True,
                 'unfolded': partner in context['context_id']['unfolded_partners'] or unfold_all,
-                'colspan': 4,
+                'colspan': 5,
             })
             if partner in context['context_id']['unfolded_partners'] or unfold_all:
                 progress = 0
@@ -133,7 +133,7 @@ class ReportPartnerLedger(models.AbstractModel):
                         'action': line.get_model_id_and_name(),
                         'name': line.date,
                         'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', line.id),
-                        'columns': [line.journal_id.code, line.account_id.code, name,
+                        'columns': [line.journal_id.code, line.account_id.code, name, line.full_reconcile_id.name,
                                     line_debit != 0 and self._format(line_debit) or '',
                                     line_credit != 0 and self._format(line_credit) or '',
                                     self._format(progress)],
@@ -147,7 +147,7 @@ class ReportPartnerLedger(models.AbstractModel):
                     'type': 'initial_balance',
                     'name': _('Initial Balance'),
                     'footnotes': self.env.context['context_id']._get_footnotes('initial_balance', partner.id),
-                    'columns': ['', '', '', self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
+                    'columns': ['', '', '', '', self._format(initial_debit), self._format(initial_credit), self._format(initial_balance)],
                     'level': 1,
                 }]
                 domain_lines.append({
@@ -155,7 +155,7 @@ class ReportPartnerLedger(models.AbstractModel):
                     'type': 'o_account_reports_domain_total',
                     'name': _('Total') + ' ' + partner.name,
                     'footnotes': self.env.context['context_id']._get_footnotes('o_account_reports_domain_total', partner.id),
-                    'columns': ['', '', '', self._format(debit), self._format(credit), self._format(balance)],
+                    'columns': ['', '', '', '', self._format(debit), self._format(credit), self._format(balance)],
                     'level': 1,
                 })
                 if too_many:
@@ -204,8 +204,8 @@ class ReportPartnerLedgerContext(models.TransientModel):
         return self.env['account.partner.ledger']
 
     def get_columns_names(self):
-        return [_('JRNL'), _('Account'), _('Ref'), _('Debit'), _('Credit'), _('Balance')]
+        return [_('JRNL'), _('Account'), _('Ref'), _('Matching Number'), _('Debit'), _('Credit'), _('Balance')]
 
     @api.multi
     def get_columns_types(self):
-        return ["text", "text", "text", "number", "number", "number"]
+        return ["text", "text", "text", "text", "number", "number", "number"]
