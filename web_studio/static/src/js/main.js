@@ -6,7 +6,6 @@ var data = require('web.data');
 var data_manager = require('web.data_manager');
 var framework = require('web.framework');
 var form_common = require('web.form_common');
-var session = require('web.session');
 var Widget = require('web.Widget');
 
 var bus = require('web_studio.bus');
@@ -34,18 +33,14 @@ var Main = Widget.extend({
         this.active_view = options.active_view;
         this.ids = options.ids;
         this.res_id = options.res_id;
+        this.chatter_allowed = options.chatter_allowed;
     },
 
     willStart: function () {
         if (!this.action) {
             return $.Deferred().reject();
         }
-        var self = this;
-        var def = session.rpc('/web_studio/init', { action_id: this.action.id });
-        return $.when(def, this._super.apply(this, arguments)).then(function (result) {
-            self.chatter_allowed = result.chatter_allowed;
-            bus.trigger('studio_init', result);
-        });
+        return this._super.apply(this, arguments);
     },
 
     start: function () {

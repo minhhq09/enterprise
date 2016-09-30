@@ -141,26 +141,37 @@ WebClient.include({
 
     open_studio: function (mode, options) {
         options = options || {};
-        // Stash current action stack to restore it when leaving studio
-        this.edited_action = options.action;
+        var self = this;
+        var action = options.action;
         var action_options = {};
-        if (options.action) {
-            // we are editing an action, not in app creator mode
-            var index = options.action.widget.dataset.index;
-            this.studio_ids = options.action.widget.dataset.ids;
-            this.studio_id = index ? this.studio_ids[index] : (this.studio_ids[0] || false);
-            action_options.action = options.action.action_descr || null;
-            action_options.active_view = options.action.get_active_view();
-        }
+        var def;
+        // Stash current action stack to restore it when leaving studio
         this.action_manager.stash_action_stack();
         this.studio_on = true;
-        // grep: action_web_studio_app_creator, action_web_studio_main
-        return this.do_action('action_web_studio_' + mode, action_options);
+        this.edited_action = action;
+        if (action) {
+            // we are editing an action, not in app creator mode
+            var index = action.widget.dataset.index;
+            this.studio_ids = action.widget.dataset.ids;
+            this.studio_id = index ? this.studio_ids[index] : (this.studio_ids[0] || false);
+            action_options.active_view = action.get_active_view();
+            action_options.action = action.action_descr;
+            def = session.rpc('/web_studio/init', { action_id: action_options.action.id });
+        }
+        return $.when(def).then(function (studio_info) {
+            if (studio_info) {
+                bus.trigger('studio_init', studio_info);
+                self.studio_chatter_allowed = studio_info.chatter_allowed;
+            }
+            // grep: action_web_studio_app_creator, action_web_studio_main
+            return self.do_action('action_web_studio_' + mode, action_options);
+        });
     },
     do_action: function(action, options) {
         if (this.studio_on) {
             options.ids = this.studio_ids;
             options.res_id = this.studio_id;
+            options.chatter_allowed = this.studio_chatter_allowed;
         }
         return this._super.apply(this, arguments);
     },
