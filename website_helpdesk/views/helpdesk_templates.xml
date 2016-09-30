@@ -170,12 +170,12 @@
         <t t-call="website.layout">
             <t t-set="additional_title">Helpdesk Team</t>
             <div class="container mt16">
-                <t t-if="len(teams)>1">
-                    <div class="navbar navbar-default">
-                        <div class="navbar-header">
-                            <div class="navbar-brand">Helpdesk</div>
-                        </div>
-                        <div class="collapse navbar-collapse">
+                <div class="navbar navbar-default">
+                    <div class="navbar-header">
+                        <div class="navbar-brand">Helpdesk</div>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <t t-if="len(teams)>1">
                             <ul class="nav navbar-nav team_menu">
                                 <t t-foreach="teams" t-as="tteam">
                                     <li>
@@ -185,24 +185,24 @@
                                     </li>
                                 </t>
                             </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    <form class="navbar-form" role="search" t-attf-action="#" method="get">
-                                        <t t-call="website.website_search_box"/>
-                                        <span class="dropdown" groups="helpdesk.group_helpdesk_manager">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuSupport" data-toggle="dropdown">
-                                            <i class="fa fa-cog"/>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSupport">
-                                            <li role="helpdesk"><a role="menuitem" tabindex="-1" t-attf-href="/web#id=#{team.id}&amp;view_type=form&amp;model=helpdesk.team">Team Settings</a></li>
-                                        </ul>
-                                    </span>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
+                        </t>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <form class="navbar-form" role="search" t-attf-action="#" method="get">
+                                    <t t-call="website.website_search_box"/>
+                                    <span class="dropdown" groups="helpdesk.group_helpdesk_manager">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuSupport" data-toggle="dropdown">
+                                        <i class="fa fa-cog"/>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSupport">
+                                        <li role="helpdesk"><a role="menuitem" tabindex="-1" t-attf-href="/web#id=#{team.id}&amp;view_type=form&amp;model=helpdesk.team">Team Settings</a></li>
+                                    </ul>
+                                </span>
+                                </form>
+                            </li>
+                        </ul>
                     </div>
-                </t>
+                </div>
             </div>
             <div id="wrap" class="container">
                 <div class="row mb16">
@@ -249,6 +249,13 @@
                 <div class="oe_structure"/>
             </div>
         </t>
+    </template>
+
+    <!-- User Navbar -->
+    <template id="content_new_team" inherit_id="website.user_navbar">
+        <xpath expr="//div[@id='o_website_add_page_modal']//ul" position="inside">
+            <li groups="base.group_user"><a href="#" data-action="new_team"><i class="fa fa-question"/><p>New Team</p></a></li>
+        </xpath>
     </template>
 
     <!-- Page : List of project -->
@@ -351,7 +358,7 @@
                     <h1 t-esc="team.name" class="text-center"/>
                     <div class="row mb32">
                         <div class="col-md-8">
-                            <t t-call="website_helpdesk.team_rating_data"/>
+                            <t t-call="website_helpdesk.team_rating_data"/>                 
                         </div>
                     </div>
                 </div>
