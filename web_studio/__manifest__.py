@@ -18,7 +18,7 @@ Note: Only the admin user is allowed to make those customizations.
     'version': '1.0',
     'depends': ['base_action_rule', 'base_import_module', 'grid', 'mail', 'report', 'web', 'web_calendar', 'web_editor', 'web_gantt', 'web_kanban'],
     'data': [
-        'assets.xml',
+        'views/web_studio_templates.xml',
         'views/actions.xml',
         'views/ir_actions_report_xml.xml',
         'views/ir_model.xml',
