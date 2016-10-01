@@ -34,7 +34,7 @@ class MaintenanceEquipment(models.Model):
 
             maintenance = maintenance_requests.sorted()
             if len(maintenance) > 1:
-                equipment.mtbf = ((fields.Date.from_string(maintenance[0].create_date) - fields.Date.from_string(maintenance[-1].create_date)).days) / len(maintenance_requests)
+                equipment.mtbf = ((fields.Date.from_string(maintenance[0].create_date) - fields.Date.from_string(maintenance[-1].create_date)).days) / (len(maintenance_requests) - 1) 
             else:
                 equipment.mtbf = 0
             equipment.latest_failure_date = maintenance and maintenance[0].create_date or False
