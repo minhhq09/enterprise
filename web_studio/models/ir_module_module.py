@@ -58,6 +58,9 @@ class IrModuleModule(models.Model):
                 'shortdesc': module_description,
                 'state': 'installed',
                 'imported': True,
+                'author': self.env.user.company_id.name,
+                'icon': '/base/static/description/icon.png',
             })
 
         return module_name
+
