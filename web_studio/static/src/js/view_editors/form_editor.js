@@ -43,6 +43,7 @@ var FormEditor =  FormRenderer.extend({
         this._super.apply(this, arguments);
         this.show_invisible = options && options.show_invisible;
         this.chatter_allowed = options.chatter_allowed;
+        this.silent = false;
     },
     _render: function() {
         var self = this;
@@ -152,7 +153,9 @@ var FormEditor =  FormRenderer.extend({
         $result.data('handle_studio_event', true);
         $result.click(function(event) {
             event.preventDefault();
-            self.trigger_up('page_clicked', {node: page});
+            if (!self.silent) {
+                self.trigger_up('page_clicked', {node: page});
+            }
         });
         this._set_style_events($result);
         return $result;
@@ -235,6 +238,12 @@ var FormEditor =  FormRenderer.extend({
     _reset_clicked_style: function() {
         this.$('.o_clicked').removeClass('o_clicked');
     },
+    set_local_state: function() {
+        this.silent = true;
+        this._super.apply(this, arguments);
+        this._reset_clicked_style();
+        this.silent = false;
+    }
 });
 
 return FormEditor;
