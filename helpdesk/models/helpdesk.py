@@ -130,7 +130,7 @@ class HelpdeskTeam(models.Model):
     def _check_sla_group(self):
         for team in self:
             if team.use_sla and not self.user_has_groups('helpdesk.group_use_sla'):
-                self.env.ref('base.group_user').write({'implied_ids': [(4, self.env.ref('helpdesk.group_use_sla').id)]})
+                self.env.ref('helpdesk.group_helpdesk_user').write({'implied_ids': [(4, self.env.ref('helpdesk.group_use_sla').id)]})
 
     @api.multi
     def _check_modules_to_install(self):
