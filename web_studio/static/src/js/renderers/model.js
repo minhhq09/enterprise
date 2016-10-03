@@ -546,22 +546,6 @@ var Model = Class.extend({
                 });
                 defs.push(fetch_status_information);
             }
-            if (field.__fetch_selection && !field.__selection_information) {
-                var fetch_selection_information = self.name_search(field.relation, '').then(function (result) { // fixme: handle domain and context
-                    field.__selection_information = result;
-                });
-                defs.push(fetch_selection_information);
-            }
-            if (field.__fetch_many2manys) {
-                var fetch_many2manys = self.perform_model_rpc(field.relation, 'search', [field.domain], {
-                    context: self.get_context(field.__attrs.context),
-                }).then(function (record_ids) {
-                    return self.name_get(field.relation, record_ids , self.get_context(field.__attrs.context));
-                }).then(function(res) {
-                    field.__many2manys_information = res;
-                });
-                defs.push(fetch_many2manys);
-            }
             if (field.__always_reload) {
                 defs.push(self.perform_model_rpc(field.relation, 'name_get', [record.data[name][0]], {
                     context: self.get_context(field.__attrs.context),
@@ -699,6 +683,21 @@ var Model = Class.extend({
         _.each(element.fields, function(field, name) {
             if (field.type === 'many2one') {
                 defs.push(self._fetch_many2one(element, name));
+            }
+            if (field.__fetch_selection && !field.__selection_information) {
+                var fetch_selection_information = self.name_search(field.relation, '').then(function (result) { // fixme: handle domain and context
+                    field.__selection_information = result;
+                });
+                defs.push(fetch_selection_information);
+            } else if (field.__fetch_many2manys) {
+                var fetch_many2manys = self.perform_model_rpc(field.relation, 'search', [field.domain], {
+                    context: self.get_context(field.__attrs.context),
+                }).then(function (record_ids) {
+                    return self.name_get(field.relation, record_ids , self.get_context(field.__attrs.context));
+                }).then(function(res) {
+                    field.__many2manys_information = res;
+                });
+                defs.push(fetch_many2manys);
             } else if (field.type === 'many2many' || field.type === 'one2many') {
                 defs.push(self._fetch_x2many(element, name));
             }
