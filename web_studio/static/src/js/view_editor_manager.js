@@ -271,7 +271,7 @@ return Widget.extend({
     },
     close_xml_editor: function () {
         this.mode = 'edition';
-        this.render_content();
+        this.render_content(true);
         this.XMLEditor.$el.detach();
         this.sidebar.appendTo(this.$el);
     },
