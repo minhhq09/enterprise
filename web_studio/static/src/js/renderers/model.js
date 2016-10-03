@@ -762,7 +762,7 @@ var Model = Class.extend({
             if (ids.length) {
                 var args = [_.uniq(ids), ['color', 'display_name']];
                 return this.perform_model_rpc(field.relation, 'read', args, {
-                    context: this.get_context(field.__attrs.context),
+                    context: session.user_context,
                 }).then(function (result) {
                     element.relational_data[name] = element.relational_data[name].concat(result);
                 });
