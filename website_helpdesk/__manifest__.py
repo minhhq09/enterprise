@@ -4,6 +4,7 @@
 {
     'name': 'Website Helpdesk',
     'category': 'Hidden',
+    'sequence': 56,
     'summary': 'Generic controller, templates for website',
     'description': 'Generic controller for web',
     'depends': [

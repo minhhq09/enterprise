@@ -3,11 +3,11 @@
 
 
 {
-    'name': 'Manufacturing Barcode Scaning',
+    'name': 'Manufacturing Barcode Scanning',
     'version': '1.0',
     'website': 'https://www.odoo.com/page/manufacturing',
     'category': 'Manufacturing',
-    'summary': 'Add barcode scanning facilities to manufacturing.',
+    'summary': 'Add barcode scanning facilities to manufacturing',
     'depends': ['mrp_workorder', 'stock_barcode'],
     'description': """This module adds support for barcodes scanning to the manufacturing system.""",
     'data': [

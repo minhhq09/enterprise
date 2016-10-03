@@ -49,7 +49,7 @@
             </group>
             <notebook>
             <page string="Work Instruction" attrs="{'invisible': [('worksheet', '=', False)]}">
-                <field name="worksheet" widget="image"/>
+                <field name="worksheet" widget="pdf_viewer"/>
             </page>
             <page string="Current Production">
                 <group>
@@ -94,7 +94,7 @@
             (0, 0, {'view_mode': 'form', 'view_id': ref('mrp_workorder_view_form_tablet')})]"/>
         <field name="target">fullscreen</field>
         <field name="domain">[('state', 'not in', ['done', 'cancel', 'pending']), ('workcenter_id','=',active_id)]</field>
-        <field name="context">{}</field>
+        <field name="context">{'form_view_initial_mode': 'edit'}</field>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to start a new work order.
