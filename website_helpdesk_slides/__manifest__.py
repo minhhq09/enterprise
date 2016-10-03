@@ -4,15 +4,17 @@
 {
     'name': 'Website Slides Helpdesk',
     'category': 'Helpdesk',
-    'sequence': 10,
+    'sequence': 58,
     'summary': 'Ticketing, Support, Slides',
     'depends': [
         'website_helpdesk',
         'website_slides',
     ],
     'description': """
-Website Slides integration into helpdesk module
+Website Slides integration for the helpdesk module
 ===============================================
+
+    Add slide presentations to your team so customers seeking help can see them those before submitting new tickets.
 
     """,
     'data': [

@@ -4,12 +4,18 @@
 {
     'name': 'Website Form Helpdesk',
     'category': 'Helpdesk',
-    'sequence': 10,
-    'summary': 'Helpdesk form to submit a ticket from your website',
+    'sequence': 58,
+    'summary': 'Allow website visitors to submit tickets through a form',
     'depends': [
         'website_helpdesk',
     ],
-    'description': """Generic web forms to use submit a Ticket""",
+    'description': """
+Website form integration for the helpdesk module
+===============================================
+
+    Allow customers to easily submit tickets through a form on your website.
+
+    """,
     'data': [
         'data/website_helpdesk.xml',
         'views/helpdesk_views.xml',

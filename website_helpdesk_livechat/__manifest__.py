@@ -4,15 +4,20 @@
 {
     'name': 'Website IM Livechat Helpdesk',
     'category': 'Helpdesk',
-    'sequence': 10,
+    'sequence': 58,
     'summary': 'Ticketing, Support, Livechat',
     'depends': [
         'helpdesk',
         'website_livechat',
     ],
     'description': """
-Website IM Livechat integration into helpdesk module
+Website IM Livechat integration for the helpdesk module
 ====================================================
+
+Features:
+
+    - Have a team-related livechat channel to answer your customer's questions.
+    - Create new tickets with ease using commands in the channel.
 
     """,
     'data': [

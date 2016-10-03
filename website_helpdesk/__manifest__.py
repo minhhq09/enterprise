@@ -4,9 +4,9 @@
 {
     'name': 'Website Helpdesk',
     'category': 'Hidden',
-    'sequence': 56,
-    'summary': 'Generic controller, templates for website',
-    'description': 'Generic controller for web',
+    'sequence': 57,
+    'summary': 'Bridge module for helpdesk modules using the website.',
+    'description': 'Bridge module for helpdesk modules using the website.',
     'depends': [
         'website_form_editor',
         'helpdesk',
