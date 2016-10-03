@@ -7,7 +7,7 @@
     'summary': 'Stock Barcode scan in Mobile',
     'version': '1.0',
     'description': """ """,
-    'depends': ['stock_barcode', 'mobile'],
+    'depends': ['stock_barcode', 'web_mobile'],
     'qweb': ['static/src/xml/stock_mobile_barcode.xml'],
     'data': ['views/stock_barcode_template.xml'],
     'installable': True,

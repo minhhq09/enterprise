@@ -18,22 +18,22 @@ FCM_RETRY_ATTEMPT = 2
 _logger = logging.getLogger(__name__)
 
 
-class CloudMessageDispatch(models.AbstractModel):
-    _inherit = 'cloud.message.dispatch'
+class MailChannel(models.Model):
+    _inherit = 'mail.channel'
 
     def _get_default_fcm_credentials(self):
         return self.env['base.config.settings'].get_default_fcm_credentials()
 
     @api.model
-    def send_fcm(self, identities, message):
+    def _push_notify_fcm(self, identities, message):
         # Divided into chunks because FCM supports only 1000 users in multi-cast
         message.ensure_one()
         identities_chunks = [identities[i:i+FCM_MESSAGES_LIMIT] for i in xrange(0, len(identities), FCM_MESSAGES_LIMIT)]
-        payload = self.prepare_fcm_payload(message)
+        payload = self._fcm_prepare_payload(message)
         for identities in identities_chunks:
             subscription_ids = identities.mapped('subscription_id')
             fcm_api_key = self._get_default_fcm_credentials()['fcm_api_key']
-            threaded_sending = threading.Thread(target=self._send_fcm_notification, args=(
+            threaded_sending = threading.Thread(target=self._fcm_send_notification, args=(
                 subscription_ids,
                 payload,
                 self.env.cr.dbname,
@@ -42,7 +42,7 @@ class CloudMessageDispatch(models.AbstractModel):
             ))
             threaded_sending.start()
 
-    def _send_fcm_notification(self, subscription_ids, payload, dbname, uid, fcm_api_key, attempt=1):
+    def _fcm_send_notification(self, subscription_ids, payload, dbname, uid, fcm_api_key, attempt=1):
         res = None
         if not fcm_api_key:
             _logger.exception("You need a FCM API key to send notification")
@@ -61,13 +61,13 @@ class CloudMessageDispatch(models.AbstractModel):
         try:
             response = requests.post(FCM_END_POINT, headers=headers, data=json.dumps(data))
             if response.status_code == 200:
-                res = self.process_response(response, subscription_ids)
+                res = self._fcm_process_response(response, subscription_ids)
             elif response.status_code == 401:
                 _logger.warning("FCM Authentication: Provide valid FCM api key")
             elif response.status_code == 400:
                 _logger.warning("Invalid JSON: Invalid payload format")
             else:
-                retry = self._calculate_retry_after(response.headers)
+                retry = self._fcm_calculate_retry_after(response.headers)
                 if retry and attempt <= FCM_RETRY_ATTEMPT:
                     _logger.warning("FCM Service Unavailable: retrying")
                     time.sleep(retry)
@@ -85,12 +85,12 @@ class CloudMessageDispatch(models.AbstractModel):
                 with Registry(dbname).cursor() as cr:
                     env = api.Environment(cr, uid, {})
                     if res.get('errors'):
-                        self.process_errors(res['errors'], env)
+                        self._fcm_process_errors(res['errors'], env)
                     if res.get('canonical'):
-                        self.process_canonical(res['canonical'], env)
+                        self._fcm_process_canonical(res['canonical'], env)
 
     @api.model
-    def prepare_fcm_payload(self, message):
+    def _fcm_prepare_payload(self, message):
         """Returns dictionary containing message information for mobile device. This info will be delivered
         to mobile device via Google Firebase Cloud Messaging(FCM). And it is having limit of 4000 bytes (4kb)
         """
@@ -116,7 +116,7 @@ class CloudMessageDispatch(models.AbstractModel):
         return payload
 
     @api.model
-    def process_response(self, res, subscription_ids):
+    def _fcm_process_response(self, res, subscription_ids):
         response = res.json()
         errors = {}
         canonical = {}
@@ -136,7 +136,7 @@ class CloudMessageDispatch(models.AbstractModel):
         }
 
     @api.model
-    def process_errors(self, errors, env):
+    def _fcm_process_errors(self, errors, env):
         """We will delete wrong/unregistered subscription tokens.
         This function will handle following errors. Other errors like
         Authentication,Unavailable will be handled by FCM
@@ -147,18 +147,18 @@ class CloudMessageDispatch(models.AbstractModel):
         invalid_subscriptions = []
         for e in ["InvalidRegistration", "MismatchSenderId", "NotRegistered"]:
             invalid_subscriptions += errors.get(e, [])
-        subscription_to_remove = env['device.identity'].search([('subscription_id', 'in', invalid_subscriptions)])
+        subscription_to_remove = env['mail_push.device'].search([('subscription_id', 'in', invalid_subscriptions)])
         subscription_to_remove.unlink()
 
     @api.model
-    def process_canonical(self, canonical, env):
+    def _fcm_process_canonical(self, canonical, env):
         """ If user have multiple registrations for the same device and you try to send
         a message using an old registration token, FCM will process the request as usual,
         but it includes the canonical ID in the response. We will delete/replace such token.
         Response Format: {'new_token': 'old_token'}
         """
         all_subsciptions = canonical.keys() + canonical.values()
-        subscription_exists = env['device.identity'].search([('subscription_id', 'in', all_subsciptions)])
+        subscription_exists = env['mail_push.device'].search([('subscription_id', 'in', all_subsciptions)])
         token_exists = subscription_exists.mapped("subscription_id")
         for old, new in canonical.items():
             if old in token_exists and new in token_exists:
@@ -166,7 +166,7 @@ class CloudMessageDispatch(models.AbstractModel):
             elif old in token_exists and new not in token_exists:
                 subscription_exists.filtered(lambda r: r.subscription_id == old).write({'subscription_id': new})
 
-    def _calculate_retry_after(self, response_headers):
+    def _fcm_calculate_retry_after(self, response_headers):
         retry_after = response_headers.get('Retry-After')
 
         if retry_after:

@@ -1,7 +1,6 @@
-odoo.define('mobile.web', function (require) {
-"use strict";
+odoo.define('web_mobile.widgets', function (require) {
 
-var mobile_utility = require('mobile.utility');
+var mobile = require('web_mobile.rpc');
 var web_datepicker = require('web.datepicker');
 var session = require('web.Session');
 var form_relational = require('web.form_relational');
@@ -11,7 +10,6 @@ var core = require('web.core');
 var UserMenu = require('web.UserMenu');
 var crashManager = require('web.CrashManager');
 
-
 /*
     Override odoo date-picker(bootstrap date-picker) to display mobile native date picker
     Because of it is better to show native mobile date-picker to improve usability of Application
@@ -20,7 +18,7 @@ var crashManager = require('web.CrashManager');
 web_datepicker.DateWidget.include({
     start: function(){
         this._super.apply(this, arguments);
-        if(mobile_utility.Available){
+        if(mobile.methods.requestDateTimePicker){
             //  super will initiate bootstrap date-picker object which is not required in mobile application.
             if(this.picker){
                 this.picker.destroy();
@@ -32,11 +30,10 @@ web_datepicker.DateWidget.include({
     setup_mobile_picker: function(){
         var self = this;
         this.$el.on('click', function() {
-            mobile_utility.datetime.requestDatePicker({
+            mobile.methods.requestDateTimePicker({
                 'value': self.get_value(),
                 'type': self.type_of_date
-            })
-            .then(function(response) {
+            }).then(function(response) {
                 self.set_value(response.data);
                 self.commit_value();
             });
@@ -52,8 +49,8 @@ web_datepicker.DateWidget.include({
 
 session.include({
     get_file: function (options) {
-        if(mobile_utility.Available){
-            mobile_utility.file_manager.downloadFile(options);
+        if(mobile.methods.downloadFile){
+            mobile.methods.downloadFile(options);
             if (options.complete) { options.complete(); }
         }else{
             this._super.apply(this, arguments);
@@ -71,7 +68,7 @@ form_relational.FieldMany2One.include({
     render_editable: function(){
         var self = this;
         this._super.apply(this, arguments);
-        if(mobile_utility.Available){
+        if(mobile.methods.many2oneDialog){
             this.$el.find('input').prop('disabled', true);
             $(this.$el).on('click', self.on_mobile_click);
         }
@@ -92,7 +89,7 @@ form_relational.FieldMany2One.include({
                     result[i]['action_id'] = i;
                 }
             })
-            mobile_utility.many2one.startFieldDialog({'records': result, 'label': self.string})
+            mobile.methods.many2oneDialog({'records': result, 'label': self.string})
                 .then(function(response){
                     if(response.data.action == 'search'){
                         self.do_invoke_mobile_dialog(response.data.term);
@@ -111,7 +108,9 @@ form_relational.FieldMany2One.include({
 
 notification_manager.include({
     display:function(notification){
-        mobile_utility.notify.vibrate({'duration': 100})
+        if(mobile.methods.vibrate){
+            mobile.methods.vibrate({'duration': 100})
+        }
         return this._super.apply(this, arguments);
     }
 })
@@ -119,7 +118,7 @@ notification_manager.include({
 // Hide the logout link in mobile
 UserMenu.include({
     start:function(){
-        if(mobile_utility.Available){
+        if(mobile.methods.switchAccount){
             this.$('a[data-menu="logout"]').addClass('hidden');
             this.$('a[data-menu="account"]').addClass('hidden');
             this.$('a[data-menu="switch_account"]').removeClass('hidden');
@@ -127,14 +126,14 @@ UserMenu.include({
         return this._super();
     },
     on_menu_switch_account:function(){
-        mobile_utility.base.switchAccount();
+        mobile.methods.switchAccount();
     }
 });
 
 crashManager.include({
     rpc_error:function(error){
-        if(mobile_utility.Available){
-            mobile_utility.base.crashManager(error);
+        if(mobile.methods.crashManager){
+            mobile.methods.crashManager(error);
         }
         return this._super.apply(this, arguments);
     }
@@ -147,14 +146,14 @@ var ContactSync = common.FormWidget.extend({
         
     },
     start: function(){
-        if(!mobile_utility.Available){
+        if(!mobile.methods.addContact){
             $(this.$el).hide();
         }
         return this._super.apply(this, arguments);
     },
     on_click: function(){
         this.field_manager.dataset.read_index(['name', 'image', 'parent_id', 'phone', 'mobile', 'fax', 'email', 'street', 'street2', 'city', 'state_id', 'zip', 'country_id','website','function', 'title'], {}).then(function(r) {
-            mobile_utility.contacts.addContact(r);
+            mobile.methods.addContact(r);
         });
     },
 });
