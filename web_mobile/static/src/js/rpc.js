@@ -24,7 +24,7 @@ function native_invoke(name, args) {
         args = {};
     }
     var def = $.Deferred();
-    var id = _.uniqueId("_om_" + new Date().getTime());
+    var id = _.uniqueId();
     deferreds[id] = {
         successCallback: function(success) {
             def.resolve(success);
