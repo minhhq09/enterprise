@@ -382,25 +382,12 @@ class WebStudioController(http.Controller):
     def _operation_remove(self, arch, operation, model=None):
         expr = self._node_to_expr(operation['target'])
 
-        # Did we add this field from studio ? If yes, delete it.
-        target_node = arch.find('.' + expr)
-        # BEWARE ! What if we added this field from studio but we built
-        # other stuff based on that field ? We can't just remove it.
-        xpath_node_on_target = arch.find('xpath[@expr="%s"]' % (expr))
-        if target_node is not None and xpath_node_on_target is None:  # bool(node) == False if node has no children
-            # Check if he is the only one in the parent xpath, if yes, delete the xpath.
-            xpath_node = arch.find('.' + expr + '/..')
-            if len(xpath_node) == 1:
-                arch.remove(xpath_node)
-            else:
-                xpath_node.remove(target_node)
-        else:
-            # We have to create a brand new xpath to remove this field from the view.
-            # TODO: Sometimes, we have to delete more stuff than just a single tag !
-            etree.SubElement(arch, 'xpath', {
-                'expr': expr,
-                'position': 'replace'
-            })
+        # We have to create a brand new xpath to remove this field from the view.
+        # TODO: Sometimes, we have to delete more stuff than just a single tag !
+        etree.SubElement(arch, 'xpath', {
+            'expr': expr,
+            'position': 'replace'
+        })
 
     def _operation_add(self, arch, operation, model):
         node = operation['node']
