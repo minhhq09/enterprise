@@ -13,7 +13,10 @@ return ListRenderer.extend({
     init: function(parent, arch, fields, state, widgets_registry, options) {
         this._super.apply(this, arguments);
         if (options && options.show_invisible) {
+            this.invisible_columns = _.difference(this.arch.children, this.columns);
             this.columns = this.arch.children;
+        } else {
+            this.invisible_columns = [];
         }
     },
 
@@ -91,7 +94,7 @@ return ListRenderer.extend({
 
     _render_header_cell: function(node) {
         var $th = this._super.apply(this, arguments);
-        if (this.show_invisible && node.attrs.tree_invisible || node.attrs.invisible) {
+        if (_.contains(this.invisible_columns, node)) {
             $th.addClass('o_web_studio_show_invisible');
         }
         return $th;
