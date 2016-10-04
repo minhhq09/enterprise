@@ -416,13 +416,14 @@ class WebStudioController(http.Controller):
             # (2) [button_count_field] is a non-stored computed field (to always have the good value in the stat button, if access rights)
             # (3) [button_action] an act_window action to jump in the related model
             button_field = request.env['ir.model.fields'].browse(node['field'])
-            button_count_field, button_action,  = self._get_or_create_fields_for_button(model, button_field, node['string'])
+            button_count_field, button_action = self._get_or_create_fields_for_button(model, button_field, node['string'])
 
             # the XML looks like <button> <field/> </button : a element `field` needs to be inserted inside the button
             xml_node_field = etree.Element('field', {'widget': 'statinfo', 'name': button_count_field.name, 'string': node['string'] or button_count_field.field_description})
             xml_node.insert(0, xml_node_field)
 
             xml_node.attrib['type'] = 'action'
+            xml_node.attrib['name'] = str(button_action.id)
         else:
             xml_node.text = node.get('text')
         xpath_node.insert(0, xml_node)
@@ -462,15 +463,23 @@ class WebStudioController(http.Controller):
                 'compute': compute_function.replace('    ', ''),  # remove indentation for safe_eval
             })
 
-        # Link the button with an associated act_window
-        button_action = request.env['ir.actions.act_window'].create({
-            'name': button_name,
-            'res_model': field.model,
-            'view_mode': 'tree,form',
-            'view_type': 'form',
-            'domain': "[('%s', '=', active_id)]" % (field.name),
-            'context': "{'search_default_%s': active_id,'default_%s': active_id}" % (field.name, field.name)
-        })
+        # The action could already exist but we don't want to recreate one each time
+        button_action_domain = "[('%s', '=', active_id)]" % (field.name)
+        button_action_context = "{'search_default_%s': active_id,'default_%s': active_id}" % (field.name, field.name)
+        button_action = request.env['ir.actions.act_window'].search([
+            ('name', '=', button_name), ('res_model', '=', field.model),
+            ('domain', '=', button_action_domain), ('context', '=', button_action_context),
+        ])
+        if not button_action:
+            # Link the button with an associated act_window
+            button_action = request.env['ir.actions.act_window'].create({
+                'name': button_name,
+                'res_model': field.model,
+                'view_mode': 'tree,form',
+                'view_type': 'form',
+                'domain': button_action_domain,
+                'context': button_action_context,
+            })
 
         return button_count_field, button_action
 

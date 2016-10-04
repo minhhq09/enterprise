@@ -338,7 +338,7 @@ return Widget.extend({
                 this._add_buttonbox(type);
                 break;
             case 'button':
-                this._add_button(type, 'button');
+                this._add_button(type);
                 break;
             case 'notebook':
                 this._add_element(type, node, xpath_info, position, 'notebook');
@@ -487,7 +487,7 @@ return Widget.extend({
             type: 'buttonbox',
         });
     },
-    _add_button: function(type, tag) {
+    _add_button: function(type) {
         var dialog = new NewButtonBoxDialog(this, this.model).open();
         dialog.on('saved', this, function(result) {
             this.do({
@@ -500,11 +500,10 @@ return Widget.extend({
                 },
                 position: 'inside',
                 node: {
-                    tag: tag,
+                    tag: 'button',
                     field: result.field_id,
                     string: result.string,
                     attrs: {
-                        name: 'studio_' + tag + '_' + utils.randomString(5),
                         class: 'oe_stat_button',
                         icon: result.icon,
                     }
