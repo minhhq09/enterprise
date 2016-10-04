@@ -42,9 +42,6 @@ var ReportEditor = ReportAction.extend({
             return self.sidebar.appendTo(self.$el);
         });
     },
-    _on_iframe_loaded: function() {
-        // overwrite this method to remove editable mode
-    },
     open_report_form: function() {
         this.do_action({
             type: 'ir.actions.act_window',
