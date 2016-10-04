@@ -423,7 +423,6 @@ class WebStudioController(http.Controller):
             xml_node.insert(0, xml_node_field)
 
             xml_node.attrib['type'] = 'action'
-            xml_node.attrib['name'] = str(button_action.id)
         else:
             xml_node.text = node.get('text')
         xpath_node.insert(0, xml_node)
