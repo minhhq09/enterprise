@@ -70,6 +70,8 @@ class IrModel(models.Model):
 
         if self._context.get('studio'):
             res.create_studio_model_data(res.name)
+            # Create a simplified form view to prevent getting the default one containing all model's fields
+            self.env['ir.ui.view'].create_simplified_form_view(res.model)
 
         return res
 
