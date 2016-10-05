@@ -1743,7 +1743,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                     session.rpc('/jsonrpc',  { method : 'server_version' , service : 'db', args : []}).then(function(result) {
                         if (result && result.endsWith('e')) {
                             alert("The server does not support timesheet synchronization. You should contact your administrator in order to install the module \"Synchronization with the external timesheet application\"");
-                        } else if (result && result.endsWith('c')) {
+                        } else if (result) {
                             alert("Timesheet Synchronization is available in Odoo Enterprise Edition. You should consider upgrading your Odoo version if you would like to use it.");
                         } else {
                             alert("The server does not support timesheet synchronization. It requires Odoo Enterprise Edition version 9 or newer.");
