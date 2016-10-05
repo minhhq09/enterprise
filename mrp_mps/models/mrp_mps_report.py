@@ -85,7 +85,7 @@ class MrpMpsReport(models.TransientModel):
                             'product_origin_id': original_product.id,
                             'product_id': bom_line.product_id.id,
                             'quantity': line_data['qty'] * supply_line['qty'],
-                            'date': supply_line['date'] - relativedelta.relativedelta(days=bom_line.product_id.produce_delay)
+                            'date': supply_line['date'] - relativedelta.relativedelta(days=product.produce_delay)
                             #The date the product is needed (don't calculate its own lead time)
                         })
                     if BoM._bom_find(product=bom_line.product_id):
@@ -99,7 +99,7 @@ class MrpMpsReport(models.TransientModel):
                             products_to_calculate[bom_line.product_id].append({
                                   'lead': lead,
                                   'qty': line_data['qty'] * supply_line['qty'],
-                                  'date': supply_line['date'] - relativedelta.relativedelta(days=bom_line.product_id.produce_delay),
+                                  'date': supply_line['date'] - relativedelta.relativedelta(days=product.produce_delay),
                                 })
         return True
 
