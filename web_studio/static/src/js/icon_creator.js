@@ -22,7 +22,7 @@ var IconCreator = Widget.extend({
             '#F2D600',
             '#FFAB4A',
             '#EB5A46',
-            '#A24689',
+            '#875A7B',
             '#0079BF',
             '#00C2E0',
             '#4CD98E',
