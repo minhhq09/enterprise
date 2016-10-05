@@ -633,6 +633,11 @@ class HelpdeskTicket(models.Model):
             pass
         return recipients
 
+    @api.model
+    def message_new(self, msg, custom_values=None):
+        values = dict(custom_values or {}, partner_email=msg.get('from'), partner_id=msg.get('author_id'))
+        return super(HelpdeskTicket, self).message_new(msg, custom_values=values)
+
     @api.multi
     def _track_template(self, tracking):
         res = super(HelpdeskTicket, self)._track_template(tracking)
