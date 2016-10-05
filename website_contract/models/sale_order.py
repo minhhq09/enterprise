@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
                 'uom_id': opt_line.uom_id.id,
                 'name': opt_line.name,
                 'quantity': opt_line.quantity,
-                'price_unit': self.pricelist_id.get_product_price(mand_line.product_id, 1, self.partner_id, uom_id=mand_line.uom_id.id) if self.pricelist_id else 0,
+                'price_unit': self.pricelist_id.get_product_price(opt_line.product_id, 1, self.partner_id, uom_id=opt_line.uom_id.id) if self.pricelist_id else 0,
             }) for opt_line in self.contract_template.subscription_template_option_ids]
             self.order_line = subscription_lines
             for line in self.order_line:
