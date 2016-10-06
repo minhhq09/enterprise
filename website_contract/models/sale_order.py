@@ -108,7 +108,7 @@ class SaleOrder(models.Model):
         invoicing_period = relativedelta(**{periods[values['recurring_rule_type']]: values['recurring_interval']})
         recurring_next_date = today + invoicing_period
         values['recurring_next_date'] = fields.Date.to_string(recurring_next_date)
-        if 'asset_category_id' in contract_tmp._fields:
+        if 'template_asset_category_id' in contract_tmp._fields:
             values['asset_category_id'] = contract_tmp.template_asset_category_id.id
         return values
 
