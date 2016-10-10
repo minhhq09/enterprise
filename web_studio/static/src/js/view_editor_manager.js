@@ -42,6 +42,7 @@ var Renderers = {
     graph: GraphEditor,
     calendar: CalendarEditor,
     gantt: GanttEditor,
+    search: SearchEditor,
 };
 
 var Editors = {
