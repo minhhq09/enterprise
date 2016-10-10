@@ -14,6 +14,7 @@ from a web service.
 
 class ProviderAccount(models.Model):
     _name = 'account.online.provider'
+    _description = 'Provider for online account synchronization'
     _inherit = ['mail.thread']
 
     name = fields.Char(help='name of the banking institution')
@@ -97,6 +98,7 @@ class OnlineAccount(models.Model):
     It is used to save the state of the current online accout.
     """
     _name = 'account.online.journal'
+    _description = 'Interface for online account journal'
 
     name = fields.Char(required=True)
     account_online_provider_id = fields.Many2one('account.online.provider', ondelete='cascade', readonly=True)
@@ -123,6 +125,7 @@ class OnlineAccount(models.Model):
 
 class OnlineAccountWizard(models.TransientModel):
     _name = 'account.online.wizard'
+    _description = 'Wizard for online account synchronization'
 
     journal_id = fields.Many2one('account.journal')
     account_online_journal_id = fields.Many2one('account.online.journal', string='Online account', domain=[('journal_ids', '=', False)])
