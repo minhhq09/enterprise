@@ -46,11 +46,6 @@
         <menuitem id="account_reports_legal_statements_menu" name="Legal Statements" parent="account.menu_finance_reports" sequence="1" groups="account.group_account_user"/>
         <menuitem id="account_reports_business_statements_menu" name="Business Statements" parent="account.menu_finance_reports" sequence="2" groups="account.group_account_user"/>
 
-        <menuitem id="menu_aged_trial_balance"
-            name="Aged Partner Balance"
-            action="account.action_account_aged_balance_view"
-            parent="account_reports_legal_statements_menu"/>
-
         <record model="ir.actions.server" id="action_journal_items">
             <field name="name">Journal Items by tax</field>
             <field name="model_id" ref="account_reports.model_account_financial_html_report_line"/>
