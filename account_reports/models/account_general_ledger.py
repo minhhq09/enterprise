@@ -154,7 +154,7 @@ class report_account_general_ledger(models.AbstractModel):
 
     def _get_journal_total(self):
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
-        self.env.cr.execute('SELECT SUM(debit) as debit, SUM(credit) as credit, SUM(debit-credit) as balance FROM ' + tables + ' '
+        self.env.cr.execute('SELECT COALESCE(SUM(debit), 0) as debit, COALESCE(SUM(credit), 0) as credit, COALESCE(SUM(debit-credit), 0) as balance FROM ' + tables + ' '
                         'WHERE ' + where_clause + ' ', where_params)
         return self.env.cr.dictfetchone()
 
@@ -258,7 +258,7 @@ class report_account_general_ledger(models.AbstractModel):
                 'id': 0,
                 'type': 'total',
                 'name': _('Total'),
-                'footnotes': [],
+                'footnotes': {},
                 'columns': ['', '', '', '', self._format(total['debit']), self._format(total['credit']), self._format(total['balance'])],
                 'level': 1,
                 'unfoldable': False,
@@ -268,7 +268,7 @@ class report_account_general_ledger(models.AbstractModel):
                 'id': 0,
                 'type': 'line',
                 'name': _('Tax Declaration'),
-                'footnotes': [],
+                'footnotes': {},
                 'columns': ['', '', '', '', '', '', ''],
                 'level': 1,
                 'unfoldable': False,
@@ -278,7 +278,7 @@ class report_account_general_ledger(models.AbstractModel):
                 'id': 0,
                 'type': 'line',
                 'name': _('Name'),
-                'footnotes': [],
+                'footnotes': {},
                 'columns': ['', '', '', '', _('Base Amount'), _('Tax Amount'), ''],
                 'level': 2,
                 'unfoldable': False,
