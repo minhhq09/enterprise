@@ -28,7 +28,7 @@ O-BTN.post_inventory
 O-BTN.button_mark_done
 O-BTN.button_scrap
 O-BTN.action_cancel
-O-BTN.save
+O-CMD.SAVE
 BARCODES
 
 barcode -t 2x6+20+40 -m 30x30 -p A4 -e code128b -o workorder_barcodes_actions.ps <<BARCODES
