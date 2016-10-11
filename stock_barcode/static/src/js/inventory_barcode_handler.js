@@ -31,7 +31,7 @@ var InventoryBarcodeHandler = FormViewBarcodeHandler.extend({
         var view = field.viewmanager.active_view;
         var scan_location_id = this.form_view.fields.scan_location_id.get_value();
         if (view) { // Weird, sometimes is undefined. Due to an asynchronous field re-rendering ?
-            record = this._get_records(field).find(function(record) {
+            record = _.find(this._get_records(field), function(record) {
                 return record.get('product_barcode') === barcode && record.get('location_id')[0] === scan_location_id;
             });
         }
