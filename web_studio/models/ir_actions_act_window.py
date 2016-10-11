@@ -12,6 +12,6 @@ class IrActionsActWindow(models.Model):
         res = super(IrActionsActWindow, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data(res.name)
+            res.create_studio_model_data()
 
         return res

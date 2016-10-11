@@ -43,16 +43,9 @@ WebClient.include({
     init: function() {
         this._super.apply(this, arguments);
         this.studio_on = false;
-        this.current_menu_id = null;
 
         bus.on('studio_toggled', this, function (mode) {
             this.studio_on = !!mode;
-        });
-
-        var self = this;
-        core.bus.on('change_menu_section', null, function (id) {
-            var menu_item = _.findWhere(self.menu_data.children, {id: id});
-            self.current_menu_id = menu_item.id;
         });
     },
 
@@ -104,12 +97,8 @@ WebClient.include({
 
         if (mode) {
             session.user_context.studio = 1;
-            if (mode === 'main') {
-                session.user_context.studio_menu_id = this.current_menu_id;
-            }
         } else {
             delete session.user_context.studio;
-            delete session.user_context.studio_menu_id;
         }
 
         var def;

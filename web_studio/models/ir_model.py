@@ -10,20 +10,19 @@ from odoo.exceptions import UserError
 class Base(models.AbstractModel):
     _inherit = 'base'
 
-    def create_studio_model_data(self, description=None):
+    def create_studio_model_data(self):
         """ We want to keep track of created records with studio
             (ex: model, field, view, action, menu, etc.).
             An ir.model.data is created whenever a record of one of these models
             is created, tagged with studio.
         """
-        menu_id = self._context.get('studio_menu_id')
-        module_name = self.env['ir.module.module'].create_or_get_studio_module(menu_id, description)
+        module = self.env['ir.module.module'].get_studio_module()
 
         self.env['ir.model.data'].create({
-            'name': '%s_%s' % (self.name, uuid.uuid4()),
+            'name': '%s' % uuid.uuid4(),
             'model': self._name,
             'res_id': self.id,
-            'module': module_name,
+            'module': module.name,
         })
 
 
@@ -69,7 +68,7 @@ class IrModel(models.Model):
         res = super(IrModel, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data(res.name)
+            res.create_studio_model_data()
             # Create a simplified form view to prevent getting the default one containing all model's fields
             self.env['ir.ui.view'].create_simplified_form_view(res.model)
 
@@ -133,6 +132,6 @@ class IrModelField(models.Model):
         res = super(IrModelField, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data(res.name)
+            res.create_studio_model_data()
 
         return res

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class IrUiMenu(models.Model):
@@ -12,7 +12,7 @@ class IrUiMenu(models.Model):
         res = super(IrUiMenu, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data(res.name)
+            res.create_studio_model_data()
 
         return res
 

@@ -152,6 +152,7 @@ class WebStudioController(http.Controller):
             @param icon: the icon of the new app, like [icon, icon_color, background_color].
                 To be set if is_app is True.
         """
+        # create the action
         model = request.env['ir.model'].browse(model_id)
         new_action = request.env['ir.actions.act_window'].create({
             'name': name,
@@ -166,33 +167,26 @@ class WebStudioController(http.Controller):
                 </p>
             """,
         })
+        action_ref = 'ir.actions.act_window,' + str(new_action.id)
 
         if is_app:
-            # we cannot create a menu without action without the context `full_list`
+            # create the menus (app menu + first submenu)
             new_context = dict(request.context)
-            new_context.update({'ir.ui.menu.full_list': True})
+            new_context.update({'ir.ui.menu.full_list': True})  # allows to create a menu without action
             new_menu = request.env['ir.ui.menu'].with_context(new_context).create({
                 'name': name,
                 'web_icon': ','.join(icon),
                 'child_id': [(0, 0, {
                     'name': name,
-                    'action': 'ir.actions.act_window,' + str(new_action.id),
+                    'action': action_ref,
                 })]
             })
-            # if a model has been created for the app but *before* it,
-            # the `module` on model_data for the model and its fields should be changed
-            if model.state == 'manual':
-                module_name = request.env['ir.module.module'].create_or_get_studio_module(new_menu.id)
-                request.env['ir.model.data'].search([
-                    '|',
-                    '&', ('model', '=', 'ir.model'), ('res_id', '=', model.id),
-                    '&', ('model', '=', 'ir.model.fields'), ('res_id', 'in', model.field_id.ids)
-                ]).write({'module': module_name})
         else:
+            # create the submenu
             new_menu = request.env['ir.ui.menu'].create({
                 'name': name,
-                'action': 'ir.actions.act_window,' + str(new_action.id),
-                'parent_id': request.context.get('studio_menu_id'),
+                'action': action_ref,
+                'parent_id': parent_id,
             })
 
         return {
