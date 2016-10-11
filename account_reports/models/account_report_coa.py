@@ -52,7 +52,7 @@ class report_account_coa(models.AbstractModel):
         for account in sorted_accounts:
             non_zero = False
             for p in xrange(len(context['periods'])):
-                if not company_id.currency_id.is_zero(grouped_accounts[account][p]['balance']):
+                if not company_id.currency_id.is_zero(grouped_accounts[account][p]['balance']) or not company_id.currency_id.is_zero(initial_balances.get(account, 0)):
                     non_zero = True
             if not non_zero:
                 continue
