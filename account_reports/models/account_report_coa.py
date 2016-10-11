@@ -55,7 +55,7 @@ class report_account_coa(models.AbstractModel):
                 lines.append({
                     'id': title_index,
                     'type': 'line',
-                    'name': _("Class %s" % (title_index)),
+                    'name': _("Class %s") % (title_index),
                     'footnotes': [],
                     'columns': sum([['', ''] for p in xrange(len(context['periods']))], []),
                     'level': 1,
