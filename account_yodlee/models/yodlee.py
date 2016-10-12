@@ -99,15 +99,12 @@ class YodleeProviderAccount(models.Model):
                 if resp.json().get('errorCode') in ('Y007', 'Y008', 'Y009', 'Y010'):
                     return 'invalid_auth'
                 message = _('Error %s, message: %s, reference code: %s' % (resp_json.get('errorCode'), resp_json.get('errorMessage'), resp_json.get('referenceCode')))
+                message = ("%s\n\n" + _('(Diagnostic: %r for URL %s)')) % (message, resp.status_code, resp.url)
                 self.log_message(message)
                 raise UserError(message)
-            elif resp.status_code in (400, 403):
-                # This is the error coming back from odoo proxy like user not having valid contract
-                self.log_message(resp.text)
-                raise UserError(resp.text)
             resp.raise_for_status()
         except (requests.HTTPError, ValueError):
-            message = _('Get %s status code for call to %s. Content message: %s' % (resp.status_code, resp.url, resp.text))
+            message = ('%s\n\n' + _('(Diagnostic: %r for URL %s)')) % (resp.text.strip(), resp.status_code, resp.url)
             self.log_message(message)
             raise UserError(message)
 
