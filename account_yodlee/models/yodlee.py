@@ -37,7 +37,7 @@ class YodleeProviderAccount(models.Model):
         company_id = self.env.user.company_id
         username = self.env.registry.db_name + '_' + str(uuid.uuid4())
         password = str(uuid.uuid4())
-        email = self.company_id.partner_id.email
+        email = company_id.partner_id.email
         if not email:
             raise UserError(_('Please configure an email in the company settings.'))
         credentials = self._get_yodlee_credentials()
