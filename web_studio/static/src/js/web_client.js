@@ -46,6 +46,7 @@ WebClient.include({
 
         bus.on('studio_toggled', this, function (mode) {
             this.studio_on = !!mode;
+            this.update_context(!!mode);
         });
     },
 
@@ -95,11 +96,7 @@ WebClient.include({
         var active_view = action && action.get_active_view();
         var mode = this.studio_on && (this.app_switcher_displayed ? 'app_creator' : 'main');
 
-        if (mode) {
-            session.user_context.studio = 1;
-        } else {
-            delete session.user_context.studio;
-        }
+        this.update_context(!!mode);
 
         var def;
         if (this.studio_on) {
@@ -129,6 +126,7 @@ WebClient.include({
             var def;
             var action_descr;
             var qs = $.deparam.querystring();
+            self.update_context(!!qs.studio);
             if (qs.studio === 'main') {
                 var action = self.action_manager.get_inner_action();
                 if (action) {
@@ -188,6 +186,16 @@ WebClient.include({
         this.studio_on = false;
         this.edited_action = undefined;
         return this.action_manager.restore_action_stack();
+    },
+
+    update_context: function (in_studio) {
+        if (in_studio) {
+            // Write in user_context that we are in Studio
+            // This is used server-side to flag with Studio the ir.model.data of customizations
+            session.user_context.studio = 1;
+        } else {
+            delete session.user_context.studio;
+        }
     },
 
     do_push_state: function () {
