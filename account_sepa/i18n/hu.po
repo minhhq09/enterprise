@@ -8,10 +8,10 @@
 # Oregional <geza.nagy@oregional.hu>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
 "Last-Translator: Oregional <geza.nagy@oregional.hu>, 2016\n"
 "Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Bankszámla"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Érvénytelenít"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -90,6 +90,11 @@ msgstr ""
 " hatóság IV)."
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Etherpad lite server. Example: beta.primarypad.com"
+msgstr "Könnyített Etherpad szerver. Példa: beta.primarypad.com"
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
 msgstr "Fájlnév"
@@ -115,6 +120,12 @@ msgid "Identification"
 msgstr "Azonosítás"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
+msgid "Identification *"
+msgstr "Azonosítás *"
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr "Azonosító kiosztva egy intézmény által (pl. ADÓ szám)."
@@ -138,6 +149,11 @@ msgstr "Ez általános"
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
 msgstr "Kibocsátó"
+
+#. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
+msgid "Issuer *"
+msgstr "Kibocsátó *"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -202,7 +218,7 @@ msgid "Register payments on multiple invoices"
 msgstr " Több számlára történt befizetések rögzítése"
 
 #. module: account_sepa
-#: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited
+#: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
 msgstr "SEPA"
 
@@ -218,11 +234,17 @@ msgid "SEPA Pain Version"
 msgstr "SEPA Pain Verzió"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
+msgid "SEPA Pain Version *"
+msgstr "SEPA Pain Verzió *"
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML fájl"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_pain_version
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
 msgid ""
 "SEPA may be a generic format, some countries differ from the SEPA "
@@ -404,6 +426,7 @@ msgid "Warning"
 msgstr "Figyelmeztetés"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_issr
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_initiating_party_name
 msgid ""
 "Will appear in SEPA payments as the name of the party initiating the "
@@ -418,10 +441,20 @@ msgid "Your Company Name"
 msgstr "Cége neve"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Your Company Name *"
+msgstr "Az ön vállalkozása *"
+
+#. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr "A bankszámla száma nem EUR  címkéjű"
+
+#. module: account_sepa
+#: model:ir.model,name:account_sepa.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download

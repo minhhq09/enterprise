@@ -3,16 +3,17 @@
 # * account_reports_followup
 # 
 # Translators:
-# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
+# Cas Vissers <casvissers@brahoo.nl>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
+# Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
 # Eric Geens <ericgeens@yahoo.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -152,11 +153,6 @@ msgid "Balance"
 msgstr "Saldo"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
-msgid "Call the customer on the phone"
-msgstr "Bel de klant op"
-
-#. module: account_reports_followup
 #: model:ir.actions.act_window,help:account_reports_followup.action_account_followup_definition_form
 msgid "Click to define follow-up levels and their related actions."
 msgstr ""
@@ -209,7 +205,7 @@ msgstr "De dagen van de herinneringsniveaus moeten van elkaar verschillen"
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_display_name
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_display_name
 msgid "Display Name"
-msgstr "Schermnaam"
+msgstr "Weergave naam"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
@@ -225,6 +221,11 @@ msgstr "Verwerkt"
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_delay
 msgid "Due Days"
 msgstr "Vervallen dagen"
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
+msgid "First reminder email"
+msgstr "Eerste herinnering e-mail"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_followup_id
@@ -326,6 +327,12 @@ msgid "Level"
 msgstr "Niveau"
 
 #. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:62
+#, python-format
+msgid "Level: "
+msgstr "Niveau:"
+
+#. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
 msgid "Log a Note"
 msgstr "Opmerking ingeven"
@@ -345,7 +352,12 @@ msgstr "Manuele actie uitgevoerd\n"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_company_min_days_between_followup
 msgid "Minimum days between two follow-ups"
-msgstr ""
+msgstr "Minimum aantal dagen tussen twee herinneringen"
+
+#. module: account_reports_followup
+#: model:ir.model.fields,field_description:account_reports_followup.field_account_config_settings_min_days_between_followup
+msgid "Minimum days between two follow-ups *"
+msgstr "Aantal dagen tussen twee herinneringen *"
 
 #. module: account_reports_followup
 #: code:addons/account_reports_followup/account_followup.py:113
@@ -384,7 +396,7 @@ msgstr "Boekingen relatie"
 #. module: account_reports_followup
 #: model:ir.actions.act_window,name:account_reports_followup.action_account_followup_definition_form
 msgid "Payment Follow-ups"
-msgstr "Betalingsherinnneringen"
+msgstr "Betalingsherinneringen"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_partner_payment_note
@@ -407,6 +419,11 @@ msgid "Search Follow-up"
 msgstr "Zoek betalingsherinnering"
 
 #. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
+msgid "Second reminder letter and email"
+msgstr "Tweede herinneringsbrief en e-amil"
+
+#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "Send a Letter"
 msgstr "Stuur een brief"
@@ -427,16 +444,6 @@ msgid "Send by email"
 msgstr "Verzenden via e-mail"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
-msgid "Send first reminder email"
-msgstr "Verstuur eerste herinnering e-mail"
-
-#. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
-msgid "Send reminder letter and email"
-msgstr "Verstuur herinnering brief en e-mail"
-
-#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_sequence
 msgid "Sequence"
 msgstr "Reeks"
@@ -451,6 +458,11 @@ msgstr ""
 "Het aantal dagen na de vervaldatum van de factuur, voordat een "
 "betalingsherinnering wordt verstuurt. De waarde kan negatief zijn, indien u "
 "een beleefde herinnering op voorhand wilt verzenden."
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
+msgid "Third reminder: phone the customer"
+msgstr "Derde herinnering: Bel de klant"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_form
@@ -494,11 +506,14 @@ msgid "Urging reminder letter"
 msgstr "Verstuur urgente herinneringsbrief"
 
 #. module: account_reports_followup
+#: model:ir.model.fields,help:account_reports_followup.field_account_config_settings_min_days_between_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_company_min_days_between_followup
 msgid ""
 "Use this if you want to be sure than a minimum number of days occurs between"
 " two follow-ups."
 msgstr ""
+"Gebruik dit als u er zeker van wilt zijn dat er een minimum aantal dagen "
+"tussen iedere herinnering zit."
 
 #. module: account_reports_followup
 #: model:ir.model.fields,help:account_reports_followup.field_account_followup_followup_line_send_letter

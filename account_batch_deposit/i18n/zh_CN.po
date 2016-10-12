@@ -4,13 +4,20 @@
 # 
 # Translators:
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Connie Xiao <connie.xiao@elico-corp.com>, 2016
+# xiaobin wu <bd5dml@gmail.com>, 2016
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
+# waveyeung <waveyeung@qq.com>, 2016
+# 訾明华 <565209960@qq.com>, 2016
+# fausthuang <faust_huang@hotmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-19 11:34+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: fausthuang <faust_huang@hotmail.com>, 2016\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:40
+#: code:addons/account_batch_deposit/models/account_payment.py:42
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
@@ -29,7 +36,7 @@ msgstr "所有要打印为存款条的付款都应属于同一个日记账。"
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_amount
 #: model:ir.ui.view,arch_db:account_batch_deposit.print_batch_deposit
 msgid "Amount"
-msgstr "总额"
+msgstr "金额"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,help:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
@@ -54,7 +61,7 @@ msgstr "银行对账单"
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr "银行对账单明细"
+msgstr "银行对账单行"
 
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,name:account_batch_deposit.action_batch_deposit
@@ -72,7 +79,7 @@ msgid "Batch Deposit Sequence"
 msgstr "批量存款序列"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal.py:41
+#: code:addons/account_batch_deposit/models/account_journal.py:43
 #, python-format
 msgid "Batch Deposits Sequence"
 msgstr "批量存款序列"
@@ -99,7 +106,7 @@ msgstr ""
 "在使用调节处理的时候，只需简单选择批量存款来调节付款。"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal_dashboard.py:13
+#: code:addons/account_batch_deposit/models/account_journal.py:68
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
@@ -185,7 +192,7 @@ msgstr "备忘录"
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
 msgid "New"
-msgstr "新的"
+msgstr "新建"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_payment
@@ -195,7 +202,7 @@ msgid "Payments"
 msgstr "付款"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:36
+#: code:addons/account_batch_deposit/models/account_payment.py:38
 #, python-format
 msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "

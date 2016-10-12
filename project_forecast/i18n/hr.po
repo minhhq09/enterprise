@@ -1,30 +1,32 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * project_forecast
-#
+# 
 # Translators:
-# Davor Bojkić <bole@dajmi5.com>, 2016
-# Ivica Dimjašević <ivica.dimjasevic@storm.hr>, 2015
+# Martin Trigaux <mat@odoo.com>, 2016
 # Matija Pildek <matija.pildek@storm.hr>, 2016
+# Bole <bole@dajmi5.com>, 2016
+# Karolina Tonković <karolina.tonkovic@storm.hr>, 2016
+# Vladimir Olujić <olujic.vladimir@storm.hr>, 2016
+# Đurđica Žarković <durdica.zarkovic@storm.hr>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2016-03-22 13:54+0000\n"
-"Last-Translator: Davor Bojkić <bole@dajmi5.com>\n"
-"Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
-"Language: hr\n"
+"POT-Creation-Date: 2016-09-19 12:59+0000\n"
+"PO-Revision-Date: 2016-09-19 12:59+0000\n"
+"Last-Translator: Đurđica Žarković <durdica.zarkovic@storm.hr>, 2016\n"
+"Language-Team: Croatian (https://www.transifex.com/odoo/teams/41243/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "% of time"
-msgstr "% utrošenog vremena"
+msgid "% Time"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_kanban_inherit_project_forecast
@@ -37,11 +39,17 @@ msgid "<span>Forecast</span>"
 msgstr "<span>Prognoza</span>"
 
 #. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_forecast_active
+msgid "Active"
+msgstr "Aktivan"
+
+#. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_report_activities
 msgid "Activities"
 msgstr "Aktivnosti"
 
 #. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_project_task_allow_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
 msgid "Allow Forecast"
 msgstr "Dopusti Prognozu"
@@ -50,6 +58,16 @@ msgstr "Dopusti Prognozu"
 #: model:ir.model.fields,field_description:project_forecast.field_project_project_allow_forecast
 msgid "Allow forecast"
 msgstr "Dopusti prognozu"
+
+#. module: project_forecast
+#: model:ir.actions.server,name:project_forecast.project_forecast_server_action_archive
+msgid "Archive/Unarchive"
+msgstr ""
+
+#. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
+msgid "Archived"
+msgstr "Arhivirano"
 
 #. module: project_forecast
 #: model:ir.ui.menu,name:project_forecast.project_forecast_group_by_project
@@ -65,6 +83,11 @@ msgstr "Po Korisniku"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_color
 msgid "Color"
 msgstr "Boja"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_count
+msgid "Count Payment Token"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
@@ -131,6 +154,12 @@ msgid "Forecast by user"
 msgstr "Prognoza po korisniku"
 
 #. module: project_forecast
+#: code:addons/project_forecast/models/models.py:121
+#, python-format
+msgid "Forecasted time must be positive"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Future"
 msgstr "Budućnost"
@@ -154,6 +183,11 @@ msgstr "Grupiraj po"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_id
 msgid "ID"
 msgstr "ID"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_has_address
+msgid "Is address valid"
+msgstr "Je li adresa važeća"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast___last_update
@@ -191,6 +225,11 @@ msgid "Past"
 msgstr "Prošlost"
 
 #. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_payment_token_ids
+msgid "Payment Tokens"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_forecast_time
 msgid "Percentage of working time"
 msgstr "Postotak radnog vremena"
@@ -213,6 +252,16 @@ msgid "Project"
 msgstr "Projekt"
 
 #. module: project_forecast
+#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
+msgid "Project Forecast"
+msgstr "Prognoza projekta"
+
+#. module: project_forecast
+#: model:ir.model.fields,field_description:project_forecast.field_res_users_resource_ids
+msgid "Resource ids"
+msgstr ""
+
+#. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_start_date
 msgid "Start date"
 msgstr "Početni datum"
@@ -222,7 +271,7 @@ msgstr "Početni datum"
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_task_id
 #: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_search
 msgid "Task"
-msgstr "Task"
+msgstr "Zadatak"
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_stage_id
@@ -231,31 +280,25 @@ msgstr ""
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_tag_ids
-#, fuzzy
 msgid "Task tags"
-msgstr "Task"
+msgstr ""
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:136
+#: code:addons/project_forecast/models/models.py:133
 #, python-format
 msgid "The start-date must be lower than end-date."
 msgstr "Datum početka mora biti manji od datuma završetka."
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:124
-#, python-format
-msgid "The time must be positive"
-msgstr "Vrijeme mora biti pozitivno"
-
-#. module: project_forecast
 #: model:ir.model.fields,help:project_forecast.field_project_project_allow_forecast
+#: model:ir.model.fields,help:project_forecast.field_project_task_allow_forecast
 msgid "This feature shows the Forecast link in the kanban view"
 msgstr "Ovo svojstvo prikazuje link Predviđanja u kanban prikazu"
 
 #. module: project_forecast
-#: model:ir.ui.view,arch_db:project_forecast.project_forecast_view_form
-msgid "Time"
-msgstr "Vrijeme"
+#: model:ir.ui.view,arch_db:project_forecast.project_view_form_inherit_project_forecast
+msgid "Time Scheduling"
+msgstr ""
 
 #. module: project_forecast
 #: model:ir.model.fields,field_description:project_forecast.field_project_forecast_user_id
@@ -264,7 +307,12 @@ msgid "User"
 msgstr "Korisnik"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:130
+#: model:ir.model,name:project_forecast.model_res_users
+msgid "Users"
+msgstr "Korisnici"
+
+#. module: project_forecast
+#: code:addons/project_forecast/models/models.py:127
 #, python-format
 msgid "Your task is not in the selected project."
 msgstr "Tvoj zadatak nije u izabranom projektu."
@@ -275,7 +323,7 @@ msgid "project.forecast"
 msgstr "project.forecast"
 
 #. module: project_forecast
-#: code:addons/project_forecast/models/models.py:59
+#: code:addons/project_forecast/models/models.py:63
 #, python-format
 msgid "undefined"
 msgstr "nedefiniran"

@@ -1,26 +1,29 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_dhl
-#
+# 
 # Translators:
-# Danil Bochevkin <danil.borchevkin@gmail.com>, 2015
-# Denis Trepalin <zekarious@gmail.com>, 2015
+# Martin Trigaux <mat@odoo.com>, 2016
+# Artur Komishenko <Archi1792@gmail.com>, 2016
+# Evgeny <transingularity@gmail.com>, 2016
 # Sergey Vilizhanin <sv@grimmette.ru>, 2016
+# Danil Bochevkin <danil.borchevkin@gmail.com>, 2016
+# dr&mx <dronmax@gmail.com>, 2016
+# Viktor Pogrebniak <vp@aifil.ru>, 2016
+# Max Belyanin <maxbelyanin@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-08-06 10:05+0000\n"
-"Last-Translator: Sergey Vilizhanin <sv@grimmette.ru>\n"
-"Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
-"Language: ru\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
+"Last-Translator: Max Belyanin <maxbelyanin@gmail.com>, 2016\n"
+"Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_label_template:0
@@ -73,9 +76,27 @@ msgid "8X4_thermal"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_accessory_product_ids
+msgid ""
+"Accessories show up when the customer reviews the cart before paying (cross-"
+"sell strategy, e.g. for computers: mouse, keyboard, etc.). An algorithm "
+"figures out a list of accessories based on all the products added to cart."
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_accessory_product_ids
 msgid "Accessory Products"
+msgstr "Продукты Аксессуары"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_availability
+msgid "Adds an availability status on the web product page."
 msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_alternative_product_ids
+msgid "Alternative Products"
+msgstr "Подобные Продукты"
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
@@ -83,23 +104,18 @@ msgid "America"
 msgstr "Америка"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_alternative_product_ids
-msgid "Appear on the product page"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_accessory_product_ids
-msgid "Appear on the shopping cart"
-msgstr ""
-
-#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_region_code:0
 msgid "Asia Pacific"
 msgstr "Азиатско-Тихоокеанский Регион"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Available in the Point of Sale"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability
+msgid "Availability"
+msgstr "Доступность"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_availability_warning
+msgid "Availability Warning"
 msgstr ""
 
 #. module: delivery_dhl
@@ -108,30 +124,23 @@ msgid "Carrier"
 msgstr "Перевозчик"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
+msgid ""
+"Categories can be published on the Shop page (online catalog grid) to help "
+"customers find all the items within a category. To publish them, go to the "
+"Shop page, hit Customize and turn *Product Categories* on. A product can "
+"belong to several categories."
+msgstr ""
+
+#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_dimension_unit:0
 msgid "Centimeters"
 msgstr "Сантиметров"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_to_weight
-msgid ""
-"Check if the product should be weighted using the hardware scale integration"
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_available_in_pos
-msgid "Check if you want this product to appear in the Point of Sale"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_dhl_dutiable
 msgid "Check this if your package is dutiable."
 msgstr "Отметьте этот флажок, если ваш пакет облагается пошлиной."
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_project_id
-msgid "Create a task under this project on sale order validation."
-msgstr ""
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -149,12 +158,17 @@ msgid "DHL Configuration"
 msgstr ""
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
+msgid "DHL Default Packaging Type"
+msgstr ""
+
+#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_password
 msgid "DHL Password"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:368
+#: code:addons/delivery_dhl/models/dhl_request.py:373
 #, python-format
 msgid "DHL Site ID is missing, please modify your delivery method settings."
 msgstr ""
@@ -177,37 +191,32 @@ msgid "DHL USA -> International"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:372
+#: code:addons/delivery_dhl/models/dhl_request.py:377
 #, python-format
 msgid ""
 "DHL account number is missing, please modify your delivery method settings."
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:370
+#: code:addons/delivery_dhl/models/dhl_request.py:375
 #, python-format
 msgid "DHL password is missing, please modify your delivery method settings."
 msgstr ""
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
-
-#. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_quote_description
 msgid "Description for the quote"
-msgstr ""
+msgstr "Описание страницы расценок"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_description
 msgid "Description for the website"
-msgstr ""
+msgstr "Описание для веб-сайта"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_website_sequence
 msgid "Determine the display order in the Website E-commerce"
-msgstr ""
+msgstr "Определите порядок отображения на сайте электронной коммерции"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_dutiable
@@ -225,9 +234,14 @@ msgid "Europe"
 msgstr "Европа"
 
 #. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_product_image_ids
+msgid "Images"
+msgstr ""
+
+#. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_dimension_unit:0
 msgid "Inches"
-msgstr "Дюймы"
+msgstr "Дюймы "
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_product_code:0
@@ -237,7 +251,7 @@ msgstr ""
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_weight_unit:0
 msgid "Kilograms"
-msgstr "Килограммы"
+msgstr "Килограммы "
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_label_image_format
@@ -255,13 +269,13 @@ msgid "N - Domestic Express"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:173
+#: code:addons/delivery_dhl/models/dhl_request.py:178
 #, python-format
 msgid "No service available for the selected product"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:80
+#: code:addons/delivery_dhl/models/dhl_request.py:81
 #, python-format
 msgid "No shipping available for the selected DHL product"
 msgstr ""
@@ -269,7 +283,7 @@ msgstr ""
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_package_dimension_unit
@@ -283,20 +297,14 @@ msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model,name:delivery_dhl.model_product_packaging
-#, fuzzy
 msgid "Packaging"
-msgstr "Высота посылки"
+msgstr "Упаковка"
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:390
+#: code:addons/delivery_dhl/models/dhl_request.py:395
 #, python-format
 msgid "Please provide at least one item to ship."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Point of Sale Category"
-msgstr ""
+msgstr "Укажите, пожалуйста, хотя бы один элемент для отгрузки."
 
 #. module: delivery_dhl
 #: selection:delivery.carrier,dhl_package_weight_unit:0
@@ -309,24 +317,29 @@ msgid "Product"
 msgstr "Продукт"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_project_id
-msgid "Project"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
+msgid "Rating"
+msgstr "Рейтинг"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating Last Value"
 msgstr ""
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_ids
-msgid "Rating"
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_rating_count
+msgid "Rating count"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_rating_last_value
+msgid "Rating value: 0=Unhappy, 10=Happy"
 msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_dhl_region_code
 msgid "Region"
 msgstr "Регион"
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
-msgid "Sequence"
-msgstr ""
 
 #. module: delivery_dhl
 #: code:addons/delivery_dhl/models/delivery_dhl.py:84
@@ -337,21 +350,23 @@ msgstr ""
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_size_x
 msgid "Size X"
-msgstr ""
+msgstr "Размер X"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_size_y
 msgid "Size Y"
-msgstr ""
+msgstr "Размер Y"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_style_ids
 msgid "Styles"
-msgstr ""
+msgstr "Стили"
 
 #. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_alternative_product_ids
-msgid "Suggested Products"
+#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_alternative_product_ids
+msgid ""
+"Suggest more expensive alternatives to your customers (upsell strategy). "
+"Those products show up on the product page."
 msgstr ""
 
 #. module: delivery_dhl
@@ -360,7 +375,7 @@ msgid "T - Express 12:00"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:378
+#: code:addons/delivery_dhl/models/dhl_request.py:383
 #, python-format
 msgid ""
 "The address of the custommer is missing or wrong (Missing field(s) :\n"
@@ -368,70 +383,74 @@ msgid ""
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:386
+#: code:addons/delivery_dhl/models/dhl_request.py:391
 #, python-format
 msgid ""
-"The address of your company warehouse is missing or wrong (Missing "
-"field(s) :\n"
+"The address of your company warehouse is missing or wrong (Missing field(s) :\n"
 " %s)"
 msgstr ""
 
 #. module: delivery_dhl
-#: code:addons/delivery_dhl/models/dhl_request.py:392
+#: code:addons/delivery_dhl/models/dhl_request.py:397
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
-msgstr ""
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
+msgstr "Невозможно произвести оценку стоимости, т. к. не указан вес."
 
 #. module: delivery_dhl
 #: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_website_url
 msgid "The full URL to access the document through the website."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_public_categ_ids
-msgid "Those categories are used to group similar products for e-commerce."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,help:delivery_dhl.field_delivery_carrier_pos_categ_id
-msgid "Those categories are used to group similar products for point of sale."
-msgstr ""
-
-#. module: delivery_dhl
-#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_to_weight
-msgid "To Weigh With Scale"
-msgstr ""
+msgstr "Полный URL, чтобы получить доступ к документу через веб-сайт."
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_published
 msgid "Visible in Website"
-msgstr ""
+msgstr "Видимый на сайте"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_message_ids
+msgid "Website Comments"
+msgstr "Комментарии на сайте"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_public_categ_ids
 msgid "Website Product Category"
+msgstr "Сайт: категория товара"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_sequence
+msgid "Website Sequence"
 msgstr ""
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_url
 msgid "Website URL"
-msgstr ""
+msgstr "URL веб-сайта"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_description
 msgid "Website meta description"
-msgstr ""
+msgstr "Мета описание сайта"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_keywords
 msgid "Website meta keywords"
-msgstr ""
+msgstr "Мета-ключевые слова сайта"
 
 #. module: delivery_dhl
 #: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_meta_title
 msgid "Website meta title"
+msgstr "Мета заголовок сайта"
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_price
+msgid "Website price"
+msgstr ""
+
+#. module: delivery_dhl
+#: model:ir.model.fields,field_description:delivery_dhl.field_delivery_carrier_website_public_price
+msgid "Website public price"
 msgstr ""
 
 #. module: delivery_dhl
@@ -444,15 +463,3 @@ msgstr ""
 #: selection:delivery.carrier,dhl_label_image_format:0
 msgid "ZPL2"
 msgstr ""
-
-#~ msgid "Box"
-#~ msgstr "Коробка"
-
-#~ msgid "Package Height"
-#~ msgstr "Высота посылки"
-
-#~ msgid "Package Width"
-#~ msgstr "Ширина посылки"
-
-#~ msgid "Test Mode"
-#~ msgstr "Тестовый режим"

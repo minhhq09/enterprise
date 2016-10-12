@@ -1,27 +1,33 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_batch_deposit
-#
+# 
 # Translators:
-# SV <svilij@yahoo.com>, 2015
+# KingOPl Slav <87slava13@gmail.com>, 2016
+# dr&mx <dronmax@gmail.com>, 2016
+# Masha Koc <mariya.kos.ua@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Viktor Pogrebniak <vp@aifil.ru>, 2016
+# Max Belyanin <maxbelyanin@gmail.com>, 2016
+# Sergey Vilizhanin <sv@grimmette.ru>, 2016
+# Evgeny <transingularity@gmail.com>, 2016
+# Alex Puchkov <ap@alteco.co>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2015-12-30 19:21+0000\n"
-"Last-Translator: SV <svilij@yahoo.com>\n"
-"Language-Team: Russian (http://www.transifex.com/odoo/odoo-9/language/ru/)\n"
-"Language: ru\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Alex Puchkov <ap@alteco.co>, 2016\n"
+"Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:40
+#: code:addons/account_batch_deposit/models/account_payment.py:42
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
@@ -68,7 +74,7 @@ msgstr "Позиция банковской выписки"
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Batch Deposit"
-msgstr "Пакетный Депозит"
+msgstr "Пакетный депозит"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_journal_batch_deposit_sequence_id
@@ -76,7 +82,7 @@ msgid "Batch Deposit Sequence"
 msgstr "Последовательность Пакетного Депозита"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal.py:41
+#: code:addons/account_batch_deposit/models/account_journal.py:43
 #, python-format
 msgid "Batch Deposits Sequence"
 msgstr "Последовательность Пакетных Депозитов"
@@ -94,22 +100,16 @@ msgstr "Метод пакетного внесения платежа выбра
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
 msgid ""
-"Batch deposits allows you to group received checks before you deposit them "
-"to the bank.\n"
-"                    The amount deposited to your bank will then appear as a "
-"single transaction on your bank statement.\n"
-"                    When you proceed with the reconciliation, simply select "
-"the corresponding batch deposit to reconcile the payments."
+"Batch deposits allows you to group received checks before you deposit them to the bank.\n"
+"                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
+"                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
 msgstr ""
-"Пакетные депозиты позволяют группировать полученные чеки, прежде чем внести "
-"их в банк.\n"
-"Сумма зачисленная на ваш банк будет затем отображаться в виде одной "
-"транзакции по банковской выписке. \n"
-"Когда вы приступите к примирению, просто выберите соответствующий пакетный "
-"депозит для сверки платежей."
+"Пакетные депозиты позволяют группировать полученные чеки, прежде чем внести их в банк.\n"
+"Сумма зачисленная на ваш банк будет затем отображаться в виде одной транзакции по банковской выписке. \n"
+"Когда вы приступите к примирению, просто выберите соответствующий пакетный депозит для сверки платежей."
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal_dashboard.py:13
+#: code:addons/account_batch_deposit/models/account_journal.py:68
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
@@ -118,12 +118,12 @@ msgstr "Создать Пакетный Депозит"
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_create_uid
 msgid "Created by"
-msgstr "Создано"
+msgstr "Создал"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_create_date
 msgid "Created on"
-msgstr "Создан"
+msgstr "Создано"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_currency_id
@@ -146,7 +146,7 @@ msgstr "Дата"
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_display_name
 #: model:ir.model.fields,field_description:account_batch_deposit.field_report_account_batch_deposit_print_batch_deposit_display_name
 msgid "Display Name"
-msgstr "Отображаемое Имя"
+msgstr "Отображаемое имя"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
@@ -195,7 +195,7 @@ msgstr "Памятка"
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
 msgid "New"
-msgstr "Новый"
+msgstr "Создать"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_payment
@@ -205,7 +205,7 @@ msgid "Payments"
 msgstr "Платежи"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:36
+#: code:addons/account_batch_deposit/models/account_payment.py:38
 #, python-format
 msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
@@ -249,7 +249,7 @@ msgstr "Ссылка"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "Register Payment"
-msgstr "Регистрация оплаты"
+msgstr "Регистрация Платежа"
 
 #. module: account_batch_deposit
 #. openerp-web
@@ -273,7 +273,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_state
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "State"
-msgstr "Область"
+msgstr "Регион"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,help:account_batch_deposit.field_account_journal_batch_deposit_payment_method_selected
@@ -287,7 +287,7 @@ msgstr ""
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "Total"
-msgstr "Всего"
+msgstr "Итого"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search

@@ -1,26 +1,29 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_fedex
-#
+# 
 # Translators:
-# Anja Funk <anja.funk@afimage.de>, 2015
+# Markus Menner <markus.menner@axxelia.com>, 2016
+# Anja Funk <anja.funk@afimage.de>, 2016
 # Ermin Trevisan <trevi@twanda.com>, 2016
-# Fabian Liesch <fabian.liesch@gmail.com>, 2015
 # Finn F <ffmoto95@gmail.com>, 2016
 # Thorsten Vocks <thorsten.vocks@openbig.org>, 2016
-# Wolfgang Taferner, 2016
+# Wolfgang Taferner <wolfgang.transifex@service.wt-io-it.at>, 2016
+# Fabian Liesch <fabian.liesch@gmail.com>, 2016
+# darenkster <inactive+darenkster@transifex.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-08-08 10:19+0000\n"
-"Last-Translator: Ermin Trevisan <trevi@twanda.com>\n"
-"Language-Team: German (http://www.transifex.com/odoo/odoo-9/language/de/)\n"
-"Language: de\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: German (https://www.transifex.com/odoo/teams/41243/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: delivery_fedex
@@ -81,6 +84,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_key
 msgid "Developer Key"
 msgstr "Entwickler-Key"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "EPL2"
+msgstr ""
+
+#. module: delivery_fedex
+#: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_label_file_type
+msgid "FEDEX Label File Type"
+msgstr ""
 
 #. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
@@ -225,6 +238,16 @@ msgid "PAPER_LETTER"
 msgstr "PAPER_LETTER"
 
 #. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PDF"
+msgstr "PDF"
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "PNG"
+msgstr ""
+
+#. module: delivery_fedex
 #: selection:delivery.carrier,fedex_service_type:0
 msgid "PRIORITY_OVERNIGHT"
 msgstr "PRIORITY_OVERNIGHT"
@@ -232,7 +255,7 @@ msgstr "PRIORITY_OVERNIGHT"
 #. module: delivery_fedex
 #: model:ir.model,name:delivery_fedex.model_product_packaging
 msgid "Packaging"
-msgstr ""
+msgstr "Verpackung"
 
 #. module: delivery_fedex
 #: model:ir.model.fields,field_description:delivery_fedex.field_delivery_carrier_fedex_developer_password
@@ -260,20 +283,50 @@ msgid "STATION"
 msgstr "STATION"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:323
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X6.75_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X8"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_LEADING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_stock_type:0
+msgid "STOCK_4X9_TRAILING_DOC_TAB"
+msgstr ""
+
+#. module: delivery_fedex
+#: code:addons/delivery_fedex/models/delivery_fedex.py:333
 #, python-format
 msgid "Shipment N° %s has been cancelled"
 msgstr "Versand Nr %s wurde storniert"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:242
-#: code:addons/delivery_fedex/models/delivery_fedex.py:284
+#: code:addons/delivery_fedex/models/delivery_fedex.py:252
+#: code:addons/delivery_fedex/models/delivery_fedex.py:294
 #, python-format
 msgid "Shipment created into Fedex <br/> <b>Tracking Number : </b>%s"
 msgstr "Versand an Fedex übermittelt<br/> <b>Tracking Number : </b>%s"
 
 #. module: delivery_fedex
-#: code:addons/delivery_fedex/models/delivery_fedex.py:246
+#: code:addons/delivery_fedex/models/delivery_fedex.py:256
 #, python-format
 msgid "Shipping label for package %s"
 msgstr "Versandaufkleber für Paket %s"
@@ -291,41 +344,16 @@ msgstr "Der letzte Schritt ist die"
 #. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid ""
-"These certifications usually require that you contact the FedEx support team "
-"by email."
+"These certifications usually require that you contact the FedEx support team"
+" by email."
 msgstr "Diese Zertifikate erfordern Kontakt zum FedEx Team per E-Mail. "
+
+#. module: delivery_fedex
+#: selection:delivery.carrier,fedex_label_file_type:0
+msgid "ZPLII"
+msgstr ""
 
 #. module: delivery_fedex
 #: model:ir.ui.view,arch_db:delivery_fedex.view_delivery_carrier_form_with_provider_fedex
 msgid "to create a FedEx account of the following type:"
 msgstr "zur Erstellung eines FedEx Account mit folgendem Typ:"
-
-#~ msgid "FEDEX_10KG_BOX"
-#~ msgstr "FEDEX_10KG_BOX"
-
-#~ msgid "FEDEX_25KG_BOX"
-#~ msgstr "FEDEX_25KG_BOX"
-
-#~ msgid "FEDEX_BOX"
-#~ msgstr "FEDEX_BOX"
-
-#~ msgid "FEDEX_ENVELOPE"
-#~ msgstr "FEDEX_ENVELOPE"
-
-#~ msgid "FEDEX_PAK"
-#~ msgstr "FEDEX_PAK"
-
-#~ msgid "FEDEX_TUBE"
-#~ msgstr "FEDEX_TUBE"
-
-#~ msgid "Fedex packaging type"
-#~ msgstr "Fedex Verpackungstyp"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testmodus"
-
-#~ msgid "Uncheck this box to use production Fedex Web Services"
-#~ msgstr "Deaktiviere die Checkbox, um Fedex Web Services produktiv zu nutzen"
-
-#~ msgid "YOUR_PACKAGING"
-#~ msgstr "YOUR_PACKAGING"

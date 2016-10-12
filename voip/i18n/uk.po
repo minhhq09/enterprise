@@ -1,37 +1,61 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-#
+# 
 # Translators:
-# Bohdan Lisnenko, 2015
-# Bohdan Lisnenko, 2016
+# Bohdan Lisnenko <lem8r.ka11a@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# ТАрас <tratatuta@i.ua>, 2016
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-05-06 12:24+0000\n"
-"Last-Translator: Bohdan Lisnenko\n"
-"Language-Team: Ukrainian (http://www.transifex.com/odoo/odoo-9/language/"
-"uk/)\n"
-"Language: uk\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>, 2016\n"
+"Language-Team: Ukrainian (https://www.transifex.com/odoo/teams/41243/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: voip
-#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
-msgid ""
-"All your outbound calls will be redirected to your handset when the customer "
-"accepts your call"
-msgstr ""
+#: model:ir.model.fields,field_description:voip.field_res_users_task_count
+msgid "# Tasks"
+msgstr "К-сть завдань"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_payable_id
+msgid "Account Payable"
+msgstr "Рахунок кредитора"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_receivable_id
+msgid "Account Receivable"
+msgstr "Рахунок дебітора"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_always_transfer
 msgid "Always Redirect to Handset"
 msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_bank_account_count
+msgid "Bank"
+msgstr "Банк"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_ref_company_ids
+msgid "Companies that refers to partner"
+msgstr "Компанії, що стосуються партнера"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_contract_ids
+#: model:ir.model.fields,field_description:voip.field_res_users_contracts_count
+msgid "Contracts"
+msgstr "Контракти"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
@@ -41,12 +65,32 @@ msgstr "Створив"
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_date
 msgid "Created on"
-msgstr "Створено"
+msgstr "Дата створення"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_currency_id
+msgid "Currency"
+msgstr "Валюта"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_payment_term_id
+msgid "Customer Payment Terms"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_trust
+msgid "Degree of trust you have in this debtor"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_display_name
 msgid "Display Name"
 msgstr "Назва для відображення"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_position_id
+msgid "Fiscal Position"
+msgstr "Схема оподаткування"
 
 #. module: voip
 #. openerp-web
@@ -61,9 +105,14 @@ msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_has_unreconciled_entries
+msgid "Has unreconciled entries"
+msgstr "Має неузгоджені записи"
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
-msgstr "ID"
+msgstr "ІД"
 
 #. module: voip
 #. openerp-web
@@ -78,6 +127,22 @@ msgstr ""
 #, python-format
 msgid "Incoming call from "
 msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn
+msgid "Invoice"
+msgstr "Рахунок"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_ids
+msgid "Invoices"
+msgstr "Рахунки"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_issued_total
+#: model:ir.model.fields,field_description:voip.field_res_users_journal_item_count
+msgid "Journal Items"
+msgstr "Проведення"
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
@@ -95,8 +160,31 @@ msgid "Last Updated on"
 msgstr "Останнє оновлення"
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_calendar_last_notif_ack
+msgid "Last notification marked as read from base Calendar"
+msgstr "Останнє повідомлення позначено як прочитане з базового календаря."
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_last_time_entries_checked
+msgid ""
+"Last time the invoices & payments matching was performed for this partner. "
+"It is set either if there's not at least an unreconciled debit and an "
+"unreconciled credit or if you click the \"Done\" button."
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_last_time_entries_checked
+msgid "Latest Invoices & Payments Matching Date"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn_msg
+msgid "Message for Invoice"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of Rings"
+msgid "Number of rings"
 msgstr ""
 
 #. module: voip
@@ -112,6 +200,11 @@ msgid "PBX Configuration"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_debit_limit
+msgid "Payable Limit"
+msgstr "Ліміт заборгованості"
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:153
 #, python-format
@@ -123,8 +216,8 @@ msgstr ""
 #: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access "
-"your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access"
+" your microphone from your browser."
 msgstr ""
 
 #. module: voip
@@ -135,6 +228,29 @@ msgstr ""
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_password
 msgid "SIP Password"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_invoice_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+"Обираючи \"Попередження\" ви надішлете повідомлення користувачу. Якщо обрати"
+" \"Повідомлення блокування\", то буде запущено виключення з відповідним "
+"повідомленням користувачу та процес зупиниться. Повідомлення потрібно "
+"вказати у наступному полі."
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_task_ids
+msgid "Tasks"
+msgstr "Завдання"
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_position_id
+msgid ""
+"The fiscal position will determine taxes and accounts used for the partner."
 msgstr ""
 
 #. module: voip
@@ -154,6 +270,13 @@ msgid ""
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_has_unreconciled_entries
+msgid ""
+"The partner has at least one unreconciled debit and credit since last time "
+"the invoices & payments matching was performed."
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:51
 #, python-format
@@ -169,9 +292,67 @@ msgid "The websocket uri could be wrong. Please check your configuration."
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_payable_id
+msgid ""
+"This account will be used instead of the default one as the payable account "
+"for the current partner"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_receivable_id
+msgid ""
+"This account will be used instead of the default one as the receivable "
+"account for the current partner"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_supplier_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for purchase "
+"orders and vendor bills"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for sale orders "
+"and customer invoices"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_total_invoiced
+msgid "Total Invoiced"
+msgstr "Всього по рахунку"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_debit
+msgid "Total Payable"
+msgstr "Кредиторська заборгованість"
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_credit
+msgid "Total Receivable"
+msgstr "Дебіторський борг"
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_credit
+msgid "Total amount this customer owes you."
+msgstr " Загальна сума, яку цей клієнт повинен заплатити вам"
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_debit
+msgid "Total amount you have to pay to this vendor."
+msgstr " Загальна сума, яку ви повинні заплатити цьому постачальнику"
+
+#. module: voip
 #: model:ir.model,name:voip.model_res_users
 msgid "Users"
 msgstr "Користувачі"
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_currency_id
+msgid "Utility field to express amount currency"
+msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.view_voip_user_config
@@ -179,10 +360,16 @@ msgid "VOIP Configuration"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_supplier_payment_term_id
+msgid "Vendor Payment Terms"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid "Your browser could not support WebRTC. Please check your configuration."
+msgid ""
+"Your browser could not support WebRTC. Please check your configuration."
 msgstr ""
 
 #. module: voip
@@ -196,28 +383,3 @@ msgstr ""
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr ""
-
-#~ msgid "Invoice"
-#~ msgstr "Рахунок"
-
-#~ msgid "Purchase Order"
-#~ msgstr "Заявка на придбання"
-
-#~ msgid "Sales Order"
-#~ msgstr "Sales Order"
-
-#~ msgid ""
-#~ "Selecting the \"Warning\" option will notify user with the message, "
-#~ "Selecting \"Blocking Message\" will throw an exception with the message "
-#~ "and block the flow. The Message has to be written in the next field."
-#~ msgstr ""
-#~ "Обираючи \"Попередження\" ви надішлете повідомлення користувачу. Якщо "
-#~ "обрати \"Повідомлення блокування\", то буде запущено виключення з "
-#~ "відповідним повідомленням користувачу та процес зупиниться. Повідомлення "
-#~ "потрібно вказати у наступному полі."
-
-#~ msgid "Stock Picking"
-#~ msgstr "Відбір запасів"
-
-#~ msgid "Website tags"
-#~ msgstr "Мітки сайту"

@@ -6,10 +6,10 @@
 # krnkris <krnkris@freemail.hu>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
 "Last-Translator: krnkris <krnkris@freemail.hu>, 2016\n"
 "Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,12 @@ msgstr ""
 
 #. module: sale_contract_asset
 #: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_asset_category_id
-#: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_template_asset_category_id
+#: model:ir.model.fields,field_description:sale_contract_asset.field_sale_subscription_template_template_asset_category_id
 msgid "Deferred Revenue Category"
 msgstr "Késleltetett bevétel kategória"
 
 #. module: sale_contract_asset
+#: model:ir.ui.view,arch_db:sale_contract_asset.sale_subscription_template_view_form_inherit_sale_contract_asset
 #: model:ir.ui.view,arch_db:sale_contract_asset.sale_subscription_view_form_inherit_sale_contract_asset
 msgid "Deferred Revenue Type"
 msgstr "Késleltetett bevétel típus"
@@ -33,6 +34,11 @@ msgstr "Késleltetett bevétel típus"
 #: model:ir.model,name:sale_contract_asset.model_sale_subscription
 msgid "Sale Subscription"
 msgstr "Értékesítés előjegyzés"
+
+#. module: sale_contract_asset
+#: model:ir.model,name:sale_contract_asset.model_sale_subscription_template
+msgid "Sale Subscription Template"
+msgstr ""
 
 #. module: sale_contract_asset
 #: model:ir.model,name:sale_contract_asset.model_sale_order_line
@@ -48,8 +54,8 @@ msgstr ""
 "tételsoraira."
 
 #. module: sale_contract_asset
-#: model:ir.model.fields,help:sale_contract_asset.field_sale_subscription_template_asset_category_id
+#: model:ir.model.fields,help:sale_contract_asset.field_sale_subscription_template_template_asset_category_id
 msgid ""
-"This asset category will be applied to the subscriptions based on this "
-"template. This field is company-dependent."
+"This asset category will be set on the subscriptions that have this "
+"template."
 msgstr ""

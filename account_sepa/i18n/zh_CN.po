@@ -3,14 +3,22 @@
 # * account_sepa
 # 
 # Translators:
+# fausthuang <faust_huang@hotmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
+# waveyeung <waveyeung@qq.com>, 2016
+# Qin LIU <liu.qin@falinwa.com>, 2016
+# Siyuan Gu <siyuancn@hotmail.com>, 2016
+# Ted Wang <feiyuwang2012@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
-"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>, 2016\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Ted Wang <feiyuwang2012@gmail.com>, 2016\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,6 +92,11 @@ msgid ""
 msgstr "全部分配认证 (eg. KBE-BCO or Finanzamt Muenchen IV)"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Etherpad lite server. Example: beta.primarypad.com"
+msgstr "Etherpad lite服务器，例如 beta.primarypad.com"
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
 msgstr "文件名"
@@ -96,7 +109,7 @@ msgstr "通用的"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "German Version"
-msgstr ""
+msgstr "德国版本"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -109,6 +122,12 @@ msgid "Identification"
 msgstr "ID"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
+msgid "Identification *"
+msgstr "标识 *"
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr "被一家机构分配的标识例(如.增值税 号码)"
@@ -130,6 +149,11 @@ msgstr "是通用的"
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
 msgstr "发行人"
+
+#. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
+msgid "Issuer *"
+msgstr "发行人 *"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -192,7 +216,7 @@ msgid "Register payments on multiple invoices"
 msgstr "登记多张发票的付款"
 
 #. module: account_sepa
-#: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited
+#: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
 msgstr "单一欧元支付区"
 
@@ -208,11 +232,17 @@ msgid "SEPA Pain Version"
 msgstr ""
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
+msgid "SEPA Pain Version *"
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML 文件"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_pain_version
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
 msgid ""
 "SEPA may be a generic format, some countries differ from the SEPA "
@@ -228,7 +258,7 @@ msgstr "SEPA 付款 发送"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "Swiss Version"
-msgstr ""
+msgstr "瑞士版本"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -339,13 +369,13 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:121
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
-msgstr ""
+msgstr "本次交易 ‘％S’ 被指示其他货币不是欧元"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:334
 #, python-format
 msgid "There is no Bank Identifier Code recorded for bank account '%s'"
-msgstr "这个银行账号没有银行认证码 '%s'"
+msgstr "银行账号 '%s' 没有银行识别号码记录"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:180
@@ -353,7 +383,7 @@ msgstr "这个银行账号没有银行认证码 '%s'"
 msgid ""
 "There is no Bank Identifier Code recorded for bank account '%s' of journal "
 "'%s'"
-msgstr "银行帐号没有银行认证码记录 '%s' 日记账的 '%s'"
+msgstr "银行帐号 '%s' 日记账 '%s'没有银行识别号码记录"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:78
@@ -373,6 +403,7 @@ msgid "Warning"
 msgstr "警告"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_issr
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_initiating_party_name
 msgid ""
 "Will appear in SEPA payments as the name of the party initiating the "
@@ -385,10 +416,20 @@ msgid "Your Company Name"
 msgstr "公司名称"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Your Company Name *"
+msgstr "您的公司名称*"
+
+#. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
-msgstr ""
+msgstr "您的银行帐户中未标示欧元"
+
+#. module: account_sepa
+#: model:ir.model,name:account_sepa.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download

@@ -4,34 +4,60 @@
 # 
 # Translators:
 # Antonio Trueba <atgayol@gmail.com>, 2016
-# Oihane Crucelaegui <oihanecruce@gmail.com>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
-# Carles Antoli <carlesantoli@hotmail.com>, 2016
-# Alejandro Die Sanchis <marketing@domatix.com>, 2016
-# Alejandro Santana <alejandrosantana@anubia.es>, 2016
-# Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2016
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
-# José Vicente <txusev@gmail.com>, 2016
-# Ana Juaristi <ajuaristio@gmail.com>, 2016
 # Cristóbal Martí Oliver <info@moblesmarti.com>, 2016
+# Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
+# Alejandro Die Sanchis <marketing@domatix.com>, 2016
+# Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2016
+# José Vicente <txusev@gmail.com>, 2016
 # Angel Moya - Domatix <angel.moya@domatix.com>, 2016
+# Ana Juaristi <ajuaristio@gmail.com>, 2016
+# oihane <oihanecruce@gmail.com>, 2016
+# David Perez <david@closemarketing.es>, 2016
 # Ivan Nieto <ivan.n.s@tuta.io>, 2016
+# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
 # Mateo Tibaquirá Palacios <nestormateo@gmail.com>, 2016
-# Luis Martinez Ontalba <tecnisagra.ontalba@gmail.com>, 2016
+# Luis Martínez Ontalba <tecnisagra.ontalba@gmail.com>, 2016
+# Luis Triana <luis.triana@jarsa.com.mx>, 2016
 # Leonardo Chianea <noamixcontenidos@gmail.com>, 2016
+# Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016
+# Carles Antoli <carlesantoli@hotmail.com>, 2016
+# Alejandro Santana <alejandrosantana@anubia.es>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:38+0000\n"
-"PO-Revision-Date: 2016-08-26 10:38+0000\n"
-"Last-Translator: Leonardo Chianea <noamixcontenidos@gmail.com>, 2016\n"
+"POT-Creation-Date: 2016-10-10 09:14+0000\n"
+"PO-Revision-Date: 2016-10-10 09:14+0000\n"
+"Last-Translator: Alejandro Santana <alejandrosantana@anubia.es>, 2016\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: website_contract
+#: model:sale.subscription.template,description:website_contract.odoo_monthly
+#: model:sale.subscription.template,description:website_contract.odoo_yearly
+msgid ""
+"\n"
+"        Payment\n"
+"        All payments are due upon receipt. If a payment is not received or payment method is declined, the buyer forfeits the ownership of any items purchased. If no payment is received, no items will be shipped.\n"
+"\n"
+"        Shipping Policies\n"
+"        Shipping will be paid for by the buyer in the amount agreed upon by the seller at the time of purchase. If an item is lost during shipping, the total cost of item, including shipping, will be refunded to the buyer by the seller. Shipping costs may double if shipping internationally. If an item is damaged during shipping, seller will not be held responsible.\n"
+"\n"
+"        Refund/Return Policy\n"
+"        Items are entitled to be refunded or returned based on complaint. If an item is damaged during shipping, a replacement item will be sent free of charge. If an item is unsatisfactory, a written explanation is needed before the item may be considered for a refund. Buyer must take into account the description of the item before requesting a refund. If the item matches the description by the seller and the buyer is unsatisfied, seller is not responsible for refund. Exchanges are granted on a case-by-case basis.\n"
+"\n"
+"        Cancellation\n"
+"        An item may be cancelled up until payment has been processed. Once payment has been processed, the buyer is responsible for payment.\n"
+"\n"
+"        Complaints\n"
+"        Any complaints about items or sellers may be sent to our support team: support@wesellyourstuff.com or (888) 555-0198. There is no guarantee of a resolution. Each case will be looked at individually, and the seller will be in contact as well.\n"
+"            "
+msgstr ""
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_success
@@ -84,9 +110,9 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -123,8 +149,8 @@ msgid ""
 "                <p>Dear ${object.subscription_id.partner_id.name},</p>\n"
 "                <p>Your subscription ${object.subscription_id.name} is active!</p>\n"
 "\n"
-"                <p>You can view your subscription online by going to our <a style=\"text-decoration:none; color: #a24689;\" href=\"/my/home\">Online Portal</a> or by following this link\n"
-"                <p style=\"text-align: center;\"><a style=\"padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#a24689; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #a24689; border: 1px solid #a24689; border-radius:3px\" href=\"/my/contract/${object.subscription_id.id}/${object.subscription_id.uuid}\">View Subscription</a></p>\n"
+"                <p>You can view your subscription online by going to our <a style=\"text-decoration:none; color: #875A7B;\" href=\"/my/home\">Online Portal</a> or by following this link\n"
+"                <p style=\"text-align: center;\"><a style=\"padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px\" href=\"/my/contract/${object.subscription_id.id}/${object.subscription_id.uuid}\">View Subscription</a></p>\n"
 "\n"
 "                <p>With this page, you can easily manage your contracts:</p>\n"
 "                <ul>\n"
@@ -144,9 +170,9 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -211,9 +237,9 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -276,9 +302,9 @@ msgid ""
 "                </p>\n"
 "                % endif\n"
 "                <p style=\"font-size: 11px;\"><strong>Sent by\n"
-"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #a24689;\">\n"
+"                <a href=\"${user.company_id.website}\" style=\"text-decoration:none; color: #875A7B;\">\n"
 "                    <strong>${user.company_id.name}</strong>\n"
-"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #a24689;\"><strong>Odoo</strong></a>\n"
+"                </a> using <a href=\"www.odoo.com\" style=\"text-decoration:none; color: #875A7B;\"><strong>Odoo</strong></a>\n"
 "                </strong></p>\n"
 "            </td>\n"
 "        </tr></tbody>\n"
@@ -340,6 +366,11 @@ msgid "&amp;bull; <b>Template</b>:"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "&amp;nbsp;"
+msgstr "&amp;nbsp;"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.chatter_change_contract
 msgid "&amp;rarr;"
 msgstr ""
@@ -372,13 +403,33 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "<i class=\"fa fa-check\"/> Automatic payments"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "<i class=\"fa fa-check\"/> Closable by customer"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "<i class=\"fa fa-check\"/> Pro-rated invoices"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "<i class=\"fa fa-check\"/> Selectable by customer"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "<i class=\"fa fa-fw fa-arrow-circle-right\"/> Select"
 msgstr ""
 
 #. module: website_contract
 #. openerp-web
-#: code:addons/website_contract/static/src/js/website_contract.js:45
+#: code:addons/website_contract/static/src/js/website_contract.js:46
 #, python-format
 msgid ""
 "<p>We are not able to add your payment method at the moment.<br/> Please try"
@@ -418,6 +469,11 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "<span class=\"o_label\">Subscriptions</span>"
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "<strong>Prepaid units:</strong>"
 msgstr ""
@@ -431,11 +487,6 @@ msgstr "<strong>Total:</strong>"
 #: model:ir.ui.view,arch_db:website_contract.so_quotation
 msgid "A contract is linked to this quotation:"
 msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
-msgid "Account Analytic Lines"
-msgstr "Lineas de cuentas analíticas"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_uuid
@@ -476,12 +527,23 @@ msgid "Add in Subscription"
 msgstr ""
 
 #. module: website_contract
+#: code:addons/website_contract/controllers/main.py:46
+#, python-format
+msgid "All"
+msgstr "Todos"
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_user_selectable
+msgid "Allow Online Order"
+msgstr "Seguir la orden en línea"
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_account_id
 msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_payment_mandatory
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_payment_mandatory
 msgid "Automatic Payment"
 msgstr "Pago automático"
 
@@ -535,7 +597,12 @@ msgid "Change plan"
 msgstr "Cambiar plan"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_user_closable
+#: model:ir.actions.act_window,help:website_contract.sale_subscription_action_filtered
+msgid "Click to create a new contract."
+msgstr "Haga clic para crear un nuevo contrato."
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_user_closable
 msgid "Closable by customer"
 msgstr ""
 
@@ -556,10 +623,21 @@ msgid "Close your contract"
 msgstr "Cerrar tu contrato"
 
 #. module: website_contract
-#: code:addons/website_contract/controllers/main.py:242
+#: code:addons/website_contract/controllers/main.py:49
+#, python-format
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: website_contract
+#: code:addons/website_contract/controllers/main.py:260
 #, python-format
 msgid "Closing text : "
 msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_color
+msgid "Color"
+msgstr "Color"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -610,14 +688,14 @@ msgid "Create & View Quotation"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_create_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_create_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_create_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_create_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_create_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_create_date
 msgid "Created on"
@@ -640,9 +718,68 @@ msgid "Current:"
 msgstr ""
 
 #. module: website_contract
+#: model:product.product,name:website_contract.odoo_custom_domain
+#: model:product.template,name:website_contract.odoo_custom_domain_product_template
+msgid "Custom Domain"
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_domain
+#: model:product.template,description_sale:website_contract.odoo_custom_domain_product_template
+#: model:sale.quote.option,name:website_contract.sugg_line_13
+#: model:sale.quote.option,name:website_contract.sugg_line_23
+msgid ""
+"Custom Domain\n"
+"        Access your Odoo Instance using your own domain."
+msgstr ""
+
+#. module: website_contract
+#: model:sale.quote.option,name:website_contract.sugg_line_12
+#: model:sale.quote.option,name:website_contract.sugg_line_22
+msgid ""
+"Customize View\n"
+"        Customize one or more views (in a single module) to better suit your needs."
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,name:website_contract.odoo_custom_module
+#: model:product.template,name:website_contract.odoo_custom_module_product_template
+msgid "Customized Module"
+msgstr "Módulo modificado"
+
+#. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_module
+#: model:product.template,description_sale:website_contract.odoo_custom_module_product_template
+#: model:sale.quote.option,name:website_contract.sugg_line_11
+#: model:sale.quote.option,name:website_contract.sugg_line_21
+msgid ""
+"Customized Module\n"
+"        Customize a module to better match your business process."
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_custom_view
+#: model:product.template,description_sale:website_contract.odoo_custom_view_product_template
+msgid ""
+"Customized View\n"
+"        Customize one or more views (in a single module) to better suit your needs."
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,name:website_contract.odoo_custom_view
+#: model:product.template,name:website_contract.odoo_custom_view_product_template
+msgid "Customized Views"
+msgstr "Vistas personalizadas"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Date"
 msgstr "Fecha"
+
+#. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_plan_description
+msgid "Describe this contract in a few lines"
+msgstr "Describe este contrato en unas pocas líneas"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
@@ -650,7 +787,12 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_display_name
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_date_from
+msgid "Discount Date"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_display_name
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_display_name
 msgid "Display Name"
@@ -658,7 +800,7 @@ msgstr "Nombre a mostrar"
 
 #. module: website_contract
 #. openerp-web
-#: code:addons/website_contract/static/src/js/website_contract.js:44
+#: code:addons/website_contract/static/src/js/website_contract.js:45
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -679,14 +821,14 @@ msgid "Force price"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_id
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_id
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_id
 msgid "ID"
 msgstr "ID"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_user_closable
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_user_closable
 msgid ""
 "If checked, the user will be able to close his account from the frontend"
 msgstr ""
@@ -705,14 +847,14 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_partial_invoice
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_partial_invoice
 msgid ""
 "If set, option upgrades are invoiced for the remainder of the current "
 "invoicing period."
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_payment_mandatory
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_payment_mandatory
 msgid ""
 "If set, payments will be made automatically and invoices will not be "
 "generated if payment attempts are unsuccessful."
@@ -746,13 +888,19 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
+#: code:addons/website_contract/controllers/main.py:47
+#, python-format
+msgid "In Progress"
+msgstr "En proceso"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
 msgid ""
 "Insert the options directly, they will be invoiced on the next invoice date."
 msgstr ""
 
 #. module: website_contract
-#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.template.option,portal_access:0
 #: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Invisible"
 msgstr ""
@@ -773,36 +921,48 @@ msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_is_authorized
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_is_authorized
 msgid "Is authorized"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option___last_update
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard___last_update
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option___last_update
 msgid "Last Modified on"
 msgstr "Última modificación en"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_uid
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_uid
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_uid
 msgid "Last Updated by"
 msgstr "Última actualización por"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_write_date
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_write_date
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
-msgid "Max between actual and sold quantities; this quantity will be invoiced"
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_user_selectable
+msgid ""
+"Leave this unchecked if you don't want this contract template to be "
+"available to the customer in the frontend (for a free trial, for example)"
 msgstr ""
+
+#. module: website_contract
+#: model:product.uom,name:website_contract.contract_uom_month
+msgid "Month(s)"
+msgstr "Mes(es)"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "More <i class=\"fa fa-caret-down\"/>"
+msgstr "Más <i class=\"fa fa-caret-down\"/>"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.change_template
@@ -816,8 +976,10 @@ msgid "My Contracts"
 msgstr ""
 
 #. module: website_contract
+#: code:addons/website_contract/controllers/main.py:54
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.portal_my_contracts
+#, python-format
 msgid "Name"
 msgstr "Nombre"
 
@@ -832,8 +994,30 @@ msgid "New Option added by Sale Order confirmation"
 msgstr ""
 
 #. module: website_contract
+#: code:addons/website_contract/controllers/main.py:53
+#, python-format
+msgid "Newest"
+msgstr "Más moderno"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Next invoice:"
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,name:website_contract.odoo_saas
+#: model:product.template,name:website_contract.odoo_saas_product_template
+msgid "Odoo SAAS"
+msgstr ""
+
+#. module: website_contract
+#: model:product.product,description_sale:website_contract.odoo_saas
+#: model:product.template,description_sale:website_contract.odoo_saas_product_template
+#: model:sale.quote.line,name:website_contract.sale_line_11
+#: model:sale.quote.line,name:website_contract.sale_line_21
+msgid ""
+"Odoo SAAS\n"
+"        Access to your Odoo Instance. Stored on our servers: high speed, high reliability and daily backups."
 msgstr ""
 
 #. module: website_contract
@@ -844,7 +1028,7 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_form_inherit_sale_contract
 msgid "Option Lines"
 msgstr ""
 
@@ -859,7 +1043,7 @@ msgid "Option removed by customer"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_option_invoice_line_ids
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_subscription_template_option_ids
 msgid "Optional Lines"
 msgstr ""
 
@@ -897,6 +1081,16 @@ msgid "Payment reminder for subscription ${object.code}"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_form_inherit_sale_contract
+msgid "Plan Change Tags"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_plan_description
+msgid "Plan Description"
+msgstr "Descripción del plan"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
 msgid "Plan:"
 msgstr ""
@@ -907,7 +1101,7 @@ msgid "Please ensure that you have selected the correct plan:"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_portal_access
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_option_portal_access
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid "Portal Access"
 msgstr ""
@@ -923,16 +1117,20 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_partial_invoice
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_partial_invoice
 msgid "Prorated Invoice"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_quantity
 #: model:ir.ui.view,arch_db:website_contract.contract
 #: model:ir.ui.view,arch_db:website_contract.prepaid
 msgid "Quantity"
 msgstr "Cantidad"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "Recurrency:"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_order_line_recurring_product
@@ -975,13 +1173,13 @@ msgid "Responsible"
 msgstr "Responsable"
 
 #. module: website_contract
-#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.template.option,portal_access:0
 #: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Restricted"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_portal_access
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_option_portal_access
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_portal_access
 msgid ""
 "Restricted: The customer must ask a Sales Rep to add or remove this option\n"
@@ -999,6 +1197,16 @@ msgstr "Plantilla de presupuesto de venta"
 #: model:ir.model,name:website_contract.model_sale_subscription
 msgid "Sale Subscription"
 msgstr "Venta periódica"
+
+#. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_template
+msgid "Sale Subscription Template"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_sale_order_count
+msgid "Sale order count"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
@@ -1032,6 +1240,11 @@ msgid "Sales Representative"
 msgstr ""
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "Settings"
+msgstr "Configuración"
+
+#. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_quote_template_contract_template
 msgid ""
 "Specify a contract template in order to automatically generate a "
@@ -1050,6 +1263,22 @@ msgid "Subscription"
 msgstr "Suscripción"
 
 #. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_template_option
+msgid "Subscription Template Option"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_subscription_count
+msgid "Subscription count"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.actions.act_window,name:website_contract.sale_subscription_action_filtered
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "Subscriptions"
+msgstr "Suscripciones"
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Subtotal"
 msgstr "Subtotal"
@@ -1060,6 +1289,16 @@ msgid "Subtotal:"
 msgstr "Subtotal:"
 
 #. module: website_contract
+#: model:ir.model,name:website_contract.model_sale_subscription_line
+msgid "Susbcription Line"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_tag_ids
+msgid "Tags"
+msgstr "Etiquetas"
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_tax
 msgid "Taxes"
 msgstr "Impuestos"
@@ -1068,6 +1307,11 @@ msgstr "Impuestos"
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "Taxes:"
 msgstr "Impuestos:"
+
+#. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_subscription_template_id
+msgid "Template"
+msgstr "Plantilla"
 
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
@@ -1081,6 +1325,14 @@ msgid "Terms and conditions"
 msgstr "Términos y condiciones"
 
 #. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_date_from
+msgid ""
+"The discount applied when creating a sale order will be computed as the "
+"ratio between the full invoicing period of the subscription and the period "
+"between this date and the next invoicing date."
+msgstr ""
+
+#. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.modal_add
 msgid "The following option will be added to your next invoice:"
 msgstr ""
@@ -1091,6 +1343,7 @@ msgid "The following option will be removed from your next invoice:"
 msgstr "Se eliminará la siguiente opción de su próxima factura:"
 
 #. module: website_contract
+#: model:ir.model.fields,help:website_contract.field_sale_subscription_template_website_url
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_website_url
 msgid "The full URL to access the document through the website."
 msgstr "La URL completa para acceder al documento a través del sitio web."
@@ -1106,6 +1359,17 @@ msgid ""
 "These modifications will be active immediately, however your next invoice "
 "date will not be changed. Your next invoice will arrive on:"
 msgstr ""
+
+#. module: website_contract
+#: model:product.uom.categ,name:website_contract.uom_categ_time
+msgid "Time"
+msgstr "Tiempo"
+
+#. module: website_contract
+#: code:addons/website_contract/controllers/main.py:48
+#, python-format
+msgid "To Renew"
+msgstr "Para renovar"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_recurring_amount_total
@@ -1145,15 +1409,23 @@ msgid "Units Used"
 msgstr ""
 
 #. module: website_contract
-#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.template.option,portal_access:0
 #: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Upgrade and Downgrade"
 msgstr "Actualizar y desactualizar"
 
 #. module: website_contract
-#: selection:sale.subscription.line.option,portal_access:0
+#: selection:sale.subscription.template.option,portal_access:0
 #: selection:sale.subscription.wizard.option,portal_access:0
 msgid "Upgrade only"
+msgstr ""
+
+#. module: website_contract
+#: model:ir.actions.act_window,help:website_contract.sale_subscription_action_filtered
+msgid ""
+"Use contracts to follow tasks, issues, timesheets or invoicing based on\n"
+"                work done, expenses and/or sales orders. Odoo will automatically manage\n"
+"                the alerts for the renewal of the contracts to the right salesperson."
 msgstr ""
 
 #. module: website_contract
@@ -1169,9 +1441,14 @@ msgid "View Contract"
 msgstr "Ver contrato"
 
 #. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.sale_subscription_view_form_inherit_sale_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_form_inherit_sale_contract
 msgid "View Template"
 msgstr "Ver plantilla"
+
+#. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_kanban
+msgid "View on Website"
+msgstr ""
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1182,14 +1459,27 @@ msgid ""
 msgstr ""
 
 #. module: website_contract
+#: model:ir.model.fields,field_description:website_contract.field_sale_subscription_template_website_url
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_website_url
 msgid "Website URL"
 msgstr "URL del sitio web"
 
 #. module: website_contract
+#: model:ir.ui.view,arch_db:website_contract.sale_subscription_template_view_form_inherit_sale_contract
+msgid ""
+"When a customer wants to change his subscription plan, he has the choice "
+"between all the recurring contracts with the same tags."
+msgstr ""
+
+#. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_wizard_id
 msgid "Wizard id"
 msgstr "ID del asistente"
+
+#. module: website_contract
+#: model:product.uom,name:website_contract.contract_uom_year
+msgid "Year(s)"
+msgstr "Año(s)"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.wizard_form_view
@@ -1275,16 +1565,6 @@ msgid "month(s)"
 msgstr ""
 
 #. module: website_contract
-#: model:ir.model,name:website_contract.model_sale_subscription_line
-msgid "sale.subscription.line"
-msgstr "sale.subscription.line"
-
-#. module: website_contract
-#: model:ir.model,name:website_contract.model_sale_subscription_line_option
-msgid "sale.subscription.line.option"
-msgstr ""
-
-#. module: website_contract
 #: model:ir.model,name:website_contract.model_sale_subscription_wizard
 msgid "sale.subscription.wizard"
 msgstr ""
@@ -1297,11 +1577,6 @@ msgstr ""
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
 msgid "to this day) will be automatically processed."
-msgstr ""
-
-#. module: website_contract
-#: model:ir.ui.view,arch_db:website_contract.contract
-msgid "user_id.partner_id.property_product_pricelist.currency_id"
 msgstr ""
 
 #. module: website_contract

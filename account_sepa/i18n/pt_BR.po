@@ -3,16 +3,16 @@
 # * account_sepa
 # 
 # Translators:
-# grazziano <g.negocios@outlook.com.br>, 2016
+# Grazziano Duarte <gra.negocia@gmail.com>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # Mateus Lopes <mateus1@gmail.com>, 2016
 # francisco alexandre bezerra da silva <falexandresilva@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
 "Last-Translator: francisco alexandre bezerra da silva <falexandresilva@gmail.com>, 2016\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/odoo/teams/41243/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -92,6 +92,11 @@ msgstr ""
 "Muenchen IV)."
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Etherpad lite server. Example: beta.primarypad.com"
+msgstr "Servidor Etherpad lite. Exemplo: beta.primarypad.com"
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
 msgstr "Nome de arquivo"
@@ -117,6 +122,12 @@ msgid "Identification"
 msgstr "Identificação"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
+msgid "Identification *"
+msgstr ""
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr ""
@@ -141,6 +152,11 @@ msgstr "É genérico"
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
 msgstr "Emissor"
+
+#. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
+msgid "Issuer *"
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -206,7 +222,7 @@ msgid "Register payments on multiple invoices"
 msgstr "Registrar pagamentos em várias faturas"
 
 #. module: account_sepa
-#: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited
+#: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
 msgstr "SEPA"
 
@@ -222,11 +238,17 @@ msgid "SEPA Pain Version"
 msgstr ""
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
+msgid "SEPA Pain Version *"
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "Arquivo SEPA XML"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_pain_version
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
 msgid ""
 "SEPA may be a generic format, some countries differ from the SEPA "
@@ -399,6 +421,7 @@ msgid "Warning"
 msgstr "Aviso"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_issr
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_initiating_party_name
 msgid ""
 "Will appear in SEPA payments as the name of the party initiating the "
@@ -413,10 +436,20 @@ msgid "Your Company Name"
 msgstr "Seu Nome de Empresa"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Your Company Name *"
+msgstr ""
+
+#. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr ""
+
+#. module: account_sepa
+#: model:ir.model,name:account_sepa.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download

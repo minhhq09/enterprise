@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Martin Trigaux <mat@odoo.com>, 2016
-# krnkris <krnkris@freemail.hu>, 2016
 # Oregional <geza.nagy@oregional.hu>, 2016
+# krnkris <krnkris@freemail.hu>, 2016
 # Kovács Tibor <kovika@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-19 11:34+0000\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
 "Last-Translator: Kovács Tibor <kovika@gmail.com>, 2016\n"
 "Language-Team: Hungarian (https://www.transifex.com/odoo/teams/41243/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -152,11 +152,6 @@ msgid "Balance"
 msgstr "Egyenleg"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
-msgid "Call the customer on the phone"
-msgstr "Hívja fel telefonon a vásárlót"
-
-#. module: account_reports_followup
 #: model:ir.actions.act_window,help:account_reports_followup.action_account_followup_definition_form
 msgid "Click to define follow-up levels and their related actions."
 msgstr ""
@@ -224,6 +219,11 @@ msgstr "Elvégezve"
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_delay
 msgid "Due Days"
 msgstr "Határidő túllépése napokban"
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
+msgid "First reminder email"
+msgstr "Első emlékeztető e-mail"
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_followup_id
@@ -324,6 +324,12 @@ msgid "Level"
 msgstr "Szint"
 
 #. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:62
+#, python-format
+msgid "Level: "
+msgstr "Szint:"
+
+#. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
 msgid "Log a Note"
 msgstr "Naplózzon egy jegyzetet"
@@ -344,6 +350,11 @@ msgstr "Kézzel elvégzett művelet befejezve\n"
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_company_min_days_between_followup
 msgid "Minimum days between two follow-ups"
 msgstr "Minimum napok száma a két követés között"
+
+#. module: account_reports_followup
+#: model:ir.model.fields,field_description:account_reports_followup.field_account_config_settings_min_days_between_followup
+msgid "Minimum days between two follow-ups *"
+msgstr "Minimum napok száma a két emlékeztető között *"
 
 #. module: account_reports_followup
 #: code:addons/account_reports_followup/account_followup.py:113
@@ -405,6 +416,11 @@ msgid "Search Follow-up"
 msgstr "Fizetési-emlékeztető keresése"
 
 #. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
+msgid "Second reminder letter and email"
+msgstr "Második emlékeztető levél és e-mail"
+
+#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "Send a Letter"
 msgstr "Levél küldése"
@@ -425,16 +441,6 @@ msgid "Send by email"
 msgstr "Küldés Email-ben"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
-msgid "Send first reminder email"
-msgstr "Első e-mail emlékeztető küldése"
-
-#. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
-msgid "Send reminder letter and email"
-msgstr "Emlékeztető levél és e-mail küldése"
-
-#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_sequence
 msgid "Sequence"
 msgstr "Sorszám"
@@ -449,6 +455,11 @@ msgstr ""
 "A számla lejárati dátuma utáni napok száma, amíg várakozik a felszólítás "
 "küldése előtt. Negatív is lehet, ha egy udvarias levelet szeretne küldeni a "
 "lejárati dátumra vonatkozólag."
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
+msgid "Third reminder: phone the customer"
+msgstr "Harmadik emlékeztető: ügyfél felhívása"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_form
@@ -492,6 +503,7 @@ msgid "Urging reminder letter"
 msgstr "Emlékeztető levél sürgetése"
 
 #. module: account_reports_followup
+#: model:ir.model.fields,help:account_reports_followup.field_account_config_settings_min_days_between_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_company_min_days_between_followup
 msgid ""
 "Use this if you want to be sure than a minimum number of days occurs between"

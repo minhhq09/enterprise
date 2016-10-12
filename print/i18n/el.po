@@ -1,21 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-#
+# 
 # Translators:
-# Goutoudis Kostas <goutoudis@gmail.com>, 2015-2016
+# Kostas Goutoudis <goutoudis@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-03-03 14:18+0000\n"
-"Last-Translator: Goutoudis Kostas <goutoudis@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/odoo/odoo-9/language/el/)\n"
-"Language: el\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Greek (https://www.transifex.com/odoo/teams/41243/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: print
@@ -25,20 +26,15 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -54,7 +50,7 @@ msgid ""
 "refill your provider account to send documents."
 msgstr ""
 "<b> Πιστωτικό σφάλμα :</b> Ο λογαριασμός σας στον πάροχο πίστωσης είναι "
-"αρνητικός. Παρακαλούμε αναπληρώστε το λογαριασμό του παροχέα σας για την "
+"αρνητικός. Παρακαλώ αναπληρώστε το λογαριασμό του παροχέα σας για την "
 "αποστολή εγγράφων."
 
 #. module: print
@@ -77,7 +73,7 @@ msgstr "Κλίμακα γκρι"
 #: model:ir.ui.view,arch_db:print.print_order_sendnow_wizard_view_form
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
 msgid "Cancel"
-msgstr "Ακύρωση"
+msgstr "Άκυρο"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_city
@@ -111,7 +107,7 @@ msgstr "Χώρα"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_create_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_create_uid
 msgid "Created by"
-msgstr "Δημιουργήθηκε από"
+msgstr "Δημιουργήθηκε στις"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_create_date
@@ -119,7 +115,7 @@ msgstr "Δημιουργήθηκε από"
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_create_date
 #: model:ir.model.fields,field_description:print.field_print_provider_create_date
 msgid "Created on"
-msgstr "Δημιουργήθηκε στις"
+msgstr "Δημιουργήθηκε από"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_create_date
@@ -201,7 +197,7 @@ msgstr "Ομαδοποίηση ανά..."
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_id
 #: model:ir.model.fields,field_description:print.field_print_provider_id
 msgid "ID"
-msgstr "ID"
+msgstr "Κωδικός"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_ink
@@ -227,7 +223,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard___last_update
 #: model:ir.model.fields,field_description:print.field_print_provider___last_update
 msgid "Last Modified on"
-msgstr "Τελευταία αλλαγή στις"
+msgstr "Τελευταία τροποποίηση στις"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
@@ -267,7 +263,7 @@ msgstr "Γραμμές"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_res_model
 msgid "Model Name"
-msgstr "Όνομα Μοντέλου"
+msgstr "Όνομα Υποδείγματος"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_search
@@ -278,7 +274,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_partner_name
 #: model:ir.model.fields,field_description:print.field_print_provider_name
 msgid "Name"
-msgstr "Όνομα"
+msgstr "Περιγραφή"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_nbr_pages
@@ -325,7 +321,7 @@ msgstr "Βάρος χαρτιού"
 #: model:ir.model,name:print.model_res_partner
 #: model:ir.ui.view,arch_db:print.print_order_view_search
 msgid "Partner"
-msgstr "Συνεργάτης"
+msgstr "Συναλλασόμενος"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -438,15 +434,13 @@ msgstr "Επαναφορά σε Πρόχειρο"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
-#, fuzzy
 msgid "Resource ID"
-msgstr "Κωδικός Πόρου"
+msgstr "Αριθμός Πόρου"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
-#, fuzzy
 msgid "Resource Model"
-msgstr "Μοντέλο Πόρου"
+msgstr "Μοντέλο πόρων"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
@@ -492,13 +486,13 @@ msgstr "Ημερομηνία Αποστολής"
 #. module: print
 #: selection:print.order,state:0
 msgid "Sent"
-msgstr "Αποστολή"
+msgstr "Εστάλη"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_state
 #: model:ir.model.fields,field_description:print.field_print_order_partner_state_id
 msgid "State"
-msgstr "Κατάσταση"
+msgstr "Νομός/Πολιτεία"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_state
@@ -538,8 +532,8 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report "
-"action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report"
+" action (ir.actions.report.xml) for the model %s."
 msgstr ""
 
 #. module: print
@@ -554,9 +548,8 @@ msgstr ""
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 msgstr ""
 
 #. module: print
@@ -572,7 +565,7 @@ msgstr ""
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_zip
 msgid "Zip"
-msgstr "ΤΚ"
+msgstr "Τ.Κ."
 
 #. module: print
 #: model:ir.model,name:print.model_base_config_settings
@@ -599,9 +592,3 @@ msgstr ""
 #: model:ir.model,name:print.model_print_order_wizard
 msgid "print.order.wizard"
 msgstr ""
-
-#~ msgid "Ressource ID"
-#~ msgstr "Κωδικός Πόρου"
-
-#~ msgid "Ressource Model"
-#~ msgstr "Μοντέλο Πόρου"

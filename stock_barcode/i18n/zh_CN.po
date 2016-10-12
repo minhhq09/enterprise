@@ -3,17 +3,17 @@
 # * stock_barcode
 # 
 # Translators:
-# Gary Wei <Gary.wei@elico-corp.com>, 2016
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
 # Talway <9010446@qq.com>, 2016
+# Gary Wei <Gary.wei@elico-corp.com>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # ChinaMaker <tiexinliu@126.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
 "Last-Translator: ChinaMaker <tiexinliu@126.com>, 2016\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr ""
 msgid ""
 "<strong>Lots Numbers</strong> can be encoded from incoming shipments, "
 "internal moves and outgoing deliveries:"
-msgstr "<strong>批次号</strong> 可以在收货，内部调拨和出货阶段生成编码, "
+msgstr "<strong>批次号</strong> 可以从收货，内部调拨，以及交货编码, "
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -173,6 +173,7 @@ msgstr "自动回车：<span class=\"label\">OFF</span>"
 #: model:ir.actions.client,name:stock_barcode.stock_barcode_action_main_menu
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_inventory_line_product_barcode
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_pack_operation_product_barcode
+#: model:ir.model.fields,field_description:stock_barcode.field_stock_scrap_product_barcode
 #: model:ir.ui.menu,name:stock_barcode.stock_barcode_menu
 msgid "Barcode"
 msgstr "条码"
@@ -314,16 +315,17 @@ msgstr "Inateck BCST-20:"
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_inventory_line_product_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_pack_operation_product_barcode
+#: model:ir.model.fields,help:stock_barcode.field_stock_scrap_product_barcode
 msgid "International Article Number used for product identification."
 msgstr "国际物品编码用于产品标识"
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:18
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:20
 #: model:ir.model,name:stock_barcode.model_stock_inventory
 #, python-format
 msgid "Inventory"
-msgstr "盘点"
+msgstr "库存"
 
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_stock_inventory_line
@@ -445,7 +447,7 @@ msgid ""
 "On the opposite, a Serial Number is unique, and represented by only one "
 "barcode, sticked on only one item. This means that Odoo won't accept "
 "scanning the same Serial Number more than once per operation."
-msgstr "相反的，序列号是唯一的，只代表一个条码，只能黏贴在一个物品上。这就意味着Odoo不会接受同一个序列号操作多次。"
+msgstr "相反的，序列号是唯一的，只代表一个条码，只能黏贴在一个物品上。这就意味着Odoo不会接受同一个序列号作业多次。"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -477,12 +479,12 @@ msgstr "一旦开始处理交货订单，扫描单据右上角的条码加载正
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:17
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:19
 #: model:ir.actions.act_window,name:stock_barcode.stock_picking_action_kanban
 #: model:ir.actions.act_window,name:stock_barcode.stock_picking_type_action_kanban
 #, python-format
 msgid "Operations"
-msgstr "作业"
+msgstr "操作"
 
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_stock_pack_operation
@@ -514,7 +516,7 @@ msgstr "分拣%s"
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_web_planner
 msgid "Planner"
-msgstr "计划器"
+msgstr "计划"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -543,14 +545,14 @@ msgstr "移除它"
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:16
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:18
 #, python-format
 msgid "Scan a document to open it."
 msgstr "扫描单据以打开它。"
 
 #. module: stock_barcode
 #. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:16
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:18
 #, python-format
 msgid "Scan a location to create a new transfer from this location."
 msgstr "扫描位置，从这个位置创建新调拨"
@@ -560,7 +562,7 @@ msgstr "扫描位置，从这个位置创建新调拨"
 msgid ""
 "Scan a lot barcode, type one manually or leave empty to generate one "
 "automatically"
-msgstr "扫描一个批次条码，手工键入一个或者留空自动生成"
+msgstr "扫描一个批次条码，手工键入，或者留空自动生成一个"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -783,23 +785,9 @@ msgstr ""
 "你的扫描枪需要被配置成和你的操作系统一样的键盘布局，否则，你的扫描枪将不会正确的翻译字符（例如用'A'代替'Q'）。大多数扫描枪通过扫描用户手册中的相应的条码来配置它。"
 
 #. module: stock_barcode
-#. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:13
-#, python-format
-msgid "and check out what this module can do !"
-msgstr ""
-
-#. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "available here"
 msgstr "这儿可用的"
-
-#. module: stock_barcode
-#. openerp-web
-#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:13
-#, python-format
-msgid "barcodes sheet"
-msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -817,6 +805,18 @@ msgid "feedback@mail.odoo.com"
 msgstr "feedback@mail.odoo.com"
 
 #. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:14
+#, python-format
+msgid "stock barcodes sheet"
+msgstr ""
+
+#. module: stock_barcode
+#: model:ir.model,name:stock_barcode.model_stock_scrap
+msgid "stock.scrap"
+msgstr ""
+
+#. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "then scan it, the result should be <i>YES IT WORKS.</i>"
 msgstr "然后扫描它，结果应该是 <i>YES IT WORKS.</i>"
@@ -824,7 +824,14 @@ msgstr "然后扫描它，结果应该是 <i>YES IT WORKS.</i>"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "this document"
-msgstr "这个单据"
+msgstr "此单据"
+
+#. module: stock_barcode
+#. openerp-web
+#: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:14
+#, python-format
+msgid "to check out what this module can do !"
+msgstr ""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner

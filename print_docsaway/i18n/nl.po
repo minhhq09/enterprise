@@ -7,10 +7,10 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2016-08-19 11:35+0000\n"
+"POT-Creation-Date: 2016-09-19 12:59+0000\n"
+"PO-Revision-Date: 2016-09-19 12:59+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,11 +44,6 @@ msgid "Docsaway Account Email"
 msgstr "Docsaway email account"
 
 #. module: print_docsaway
-#: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_status
-msgid "Docsaway Approved"
-msgstr "Docsaway goedgekeurd"
-
-#. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid "Docsaway Configuration"
 msgstr "Docsaway configuratie"
@@ -74,20 +69,10 @@ msgid "Docsaway Name"
 msgstr "Docsaway naam"
 
 #. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_courier
-msgid "Docsaway Printer ID."
-msgstr "Docsaway Printer ID."
-
-#. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_reference
 #: model:ir.model.fields,field_description:print_docsaway.field_print_provider_docsaway_reference
 msgid "Docsaway Reference"
 msgstr "Docsaway referentie"
-
-#. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_reference
-msgid "Docsaway Reference Order."
-msgstr "Docsaway order referentie."
 
 #. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_station
@@ -95,15 +80,9 @@ msgid "Docsaway Station"
 msgstr "Docsaway post"
 
 #. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_station
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_zone
-msgid "Docsaway Station ID."
-msgstr "Docsaway post ID."
-
-#. module: print_docsaway
-#: model:ir.model.fields,help:print_docsaway.field_print_order_docsaway_status
-msgid "Docsaway Transaction Status."
-msgstr "DocsAway transactie status."
+#: model:ir.model.fields,field_description:print_docsaway.field_print_order_docsaway_status
+msgid "Docsaway Transaction Status"
+msgstr "DocsAway transactie status"
 
 #. module: print_docsaway
 #: model:ir.model.fields,field_description:print_docsaway.field_print_provider_docsaway_volume
@@ -154,46 +133,31 @@ msgstr "Host onbereikbaar."
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In Email Document &gt; Settings, setup your account : Active must be set on "
-"'ON' to receive document, and the Module Mode should be in LIVE to really "
-"send the document. Check TEST to use docsaway as a sandbox."
+"In Email Document &gt; Settings, setup your account: Active must be set to "
+"'ON' to receive documents, and the Module Mode should be LIVE to really send"
+" the document. Select TEST to use Docsaway as a sandbox."
 msgstr ""
-"Stel uw account in onder e-mail document &gt; instellingen: Actief moet "
-"'AAN' staan om documenten te ontvangen en de module modus moet LIVE zijn om "
-"documenten echt te verzenden. Vink TEST aan om DocsAway te testen in sandbox"
-" modus."
+
+#. module: print_docsaway
+#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
+msgid "In General &gt; Add Funds, you can add credit to your account."
+msgstr ""
 
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In General &gt; Add funds, you can add money on your provider credit. Note "
-"that docsaway only use Australian dollar as currency."
+"In General &gt; Preferences, you will find your Docsaway email and Docsaway "
+"key. Copy them to the 'DocsAway Details' tab of the postal provider you want"
+" to configure."
 msgstr ""
-"In Algemeen &gt; fondsen toevoegen, kan u geld toevoegen aan uw provider "
-"krediet. Let op dat DocsAway elke Australische dollars gebruikt als valuta."
 
 #. module: print_docsaway
 #: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
 msgid ""
-"In General &gt; Preference, you will find your Docsaway email and Docsaway "
-"key. Copy/paste them to the 'DocsAway Details' tab of the postal provider "
-"you want to configure."
+"In History, you can find documents that were sent both in TEST or LIVE "
+"environment. This can help you to test your account. Be careful to correctly"
+" select the environment in your postal provider in Odoo."
 msgstr ""
-"In algemene &gt; voorkeuren vindt u uw DocsAway e-mail en DocsAway sleutel. "
-"Kopieer/plak deze in het 'DocsAway details' tabblad van de postaanbieder die"
-" u wilt configureren."
-
-#. module: print_docsaway
-#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
-msgid ""
-"In History, you can find the sent document in TEST or LIVE environment. This"
-" can help you to test your account. Be carfull to correctly setup the "
-"environment in your postal provider in Odoo."
-msgstr ""
-"In Geschiedenis kan u de verzonden documenten uit de TEST of LIVE omgeving "
-"vinden. Dit kan u helpen bij het testen van uw account. Wees voorzichtig met"
-" het opzetten van de omgeving voor uw postaanbieder in Odoo, zodat deze "
-"correct is ingesteld."
 
 #. module: print_docsaway
 #: model:ir.model.fields,help:print_docsaway.field_print_provider_docsaway_name
@@ -226,6 +190,11 @@ msgstr "Probeer later opnieuw a.u.b."
 #: model:ir.model,name:print_docsaway.model_print_order
 msgid "Print Order"
 msgstr "Order afdrukken"
+
+#. module: print_docsaway
+#: model:ir.model,name:print_docsaway.model_print_order_wizard
+msgid "Print Order Wizard"
+msgstr "Order afdruk wizard"
 
 #. module: print_docsaway
 #: model:ir.model,name:print_docsaway.model_print_provider
@@ -271,13 +240,3 @@ msgstr ""
 "Uw kredietverstrekker is te klein. Configureer aub uw account (Instellingen "
 "> Print provider) en plaats krediet op uw account, aangezien u in "
 "productiemodus zit."
-
-#. module: print_docsaway
-#: model:ir.model,name:print_docsaway.model_print_order_wizard
-msgid "print.order.wizard"
-msgstr "print.order.wizard"
-
-#. module: print_docsaway
-#: model:ir.ui.view,arch_db:print_docsaway.print_provider_view_form_inherit_print_docsaway
-msgid "www.docsaway.com"
-msgstr "www.docsaway.com"

@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Martin Trigaux <mat@odoo.com>, 2016
-# grazziano <g.negocios@outlook.com.br>, 2016
 # Mateus Lopes <mateus1@gmail.com>, 2016
+# Grazziano Duarte <gra.negocia@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-19 11:34+0000\n"
-"Last-Translator: Mateus Lopes <mateus1@gmail.com>, 2016\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
+"Last-Translator: Grazziano Duarte <gra.negocia@gmail.com>, 2016\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/odoo/teams/41243/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -152,11 +152,6 @@ msgid "Balance"
 msgstr "Saldo"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
-msgid "Call the customer on the phone"
-msgstr ""
-
-#. module: account_reports_followup
 #: model:ir.actions.act_window,help:account_reports_followup.action_account_followup_definition_form
 msgid "Click to define follow-up levels and their related actions."
 msgstr ""
@@ -224,6 +219,11 @@ msgstr "Concluído"
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_delay
 msgid "Due Days"
 msgstr "Dias em Atraso"
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
+msgid "First reminder email"
+msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_followup_id
@@ -324,6 +324,12 @@ msgid "Level"
 msgstr "Nível"
 
 #. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:62
+#, python-format
+msgid "Level: "
+msgstr ""
+
+#. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
 msgid "Log a Note"
 msgstr "Deixar nota"
@@ -343,6 +349,11 @@ msgstr ""
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_company_min_days_between_followup
 msgid "Minimum days between two follow-ups"
+msgstr ""
+
+#. module: account_reports_followup
+#: model:ir.model.fields,field_description:account_reports_followup.field_account_config_settings_min_days_between_followup
+msgid "Minimum days between two follow-ups *"
 msgstr ""
 
 #. module: account_reports_followup
@@ -403,6 +414,11 @@ msgid "Search Follow-up"
 msgstr "Procurar Cobrança"
 
 #. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
+msgid "Second reminder letter and email"
+msgstr ""
+
+#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "Send a Letter"
 msgstr "Enviar uma Carta"
@@ -423,16 +439,6 @@ msgid "Send by email"
 msgstr "Enviar por e-mail"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
-msgid "Send first reminder email"
-msgstr ""
-
-#. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
-msgid "Send reminder letter and email"
-msgstr ""
-
-#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_sequence
 msgid "Sequence"
 msgstr "Seqüência"
@@ -447,6 +453,11 @@ msgstr ""
 "O número de dias após a data de vencimento da fatura para esperar antes de "
 "enviar o lembrete. Pode ser negativo se você quiser enviar um aviso educado "
 "de antemão."
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
+msgid "Third reminder: phone the customer"
+msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_form
@@ -489,6 +500,7 @@ msgid "Urging reminder letter"
 msgstr ""
 
 #. module: account_reports_followup
+#: model:ir.model.fields,help:account_reports_followup.field_account_config_settings_min_days_between_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_company_min_days_between_followup
 msgid ""
 "Use this if you want to be sure than a minimum number of days occurs between"

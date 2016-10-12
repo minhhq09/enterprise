@@ -9,10 +9,10 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Aangemaakt op"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_display_name
 msgid "Display Name"
-msgstr "Schermnaam"
+msgstr "Weergave naam"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -90,6 +90,11 @@ msgid ""
 msgstr ""
 "Entiteit die de identificatie toewijst (bijv. KBE-BCO of Finanzamt München "
 "IV)."
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Etherpad lite server. Example: beta.primarypad.com"
+msgstr "Etherpad lite server. Bijvoorbeeld: beta.mijnprimairpad.com"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
@@ -117,6 +122,12 @@ msgid "Identification"
 msgstr "Identificatie"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
+msgid "Identification *"
+msgstr "Identificatiie *"
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
 msgstr "Identificatie toegewezen door een instelling (bijv. BTW-nummer)."
@@ -140,6 +151,11 @@ msgstr "Is algemeen"
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
 msgstr "Uitgever"
+
+#. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
+msgid "Issuer *"
+msgstr "Aanvrager *"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -205,7 +221,7 @@ msgid "Register payments on multiple invoices"
 msgstr "Betalingen voor meerdere facturen registreren"
 
 #. module: account_sepa
-#: model:ir.ui.view,arch_db:account_sepa.view_company_form_inherited
+#: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
 msgstr "SEPA"
 
@@ -221,17 +237,26 @@ msgid "SEPA Pain Version"
 msgstr "SEPA Pain Versie"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
+msgid "SEPA Pain Version *"
+msgstr "SEPA Pain Versie *"
+
+#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
 msgid "SEPA XML File"
 msgstr "SEPA XML bestand"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_pain_version
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_pain_version
 msgid ""
 "SEPA may be a generic format, some countries differ from the SEPA "
 "recommandations made by the EPC (European Payment Councile) and thus the XML"
 " created need some tweakenings."
 msgstr ""
+"SEPA is een standaard formaat, maar sommige landen wijken af van de SEPA "
+"aanbevelingen gemaakt door de EPC (European Payment Councile) en zodoende "
+"dient het XML enkele aanpassingen. "
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
@@ -300,6 +325,8 @@ msgstr "Het bedrag '%s' van de betaling is te hoog. Het maximum bedraagt %s."
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
+"De crediteur bankrekening %s gebruikt in de betaling %s is niet "
+"geïdentificeerd met een BIC."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:125
@@ -307,6 +334,8 @@ msgstr ""
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
 msgstr ""
+"De crediteur bankrekening %s gebruikt in de betaling %s is niet "
+"geïdentificeerd met een IBAN."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
@@ -317,6 +346,9 @@ msgid ""
 "In particular, the reason why it this payment file is not a generic is the following:\n"
 "   "
 msgstr ""
+"Het gegenereerde betaalbestand is niet een standaard SEPA betaalbestand. Wees er bewust van dat sommige banken het bestand kunnen weigeren omdat zij dit formaat niet ondersteunen.\n"
+"\n"
+"De reden dat dit bestand niet een standaard bestand is, is:"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:50
@@ -360,7 +392,7 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:121
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
-msgstr ""
+msgstr "De transactie %s is aangevraagd in een andere valuta dan EUR"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:334
@@ -396,6 +428,7 @@ msgid "Warning"
 msgstr "Waarschuwing"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_issr
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_initiating_party_name
 msgid ""
 "Will appear in SEPA payments as the name of the party initiating the "
@@ -410,10 +443,20 @@ msgid "Your Company Name"
 msgstr "Uw bedrijfsnaam"
 
 #. module: account_sepa
+#: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid "Your Company Name *"
+msgstr "Uw bedrijfsnaam *"
+
+#. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
 msgstr "Uw bankrekening is niet gelabeld in EUR"
+
+#. module: account_sepa
+#: model:ir.model,name:account_sepa.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download

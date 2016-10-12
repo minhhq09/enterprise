@@ -4,14 +4,19 @@
 # 
 # Translators:
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 # Eddie Lim <bhweelim@yahoo.com>, 2016
+# liulixia <liu.lixia@elico-corp.com>, 2016
+# fausthuang <faust_huang@hotmail.com>, 2016
+# 朱仁杰 <johnson19960308@gmail.com>, 2016
+# Connie Xiao <connie.xiao@elico-corp.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.saas~11e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-08-19 11:34+0000\n"
-"Last-Translator: Eddie Lim <bhweelim@yahoo.com>, 2016\n"
+"POT-Creation-Date: 2016-09-19 12:58+0000\n"
+"PO-Revision-Date: 2016-09-19 12:58+0000\n"
+"Last-Translator: Connie Xiao <connie.xiao@elico-corp.com>, 2016\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,11 +154,6 @@ msgid "Balance"
 msgstr "余额"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
-msgid "Call the customer on the phone"
-msgstr "打电话给客人"
-
-#. module: account_reports_followup
 #: model:ir.actions.act_window,help:account_reports_followup.action_account_followup_definition_form
 msgid "Click to define follow-up levels and their related actions."
 msgstr "点击定义催款等级和相关功能"
@@ -222,6 +222,11 @@ msgid "Due Days"
 msgstr "截止天数"
 
 #. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
+msgid "First reminder email"
+msgstr ""
+
+#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_followup_id
 msgid "Follow Ups"
 msgstr "催款"
@@ -256,7 +261,7 @@ msgstr "催款等级"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_partner_payment_responsible_id
 msgid "Follow-up Responsible"
-msgstr "催款责任人"
+msgstr "关注责任人"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form
@@ -314,7 +319,13 @@ msgstr "最近催款"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_report_context_followup_level
 msgid "Level"
-msgstr "等级"
+msgstr "层级"
+
+#. module: account_reports_followup
+#: code:addons/account_reports_followup/account_followup_report.py:62
+#, python-format
+msgid "Level: "
+msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.report_followup_body
@@ -336,6 +347,11 @@ msgstr "手动操作已完成\n"
 #. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_res_company_min_days_between_followup
 msgid "Minimum days between two follow-ups"
+msgstr ""
+
+#. module: account_reports_followup
+#: model:ir.model.fields,field_description:account_reports_followup.field_account_config_settings_min_days_between_followup
+msgid "Minimum days between two follow-ups *"
 msgstr ""
 
 #. module: account_reports_followup
@@ -361,7 +377,7 @@ msgstr "你可以随意指定一个用户到这个字段，将使他负责这个
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_res_partner
 msgid "Partner"
-msgstr "业务伙伴"
+msgstr "合作伙伴"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.account_move_line_partner_tree
@@ -394,6 +410,11 @@ msgid "Search Follow-up"
 msgstr "搜索催款"
 
 #. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
+msgid "Second reminder letter and email"
+msgstr ""
+
+#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_send_letter
 msgid "Send a Letter"
 msgstr "发送信函"
@@ -414,16 +435,6 @@ msgid "Send by email"
 msgstr "以邮件形式发送"
 
 #. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line1
-msgid "Send first reminder email"
-msgstr "发送第一封提醒邮件"
-
-#. module: account_reports_followup
-#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line2
-msgid "Send reminder letter and email"
-msgstr "发送提醒信函和邮件"
-
-#. module: account_reports_followup
 #: model:ir.model.fields,field_description:account_reports_followup.field_account_followup_followup_line_sequence
 msgid "Sequence"
 msgstr "序号"
@@ -435,6 +446,11 @@ msgid ""
 "the reminder.  Could be negative if you want to send a polite alert "
 "beforehand."
 msgstr "依据欠款的天数，决定是否发出提醒。在实际操做时，要确认发出的是一个有礼貌的警告，不然会产生负面作用。"
+
+#. module: account_reports_followup
+#: model:account_followup.followup.line,name:account_reports_followup.demo_followup_line3
+msgid "Third reminder: phone the customer"
+msgstr ""
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_form
@@ -476,6 +492,7 @@ msgid "Urging reminder letter"
 msgstr "催促提醒信函"
 
 #. module: account_reports_followup
+#: model:ir.model.fields,help:account_reports_followup.field_account_config_settings_min_days_between_followup
 #: model:ir.model.fields,help:account_reports_followup.field_res_company_min_days_between_followup
 msgid ""
 "Use this if you want to be sure than a minimum number of days occurs between"
@@ -525,7 +542,7 @@ msgstr "说明有误，请使用正确的标识或百分数。"
 #. module: account_reports_followup
 #: model:ir.model,name:account_reports_followup.model_account_config_settings
 msgid "account.config.settings"
-msgstr "会计.配置.设定"
+msgstr "account.config.settings"
 
 #. module: account_reports_followup
 #: model:ir.ui.view,arch_db:account_reports_followup.view_account_followup_followup_line_form

@@ -1,45 +1,42 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_bank_statement_import_qif
-#
+# 
 # Translators:
-# Davor Bojkić <bole@dajmi5.com>, 2015
+# Bole <bole@dajmi5.com>, 2016
+# Karolina Tonković <karolina.tonkovic@storm.hr>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2015-12-21 08:56+0000\n"
-"Last-Translator: Davor Bojkić <bole@dajmi5.com>\n"
-"Language-Team: Croatian (http://www.transifex.com/odoo/odoo-9/language/hr/)\n"
-"Language: hr\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Karolina Tonković <karolina.tonkovic@storm.hr>, 2016\n"
+"Language-Team: Croatian (https://www.transifex.com/odoo/teams/41243/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_journal_id
-#, fuzzy
 msgid ""
-"Accounting journal related to the bank statement you're importing. It has to "
-"be manually chosen for statement formats which doesn't allow automatic "
+"Accounting journal related to the bank statement you're importing. It has to"
+" be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
-"Dnevnik povezan sa bankovnim izvadcima koje uvozite. Mora biti odabran ručno "
-"za izvadke koji nemaju mogućnost automatskog odabira (npr. QIF)."
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_qif_date_format
 msgid ""
-"Altough the historic QIF date format is month-first (mm/dd/yy), many "
+"Although the historic QIF date format is month-first (mm/dd/yy), many "
 "financial institutions use the local format.Therefore, it is frequent "
 "outside the US to have QIF date formated day-first (dd/mm/yy)."
 msgstr ""
 
 #. module: account_bank_statement_import_qif
-#: code:addons/account_bank_statement_import_qif/account_bank_statement_import_qif.py:60
+#: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:61
 #, python-format
 msgid "Could not decipher the QIF file."
 msgstr "Nije moguće dekriptirati QIF datoteku."
@@ -89,7 +86,7 @@ msgid ""
 msgstr ""
 
 #. module: account_bank_statement_import_qif
-#: code:addons/account_bank_statement_import_qif/account_bank_statement_import_qif.py:100
+#: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:101
 #, python-format
 msgid "This file is either not a bank statement or is not correctly formed."
 msgstr "Ova datoteka nije bankovni izvadatk ili nije u ispravnom formatu."
@@ -97,7 +94,7 @@ msgstr "Ova datoteka nije bankovni izvadatk ili nije u ispravnom formatu."
 #. module: account_bank_statement_import_qif
 #: model:ir.ui.view,arch_db:account_bank_statement_import_qif.account_bank_statement_import_view_inherited
 msgid "_Import"
-msgstr ""
+msgstr "_Uvezi"
 
 #. module: account_bank_statement_import_qif
 #: selection:account.bank.statement.import,qif_date_format:0
@@ -108,11 +105,3 @@ msgstr ""
 #: selection:account.bank.statement.import,qif_date_format:0
 msgid "mm/dd/yy"
 msgstr ""
-
-#~ msgid ""
-#~ "Accounting journal related to the bank statement you're importing. It has "
-#~ "be be manually chosen for statement formats which doesn't allow automatic "
-#~ "journal detection (QIF for example)."
-#~ msgstr ""
-#~ "Dnevnik povezan sa bankovnim izvadcima koje uvozite. Mora biti odabran "
-#~ "ručno za izvadke koji nemaju mogućnost automatskog odabira (npr. QIF)."

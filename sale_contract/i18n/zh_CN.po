@@ -3,16 +3,24 @@
 # * sale_contract
 # 
 # Translators:
+# xiaobin wu <bd5dml@gmail.com>, 2016
 # Jeffery Chenn <jeffery9@gmail.com>, 2016
 # Gary Wei <Gary.wei@elico-corp.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# 智源软件 <likaiyuan2006@gmail.com>, 2016
+# 钟小华 <mackz@sina.com>, 2016
+# liAnGjiA <liangjia@qq.com>, 2016
+# liulixia <liu.lixia@elico-corp.com>, 2016
 # Luke <cialuo@qq.com>, 2016
+# waveyeung <waveyeung@qq.com>, 2016
+# Talway <9010446@qq.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0alpha1e\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-26 10:39+0000\n"
-"PO-Revision-Date: 2016-08-26 10:39+0000\n"
-"Last-Translator: Luke <cialuo@qq.com>, 2016\n"
+"POT-Creation-Date: 2016-09-29 14:58+0000\n"
+"PO-Revision-Date: 2016-09-29 14:58+0000\n"
+"Last-Translator: Talway <9010446@qq.com>, 2016\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,80 +29,25 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: sale_contract
-#: model:mail.template,body_html:sale_contract.account_analytic_cron_email_template
-msgid ""
-"\n"
-"<p>Dear ${object.name},</p>\n"
-"\n"
-"% macro account_table(values):\n"
-"<table cellspacing=\"1\" border=\"1\" cellpadding=\"4\" style=\"width:600px;max-width:600px\">\n"
-"<tr>\n"
-"    <th>Customer</th>\n"
-"    <th>Contract</th>\n"
-"    <th>Dates</th>\n"
-"    <th>Prepaid Units</th>\n"
-"    <th>Contact</th>\n"
-"</tr>\n"
-"% for partner, accounts in values:\n"
-"    % for account in accounts:\n"
-"    <tr>\n"
-"        <td style=\"width:85px;\">${partner.name}</td>\n"
-"        <td style=\"width:85px;\"><a href=\"${ctx[\"base_url\"]}/web#action=${ctx[\"action_id\"]}&id=${account.id}&view_type=form\">${account.name}</a></td>\n"
-"        <td style=\"width:150px;\">${account.date_start} to ${account.date and account.date or '???'}</td>\n"
-"        <td style=\"width:80px;\">\n"
-"        % if account.quantity_max != 0.0:\n"
-"            ${account.remaining_hours}/${account.quantity_max} units\n"
-"        % endif\n"
-"        </td>\n"
-"        <td style=\"width:300px;\">${account.partner_id.phone or ''}, ${account.partner_id.email or ''}</td>\n"
-"    </tr>\n"
-"    % endfor\n"
-"% endfor\n"
-"</table>\n"
-"% endmacro\n"
-"\n"
-"% if \"new\" in ctx[\"data\"]:\n"
-"<h2>The following contracts just expired: </h2>\n"
-"${account_table(ctx[\"data\"][\"new\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"old\" in ctx[\"data\"]:\n"
-"<h2>The following expired contracts are still not processed: </h2>\n"
-"${account_table(ctx[\"data\"][\"old\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"% if \"future\" in ctx[\"data\"]:\n"
-"<h2>The following contracts will expire in less than one month: </h2>\n"
-"${account_table(ctx[\"data\"][\"future\"].iteritems())}\n"
-"% endif\n"
-"\n"
-"<p>You can check all contracts to be renewed using the menu <strong>Sales / Invoicing / Contracts to Renew</strong>.</p>\n"
-"<p>Best regards,</p>\n"
-"<p>--<br />\n"
-"Odoo</p>"
-msgstr ""
-
-#. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Account Manager"
 msgstr "账户管理者"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_journal_id
+msgid "Accounting Journal"
+msgstr "会计日记账"
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_active
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_active
 msgid "Active"
 msgstr "有效"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_actual_quantity
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Actual quantity"
 msgstr "确切数量"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_selectable
-msgid "Allow Online Order"
-msgstr "允许在线订购"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_account_analytic_account
@@ -110,7 +63,7 @@ msgid "Analytic Lines"
 msgstr "分析明细行"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_search
 msgid "Archived"
 msgstr "已归档"
 
@@ -147,7 +100,7 @@ msgid "Check this box to manage internal activities through this project"
 msgstr "选择这个框来通过这个项目管理内部活动"
 
 #. module: sale_contract
-#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_template_action
 msgid "Click here to create a template of subscription."
 msgstr "点击来创建一个订阅的模板"
 
@@ -204,6 +157,11 @@ msgid "Closed contracts"
 msgstr "关闭的合约"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_code
+msgid "Code"
+msgstr "代码"
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Commercial Partner"
 msgstr "商务伙伴"
@@ -211,7 +169,6 @@ msgstr "商务伙伴"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_company_id
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Company"
 msgstr "公司"
 
@@ -227,14 +184,8 @@ msgstr "配置"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#: selection:sale.subscription,type:0
 msgid "Contract"
 msgstr "合约"
-
-#. module: sale_contract
-#: model:mail.template,subject:sale_contract.account_analytic_cron_email_template
-msgid "Contract expiration reminder ${user.company_id.name}"
-msgstr "合约到期提醒 ${user.company_id.name}"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -268,6 +219,8 @@ msgstr "在确认时，创建一个覆盖这个合约的销售订单"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_create_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_create_uid
 msgid "Created by"
 msgstr "创建人"
 
@@ -276,6 +229,8 @@ msgstr "创建人"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_create_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_create_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_create_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_create_date
 msgid "Created on"
 msgstr "创建时间"
 
@@ -295,7 +250,7 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
 msgid "Credit"
-msgstr "贷方"
+msgstr "Credit"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_currency_id
@@ -325,32 +280,27 @@ msgid "Date of Next Invoice"
 msgstr "下一次开票的日期"
 
 #. module: sale_contract
-#: selection:sale.subscription,recurring_rule_type:0
+#: selection:sale.subscription.template,recurring_rule_type:0
 msgid "Day(s)"
 msgstr "天(s)"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_debit
 msgid "Debit"
-msgstr "借方"
-
-#. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_plan_description
-msgid "Describe this contract in a few lines"
-msgstr "用几行描述这个合约"
+msgstr "Debit"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_description
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_name
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_description
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_name
 msgid "Description"
 msgstr "说明"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_discount
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_discount
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_discount
 msgid "Discount (%)"
 msgstr "折扣(%)"
 
@@ -360,6 +310,8 @@ msgstr "折扣(%)"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_display_name
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_display_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_display_name
 msgid "Display Name"
 msgstr "显示名称"
 
@@ -395,7 +347,6 @@ msgstr "即将过期"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
 msgid "Group By"
 msgstr "分组"
 
@@ -405,19 +356,35 @@ msgid "Helps you handle subscriptions and recurring invoicing."
 msgstr "帮你处理订阅和定期开票"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_8613
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_id_9158
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id_9166
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_id
 msgid "ID"
 msgstr "ID"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_date
+msgid ""
+"If set in advance, the subscription will be set to pending 1 month before "
+"the date and will be closed on the date set in this field."
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
 msgid ""
 "If set, confirming a sale order with this product will create a subscription"
 msgstr "如果设置了，在确认带有这个产品的订单的时候会创建一个订阅"
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_template_journal_id
+msgid ""
+"If set, subscriptions with this template will invoice in this journal; "
+"otherwise the sales journal with the lowest sequence is used."
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
@@ -440,8 +407,14 @@ msgstr "发票行"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_rule_type
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_template_recurring_rule_type
 msgid "Invoice automatically repeat at specified interval"
 msgstr "发票按特定的间隔自动重复"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_invoice_count
+msgid "Invoice count"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -454,6 +427,8 @@ msgstr "发票"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line___last_update
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template___last_update
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line___last_update
 msgid "Last Modified on"
 msgstr "最后修改日"
 
@@ -461,6 +436,8 @@ msgstr "最后修改日"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_write_uid
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_write_uid
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_uid
 msgid "Last Updated by"
 msgstr "最后更新人"
@@ -469,16 +446,11 @@ msgstr "最后更新人"
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_wizard_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_write_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_write_date
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_write_date
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_write_date
 msgid "Last Updated on"
 msgstr "最后更新时间"
-
-#. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_user_selectable
-msgid ""
-"Leave this unchecked if you don't want this contract template to be "
-"available to the customer in the frontend (for a free trial, for example)"
-msgstr "如果你本想在前台让客户看到合约模板，那么就留空这个（可以试一下，不要钱的）"
 
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
@@ -486,27 +458,27 @@ msgid "Manage Subscriptions"
 msgstr "管理订阅"
 
 #. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
 msgstr "实际和销售之间的最大数量,这个数量将被开票"
 
 #. module: sale_contract
-#: selection:sale.subscription,recurring_rule_type:0
+#: selection:sale.subscription.template,recurring_rule_type:0
 msgid "Month(s)"
 msgstr "月"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_name
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_name
 msgid "Name"
-msgstr "名称"
+msgstr "名字"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 #: selection:sale.subscription,state:0
 #: selection:sale.subscription.report,state:0
 msgid "New"
-msgstr "新的"
+msgstr "新建"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -527,7 +499,7 @@ msgstr ""
 #: model:ir.model,name:sale_contract.model_res_partner
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
 msgid "Partner"
-msgstr "业务伙伴"
+msgstr "合作伙伴"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -540,15 +512,17 @@ msgid "Plan Change Tags"
 msgstr "方案变更标签"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_plan_description
-msgid "Plan Description"
-msgstr "方案说明"
-
-#. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:175
+#: code:addons/sale_contract/models/sale_subscription.py:172
 #, python-format
 msgid "Please define a sale journal for the company \"%s\"."
 msgstr "请给公司\"%s\"定义一个销售日记账"
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_price
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_price
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price
+msgid "Price"
+msgstr "价格"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_pricelist_id
@@ -558,9 +532,10 @@ msgid "Pricelist"
 msgstr "价格表"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_product_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_product_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_product_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_product_id
 msgid "Product"
 msgstr "产品"
 
@@ -586,22 +561,20 @@ msgid "Projects"
 msgstr "项目"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_quantity
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_quantity
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_quantity
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_quantity
 msgid "Quantity"
 msgstr "数量"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_actual_quantity
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_actual_quantity
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Quantity actually used by the customer"
 msgstr "客户实际使用的数量"
 
 #. module: sale_contract
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_sold_quantity
-#: model:ir.model.fields,help:sale_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Quantity sold to the customer"
 msgstr "卖给客户的数量"
 
@@ -612,7 +585,8 @@ msgstr "原因"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_rule_type
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_recurring_rule_type
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
 msgid "Recurrency"
 msgstr "定期"
 
@@ -638,11 +612,13 @@ msgstr "续约"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_recurring_interval
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_recurring_interval
 msgid "Repeat Every"
 msgstr "重复"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_interval
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_template_recurring_interval
 msgid "Repeat every (Days/Week/Month/Year)"
 msgstr "重复间隔 (日/周/月/年)"
 
@@ -652,14 +628,14 @@ msgid "Report"
 msgstr "报表"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_id
-msgid "Responsible"
-msgstr "负责人"
-
-#. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription
 msgid "Sale Subscription"
 msgstr "销售订阅"
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_template
+msgid "Sale Subscription Template"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list
@@ -672,8 +648,8 @@ msgid "Sales Order"
 msgstr "销售订单"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_manager_id
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_manager_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_user_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_user_id
 msgid "Sales Rep"
 msgstr "销售代表"
 
@@ -693,9 +669,7 @@ msgid "Settings"
 msgstr "设置"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Sold quantity"
 msgstr "已售数量"
 
@@ -717,7 +691,12 @@ msgstr "开始订阅"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
 msgid "State"
-msgstr "状态"
+msgstr "省/ 州"
+
+#. module: sale_contract
+#: model:mail.message.subtype,name:sale_contract.subtype_state_change
+msgid "State Change"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_state
@@ -726,9 +705,7 @@ msgid "Status"
 msgstr "状态"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_price_subtotal
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_subtotal
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_subtotal
 msgid "Sub Total"
 msgstr "小计 "
 
@@ -740,8 +717,7 @@ msgstr "提交"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_order_subscription_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_analytic_account_id
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_analytic_account_id
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_analytic_account_id
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription"
 msgstr "订阅"
@@ -754,6 +730,7 @@ msgid "Subscription Analysis"
 msgstr "订阅分析"
 
 #. module: sale_contract
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Subscription Lines"
 msgstr "订阅明细行"
@@ -780,15 +757,26 @@ msgid "Subscription Statistics"
 msgstr "订阅分析"
 
 #. module: sale_contract
-#: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_template
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_template_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_id
-#: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
 msgid "Subscription Template"
 msgstr "订阅模板"
 
 #. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_list_template
+#: model:ir.model,name:sale_contract.model_sale_subscription_template_line
+msgid "Subscription Template Line"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_subscription_template_line_ids
+msgid "Subscription Template Lines"
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.actions.act_window,name:sale_contract.sale_subscription_template_action
+#: model:ir.ui.menu,name:sale_contract.menu_template_of_subscription
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_list
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_search
 msgid "Subscription Templates"
 msgstr "订阅模板"
 
@@ -796,6 +784,11 @@ msgstr "订阅模板"
 #: model:ir.ui.view,arch_db:sale_contract.product_template_search_view_inherit_sale_contract
 msgid "Subscription products"
 msgstr "订阅产品"
+
+#. module: sale_contract
+#: model:mail.message.subtype,description:sale_contract.subtype_state_change
+msgid "Subscription state has changed"
+msgstr ""
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
@@ -809,7 +802,7 @@ msgstr "订阅产品"
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_root
 #: model:ir.ui.view,arch_db:sale_contract.account_analytic_account_view_inherit_sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.res_partner_view_inherit_sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_graph
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_pivot
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -823,10 +816,20 @@ msgid "Subscriptions to Renew"
 msgstr "待续签的订阅"
 
 #. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
+msgid "Susbcription Close Reason"
+msgstr "订阅关闭原因"
+
+#. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_subscription_count
 msgid "Susbcription Count"
 msgstr "订阅计数"
+
+#. module: sale_contract
+#: model:ir.model,name:sale_contract.model_sale_subscription_line
+msgid "Susbcription Line"
+msgstr "订阅行"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -834,18 +837,31 @@ msgid "Tags"
 msgstr "标签"
 
 #. module: sale_contract
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_subscription_template_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_subscription_template_id
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_search
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-#: selection:sale.subscription,type:0
 msgid "Template"
 msgstr "模板"
 
 #. module: sale_contract
-#: model:ir.actions.act_window,help:sale_contract.sale_subscription_action_template
+#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_template_view_form
+msgid "Template Name"
+msgstr "模板名称"
+
+#. module: sale_contract
+#: model:ir.actions.act_window,help:sale_contract.sale_subscription_template_action
 msgid ""
 "Templates are used to prefigure subscription that\n"
 "                can be selected by the salespeople to quickly configure the\n"
 "                terms and conditions of the subscription."
+msgstr ""
+
+#. module: sale_contract
+#: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_next_date
+msgid ""
+"The next invoice will be created on this date then the period will be "
+"extended."
 msgstr ""
 
 #. module: sale_contract
@@ -868,7 +884,7 @@ msgstr ""
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:83
-#: code:addons/sale_contract/models/sale_subscription.py:192
+#: code:addons/sale_contract/models/sale_subscription.py:189
 #, python-format
 msgid "This invoice covers the following period: %s - %s"
 msgstr "这张发票覆盖了以下区间： %s - %s"
@@ -894,21 +910,15 @@ msgid "To Renew"
 msgstr "待续约"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_type
-msgid "Type"
-msgstr "类型"
-
-#. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_price_unit
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_price_unit
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_price_unit
 msgid "Unit Price"
 msgstr "单价"
 
 #. module: sale_contract
-#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_option_uom_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_uom_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_product_uom
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_line_uom_id
+#: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_option_uom_id
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_wizard_option_uom_id
 msgid "Unit of Measure"
 msgstr "计量单位"
@@ -934,7 +944,7 @@ msgstr ""
 "费用和／或销售订单。Odoo会自动管理合约更新的警告给到正确的销售人员"
 
 #. module: sale_contract
-#: selection:sale.subscription,recurring_rule_type:0
+#: selection:sale.subscription.template,recurring_rule_type:0
 msgid "Week(s)"
 msgstr "周"
 
@@ -946,7 +956,7 @@ msgid ""
 msgstr ""
 
 #. module: sale_contract
-#: selection:sale.subscription,recurring_rule_type:0
+#: selection:sale.subscription.template,recurring_rule_type:0
 msgid "Year(s)"
 msgstr "年"
 
@@ -959,7 +969,7 @@ msgid ""
 msgstr "你必须定义一个能卖的产品，不管实物，消耗品，或者给客户提供的服务"
 
 #. module: sale_contract
-#: code:addons/sale_contract/models/sale_subscription.py:170
+#: code:addons/sale_contract/models/sale_subscription.py:167
 #, python-format
 msgid "You must first select a Customer for Subscription %s!"
 msgstr "你必须首先选择一个订阅的客户 %s!"
@@ -973,24 +983,9 @@ msgid ""
 msgstr "你会在这里找到因为过了最后日期的或者实际工作时间远远大于最大估计时间的待更新的合约"
 
 #. module: sale_contract
-#: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
-msgid "sale.subscription.close.reason"
-msgstr "sale.subscription.close.reason"
-
-#. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
 msgid "sale.subscription.close.reason.wizard"
 msgstr ""
-
-#. module: sale_contract
-#: model:ir.model,name:sale_contract.model_sale_subscription_line
-msgid "sale.subscription.line"
-msgstr "sale.subscription.line"
-
-#. module: sale_contract
-#: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search_template
-msgid "subscription Templates"
-msgstr "订阅模板"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
