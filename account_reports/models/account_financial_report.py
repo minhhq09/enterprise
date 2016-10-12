@@ -28,7 +28,7 @@ class ReportAccountFinancialReport(models.Model):
     company_id = fields.Many2one('res.company', string='Company')
     menuitem_created = fields.Boolean("Menu Has Been Created", default=False)
     parent_id = fields.Many2one('ir.ui.menu')
-    tax_report = fields.Boolean('Tax Report', help="Set to True to automatically filter out journal items that have the boolean field ´tax_exigible´ set to False")
+    tax_report = fields.Boolean('Tax Report', help="Set to True to automatically filter out journal items that have the boolean field 'tax_exigible' set to False")
 
     def create_action_and_menu(self, parent_id):
         client_action = self.env['ir.actions.client'].create({
