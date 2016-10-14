@@ -169,17 +169,20 @@ return AbstractRenderer.extend({
         return $result;
     },
     _render_tag_label: function(node) {
-        var text = node.attrs.string || this.fields[node.attrs.for].string;
-        if (text) {
-            var $result = $('<label>')
-                            .addClass('o_form_label')
-                            .attr('for', this._get_id_for_label(node.attrs.for))
-                            .text(text);
-            this._handle_attributes($result, node);
-            return $result;
-        } else {
+        var text;
+        if ('string' in node.attrs) { // allow empty string
+            text = node.attrs.string;
+        } else if (node.attrs.for) {
+            text = this.fields[node.attrs.for].string;
+        } else  {
             return this._render_generic_tag(node);
         }
+        var $result = $('<label>')
+                        .addClass('o_form_label')
+                        .attr('for', this._get_id_for_label(node.attrs.for))
+                        .text(text);
+        this._handle_attributes($result, node);
+        return $result;
     },
     _render_tag_field: function (node) {
         return this._render_field_widget(node).$el;
@@ -264,8 +267,15 @@ return AbstractRenderer.extend({
             if (children[i].tag === 'field') {
                 $result = this._render_inner_group_field($result, children[i]);
             } else if (children[i].tag === 'label') {
-                $result = this._render_inner_group_label($result, children, i);
-                i++;
+                var label =  children[i];
+                // If there is a "for" attribute, we expect to have an id concerned in the next node.
+                if (label.attrs.for) {
+                    var linked_node = children[i+1];
+                    $result = this._render_inner_group_label($result, label, linked_node);
+                    i++; // Skip the rendering of the next node because we just did it.
+                } else {
+                    $result = this._render_inner_group_label($result, label);
+                }
             } else {
                 var $td = $('<td colspan="2" style="width:100%;">').append(this._render_node(children[i]));
                 $result.append($('<tr>').append($td));
@@ -276,10 +286,10 @@ return AbstractRenderer.extend({
     _render_inner_group_field: function ($result, node) {
         return $result.append(this._render_inner_field(node));
     },
-    _render_inner_group_label: function ($result, children, i) {
+    _render_inner_group_label: function ($result, label, linked_node) {
         var $first = $('<td class="o_td_label">')
-                    .append(this._render_node(children[i]));
-        var $second = $('<td>').append(this._render_node(children[i+1]));
+                    .append(this._render_node(label));
+        var $second = linked_node ? $('<td>').append(this._render_node(linked_node)) : $('<td>');
         var $tr = $('<tr>').append($first).append($second);
         return $result.append($tr);
     },
