@@ -10,7 +10,7 @@ class MailPushDevice(models.Model):
         return [('fcm', 'FCM')]
 
     name = fields.Char(string="Device Name")
-    partner_id = fields.Many2one('res.partner', 'Partner')
+    partner_id = fields.Many2one('res.partner', 'Partner', ondelete='cascade')
     subscription_id = fields.Char('Subscription ID', groups='base.group_system')
     service_type = fields.Selection('_default_service_type', 'Notification Service')
 
