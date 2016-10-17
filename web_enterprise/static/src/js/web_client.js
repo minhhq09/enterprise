@@ -150,14 +150,19 @@ return AbstractWebClient.extend({
     // URL state handling
     // --------------------------------------------------------------
     on_hashchange: function(event) {
-        if (!this._ignore_hashchange) {
-            var self = this;
+        if (this._ignore_hashchange) {
+            this._ignore_hashchange = false;
+            return;
+        }
+
+        var self = this;
+        this.clear_uncommitted_changes().then(function () {
             var stringstate = event.getState(false);
-            if (!_.isEqual(this._current_state, stringstate)) {
+            if (!_.isEqual(self._current_state, stringstate)) {
                 var state = event.getState(true);
                 if (state.action || (state.model && (state.view_type || state.id))) {
                     state._push_me = false;  // no need to push state back...
-                    self.action_manager.do_load_state(state, !!this._current_state).then(function () {
+                    self.action_manager.do_load_state(state, !!self._current_state).then(function () {
                         if (state.menu_id) {
                             if (state.menu_id !== self.menu.current_primary_menu) {
                                 core.bus.trigger('change_menu_section', state.menu_id);
@@ -183,9 +188,13 @@ return AbstractWebClient.extend({
                     self.toggle_app_switcher(true);
                 }
             }
-            this._current_state = stringstate;
-        }
-        this._ignore_hashchange = false;
+            self._current_state = stringstate;
+        }, function () {
+            if (event) {
+                self._ignore_hashchange = true;
+                window.location = event.originalEvent.oldURL;
+            }
+        });
     },
     // --------------------------------------------------------------
     // Menu handling
