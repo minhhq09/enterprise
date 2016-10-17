@@ -117,4 +117,6 @@ var PickingBarcodeHandler = FormViewBarcodeHandler.extend({
 
 core.form_widget_registry.add('picking_barcode_handler', PickingBarcodeHandler);
 
+return PickingBarcodeHandler;
+
 });

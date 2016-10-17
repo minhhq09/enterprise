@@ -69,12 +69,16 @@ class account_report_context_followup(models.TransientModel):
         if 'level' in vals:
             partner = self.env['res.partner'].browse(vals['partner_id'])
             summary = self.env['account_followup.followup.line'].with_context(lang=partner.lang).browse(vals['level']).description.replace('\n', '<br />')
+            try:
+                formatted_summary = summary % {'partner_name': partner.name,
+                                               'date': time.strftime('%Y-%m-%d'),
+                                               'user_signature': self.env.user.signature or '',
+                                               'company_name': partner.parent_id.name}
+            except ValueError as e:
+                message = "An error has occurred while formatting your followup letter/email. (Lang: %s, Followup Level: #%s) \n\nFull error description: %s" \
+                          % (partner.lang, vals['level'], e.message)
+                raise ValueError(message)
             vals.update({
-                'summary': summary % {
-                    'partner_name': partner.name,
-                    'date': time.strftime('%Y-%m-%d'),
-                    'user_signature': self.env.user.signature or '',
-                    'company_name': partner.parent_id.name,
-                }
+                'summary': formatted_summary
             })
         return super(account_report_context_followup, self).create(vals)
