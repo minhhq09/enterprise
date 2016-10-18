@@ -47,6 +47,7 @@ WebClient.include({
         bus.on('studio_toggled', this, function (mode) {
             this.studio_on = !!mode;
             this.update_context(!!mode);
+            this.$el.toggleClass('o_in_studio', !!mode);
         });
     },
 

@@ -57,7 +57,6 @@ var EditMenuDialog = Dialog.extend({
         this.to_move = {};
 
         this._super(parent, options);
-        this.$modal.addClass('o_web_studio');
     },
 
     start: function () {
@@ -113,7 +112,6 @@ var EditMenuDialog = Dialog.extend({
             res_model: 'ir.ui.menu',
             res_id: menu_id,
         }).open();
-        form.$modal.addClass('o_web_studio');
 
         form.on('record_saved', this, function() {
             this._reload_menu_data(true);
@@ -172,7 +170,6 @@ var NewMenuDialog = Dialog.extend(FieldManagerMixin, {
         };
         FieldManagerMixin.init.call(this);
         this._super(parent, options);
-        this.$modal.addClass('o_web_studio');
 
         var self = this;
         this.opened().then(function () {

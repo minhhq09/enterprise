@@ -48,7 +48,6 @@ Menu.include({
         var $main_navbar = this.$('.o_main_navbar');
         if (studio_mode) {
             if (!this.studio_mode) {
-                $main_navbar.addClass('o_web_studio_on');
                 this.$systray = $main_navbar
                     .find('.o_menu_systray')
                     .children(':not(".o_user_menu, .o_web_studio_navbar_item")')
@@ -77,7 +76,6 @@ Menu.include({
                 this.$notes.insertAfter($main_navbar.find('.o_menu_systray'));
             }
         } else {
-            $main_navbar.removeClass('o_web_studio_on');
             if (this.edit_menu) {
                 this.edit_menu.destroy();
                 this.edit_menu = undefined;

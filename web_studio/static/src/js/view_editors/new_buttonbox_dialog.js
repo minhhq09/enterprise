@@ -26,7 +26,6 @@ var NewButtonBoxDialog = Dialog.extend(FieldManagerMixin, {
         };
 
         this._super(parent, options);
-        this.$modal.addClass('o_web_studio');
 
         var self = this;
         this.opened().then(function () {

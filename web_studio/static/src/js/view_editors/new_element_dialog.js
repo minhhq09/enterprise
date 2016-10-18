@@ -21,14 +21,12 @@ var NewElementDialog = Dialog.extend({
         this.node = node;
         this.position = position;
         this._super(parent, options);
-        this.$modal.addClass('o_web_studio');
     },
     add_element: function(event) {
         event.preventDefault();
 
         var self = this;
         var element = $(event.currentTarget).attr('data-element');
-        var nodeClass = '.o_' + this.node.tag;
         this.trigger_up('view_change', {
             type: 'add',
             structure: element,

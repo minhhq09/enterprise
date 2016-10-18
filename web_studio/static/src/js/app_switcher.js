@@ -28,7 +28,6 @@ AppSwitcher.include({
         return this._super.apply(this, arguments);
     },
     toggle_studio_mode: function (display) {
-        this.$el.toggleClass('o_web_studio_on', display);
         this.in_studio_mode = display;
         if (!this.in_DOM) {
             return;

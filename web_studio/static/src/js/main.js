@@ -16,7 +16,7 @@ var ViewEditorManager = require('web_studio.ViewEditorManager');
 var _t = core._t;
 
 var Main = Widget.extend({
-    className: 'o_web_studio',
+    className: 'o_web_studio_client_action',
 
     custom_events: {
         'studio_default_view': 'default_view',
