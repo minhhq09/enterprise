@@ -74,11 +74,15 @@ WebClient.include({
 
         return self.instanciate_menu_widgets().then(function() {
             // reload previous state
-            self.menu.toggle_mode(false);  // display app switcher button
-            self.menu.change_menu_section(current_primary_menu);  // entering the current menu
+            self.menu.toggle_mode(self.app_switcher_displayed);
+            self.menu.change_menu_section(current_primary_menu); // entering the current menu
+            if (self.app_switcher_displayed) {
+                self.append_app_switcher();
+            }
 
             self.menu.switch_studio_mode(mode, action_desc, active_view);
             self._update_studio_systray(self.studio_on);
+            self.app_switcher.toggle_studio_mode(self.studio_on);
 
             if (ev && ev.data.keep_open) {
                 self.menu.edit_menu.on_click(new Event('click'));
@@ -175,7 +179,9 @@ WebClient.include({
     },
 
     do_action: function(action, options) {
-        if (this.studio_on) {
+        var mode = this.studio_on && (this.app_switcher_displayed ? 'app_creator' : 'main');
+        if (mode === 'main') {
+            options = options || {};
             options.ids = this.studio_ids;
             options.res_id = this.studio_id;
             options.chatter_allowed = this.studio_chatter_allowed;

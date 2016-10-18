@@ -2,6 +2,7 @@ odoo.define('web_studio.Menu', function (require) {
 "use strict";
 
 var core = require('web.core');
+var data_manager = require('web.data_manager');
 var Menu = require('web_enterprise.Menu');
 var session = require('web.session');
 
@@ -39,6 +40,26 @@ Menu.include({
             session.get_file({
                 url: '/web_studio/export',
                 complete: $export.removeClass.bind($export, 'o_disabled'), // re-enable export
+            });
+        },
+        'click .o_web_studio_import': function(event) {
+            event.preventDefault();
+            var self = this;
+            // Open a dialog allowing to import new modules (e.g. exported customizations)
+            this.do_action({
+                name: 'Import modules',
+                res_model: 'base.import.module',
+                views: [[false, 'form']],
+                type: 'ir.actions.act_window',
+                target: 'new',
+                context: {
+                    dialog_size: 'medium',
+                },
+            }, {
+                on_close: function() {
+                    data_manager.invalidate(); // invalidate cache
+                    self.trigger_up('reload_menu_data'); // reload menus
+                },
             });
         },
     }),
@@ -105,14 +126,15 @@ Menu.include({
             }
             if (this.$notes) {
                 this.$notes.remove();
-            }
-            if (this.studio_mode) {
-                this.$systray.prependTo('.o_menu_systray');
-                this.$menu_toggle.prependTo('.o_main_navbar');
+                this.$nodes = undefined;
             }
             if (this.$app_switcher_menu) {
                 this.$app_switcher_menu.remove();
                 this.$app_switcher_menu = undefined;
+            }
+            if (this.studio_mode) {
+                this.$systray.prependTo('.o_menu_systray');
+                this.$menu_toggle.prependTo('.o_main_navbar');
             }
         }
 

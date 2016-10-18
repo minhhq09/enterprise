@@ -287,11 +287,7 @@ return AbstractWebClient.extend({
                 framework.detach([{widget: self.action_manager}], {$to_detach: $to_detach}).appendTo(self.web_client_content);
 
                 // Attach the app_switcher
-                framework.append(self.$el, [self.app_switcher.$el], {
-                    in_DOM: true,
-                    callbacks: [{widget: self.app_switcher}],                    
-                });
-                self.app_switcher_displayed = true;
+                self.append_app_switcher();
 
                 // Save and clear the url
                 self.url = $.bbq.getState();
@@ -308,6 +304,13 @@ return AbstractWebClient.extend({
             this.app_switcher_displayed = false;
             this.menu.toggle_mode(false, this.action_manager.get_inner_action() !== null);
         }
+    },
+    append_app_switcher: function () {
+        framework.append(this.$el, [this.app_switcher.$el], {
+            in_DOM: true,
+            callbacks: [{widget: this.app_switcher}],
+        });
+        this.app_switcher_displayed = true;
     },
     // --------------------------------------------------------------
     // Scrolltop handling
