@@ -5,16 +5,8 @@ from odoo import api, models
 
 
 class IrUiMenu(models.Model):
-    _inherit = 'ir.ui.menu'
-
-    @api.model
-    def create(self, vals):
-        res = super(IrUiMenu, self).create(vals)
-
-        if self._context.get('studio'):
-            res.create_studio_model_data()
-
-        return res
+    _name = 'ir.ui.menu'
+    _inherit = ['studio.mixin', 'ir.ui.menu']
 
     @api.model
     def customize(self, to_move, to_delete):

@@ -5,7 +5,8 @@ from odoo import api, models, _
 
 
 class ir_actions_report(models.Model):
-    _inherit = 'ir.actions.report.xml'
+    _name = 'ir.actions.report.xml'
+    _inherit = ['studio.mixin', 'ir.actions.report.xml']
 
     @api.multi
     def studio_edit(self):

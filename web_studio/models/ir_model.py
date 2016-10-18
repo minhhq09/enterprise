@@ -16,18 +16,27 @@ class Base(models.AbstractModel):
             An ir.model.data is created whenever a record of one of these models
             is created, tagged with studio.
         """
-        module = self.env['ir.module.module'].get_studio_module()
+        IrModelData = self.env['ir.model.data']
 
-        self.env['ir.model.data'].create({
-            'name': '%s' % uuid.uuid4(),
-            'model': self._name,
-            'res_id': self.id,
-            'module': module.name,
-        })
+        # Check if there is already an ir.model.data for the given resource
+        data = IrModelData.search([
+            ('model', '=', self._name), ('res_id', '=', self.id)
+        ])
+        if data:
+            data.write({})  # force a write to set the 'studio' and 'noupdate' flags to True
+        else:
+            module = self.env['ir.module.module'].get_studio_module()
+            IrModelData.create({
+                'name': '%s' % uuid.uuid4(),
+                'model': self._name,
+                'res_id': self.id,
+                'module': module.name,
+            })
 
 
 class IrModel(models.Model):
-    _inherit = 'ir.model'
+    _name = 'ir.model'
+    _inherit = ['studio.mixin', 'ir.model']
 
     mail_thread = fields.Boolean(compute='_compute_mail_thread',
                                  inverse='_inverse_mail_thread', store=True,
@@ -68,7 +77,6 @@ class IrModel(models.Model):
         res = super(IrModel, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data()
             # Create a simplified form view to prevent getting the default one containing all model's fields
             self.env['ir.ui.view'].create_simplified_form_view(res.model)
 
@@ -102,7 +110,8 @@ class IrModel(models.Model):
 
 
 class IrModelField(models.Model):
-    _inherit = 'ir.model.fields'
+    _name = 'ir.model.fields'
+    _inherit = ['studio.mixin', 'ir.model.fields']
 
     track_visibility = fields.Selection(
         [('onchange', "On Change"), ('always', "Always")], string="Tracking",
@@ -127,11 +136,7 @@ class IrModelField(models.Model):
             field.args = dict(field.args, track_visibility=field_data['track_visibility'])
         return field
 
-    @api.model
-    def create(self, vals):
-        res = super(IrModelField, self).create(vals)
 
-        if self._context.get('studio'):
-            res.create_studio_model_data()
-
-        return res
+class IrModelAccess(models.Model):
+    _name = 'ir.model.access'
+    _inherit = ['studio.mixin', 'ir.model.access']

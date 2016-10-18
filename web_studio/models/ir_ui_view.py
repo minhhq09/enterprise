@@ -3,22 +3,14 @@
 
 from lxml import etree
 from lxml.builder import E
-from odoo import api, models
+from odoo import models
 import json
 import uuid
 
 
 class View(models.Model):
-    _inherit = 'ir.ui.view'
-
-    @api.model
-    def create(self, vals):
-        res = super(View, self).create(vals)
-
-        if self._context.get('studio'):
-            res.create_studio_model_data()
-
-        return res
+    _name = 'ir.ui.view'
+    _inherit = ['studio.mixin', 'ir.ui.view']
 
     def _apply_group(self, model, node, modifiers, fields):
         # apply_group only returns the view groups ids.
