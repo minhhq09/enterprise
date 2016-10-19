@@ -5,7 +5,7 @@ from lxml import etree
 from StringIO import StringIO
 from openerp import http, _
 from openerp.http import request
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, AccessError
 
 
 class WebStudioController(http.Controller):
@@ -92,11 +92,11 @@ class WebStudioController(http.Controller):
 
     def _get_studio_action_translations(self, model, **kwargs):
         """ Open a view for translating the field(s) of the record (model, id). """
-        domain = ('|', ('name', '=', model.model), ('name', 'ilike', model.model + ','))
+        domain = ['|', ('name', '=', model.model), ('name', 'ilike', model.model + ',')]
 
         # search view + its inheritancies
         views = request.env['ir.ui.view'].search([('model', '=', model.model)])
-        domain = ('|', '&', ('name', '=', 'ir.ui.view,arch_db'), ('res_id', 'in', views.ids)) + domain
+        domain = ['|', '&', ('name', '=', 'ir.ui.view,arch_db'), ('res_id', 'in', views.ids)] + domain
 
         def make_domain(fld, rec):
             name = "%s,%s" % (fld.model_name, fld.name)
@@ -104,7 +104,7 @@ class WebStudioController(http.Controller):
 
         def insert_missing(fld, rec):
             if not fld.translate:
-                return
+                return []
 
             if fld.related:
                 try:
@@ -112,23 +112,24 @@ class WebStudioController(http.Controller):
                     while fld.related:
                         rec, fld = fld.traverse_related(rec)
                     if rec:
-                        domain = ['|'] + domain + make_domain(fld, rec)
+                        return ['|'] + domain + make_domain(fld, rec)
                 except AccessError:
-                    return
+                    return []
 
             assert fld.translate and rec._name == fld.model_name
             request.env['ir.translation'].insert_missing(fld, rec)
+            return []
 
         # insert missing translations of views
         for view in views:
             for name, fld in view._fields.items():
-                insert_missing(fld, view)
+                domain += insert_missing(fld, view)
 
         # insert missing translations of model, and extend domain for related fields
         record = request.env[model.model].search([], limit=1)
         if record:
             for name, fld in record._fields.items():
-                insert_missing(fld, record)
+                domain += insert_missing(fld, record)
 
         action = {
             'name': _('Translate view'),
