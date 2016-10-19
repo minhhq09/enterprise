@@ -56,7 +56,7 @@ class TestDeferredRevenue(common.TransactionCase):
             'Move lines not created correctly.')
 
         # I check data in move line and installment line.
-        first_installment_line = recognition.depreciation_line_ids[0]
+        first_installment_line = recognition.depreciation_line_ids.sorted(lambda r: r.id)[0]
         first_move = first_installment_line.move_id
         self.assertEqual(first_installment_line.amount, first_move.amount,
             'First installment line amount is incorrect.')
