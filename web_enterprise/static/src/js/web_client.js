@@ -181,7 +181,7 @@ return AbstractWebClient.extend({
                             }
                         }
                         self.toggle_app_switcher(false);
-                    }).fail(this.toggle_app_switcher.bind(this, true));
+                    }).fail(self.toggle_app_switcher.bind(self, true));
                 } else if (state.menu_id) {
                     var action_id = self.menu.menu_id_to_action_id(state.menu_id);
                     self.do_action(action_id, {clear_breadcrumbs: true}).then(function () {
