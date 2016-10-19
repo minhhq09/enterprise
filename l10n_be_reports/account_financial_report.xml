@@ -263,9 +263,9 @@
         </record>
         <record id="account_financial_report_be_passif0" model="account.financial.html.report.line">
             <field name="name">TOTAL DU PASSIF</field>
-            <field name="code">BE_ACTIF</field>
+            <field name="code">BE_PASSIF</field>
             <field name="parent_id" ref="account_financial_report_be_passif_title0"/>
-            <field name="formulas">balance = BE_UNAFFECTED_EARNINGS.balance + BE_10_15.balance + BE_16.balance + BE_17_49.balance; credit = BE_UNAFFECTED_EARNINGS.credit + BE_10_15.credit + BE_16.credit + BE_17_49.credit; debit = BE_UNAFFECTED_EARNINGS.debit + BE_10_15.debit + BE_16.debit + BE_17_49.debit</field>
+            <field name="formulas">balance = BE_10_15.balance + BE_16.balance + BE_17_49.balance; credit = BE_10_15.credit + BE_16.credit + BE_17_49.credit; debit = BE_10_15.debit + BE_16.debit + BE_17_49.debit</field>
             <field name="sequence" eval="2"/>
             <field name="level" eval="0" />
         </record>
@@ -273,7 +273,7 @@
             <field name="name">10/15 - Capitaux propres</field>
             <field name="code">BE_10_15</field>
             <field name="parent_id" ref='account_financial_report_be_passif0'/>
-            <field name="formulas">balance = BE_10.balance + BE_11.balance + BE_12.balance + BE_13.balance + BE_14.balance + BE_15.balance + BE_19.balance; credit = BE_10.credit + BE_11.credit + BE_12.credit + BE_13.credit + BE_14.credit + BE_15.credit + BE_19.credit; debit = BE_10.debit + BE_11.debit + BE_12.debit + BE_13.debit + BE_14.debit + BE_15.debit + BE_19.debit</field>
+            <field name="formulas">balance = BE_UNAFFECTED_EARNINGS.balance + BE_10.balance + BE_11.balance + BE_12.balance + BE_13.balance + BE_14.balance + BE_15.balance + BE_19.balance; credit = BE_UNAFFECTED_EARNINGS.credit + BE_10.credit + BE_11.credit + BE_12.credit + BE_13.credit + BE_14.credit + BE_15.credit + BE_19.credit; debit = BE_UNAFFECTED_EARNINGS.debit + BE_10.debit + BE_11.debit + BE_12.debit + BE_13.debit + BE_14.debit + BE_15.debit + BE_19.debit</field>
             <field name="sequence" eval="1"/>
             <field name="level" eval="1" />
         </record>
@@ -395,7 +395,7 @@
             <field name="name">14 - Bénéfice (Perte) reporté(e)</field>
             <field name="code">BE_14</field>
             <field name="parent_id" ref='account_financial_report_be_capitaux_propres0'/>
-            <field name="domain" eval="[('account_id.code', '=like', '14%')]" />
+            <field name="domain" eval="[('account_id.code', '=like', '14%'), ('account_id.user_type_id', '!=', ref('account.data_unaffected_earnings'))]" />
             <field name="groupby">account_id</field>
             <field name="formulas">balance = -sum.balance; credit = sum.credit; debit = sum.debit</field>
             <field name="sequence" eval="5"/>
@@ -405,7 +405,7 @@
             <field name="name">149 - Bénéfice (Perte) en cours</field>
             <field name="code">BE_UNAFFECTED_EARNINGS</field>
             <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_unaffected_earnings'))]" />
-            <field name="formulas">balance = NEP.balance - sum.balance</field>
+            <field name="formulas">balance = NEP.balance - sum.balance; debit = DETAILED_NEP.debit + sum.debit; credit = DETAILED_NEP.credit + sum.credit</field>
             <field name="sequence" eval="6"/>
             <field name="special_date_changer">from_beginning</field>
             <field name="parent_id" ref='account_financial_report_be_capitaux_propres0'/>
