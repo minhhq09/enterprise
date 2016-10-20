@@ -94,21 +94,20 @@ Menu.include({
                     this.edit_menu = new EditMenu(this, this.menu_data, this.current_primary_menu);
                     this.edit_menu.appendTo($main_navbar.find('.o_menu_sections'));
                 }
-
-                // NOTES
-                this.$notes = $('<div>')
-                    .addClass('o_web_studio_notes')
-                    .append($('<a>', {
-                        href: 'http://pad.odoo.com/p/customization-' + studio_info.dbuuid,
-                        target: '_blank',
-                        text: 'Notes',
-                    }));
-                this.$notes.insertAfter($main_navbar.find('.o_menu_systray'));
             } else {
                 // In app switcher
                 this.$app_switcher_menu = $(qweb.render('web_studio.AppSwitcherMenu'));
                 $main_navbar.prepend(this.$app_switcher_menu);
             }
+            // Notes
+            this.$notes = $('<div>')
+                .addClass('o_web_studio_notes')
+                .append($('<a>', {
+                    href: 'http://pad.odoo.com/p/customization-' + studio_info.dbuuid,
+                    target: '_blank',
+                    text: 'Notes',
+                }));
+            this.$notes.insertAfter($main_navbar.find('.o_menu_systray'));
         } else {
             if (this.edit_menu) {
                 this.edit_menu.destroy();
