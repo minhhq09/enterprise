@@ -12,13 +12,20 @@ from odoo.addons.web_studio.controllers import export
 class WebStudioController(http.Controller):
 
     @http.route('/web_studio/init', type='json', auth='user')
-    def studio_init(self, action_id):
-        action_model = request.env['ir.actions.act_window'].browse(action_id).res_model
+    def studio_init(self):
         return {
             'dbuuid': request.env['ir.config_parameter'].get_param('database.uuid'),
-            'chatter_allowed': self._is_chatter_allowed(action_model),
             'multi_lang': bool(request.env['res.lang'].search_count([('code', '!=', 'en_US')])),
         }
+
+    @http.route('/web_studio/chatter_allowed', type='json', auth='user')
+    def is_chatter_allowed(self, model):
+        """ Returns True iff a chatter can be activated on the model's form views, i.e. if
+            - it is a custom model (since we can make it inherit from mail.thread), or
+            - it already inherits from mail.thread.
+        """
+        Model = request.env[model]
+        return Model._custom or isinstance(Model, type(request.env['mail.thread']))
 
     @http.route('/web_studio/get_studio_action', type='json', auth='user')
     def get_studio_action(self, action_name, model, view_id=None, view_type=None):
@@ -564,7 +571,7 @@ class WebStudioController(http.Controller):
                 }
             }
 
-        if not self._is_chatter_allowed(operation['model']):
+        if not self.is_chatter_allowed(operation['model']):
             # Chatter can only be activated form models that (can) inherit from mail.thread
             return
 
@@ -590,10 +597,3 @@ class WebStudioController(http.Controller):
         chatter_node.append(follower_node)
         chatter_node.append(thread_node)
         xpath_node.append(chatter_node)
-
-    def _is_chatter_allowed(self, model):
-        # Returns True if a chatter can be activated on the model's form views, i.e. if
-        #  - it is a custom model (since we can make it inherit from mail.thread), or
-        #  - it already inherits from mail.thread.
-        Model = request.env[model]
-        return Model._custom or isinstance(Model, type(request.env['mail.thread']))

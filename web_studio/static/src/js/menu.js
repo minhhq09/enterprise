@@ -66,16 +66,10 @@ Menu.include({
 
     init: function() {
         this._super.apply(this, arguments);
-        bus.on('studio_toggled', this, function(studio_mode, action, active_view) {
-            this.switch_studio_mode(studio_mode, action, active_view);
-        });
-        bus.on('studio_init', this, function(info) {
-            this.dbuuid = info.dbuuid;
-            this.multi_lang = info.multi_lang;
-        });
+        bus.on('studio_toggled', this, this.switch_studio_mode.bind(this));
     },
 
-    switch_studio_mode: function(studio_mode, action, active_view) {
+    switch_studio_mode: function(studio_mode, studio_info, action, active_view) {
         if (this.studio_mode === studio_mode) {
             return;
         }
@@ -92,7 +86,7 @@ Menu.include({
 
             if (studio_mode === 'main') {
                 // Not in app switcher
-                var options = { multi_lang: this.multi_lang };
+                var options = { multi_lang: studio_info.multi_lang };
                 this.studio_menu = new SubMenu(this, action, active_view, options);
                 this.studio_menu.insertAfter($main_navbar);
 
@@ -105,7 +99,7 @@ Menu.include({
                 this.$notes = $('<div>')
                     .addClass('o_web_studio_notes')
                     .append($('<a>', {
-                        href: 'http://pad.odoo.com/p/customization-' + this.dbuuid,
+                        href: 'http://pad.odoo.com/p/customization-' + studio_info.dbuuid,
                         target: '_blank',
                         text: 'Notes',
                     }));
