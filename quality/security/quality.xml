@@ -25,12 +25,6 @@
         <field name="implied_ids" eval="[(4, ref('quality.group_quality_user'))]"/>
     </record>
 
-    <record id="mrp.group_mrp_user" model="res.groups">
-        <field name="name">User</field>
-        <field name="category_id" ref="base.module_category_manufacturing"/>
-        <field name="implied_ids" eval="[(4, ref('quality.group_quality_user'))]"/>
-    </record>
-
     <record model="res.users" id="base.user_root">
        <field eval="[(4,ref('quality.group_quality_manager'))]" name="groups_id"/>         
    	</record>
