@@ -115,6 +115,8 @@ class OnlineAccount(models.Model):
         res = []
         for account_online in self:
             name = "%s: %s" % (account_online.provider_name, account_online.name)
+            if account_online.account_number:
+                name += " (%s)" % (account_online.account_number)
             res += [(account_online.id, name)]
         return res
 
