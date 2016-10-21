@@ -88,11 +88,12 @@ class Versioning_Controller(Website):
     @http.route('/website_version/google_access', type='json', auth="user")
     def google_authorize(self, **kw):
         #Check if client_id and client_secret are set to get the authorization from Google
-        gs_obj = request.env['google.service']
+        Parameters = request.env['ir.config_parameter']
         gm_obj = request.env['google.management']
 
-        client_id = gs_obj.get_client_id('management', context=kw.get('local_context'))
-        client_secret = gs_obj.get_client_secret('management', context=kw.get('local_context'))
+        client_id = Parameters.sudo().get_param('google_management_client_id', default=False)
+        client_secret = Parameters.sudo().get_param('google_management_client_secret', default=False)
+
         if not client_id or not client_secret:
             dummy, action = request.registry.get('ir.model.data').get_object_reference(request.cr, request.uid, 'website_version', 'action_config_settings_google_management')
             return {
