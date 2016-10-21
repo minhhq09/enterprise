@@ -65,7 +65,8 @@ class MrpProduction(models.Model):
     def button_plan(self):
         super(MrpProduction, self).button_plan()
         for production in self:
-            production.workorder_ids._create_checks()
+            if not production.workorder_ids.mapped('check_ids'):
+                production.workorder_ids._create_checks()
 
     @api.multi
     def _generate_moves(self):
