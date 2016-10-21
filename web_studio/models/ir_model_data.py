@@ -12,7 +12,6 @@ class IrModelData(models.Model):
     @api.model
     def create(self, vals):
         if self._context.get('studio'):
-            vals['noupdate'] = True
             vals['studio'] = True
         return super(IrModelData, self).create(vals)
 
