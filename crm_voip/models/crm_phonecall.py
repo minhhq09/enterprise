@@ -91,7 +91,7 @@ class CrmPhonecall(models.Model):
                 'partner_id': self.partner_id.id,
                 'phone': self.partner_phone,
                 'mobile': self.partner_mobile,
-                'team_id': self.team_id,
+                'team_id': self.team_id.id,
                 'description': self.description,
                 'type': 'opportunity',
                 'email_from': self.partner_id.email,
