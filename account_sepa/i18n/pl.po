@@ -3,6 +3,7 @@
 # * account_sepa
 # 
 # Translators:
+# Grzegorz Grzelak <grzegorz.grzelak@openglobe.pl>, 2016
 # Marcin Młynarczyk <mlynarczyk@gmail.com>, 2016
 # Piotr Szlązak <szlazakpiotr@gmail.com>, 2016
 # Judyta Kaźmierczak <judyta.kazmierczak@openglobe.pl>, 2016
@@ -25,7 +26,7 @@ msgstr ""
 #: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
-msgstr "komunikacja SEPA nie może przekraczać 140 postaci"
+msgstr "Komunikacja SEPA nie może przekraczać 140 znaków"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id
@@ -57,7 +58,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_create_uid
 msgid "Created by"
-msgstr "Utworzona przez"
+msgstr "Utworzone przez"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_create_date
@@ -77,7 +78,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.actions.server,name:account_sepa.action_account_download_sepa_sct_file
 msgid "Download SEPA Payment"
-msgstr "pobrana opłata SEPA"
+msgstr "Pobierz płatność SEPA"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_issr
@@ -96,7 +97,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
-msgstr "Nazwa"
+msgstr "Nazwa pliku"
 
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
@@ -145,7 +146,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
-msgstr "pomocnik"
+msgstr "Wystawca"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
@@ -181,12 +182,12 @@ msgstr "Ok"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.account_journal_dashboard_kanban_view_inherited
 msgid "Payment to send via SEPA"
-msgstr "zapłata do wysłania przez SEPA"
+msgstr "Płatność do wysłania przez SEPA"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_payment
 msgid "Payments"
-msgstr "Zapłaty"
+msgstr "Płatności"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:68
@@ -289,15 +290,15 @@ msgid ""
 "The account '%s' (journal %s) requires a Bank Identification Code (BIC) to "
 "pay via SEPA. Please configure it first."
 msgstr ""
-"Konto '%s' (journal %s) wymaga kodu identyfikacyjnego banku (BIC) aby płacić"
-" przez SEPA. Proszę skonfigurować go jako pierwszy."
+"Konto '%s' (journal %s) wymaga kodu identyfikacyjnego banku (BIC), aby "
+"płacić przez SEPA. Proszę najpierw go skonfigurować."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:305
 #, python-format
 msgid ""
 "The amount of the payment '%s' is too high. The maximum permitted is %s."
-msgstr "Ilość zapłat '%s' jest za wysoka. Maksymalna dozwolona jest %s."
+msgstr "Ilość płatności '%s' jest za wysoka. Maksymalnie dozwolone jest %s."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:123
@@ -331,7 +332,7 @@ msgid ""
 "configure it first."
 msgstr ""
 "Dziennik '%s' wymaga odpowiedniego konta IBAN, aby płacić przez SEPA. Proszę"
-" skonfigurować go jako pierwszy."
+" najpierw go skonfigurować."
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:61
@@ -341,7 +342,7 @@ msgid ""
 "via SEPA. Please configure it first."
 msgstr ""
 "Konto partnera '%s' wymaga Bankowego Kodu identyfikacyjnego (BIC) aby płacić"
-" przez SEPA. Proszę skonfigurować go jako pierwszy."
+" przez SEPA. Proszę najpierw go skonfigurować."
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:17
@@ -354,7 +355,7 @@ msgid ""
 "0 1 2 3 4 5 6 7 8 9\n"
 "/ - ? : ( ) . , ' + (space)"
 msgstr ""
-"Tekst zastosowany w SEPA pliki mogą zawierać tylko poniższe postacie :\n"
+"Tekst zastosowany w pliku SEPA może zawierać tylko poniższe znaki :\n"
 "\n"
 "a b c d e f g h i j k l m n o p q r s t u v w x y z\n"
 "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n"

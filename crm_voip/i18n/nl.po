@@ -33,6 +33,12 @@ msgid ""
 "    a new call? </p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Hallo ${object.partner_id.name},</p>\n"
+"\n"
+"<p>Het lijkt erop dat we onderbroken zijn tijdens ons gesprek over\n"
+"'${object.name}'. Kan u me een volgend beschikbaar moment geven om een nieuw gesprek te plannen?</p>\n"
+"<p>Met vriendelijke groet,</p>"
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
@@ -43,6 +49,10 @@ msgid ""
 "    please give me your availability in order to schedule a new call?</p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Hallo ${object.partner_id.name},</p>\n"
+"<p>Ik heb u zojuist proberen te bellen over '${object.name}'. Kan u me een volgend beschikbaar moment geven om een nieuw gesprek te plannen?</p>\n"
+"<p>Best regards,</p>"
 
 #. module: crm_voip
 #: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:87
@@ -116,7 +126,7 @@ msgstr "Bel"
 #: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:85
 #, python-format
 msgid "Call %s min(s)"
-msgstr ""
+msgstr "Gesprek %s minuut(en)"
 
 #. module: crm_voip
 #. openerp-web
