@@ -43,8 +43,11 @@ var XMLEditor = ace.ViewEditor.extend({
         this._displayArch(currentArch, this.view_id);
     },
     displayError: function () {
-        var error_message = this._super.apply(this, arguments);
-        Dialog.alert(this, '', {$content: $('<div>').html(error_message)});
+        var error = this._super.apply(this, arguments);
+        Dialog.alert(this, '', {
+            title: error.title,
+            $content: $('<div>').html(error.message)
+        });
     },
     displaySelectedView: function () {
         var viewID = this.selectedViewId();
