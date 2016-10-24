@@ -64,7 +64,19 @@ class report_account_general_ledger(models.AbstractModel):
         query = sql % (select, tables, where_clause, line_clause)
         self.env.cr.execute(query, where_params)
         results = self.env.cr.fetchall()
-        results = dict([(k[0], {'balance': k[1], 'amount_currency': k[2], 'debit': k[3], 'credit': k[4]}) for k in results])
+        used_currency = self.env.user.company_id.currency_id
+        compute_table = {
+            a.id: a.company_id.currency_id.compute
+            for a in self.env['account.account'].browse([k[0] for k in results])
+        }
+        results = dict([(
+            k[0], {
+                'balance': compute_table[k[0]](k[1], used_currency) if k[0] in compute_table else k[1],
+                'amount_currency': k[2],
+                'debit': compute_table[k[0]](k[3], used_currency) if k[0] in compute_table else k[3],
+                'credit': compute_table[k[0]](k[4], used_currency) if k[0] in compute_table else k[4],
+            }
+        ) for k in results])
         return results
 
     def group_by_account_id(self, line_id):
@@ -155,6 +167,7 @@ class report_account_general_ledger(models.AbstractModel):
                 if len(amls) > 80 and not context.get('print_mode'):
                     amls = amls[-80:]
                     too_many = True
+                used_currency = self.env.user.company_id.currency_id
                 for line in amls:
                     if self.env.context['cash_basis']:
                         line_debit = line.debit_cash_basis
@@ -162,6 +175,8 @@ class report_account_general_ledger(models.AbstractModel):
                     else:
                         line_debit = line.debit
                         line_credit = line.credit
+                    line_debit = line.company_id.currency_id.compute(line_debit, used_currency)
+                    line_credit = line.company_id.currency_id.compute(line_credit, used_currency)
                     progress = progress + line_debit - line_credit
                     currency = "" if not line.currency_id else self._format(line.amount_currency, currency=line.currency_id)
                     name = []
@@ -240,12 +255,3 @@ class account_context_general_ledger(models.TransientModel):
     @api.multi
     def get_columns_types(self):
         return ["date", "text", "text", "number", "number", "number", "number"]
-
-    @api.multi
-    def get_html_and_data(self, given_context=None):
-        res = super(account_context_general_ledger, self).get_html_and_data(given_context=given_context)
-        if len(res['available_companies']) > 1:
-            res['available_companies'] = [
-                [c.id, c.name] for c in self.env.user.company_ids if c.currency_id == self.env.user.company_id.currency_id
-            ]
-        return res
