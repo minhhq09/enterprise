@@ -131,6 +131,13 @@ class HelpdeskTeam(models.Model):
         for team in self:
             if team.use_sla and not self.user_has_groups('helpdesk.group_use_sla'):
                 self.env.ref('helpdesk.group_helpdesk_user').write({'implied_ids': [(4, self.env.ref('helpdesk.group_use_sla').id)]})
+            if team.use_sla:
+                self.env['helpdesk.sla'].with_context(active_test=False).search([('team_id', '=', team.id), ('active', '=', False)]).write({'active': True})
+            else:
+                self.env['helpdesk.sla'].search([('team_id', '=', team.id)]).write({'active': False})
+                if not self.search_count([('use_sla', '=', True)]):
+                    self.env.ref('helpdesk.group_helpdesk_user').write({'implied_ids': [(3, self.env.ref('helpdesk.group_use_sla').id)]})
+                    self.env.ref('helpdesk.group_use_sla').write({'users': [(5, 0, 0)]})
 
     @api.multi
     def _check_modules_to_install(self):
