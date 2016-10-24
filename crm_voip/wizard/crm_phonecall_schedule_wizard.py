@@ -9,7 +9,7 @@ class CrmSchedulePhonecall(models.TransientModel):
 
     name = fields.Char('Call Summary', required=True)
     date = fields.Datetime('Date', required=True)
-    name = fields.Char('Call summary', required=True, select=1)
+    name = fields.Char('Call summary', required=True, index=True)
     user_id = fields.Many2one('res.users', "Assign To")
     partner_phone = fields.Char('Phone')
     partner_mobile = fields.Char('Mobile')
