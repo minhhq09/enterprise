@@ -6,7 +6,7 @@ import random
 
 from dateutil import relativedelta
 
-from odoo import api, fields, models, _, tools
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, AccessError, ValidationError
 
 
@@ -337,7 +337,7 @@ class HelpdeskStage(models.Model):
     sequence = fields.Integer('Sequence', default=10)
     is_close = fields.Boolean(
         'Closing Kanban Stage',
-        help='Tickets in this stage are considered as done. This is used notably when'
+        help='Tickets in this stage are considered as done. This is used notably when '
              'computing SLAs and KPIs on tickets.')
     fold = fields.Boolean(
         'Folded', help='Folded in kanban view')
@@ -389,7 +389,9 @@ class HelpdeskSLA(models.Model):
     ticket_type_id = fields.Many2one(
         'helpdesk.ticket.type', "Ticket Type",
         help="Only apply the SLA to a specific ticket type. If left empty it will apply to all types.")
-    stage_id = fields.Many2one('helpdesk.stage', 'Stage', required=True)
+    stage_id = fields.Many2one(
+        'helpdesk.stage', 'Target Stage', required=True,
+        help='Minimum stage a ticket needs to reach in order to satisfy this SLA.')
     priority = fields.Selection(
         TICKET_PRIORITY, string='Minimum Priority',
         default='0', required=True,
@@ -488,11 +490,11 @@ class HelpdeskTicket(models.Model):
     @api.onchange('team_id')
     def _onchange_team_id(self):
         if self.team_id:
-            udpate_vals = self._onchange_team_get_values(self.team_id)
+            update_vals = self._onchange_team_get_values(self.team_id)
             if not self.user_id:
-                self.user_id = udpate_vals['user_id']
+                self.user_id = update_vals['user_id']
             if not self.stage_id or self.stage_id not in self.team_id.stage_ids:
-                self.stage_id = udpate_vals['stage_id']
+                self.stage_id = update_vals['stage_id']
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
