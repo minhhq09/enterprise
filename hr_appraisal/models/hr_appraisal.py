@@ -144,7 +144,7 @@ class HrAppraisal(models.Model):
             for survey, receivers in appraisal_receiver:
                 for employee in receivers:
                     email = employee.related_partner_id.email or employee.work_email
-                    render_template = appraisal.mail_template_id.with_context(email=email, survey=survey, employee=employee).generate_email_batch([appraisal.id])
+                    render_template = appraisal.mail_template_id.with_context(email=email, survey=survey, employee=employee).generate_email([appraisal.id])
                     values = {
                         'survey_id': survey.id,
                         'public': 'email_private',
