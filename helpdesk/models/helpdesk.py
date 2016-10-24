@@ -401,6 +401,18 @@ class HelpdeskSLA(models.Model):
     time_hours = fields.Integer('Hours', help="Hours to reach given stage based on ticket creation date")
     time_minutes = fields.Integer('Minutes', help="Minutes to reach given stage based on ticket creation date")
 
+    @api.onchange('time_hours')
+    def _onchange_time_hours(self):
+        if self.time_hours >= 24:
+            self.time_days += self.time_hours / 24
+            self.time_hours = self.time_hours % 24
+
+    @api.onchange('time_minutes')
+    def _onchange_time_minutes(self):
+        if self.time_minutes >= 60:
+            self.time_hours += self.time_minutes / 60
+            self.time_minutes = self.time_minutes % 60
+
 
 class HelpdeskTicket(models.Model):
     _name = 'helpdesk.ticket'
