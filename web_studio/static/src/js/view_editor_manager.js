@@ -6,6 +6,7 @@ var data_manager = require('web.data_manager');
 var field_registry = require('web.field_registry');
 var form_common = require('web.form_common');
 var Model = require('web.Model');
+var web_utils = require("web.utils");
 var ViewModel = require('web.ViewModel');
 var Widget = require('web.Widget');
 
@@ -145,6 +146,8 @@ return Widget.extend({
         this.renderer_scrolltop = 0;
         this.studio_view_id = options.studio_view_id;
         this.studio_view_arch = options.studio_view_arch;
+
+        this._apply_changes_mutex = new web_utils.Mutex();
 
         bus.on('undo_clicked', this, this.undo);
         bus.on('redo_clicked', this, this.redo);
@@ -419,20 +422,22 @@ return Widget.extend({
     apply_changes: function(remove_last_op, from_xml) {
         var self = this;
 
-        var def;
         var last_op = this.operations.slice(-1)[0];
 
+        var def;
         if (from_xml) {
-            def = customize.edit_view_arch(
+            def = this._apply_changes_mutex.exec(customize.edit_view_arch.bind(
+                customize,
                 last_op.view_id,
                 last_op.new_arch
-            );
+            ));
         } else {
-            def = customize.edit_view(
+            def = this._apply_changes_mutex.exec(customize.edit_view.bind(
+                customize,
                 this.view_id,
                 this.studio_view_arch,
                 _.filter(this.operations, function(el) {return el.type !== 'replace_arch'; })
-            );
+            ));
         }
 
         return def.then(function (fields_view) {
