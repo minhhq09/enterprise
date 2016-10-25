@@ -52,7 +52,11 @@ var XMLEditor = ace.ViewEditor.extend({
     displaySelectedView: function () {
         var viewID = this.selectedViewId();
         var currentArch = this.views[viewID].arch;
-        this._displayArch(currentArch, viewID);
+        if (this.buffers[viewID]) {
+            this.displayView(viewID);
+        } else {
+            this._displayArch(currentArch, viewID);
+        }
     },
     saveView: function (session) {
         var self = this;
