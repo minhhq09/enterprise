@@ -78,11 +78,13 @@ var XMLEditor = ace.ViewEditor.extend({
             def.reject(null, session, isWellFormed);
         }
         return def.then(function() {
-            var viewId = self.selectedViewId();
-            var $option = self.$('#ace-view-list').find('[value='+viewId+']');
+            var $option = self.$('#ace-view-list').find('[value=' + session.id +']');
             var bufferName = $option.text();
             var dirtyMarker = " (unsaved changes)";
-            $option.text(bufferName.substring(0, bufferName.indexOf(dirtyMarker)));
+            var index = bufferName.indexOf(dirtyMarker);
+            if (index >= 0) {
+                $option.text(bufferName.substring(0, index));
+            }
         });
     },
     close: function () {
