@@ -404,9 +404,9 @@ class HelpdeskSLA(models.Model):
         default='0', required=True,
         help='Tickets under this priority will not be taken into account.')
     company_id = fields.Many2one('res.company', 'Company', related='team_id.company_id', readonly=True, store=True)
-    time_days = fields.Integer('Days', help="Days to reach given stage based on ticket creation date")
-    time_hours = fields.Integer('Hours', help="Hours to reach given stage based on ticket creation date")
-    time_minutes = fields.Integer('Minutes', help="Minutes to reach given stage based on ticket creation date")
+    time_days = fields.Integer('Days', default=0, required=True, help="Days to reach given stage based on ticket creation date")
+    time_hours = fields.Integer('Hours', default=0, required=True, help="Hours to reach given stage based on ticket creation date")
+    time_minutes = fields.Integer('Minutes', default=0, required=True, help="Minutes to reach given stage based on ticket creation date")
 
     @api.onchange('time_hours')
     def _onchange_time_hours(self):
