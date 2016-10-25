@@ -12,6 +12,7 @@
     Adds workcenters to Quality Control
 """,
     "data": [
+        'security/quality_mrp.xml',
         'views/quality_views.xml',
         'views/mrp_production_views.xml',
         'views/mrp_workorder_views.xml',
