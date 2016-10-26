@@ -277,6 +277,7 @@
                 <separator/>
                 <filter string="Open Tickets" domain="[('stage_id.is_close','=',False)]" name="is_open"/>
                 <filter string="Closed Tickets" domain="[('stage_id.is_close','=',True)]" name="is_close"/>
+                <separator/>
                 <filter string="Archived" domain="[('active','=',False)]" name="archive"/>
                 <separator/>
                 <filter string="Upcoming SLA Fail" domain="[('sla_active', '=', True),('deadline','!=',False),('deadline', '&lt;=', (datetime.date.today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]" name="upcoming_sla_fail" groups="helpdesk.group_use_sla"/>
@@ -481,7 +482,7 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="helpdesk_tickets_view_search"/>
-        <field name="context">{}</field>
+        <field name="context">{'search_default_is_open': True}</field>
         <field name="help" type="html">
             <p>
                 No tickets to display.
