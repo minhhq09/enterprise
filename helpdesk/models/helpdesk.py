@@ -350,7 +350,7 @@ class HelpdeskStage(models.Model):
         'Folded', help='Folded in kanban view')
     team_ids = fields.Many2many(
         'helpdesk.team', relation='team_stage_rel', string='Team',
-        default=_get_default_team_ids, groups="base.group_no_one",
+        default=_get_default_team_ids,
         help='Specific team that uses this stage. Other teams will not be able to see or use this stage.')
     template_id = fields.Many2one(
         'mail.template', 'Automated Answer Email Template',
