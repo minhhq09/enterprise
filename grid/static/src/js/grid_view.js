@@ -543,11 +543,18 @@ var GridView = View.extend({
         this._enqueue(function () {
             if (section) {
                 var section_name = section.attrs.name;
-                return _this._model.call('read_group', {
-                    domain: _this.get('domain') || [],
-                    fields: [section_name],
-                    groupby: [section_name],
-                    context: _this.get_full_context()
+
+                return _this._model.call('read_grid_domain', {
+                    field: _this._col_field.name(),
+                    range: _this.get('range') || false,
+                    context: _this.get_full_context(),
+                }).then(function (d) {
+                    return _this._model.call('read_group', {
+                        domain: d.concat(_this.get('domain') || []),
+                        fields: [section_name],
+                        groupby: [section_name],
+                        context: _this.get_full_context()
+                    });
                 }).then(function (groups) {
                     if (!groups.length) {
                         // if there are no groups in the output we still need

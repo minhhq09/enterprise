@@ -7,6 +7,7 @@ import babel.dates
 from dateutil.relativedelta import relativedelta, MO, SU
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.osv import expression
 
 _GRID_TUP = [('grid', "Grid")]
@@ -210,6 +211,38 @@ class Base(models.AbstractModel):
             )
         else:
             raise ValueError(_("Can not use fields of type %s as grid columns") % field.type)
+
+    @api.model
+    def read_grid_domain(self, field, range):
+        """ JS grid view may need to know the "span domain" of the grid before
+        it has been able to read the grid at all. This provides only that part
+        of the grid processing
+
+        .. warning:: the result domain *must* be properly normalized
+        """
+        if not range:
+            range = {}
+        field = self._fields[field]
+        if field.type == 'selection':
+            return []
+        elif field.type == 'many2one':
+            return []
+        elif field.type == 'date':
+            step = range.get('step', 'day')
+            span = range.get('span', 'month')
+
+            anchor = field.from_string(field.context_today(self))
+            context_anchor = self.env.context.get('grid_anchor')
+            if context_anchor:
+                anchor = field.from_string(context_anchor)
+
+            r = self._grid_range_of(span, step, anchor)
+            return [
+                '&',
+                (field.name, '>=', field.to_string(r.start)),
+                (field.name, '<=', field.to_string(r.end))
+            ]
+        raise UserError(_("Can not use fields of type %s as grid columns") % field.type)
 
     def _get_date_formatter(self, step, locale):
         """ Returns a callable taking a single positional date argument and

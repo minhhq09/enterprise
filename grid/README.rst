@@ -157,6 +157,12 @@ Aside from optional buttons, the grid view currently calls two methods:
     context item to merge into the view's own context to ``read_grid`` the 
     previous or next page, it should be assumed to be opaque
 
+* ``read_grid_domain(field, range)`` (provided on al models by the module)
+  returns the domain matching the current configured "span" of the grid. This
+  is also done internally by ``read_grid``, but can be useful or necessary to
+  call independently to use with separate e.g. ``search_count`` or
+  ``read_group``.
+
 * ``adjust_grid``, for which there currently isn't a blanket implementation
   and whose semantics are likely to evolve with time and use cases
 
