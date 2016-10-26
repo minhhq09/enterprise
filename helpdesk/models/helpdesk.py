@@ -44,7 +44,7 @@ class HelpdeskTeam(models.Model):
              '\tManually: manual\n'
              '\tRandomly: randomly but everyone gets the same amount\n'
              '\tBalanced: to the person with the least amount of open tickets')
-    member_ids = fields.Many2many('res.users', string='Team Members')
+    member_ids = fields.Many2many('res.users', string='Team Members', domain=lambda self: [('groups_id', 'in', self.env.ref('helpdesk.group_helpdesk_user').id)])
     ticket_ids = fields.One2many('helpdesk.ticket', 'team_id', string='Tickets')
 
     use_alias = fields.Boolean('Email alias')
@@ -475,7 +475,7 @@ class HelpdeskTicket(models.Model):
              "* Normal is the default situation\n"
              "* Blocked indicates something is preventing the progress of this issue\n"
              "* Ready for next stage indicates the issue is ready to be pulled to the next stage")
-    user_id = fields.Many2one('res.users', string='Assigned to', track_visibility='onchange')
+    user_id = fields.Many2one('res.users', string='Assigned to', track_visibility='onchange', domain=lambda self: [('groups_id', 'in', self.env.ref('helpdesk.group_helpdesk_user').id)])
     partner_id = fields.Many2one('res.partner', string='Customer')
     partner_tickets = fields.Integer('Number of tickets from the same partner', compute='_compute_partner_tickets')
 
