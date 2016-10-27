@@ -7,7 +7,7 @@ import odoo
 # Monkey patch release to set the edition as 'enterprise'
 # ----------------------------------------------------------
 odoo.release.version_info = odoo.release.version_info[:5] + ('e',)
-if '+e' not in odoo.release.verion:     # not already patched by packaging
+if '+e' not in odoo.release.version:     # not already patched by packaging
     odoo.release.version += '{0}+e{1}{2}'.format(*odoo.release.version.partition('-'))
 
 odoo.service.common.RPC_VERSION_1.update(
