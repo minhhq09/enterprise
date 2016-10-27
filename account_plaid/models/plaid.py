@@ -61,9 +61,9 @@ class PlaidAccountJournal(models.Model):
                 if self.online_account_id and self._context.get('patch', True):
                     if not params.get('access_token', False):
                         params['access_token'] = self.online_account_id.token
-                    resp = requests.patch(api + service, params=params, timeout=20)
+                    resp = requests.patch(api + service, data=params, timeout=20)
                 else:
-                    resp = requests.post(api + service, params=params, timeout=20)
+                    resp = requests.post(api + service, data=params, timeout=20)
             elif type_request == "get":
                 #Trying to get information on institution, so we don't need to pass credential information in GET request
                 resp = requests.get(api + service, timeout=20)
