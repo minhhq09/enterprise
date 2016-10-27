@@ -166,10 +166,16 @@ class SaleSubscription(models.Model):
         if not self.partner_id:
             raise UserError(_("You must first select a Customer for Subscription %s!") % self.name)
 
-        fpos_id = self.env['account.fiscal.position'].with_context(force_company=self.company_id.id).get_fiscal_position(self.partner_id.id)
-        journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)
+        if 'force_company' in self.env.context:
+            company = self.env['res.company'].browse(self.env.context['force_company'])
+        else:
+            company = self.company_id
+            self = self.with_context(force_company=company.id, company_id=company.id)
+
+        fpos_id = self.env['account.fiscal.position'].get_fiscal_position(self.partner_id.id)
+        journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', company.id)], limit=1)
         if not journal:
-            raise UserError(_('Please define a sale journal for the company "%s".') % (self.company_id.name or '', ))
+            raise UserError(_('Please define a sale journal for the company "%s".') % (company.name or '', ))
 
         next_date = fields.Date.from_string(self.recurring_next_date)
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
@@ -191,12 +197,18 @@ class SaleSubscription(models.Model):
 
     @api.multi
     def _prepare_invoice_line(self, line, fiscal_position):
+        if 'force_company' in self.env.context:
+            company = self.env['res.company'].browse(self.env.context['force_company'])
+        else:
+            company = line.analytic_account_id.company_id
+            line = line.with_context(force_company=company.id, company_id=company.id)
+
         account = line.product_id.property_account_income_id
         if not account:
             account = line.product_id.categ_id.property_account_income_categ_id
         account_id = fiscal_position.map_account(account).id
 
-        tax = line.product_id.taxes_id.filtered(lambda r: r.company_id == line.analytic_account_id.company_id)
+        tax = line.product_id.taxes_id.filtered(lambda r: r.company_id == company)
         tax = fiscal_position.map_tax(tax)
         return {
             'name': line.name,

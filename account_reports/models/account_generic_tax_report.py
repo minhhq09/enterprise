@@ -51,6 +51,7 @@ class report_account_generic_tax_report(models.AbstractModel):
         return sql
 
     def _compute_from_amls(self, taxes, period_number):
+        used_currency = self.env.user.company_id.currency_id
         sql = self._sql_from_amls_one()
         if self.env.context.get('cash_basis'):
             sql = sql.replace('debit', 'debit_cash_basis').replace('credit', 'credit_cash_basis')
@@ -60,7 +61,8 @@ class report_account_generic_tax_report(models.AbstractModel):
         results = self.env.cr.fetchall()
         for result in results:
             if result[0] in taxes:
-                taxes[result[0]]['periods'][period_number]['tax'] = result[1]
+                from_currency = taxes[result[0]]['obj'].company_id.currency_id
+                taxes[result[0]]['periods'][period_number]['tax'] = from_currency.compute(result[1], used_currency)
                 taxes[result[0]]['show'] = True
         sql = self._sql_from_amls_two()
         if self.env.context.get('cash_basis'):
@@ -70,7 +72,8 @@ class report_account_generic_tax_report(models.AbstractModel):
         results = self.env.cr.fetchall()
         for result in results:
             if result[0] in taxes:
-                taxes[result[0]]['periods'][period_number]['net'] = result[1]
+                from_currency = taxes[result[0]]['obj'].company_id.currency_id
+                taxes[result[0]]['periods'][period_number]['net'] = from_currency.compute(result[1], used_currency)
                 taxes[result[0]]['show'] = True
 
     @api.model
@@ -182,12 +185,3 @@ class AccountReportContextTax(models.TransientModel):
                 types += ['number', 'number']
         return types
 
-
-    @api.multi
-    def get_html_and_data(self, given_context=None):
-        res = super(AccountReportContextTax, self).get_html_and_data(given_context=given_context)
-        if len(res['available_companies']) > 1:
-            res['available_companies'] = [
-                [c.id, c.name] for c in self.env.user.company_ids if c.currency_id == self.env.user.company_id.currency_id
-            ]
-        return res

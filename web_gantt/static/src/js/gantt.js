@@ -526,6 +526,7 @@ var GanttView = View.extend({
                     'create': task.create,
                     'open': task.open,
                     'consolidation_color': task.color,
+                    'index': gantt_tasks.length,
                 };
                 if (parent_id) { t.parent = parent_id; }
                 gantt_tasks.push(t);
@@ -546,6 +547,7 @@ var GanttView = View.extend({
                     'consolidation': task[self.fields_view.arch.attrs.consolidation],
                     'consolidation_exclude': task[self.fields_view.arch.attrs.consolidation_exclude],
                     'color': task.color,
+                    'index': gantt_tasks.length,
                 });
             }
         };
@@ -572,12 +574,15 @@ var GanttView = View.extend({
         gantt.clearAll();
         gantt.showDate(self.focus_date);
         gantt.parse({"data": gantt_tasks});
-
         gantt.sort(function(a, b){
             if (gantt.hasChild(a.id) && !gantt.hasChild(b.id)){
                 return -1;
             } else if (!gantt.hasChild(a.id) && gantt.hasChild(b.id)) {
                 return 1;
+            } else if (a.index > b.index) {
+                return 1;
+            } else if (a.index < b.index) {
+                return -1;
             } else {
                 return 0;
             }

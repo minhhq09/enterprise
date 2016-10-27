@@ -106,7 +106,7 @@ class account_bank_reconciliation_report(models.AbstractModel):
                     'action': line.get_model_id_and_name(),
                     'name': line.name,
                     'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', self.line_number),
-                    'columns': [line.date, line.ref, self._format(line.balance)],
+                    'columns': [line.date, line.ref, self._format(line.amount_currency if use_foreign_currency else line.balance)],
                     'level': 1,
                 })
                 unrec_tot += line.amount_currency if use_foreign_currency else line.balance
