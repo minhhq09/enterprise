@@ -15,13 +15,14 @@
 # JackTheHunter <Maximilian.N98@gmail.com>, 2016
 # Anja Funk <anja.funk@afimage.de>, 2016
 # Mathias Neef <mn@copado.de>, 2016
+# Niki Waibel <niki.waibel@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Mathias Neef <mn@copado.de>, 2016\n"
+"Last-Translator: Niki Waibel <niki.waibel@gmail.com>, 2016\n"
 "Language-Team: German (https://www.transifex.com/odoo/teams/41243/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,7 +117,7 @@ msgstr "Allgemein"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "German Version"
-msgstr ""
+msgstr "Deutsche Version"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -131,7 +132,7 @@ msgstr "Identifikation"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
 msgid "Identification *"
-msgstr ""
+msgstr "Identifikation *"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
@@ -164,7 +165,7 @@ msgstr "Veranlasser"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
 msgid "Issuer *"
-msgstr ""
+msgstr "Aussteller *"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -242,12 +243,12 @@ msgstr "Über SEPA zu sendende Überweisungen"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_pain_version
 msgid "SEPA Pain Version"
-msgstr ""
+msgstr "SEPA PAIN Version"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
 msgid "SEPA Pain Version *"
-msgstr ""
+msgstr "SEPA PAIN Version *"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
@@ -262,6 +263,9 @@ msgid ""
 "recommandations made by the EPC (European Payment Councile) and thus the XML"
 " created need some tweakenings."
 msgstr ""
+"SEPA kann ein generisches Format sein. Einige Länder weichen von den SEPA-"
+"Empfehlungen des EPC (European Payments Council) ab und deshalb die benötigt"
+" das erzeugte XML ein paar Optimierungen."
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
@@ -271,7 +275,7 @@ msgstr "Über SEPA zu sendende Zahlungen"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "Swiss Version"
-msgstr ""
+msgstr "Schweizer Version"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -332,6 +336,8 @@ msgstr ""
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
+"Das Guthabenbankkonto %s, das in der Zahlung %s verwendet wird, wird nicht "
+"von einem BIC identifiziert"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:125
@@ -339,6 +345,8 @@ msgstr ""
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
 msgstr ""
+"Das Guthabenbankkonto %s, das in der Zahlung %s verwendet wird, wird nicht "
+"durch eine IBAN identifiziert"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
@@ -349,6 +357,9 @@ msgid ""
 "In particular, the reason why it this payment file is not a generic is the following:\n"
 "   "
 msgstr ""
+"Die generierte Zahlungsdatei ist keine generische SEPA-Überweisung. Seien Sie sich bewusst, dass Banken diese ablehnen können, weil es nicht von ihrer Seite implementiert wurde.\n"
+"\n"
+"Der Grund warum es sich bei dieser Zahlungsdatei nicht um eine generische handelt ist der Folgende:"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:50
@@ -392,7 +403,7 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:121
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
-msgstr ""
+msgstr "Die Transaktion %s wird in einer anderen Währung als EUR ausgewiesen"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:334
@@ -443,13 +454,13 @@ msgstr "Unternehmensname"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
 msgid "Your Company Name *"
-msgstr ""
+msgstr "Ihr Unternehmens Name *"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
-msgstr ""
+msgstr "Ihr Bankkonto ist nicht in EUR gezeichnet"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_config_settings
