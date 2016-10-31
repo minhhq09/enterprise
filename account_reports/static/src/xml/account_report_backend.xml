@@ -63,6 +63,7 @@
                 <t t-if="context.date_filter == 'last_quarter'">Last Quarter</t>
                 <t t-if="context.date_filter == 'last_year'">Last Year</t>
                 <t t-if="context.date_filter == 'this_year'">This Year</t>
+                <t t-if="context.date_filter == 'this_quarter'">This Quarter</t>
                 <t t-if="context.date_filter == 'this_month'">This Month</t>
                 <t t-if="context.date_filter == 'custom'">Custom</t>
                 <span class="caret"/>
@@ -76,6 +77,7 @@
                 </t>
                 <t t-if="report_type.date_range">
                     <li title="This Month" data-value="this_month" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'this_month' and 'selected' or '')"><a>This Month</a></li>
+                    <li title="This Quarter" data-value="this_quarter" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'this_quarter' and 'selected' or '')"><a>This Quarter</a></li>
                     <li title="This Financial Year" data-value="this_year" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'this_year' and 'selected' or '')"><a>This Financial Year</a></li>
                     <li class="divider"></li>
                     <li title="Last Month" data-value="last_month" t-att-class="'o_account_reports_one-filter ' + (context.date_filter == 'last_month' and 'selected' or '')"><a>Last Month</a></li>

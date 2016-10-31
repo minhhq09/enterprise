@@ -431,6 +431,13 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
                 dt.setDate(0);
                 self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(moment(dt));
                 break;
+            case 'this_quarter':
+                dt = new moment();
+                self.$searchview_buttons.find("input[name='date_to']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(dt.endOf('quarter'));
+                if (!no_date_range) {
+                    self.$searchview_buttons.find("input[name='date_from']").parents('.o_account_reports_datetimepicker').data("DateTimePicker").setValue(dt.startOf('quarter'));
+                }
+                break;
             case 'this_year':
                 if (today.getMonth() + 1 < self.fy.fiscalyear_last_month || (today.getMonth() + 1 === self.fy.fiscalyear_last_month && today.getDate() <= self.fy.fiscalyear_last_day)) {
                     dt = new Date(today.getFullYear(), self.fy.fiscalyear_last_month - 1, self.fy.fiscalyear_last_day, 12, 0, 0, 0);
