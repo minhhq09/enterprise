@@ -41,7 +41,6 @@
 
                     <a t-if="signature_request.state == 'signed'" t-attf-href="/sign/download/{{signature_request.id}}/{{signature_request.access_token}}/completed" class="btn btn-primary o_sign_download_document_button">Download Document</a>
                     <button type="button" class="btn btn-default o_sign_view_history">View History<t t-if="nbComments > 0"> (<t t-esc="nbComments"/> comment<t t-if="nbComments > 1">s</t>)</t></button>
-                    <t t-call="website.language_selector"></t>
                 </div>
 
                 <div class="col-md-4">
