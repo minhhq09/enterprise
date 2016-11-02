@@ -170,15 +170,14 @@ class AccountFinancialReportLine(models.Model):
         sql = ''
         params = []
 
-        #Cash flow statement (all lines but 'CASHSTART' and 'CASHEND' because those lines have to be computed on the normal account_move_line table)
-        #--------------------
-        #The cash flow needs to show amount on income/expense accounts, but only when they're paid AND under the payment date in the reporting, so
+        #Cash basis option
+        #-----------------
+        #In cash basis, we need to show amount on income/expense accounts, but only when they're paid AND under the payment date in the reporting, so
         #we have to make a complex query to join aml from the invoice (for the account), aml from the payments (for the date) and partial reconciliation
-        #(for the reconciled amount).
-        #NOTE: This is totally unusual for implementing a complex report but has been done as a bugfix when we realized the generic report was showing
-        #the invoice's account under the _invoice_ date in the reporting (instead of payment date), and it was too late to implement that with a
-        #dedicated custom report.
-        if financial_report == self.env.ref('account_reports.account_financial_report_cashsummary0') and self.code not in ('CASHSTART', 'CASHEND'):
+        #(for the reconciled amount). This is True also for the cash flow statement except for lines 'CASHSTART' and 'CASHEND' because those have to be
+        #computed on the normal account_move_line table).
+        if self.code not in ('CASHSTART', 'CASHEND') \
+          and (financial_report == self.env.ref('account_reports.account_financial_report_cashsummary0') or self.env.context.get('cash_basis')):
             #we use query_get() to filter out unrelevant journal items to have a shadowed table as small as possible
             tables, where_clause, where_params = self.env['account.move.line']._query_get()
             sql = """WITH account_move_line AS (
