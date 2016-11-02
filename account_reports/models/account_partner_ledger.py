@@ -163,7 +163,7 @@ class ReportPartnerLedger(models.AbstractModel):
                         'id': partner.id,
                         'type': 'too_many_partner',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
-                        'footnotes': [],
+                        'footnotes': {},
                         'colspan': 8,
                         'columns': [],
                         'level': 3,

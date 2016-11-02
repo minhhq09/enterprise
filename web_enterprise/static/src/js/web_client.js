@@ -297,6 +297,7 @@ return AbstractWebClient.extend({
                 self.url = $.bbq.getState();
                 self._ignore_hashchange = true;
                 $.bbq.pushState('#home', 2); // merge_mode 2 to replace the current state
+                self.menu.toggle_mode(true, self.action_manager.get_inner_action() !== null);
             });
         } else {
             framework.detach([{widget: this.app_switcher}]);
@@ -305,9 +306,8 @@ return AbstractWebClient.extend({
                 callbacks: [{widget: this.action_manager}],
             });
             this.app_switcher_displayed = false;
+            this.menu.toggle_mode(false, this.action_manager.get_inner_action() !== null);
         }
-
-        this.menu.toggle_mode(display, this.action_manager.get_inner_action() !== null);
     },
     // --------------------------------------------------------------
     // Scrolltop handling
