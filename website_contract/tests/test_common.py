@@ -6,6 +6,9 @@ class TestContractCommon(common.TransactionCase):
 
     def setUp(self):
         super(TestContractCommon, self).setUp()
+
+        self.env.user.company_id.currency_id = self.env.ref('base.EUR')
+
         Contract = self.env['sale.subscription']
         Template = self.env['sale.subscription.template']
         Product = self.env['product.product']
