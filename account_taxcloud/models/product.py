@@ -32,8 +32,8 @@ class ProductTemplate(models.Model):
 
     tic_category_id = fields.Many2one('product.tic.category', string="TIC Category",
         help="TaxCloud uses Taxability Information Codes (TIC) to make sure each item in your catalog "
-             "is taxed at the right rate (or, for tax-exempt items, not taxed at all), so it’s important "
-             "to make sure that each item is assigned a TIC. If you can’t find the right tax category for "
+             "is taxed at the right rate (or, for tax-exempt items, not taxed at all), so it's important "
+             "to make sure that each item is assigned a TIC. If you can't find the right tax category for "
              "an item in your catalog, you can assign it to the 'General Goods and Services' TIC, 00000. "
              "TaxCloud automatically assigns products to this TIC as a default, so unless you've changed an "
              "item's TIC in the past, it should already be set to 00000.")
