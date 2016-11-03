@@ -1,16 +1,35 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+import unicodedata
 import uuid
+import re
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools import ustr
+
+
+def sanitize_for_xmlid(s):
+    """ Transforms a string to a name suitable for use in an xmlid.
+        Strips leading and trailing spaces, converts unicode chars to ascii,
+        lowers all chars, replaces spaces with underscores and truncates the
+        resulting string to 20 characters.
+        :param s: str
+        :rtype: str
+    """
+    s = ustr(s)
+    uni = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode('ascii')
+
+    slug_str = re.sub('[\W]', ' ', uni).strip().lower()
+    slug_str = re.sub('[-\s]+', '_', slug_str)
+    return slug_str[:20]
 
 
 class Base(models.AbstractModel):
     _inherit = 'base'
 
-    def create_studio_model_data(self):
+    def create_studio_model_data(self, name):
         """ We want to keep track of created records with studio
             (ex: model, field, view, action, menu, etc.).
             An ir.model.data is created whenever a record of one of these models
@@ -27,7 +46,7 @@ class Base(models.AbstractModel):
         else:
             module = self.env['ir.module.module'].get_studio_module()
             IrModelData.create({
-                'name': '%s' % uuid.uuid4(),
+                'name': '%s_%s' % (sanitize_for_xmlid(name), uuid.uuid4()),
                 'model': self._name,
                 'res_id': self.id,
                 'module': module.name,

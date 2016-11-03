@@ -15,7 +15,7 @@ class StudioMixin(models.AbstractModel):
         res = super(StudioMixin, self).create(vals)
 
         if self._context.get('studio'):
-            res.create_studio_model_data()
+            res.create_studio_model_data(res.display_name)
 
         return res
 
@@ -25,6 +25,6 @@ class StudioMixin(models.AbstractModel):
 
         if self._context.get('studio'):
             for record in self:
-                record.create_studio_model_data()
+                record.create_studio_model_data(record.display_name)
 
         return res
