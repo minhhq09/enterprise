@@ -113,8 +113,6 @@ class ProviderUPS(models.Model):
             }
             srm.check_required_value(picking.company_id.partner_id, picking.picking_type_id.warehouse_id.partner_id, picking.partner_id, picking=picking)
 
-            # UPS doesn't seem to accept different types of packages in the same shipping
-            picking.check_packages_are_identical()
             package_type = picking.package_ids and picking.package_ids[0].packaging_id.shipper_package_code or self.ups_default_packaging_id.shipper_package_code
             result = srm.send_shipping(
                 shipment_info=shipment_info, packages=packages, shipper=picking.company_id.partner_id, ship_from=picking.picking_type_id.warehouse_id.partner_id,
