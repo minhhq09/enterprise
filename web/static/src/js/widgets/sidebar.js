@@ -6,7 +6,6 @@ var data = require('web.data');
 var Dialog = require('web.Dialog');
 var framework = require('web.framework');
 var pyeval = require('web.pyeval');
-var session = require('web.session');
 var Widget = require('web.Widget');
 
 var QWeb = core.qweb;
@@ -51,6 +50,10 @@ var Sidebar = Widget.extend({
             }
             event.preventDefault();
         });
+    },
+    destroy: function() {
+        $(window).off(this.fileupload_id);
+        return this._super.apply(this, arguments);
     },
     redraw: function() {
         this.$el.html(QWeb.render('Sidebar', {widget: this}));

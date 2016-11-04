@@ -259,7 +259,13 @@ var View = Widget.extend({
     },
     get_scrollTop: function() {
         return this.scrollTop;
-    }
+    },
+    destroy: function () {
+        if (this.$buttons) {
+            this.$buttons.off();
+        }
+        return this._super.apply(this, arguments);
+    },
 });
 
 return View;

@@ -127,6 +127,9 @@ var FormView = View.extend(common.FieldManagerMixin, {
         if (this.$el) {
             this.$el.off('.formBlur');
         }
+        if (this.$pager) {
+            this.$pager.off();
+        }
         this._super();
     },
     load_form: function(data) {

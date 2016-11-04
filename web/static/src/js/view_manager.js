@@ -307,7 +307,7 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
                     $switch_buttons.filter('.o_cp_switch_' + view.type).tooltip();
                 });
                 // Add onclick event listener
-                $switch_buttons.filter('button').click(_.debounce(function(event) {
+                $switch_buttons.on('click', _.debounce(function(event) {
                     var view_type = $(event.target).data('view-type');
                     self.switch_mode(view_type);
                 }, 200, true));
@@ -457,6 +457,17 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
             this.switch_mode(state.view_type, true);
         }
         this.active_view.controller.do_load_state(state, warm);
+    },
+    destroy: function () {
+        if (this.switch_buttons) {
+            if (this.switch_buttons.$multi) {
+                this.$switch_buttons.$multi.off();
+            }
+            if (this.switch_buttons.$mono) {
+                this.$switch_buttons.$mono.off();
+            }
+        }
+        return this._super.apply(this, arguments);
     },
 });
 
