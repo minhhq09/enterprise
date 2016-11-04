@@ -48,9 +48,9 @@ class TemandoRequest():
         if res:
             raise ValidationError(_("The address of your company is missing or wrong (Missing fields : %s...).") % ", ".join(res))
         if order:
-            if not order.order_line:
+            if not order.order_line.filtered(lambda line: not line.is_delivery and line.product_id.type not in ['service', 'digital']):
                 raise ValidationError(_("Please provide at least one item to ship."))
-            for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery and not line.product_id.type in ['service', 'digital']):
+            for line in order.order_line.filtered(lambda line: not line.product_id.weight and not line.is_delivery and line.product_id.type not in ['service', 'digital']):
                 raise ValidationError(_('The estimated price cannot be computed because the weight of your product is missing.'))
         if picking:
             if not picking.move_lines:
@@ -114,7 +114,7 @@ class TemandoRequest():
     def set_quotes_anything_detail(self, carrier, order):
         res = []
 
-        for line in order.order_line.filtered(lambda line: not line.is_delivery):
+        for line in order.order_line.filtered(lambda line: not line.is_delivery and line.product_id.type not in ['service', 'digital']):
             result = self._check_measurement_detail(line.product_packaging, carrier)
             self.Anything = self.client.factory.create('com:anything')
             # always now it's for General Goods
