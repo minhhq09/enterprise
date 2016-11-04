@@ -3,9 +3,10 @@
 
 from lxml import etree
 from StringIO import StringIO
-from openerp import http, _
-from openerp.http import request
+from odoo import http, _
+from odoo.http import content_disposition, request
 from odoo.exceptions import UserError, AccessError
+from odoo.addons.web_studio.controllers import export
 
 
 class WebStudioController(http.Controller):
@@ -320,6 +321,22 @@ class WebStudioController(http.Controller):
                     return fields_view
                 except Exception:
                     return False
+
+    @http.route('/web_studio/export', type='http', auth='user')
+    def export(self, token):
+        """ Exports a zip file containing the 'studio_customization' module
+            gathering all customizations done with Studio (customizations of
+            existing apps and freshly created apps).
+        """
+        studio_module = request.env['ir.module.module'].get_studio_module()
+        data = request.env['ir.model.data'].search([('studio', '=', True)])
+        content = export.generate_archive(studio_module, data)
+
+        return request.make_response(content, headers=[
+            ('Content-Disposition', content_disposition('customizations.zip')),
+            ('Content-Type', 'application/zip'),
+            ('Content-Length', len(content)),
+        ], cookies={'fileToken': token})
 
     def _preprocess_attrs(self, node):
         # The js can't give us the field name, it only has the field id
