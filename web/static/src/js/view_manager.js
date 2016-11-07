@@ -461,10 +461,10 @@ var ViewManager = Widget.extend(ControlPanelMixin, {
     destroy: function () {
         if (this.switch_buttons) {
             if (this.switch_buttons.$multi) {
-                this.$switch_buttons.$multi.off();
+                this.switch_buttons.$multi.off();
             }
             if (this.switch_buttons.$mono) {
-                this.$switch_buttons.$mono.off();
+                this.switch_buttons.$mono.off();
             }
         }
         return this._super.apply(this, arguments);
