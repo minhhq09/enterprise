@@ -1,24 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_batch_deposit
-#
+# 
 # Translators:
+# RGB Consulting <odoo@rgbconsulting.com>, 2016
+# Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2015-12-05 23:17+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Catalan (http://www.transifex.com/odoo/odoo-9/language/ca/)\n"
-"Language: ca\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Catalan (https://www.transifex.com/odoo/teams/41243/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:40
+#: code:addons/account_batch_deposit/models/account_payment.py:42
 #, python-format
 msgid ""
 "All payments to print as a deposit slip must belong to the same journal."
@@ -71,7 +74,7 @@ msgid "Batch Deposit Sequence"
 msgstr ""
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal.py:41
+#: code:addons/account_batch_deposit/models/account_journal.py:43
 #, python-format
 msgid "Batch Deposits Sequence"
 msgstr ""
@@ -89,16 +92,13 @@ msgstr ""
 #. module: account_batch_deposit
 #: model:ir.actions.act_window,help:account_batch_deposit.action_batch_deposit
 msgid ""
-"Batch deposits allows you to group received checks before you deposit them "
-"to the bank.\n"
-"                    The amount deposited to your bank will then appear as a "
-"single transaction on your bank statement.\n"
-"                    When you proceed with the reconciliation, simply select "
-"the corresponding batch deposit to reconcile the payments."
+"Batch deposits allows you to group received checks before you deposit them to the bank.\n"
+"                    The amount deposited to your bank will then appear as a single transaction on your bank statement.\n"
+"                    When you proceed with the reconciliation, simply select the corresponding batch deposit to reconcile the payments."
 msgstr ""
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_journal_dashboard.py:13
+#: code:addons/account_batch_deposit/models/account_journal.py:68
 #: model:ir.actions.server,name:account_batch_deposit.action_account_create_batch_deposit
 #, python-format
 msgid "Create Batch Deposit"
@@ -135,12 +135,12 @@ msgstr "Data"
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_display_name
 #: model:ir.model.fields,field_description:account_batch_deposit.field_report_account_batch_deposit_print_batch_deposit_display_name
 msgid "Display Name"
-msgstr "Mostra Nom"
+msgstr "Mostrar Nom"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_search
 msgid "Group By"
-msgstr "Agrupa per"
+msgstr "Agrupar per"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_id
@@ -153,7 +153,7 @@ msgstr "ID"
 #: code:addons/account_batch_deposit/static/src/js/account_reconciliation_widgets.js:94
 #, python-format
 msgid "Incorrect Operation"
-msgstr ""
+msgstr "Operació incorrecta"
 
 #. module: account_batch_deposit
 #: model:ir.model,name:account_batch_deposit.model_account_journal
@@ -164,22 +164,22 @@ msgstr "Diari"
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit___last_update
 #: model:ir.model.fields,field_description:account_batch_deposit.field_report_account_batch_deposit_print_batch_deposit___last_update
 msgid "Last Modified on"
-msgstr "Darrera modificació feta el dia"
+msgstr "Última modificació el "
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_write_uid
 msgid "Last Updated by"
-msgstr "Actualitzat per última vegada per"
+msgstr "Última actualització per"
 
 #. module: account_batch_deposit
 #: model:ir.model.fields,field_description:account_batch_deposit.field_account_batch_deposit_write_date
 msgid "Last Updated on"
-msgstr "Actualitzat per última vegada el dia"
+msgstr "Última actualització el"
 
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.print_batch_deposit
 msgid "Memo"
-msgstr "Anotació"
+msgstr "Circular"
 
 #. module: account_batch_deposit
 #: selection:account.batch.deposit,state:0
@@ -194,7 +194,7 @@ msgid "Payments"
 msgstr "Pagaments"
 
 #. module: account_batch_deposit
-#: code:addons/account_batch_deposit/account_payment.py:36
+#: code:addons/account_batch_deposit/models/account_payment.py:38
 #, python-format
 msgid ""
 "Payments to print as a deposit slip must have 'Batch Deposit' selected as "
@@ -235,7 +235,7 @@ msgstr "Referència"
 #. module: account_batch_deposit
 #: model:ir.ui.view,arch_db:account_batch_deposit.view_batch_deposit_form
 msgid "Register Payment"
-msgstr ""
+msgstr "Registrar pagament"
 
 #. module: account_batch_deposit
 #. openerp-web

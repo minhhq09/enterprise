@@ -1,22 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_deferred_revenue
-#
+# 
 # Translators:
+# Martin Trigaux <mat@odoo.com>, 2016
 # Yoshi Tashiro <tashiro@roomsfor.hk>, 2016
 # 高木正勝 <masakatsu.takagi@pro-spire.co.jp>, 2016
+# Takahiro MURAKAMI <murakami@date-yakkyoku.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-08-17 08:39+0000\n"
-"Last-Translator: Yoshi Tashiro <tashiro@roomsfor.hk>\n"
-"Language-Team: Japanese (http://www.transifex.com/odoo/odoo-9/language/ja/)\n"
-"Language: ja\n"
+"POT-Creation-Date: 2016-09-29 14:58+0000\n"
+"PO-Revision-Date: 2016-09-29 14:58+0000\n"
+"Last-Translator: Takahiro MURAKAMI <murakami@date-yakkyoku.com>, 2016\n"
+"Language-Team: Japanese (https://www.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: account_deferred_revenue
@@ -32,7 +34,7 @@ msgstr "有効な状態の資産"
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
 msgid "Category"
-msgstr "分類"
+msgstr "カテゴリ"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -46,13 +48,18 @@ msgstr "会社"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Compute Depreciation"
-msgstr "償却を計算"
+msgid "Compute Revenue"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Confirm"
 msgstr "確認"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Cumulative Revenue"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_asset_sale_tree
@@ -80,9 +87,10 @@ msgid "Deferred Revenue Analysis"
 msgstr "前受収益分析"
 
 #. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_invoice_asset_form
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_invoice_revenue_recognition_category
-msgid "Deferred Revenue Category"
-msgstr "前受収益カテゴリ"
+msgid "Deferred Revenue Type"
+msgstr "前受収益タイプ"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -103,21 +111,6 @@ msgstr "前受収益タイプ"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation"
-msgstr "償却"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Board"
-msgstr "償却ボード"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Information"
-msgstr "償却情報"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Depreciation Lines"
 msgstr "償却明細"
 
@@ -135,8 +128,7 @@ msgstr "拡張フィルタ…"
 #: model:ir.actions.act_window,help:account_deferred_revenue.action_asset_revenue_report
 msgid ""
 "From this report, you can have an overview of your deferred revenue. The\n"
-"            search bar can also be used to personalize your revenue "
-"recognition reporting."
+"            search bar can also be used to personalize your revenue recognition reporting."
 msgstr ""
 
 #. module: account_deferred_revenue
@@ -166,8 +158,13 @@ msgstr "件"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Modify Depreciation"
-msgstr "償却を修正"
+msgid "Modify Revenue"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Number of Revenues"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -187,7 +184,7 @@ msgstr "記帳済"
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
 msgid "Posted depreciation lines"
-msgstr "記帳された償却明細"
+msgstr "記帳済償却明細"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
@@ -198,6 +195,26 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Residual"
 msgstr "残余"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue"
+msgstr "売上"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Board"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Date"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Information"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
@@ -216,14 +233,9 @@ msgid "Revenue Recognition"
 msgstr ""
 
 #. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_invoice_asset_form
-msgid "Revenue Recognition Category"
-msgstr ""
-
-#. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
 msgid "Running"
-msgstr "期間中"
+msgstr "償却中"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
@@ -239,35 +251,3 @@ msgstr "売却または廃棄"
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Set to Draft"
 msgstr "ドラフトに設定"
-
-#, fuzzy
-#~ msgid "Compute Revenue"
-#~ msgstr ""
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "償却を計算\n"
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "減価償却を計算"
-
-#, fuzzy
-#~ msgid "Modify Revenue"
-#~ msgstr ""
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "償却を修正\n"
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "減価償却を修正"
-
-#, fuzzy
-#~ msgid "Number of Revenues"
-#~ msgstr "前受収益"
-
-#, fuzzy
-#~ msgid "Revenue Date"
-#~ msgstr "前受収益名"
-
-#, fuzzy
-#~ msgid "Revenue Information"
-#~ msgstr ""
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "償却情報\n"
-#~ "#-#-#-#-#  ja.po (Odoo 9.0)  #-#-#-#-#\n"
-#~ "減価償却情報"

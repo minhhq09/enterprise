@@ -1,42 +1,45 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * pos_loyalty
-#
+# 
 # Translators:
 # Yoshi Tashiro <tashiro@roomsfor.hk>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Katsumi ISHIDA <isis331@gmail.com>, 2016
+# Manami Hashi <manami@roomsfor.hk>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-08-14 10:09+0000\n"
-"Last-Translator: Yoshi Tashiro <tashiro@roomsfor.hk>\n"
-"Language-Team: Japanese (http://www.transifex.com/odoo/odoo-9/language/ja/)\n"
-"Language: ja\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Manami Hashi <manami@roomsfor.hk>, 2016\n"
+"Language-Team: Japanese (https://www.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_name
 msgid "An internal identification for the loyalty program configuration"
-msgstr ""
+msgstr "ロイヤリティプログラム設定の内部識別名"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_name
 msgid "An internal identification for this loyalty program rule"
-msgstr ""
+msgstr "ロイヤリティプログラム規則の内部識別名"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_name
 msgid "An internal identification for this loyalty reward"
-msgstr ""
+msgstr "ロイヤリティリワードの内部識別名"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Category"
-msgstr "分類"
+msgstr "カテゴリ"
 
 #. module: pos_loyalty
 #: model:ir.actions.act_window,help:pos_loyalty.action_loyalty_program_form
@@ -60,18 +63,18 @@ msgstr "作成日"
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_cumulative
 msgid "Cumulative"
-msgstr ""
+msgstr "累積"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Discount"
 msgstr "値引"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_discount_product_id
 msgid "Discount Product"
-msgstr ""
+msgstr "値引製品"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_display_name
@@ -81,19 +84,19 @@ msgid "Display Name"
 msgstr "表示名"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_rule_type
 msgid "Does this rule affects products, or a category of products ?"
-msgstr ""
+msgstr "この規則を適用する対象。製品もしくはカテゴリより選択。"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Gift"
-msgstr ""
+msgstr "ギフト"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_gift_product_id
 msgid "Gift Product"
-msgstr ""
+msgstr "ギフト製品"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_pp_product
@@ -150,12 +153,6 @@ msgid "Last Updated on"
 msgstr "最終更新日"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
-#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
-msgid "Loyalty Points"
-msgstr "ロイヤリティポイント"
-
-#. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_loyalty_program_id
 #: model:ir.model.fields,field_description:pos_loyalty.field_pos_config_loyalty_id
@@ -193,11 +190,17 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Loyalty Rule"
+msgstr "ロイヤリティ規則"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_pos_order_loyalty_points
+#: model:ir.model.fields,field_description:pos_loyalty.field_res_partner_loyalty_points
+msgid "Loyalty points"
 msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_minimum_points
-msgid "Minimum Points"
+msgid "Minimum points"
 msgstr ""
 
 #. module: pos_loyalty
@@ -212,13 +215,13 @@ msgid "Partner"
 msgstr "取引先"
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
-msgid "Point Cost"
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
+msgid "Point Product"
 msgstr ""
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_product_id
-msgid "Point Product"
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_point_cost
+msgid "Point cost"
 msgstr ""
 
 #. module: pos_loyalty
@@ -233,12 +236,12 @@ msgstr "POS"
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:81
 #, python-format
 msgid "Points"
-msgstr ""
+msgstr "ポイント"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rounding
 msgid "Points Rounding"
-msgstr ""
+msgstr "ポイント丸め"
 
 #. module: pos_loyalty
 #. openerp-web
@@ -250,9 +253,9 @@ msgstr ""
 #. module: pos_loyalty
 #. openerp-web
 #: code:addons/pos_loyalty/static/src/xml/loyalty.xml:111
-#, fuzzy, python-format
+#, python-format
 msgid "Points Spent:"
-msgstr "POS"
+msgstr ""
 
 #. module: pos_loyalty
 #. openerp-web
@@ -272,37 +275,42 @@ msgstr ""
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_pp_currency
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_pp_currency
 msgid "Points per currency"
-msgstr ""
+msgstr "通貨金額毎のポイント"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_pp_order
 msgid "Points per order"
-msgstr ""
+msgstr "オーダ毎のポイント"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_pp_product
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_pp_product
 msgid "Points per product"
-msgstr ""
+msgstr "製品毎のポイント"
 
 #. module: pos_loyalty
-#: selection:loyalty.rule,type:0
+#: selection:loyalty.rule,rule_type:0
 msgid "Product"
 msgstr "製品"
 
 #. module: pos_loyalty
-#: selection:loyalty.reward,type:0
+#: selection:loyalty.reward,reward_type:0
 msgid "Resale"
-msgstr ""
+msgstr "買取"
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_reward_form
 msgid "Reward Name"
-msgstr ""
+msgstr "リワード名"
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid "Reward the customer with gifts or discounts for loyalty points"
+msgstr "ギフトもしくはロイヤリティポイントで顧客に還元することができます。"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_reward_type
+msgid "Reward type"
 msgstr ""
 
 #. module: pos_loyalty
@@ -312,35 +320,40 @@ msgstr ""
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 #, python-format
 msgid "Rewards"
-msgstr ""
+msgstr "リワード"
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_rule_form
 msgid "Rule Name"
-msgstr "ルール名"
+msgstr "規則名"
+
+#. module: pos_loyalty
+#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_rule_type
+msgid "Rule type"
+msgstr ""
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_program_rule_ids
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid "Rules"
-msgstr "ルール"
+msgstr "規則"
 
 #. module: pos_loyalty
 #: model:ir.ui.view,arch_db:pos_loyalty.view_loyalty_program_form
 msgid ""
 "Rules change how loyalty points are earned for specific products or "
 "categories"
-msgstr ""
+msgstr "規則は特定の製品や製品カテゴリにつき、どのようにロイヤリティポイントが獲得されるかを定義します。"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_category_id
 msgid "Target Category"
-msgstr ""
+msgstr "対象カテゴリ"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_product_id
 msgid "Target Product"
-msgstr ""
+msgstr "対象製品"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_loyalty_program_id
@@ -360,11 +373,11 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_category_id
 msgid "The category affected by the rule"
-msgstr ""
+msgstr "この規則を適用するカテゴリ"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_point_cost
-msgid "The cost of the reward per monetary unit discounted"
+msgid "The cost of the reward"
 msgstr ""
 
 #. module: pos_loyalty
@@ -373,14 +386,16 @@ msgid "The discount percentage"
 msgstr ""
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:56
+#, python-format
 msgid "The discount product field is mandatory for discount rewards"
 msgstr ""
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:50
+#, python-format
 msgid "The gift product field is mandatory for gift rewards"
-msgstr ""
+msgstr "ギフト製品項目はギフトリワードに必須です。"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_program_rounding
@@ -402,12 +417,13 @@ msgstr ""
 msgid ""
 "The minimum amount of points the customer must have to qualify for this "
 "reward"
-msgstr ""
+msgstr "顧客がリワードを受けるのに必要な最小ポイント"
 
 #. module: pos_loyalty
-#: constraint:loyalty.reward:0
+#: code:addons/pos_loyalty/models/pos_loyalty.py:62
+#, python-format
 msgid "The point product field is mandatory for point resale rewards"
-msgstr ""
+msgstr "ポイント製品項目はポイント買取リワードに必須です。"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_cumulative
@@ -417,7 +433,7 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_rule_product_id
 msgid "The product affected by the rule"
-msgstr ""
+msgstr "この規則を適用する製品"
 
 #. module: pos_loyalty
 #: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_gift_product_id
@@ -435,7 +451,7 @@ msgid "The product used to apply discounts"
 msgstr ""
 
 #. module: pos_loyalty
-#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_type
+#: model:ir.model.fields,help:pos_loyalty.field_loyalty_reward_reward_type
 msgid "The type of the reward"
 msgstr ""
 
@@ -454,12 +470,6 @@ msgid "Total Points:"
 msgstr ""
 
 #. module: pos_loyalty
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_reward_type
-#: model:ir.model.fields,field_description:pos_loyalty.field_loyalty_rule_type
-msgid "Type"
-msgstr "タイプ"
-
-#. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_program
 msgid "loyalty.program"
 msgstr "loyalty.program"
@@ -472,21 +482,9 @@ msgstr ""
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_loyalty_rule
 msgid "loyalty.rule"
-msgstr ""
+msgstr "loyalty.rule"
 
 #. module: pos_loyalty
 #: model:ir.model,name:pos_loyalty.model_pos_config
 msgid "pos.config"
 msgstr "pos.config"
-
-#, fuzzy
-#~ msgid "Loyalty points"
-#~ msgstr "会員プログラム"
-
-#, fuzzy
-#~ msgid "Point cost"
-#~ msgstr "POS"
-
-#, fuzzy
-#~ msgid "Rule type"
-#~ msgstr "ルール名"

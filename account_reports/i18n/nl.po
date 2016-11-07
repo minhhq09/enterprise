@@ -7,8 +7,8 @@
 # Eric Geens <ericgeens@yahoo.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
-# Stephan Van Dyck <stephan.vandyck@vanroey.be>, 2016
 # Hans van Schooten <hvsch1961@gmail.com>, 2016
+# Stephan Van Dyck <stephan.vandyck@vanroey.be>, 2016
 # Volluta <volluta@tutanota.com>, 2016
 # Eric Geens <eric.geens@vitabiz.be>, 2016
 # Cas Vissers <casvissers@brahoo.nl>, 2016
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-10 09:15+0000\n"
-"PO-Revision-Date: 2016-10-10 09:15+0000\n"
+"POT-Creation-Date: 2016-11-03 13:22+0000\n"
+"PO-Revision-Date: 2016-11-03 13:22+0000\n"
 "Last-Translator: Cas Vissers <casvissers@brahoo.nl>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -236,7 +236,7 @@ msgstr "Een specifieke context voor de algemene BTW aangifte"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_context_followup_all
 msgid "A progress bar for followup reports"
-msgstr "Voortgangsbalk voor opvolgingsrapporten"
+msgstr "Voortgangsbalk voor betaalherinneringen"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_total_assets0
@@ -294,17 +294,12 @@ msgstr "Actie ID"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_prepayments_received0
 msgid "Advance Payments received from customers"
-msgstr "Vooruitbetalingen ontvangen van klanten"
+msgstr "Aanbetalingen ontvangen van klanten"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_cash_paid0
 msgid "Advance payments made to suppliers"
 msgstr "Aanbetaling aan leverancier gemaakt"
-
-#. module: account_reports
-#: model:ir.ui.menu,name:account_reports.menu_aged_trial_balance
-msgid "Aged Partner Balance"
-msgstr "Ouderdomsanalyse per relatie"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_aged_partner
@@ -365,7 +360,7 @@ msgstr "Alle relaties met vervallen facturen"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_xml_export
 msgid "All the xml exports available for the financial reports"
-msgstr "Alle xml-exports die beschikbaar zijn voor financiële rapporten"
+msgstr "Alle xml-exports die beschikbaar zijn voor financiële rapportages"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_analytic
@@ -474,12 +469,12 @@ msgstr "Aantekening maken"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:103
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:123
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:130
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:150
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:228
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:238
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:105
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:125
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:132
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:152
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:230
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:240
 #, python-format
 msgid "Apply"
 msgstr "Toepassen"
@@ -1002,23 +997,28 @@ msgstr "Klantenoverzicht"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:206
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:212
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:208
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:214
 #, python-format
 msgid "Customers and suppliers"
 msgstr "Klanten en leveranciers"
 
 #. module: account_reports
+#: model:account.financial.html.report.line,name:account_reports.account_financial_report_detailed_net_profit0
+msgid "DETAILED NET PROFIT"
+msgstr ""
+
+#. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:195
-#: code:addons/account_reports/models/account_general_ledger.py:338
+#: code:addons/account_reports/models/account_general_ledger.py:353
 #, python-format
 msgid "Date"
 msgstr "Datum"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:96
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:143
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:98
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:145
 #, python-format
 msgid "Date :"
 msgstr "Datum :"
@@ -1358,7 +1358,7 @@ msgstr "Betalingsherinneringsrapport"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnote
 msgid "Footnote for reports"
-msgstr "Voetnoot voor rapporten"
+msgstr "Voetnoot voor rapportages"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_footnotes
@@ -1865,7 +1865,7 @@ msgstr "Min niet-afgeletterde bankafschrifregels"
 msgid ""
 "Minus previously recorded advance payments (already in the starting balance)"
 msgstr ""
-"Min voorheen geregistreerde vooruitbetalingen (reeds in het openings balans)"
+"Min voorheen geregistreerde aanbetalingen (reeds in het openings balans)"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_ir_module_module
@@ -2376,22 +2376,22 @@ msgstr "Rapport soort"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_type_comparison
 msgid "Reports allow comparisons"
-msgstr "Vergelijken toestaan in rapporten"
+msgstr "Vergelijken toestaan in rapportages"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_type_cash_basis
 msgid "Reports always use cash basis"
-msgstr "Rapporten gebruiken altijd kas basis"
+msgstr "Rapportages gebruiken altijd kas basis"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_type_analytic
 msgid "Reports enable the analytic filter"
-msgstr "Rapporten maken de kostenplaats filter beschikbaar"
+msgstr "Rapportages maken de kostenplaats filter beschikbaar"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_type_date_range
 msgid "Reports use a date range and not a single date"
-msgstr "Rapporten gebruiken een datum bereik en niet een enkele datum"
+msgstr "Rapportages gebruiken een datum bereik en niet een enkele datum"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_return_investment0
@@ -2469,10 +2469,8 @@ msgstr "Reeks"
 #: model:ir.model.fields,help:account_reports.field_account_financial_html_report_tax_report
 msgid ""
 "Set to True to automatically filter out journal items that have the boolean "
-"field ´tax_exigible´ set to False"
+"field 'tax_exigible' set to False"
 msgstr ""
-"Zet op Waar om automatisch boekingen te filteren die het veld 'BTW mogelijk'"
-" op Onwaar hebben staan."
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_st_cash_forecast0
@@ -2662,18 +2660,26 @@ msgstr ""
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:79
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:81
 #, python-format
 msgid "This Financial Year"
 msgstr "Dit boekjaar"
 
 #. module: account_reports
 #. openerp-web
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:66
-#: code:addons/account_reports/static/src/xml/account_report_backend.xml:78
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:67
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:79
 #, python-format
 msgid "This Month"
 msgstr "Deze maand"
+
+#. module: account_reports
+#. openerp-web
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:66
+#: code:addons/account_reports/static/src/xml/account_report_backend.xml:80
+#, python-format
+msgid "This Quarter"
+msgstr "Dit kwartaal"
 
 #. module: account_reports
 #. openerp-web
@@ -2883,7 +2889,7 @@ msgstr "get_report_obj is niet geïmplementeerd"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_analytic_manager
 msgid "manages analytic filters for reports"
-msgstr "beheert kostenplaats filters voor rapporten"
+msgstr "beheert kostenplaats filters voor rapportages"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnotes_manager
@@ -2893,7 +2899,7 @@ msgstr "beheert de voetnoten"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_multicompany_manager
 msgid "manages multicompany for reports"
-msgstr "beheert multi-company voor rapporten"
+msgstr "beheert multi-company voor rapportages"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_last_page
@@ -2903,7 +2909,7 @@ msgstr "aantal pagina's"
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all
 msgid "reports in"
-msgstr "rapporten in"
+msgstr "rapporteren in"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_all

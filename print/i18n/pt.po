@@ -1,21 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-#
+# 
 # Translators:
+# Manuela Silva <inactive+h_manuela_rodsilva@transifex.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Vitor Fernandes <vmlf01@gmail.com>, 2016
+# Ricardo Martins <ricardo.nbs.martins@gmail.com>, 2016
+# Daniel C Santos <dcs@thinkopensolutions.pt>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2015-12-12 13:18+0000\n"
-"Last-Translator: Manuela Silva <h_manuela_rodsilva@gmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/odoo/odoo-9/language/"
-"pt/)\n"
-"Language: pt\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>, 2016\n"
+"Language-Team: Portuguese (https://www.transifex.com/odoo/teams/41243/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: print
@@ -25,20 +30,15 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -94,7 +94,7 @@ msgstr ""
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_price
 msgid "Cost to Deliver"
-msgstr ""
+msgstr "Custo de Expedição"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_partner_country_id
@@ -121,7 +121,7 @@ msgstr "Criado em"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_create_date
 msgid "Creation Date"
-msgstr "Data da Criação"
+msgstr "Data de Criação"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_provider_balance
@@ -147,7 +147,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_display_name
 #: model:ir.model.fields,field_description:print.field_print_provider_display_name
 msgid "Display Name"
-msgstr "Nome a Mostrar"
+msgstr "Nome a Exibir"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
@@ -198,13 +198,13 @@ msgstr "Agrupar por..."
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_id
 #: model:ir.model.fields,field_description:print.field_print_provider_id
 msgid "ID"
-msgstr "ID"
+msgstr "Id."
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_ink
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_ink
 msgid "Ink"
-msgstr ""
+msgstr "Tinta"
 
 #. module: print
 #: model:ir.model,name:print.model_account_invoice
@@ -245,7 +245,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_write_uid
 #: model:ir.model.fields,field_description:print.field_print_provider_write_uid
 msgid "Last Updated by"
-msgstr "Última Actualização por"
+msgstr "Última Atualização por"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_write_date
@@ -254,7 +254,7 @@ msgstr "Última Actualização por"
 #: model:ir.model.fields,field_description:print.field_print_order_write_date
 #: model:ir.model.fields,field_description:print.field_print_provider_write_date
 msgid "Last Updated on"
-msgstr "Última Actualização em"
+msgstr "Última Atualização em"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_wizard_print_order_line_wizard_ids
@@ -431,17 +431,17 @@ msgstr ""
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Reset to Draft"
-msgstr "Voltar a rascunho"
+msgstr "Mudar para Rascunho"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
 msgid "Resource ID"
-msgstr ""
+msgstr "ID do recurso"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
 msgid "Resource Model"
-msgstr ""
+msgstr "Modelo do recurso"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_wizard_view_form
@@ -533,8 +533,8 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report "
-"action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report"
+" action (ir.actions.report.xml) for the model %s."
 msgstr ""
 
 #. module: print
@@ -549,15 +549,14 @@ msgstr ""
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 msgstr ""
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_provider_view_form
 msgid "Update"
-msgstr "Update"
+msgstr "Atualizar"
 
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form

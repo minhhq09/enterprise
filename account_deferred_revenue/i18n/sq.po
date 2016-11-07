@@ -1,20 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_deferred_revenue
-#
+# 
 # Translators:
+# Anri Haxhi <anrihaxhi@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-03-31 14:20+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Albanian (http://www.transifex.com/odoo/odoo-9/language/sq/)\n"
-"Language: sq\n"
+"POT-Creation-Date: 2016-09-29 14:58+0000\n"
+"PO-Revision-Date: 2016-09-29 14:58+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Albanian (https://www.transifex.com/odoo/teams/41243/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_deferred_revenue
@@ -44,13 +46,18 @@ msgstr "Kompani"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Compute Depreciation"
-msgstr "Llogarit Zhvlerësimin"
+msgid "Compute Revenue"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Confirm"
 msgstr "Konfirmo"
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Cumulative Revenue"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_asset_sale_tree
@@ -78,9 +85,10 @@ msgid "Deferred Revenue Analysis"
 msgstr ""
 
 #. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_invoice_asset_form
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_invoice_revenue_recognition_category
-msgid "Deferred Revenue Category"
-msgstr ""
+msgid "Deferred Revenue Type"
+msgstr "Tipi i të Ardhurave të Shtyra"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -101,21 +109,6 @@ msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation"
-msgstr "Zhvlerësim"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Board"
-msgstr "Këshilli i Zhvlerësimit"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Depreciation Information"
-msgstr "Informacion i Zhvlerësimit"
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Depreciation Lines"
 msgstr "Linjat e Zhvlerësimit"
 
@@ -133,8 +126,7 @@ msgstr "Filtra të zgjeruar..."
 #: model:ir.actions.act_window,help:account_deferred_revenue.action_asset_revenue_report
 msgid ""
 "From this report, you can have an overview of your deferred revenue. The\n"
-"            search bar can also be used to personalize your revenue "
-"recognition reporting."
+"            search bar can also be used to personalize your revenue recognition reporting."
 msgstr ""
 
 #. module: account_deferred_revenue
@@ -164,8 +156,13 @@ msgstr "Sendet"
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
-msgid "Modify Depreciation"
-msgstr "Modifiko Zhvlerësimin"
+msgid "Modify Revenue"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Number of Revenues"
+msgstr ""
 
 #. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
@@ -198,6 +195,26 @@ msgid "Residual"
 msgstr "E Mbetur"
 
 #. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Board"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Date"
+msgstr ""
+
+#. module: account_deferred_revenue
+#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
+msgid "Revenue Information"
+msgstr ""
+
+#. module: account_deferred_revenue
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
 msgid "Revenue Month"
 msgstr ""
@@ -211,11 +228,6 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_asset_revenue_report_search
 msgid "Revenue Recognition"
-msgstr ""
-
-#. module: account_deferred_revenue
-#: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_invoice_asset_form
-msgid "Revenue Recognition Category"
 msgstr ""
 
 #. module: account_deferred_revenue
@@ -237,19 +249,3 @@ msgstr "Shito ose Shkarko"
 #: model:ir.ui.view,arch_db:account_deferred_revenue.view_account_asset_revenue_form
 msgid "Set to Draft"
 msgstr "Vendos tek Paraprake"
-
-#, fuzzy
-#~ msgid "Compute Revenue"
-#~ msgstr "Llogarit Zhvlerësimin"
-
-#, fuzzy
-#~ msgid "Modify Revenue"
-#~ msgstr "Modifiko Zhvlerësimin"
-
-#, fuzzy
-#~ msgid "Number of Revenues"
-#~ msgstr "Të Ardhura të Shtyra"
-
-#, fuzzy
-#~ msgid "Revenue Information"
-#~ msgstr "Informacion i Zhvlerësimit"

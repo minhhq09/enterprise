@@ -1,23 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-#
+# 
 # Translators:
+# Martin Trigaux <mat@odoo.com>, 2016
+# Anatolij <an@cq.lt>, 2016
+# Audrius Palenskis <audrius.palenskis@gmail.com>, 2016
+# Rolandas <info@paninfo.lt>, 2016
+# UAB "Draugiški sprendimai" <transifex@draugiskisprendimai.lt>, 2016
+# Šarūnas Ažna <sarunas.azna@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2015-11-22 16:08+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Lithuanian (http://www.transifex.com/odoo/odoo-9/language/"
-"lt/)\n"
-"Language: lt\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Šarūnas Ažna <sarunas.azna@gmail.com>, 2016\n"
+"Language-Team: Lithuanian (https://www.transifex.com/odoo/teams/41243/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. module: print
 #: model:mail.template,body_html:print.print_user_notify_failed_email_template
@@ -26,20 +30,15 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -432,12 +431,12 @@ msgstr ""
 #. module: print
 #: model:ir.ui.view,arch_db:print.print_order_view_form
 msgid "Reset to Draft"
-msgstr "Atstatyti į juodraštį"
+msgstr "Atkurti kaip juodraštį"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
 msgid "Resource ID"
-msgstr ""
+msgstr "Resurso ID"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
@@ -494,7 +493,7 @@ msgstr "Išsiųsta"
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_state
 #: model:ir.model.fields,field_description:print.field_print_order_partner_state_id
 msgid "State"
-msgstr "Savivaldybė"
+msgstr "Būsena"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_state
@@ -520,7 +519,7 @@ msgstr ""
 #. module: print
 #: selection:print.provider,environment:0
 msgid "Test"
-msgstr ""
+msgstr "Testas"
 
 #. module: print
 #: code:addons/print/models/print_provider.py:191
@@ -534,8 +533,8 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report "
-"action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report"
+" action (ir.actions.report.xml) for the model %s."
 msgstr ""
 
 #. module: print
@@ -550,9 +549,8 @@ msgstr ""
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 msgstr ""
 
 #. module: print

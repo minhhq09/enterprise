@@ -6,14 +6,13 @@
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
-# Cas Vissers <casvissers@brahoo.nl>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-29 14:58+0000\n"
 "PO-Revision-Date: 2016-09-29 14:58+0000\n"
-"Last-Translator: Cas Vissers <casvissers@brahoo.nl>, 2016\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +27,7 @@ msgid ""
 "A project must have a start date to use a forecast grid, found no start date"
 " for {project.display_name}"
 msgstr ""
-"Een project moet een startdatum hebben om de forecast grid te gebruiken, "
+"Een project moet een startdatum hebben om de planning grid te gebruiken, "
 "geen startdatum gevonden voor {project.display_name}"
 
 #. module: project_forecast_grid
@@ -38,8 +37,8 @@ msgid ""
 "A project must have an end date to use a forecast grid, found no end date "
 "for {project.display_name"
 msgstr ""
-"Een project moet een einddatum hebben om de forecast grid te gebruiken, geen"
-" einddatum gevonden voor {project.display_name"
+"Een project moet een einddatum hebben om de planninggrid te gebruiken, geen "
+"einddatum gevonden voor {project.display_name"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.project_forecast_grid
@@ -74,9 +73,9 @@ msgid ""
 "Can only be used for forecasts not spanning multiple months, found "
 "%(forecast_count)d forecast(s) spanning across months in %(project_name)s"
 msgstr ""
-"Kan alleen gebruikt worden voor voorspellingen die niet over meerdere "
-"maanden gaan, %(forecast_count)d gevonden als voorspelling(en) over meerdere"
-" maanden in %(project_name)s"
+"Kan alleen gebruikt worden voor planningen die niet over meerdere maanden "
+"gaan, %(forecast_count)d gevonden als planning(en) over meerdere maanden in "
+"%(project_name)s"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_create_uid
@@ -97,17 +96,17 @@ msgstr "Weergave naam"
 #: code:addons/project_forecast_grid/models/project.py:41
 #, python-format
 msgid "Forecast"
-msgstr "Prognose"
+msgstr "Planning"
 
 #. module: project_forecast_grid
 #: model:ir.actions.act_window,name:project_forecast_grid.action_project_forecast_grid_by_project
 msgid "Forecast By Project"
-msgstr "Voorspelling op project"
+msgstr "Plannijn per project"
 
 #. module: project_forecast_grid
 #: model:ir.actions.act_window,name:project_forecast_grid.action_project_forecast_grid_by_user
 msgid "Forecast By User"
-msgstr "Voorspelling op gebruiker"
+msgstr "Planning per gebruiker"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_set_dates
@@ -115,7 +114,7 @@ msgid ""
 "Forecasting on a project requires that the project\n"
 "                        have start and end dates"
 msgstr ""
-"Voorspellingen op een project vereisen dat het project\n"
+"Planningen op een project vereisen dat het project\n"
 "een start en einddatum heeft."
 
 #. module: project_forecast_grid
@@ -123,9 +122,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Forecasting over a project only supports monthly forecasts (got step {})"
-msgstr ""
-"Voorspellingen over een project ondersteunen enkel maandelijkse "
-"voorspellingen (stap [])"
+msgstr "Projectplanningen kunnen alleen per maand (stap {})"
 
 #. module: project_forecast_grid
 #: model:ir.ui.menu,name:project_forecast_grid.project_forecast_gantt
@@ -145,9 +142,9 @@ msgid ""
 " field and the 'resource_hours' cell field, got respectively "
 "%(column_field)r and %(cell_field)r"
 msgstr ""
-"Grid wijzigingen voor projectvoorspellingen ondersteunen enkel het "
-"'start_date' veld en de 'resource_hours' cel, we kregen respectievelijk "
-"%(column_field)r en %(cell_field)r terug"
+"Grid wijzigingen voor projectplanningen ondersteunen enkel het 'start_date' "
+"veld en de 'resource_hours' cel, we kregen respectievelijk %(column_field)r "
+"en %(cell_field)r terug"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_id
@@ -178,7 +175,7 @@ msgstr "Maand"
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.project_forecast_grid
 msgid "Monthly Forecast"
-msgstr "Maandelijkse voorspelling"
+msgstr "Maandelijkse planning"
 
 #. module: project_forecast_grid
 #: model:ir.model,name:project_forecast_grid.model_project_project
@@ -196,7 +193,7 @@ msgstr "Project datums"
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_project
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_user
 msgid "Project Forecast By User"
-msgstr "Project voorspelling per gebruiker"
+msgstr "Projectplanning per gebruiker"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_task_id
@@ -211,7 +208,7 @@ msgstr "Gebruiker"
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_set_dates
 msgid "View Forecast"
-msgstr "Bekijk voorspelling"
+msgstr "Bekijk planning"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_project

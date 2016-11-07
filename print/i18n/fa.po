@@ -1,20 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * print
-#
+# 
 # Translators:
+# Hamid Darabi <hamid.darabi@gmail.com>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
+# Faraz Sadri <ifarazir@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:35+0000\n"
-"PO-Revision-Date: 2016-07-22 22:48+0000\n"
-"Last-Translator: Martin Trigaux\n"
-"Language-Team: Persian (http://www.transifex.com/odoo/odoo-9/language/fa/)\n"
-"Language: fa\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Faraz Sadri <ifarazir@gmail.com>, 2016\n"
+"Language-Team: Persian (https://www.transifex.com/odoo/teams/41243/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: print
@@ -24,20 +27,15 @@ msgid ""
 "                <body>\n"
 "                      <p>Dear ${object.partner_id.name},</p>\n"
 "\n"
-"                      <p>During the last process of \"Print and Send\" "
-"documents, some mistakes appear. Here is a list of the failed Print Order "
-"you authored.</p>\n"
-"                      <p>Please, some errors have been detected. You can "
-"find them in <i>Settings > Print Orders</i>.</p>\n"
+"                      <p>During the last process of \"Print and Send\" documents, some mistakes appear. Here is a list of the failed Print Order you authored.</p>\n"
+"                      <p>Please, some errors have been detected. You can find them in <i>Settings > Print Orders</i>.</p>\n"
 "\n"
 "                      % if ctx.get('print_errors'):\n"
 "                            <p>\n"
 "                            Print Order ID  |    Error Message <br/>\n"
 "                            -------------------------------------- <br/>\n"
-"                                  % for print_order_id, error_text in ctx."
-"get('print_errors'):\n"
-"                                        ${print_order_id}    |    "
-"${error_text} <br/>\n"
+"                                  % for print_order_id, error_text in ctx.get('print_errors'):\n"
+"                                        ${print_order_id}    |    ${error_text} <br/>\n"
 "                                  % endfor\n"
 "                            </p>\n"
 "                      % endif\n"
@@ -223,7 +221,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:print.field_print_order_wizard___last_update
 #: model:ir.model.fields,field_description:print.field_print_provider___last_update
 msgid "Last Modified on"
-msgstr "تاریخ آخرین به‌روزرسانی"
+msgstr "آخرین به‌روزرسانی در تاریخ "
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_account_invoice_print_sent_date
@@ -435,7 +433,7 @@ msgstr "بازتبدیل به پیشنویس"
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_id
 msgid "Resource ID"
-msgstr ""
+msgstr "شناسه منبع"
 
 #. module: print
 #: model:ir.model.fields,field_description:print.field_print_order_line_wizard_res_model
@@ -532,8 +530,8 @@ msgstr ""
 #: code:addons/print/models/print_provider.py:186
 #, python-format
 msgid ""
-"The document you want to print and send is not printable. There is no report "
-"action (ir.actions.report.xml) for the model %s."
+"The document you want to print and send is not printable. There is no report"
+" action (ir.actions.report.xml) for the model %s."
 msgstr ""
 
 #. module: print
@@ -548,9 +546,8 @@ msgstr ""
 msgid ""
 "This invoice was sent by post with the provider %(provider_name)s at the "
 "following address.                     <br/><br/> %(partner_name)s <br/> "
-"%(partner_street)s <br/> %(partner_city)s "
-"%(partner_zip)s                     <br/>%(partner_country)sprovider_name<i>"
-"%s</i>"
+"%(partner_street)s <br/> %(partner_city)s %(partner_zip)s"
+"                     <br/>%(partner_country)sprovider_name<i>%s</i>"
 msgstr ""
 
 #. module: print
