@@ -404,10 +404,11 @@
         <record id="account_financial_be_current_year_earnings0" model="account.financial.html.report.line">
             <field name="name">149 - Bénéfice (Perte) en cours</field>
             <field name="code">BE_UNAFFECTED_EARNINGS</field>
-            <field name="domain" eval="[('account_id.user_type_id', '=', ref('account.data_unaffected_earnings'))]" />
-            <field name="formulas">balance = NEP.balance - sum.balance; debit = DETAILED_NEP.debit + sum.debit; credit = DETAILED_NEP.credit + sum.credit</field>
+            <field name="domain" eval="['|', ('account_id.code', '=like', '7%'), ('account_id.code', '=like', '6%')]" />
+            <field name="formulas">balance = -sum.balance; debit = sum.debit; credit = sum.credit</field>
             <field name="sequence" eval="6"/>
-            <field name="special_date_changer">from_beginning</field>
+            <field name="special_date_changer">normal</field>
+            <field name="show_domain">never</field>
             <field name="parent_id" ref='account_financial_report_be_capitaux_propres0'/>
             <field name="level" eval="2" />
         </record>
@@ -936,7 +937,7 @@
             <field name="name">689 - Transfert aux réserves immunisées</field>
             <field name="code">BE_689</field>
             <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
-            <field name="domain" eval="['|', ('account_id.code', '=like', '67%'), ('account_id.code', '=like', '689%')]" />
+            <field name="domain" eval="[('account_id.code', '=like', '689%')]" />
             <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
             <field name="groupby">account_id</field>
             <field name="sequence" eval="15"/>
@@ -950,5 +951,146 @@
             <field name="sequence" eval="16"/>
             <field name="level" eval="2" />
         </record>
+
+        <record id="account_financial_report_be_affectation" model="account.financial.html.report.line">
+            <field name="name">Affectations et prélèvements</field>
+            <field name="code">BE_AFF</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="sequence" eval="16"/>
+            <field name="level" eval="1" />
+        </record>
+        <record id="account_financial_report_be_benefice_perte_a_affecter0" model="account.financial.html.report.line">
+            <field name="name">9906 - Bénéfice (Perte) à affecter</field>
+            <field name="code">BE_9906</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="formulas">balance = BE_9905bis.balance + BE_14P.balance; credit = BE_9905bis.credit + BE_14P.credit; debit = BE_14P.debit + BE_9905bis.debit</field>
+            <field name="sequence" eval="17"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_9905bis" model="account.financial.html.report.line">
+            <field name="name">9905 - Bénéfice (Perte) de l'exercice à affecter</field>
+            <field name="code">BE_9905bis</field>
+            <field name="parent_id" ref='account_financial_report_be_benefice_perte_a_affecter0'/>
+            <field name="formulas">balance = BE_9905.balance; credit = BE_9905.credit; debit = BE_9905.debit</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3" />
+        </record>
+        <record id="account_financial_report_be_14P" model="account.financial.html.report.line">
+            <field name="name">14P - Bénéfice (Perte) reporté(e) de l'exercice précédent</field>
+            <field name="code">BE_14P</field>
+            <field name="parent_id" ref='account_financial_report_be_benefice_perte_a_affecter0'/>
+            <field name="domain" eval="[('account_id.code', '=like', '14%'), ('account_id.user_type_id', '!=', ref('account.data_unaffected_earnings'))]" />
+            <field name="groupby">account_id</field>
+            <field name="formulas">balance = -sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="special_date_changer">to_beginning_of_period</field>
+            <field name="sequence" eval="5"/>
+            <field name="level" eval="3" />
+        </record>
+        <record id="account_financial_report_be_791_792" model="account.financial.html.report.line">
+            <field name="name">791/2 - Prélèvement sur les capitaux propres</field>
+            <field name="code">BE_791</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="domain" eval="['|', ('account_id.code', '=like', '791%'), ('account_id.code', '=like', '792%')]" />
+            <field name="groupby">account_id</field>
+            <field name="formulas">balance = -sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="18"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_691_692" model="account.financial.html.report.line">
+            <field name="name">691/2 - Affectation aux capitaux propres</field>
+            <field name="code">BE_691_2</field>
+            <field name="domain" eval="['|', ('account_id.code', '=like', '691%'), ('account_id.code', '=like', '692%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="sequence" eval="19"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_691" model="account.financial.html.report.line">
+            <field name="name">691 - au capital et aux primes d'émission</field>
+            <field name="code">BE_691</field>
+            <field name="parent_id" ref='account_financial_report_be_691_692'/>
+            <field name="domain" eval="[('account_id.code', '=like', '691%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3" />
+        </record>
+
+        <record id="account_financial_report_be_6920" model="account.financial.html.report.line">
+            <field name="name">6920 - à la réserve légale</field>
+            <field name="code">BE_6920</field>
+            <field name="parent_id" ref='account_financial_report_be_691_692'/>
+            <field name="domain" eval="[('account_id.code', '=like', '6920%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="2"/>
+            <field name="level" eval="3" />
+        </record>
+        <record id="account_financial_report_be_6921" model="account.financial.html.report.line">
+            <field name="name">6921 - aux autres réserves</field>
+            <field name="code">BE_6921</field>
+            <field name="parent_id" ref='account_financial_report_be_691_692'/>
+            <field name="domain" eval="[('account_id.code', '=like', '6921%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="3"/>
+            <field name="level" eval="3" />
+        </record>
+        <record id="account_financial_report_be_PL_14" model="account.financial.html.report.line">
+            <field name="name">14 - Bénéfice (Perte) à reporter</field>
+            <field name="code">BE_PL_14</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="formulas">balance = BE_9906.balance + BE_791.balance + BE_691.balance; credit = BE_9906.credit + BE_791.credit + BE_691.credit; debit = BE_9906.debit + BE_791.debit + BE_691.debit</field>
+            <field name="sequence" eval="20"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_794" model="account.financial.html.report.line">
+            <field name="name">794 - Intervention d'associés dans la perte</field>
+            <field name="code">BE_794</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="domain" eval="[('account_id.code', '=like', '794%')]" />
+            <field name="groupby">account_id</field>
+            <field name="formulas">balance = -sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="21"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_694_696" model="account.financial.html.report.line">
+            <field name="name">694/6 - Bénéfice à distribuer</field>
+            <field name="code">BE_694_6</field>
+            <field name="financial_report_id" ref="account_financial_report_be_profitandloss0"/>
+            <field name="domain" eval="['|', ('account_id.code', '=like', '694%'), ('account_id.code', '=like', '695%'), ('account_id.code', '=like', '696%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="22"/>
+            <field name="level" eval="2" />
+        </record>
+        <record id="account_financial_report_be_694" model="account.financial.html.report.line">
+            <field name="name">694 - Rémunération du capital</field>
+            <field name="code">BE_694</field>
+            <field name="parent_id" ref='account_financial_report_be_694_696'/>
+            <field name="domain" eval="[('account_id.code', '=like', '694%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3" />
+            <field name="groupby">account_id</field>
+        </record>
+        <record id="account_financial_report_be_695" model="account.financial.html.report.line">
+            <field name="name">695 - Administrateurs ou gérants</field>
+            <field name="code">BE_695</field>
+            <field name="parent_id" ref='account_financial_report_be_694_696'/>
+            <field name="domain" eval="[('account_id.code', '=like', '695%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="2"/>
+            <field name="level" eval="3" />
+            <field name="groupby">account_id</field>
+        </record>
+        <record id="account_financial_report_be_696" model="account.financial.html.report.line">
+            <field name="name">696 - Autres allocataires</field>
+            <field name="code">BE_696</field>
+            <field name="parent_id" ref='account_financial_report_be_694_696'/>
+            <field name="domain" eval="[('account_id.code', '=like', '696%')]" />
+            <field name="formulas">balance = sum.balance; credit = sum.credit; debit = sum.debit</field>
+            <field name="sequence" eval="3"/>
+            <field name="level" eval="3" />
+            <field name="groupby">account_id</field>
+        </record>
+
+
     </data>
 </openerp>
