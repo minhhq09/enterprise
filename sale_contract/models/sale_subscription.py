@@ -285,6 +285,7 @@ class SaleSubscription(models.Model):
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
                     'discount': line.discount,
+                    'name': line.name,
                 }))
             res[contract.id] = {
                 'pricelist_id': contract.pricelist_id.id,
