@@ -27,3 +27,24 @@ class StockPicking(models.Model):
             action['res_id'] = checks.ids[0]
             return action
         return False
+
+    @api.multi
+    def _create_backorder(self, backorder_moves=[]):
+        res = super(StockPicking, self)._create_backorder(backorder_moves=backorder_moves)
+        # Do not crash if Community was not updated
+        if isinstance(res, bool):
+            return res
+
+        # Transfer the quality checks from the original picking to the backorder
+        for backorder in res:
+            backorder.backorder_id.check_ids.filtered(lambda x: x.quality_state == 'none').write({
+                'picking_id': backorder.id,
+            })
+        return res
+
+    @api.multi
+    def do_transfer(self):
+        # Do the check before transferring
+        if self.mapped('check_ids').filtered(lambda x: x.quality_state == 'none'):
+            raise UserError(_('You still need to do the quality checks!'))
+        return super(StockPicking, self).do_transfer()
