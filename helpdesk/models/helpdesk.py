@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import datetime
-import random
 
 from dateutil import relativedelta
 
@@ -321,12 +320,23 @@ class HelpdeskTeam(models.Model):
     def get_new_user(self):
         self.ensure_one()
         new_user = self.env['res.users']
-        if self.assign_method == 'randomly':
-            new_user = random.choice(self.member_ids)
-        elif self.assign_method == 'balanced':
-            read_group_res = self.env['helpdesk.ticket'].read_group([('stage_id.is_close', '=', False), ('user_id', 'in', self.member_ids.ids)], ['user_id'], ['user_id'])
-            count_dict = dict((data['user_id'][0], data['user_id_count']) for data in read_group_res)
-            new_user = self.env['res.users'].browse(min(count_dict, key=count_dict.get))
+        member_ids = sorted(self.member_ids.ids)
+        if member_ids:
+            if self.assign_method == 'randomly':
+                # randomly means new ticketss get uniformly distributed
+                previous_assigned_user = self.env['helpdesk.ticket'].search([('team_id', '=', self.id)], order='create_date desc', limit=1).user_id
+                # handle the case where the previous_assigned_user has left the team (or there is none).
+                if previous_assigned_user and previous_assigned_user.id in member_ids:
+                    previous_index = member_ids.index(previous_assigned_user.id)
+                    new_user = new_user.browse(member_ids[(previous_index + 1) % len(member_ids)])
+                else:
+                    new_user = new_user.browse(member_ids[0])
+            elif self.assign_method == 'balanced':
+                read_group_res = self.env['helpdesk.ticket'].read_group([('stage_id.is_close', '=', False), ('user_id', 'in', member_ids)], ['user_id'], ['user_id'])
+                # add all the members in case a member has no more open tickets (and thus doesn't appear in the previous read_group)
+                count_dict = dict((m_id, 0) for m_id in member_ids)
+                count_dict.update((data['user_id'][0], data['user_id_count']) for data in read_group_res)
+                new_user = new_user.browse(min(count_dict, key=count_dict.get))
         return new_user
 
 
