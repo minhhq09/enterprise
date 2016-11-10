@@ -13,6 +13,9 @@ class StockMove(models.Model):
     @api.multi
     def action_confirm(self):
         moves = super(StockMove, self).action_confirm()
+        if self.env.context.get('skip_check'):
+            # Skip checks if extra moves were created during transfer
+            return moves
         pick_moves = defaultdict(lambda: self.env['stock.move'])
         for move in moves:
             pick_moves[move.picking_id] |= move
