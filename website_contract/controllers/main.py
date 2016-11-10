@@ -130,19 +130,28 @@ class website_contract(http.Controller):
 
     # 3DS controllers
     # transaction began as s2s but we receive a form reply
-    @http.route(['/my/contract/<int:account_id>/payment/<int:tx_id>/accept/',
-                 '/my/contract/<int:account_id>/payment/<int:tx_id>/decline/',
-                 '/my/contract/<int:account_id>/payment/<int:tx_id>/exception/'], type='http', auth="public", website=True)
+    # TODO: in master, only support uuid submission (not id)
+    # DO NOT FORWARD-PORT TO MASTER (stop at version 10.0)
+    @http.route(['/my/contract/<account_id>/payment/<int:tx_id>/accept/',
+                 '/my/contract/<account_id>/payment/<int:tx_id>/decline/',
+                 '/my/contract/<account_id>/payment/<int:tx_id>/exception/'], type='http', auth="public", website=True)
     def payment_accept(self, account_id, tx_id, **kw):
-        account_res = request.env['sale.subscription']
+        Subscription = request.env['sale.subscription']
         tx_res = request.env['payment.transaction']
+        try:
+            account = Subscription.sudo().browse(int(account_id))
+        except ValueError:
+            account = Subscription.sudo().search([('uuid', '=', account_id)])
 
-        account = account_res.sudo().browse(account_id)
         tx = tx_res.sudo().browse(tx_id)
 
         get_param = self.payment_succes_msg if tx.state == 'done' else self.payment_fail_msg
 
-        return request.redirect('/my/contract/%s/%s?%s' % (account.id, account.uuid, get_param))
+        if isinstance(account_id, int):  # called by id: no-sudo redirect
+            redirect_url = '/my/contract/%s?%s' % (account.id, get_param)
+        else:
+            redirect_url = '/my/contract/%s/%s?%s' % (account.id, account.uuid, get_param)
+        return request.redirect(redirect_url)
 
     @http.route(['/my/contract/<int:account_id>/change'], type='http', auth="public", website=True)
     def change_contract(self, account_id, uuid=None, **kw):
