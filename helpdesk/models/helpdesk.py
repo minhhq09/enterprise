@@ -571,7 +571,7 @@ class HelpdeskTicket(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('team_id'):
-            vals.update(self._onchange_team_get_values(self.env['helpdesk.team'].browse(vals['team_id'])))
+            vals.update(item for item in self._onchange_team_get_values(self.env['helpdesk.team'].browse(vals['team_id'])).items() if item[0] not in vals)
 
         # context: no_log, because subtype already handle this
         ticket = super(HelpdeskTicket, self.with_context(mail_create_nolog=True)).create(vals)
