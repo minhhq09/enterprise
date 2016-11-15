@@ -116,7 +116,7 @@ class Validation(models.TransientModel):
 class Validable(models.TransientModel):
     _name = 'timesheet_grid.validable'
 
-    validation_id = fields.Many2one('timesheet_grid.validation', required=True)
-    employee_id = fields.Many2one('hr.employee', string="Employee", required=True)
+    validation_id = fields.Many2one('timesheet_grid.validation', required=True, ondelete='cascade')
+    employee_id = fields.Many2one('hr.employee', string="Employee", required=True, ondelete='cascade')
     validate = fields.Boolean(
         default=True, help="Validate this employee's timesheet up to the chosen date")
