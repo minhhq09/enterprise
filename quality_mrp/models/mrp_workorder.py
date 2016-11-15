@@ -79,15 +79,15 @@ class MrpProductionWorkcenterLine(models.Model):
         self.ensure_one()
         if any([(x.quality_state == 'none') for x in self.check_ids]):
             raise UserError(_('You still need to do the quality checks!'))
-        super(MrpProductionWorkcenterLine, self).record_production()
         if self.check_ids:
             #Check if you can attribute the lot to the checks
             if (self.production_id.product_id.tracking != 'none') and self.final_lot_id:
                 checks_to_assign = self.check_ids.filtered(lambda x: not x.lot_id)
                 if checks_to_assign:
-                    checks_to_assign.lot_id = self.final_lot_id.id
-            if self.qty_producing > 0:
-                self._create_checks()
+                    checks_to_assign.write({'lot_id': self.final_lot_id.id})
+        super(MrpProductionWorkcenterLine, self).record_production()
+        if self.qty_producing > 0:
+            self._create_checks()
 
     @api.multi
     def check_quality(self):
