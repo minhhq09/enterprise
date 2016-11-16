@@ -3,7 +3,7 @@
 from datetime import date, datetime, time, timedelta
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 
 
@@ -77,6 +77,8 @@ class ProjectForecast(models.Model):
         calendar = self.mapped('user_id.resource_ids.calendar_id')
         if calendar:
             hours = calendar[0].get_working_hours(start, stop)
+            if hours == 0:
+                raise UserError(_("You cannot set a user with no working time."))
             self.time = self.resource_hours * 100.0 / hours
         else:
             self.time = 0
