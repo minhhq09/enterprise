@@ -23,7 +23,7 @@ var ActionEditorView = Widget.extend({
         this.type = flags.type;
         this.can_default = flags.can_default;
         this.can_set_another = flags.can_set_another;
-        this.can_desactivate = flags.can_desactivate;
+        this.can_be_disabled = flags.can_be_disabled;
     },
 
     on_click_thumbnail: function (event) {

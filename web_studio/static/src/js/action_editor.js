@@ -40,7 +40,7 @@ var ActionEditor = Widget.extend({
                 type: view_type,
                 can_default: view_type !== 'search' || false,
                 can_set_another: true,
-                can_desactivate: view_type !== 'search' || false,
+                can_be_disabled: view_type !== 'search' || false,
             });
             if (_.contains(['form', 'search'], view_type)) {
                 view.appendTo(self.$('.o_web_studio_view_category[name="special"]'));
