@@ -37,9 +37,7 @@
             <field name="name">Apply marked scores</field>
             <field name="model_id" ref="model_website_crm_score"/>
             <field name="state">code</field>
-            <field name="code">
-    env['website.crm.score'].assign_scores_to_leads(context['active_ids'])
-            </field>
+            <field name="code">records.assign_scores_to_leads()</field>
         </record>
 
         <record id="ir_action_score_now" model="ir.values">

@@ -133,10 +133,7 @@
     <field name="type">ir.actions.server</field>
     <field name="model_id" ref="model_project_forecast" />
     <field name="state">code</field>
-    <field name="code">
-      if context.get('active_ids'):
-          env['project.forecast'].browse(context.get('active_ids')).toggle_active()
-    </field>
+    <field name="code">records.toggle_active()</field>
 </record>
 
 <record id="project_forecast_ir_values_archive" model="ir.values">

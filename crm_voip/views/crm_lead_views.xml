@@ -7,15 +7,7 @@
       <field name="name">Add to Call Queue</field>
       <field name="model_id" ref="crm.model_crm_lead"/>
       <field name="state">code</field>
-      <field name="code">
-        if context.get('active_model') == 'crm.lead':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['opportunity_id']
-          env['crm.lead'].browse(ids).create_call_in_queue()
-      </field>
+      <field name="code">records.create_call_in_queue()</field>
     </record>
 
     <!-- insertion of the action "Add to Call Queue" in the "more" menu in the lead's list view -->
@@ -63,6 +55,5 @@
         </div>
       </field>
     </record>
-  
 </odoo>
 

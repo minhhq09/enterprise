@@ -15,7 +15,7 @@
               <button name="%(action_ebay_link_listing)d" type='action' string='Link With Existing eBay Listing' attrs="{'invisible': ['|',('ebay_use', '=', False),('ebay_listing_status','!=', 'Unlisted')]}"/>
         </xpath>
         <div name="options" position="inside">
-          <div>          
+          <div>
             <field name="ebay_use"/>
             <label for="ebay_use"/>
           </div>
@@ -28,7 +28,7 @@
               <field name="ebay_quantity_sold" attrs="{'invisible': ['|',('product_variant_count', '>', 1),('ebay_listing_status','=', 'Unlisted')]}"/>
               <field name="ebay_start_date" attrs="{'invisible': [('ebay_listing_status','=', 'Unlisted')]}"/>
             </group>
-            
+
             <group colspan="2">
               <group>
                 <field name="ebay_title"/>
@@ -111,13 +111,8 @@
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
-        if context.get('active_model') == 'product.template':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['active_id']
-          env['product.template'].browse(ids).push_product_ebay()
+if records:
+  records.push_product_ebay()
       </field>
     </record>
 
@@ -133,13 +128,8 @@
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
-        if context.get('active_model') == 'product.template':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['active_id']
-          env['product.template'].browse(ids).revise_product_ebay()
+if records:
+  records.revise_product_ebay()
       </field>
     </record>
 
@@ -155,13 +145,8 @@
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
-        if context.get('active_model') == 'product.template':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['active_id']
-          env['product.template'].browse(ids).relist_product_ebay()
+if records:
+  records.relist_product_ebay()
       </field>
     </record>
 
@@ -177,13 +162,8 @@
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
-        if context.get('active_model') == 'product.template':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['active_id']
-          env['product.template'].browse(ids).end_listing_product_ebay()
+if records:
+  records.end_listing_product_ebay()
       </field>
     </record>
 
@@ -199,13 +179,8 @@
       <field name="model_id" ref="sale.model_product_template"/>
       <field name="state">code</field>
       <field name="code">
-        if context.get('active_model') == 'product.template':
-          ids = []
-          if(context['active_ids']):
-              ids = context['active_ids']
-          else:
-              ids = context['active_id']
-          env['product.template'].browse(ids).unlink_listing_product_ebay()
+if records:
+  records.unlink_listing_product_ebay()
       </field>
     </record>
 
