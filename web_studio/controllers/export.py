@@ -243,7 +243,7 @@ def generate_record(record, get_xmlid):
     skipped = []
 
     # Create the record node
-    record_node = E.record(id=xmlid, model=record._name)
+    record_node = E.record(id=xmlid, model=record._name, context="{'studio': True}")
     for name in FIELDS_TO_EXPORT[record._name]:
         field = record._fields[name]
         try:
