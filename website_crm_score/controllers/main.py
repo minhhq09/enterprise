@@ -81,7 +81,7 @@ class ContactController(WebsiteForm):
             # NOTE: the following should be changed when dynamic forms exist
             changed_values = {}
             for fieldname, fieldvalue in values.items():
-                if fieldname in lead._all_columns and fieldvalue:
+                if fieldname in lead and fieldvalue:
                     if lead[fieldname] and lead[fieldname] != fieldvalue:
                         changed_values[fieldname] = fieldvalue
                     else:
