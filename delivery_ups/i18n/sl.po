@@ -1,24 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * delivery_ups
-#
+# 
 # Translators:
-# Dejan Sraka <dejan.sraka@picolabs.si>, 2016
+# Gasper Simc <Gapi.simc@gmail.com>, 2016
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2016
+# Martin Trigaux <mat@odoo.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-03-27 21:16+0000\n"
-"Last-Translator: Dejan Sraka <dejan.sraka@picolabs.si>\n"
-"Language-Team: Slovenian (http://www.transifex.com/odoo/odoo-9/language/"
-"sl/)\n"
-"Language: sl\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Language-Team: Slovenian (https://www.transifex.com/odoo/teams/41243/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
-"%100==4 ? 2 : 3);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_delivery_carrier
@@ -29,11 +29,6 @@ msgstr "Nosilec"
 #: selection:delivery.carrier,ups_package_dimension_unit:0
 msgid "Centimeters"
 msgstr "Centimetri"
-
-#. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
-msgid "Default Packaging Type"
-msgstr ""
 
 #. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
@@ -51,22 +46,17 @@ msgid "Kilograms"
 msgstr ""
 
 #. module: delivery_ups
-#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
-msgid "Label File Type"
-msgstr ""
-
-#. module: delivery_ups
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. module: delivery_ups
 #: model:ir.model,name:delivery_ups.model_product_packaging
 msgid "Packaging"
-msgstr ""
+msgstr "Pakiranje"
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:210
+#: code:addons/delivery_ups/models/ups_request.py:207
 #, python-format
 msgid "Please provide at least one item to ship."
 msgstr ""
@@ -100,7 +90,7 @@ msgid "Shipping label for packages"
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:185
+#: code:addons/delivery_ups/models/ups_request.py:182
 #, python-format
 msgid ""
 "The address of your company is missing or wrong.\n"
@@ -108,7 +98,7 @@ msgid ""
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:195
+#: code:addons/delivery_ups/models/ups_request.py:192
 #, python-format
 msgid ""
 "The address of your warehouse is missing or wrong.\n"
@@ -116,22 +106,22 @@ msgid ""
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:215
+#: code:addons/delivery_ups/models/ups_request.py:212
 #, python-format
 msgid ""
 "The delivery cannot be done because the weight of your product is missing."
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:212
+#: code:addons/delivery_ups/models/ups_request.py:209
 #, python-format
 msgid ""
-"The estimated price cannot be computed because the weight of your product is "
-"missing."
+"The estimated price cannot be computed because the weight of your product is"
+" missing."
 msgstr ""
 
 #. module: delivery_ups
-#: code:addons/delivery_ups/models/ups_request.py:205
+#: code:addons/delivery_ups/models/ups_request.py:202
 #, python-format
 msgid ""
 "The recipient address is missing or wrong.\n"
@@ -170,8 +160,18 @@ msgid "UPS Configuration"
 msgstr ""
 
 #. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_default_packaging_id
+msgid "UPS Default Packaging Type"
+msgstr ""
+
+#. module: delivery_ups
 #: selection:delivery.carrier,ups_default_service_type:0
 msgid "UPS Ground"
+msgstr ""
+
+#. module: delivery_ups
+#: model:ir.model.fields,field_description:delivery_ups.field_delivery_carrier_ups_label_file_type
+msgid "UPS Label File Type"
 msgstr ""
 
 #. module: delivery_ups
@@ -259,15 +259,3 @@ msgstr ""
 #: selection:delivery.carrier,ups_label_file_type:0
 msgid "ZPL"
 msgstr ""
-
-#~ msgid "10KG Box"
-#~ msgstr "10KG škatla"
-
-#~ msgid "25KG Box"
-#~ msgstr "25KG škatla"
-
-#~ msgid "Pallet"
-#~ msgstr "Paleta"
-
-#~ msgid "Test Mode"
-#~ msgstr "Testni način"

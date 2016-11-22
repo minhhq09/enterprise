@@ -1,126 +1,38 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * account_plaid
-#
-# Translators:
-# AYHAN KIZILTAN <akiziltan76@hotmail.com>, 2016
-# Hüseyin Cem Aras <hcemaras@gmail.com>, 2016
-# Ramiz Deniz Öner <deniz@denizoner.com>, 2016
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-19 11:34+0000\n"
-"PO-Revision-Date: 2016-04-23 18:41+0000\n"
-"Last-Translator: AYHAN KIZILTAN <akiziltan76@hotmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/odoo/odoo-9/language/tr/)\n"
-"Language: tr\n"
+"POT-Creation-Date: 2016-11-03 13:22+0000\n"
+"PO-Revision-Date: 2016-11-03 13:22+0000\n"
+"Language-Team: Turkish (https://www.transifex.com/odoo/teams/41243/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: account_plaid
-#: model:ir.model.fields,field_description:account_plaid.field_online_account_token
-msgid "Access Token"
-msgstr "Erişim Verisi"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:72
-#: code:addons/account_plaid/models/plaid.py:74
-#: code:addons/account_plaid/models/plaid.py:89
+#: code:addons/account_plaid/models/plaid.py:42
 #, python-format
-msgid "An error has occurred while trying to connect to plaid service"
-msgstr "Plaid servisine bağlanmaya çalışılırken bir hata oluştu."
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:155
-#, python-format
-msgid "Error in synchronization"
-msgstr "Senkronizasyon hatası"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:162
-#, python-format
-msgid "Error with Plaid.com"
-msgstr "Plaid.com Hatası"
-
-#. module: account_plaid
-#: model:ir.model,name:account_plaid.model_account_journal
-msgid "Journal"
-msgstr "Yevmiye"
-
-#. module: account_plaid
-#: model:ir.model.fields,field_description:account_plaid.field_account_journal_onlinesync_config_plaid_account_id
-msgid "Online Account"
-msgstr "Çevrimiçi Hesap"
-
-#. module: account_plaid
-#: model:ir.model.fields,field_description:account_plaid.field_online_account_plaid_id
-msgid "Plaid Account"
-msgstr "Plaid Hesabı"
-
-#. module: account_plaid
-#: model:ir.model.fields,field_description:account_plaid.field_account_config_settings_plaid_id
-msgid "Plaid ID"
-msgstr "Plaid Kimliği"
-
-#. module: account_plaid
-#: model:ir.model.fields,field_description:account_plaid.field_account_config_settings_plaid_secret
-msgid "Plaid Secret"
-msgstr "Plaid Gizli Anahtarı"
-
-#. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:156
-#, python-format
-msgid ""
-"The synchronization of the journal %s with the plaid account %s has failed."
-"<br>The error message is :<br>%s"
+msgid "Get %s status code for call to %s. Content message: %s"
 msgstr ""
-"%s Günlüğünün, %s plaid hesaplı, eşitlemesi başarısız oldu.<br>Hata mesajı :"
-"<br>%s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:163
-#, python-format
-msgid ""
-"The synchronization with Plaid.com failed. Please check the error : <br> %s"
+#: model:ir.model,name:account_plaid.model_account_online_journal
+msgid "Interface for online account journal"
 msgstr ""
-"Plaid.com ile eşitleme başarısız oldu. Lütfen hatayı kontrol edin : <br> %s"
 
 #. module: account_plaid
-#: code:addons/account_plaid/models/plaid.py:57
-#, python-format
-msgid ""
-"You haven't configure your plaid account, please go to accounting/settings "
-"to configure it"
+#: model:ir.model,name:account_plaid.model_account_online_provider
+msgid "Provider for online account synchronization"
 msgstr ""
-"Plaid hesabınız yapılandırılmamış değil, lütfen yapılandırmak için hesap "
-"muhasebesine/ayarlarına gidin."
 
 #. module: account_plaid
-#: model:ir.model,name:account_plaid.model_account_config_settings
-msgid "account.config.settings"
-msgstr "account.config.settings"
-
-#. module: account_plaid
-#: model:ir.model,name:account_plaid.model_account_journal_onlinesync_config
-msgid "account.journal.onlinesync.config"
-msgstr "account.journal.onlinesync.config"
-
-#. module: account_plaid
-#: model:ir.model,name:account_plaid.model_online_account
-#, fuzzy
-msgid "online.account"
-msgstr "Çevrimiçi Hesap"
-
-#. module: account_plaid
-#: model:ir.model,name:account_plaid.model_online_institution
-msgid "online.institution"
-msgstr "online.institution"
-
-#~ msgid "Email Thread"
-#~ msgstr "E-posta İşlemleri"
-
-#~ msgid "Plaid Configuration"
-#~ msgstr "Plaid Yapılandırması"
+#: code:addons/account_plaid/models/plaid.py:68
+#, python-format
+msgid "Timeout: the server did not reply within 30s"
+msgstr ""

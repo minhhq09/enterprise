@@ -3,9 +3,9 @@
 # * account_reports
 # 
 # Translators:
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
 # Eric Geens <ericgeens@yahoo.com>, 2016
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2016
 # Hans van Schooten <hvsch1961@gmail.com>, 2016
 # Stephan Van Dyck <stephan.vandyck@vanroey.be>, 2016
@@ -601,7 +601,7 @@ msgstr "Gebaseerd op een enkele datum"
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
 msgid "Based on a single date with the analytic filter"
-msgstr "Gebaseerd op een enkele datum met de kostenplaats filter"
+msgstr "Gebaseerd op een enkele datum met een kostenplaats filter"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
@@ -611,7 +611,7 @@ msgstr "Gebaseerd op een datumbereik"
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
 msgid "Based on date ranges with the analytic filter"
-msgstr "Gebaseerd om een datumbereik met de kostenplaats filter"
+msgstr "Gebaseerd om een datumbereik met een kostenplaats filter"
 
 #. module: account_reports
 #: selection:account.financial.html.report,report_type:0
@@ -871,7 +871,7 @@ msgstr "Cosmetisch"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cost_sales0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_direct_costs0
 msgid "Cost of Revenue"
-msgstr "Kosten van de omzet"
+msgstr "Inkoopwaarde van de omzet"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_create_uid
@@ -945,7 +945,7 @@ msgstr "Valuta"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_assets_view0
 msgid "Current Assets"
-msgstr "Huidige activa"
+msgstr "Vlottende activa"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:89
@@ -957,7 +957,7 @@ msgstr "Huidig saldo in grootboek"
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities0
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_current_liabilities1
 msgid "Current Liabilities"
-msgstr "Huidige passiva"
+msgstr "Kort vreemd vermogen"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_ca_to_l0
@@ -1550,14 +1550,14 @@ msgstr "Vereist actie"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include Unposted Entries"
-msgstr "Ongeboekte regels mee opnemen"
+msgstr "Ongeboekte regels opnemen"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include unposted entries"
-msgstr "Ongeboekte regels mee opnemen"
+msgstr "Ongeboekte regels opnemen"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
@@ -1858,14 +1858,14 @@ msgstr "Minus niet-afgeletterde betalingen"
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:143
 #, python-format
 msgid "Minus Unreconciled Statement Lines"
-msgstr "Min niet-afgeletterde bankafschrifregels"
+msgstr "Minus niet-afgeletterde bankafschrifregels"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_cashsummary_regulator0
 msgid ""
 "Minus previously recorded advance payments (already in the starting balance)"
 msgstr ""
-"Min voorheen geregistreerde aanbetalingen (reeds in het openings balans)"
+"Minus voorheen geregistreerde aanbetalingen (reeds in het openings balans)"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_ir_module_module
@@ -2242,7 +2242,7 @@ msgstr "Plus langlopende activa"
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_non_current_liabilities0
 msgid "Plus Non-current Liabilities"
-msgstr "Plus Langlopende passiva"
+msgstr "Plus Lang vreemd vermogen"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_bank_reconciliation_report.py:114
@@ -2471,6 +2471,8 @@ msgid ""
 "Set to True to automatically filter out journal items that have the boolean "
 "field 'tax_exigible' set to False"
 msgstr ""
+"Zet op Waar om automatisch boekingen te filteren die het veld 'BTW mogelijk'"
+" op Onwaar hebben staan."
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_st_cash_forecast0
