@@ -1064,7 +1064,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
             var self = this;
             return posmodel_super.connect_to_proxy.apply(this, arguments).then(function () {
                 self.proxy.message('request_serial', {}, {timeout: 5000}).then(function (response) {
-                    if (! response || "BODO001" + response != self.config.blackbox_pos_production_id) {
+                    if (! response || "BODO001" + response.toUpperCase() != self.config.blackbox_pos_production_id.toUpperCase()) {
                         self.proxy._show_could_not_connect_error();
                     } else {
                         self.chrome.ready.then(function () {
