@@ -40,6 +40,6 @@ Note: Only the admin user is allowed to make those customizations.
     'qweb': [
         "static/src/xml/*.xml",
     ],
-    'auto_install': True,
+    'application': True,
     'license': 'OEEL-1',
 }
