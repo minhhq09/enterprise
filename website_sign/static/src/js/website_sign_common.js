@@ -430,152 +430,95 @@ odoo.define('website_sign.utils', function (require) {
         $select.off('change').on('change', configuration.handler);
     }
 
-    function getPartnerSelectConfiguration() {
-        if(getPartnerSelectConfiguration.def === undefined) {
-            getPartnerSelectConfiguration.def = new $.Deferred();
-
-            var select2Options = {
-                allowClear: true,
-                minimumInputLength: 3,
-
-                formatResult: function(data, resultElem, searchObj) {
-                    var partner = $.parseJSON(data.text);
-                    if($.isEmptyObject(partner)) {
-                        var $elem = $(data.element[0]);
-
-                        var partnerMatch = searchObj.term.match(/(?:\s|\()*(((?:\w|-|\.)+)@(?:\w|-)+\.(?:\w|-)+)(?:\s|\))*/);
-                        if(!partnerMatch || partnerMatch[1] === undefined) {
-                            $elem.removeData('name mail');
-                            return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""})
-                                    .addClass('o_sign_create_partner')
-                                    .append($("<span/>").addClass('fa fa-exclamation-circle'))
-                                    .append($("<span/>", {text: _t("Enter email (and name if you want)")}).addClass('small'));
-                        } else {
-                            var index = searchObj.term.indexOf(partnerMatch[0]);
-                            var name = searchObj.term.substr(0, index) + " " + searchObj.term.substr(index + partnerMatch[0].length);
-                            if(name === " ") {
-                                name = partnerMatch[2];
-                            }
-
-                            $elem.data({name: name, mail: partnerMatch[1]});
-                            return $("<div/>", {text: _t("Create: \"") + $elem.data('name') + " (" + $elem.data('mail') + ")" + "\""})
-                                .addClass('o_sign_create_partner')
-                                .append($("<span/>").addClass('fa fa-check-circle'));
-                        }
-                    }
-
-                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).addClass('o_sign_add_partner');
-                },
-
-                formatSelection: function(data) {
-                    var partner = $.parseJSON(data.text);
-                    if($.isEmptyObject(partner)) {
-                        return _t("Error");
-                    }
-
-                    return $("<div/>", {text: ((partner['new'])? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).html();
-                },
-
-                matcher: function(search, data) {
-                    var partner = $.parseJSON(data);
-                    if($.isEmptyObject(partner)) {
-                        return (search.length > 0);
-                    }
-
-                    var searches = search.toUpperCase().split(/[ ()]/);
-                    for(var i = 0 ; i < searches.length ; i++) {
-                        if(partner['email'].toUpperCase().indexOf(searches[i]) < 0 && partner['name'].toUpperCase().indexOf(searches[i]) < 0) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            };
-
-            var selectChangeHandler = function(e) {
-                if(e.added && e.added.element.length > 0) {
-                    var $option = $(e.added.element[0]);
-                    var $select = $option.parent();
-                    if(parseInt($option.val()) !== 0) {
-                        return true;
-                    }
-
-                    setTimeout(function() {
-                        $select.select2("destroy");
-
-                        if(!$option.data('mail')) {
-                            $option.prop('selected', false);
-                        } else {
-                            if(!$select.data('newNumber')) {
-                                $select.data('newNumber', 0);
-                            }
-                            var newNumber = $select.data('newNumber') - 1;
-                            $select.data('newNumber', newNumber);
-
-                            $option.val(newNumber);
-                            $option.text('{"name": "' + $option.data('name') + '", "email": "' + $option.data('mail') + '", "new": "1"}');
-
-                            var $newOption = $('<option/>', {
-                                value: 0,
-                                text: "{}",
-                            });
-                            $select.find('option').filter(':last').after($newOption);
-                        }
-
-                        $select.select2(select2Options);
-                    }, 0);
-                } else if(e.removed && e.removed.element.length > 0) {
-                    var $option = $(e.removed.element[0]);
-                    var $select = $option.parent();
-                    if(parseInt($option.val()) >= 0) {
-                        return true;
-                    }
-
-                    setTimeout(function() {
-                        $select.select2("destroy");
-                        $select.find('option[value=' + $option.val() + ']').remove();
-                        $select.select2(select2Options);
-                    }, 0);
-                }
-            };
-
-            (new Model('res.partner')).query(['name', 'email'])
-                                      .filter([['email', '!=', '']])
-                                      .all()
-                                      .then(process_partners);
-        }
-
-        return getPartnerSelectConfiguration.def;
-
-        function process_partners(data) {
-            var $partnerSelect = $('<select><option/></select>');
-            for(var i = 0 ; i < data.length ; i++) {
-                ensure_strings(data[i]);
-                $partnerSelect.append($('<option/>', {
-                    value: data[i]['id'],
-                    text: JSON.stringify(data[i]),
-                }));
-            }
-            $partnerSelect.append($('<option/>', {
-                value: 0,
-                text: "{}",
-            }));
-
-            getPartnerSelectConfiguration.def.resolve($partnerSelect.html(), select2Options, selectChangeHandler);
-
-            function ensure_strings(partner) {
-                partner['name'] = partner['name'] || '';
-                partner['email'] = partner['email'] || '';
-            }
-        }
-    }
-
     function setAsPartnerSelect($select) {
-        return getPartnerSelectConfiguration().then(function(selectHTML, select2Options, selectChangeHandler) {
-            $select.select2('destroy');
-            $select.html(selectHTML).addClass('form-control');
-            $select.select2(select2Options);
-            $select.off('change').on('change', selectChangeHandler);
+        var select2Options = {
+            allowClear: true,
+            multiple: $select.is('[multiple]'),
+            minimumInputLength: 3,
+
+            formatResult: function(partner, resultElem, searchObj) {
+                if(partner.id < 0) {
+                    var partnerMatch = searchObj.term.match(/(?:\s|\()*(((?:\w|-|\.)+)@(?:\w|-)+\.(?:\w|-)+)(?:\s|\))*/);
+                    if(!partnerMatch || partnerMatch[1] === undefined) {
+                        _.extend(partner, {'name': '', 'email': ''});
+                        return $("<div/>", {text: _t("Create: \"") + searchObj.term + "\""})
+                                .addClass('o_sign_create_partner')
+                                .append($("<span/>").addClass('fa fa-exclamation-circle'))
+                                .append($("<span/>", {text: _t("Enter email (and name if you want)")}).addClass('small'));
+                    } else {
+                        var index = searchObj.term.indexOf(partnerMatch[0]);
+                        var name = searchObj.term.substr(0, index) + " " + searchObj.term.substr(index + partnerMatch[0].length);
+                        if(name === " ") {
+                            name = partnerMatch[2];
+                        }
+
+                        _.extend(partner, {name: name, email: partnerMatch[1]});
+                        return $("<div/>", {text: _t("Create: \"") + partner.name + " (" + partner.email + ")" + "\""})
+                            .addClass('o_sign_create_partner')
+                            .append($("<span/>").addClass('fa fa-check-circle'));
+                    }
+                }
+
+                return $("<div/>", {text: (partner.id < 0? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).addClass('o_sign_add_partner');
+            },
+
+            formatSelection: function(partner) {
+                return $("<div/>", {text: (partner.id < 0 ? _t("New: ") : "") + partner.name + " (" + partner.email + ")"}).html();
+            },
+
+            ajax: {
+                data: function(term, page) {
+                    return { 'term': term, 'page': page };
+                },
+                transport: function(args) {
+                    var domain = _.chain(args.data.term.split(/[\s()]+/)).filter().map(function(term){
+                        return ['|', ['email', 'ilike', term], ['name', 'ilike', term]];
+                    }).flatten(true).value();
+                    domain.unshift(['email', '!=', '']);
+                    return (new Model('res.partner')).query(['name', 'email'])
+                                              .filter(domain)
+                                              .limit(30).offset(30 * (args.data.page - 1))
+                                              .all().done(args.success).fail(args.failure);
+                },
+                results: function(data) {
+                    var last_page = data.length !== 30
+                    // empty choice on last result page to create new partner
+                    if(last_page) {
+                        data.push({'id': parseInt(_.uniqueId('-'))});
+                    }
+                    _.each(data, function(partner) {
+                        partner['name'] = partner['name'] || '';
+                        partner['email'] = partner['email'] || '';
+                    });
+                    return {'results': data, 'more': !last_page};
+                },
+                quietMillis: 250,
+            }
+        };
+
+        $select.select2('destroy');
+        $select.addClass('form-control');
+        $select.select2(select2Options);
+        $select.off('change').on('change', function(e) {
+            if(e.added) {
+                if(e.added.id < 0) {
+                    // if no email on new partner, cancel addition
+                    if (!e.added.email) {
+                        $(this).data('select2').val('');
+                        return;
+                    }
+                    $(this).data('new_partners', $(this).data('new_partners') || {});
+                    $(this).data('new_partners')[e.added.id] = e.added;
+                }
+            } else if(e.removed) {
+                if(e.removed.id < 0) {
+                    delete $(this).data('new_partners')[e.removed.id];
+                }
+            }
+        });
+        // fix an issue select2 has to size a placeholder of an invisible input
+        setTimeout(function(){
+            $select.data('select2').clearSearch();
         });
     }
 
@@ -586,7 +529,7 @@ odoo.define('website_sign.utils', function (require) {
         }
 
         if(typeof partnerIDs === 'string') {
-            partnerIDs = [parseInt(partnerIDs)];
+            partnerIDs = partnerIDs.split(',');
         }
 
         var partners = [];
@@ -594,7 +537,7 @@ odoo.define('website_sign.utils', function (require) {
         $(partnerIDs).each(function(i, partnerID) {
             partnerID = parseInt(partnerID);
             if(partnerID < 0) {
-                var partnerInfo = $.parseJSON($select.find('option[value=' + partnerID + ']').html());
+                var partnerInfo = $select.data('new_partners')[partnerID];
                 partnersToCreate.push([partnerInfo.name.trim(), partnerInfo.email.trim()]);
             } else if(partnerID > 0) {
                 partners.push(partnerID);

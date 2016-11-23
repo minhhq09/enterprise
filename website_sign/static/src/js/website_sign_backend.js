@@ -281,7 +281,7 @@ odoo.define('website_sign.template', function(require) {
             this.$('.o_sign_warning_message_no_field').first().toggle($.isEmptyObject(this.rolesToChoose));
             this.$('.o_sign_request_signers .o_sign_new_signer').remove();
 
-            website_sign_utils.setAsPartnerSelect(this.$('.o_sign_request_signers .form-group select')); // Followers
+            website_sign_utils.setAsPartnerSelect(this.$('.o_sign_request_signers .form-group input[type="hidden"]')); // Followers
 
             if($.isEmptyObject(this.rolesToChoose)) {
                 this.addSigner(0, _t("Signers"), true);
@@ -302,7 +302,7 @@ odoo.define('website_sign.template', function(require) {
 
             $newSigner.append($('<label/>').addClass('col-md-3').text(roleName).data('role', roleID));
 
-            var $signerInfo = $('<select/>').attr('placeholder', _t("Write email or search contact..."));
+            var $signerInfo = $('<input type="hidden"/>').attr('placeholder', _t("Write email or search contact..."));
             if(multiple) {
                 $signerInfo.attr('multiple', 'multiple');
             }
@@ -323,7 +323,7 @@ odoo.define('website_sign.template', function(require) {
             var completedOk = true;
             self.$('.o_sign_new_signer').each(function(i, el) {
                 var $elem = $(el);
-                var partnerIDs = $elem.find('select').val();
+                var partnerIDs = $elem.find('input[type="hidden"]').val();
                 if(!partnerIDs || partnerIDs.length <= 0) {
                     completedOk = false;
                     $elem.addClass('has-error');
@@ -341,7 +341,7 @@ odoo.define('website_sign.template', function(require) {
             var signers = [];
             self.$('.o_sign_new_signer').each(function(i, el) {
                 var $elem = $(el);
-                var selectDef = website_sign_utils.processPartnersSelection($elem.find('select')).then(function(partners) {
+                var selectDef = website_sign_utils.processPartnersSelection($elem.find('input[type="hidden"]')).then(function(partners) {
                     for(var p = 0 ; p < partners.length ; p++) {
                         signers.push({
                             'partner_id': partners[p],
