@@ -35,8 +35,8 @@ odoo.define('website_contract.website_contract', function (require) {
       var action = $form.attr('action');
       var data = getFormData($form);
       ajax.jsonRpc(action, 'call', data).then(function (data) {
-        $main_form.find('select option[value="-1"]').val(data[0]);
-        $main_form.find('select').val(data[0]);
+        $main_form.find('select option[value="-1"]').val(data);
+        $main_form.find('select').val(data);
         $main_form.submit();
       }).fail(function(message, data){
         $(self).attr('disabled', false);
