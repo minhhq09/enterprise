@@ -12,6 +12,7 @@ var SubMenu = require('web_studio.SubMenu');
 var SystrayItem = require('web_studio.SystrayItem');
 
 var qweb = core.qweb;
+var _t = core._t;
 
 Menu.include({
     events: _.extend({}, Menu.prototype.events, {
@@ -105,7 +106,7 @@ Menu.include({
                 .append($('<a>', {
                     href: 'http://pad.odoo.com/p/customization-' + studio_info.dbuuid,
                     target: '_blank',
-                    text: 'Notes',
+                    text: _t("Notes"),
                 }));
             this.$notes.insertAfter($main_navbar.find('.o_menu_systray'));
         } else {
