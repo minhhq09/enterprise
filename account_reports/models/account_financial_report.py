@@ -190,11 +190,13 @@ class AccountFinancialReportLine(models.Model):
                  SELECT aml.move_id, \"account_move_line\".date, CASE WHEN aml.balance = 0 THEN 0 ELSE part.amount / ABS(aml.balance) END as matched_percentage
                    FROM account_partial_reconcile part LEFT JOIN account_move_line aml ON aml.id = part.debit_move_id, """ + tables + """
                    WHERE part.credit_move_id = "account_move_line".id
+                    AND "account_move_line".internal_type IN ('receivable', 'payable')
                     AND """ + where_clause + """
                  UNION ALL
                  SELECT aml.move_id, \"account_move_line\".date, CASE WHEN aml.balance = 0 THEN 0 ELSE part.amount / ABS(aml.balance) END as matched_percentage
                    FROM account_partial_reconcile part LEFT JOIN account_move_line aml ON aml.id = part.credit_move_id, """ + tables + """
                    WHERE part.debit_move_id = "account_move_line".id
+                    AND "account_move_line".internal_type IN ('receivable', 'payable')
                     AND """ + where_clause + """
                )
                SELECT aml.id, ref.date, aml.name,
