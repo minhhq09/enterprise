@@ -57,10 +57,10 @@
                         help="Phone calls which are in closed state"/>
                     <filter string="Todo" name="todo" domain="[('state','in',('pending','open'))]"
                         help="Phone calls which are in to do state and Phone calls which receive no answer"/>
-                    <filter string="Not Held" domain="[('state','=','pending')]" 
+                    <filter string="Not Held" name="not_held" domain="[('state','=','pending')]" 
                         help="Phone calls which receive no answer"/>
                     <separator/>
-                    <filter string="My Sales Team(s)" context="{'invisible_team': False}" domain="[('team_id.user_id','=',uid)]"
+                    <filter string="My Sales Team(s)" name="my_sales_team" context="{'invisible_team': False}" domain="[('team_id.user_id','=',uid)]"
                             help="Phone calls that are assigned to one of the sale teams I manage" groups="base.group_multi_salesteams"/>
                     <separator/>
                     <field name="team_id" string="Sales Team" context="{'invisible_team': False}"
@@ -72,11 +72,11 @@
                     </group>
                     <group expand="1" string="Group By">
                         <filter string="Salesperson" name="Salesperson" context="{'group_by':'user_id'}" />
-                        <filter string="Sales Team" context="{'group_by':'team_id'}" groups="base.group_multi_salesteams"/>
-                        <filter string="Customer" context="{'group_by':'partner_id'}" />
-                        <filter string="Status" context="{'group_by':'state'}" />
+                        <filter string="Sales Team" name="sales_team" context="{'group_by':'team_id'}" groups="base.group_multi_salesteams"/>
+                        <filter string="Customer" name="customer" context="{'group_by':'partner_id'}" />
+                        <filter string="Status" name="status" context="{'group_by':'state'}" />
                         <separator/>
-                        <filter string="Creation Month" context="{'group_by':'date:month'}" help="Month of call"/>
+                        <filter string="Creation Month" name="creation_month" context="{'group_by':'date:month'}" help="Month of call"/>
                     </group>
                 </search>
             </field>
