@@ -3,7 +3,7 @@
 
 from odoo import models, fields, api, tools
 from datetime import datetime
-from odoo.tools.misc import formatLang
+from odoo.tools.misc import formatLang, ustr
 from odoo.tools.translate import _
 import time
 from odoo.tools import append_content_to_html, DEFAULT_SERVER_DATE_FORMAT
@@ -360,7 +360,7 @@ class account_report_context_followup(models.TransientModel):
                 'email_to': email,
             })
             msg = self._get_email_sent_log()
-            msg += '<br>' + self.with_context(public=True, mode='print').get_html()
+            msg += '<br>' + ustr(self.with_context(public=True, mode='print').get_html())
             self.partner_id.message_post(body=msg, subtype='account_reports.followup_logged_action')
             return True
         return False
