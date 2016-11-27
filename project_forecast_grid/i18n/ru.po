@@ -3,18 +3,14 @@
 # * project_forecast_grid
 # 
 # Translators:
-# KingOPl Slav <87slava13@gmail.com>, 2016
-# dr&mx <dronmax@gmail.com>, 2016
-# Sergey Vilizhanin <sv@grimmette.ru>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Denis Trepalin <zekarious@gmail.com>, 2016
+# Эдуард Манятовский <manyatovskiy@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-29 14:58+0000\n"
 "PO-Revision-Date: 2016-09-29 14:58+0000\n"
-"Last-Translator: Denis Trepalin <zekarious@gmail.com>, 2016\n"
+"Last-Translator: Эдуард Манятовский <manyatovskiy@gmail.com>, 2016\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,6 +25,8 @@ msgid ""
 "A project must have a start date to use a forecast grid, found no start date"
 " for {project.display_name}"
 msgstr ""
+"Проект должен иметь дату начала использования сетки прогноза, не найдено "
+"даты начала для {project.display_name}"
 
 #. module: project_forecast_grid
 #: code:addons/project_forecast_grid/models/project_forecast.py:47
@@ -37,22 +35,24 @@ msgid ""
 "A project must have an end date to use a forecast grid, found no end date "
 "for {project.display_name"
 msgstr ""
+"Проект должен иметь дату начала использования сетки прогноза, не найдено "
+"даты начала для {project.display_name}"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_assign
 msgid "Assign"
-msgstr ""
+msgstr "Назначить"
 
 #. module: project_forecast_grid
 #: model:ir.actions.act_window,name:project_forecast_grid.action_project_forecast_assign
 msgid "Assign user on a task"
-msgstr ""
+msgstr "Назначить пользователя на задачу"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_assign
 msgid "Assign user on task"
-msgstr ""
+msgstr "Назначить пользователя на эту задачу"
 
 #. module: project_forecast_grid
 #: model:ir.ui.menu,name:project_forecast_grid.menu_project_forecast_grid_by_project
@@ -71,6 +71,9 @@ msgid ""
 "Can only be used for forecasts not spanning multiple months, found "
 "%(forecast_count)d forecast(s) spanning across months in %(project_name)s"
 msgstr ""
+"Может быть использоваться только для прогнозов, не охватывающих несколько "
+"месяцев, найдено %(forecast_count)d прогноза(ов), охватывающих через месяцы "
+"в %(project_name)s"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_create_uid
@@ -96,12 +99,12 @@ msgstr "Прогноз"
 #. module: project_forecast_grid
 #: model:ir.actions.act_window,name:project_forecast_grid.action_project_forecast_grid_by_project
 msgid "Forecast By Project"
-msgstr ""
+msgstr "Прогноз по проекту"
 
 #. module: project_forecast_grid
 #: model:ir.actions.act_window,name:project_forecast_grid.action_project_forecast_grid_by_user
 msgid "Forecast By User"
-msgstr ""
+msgstr "Прогноз по пользователю"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_set_dates
@@ -109,6 +112,8 @@ msgid ""
 "Forecasting on a project requires that the project\n"
 "                        have start and end dates"
 msgstr ""
+"Прогнозирование проекта требует, чтобы проект\n"
+"                       имел дату начала и окончания"
 
 #. module: project_forecast_grid
 #: code:addons/project_forecast_grid/models/project_forecast.py:25
@@ -116,6 +121,8 @@ msgstr ""
 msgid ""
 "Forecasting over a project only supports monthly forecasts (got step {})"
 msgstr ""
+"Прогнозирование над проектом поддерживает только ежемесячные прогнозы "
+"(получил шаг {})"
 
 #. module: project_forecast_grid
 #: model:ir.ui.menu,name:project_forecast_grid.project_forecast_gantt
@@ -135,6 +142,9 @@ msgid ""
 " field and the 'resource_hours' cell field, got respectively "
 "%(column_field)r and %(cell_field)r"
 msgstr ""
+"Корректировка сетки для прогнозов проекта поддерживает только поля столбцов "
+"'start_date' и 'resource_hours' клеток, соответственно получили "
+"%(column_field)r и %(cell_field)r"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_id
@@ -165,7 +175,7 @@ msgstr "Месяц"
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.project_forecast_grid
 msgid "Monthly Forecast"
-msgstr ""
+msgstr "Ежемесячный прогноз"
 
 #. module: project_forecast_grid
 #: model:ir.model,name:project_forecast_grid.model_project_project
@@ -177,13 +187,13 @@ msgstr "Проект"
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_set_dates
 msgid "Project Dates"
-msgstr ""
+msgstr "Сроки проекта"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_project
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_user
 msgid "Project Forecast By User"
-msgstr ""
+msgstr "Прогноз проекта по пользователю"
 
 #. module: project_forecast_grid
 #: model:ir.model.fields,field_description:project_forecast_grid.field_project_forecast_assignment_task_id
@@ -198,7 +208,7 @@ msgstr "Пользователь"
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_set_dates
 msgid "View Forecast"
-msgstr ""
+msgstr "Вид прогноза"
 
 #. module: project_forecast_grid
 #: model:ir.ui.view,arch_db:project_forecast_grid.view_project_forecast_grid_by_project
@@ -220,4 +230,4 @@ msgstr "project.forecast"
 #. module: project_forecast_grid
 #: model:ir.model,name:project_forecast_grid.model_project_forecast_assignment
 msgid "project.forecast.assignment"
-msgstr ""
+msgstr "project.forecast.assignment"
