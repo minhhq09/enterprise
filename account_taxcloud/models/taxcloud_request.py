@@ -3,6 +3,7 @@
 
 import logging
 import suds
+import requests
 
 from suds.client import Client
 from urllib2 import URLError
@@ -22,21 +23,39 @@ class TaxCloudRequest(object):
         self.api_login_id = api_id
         self.api_key = api_key
 
+    def verify_address(self, partner):
+        # Ensure that the partner address is as accurate as possible (with zip4 field for example)  
+        address_to_verify = {
+            'apiLoginID': self.api_login_id,
+            'apiKey': self.api_key,
+            'Address1': partner.street or '',
+            'Address2': partner.street2 or '',
+            'City': partner.city,
+            "State": partner.state_id.code,
+            "Zip5": partner.zip,
+            "Zip4": ""
+        }
+        return requests.post("https://api.taxcloud.com/1.0/TaxCloud/VerifyAddress", data=address_to_verify).json()
+
     def set_location_origin_detail(self, shipper):
+        address = self.verify_address(shipper)
         self.origin = self.client.factory.create('Address')
-        self.origin.Address1 = shipper.street or ''
-        self.origin.Address2 = shipper.street2 or ''
-        self.origin.City = shipper.city
-        self.origin.State = shipper.state_id.code
-        self.origin.Zip5 = shipper.zip
+        self.origin.Address1 = address['Address1'] or ''
+        self.origin.Address2 = address['Address2'] or ''
+        self.origin.City = address['City']
+        self.origin.State = address['State']
+        self.origin.Zip5 = address['Zip5']
+        self.origin.Zip4 = address['Zip4']
 
     def set_location_destination_detail(self, recipient_partner):
+        address = self.verify_address(recipient_partner)
         self.destination = self.client.factory.create('Address')
-        self.destination.Address1 = recipient_partner.street or ''
-        self.destination.Address2 = recipient_partner.street2 or ''
-        self.destination.City = recipient_partner.city
-        self.destination.State = recipient_partner.state_id.code
-        self.destination.Zip5 = recipient_partner.zip
+        self.destination.Address1 = address['Address1'] or ''
+        self.destination.Address2 = address['Address2'] or ''
+        self.destination.City = address['City']
+        self.destination.State = address['State']
+        self.destination.Zip5 = address['Zip5']
+        self.destination.Zip4 = address['Zip4']
 
     def set_items_detail(self, product_id, tic_code):
         self.cart_items = self.client.factory.create('ArrayOfCartItem')
