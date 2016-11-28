@@ -43,3 +43,11 @@ class TestContract(TestContractCommon):
         self.assertTrue('TestRecurringLine' not in lines, 'sale_contract: old line still present after renewal quotation confirmation')
         self.assertTrue('TestRenewalLine' in lines, 'sale_contract: new line not present after renewal quotation confirmation')
         self.assertEqual(renewal_so.state, 'done', 'sale_contract: so state should be after confirmation done when there is a subscription')
+
+    def test_so_search(self):
+        """ Test SO search overrides """
+        SaleOrder = self.env['sale.order']
+        self.assertNotIn(SaleOrder.search([('subscription_id', '=', False)]), self.sale_order)
+        self.assertIn(self.sale_order, SaleOrder.search([('subscription_id', '!=', False)]))
+        self.assertEqual(SaleOrder.search([('subscription_id', 'ilike', self.contract.code)]), self.sale_order)
+        self.assertEqual(SaleOrder.search([('subscription_id', '=', self.contract.id)]), self.sale_order)
