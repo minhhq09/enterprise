@@ -147,7 +147,7 @@ var ContactSync = common.FormWidget.extend({
     },
     start: function(){
         if(!mobile.methods.addContact){
-            $(this.$el).hide();
+            this.set('invisible', true);
         }
         return this._super.apply(this, arguments);
     },
