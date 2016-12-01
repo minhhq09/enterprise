@@ -184,7 +184,7 @@ class SaleSubscription(osv.osv):
         next_date = datetime.datetime.strptime(contract.recurring_next_date, "%Y-%m-%d")
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
         invoicing_period = relativedelta(**{periods[contract.recurring_rule_type]: contract.recurring_interval})
-        new_date = next_date + invoicing_period
+        end_date = next_date + invoicing_period - relativedelta(days=1)     # remove 1 day as normal people thinks in term of inclusive ranges.
 
         currency_id = False
         if contract.pricelist_id:
@@ -205,7 +205,7 @@ class SaleSubscription(osv.osv):
             'fiscal_position_id': fpos_id,
             'payment_term_id': partner_payment_term,
             'company_id': contract.company_id.id or False,
-            'comment': _("This invoice covers the following period: %s - %s") % (next_date.date(), (next_date - relativedelta(days=1)).date()),
+            'comment': _("This invoice covers the following period: %s - %s") % (next_date.date(), end_date.date()),
         }
         return invoice
 
