@@ -183,7 +183,8 @@ class SaleSubscription(models.Model):
 
         next_date = fields.Date.from_string(self.recurring_next_date)
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-        new_date = next_date + relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
+        end_date = next_date + relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
+        end_date = end_date - relativedelta(days=1)     # remove 1 day as normal people thinks in term of inclusive ranges.
 
         return {
             'account_id': self.partner_id.property_account_receivable_id.id,
@@ -196,7 +197,7 @@ class SaleSubscription(models.Model):
             'fiscal_position_id': fpos_id,
             'payment_term_id': self.partner_id.property_payment_term_id.id,
             'company_id': company.id,
-            'comment': _("This invoice covers the following period: %s - %s") % (next_date, new_date),
+            'comment': _("This invoice covers the following period: %s - %s") % (next_date, end_date),
         }
 
     @api.multi

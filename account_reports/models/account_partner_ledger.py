@@ -161,7 +161,7 @@ class ReportPartnerLedger(models.AbstractModel):
                 if too_many:
                     domain_lines.append({
                         'id': partner.id,
-                        'type': 'too_many_partner',
+                        'type': 'too_many_partners',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
                         'footnotes': {},
                         'colspan': 8,

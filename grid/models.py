@@ -40,11 +40,12 @@ class Base(models.AbstractModel):
         :returns: dict of prev context, next context, matrix data, row values
                   and column values
         """
+        domain = expression.normalize_domain(domain)
         column_info = self._grid_column_info(col_field, range)
 
         # [{ __count, __domain, grouping, **row_fields, cell_field }]
         groups = self._read_group_raw(
-            expression.AND([expression.normalize_domain(domain), column_info.domain]),
+            expression.AND([domain, column_info.domain]),
             [col_field, cell_field] + row_fields,
             [column_info.grouping] + row_fields,
             lazy=False
@@ -88,7 +89,7 @@ class Base(models.AbstractModel):
                         (f, '=', v if isinstance(v, (basestring, bool, int, long, float)) else v[0])
                         for f, v in r['values'].iteritems()
                     ])
-                    d = expression.AND([d, c['domain']])
+                    d = expression.AND([d, c['domain'], domain])
                     row.append(self._grid_make_empty_cell(d))
                 row[-1]['is_current'] = c.get('is_current', False)
 
