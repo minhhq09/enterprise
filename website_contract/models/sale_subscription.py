@@ -234,9 +234,9 @@ class SaleSubscription(models.Model):
 
         baseurl = self.env['ir.config_parameter'].get_param('web.base.url')
         payment_secure = {'3d_secure': two_steps_sec,
-                          'accept_url': baseurl + '/my/contract/%s/payment/%s/accept/' % (self.id, tx.id),
-                          'decline_url': baseurl + '/my/contract/%s/payment/%s/decline/' % (self.id, tx.id),
-                          'exception_url': baseurl + '/my/contract/%s/payment/%s/exception/' % (self.id, tx.id),
+                          'accept_url': baseurl + '/my/contract/%s/payment/%s/accept/' % (self.uuid, tx.id),
+                          'decline_url': baseurl + '/my/contract/%s/payment/%s/decline/' % (self.uuid, tx.id),
+                          'exception_url': baseurl + '/my/contract/%s/payment/%s/exception/' % (self.uuid, tx.id),
                           }
         tx.s2s_do_transaction(**payment_secure)
         return tx

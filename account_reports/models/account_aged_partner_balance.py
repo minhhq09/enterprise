@@ -26,15 +26,15 @@ class report_account_aged_partner(models.AbstractModel):
             if line_id and values['partner_id'] != line_id:
                 continue
             vals = {
-                'id': values['partner_id'],
+                'id': values['partner_id'] and values['partner_id'] or -1,
                 'name': values['name'],
-                'level': 0,
-                'type': 'partner_id',
+                'level': 0 if values['partner_id'] else 2,
+                'type': values['partner_id'] and 'partner_id' or 'line',
                 'footnotes': context._get_footnotes('partner_id', values['partner_id']),
                 'columns': [values['direction'], values['4'], values['3'], values['2'], values['1'], values['0'], values['total']],
                 'trust': values['trust'],
-                'unfoldable': True,
-                'unfolded': values['partner_id'] in context.unfolded_partners.ids,
+                'unfoldable': values['partner_id'] and True or False,
+                'unfolded': values['partner_id'] and (values['partner_id'] in context.unfolded_partners.ids) or False,
             }
             vals['columns'] = map(self._format, vals['columns'])
             lines.append(vals)

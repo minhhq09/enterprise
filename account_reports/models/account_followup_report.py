@@ -23,7 +23,7 @@ class report_account_followup_report(models.AbstractModel):
 
         def formatLangDate(date):
             date_dt = datetime.strptime(date, DEFAULT_SERVER_DATE_FORMAT)
-            return date_dt.strftime(date_format)
+            return date_dt.strftime(date_format.encode('utf-8')).decode('utf-8')
 
         lines = []
         res = {}
