@@ -15,12 +15,28 @@ class SaleOrder(models.Model):
             order.subscription_id = self.env['sale.subscription'].search([('analytic_account_id', '=', order.project_id.id)], limit=1)
 
     def _search_subscription(self, operator, value):
-        if operator not in ['=', '!=', 'in', 'not in']:
-            return []
-        an_accounts = self.env['sale.subscription'].read_group([('id', operator, value)], ['analytic_account_id'], ['analytic_account_id'])
-        aa_ids = [aa['analytic_account_id'][0] for aa in an_accounts]
-
-        return [('project_id', operator, aa_ids)]
+        if value == False:  # looking for set/unset values
+            if operator == '=':  # aa without subscription or no aa at all
+                aa_accounts = self.env['account.analytic.account'].search([('subscription_ids', operator, value)])
+                search_domain = ['|', ('project_id', 'in', aa_accounts.ids), ('project_id', '=', False)]
+            if operator == '!=':  # aa with subscriptions
+                search_domain = [('project_id.subscription_ids', '!=', False)]
+        else:  # text/id search
+            try:
+                value = isinstance(value, (str, unicode)) and int(value) or value  # id search
+                an_accounts = self.env['sale.subscription'].read_group([('id', operator, value)],
+                    ['analytic_account_id'], ['analytic_account_id'])
+                aa_ids = [aa['analytic_account_id'][0] for aa in an_accounts]
+                search_domain = [('project_id', 'in', aa_ids)]
+            except ValueError:
+                log_operator = "|" if operator in ['=', 'ilike', 'in'] else '&'
+                sub_data = self.env['sale.subscription'].search_read(
+                    domain=[log_operator, log_operator, ('name', operator, value),
+                            ('code', operator, value), ('partner_id.name', operator, value)],
+                    fields=['analytic_account_id'])
+                aa_ids = map(lambda s: s['analytic_account_id'][0], sub_data)
+                search_domain = [('project_id', 'in', aa_ids)]
+        return search_domain
 
     subscription_management = fields.Selection(string='Subscription Management', selection=[('create', 'Creation'), ('renew', 'Renewal'), ('upsell', 'Upselling')],
                                       help="Creation: The Sales Order created the subscription\n"
