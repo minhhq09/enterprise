@@ -104,7 +104,7 @@ var GridView = View.extend({
 
             var data = this.get('grid_data');
             // path should be [path, to, grid, 'grid', row_index, col_index]
-            var cell_path = $target.parent().data('path').split('.');
+            var cell_path = $target.parent().attr('data-path').split('.');
             var grid_path = cell_path.slice(0, -3);
             var row_path = grid_path.concat(['rows'], cell_path.slice(-2, -1));
             var col_path = grid_path.concat(['cols'], cell_path.slice(-1));
@@ -134,7 +134,7 @@ var GridView = View.extend({
         'click .o_grid_cell_information': function (e) {
             var $target = $(e.target);
             var data = this.get('grid_data');
-            var cell_path = $target.parent().data('path').split('.');
+            var cell_path = $target.parent().attr('data-path').split('.');
             var row_path = cell_path.slice(0, -3).concat(['rows'], cell_path.slice(-2, -1));
             var cell = into(data, cell_path);
             var row = into(data, row_path);
@@ -714,12 +714,12 @@ var Arrows = Widget.extend({
             if ($target.hasClass('active')) {
                 return;
             }
-            this._activate_range($target.data('name'));
+            this._activate_range($target.attr('data-name'));
         },
         'click .grid_arrow_button': function (e) {
             e.stopPropagation();
             // TODO: maybe allow opting out of getting ids?
-            var button = this._buttons[$(e.target).data('index')];
+            var button = this._buttons[$(e.target).attr('data-index')];
             var parent = this.getParent();
             parent.get_ids().then(function (ids) {
                 parent.do_execute_action(button, new data.DataSetStatic(
