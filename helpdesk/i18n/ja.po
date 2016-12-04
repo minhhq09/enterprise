@@ -170,7 +170,7 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 msgid "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
-msgstr ""
+msgstr "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
@@ -303,7 +303,7 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_assign_method
 msgid "Assignation Method"
-msgstr ""
+msgstr "割当方法"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_user_id
@@ -546,14 +546,14 @@ msgstr "顧客名"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_property_payment_term_id
 msgid "Customer Payment Terms"
-msgstr ""
+msgstr "お客様支払い条件"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:89
 #, python-format
 msgid "Customer Rating"
-msgstr ""
+msgstr "顧客レーティング"
 
 #. module: helpdesk
 #: code:addons/helpdesk/models/helpdesk.py:616
@@ -608,7 +608,7 @@ msgstr "デフォルト値"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_trust
 msgid "Degree of trust you have in this debtor"
-msgstr ""
+msgstr "この債務者の信用度"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_kanban
@@ -711,7 +711,7 @@ msgstr "グループ化"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_has_unreconciled_entries
 msgid "Has unreconciled entries"
-msgstr ""
+msgstr "未消し込みのエントリーあり"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_use_website_helpdesk_forum
@@ -804,7 +804,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_form
 #, python-format
 msgid "I take it"
-msgstr ""
+msgstr "とります"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_id
@@ -821,7 +821,7 @@ msgstr "ID"
 msgid ""
 "ID of the parent record holding the alias (example: project holding the task"
 " creation alias)"
-msgstr ""
+msgstr "エイリアスを保持する親レコードのID（例：プロジェクトは、タスク作成エイリアスを保持）"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_kanban
@@ -1041,7 +1041,7 @@ msgstr ""
 #: code:addons/helpdesk/static/src/js/helpdesk_dashboard.js:85
 #, python-format
 msgid "Only Integer Value should be valid."
-msgstr ""
+msgstr "整数値のみが有効です。"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_ticket_type_id
@@ -1077,7 +1077,7 @@ msgstr "すべての受信メッセージに添付されるスレッド(レコ�
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_alias_user_id
 msgid "Owner"
-msgstr "所有者"
+msgstr "オーナー"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_alias_parent_model_id
@@ -1096,6 +1096,7 @@ msgid ""
 " necessarily the model given by alias_model_id (example: project "
 "(parent_model) and task (model))"
 msgstr ""
+"エイリアスを保持する親モデル。エイリアスの参照を保持しているモデルは、必ずしもalias_model_idによって与えられたモデルではありません(例：プロジェクト(parent_model)とタスク(model))"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_debit_limit
@@ -1131,6 +1132,10 @@ msgid ""
 "- partners: only authenticated partners\n"
 "- followers: only followers of the related document or members of following channels\n"
 msgstr ""
+"メールゲートウェイを使用したメッセージドキュメント投稿のポリシー\n"
+"- everyone: 誰にでも投稿可能\n"
+"- partners: 許可されたパートナーのみ\n"
+"- followers: 関連ドキュメントのフォロワーか、フォローしているチャンネルのメンバーのみ\n"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_priority
@@ -1140,7 +1145,7 @@ msgstr "優先度"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Productivity"
-msgstr ""
+msgstr "生産性"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
@@ -1371,7 +1376,7 @@ msgstr ""
 #. module: helpdesk
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_stage
 msgid "Status Changed"
-msgstr ""
+msgstr "ステータスが変更されました"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_name
@@ -1410,7 +1415,7 @@ msgstr "サポート"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tag_view_tree
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_type_view_tree
 msgid "Tag"
-msgstr ""
+msgstr "タグ"
 
 #. module: helpdesk
 #: code:addons/helpdesk/models/helpdesk.py:376 sql_constraint:helpdesk.tag:0
@@ -1486,13 +1491,14 @@ msgid ""
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
+"このエイリアスに対応した(Odooドキュメント種別)モデル。既存のレコードに返信しない任意の受信メールは、このモデルの新しいレコード(例えば、プロジェクトタスク)の作成を引き起こします"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_alias_name
 msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
-msgstr ""
+msgstr "eメールのエイリアス.例えば<jjobs@example.odoo.com>のメールを受け取りたい場合'jobs’を選択"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_alias_user_id
@@ -1502,7 +1508,7 @@ msgid ""
 "the sender (From) address, or will use the Administrator account if no "
 "system user is found for that address."
 msgstr ""
-"このエイリアスに電子メールを受信した時に作成されるレコードの所有者。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切な所有者を見つけるか、見つからなければ管理者アカウントを使用します。"
+"このエイリアスに電子メールを受信した時に作成されるレコードのオーナー。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切なオーナーを見つけるか、見つからなければ管理者アカウントを使用します。"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_res_users_has_unreconciled_entries
@@ -1537,7 +1543,7 @@ msgstr ""
 msgid ""
 "This payment term will be used instead of the default one for purchase "
 "orders and vendor bills"
-msgstr ""
+msgstr "この支払期間は、購買発注および仕入先請求書のデフォルト期間の代わりに使用されます"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_res_users_property_payment_term_id
@@ -1754,12 +1760,12 @@ msgstr "ユーザ"
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_res_users_currency_id
 msgid "Utility field to express amount currency"
-msgstr ""
+msgstr "金額を表すユーティリティー項目"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_property_supplier_payment_term_id
 msgid "Vendor Payment Terms"
-msgstr ""
+msgstr "仕入先支払条件"
 
 #. module: helpdesk
 #. openerp-web
@@ -1838,7 +1844,7 @@ msgstr "分"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_kanban
 msgid "oe_kanban_text_red"
-msgstr ""
+msgstr "oe_kanban_text_red"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form

@@ -110,7 +110,7 @@ msgstr "Opći"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "German Version"
-msgstr ""
+msgstr "Njemačka verzija"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -125,7 +125,7 @@ msgstr "Identifikacija"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
 msgid "Identification *"
-msgstr ""
+msgstr "Identifikacija *"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
@@ -156,7 +156,7 @@ msgstr "Izdavač"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
 msgid "Issuer *"
-msgstr ""
+msgstr "Izdavač *"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_journal
@@ -234,12 +234,12 @@ msgstr "SEPA kreditni prijenosi za slanje"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_pain_version
 msgid "SEPA Pain Version"
-msgstr ""
+msgstr "SEPA Pain Verzija"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_pain_version
 msgid "SEPA Pain Version *"
-msgstr ""
+msgstr "SEPA Pain Verzija *"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_file
@@ -254,6 +254,9 @@ msgid ""
 "recommandations made by the EPC (European Payment Councile) and thus the XML"
 " created need some tweakenings."
 msgstr ""
+"SEPA može biti generički format, neke države odstupaju od SEPA preporuka "
+"sastavljenih od EPC (European Payment Councile) i zato kreirani XML treba "
+"manje dopune."
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_search
@@ -263,7 +266,7 @@ msgstr "SEPA plaćaja za slanje"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "Swiss Version"
-msgstr ""
+msgstr "Švicarska verzija"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_sepa_credit_transfer_is_generic
@@ -322,6 +325,8 @@ msgstr "Iznos plaćanja '%s' je previsok. Maksimalno dozvoljeni iznos je %s."
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by a BIC"
 msgstr ""
+"Bankovni račun primatelja %s korišten za plaćanje %s nije prepoznata po "
+"BIC-u /SWIFT"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:125
@@ -329,6 +334,7 @@ msgstr ""
 msgid ""
 "The creditor bank account %s used in payment %s is not identified by an IBAN"
 msgstr ""
+"Bankovni račun primatelja %s korišten u plaćanju %s nije u IBAN formatu"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:48
@@ -339,6 +345,9 @@ msgid ""
 "In particular, the reason why it this payment file is not a generic is the following:\n"
 "   "
 msgstr ""
+"Generirana datoteka za plaćanje nije u generičkom SEPA kredit transfer formatu. Budite svjesni da ga neke banke mogu odbiti jer ovaj format nije implementiran sa njihove strane.\n"
+"\n"
+"Točnije, razlog zašto ova datoteka nije generička je sljedeći:"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_payment.py:50
@@ -382,7 +391,7 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:121
 #, python-format
 msgid "The transaction %s is instructed in another currency than EUR"
-msgstr ""
+msgstr "Transakcija %s je pripremljena u valuti različitoj od EUR"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:334
@@ -435,13 +444,13 @@ msgstr "Naziv vaše tvrtke"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name
 msgid "Your Company Name *"
-msgstr ""
+msgstr "Naziv vaše tvrtke *"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:117
 #, python-format
 msgid "Your bank account is not labelled in EUR"
-msgstr ""
+msgstr "Vaš bankovni račun nije u EUR valuti"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_config_settings

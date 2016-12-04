@@ -58,7 +58,7 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_type_view_kanban
 msgid "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
-msgstr ""
+msgstr "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
 
 #. module: mrp_plm
 #: code:addons/mrp_plm/models/product.py:53
@@ -258,7 +258,7 @@ msgstr "部品表"
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_view_form
 msgid "BoM Changes"
-msgstr ""
+msgstr "部品表変更"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_new_bom_revision
@@ -293,7 +293,7 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.actions.act_window,help:mrp_plm.mrp_eco_tag_action
 msgid "Click to add a new tag."
-msgstr ""
+msgstr "クリックで新しいタグを追加。"
 
 #. module: mrp_plm
 #. openerp-web
@@ -642,7 +642,7 @@ msgstr "ID"
 msgid ""
 "ID of the parent record holding the alias (example: project holding the task"
 " creation alias)"
-msgstr ""
+msgstr "エイリアスを保持する親レコードのID（例：プロジェクトは、タスク作成エイリアスを保持）"
 
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban
@@ -815,7 +815,7 @@ msgstr "すべての受信メッセージに添付されるスレッド(レコ�
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_eco_type_alias_user_id
 msgid "Owner"
-msgstr "所有者"
+msgstr "オーナー"
 
 #. module: mrp_plm
 #: model:ir.module.category,name:mrp_plm.module_category_plm
@@ -845,6 +845,7 @@ msgid ""
 " necessarily the model given by alias_model_id (example: project "
 "(parent_model) and task (model))"
 msgstr ""
+"エイリアスを保持する親モデル。エイリアスの参照を保持しているモデルは、必ずしもalias_model_idによって与えられたモデルではありません(例：プロジェクト(parent_model)とタスク(model))"
 
 #. module: mrp_plm
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco_type_alias_contact
@@ -854,6 +855,10 @@ msgid ""
 "- partners: only authenticated partners\n"
 "- followers: only followers of the related document or members of following channels\n"
 msgstr ""
+"メールゲートウェイを使用したメッセージドキュメント投稿のポリシー\n"
+"- everyone: 誰にでも投稿可能\n"
+"- partners: 許可されたパートナーのみ\n"
+"- followers: 関連ドキュメントのフォロワーか、フォローしているチャンネルのメンバーのみ\n"
 
 #. module: mrp_plm
 #: model:ir.model.fields,field_description:mrp_plm.field_mrp_bom_previous_bom_id
@@ -1040,6 +1045,7 @@ msgid ""
 "image, with aspect ratio preserved. Use this field anywhere a small image is"
 " required."
 msgstr ""
+"製品用の縮小されたイメージ。それは自動的に保存され、アスペクト比で、64x64px画像とサイズを変更します。小さな画像を必要とするどこでも、このフィールドを使用しています。"
 
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban
@@ -1117,13 +1123,14 @@ msgid ""
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
+"このエイリアスに対応した(Odooドキュメント種別)モデル。既存のレコードに返信しない任意の受信メールは、このモデルの新しいレコード(例えば、プロジェクトタスク)の作成を引き起こします"
 
 #. module: mrp_plm
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco_type_alias_name
 msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
-msgstr ""
+msgstr "eメールのエイリアス.例えば<jjobs@example.odoo.com>のメールを受け取りたい場合'jobs’を選択"
 
 #. module: mrp_plm
 #: model:ir.model.fields,help:mrp_plm.field_mrp_eco_type_alias_user_id
@@ -1133,7 +1140,7 @@ msgid ""
 "the sender (From) address, or will use the Administrator account if no "
 "system user is found for that address."
 msgstr ""
-"このエイリアスに電子メールを受信した時に作成されるレコードの所有者。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切な所有者を見つけるか、見つからなければ管理者アカウントを使用します。"
+"このエイリアスに電子メールを受信した時に作成されるレコードのオーナー。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切なオーナーを見つけるか、見つからなければ管理者アカウントを使用します。"
 
 #. module: mrp_plm
 #. openerp-web
@@ -1226,7 +1233,7 @@ msgstr "作業区"
 #: code:addons/mrp_plm/models/mrp_eco.py:460
 #, python-format
 msgid "Workorder Messages"
-msgstr ""
+msgstr "作業オーダメッセージ"
 
 #. module: mrp_plm
 #: code:addons/mrp_plm/models/mrp_eco.py:367
@@ -1258,4 +1265,4 @@ msgstr ""
 #. module: mrp_plm
 #: model:ir.ui.view,arch_db:mrp_plm.mrp_eco_kanban
 msgid "oe_kanban_text_red"
-msgstr ""
+msgstr "oe_kanban_text_red"

@@ -8,13 +8,14 @@
 # Manami Hashi <manami@roomsfor.hk>, 2016
 # NOKA Shigekazu <shigekazu.noka@gmail.com>, 2016
 # 高木正勝 <masakatsu.takagi@pro-spire.co.jp>, 2016
+# Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-10-10 09:14+0000\n"
 "PO-Revision-Date: 2016-10-10 09:14+0000\n"
-"Last-Translator: 高木正勝 <masakatsu.takagi@pro-spire.co.jp>, 2016\n"
+"Last-Translator: Norimichi Sugimoto <norimichi.sugimoto@tls-ltd.co.jp>, 2016\n"
 "Language-Team: Japanese (https://www.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +42,7 @@ msgstr ""
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_alert_team_view_kanban
 msgid "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
-msgstr ""
+msgstr "<i class=\"fa fa-envelope-o\"/>&amp;nbsp;"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_point_view_form
@@ -176,7 +177,7 @@ msgstr ""
 #. module: quality
 #: model:ir.actions.act_window,help:quality.quality_point_action
 msgid "Click here to add a new Quality Control Points"
-msgstr ""
+msgstr "クリックして品質管理ポイントを新規作成してください。"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team_color
@@ -219,12 +220,12 @@ msgstr ""
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check_point_id
 msgid "Control Point"
-msgstr ""
+msgstr "管理ポイント"
 
 #. module: quality
 #: model:ir.ui.menu,name:quality.menu_quality_control_points
 msgid "Control Points"
-msgstr ""
+msgstr "管理ポイント"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_point_view_form
@@ -401,7 +402,7 @@ msgstr "ID"
 msgid ""
 "ID of the parent record holding the alias (example: project holding the task"
 " creation alias)"
-msgstr ""
+msgstr "エイリアスを保持する親レコードのID（例：プロジェクトは、タスク作成エイリアスを保持）"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_check_view_search
@@ -470,7 +471,7 @@ msgstr "マネジャ"
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point_tolerance_max
 msgid "Max Tolerance"
-msgstr ""
+msgstr "最大許容値"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_check_measure
@@ -491,7 +492,7 @@ msgstr ""
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point_tolerance_min
 msgid "Min Tolerance"
-msgstr ""
+msgstr "最小許容値"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_alert_view_form
@@ -555,7 +556,7 @@ msgstr ""
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_point_norm
 msgid "Norm"
-msgstr ""
+msgstr "基準値"
 
 #. module: quality
 #: selection:quality.alert,priority:0
@@ -592,7 +593,7 @@ msgstr "すべての受信メッセージに添付されるスレッド(レコ�
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team_alias_user_id
 msgid "Owner"
-msgstr "所有者"
+msgstr "オーナー"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_team_alias_parent_model_id
@@ -611,6 +612,7 @@ msgid ""
 " necessarily the model given by alias_model_id (example: project "
 "(parent_model) and task (model))"
 msgstr ""
+"エイリアスを保持する親モデル。エイリアスの参照を保持しているモデルは、必ずしもalias_model_idによって与えられたモデルではありません(例：プロジェクト(parent_model)とタスク(model))"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_check_view_form
@@ -658,6 +660,10 @@ msgid ""
 "- partners: only authenticated partners\n"
 "- followers: only followers of the related document or members of following channels\n"
 msgstr ""
+"メールゲートウェイを使用したメッセージドキュメント投稿のポリシー\n"
+"- everyone: 誰にでも投稿可能\n"
+"- partners: 許可されたパートナーのみ\n"
+"- followers: 関連ドキュメントのフォロワーか、フォローしているチャンネルのメンバーのみ\n"
 
 #. module: quality
 #: model:ir.model.fields,field_description:quality.field_quality_alert_action_preventive
@@ -953,13 +959,14 @@ msgid ""
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
 msgstr ""
+"このエイリアスに対応した(Odooドキュメント種別)モデル。既存のレコードに返信しない任意の受信メールは、このモデルの新しいレコード(例えば、プロジェクトタスク)の作成を引き起こします"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team_alias_name
 msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
-msgstr ""
+msgstr "eメールのエイリアス.例えば<jjobs@example.odoo.com>のメールを受け取りたい場合'jobs’を選択"
 
 #. module: quality
 #: model:ir.model.fields,help:quality.field_quality_alert_team_alias_user_id
@@ -969,7 +976,7 @@ msgid ""
 "the sender (From) address, or will use the Administrator account if no "
 "system user is found for that address."
 msgstr ""
-"このエイリアスに電子メールを受信した時に作成されるレコードの所有者。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切な所有者を見つけるか、見つからなければ管理者アカウントを使用します。"
+"このエイリアスに電子メールを受信した時に作成されるレコードのオーナー。このフィールドが設定されない場合、システムは送信者(From)アドレスに基づいた適切な所有者を見つけるか、見つからなければオーナーアカウントを使用します。"
 
 #. module: quality
 #: model:res.groups,comment:quality.group_quality_manager
@@ -989,12 +996,12 @@ msgstr "タイトル"
 #. module: quality
 #: selection:quality.check,quality_state:0
 msgid "To do"
-msgstr ""
+msgstr "予定"
 
 #. module: quality
 #: model:ir.ui.view,arch_db:quality.quality_point_view_form
 msgid "Tolerance"
-msgstr ""
+msgstr "許容範囲"
 
 #. module: quality
 #: model:ir.model,name:quality.model_stock_picking
