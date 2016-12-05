@@ -33,8 +33,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
                 authorizationUser: result.login,
                 password: result.password,
                 hackIpInContact: true,
-                log: {level: "debug"},
-                traceSip: true,
+                log: {builtinEnabled: false},
             };
             this.always_transfer = result.always_transfer;
             this.external_phone = result.external_phone;
