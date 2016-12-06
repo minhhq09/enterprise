@@ -136,8 +136,7 @@ class crm_team(models.Model):
 
     @api.model
     def direct_assign_leads(self, ids=[]):
-        ctx = dict(self._context, mail_notify_noemail=True)
-        self.with_context(ctx)._assign_leads()
+        self._assign_leads()
 
     @api.model
     def assign_leads_to_salesteams(self, all_salesteams):
@@ -236,7 +235,9 @@ class crm_team(models.Model):
 
             # Assign date will be setted by write function
             data = {'user_id': user['su'].user_id.id}
-            lead.write(data)
+
+            # ToDo in master/saas-14: add option mail_auto_subscribe_no_notify on the saleman/saleteam
+            lead.with_context(mail_auto_subscribe_no_notify=True).write(data)
             lead.convert_opportunity(lead.partner_id and lead.partner_id.id or None)
             self._cr.commit()
 
