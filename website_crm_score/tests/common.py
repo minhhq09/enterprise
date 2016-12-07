@@ -88,6 +88,15 @@ class TestScoring(common.TransactionCase):
             'team_id': False,
             'stage_id': self.stage,
         }).id
+        self.lead5 = self.crm_lead.create({
+            'name': 'lead5 less 1 hour',
+            'email_from': 'lead5@test.com',
+            'user_id': None,
+            'team_id': False,
+            'stage_id': self.stage,
+        }).id
+
+        self.env.cr.execute("UPDATE crm_lead SET create_date = '2010-01-01 00:00:00' WHERE id != %d" % self.lead5)
 
         # PageView
         self.pageview0 = self.pageview.create({

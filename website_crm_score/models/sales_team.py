@@ -150,7 +150,8 @@ class crm_team(models.Model):
                 if salesteam['id'] in salesteams_done:
                     continue
                 domain = safe_eval(salesteam['score_team_domain'], evaluation_context)
-                domain.extend([('team_id', '=', False), ('user_id', '=', False)])
+                limit_date = datetime.datetime.now() - datetime.timedelta(hours=1)
+                domain.extend([('create_date', '<', limit_date), ('team_id', '=', False), ('user_id', '=', False)])
                 domain.extend(['|', ('stage_id.on_change', '=', False), '&', ('stage_id.probability', '!=', 0), ('stage_id.probability', '!=', 100)])
                 leads = self.env["crm.lead"].search(domain, limit=BUNDLE_LEADS)
                 haslead = haslead or (len(leads) == BUNDLE_LEADS)
