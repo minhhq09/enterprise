@@ -1871,6 +1871,11 @@ odoo.define('project_timeshee.ui', function (require ) {
                             alert('Odoo login failed');
                         }
                     });
+                }).fail(function(res) {
+                    session.origin = url;
+                    session.setup(url, {use_cors : true});
+                    self.getParent().db_list = [url.substring(8, url.length -9)]
+                    self.getParent().show_premise_login_form_screen();
                 });
             });
         },
