@@ -31,15 +31,10 @@ class StockPicking(models.Model):
     @api.multi
     def _create_backorder(self, backorder_moves=[]):
         res = super(StockPicking, self)._create_backorder(backorder_moves=backorder_moves)
-        # Do not crash if Community was not updated
-        if isinstance(res, bool):
+        if self.env.context.get('skip_check'):
             return res
 
-        # Transfer the quality checks from the original picking to the backorder
-        for backorder in res:
-            backorder.backorder_id.check_ids.filtered(lambda x: x.quality_state == 'none').write({
-                'picking_id': backorder.id,
-            })
+        res.mapped('move_lines')._create_quality_checks()
         return res
 
     @api.multi
