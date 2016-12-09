@@ -177,6 +177,8 @@ var Menu = Widget.extend({
         return undefined;
     },
     _handle_extra_items: function () {
+        if (!this.$el.is(":visible")) return;
+
         if (this.$extraItemsToggle) {
             this.$extraItemsToggle.find("> ul > *").appendTo(this.$section_placeholder);
             this.$extraItemsToggle.remove();

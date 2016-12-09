@@ -246,7 +246,9 @@ class AccountReportContextCommon(models.TransientModel):
         if 'month' in self.date_filter:
             return '%s %s' % (self._get_month(dt_to.month - 1), dt_to.year)
         if 'quarter' in self.date_filter:
-            quarter = (dt_to.month - 1) / 3 + 1
+            month_start = self.env.user.company_id.fiscalyear_last_month + 1
+            month = dt_to.month if dt_to.month >= month_start else dt_to.month + 12
+            quarter = int((month - month_start) / 3) + 1
             return dt_to.strftime(_('Quarter #') + str(quarter) + ' %Y')
         if 'year' in self.date_filter:
             if self.env.user.company_id.fiscalyear_last_day == 31 and self.env.user.company_id.fiscalyear_last_month == 12:
