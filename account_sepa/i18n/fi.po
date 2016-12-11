@@ -8,13 +8,14 @@
 # Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2016
 # Tuomo Aura <tuomo.aura@web-veistamo.fi>, 2016
 # Martin Trigaux <mat@odoo.com>, 2016
+# Tommi Rintala <tommi.rintala@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Martin Trigaux <mat@odoo.com>, 2016\n"
+"Last-Translator: Tommi Rintala <tommi.rintala@gmail.com>, 2016\n"
 "Language-Team: Finnish (https://www.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 #: code:addons/account_sepa/account_payment.py:42
 #, python-format
 msgid "A SEPA communication cannot exceed 140 characters"
-msgstr ""
+msgstr "SEPA viesti ei voi ylittää 140 merkkiä"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_bank_account_id
@@ -44,6 +45,8 @@ msgid ""
 "Click on the file to save it somewhere on your computer. Then upload that "
 "file on your bank's homebanking website to order the credit transfer."
 msgstr ""
+"Klikkaa tiedostoa tallettaaksesi se tietokoneellesi. Sen jälkeen vie se "
+"verkkopankkisi sivuston kautta maksuksi."
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_res_company
@@ -53,7 +56,7 @@ msgstr "Yritykset"
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_sepa_credit_transfer
 msgid "Create SEPA credit transfer files"
-msgstr ""
+msgstr "Luo SEPA luotonsiirto tiedostot"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_create_uid
@@ -73,12 +76,12 @@ msgstr "Näyttönimi"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "Download SEPA Credit Transfer File"
-msgstr ""
+msgstr "Lataa SEPA luoton siirto tiedosto"
 
 #. module: account_sepa
 #: model:ir.actions.server,name:account_sepa.action_account_download_sepa_sct_file
 msgid "Download SEPA Payment"
-msgstr ""
+msgstr "Lataa SEPA maksu"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_issr
@@ -86,6 +89,7 @@ msgid ""
 "Entity that assigns the identification (eg. KBE-BCO or Finanzamt Muenchen "
 "IV)."
 msgstr ""
+"Yhteisö joka antaa tunnisteen (esim. KBE-BCO tai Finanzamt Muenchen IV)."
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
@@ -95,7 +99,7 @@ msgstr "Etherpad lite palvelin. Esim: beta.primarypad.com"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
-msgstr ""
+msgstr "Tiedostonnimi"
 
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
@@ -105,7 +109,7 @@ msgstr "Yleiset"
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
 msgid "German Version"
-msgstr ""
+msgstr "Saksalainen versio"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_id
@@ -115,18 +119,18 @@ msgstr "Tunniste (ID)"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification"
-msgstr ""
+msgstr "Tunnistus"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
 msgid "Identification *"
-msgstr ""
+msgstr "Tunnistus *"
 
 #. module: account_sepa
 #: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_orgid_id
 #: model:ir.model.fields,help:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification assigned by an institution (eg. VAT number)."
-msgstr ""
+msgstr "Yhteisötunnus (esim. VAT-tunnus)"
 
 #. module: account_sepa
 #: code:addons/account_sepa/sepa_credit_transfer.py:70
@@ -139,7 +143,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_is_generic
 msgid "Is generic"
-msgstr ""
+msgstr "On yleinen"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
@@ -180,7 +184,7 @@ msgstr "OK"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.account_journal_dashboard_kanban_view_inherited
 msgid "Payment to send via SEPA"
-msgstr ""
+msgstr "Lähetettävä SEPA maksu"
 
 #. module: account_sepa
 #: model:ir.model,name:account_sepa.model_account_payment
@@ -214,7 +218,7 @@ msgstr "Rekisteröi maksuja useammalle maksulle"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
-msgstr ""
+msgstr "SEPA"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_journal_dashboard.py:23
