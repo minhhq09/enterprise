@@ -67,7 +67,9 @@ class SaleSubscription(models.Model):
     @api.onchange('template_id')
     def on_change_template(self):
         if self.template_id:
-            if not self.ids:
+            # Check if record is a new record or exists in db by checking its _origin
+            # note that this property is not always set, hence the getattr
+            if not getattr(self, '_origin', self.browse()) and not isinstance(self.id, int):
                 invoice_line_ids = []
                 for line in self.template_id.subscription_template_line_ids:
                     product = line.product_id.with_context(
