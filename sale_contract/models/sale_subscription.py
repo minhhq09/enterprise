@@ -437,8 +437,12 @@ class SaleSubscriptionTemplate(models.Model):
 
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
+        # positive and negative operators behave differently
+        if operator in ('=', 'ilike', '=ilike', 'like', '=like'):
+            domain = ['|', ('code', operator, name), ('name', operator, name)]
+        else:
+            domain = ['&', ('code', operator, name), ('name', operator, name)]
         args = args or []
-        domain = ['|', ('code', operator, name), ('name', operator, name)]
         rec = self.search(domain + args, limit=limit)
         return rec.name_get()
 
