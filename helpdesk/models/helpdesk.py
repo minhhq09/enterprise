@@ -83,7 +83,7 @@ class HelpdeskTeam(models.Model):
 
     @api.multi
     def _compute_unassigned_tickets(self):
-        ticket_data = self.env['helpdesk.ticket'].read_group([('user_id', '=', False), ('team_id', 'in', self.ids)], ['team_id'], ['team_id'])
+        ticket_data = self.env['helpdesk.ticket'].read_group([('user_id', '=', False), ('team_id', 'in', self.ids), ('stage_id.is_close', '!=', True)], ['team_id'], ['team_id'])
         mapped_data = dict((data['team_id'][0], data['team_id_count']) for data in ticket_data)
         for team in self:
             team.unassigned_tickets = mapped_data.get(team.id, 0)
