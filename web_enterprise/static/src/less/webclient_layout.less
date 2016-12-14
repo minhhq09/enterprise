@@ -45,9 +45,11 @@ html {
                 bottom: 0;
                 left: 0;
                 height: 100%;
-                @media (max-width: @screen-xs-max) {
-                    position: static;  // reset the height 100% distribution on flex item
-                    height: auto;  // reset height inheritance
+                &.o_form_field {
+                    @media (max-width: @screen-xs-max) {
+                        position: static;  // reset the height 100% distribution on flex item
+                        height: auto;  // reset height inheritance
+                    }
                 }
 
                 .o_view_manager_content {
