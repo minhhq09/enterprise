@@ -1872,6 +1872,11 @@ odoo.define('project_timeshee.ui', function (require ) {
                             alert('Odoo login failed');
                         }
                     });
+                }).fail(function(res) {
+                    session.origin = url;
+                    session.setup(url, {use_cors : true});
+                    self.getParent().db_list = [url.substring(8, url.length -9)]
+                    self.getParent().show_premise_login_form_screen();
                 });
             });
         },
@@ -1886,10 +1891,25 @@ odoo.define('project_timeshee.ui', function (require ) {
             var self = this;
             var server_address = this.$(".pt_premise_url").val();
             var protocol = this.$(".pt_premise_protocol").val();
+            if (server_address === "odoo.com" || server_address === "www.odoo.com") {
+                server_address = "www.odoo.com";
+                self.protocol = "https://";
+            }
             session.origin = protocol + server_address;
             session.setup(protocol + server_address, {use_cors : true});
 
-            if(this.$(".pt_premise_db") && this.$(".pt_premise_db").val()) {
+            if (server_address === "www.odoo.com") {
+                self.getParent().db_list = ["openerp"];
+                self.getParent().show_premise_login_form_screen();
+                return;
+            } else if (server_address.endsWith("odoo.com")) {
+                var dbname = server_address.substring(0, server_address.length -9);
+                self.getParent().db_list = [dbname];
+                self.getParent().show_premise_login_form_screen();
+                return;
+            }
+
+            if (this.$(".pt_premise_db") && this.$(".pt_premise_db").val()) {
                 self.getParent().db_list = [this.$(".pt_premise_db").val()];
                 self.getParent().show_premise_login_form_screen();
                 return;
