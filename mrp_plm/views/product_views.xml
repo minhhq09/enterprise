@@ -19,7 +19,7 @@
         <field name="model">product.template</field>
         <field name="arch" type="xml">
             <button name="action_view_mos" position="before">
-                <button class="oe_stat_button" name="%(mrp_eco_action_product_tmpl)d" type="action" icon="fa-wrench" attrs="{'invisible': [('bom_count', '=', 0)]}">
+                <button class="oe_stat_button" name="%(mrp_eco_action_product_tmpl)d" type="action" icon="fa-wrench" attrs="{'invisible': [('bom_count', '=', 0)]}" groups="mrp_plm.group_plm_user")>
                     <field string="ECOs" name="eco_inprogress_count" widget="statinfo" />
                 </button>
                 <button class="oe_stat_button" name="action_see_attachments" type="object" icon="fa-book">

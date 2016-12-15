@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     eco_inprogress = fields.Boolean('ECO in progress?', compute='_compute_eco_data')
-    eco_inprogress_count = fields.Integer('# ECOs in progress', compute='_compute_eco_data')
+    eco_inprogress_count = fields.Integer('# ECOs in progress', compute='_compute_eco_data', groups="mrp_plm.group_plm_user")
     attachment_count = fields.Integer('# Attachments', compute='_compute_attachments')
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'product.template')], string='Attachments')
 
