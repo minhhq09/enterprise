@@ -145,10 +145,8 @@ var ContactSync = common.FormWidget.extend({
         'click': 'on_click',
         
     },
-    start: function(){
-        if(!mobile.methods.addContact){
-            this.set('invisible', true);
-        }
+    init: function(){
+        this.is_mobile = mobile.methods.addContact;
         return this._super.apply(this, arguments);
     },
     on_click: function(){
