@@ -52,9 +52,21 @@ class MrpCostStructure(models.AbstractModel):
 
             #get the cost of scrapped materials
             scraps = StockMove.search([('production_id', 'in', mos.ids), ('scrapped', '=', True), ('state', '=', 'done')])
+            uom = mos and mos[0].product_uom_id
+            mo_qty = 0
+            if not all(m.product_uom_id.id == uom.id for m in mos):
+                uom = product.uom_id
+                for m in mos:
+                    if m.product_uom_id.id == uom.id:
+                        mo_qty += m.product_qty
+                    else:
+                        mo_qty += m.product_uom_id._compute_quantity(m.product_qty, uom)
+            else:
+                mo_qty = sum(mos.mapped('product_qty'))
             res.append({
                 'product': product,
-                'mo_qty': sum(mos.mapped('product_qty')),
+                'mo_qty': mo_qty,
+                'mo_uom': uom,
                 'operations': operations,
                 'currency': self.env.user.company_id.currency_id,
                 'raw_material_moves': raw_material_moves,

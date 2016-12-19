@@ -14,7 +14,7 @@
 
                         <!-- Title -->
                         <h2 t-esc="line['product'].name"/>
-                        <strong><t t-esc="line['mo_qty']"/> <t t-esc="line['product'].uom_id.name"/>, from <t t-esc="line['mocount']"/> manufacturing order(s).</strong>
+                        <strong><t t-esc="line['mo_qty']"/> <t t-esc="line['mo_uom'].name"/>, from <t t-esc="line['mocount']"/> manufacturing order(s).</strong>
 
                         <!-- Cost Structure table -->
                         <h3>Cost Structure</h3>
@@ -145,7 +145,7 @@
                                 <table class="table table-condensed">
                                     <tr t-if="line['mo_qty'] &gt; 1">
                                         <td class="text-right">
-                                            <strong>Cost for <t t-esc="line['mo_qty']"/> <t t-esc="line['product'].uom_id.name"/></strong>
+                                            <strong>Cost for <t t-esc="line['mo_qty']"/> <t t-esc="line['mo_uom'].name"/></strong>
                                         </td>
                                         <td class="text-right">
                                             <strong t-esc="line['total_cost'] + opcost" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/>
