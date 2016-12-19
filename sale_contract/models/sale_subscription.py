@@ -301,6 +301,7 @@ class SaleSubscription(models.Model):
                 'subscription_management': 'renew',
                 'note': contract.description,
                 'fiscal_position_id': fpos_id,
+                'user_id': contract.user_id.id,
             }
         return res
 
