@@ -1,6 +1,7 @@
 odoo.define('crm.voip', function(require) {
 "use strict";
 
+var config = require('web.config');
 var voip_core = require('voip.core');
 var core = require('web.core');
 var Model = require('web.Model');
@@ -15,6 +16,11 @@ var dialing_panel = null;
 
 var _t = core._t;
 var QWeb = core.qweb;
+
+// As voip is not supported on mobile devices, we want to keep the standard phone widget
+if (config.device.size_class <= config.device.SIZES.XS) {
+    return;
+}
 
 var PhonecallWidget = Widget.extend({
     "template": "crm_voip.PhonecallWidget",
