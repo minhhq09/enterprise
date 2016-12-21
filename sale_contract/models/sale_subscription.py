@@ -55,7 +55,7 @@ class SaleSubscription(models.Model):
         for sub in self:
             sub.invoice_count = len(filter(lambda d: d['account_analytic_id'][0] == sub.analytic_account_id.id, invoice_line_data))
 
-    @api.depends('recurring_invoice_line_ids')
+    @api.depends('recurring_invoice_line_ids', 'recurring_invoice_line_ids.quantity', 'recurring_invoice_line_ids.price_subtotal')
     def _compute_recurring_total(self):
         for account in self:
             account.recurring_total = sum(line.price_subtotal for line in account.recurring_invoice_line_ids)

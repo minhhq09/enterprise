@@ -59,7 +59,7 @@ class SaleSubscription(models.Model):
         else:
             super(SaleSubscription, self)._init_column(column_name)
 
-    @api.depends('recurring_invoice_line_ids')
+    @api.depends('recurring_invoice_line_ids', 'recurring_total')
     def _amount_all(self):
         for account in self:
             val = val1 = 0.0
