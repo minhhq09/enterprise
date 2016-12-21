@@ -120,6 +120,7 @@ class website_contract(http.Controller):
         ])
         values = {
             'account': account,
+            'template': account.template_id.sudo(),
             'display_close': display_close,
             'close_reasons': request.env['sale.subscription.close.reason'].search([]),
             'missing_periods': missing_periods,

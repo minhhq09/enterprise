@@ -252,7 +252,7 @@
                             <div class="oe_structure"/>
                             <div>
                                 <h3 class="page-header">Your Plan</h3>
-                                <div>Current plan: <span t-field="account.template_id.name"/></div>
+                                <div>Current plan: <span t-field="template.name"/></div>
                                 <div>Reference: <span t-field="account.code"/></div>
                                 <div>Start date: <span t-field="account.date_start"/></div>
                                 <div t-if="account.date">Valid until: <span t-field="account.date"/></div>
@@ -510,17 +510,17 @@
                         <p>The following option will be added to your next invoice:</p>
                         <p class="line-description" t-field="line.name"/>
                         <t t-set="pricelist" t-value="request.website.get_current_pricelist()"/>
-                        <p t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and account.sudo().template_id.partial_invoice">You will be invoiced for the remaining of this invoicing period (from today to <span t-field="account.recurring_next_date" />).</p>
+                        <p t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and template.partial_invoice">You will be invoiced for the remaining of this invoicing period (from today to <span t-field="account.recurring_next_date" />).</p>
                     </div>
                     <div class="modal-footer">
                         <form method="post" t-attf-action="/my/contract/#{account.id}/pay_option"
-                              t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and account.sudo().template_id.partial_invoice">
+                              t-if="line.with_context(pricelist_id=pricelist.id).price&gt;0.0 and template.partial_invoice">
                             <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                             <button class="btn btn-primary contract-submit">Confirm</button>
                         </form>
-                        <form method="post" t-attf-action="/my/contract/#{account.id}/add_option/?uuid=#{account.uuid}" t-if="line.with_context(pricelist_id=pricelist.id).price==0.0 or not account.sudo().template_id.partial_invoice">
+                        <form method="post" t-attf-action="/my/contract/#{account.id}/add_option/?uuid=#{account.uuid}" t-if="line.with_context(pricelist_id=pricelist.id).price==0.0 or not template.partial_invoice">
                             <input class="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input name="new_option_id" type="hidden" t-att-value="line.id" />
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
