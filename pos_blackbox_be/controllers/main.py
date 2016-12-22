@@ -41,8 +41,8 @@ class GovCertificationController(http.Controller):
 
 class BlackboxPOSController(PosController):
     @http.route()
-    def a(self, debug=False, **k):
-        response = super(BlackboxPOSController, self).a(debug, **k)
+    def pos_web(self, debug=False, **k):
+        response = super(BlackboxPOSController, self).pos_web(debug, **k)
 
         if response.status_code == 200:
             pos_session = request.env['pos.session']
