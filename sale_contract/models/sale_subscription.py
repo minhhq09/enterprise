@@ -401,7 +401,8 @@ class SaleSubscriptionLine(osv.osv):
     def _amount_line(self, cr, uid, ids, prop, unknow_none, unknow_dict, context=None):
         res = {}
         for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = line.quantity * line.price_unit * (100.0 - line.discount) / 100.0
+            price = self.pool['account.tax']._fix_tax_included_price(cr, uid, line.price_unit, line.product_id.taxes_id, [])
+            res[line.id] = line.quantity * price * (100.0 - line.discount) / 100.0
             if line.analytic_account_id.pricelist_id:
                 cur = line.analytic_account_id.pricelist_id.currency_id
                 res[line.id] = self.pool.get('res.currency').round(cr, uid, cur, res[line.id])
