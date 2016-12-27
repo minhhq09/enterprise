@@ -643,7 +643,7 @@ class AccountReportContextCommon(models.TransientModel):
                     update[field[4:]] = [(4, int(given_context[field]))]
             if field.startswith('remove_'):
                 update[field[7:]] = [(3, int(given_context[field]))]
-            if self._fields.get(field) and given_context[field] != 'undefined':
+            if context._fields.get(field) and given_context[field] != 'undefined':
                 if given_context[field] == 'false':
                     given_context[field] = False
                 if given_context[field] == 'none':
