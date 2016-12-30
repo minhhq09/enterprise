@@ -17,13 +17,21 @@ class SaleSubscription(models.Model):
     def _prepare_invoice_lines(self, fiscal_position_id):
         self.ensure_one()
         inv_lines = super(SaleSubscription, self)._prepare_invoice_lines(fiscal_position_id)
+        fiscal_position = self.env['account.fiscal.position'].browse(fiscal_position_id)
 
         for line in inv_lines:
+            asset_category = False
             if self.asset_category_id:
-                line[2]['asset_category_id'] = self.asset_category_id.id
+                asset_category = self.asset_category_id
             elif line[2].get('product_id'):
                 Product = self.env['product.product'].browse([line[2]['product_id']])
-                line[2]['asset_category_id'] = Product.product_tmpl_id.deferred_revenue_category_id.id
+                asset_category = Product.product_tmpl_id.deferred_revenue_category_id
+
+            # Set corresponding account
+            if asset_category:
+                line[2]['asset_category_id'] = asset_category.id
+                account = fiscal_position.map_account(asset_category.account_asset_id)
+                line[2]['account_id'] = account.id
 
         return inv_lines
 
