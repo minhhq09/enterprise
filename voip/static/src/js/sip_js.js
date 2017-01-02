@@ -46,6 +46,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
                 test_ws.onerror = function(){
                     self.trigger_error(_t('The websocket uri could be wrong. Please check your configuration.'));
                 };
+                test_ws.close();
                 this.ua = new SIP.UA(ua_config);
             }catch(err){
                 this.trigger_error(_t('The server configuration could be wrong. Please check your configuration.'));

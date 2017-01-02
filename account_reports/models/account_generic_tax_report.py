@@ -42,6 +42,7 @@ class report_account_generic_tax_report(models.AbstractModel):
             tables, where_clause, where_params = self.env['account.move.line']._query_get(domain=domain)
             sql = """WITH account_move_line AS (
               SELECT \"account_move_line\".id, \"account_move_line\".date, \"account_move_line\".name, \"account_move_line\".debit_cash_basis, \"account_move_line\".credit_cash_basis, \"account_move_line\".move_id, \"account_move_line\".account_id, \"account_move_line\".journal_id, \"account_move_line\".balance_cash_basis, \"account_move_line\".amount_residual, \"account_move_line\".partner_id, \"account_move_line\".reconciled, \"account_move_line\".company_id, \"account_move_line\".company_currency_id, \"account_move_line\".amount_currency, \"account_move_line\".balance, \"account_move_line\".user_type_id, \"account_move_line\".tax_line_id
+               """ + (""", \"account_move_line\".tax_exigible """ if 'tax_exigible' in self.env['account.move.line'] else "") + """ 
                FROM """ + tables + """
                WHERE (\"account_move_line\".journal_id IN (SELECT id FROM account_journal WHERE type in ('cash', 'bank'))
                  OR \"account_move_line\".move_id NOT IN (SELECT DISTINCT move_id FROM account_move_line WHERE user_type_id IN %s))
@@ -67,6 +68,7 @@ class report_account_generic_tax_report(models.AbstractModel):
                  aml.move_id, aml.account_id, aml.journal_id,
                  ref.matched_percentage * aml.balance AS balance_cash_basis,
                  aml.amount_residual, aml.partner_id, aml.reconciled, aml.company_id, aml.company_currency_id, aml.amount_currency, aml.balance, aml.user_type_id, aml.tax_line_id
+                 """ + (""", aml.tax_exigible """ if 'tax_exigible' in self.env['account.move.line'] else "") + """ 
                 FROM account_move_line aml
                 RIGHT JOIN payment_table ref ON aml.move_id = ref.move_id
                 WHERE journal_id NOT IN (SELECT id FROM account_journal WHERE type in ('cash', 'bank'))
