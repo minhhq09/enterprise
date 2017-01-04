@@ -106,7 +106,7 @@ class AccountJournal(models.Model):
         self.online_institution_id = online_institution_id
         online_account_id = self.env['online.account'].create(vals)
         self.online_account_id = online_account_id.id
-        return online_account_id.online_sync()
+        return online_account_id.with_context(first_sync=True).online_sync()
 
     @api.multi
     def fetch(self, service, online_type, params, type_request="post"):
