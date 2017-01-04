@@ -22,12 +22,29 @@ var YodleeAccountConfigurationWidget = Widget.extend({
         }
         var params = [];
         var inputs = $(".js_online_sync_input");
+        var type = $(".js_online_sync_input").parents('div').data('type');
+        if (type === 'questionAndAnswer') {
+            params = this.refresh_info.providerAccount.loginForm;
+        }
+
         _.each(inputs, function(input,i){
             var value = input.value;
             var field_id = $(input).attr('field-id');
             var row_id = $(input).attr('row-id');
             var required = $(input).attr('isOptional');
-            params.push({value: value, field_id: field_id, row_id: row_id, required: required})
+            if (type === 'questionAndAnswer') {
+                _.filter(params.row, function(field) {
+                    _.filter(field.field, function(f) {
+                        if (f.id === field_id) {
+                            f.value = value;
+                        }
+                    });
+                });
+            }
+            else {
+                params.push({value: value, field_id: field_id, row_id: row_id, required: required});
+                
+            }
         });
         if (this.in_rpc_call === false){
             this.blockUI(true);

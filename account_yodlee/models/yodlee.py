@@ -185,12 +185,19 @@ class YodleeProviderAccount(models.Model):
     def yodlee_add_update_provider_account(self, values, site_id, name=None):
         # Setting values entered by user into json
         fields = []
-        for element in values:
-            if element.get('required', True) == 'false' and element['value'] == '':
-                raise UserError(_('Please fill all required fields'))
-            if element['value'] != '':
-                fields.append({'id': element['field_id'], 'value': element['value']})
-        data = json.dumps({'field': fields}) if len(fields) > 0 else []
+        if type(values) != list:
+            # most call to /providerAccounts only needs a dict with id, value keys
+            # only exception is for type: questionAndAnswer which require a special format
+            # the case is handle in javascript and js pass a dict as values instead of a list
+            # in that particular case
+            data = json.dumps({'loginForm': values})
+        else:
+            for element in values:
+                if element.get('required', True) == 'false' and element['value'] == '':
+                    raise UserError(_('Please fill all required fields'))
+                if element['value'] != '':
+                    fields.append({'id': element['field_id'], 'value': element['value']})
+            data = json.dumps({'field': fields}) if len(fields) > 0 else []
         params = {'providerId': site_id}
         # If we have an id, it means that provider_account already exists and that it is an update
         if len(self) > 0 and self.id:

@@ -37,7 +37,7 @@
                   <img t-attf-src="data:image/png;base64, #{field.image}" alt="captcha"/>
                 </div>
               </t>
-              <div t-attf-class="{{colWidth}}">
+              <div t-attf-class="{{colWidth}}" t-att-data-type="widget.loginForm.formType">
                 <t t-if="field.type == 'text' || field.type == 'password'">
                   <input t-att-field-id="field.id" t-att-row-id="input.id" t-att-field-row-choice="input.fieldRowChoice" t-att-type="field.type" t-att-isOptional="field.isOptional" class="form-control js_online_sync_input"/>
                 </t>
@@ -58,6 +58,9 @@
         <button class="js_process_next_step btn btn-primary" type="button">Continue</button>
         <t t-if="widget.loginForm.formType == 'image'">
           <button class="js_new_captcha btn btn-default" type="button">Get new captcha</button>
+        </t>
+        <t t-if="widget.loginForm.formType == 'questionAndAnswer'">
+          <button class="js_new_captcha btn btn-default" type="button">Refresh</button>
         </t>
         <button class="js_process_cancel btn btn-default" type="button">Cancel</button>
       </div>
