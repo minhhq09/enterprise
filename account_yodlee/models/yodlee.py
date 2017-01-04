@@ -58,7 +58,7 @@ class YodleeAccountJournal(models.Model):
         # do not remove SiteAccount from yodlee server.
         if self.online_account_id and self.online_account_id.site_account_id == str(vals.get('site_account_id')):
             self.online_account_id.write(vals)
-            return self.online_account_id.online_sync()
+            return self.online_account_id.with_context(first_sync=True).online_sync()
         else:
             super(YodleeAccountJournal, self).save_online_account(vals, online_institution_id)
 
@@ -348,6 +348,10 @@ class YodleeAccount(models.Model):
         # 2) Fetch
         # Convert the date at the correct format
         from_date = datetime.datetime.strptime(self.last_sync, DEFAULT_SERVER_DATE_FORMAT)
+        # Since we don't fetch pending transactions, when those transactions are being processed by the bank and marked as done, 
+        # they keep their pending posted date and are thus not fetched in Odoo. Removing a few days from last sync prevent this problem
+        if not self.env.context.get('first_sync'):
+            from_date = from_date - datetime.timedelta(days=7)
         from_date = datetime.datetime.strftime(from_date, "%m-%d-%Y")
         to_date = datetime.datetime.strptime(fields.Date.today(), DEFAULT_SERVER_DATE_FORMAT)
         to_date = datetime.datetime.strftime(to_date, "%m-%d-%Y")

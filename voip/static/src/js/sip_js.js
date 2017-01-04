@@ -41,13 +41,11 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
             this.ring_number = result.ring_number;
             try{
                 var self = this;
-                //test the ws uri
-                var test_ws = new window.WebSocket(result.wsServer, 'sip');
-                test_ws.onerror = function(){
+                this.ua = new SIP.UA(ua_config);
+                //catch the error if the ws uri is wrong
+                this.ua.transport.ws.onerror = function(e){
                     self.trigger_error(_t('The websocket uri could be wrong. Please check your configuration.'));
                 };
-                test_ws.close();
-                this.ua = new SIP.UA(ua_config);
             }catch(err){
                 this.trigger_error(_t('The server configuration could be wrong. Please check your configuration.'));
                 return;
