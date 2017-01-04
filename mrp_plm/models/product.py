@@ -32,7 +32,7 @@ class ProductTemplate(models.Model):
             count = len(self.attachment_ids)
             for v in p.product_variant_ids:
                 count += len(v.attachment_ids)
-            self.attachment_count = count
+            p.attachment_count = count
 
     @api.multi
     def action_see_attachments(self):
