@@ -104,7 +104,8 @@ return AbstractWebClient.extend({
             // If it is not empty, we trigger a dummy hashchange event so that `self.on_hashchange`
             // will take care of toggling the app switcher and loading the action.
             if (_.isEmpty($.bbq.getState(true))) {
-                return new Model("res.users").call("read", [session.uid, ["action_id"]]).then(function(data) {
+                return new Model("res.users").call("read", [session.uid, ["action_id"]]).then(function(result) {
+                    var data = result[0];
                     if(data.action_id) {
                         return self.do_action(data.action_id[0]).then(function() {
                             self.toggle_app_switcher(false);
