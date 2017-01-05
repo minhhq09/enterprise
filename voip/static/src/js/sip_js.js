@@ -54,10 +54,27 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
                 var number = invite_session.remoteIdentity.uri.user;
                 var content = _t("From ") + name + ' (' + number + ')';
                 var title = _t('Incoming call');
+                self.ringbacktone.currentTime = 0;
                 self.ringbacktone.play();
-                var notification = self.send_notification(title, content);
-                if (notification){            
-                    notification.onclick = function(){
+                self.notification = self.send_notification(title, content);
+                function reject_invite(ev) {
+                    if(!self.incoming_call){
+                        self.ringbacktone.pause();
+                        invite_session.reject();
+                    }
+                }
+                invite_session.on('rejected', function(){
+                    if (self.notification) {
+                        self.notification.removeEventListener('close',reject_invite);
+                        self.notification.close('rejected');
+                        self.notification = undefined;
+                        self.ringbacktone.pause();
+                    } else {
+                        alert(_t("Call hanged up by the customer before answering."));
+                    }
+                });
+                if (self.notification){
+                    self.notification.onclick = function(){
                         window.focus();
                         self.ringbacktone.pause();
                         var call_options = {
@@ -76,12 +93,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
                         invite_session.on('bye',_.bind(self.bye,self));
                         this.close();
                     };
-                    notification.onclose = function(ev){
-                        if(!self.incoming_call){
-                            self.ringbacktone.pause();
-                            invite_session.reject();
-                        }
-                    };
+                    self.notification.addEventListener('close',reject_invite);
                 }else{
                     var confirmation = confirm(_t("Incoming call from ") + name + ' (' + number + ')');
                     if(confirmation){
@@ -120,9 +132,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     // remove this function and use the one in utils
     send_notification: function(title, content) {
         if (Notification && Notification.permission === "granted") {
-            if (bus.is_master) {
-                return new Notification(title, {body: content, icon: "/mail/static/src/img/odoo_o.png", silent: true});
-            }
+            return new Notification(title, {body: content, icon: "/mail/static/src/img/odoo_o.png", silent: true});
         }
     },
 
