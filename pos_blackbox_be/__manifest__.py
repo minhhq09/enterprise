@@ -19,7 +19,8 @@ More info:
 
 Legal
 -----
-**The use of pos_blackbox_be sources is only certified on odoo.com SaaS platform.**
+**The use of pos_blackbox_be sources is only certified on odoo.com SaaS platform
+for version 9.0.**
 An obfuscated and certified version of the pos_blackbox_be may be provided on
 requests for on-premise installations.
 No modified version is certified and supported by Odoo SA.
@@ -39,6 +40,6 @@ No modified version is certified and supported by Odoo SA.
     'qweb': [
         'static/src/xml/pos_blackbox_be.xml'
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': False,
 }

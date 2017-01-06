@@ -17,8 +17,6 @@
             <field name="model">pos.order</field>
             <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//button[@name='%(point_of_sale.action_report_pos_receipt)d']" position="replace"/>
-
                 <xpath expr="//field[@name='tax_ids']" position="after">
                     <field name="vat_letter"/>
                 </xpath>
@@ -558,16 +556,6 @@
         </template>
         <template id="user_report_template_z">
             <t t-call="pos_blackbox_be.user_report_template"/>
-        </template>
-
-        <template id="include_vat_notice_receipt" inherit_id="point_of_sale.report_receipt">
-            <xpath expr="//div[@class='row']" position="before">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <strong>THIS IS NOT A VALID VAT TICKET</strong>
-                    </div>
-                </div>
-            </xpath>
         </template>
 
         <template id="include_vat_notice_report_external_header" inherit_id="report.external_layout_header">

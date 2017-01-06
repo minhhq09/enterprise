@@ -45,7 +45,7 @@
         </template>
 
         <template id="qunit_suite" name="pos_blackbox_be qunit" inherit_id="web.qunit_suite">
-            <xpath expr="//head" position="inside">
+            <xpath expr='//t[@t-set="head"]' position="inside">
                 <!-- todo jov: the issue is that we want to to test
                      point of sale models, which aren't included in
                      the assets_backend, so just include them here i
