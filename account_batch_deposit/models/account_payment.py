@@ -30,9 +30,9 @@ class account_payment(models.Model):
         return result
 
     @api.model
-    def create_batch_deposit(self, active_ids):
+    def create_batch_deposit(self):
         # Since this method is called via a client_action_multi, we need to make sure the received records are what we expect
-        payments = self.browse(active_ids).filtered(lambda r: r.payment_method_id.code == 'batch_deposit' and r.state != 'reconciled' and not r.batch_deposit_id)
+        payments = self.filtered(lambda r: r.payment_method_id.code == 'batch_deposit' and r.state != 'reconciled' and not r.batch_deposit_id)
 
         if len(payments) == 0:
             raise UserError(_("Payments to print as a deposit slip must have 'Batch Deposit' selected as payment method, "
