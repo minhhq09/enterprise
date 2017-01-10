@@ -29,7 +29,7 @@ echo "Copying over files..."
 rsync -a --exclude '*.pyc' --exclude tools --exclude __manifest__.py "${__dir}/../" "${__dir}/pos_blackbox_be"
 
 echo "Compiling Python..."
-python_files | xargs -0 python -m py_compile
+python_files | xargs -0 python2 -m py_compile
 
 echo "Deleting Python source..."
 python_files | xargs -0 rm
