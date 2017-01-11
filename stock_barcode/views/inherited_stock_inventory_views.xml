@@ -26,7 +26,7 @@
                 <attribute name="barcode_trigger">validate</attribute>
             </xpath>
             <xpath expr="//field[@name='package_id']" position="after">
-                <field name="scan_location_id" readonly="1"/>
+                <field name="scan_location_id" readonly="1" attrs='{"invisible": [("state", "=", "draft")]}'/>
             </xpath>
         </field>
     </record>
