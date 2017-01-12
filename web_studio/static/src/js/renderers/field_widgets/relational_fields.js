@@ -307,8 +307,8 @@ var FieldMany2One = AbstractRelationalField.extend({
         this._super.apply(this, arguments);
         this.limit = 7;
         this.orderer = new utils.DropMisordered();
-        this.can_create = this.field.__attrs.can_create || true;
-        this.can_write = this.field.__attrs.can_write || true;
+        this.can_create = 'can_create' in this.field.__attrs ? this.field.__attrs.can_create : true;
+        this.can_write = 'can_write' in this.field.__attrs ? this.field.__attrs.can_write : true;
         this.node_options = _.defaults(this.node_options, {
             quick_create: true,
         });
