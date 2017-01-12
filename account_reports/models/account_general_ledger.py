@@ -193,12 +193,12 @@ class report_account_general_ledger(models.AbstractModel):
                 }
             if not context.get('print_mode'):
                 #  fetch the 81 first amls. The report only displays the first 80 amls. We will use the 81st to know if there are more than 80 in which case a link to the list view must be displayed.
-                aml_ids = self.with_context(aml_ctx)._do_query(account_id, group_by_account=False, limit=81)
+                aml_ids = self.with_context(**aml_ctx)._do_query(account_id, group_by_account=False, limit=81)
                 aml_ids = [x[0] for x in aml_ids]
 
                 accounts[account]['lines'] = self.env['account.move.line'].browse(aml_ids)
             else:
-                aml_ids = self.with_context(aml_ctx)._do_query(account_id, group_by_account=False)
+                aml_ids = self.with_context(**aml_ctx)._do_query(account_id, group_by_account=False)
                 aml_ids = [x[0] for x in aml_ids]
                 accounts[account]['lines'] = self.env['account.move.line'].browse(aml_ids)
         #if the unaffected earnings account wasn't in the selection yet: add it manually
