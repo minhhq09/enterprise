@@ -94,7 +94,7 @@ return Widget.extend(FieldManagerMixin, {
          * These attributes are either taken from modifiers or attrs
          * so attrs store their combinaison.
          */
-        this.attrs.invisible = this.modifiers.invisible;
+        this.attrs.invisible = this.modifiers.invisible || this.modifiers.tree_invisible;
         this.attrs.readonly = this.modifiers.readonly;
         this.attrs.string = this.attrs.string || this.field_parameters.string;
         this.attrs.help = this.attrs.help || this.field_parameters.help;
