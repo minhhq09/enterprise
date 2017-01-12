@@ -290,11 +290,12 @@ class SaleSubscription(models.Model):
                     'discount': line.discount,
                     'name': line.name,
                 }))
+            addr = contract.partner_id.address_get(['delivery', 'invoice'])
             res[contract.id] = {
                 'pricelist_id': contract.pricelist_id.id,
                 'partner_id': contract.partner_id.id,
-                'partner_invoice_id': contract.partner_id.id,
-                'partner_shipping_id': contract.partner_id.id,
+                'partner_invoice_id': addr['invoice'],
+                'partner_shipping_id': addr['delivery'],
                 'currency_id': contract.pricelist_id.currency_id.id,
                 'order_line': order_lines,
                 'project_id': contract.analytic_account_id.id,
