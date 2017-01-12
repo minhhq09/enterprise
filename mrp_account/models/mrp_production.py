@@ -40,7 +40,8 @@ class MrpProduction(models.Model):
             wc = wc_line.workcenter_id
             if wc.costs_hour_account_id:
                 # Cost per hour
-                value = wc_line.hour * wc.costs_hour
+                hours = wc_line.duration / 60.0
+                value = hours * wc.costs_hour
                 account = wc.costs_hour_account_id.id
                 if value and account:
                     amount += value
@@ -52,7 +53,7 @@ class MrpProduction(models.Model):
                         'amount': value,
                         'account_id': account,
                         'ref': wc.code,
-                        'unit_amount': wc_line.hour,
+                        'unit_amount': hours,
                     })
         return amount
 
