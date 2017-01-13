@@ -214,6 +214,14 @@
     }
 }
 
+// Move the listview scrollbar at the bottom of the screen (and not of listview) when the listview
+// is not inside a formview (is not a o2m).
+.o_content > .o_view_manager_content > div > .table-responsive.o_list_view_table_responsive {
+    @media (min-width: @screen-sm-min) {
+        overflow-x: visible;
+    }
+}
+
 // Workaround a bug in safari mobile where the inputs are not displayed correctly.
 .modal {
     .o_list_editable {
