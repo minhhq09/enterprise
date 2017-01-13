@@ -141,6 +141,7 @@ var Main = Widget.extend({
             res_model: 'ir.ui.view',
             title: _t('Select a view'),
             disable_multiple_selection: true,
+            no_create: true,
             domain: [
                 ['type', '=', view_mode],
                 ['mode', '=', 'primary'],
