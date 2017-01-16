@@ -12,6 +12,7 @@ var Dialog = require('web.Dialog');
 var session = require('web.session');
 var framework = require('web.framework');
 var crash_manager = require('web.crash_manager');
+var _t = core._t;
 
 var QWeb = core.qweb;
 
@@ -190,9 +191,17 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
         $useCustomCmp.bind('click', function () {self.toggle_filter($useCustomCmp, $CustomCmp);});
         this.$searchview_buttons.find('.o_account_reports_one-filter').bind('click', function (event) {
             self.onChangeDateFilter(event); // First trigger the onchange
+            var error = false;
             $('.o_account_reports_datetimepicker input').each(function () { // Parse all the values of the date pickers
+                if (error) {return;}
+                if ($(this).val() === ""){
+                    crash_manager.show_warning({data: {message: _t('Date cannot be empty')}});
+                    error = true
+                    return;
+                }
                 $(this).val(formats.parse_value($(this).val(), {type: 'date'}));
             });
+            if (error) {return;}
             var report_context = { // Create the context that will be given to the restart method
                 date_filter: $(event.target).parents('li').data('value'),
                 date_from: self.$searchview_buttons.find("input[name='date_from']").val(),
