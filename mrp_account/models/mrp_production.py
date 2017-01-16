@@ -13,19 +13,21 @@ class MrpProductionWorkcenterLineTime(models.Model):
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    @api.multi
     def _cal_price(self, consumed_moves):
+        """Set a price unit on the finished move according to `consumed_moves`.
+        """
+        super(MrpProduction, self)._cal_price(consumed_moves)
         work_center_cost = 0
-        if self.workorder_ids:
-            duration = 0
+        finished_move = self.move_finished_ids.filtered(lambda x: x.product_id == self.product_id and x.state not in ('done', 'cancel') and x.quantity_done > 0)
+        if finished_move:
+            finished_move.ensure_one()
             for work_order in self.workorder_ids:
                 time_lines = work_order.time_ids.filtered(lambda x: x.date_end and not x.cost_already_recorded)
                 duration = sum(time_lines.mapped('duration'))
                 time_lines.write({'cost_already_recorded': True})
                 work_center_cost += (duration / 60.0) * work_order.workcenter_id.costs_hour
-        for move in self.move_finished_ids.filtered(lambda x: x.product_id == self.product_id and x.state not in ('done', 'cancel')):
-            if move.product_id.cost_method in ('real', 'average'):
-                move.price_unit = (sum([q.qty * q.cost for q in consumed_moves.mapped('quant_ids').filtered(lambda x: x.qty > 0.0)]) + work_center_cost) / move.product_qty
+            if finished_move.product_id.cost_method in ('real', 'average'):
+                finished_move.price_unit = (sum([q.inventory_value for q in consumed_moves.mapped('quant_ids').filtered(lambda x: x.qty > 0.0)]) + work_center_cost) / finished_move.quantity_done
         return True
 
     def _costs_generate(self):
