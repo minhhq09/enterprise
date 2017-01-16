@@ -388,4 +388,4 @@ class account_report_context_followup(models.TransientModel):
         lang_ids = self.env['res.lang'].search([('code', '=', lang_code)], limit=1)
         date_format = lang_ids.date_format or DEFAULT_SERVER_DATE_FORMAT
 
-        return date.strftime(date_format)
+        return date.strftime(date_format.encode('utf-8')).decode('utf-8')
