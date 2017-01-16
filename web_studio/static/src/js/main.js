@@ -44,6 +44,7 @@ var Main = Widget.extend({
     },
 
     start: function () {
+        this.set('title', _t('Studio'));
         // we try to directly edit the active view instead of going to the action editor
         if (this.active_view) {
             return this.edit_view({data: {view_type: this.active_view}});

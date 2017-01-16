@@ -68,7 +68,7 @@ var SubMenu = Widget.extend({
                 model: this.action.res_model,
                 view_id: this.action.view_id[0],
             }).then(function (result) {
-                return self.replace_action(result, title, {replace_last_action: true});
+                return self.replace_action(result, title, {clear_breadcrumbs: true});
             });
         }
     },
