@@ -92,8 +92,8 @@ class WebStudioController(http.Controller):
             'target': 'current',
             'domain': [],
             'context': {'search_default_model': model.model},
-            'help': """ <p class="oe_view_nocontent_create">
-                Click to add a new report.
+            'help': """ <p class="oe_view_nocontent">
+                There is no report available.
             </p>
             """,
         }
