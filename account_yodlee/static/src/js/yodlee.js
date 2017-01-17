@@ -217,6 +217,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
         var data = [];
         var selected = true;
         $.each(resp_json, function(k,v){
+            if (v.itemData && v.itemData.accounts){    
                 $.each(v.itemData.accounts, function(index, value){
                     var account_name = value.accountName;
                     if (value.accountDisplayName !== undefined && value.accountDisplayName.defaultNormalAccountName !== undefined) {
@@ -233,6 +234,7 @@ var YodleeAccountConfigurationWidget = online_sync.OnlineSynchAccountConfigurati
                     });
                     selected = false;
                 });
+            }
         });
         this.replaceElement($(QWeb.render('OnlineSynchAccountSelector', {accounts: data})));
         this.bind_button();
