@@ -53,6 +53,10 @@ class SaleOrderLine(models.Model):
             For recurring products, add the deferred revenue category on the invoice line
         """
         res = super(SaleOrderLine, self)._prepare_invoice_line(qty)
-        if self.product_id.recurring_invoice and self.order_id.subscription_id.template_id.template_asset_category_id:
-            res['asset_category_id'] = self.order_id.subscription_id.template_id.template_asset_category_id.id
+        if self.product_id.recurring_invoice:
+            asset_category = self.order_id.subscription_id.template_id.template_asset_category_id
+            if asset_category:
+                account = self.order_id.fiscal_position_id.map_account(asset_category.account_asset_id)
+                res['asset_category_id'] = asset_category.id
+                res['account_id'] = account.id
         return res
