@@ -62,9 +62,10 @@ class SaleSubscription(models.Model):
     @api.depends('recurring_invoice_line_ids', 'recurring_total')
     def _amount_all(self):
         for account in self:
+            account_sudo = account.sudo()
             val = val1 = 0.0
-            cur = account.pricelist_id.currency_id
-            for line in account.recurring_invoice_line_ids:
+            cur = account_sudo.pricelist_id.currency_id
+            for line in account_sudo.recurring_invoice_line_ids:
                 val1 += line.price_subtotal
                 val += line._amount_line_tax()
             account.recurring_amount_tax = cur.round(val)
