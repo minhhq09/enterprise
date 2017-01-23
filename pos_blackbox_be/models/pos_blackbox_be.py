@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from openerp import models, fields, api
-
+from openerp.addons.base.res import res_users as ru
 from openerp.exceptions import UserError
 from openerp.exceptions import ValidationError
 from openerp.tools.translate import _
@@ -71,7 +71,9 @@ class res_users(models.Model):
     def create(self, values):
         log = self.env['pos_blackbox_be.log']
 
-        log.create(values, "create", self._name, values.get('login'))
+        filtered_values = {field: ('********' if field in ru.USER_PRIVATE_FIELDS else value)
+                               for field, value in values.items()}
+        log.create(filtered_values, "create", self._name, values.get('login'))
 
         return super(res_users, self).create(values)
 
@@ -79,8 +81,10 @@ class res_users(models.Model):
     def write(self, values):
         log = self.env['pos_blackbox_be.log']
 
+        filtered_values = {field: ('********' if field in ru.USER_PRIVATE_FIELDS else value)
+                               for field, value in values.items()}
         for user in self:
-            log.create(values, "modify", user._name, user.login)
+            log.create(filtered_values, "modify", user._name, user.login)
 
         return super(res_users, self).write(values)
 
