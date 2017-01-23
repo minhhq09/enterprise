@@ -5,6 +5,7 @@ odoo.define('pos_blackbox_be.pos_blackbox_be', function (require) {
     var devices = require('point_of_sale.devices');
     var chrome = require('point_of_sale.chrome');
     var gui = require('point_of_sale.gui');
+    var DB = require('point_of_sale.DB');
     var popups = require('point_of_sale.popups');
     var Class = require('web.Class');
     var utils = require('web.utils');
@@ -1307,6 +1308,19 @@ can no longer be modified. Please create a new line with eg. a negative quantity
                 posmodel_super.delete_current_order.apply(this, arguments);
             }
         }
+    });
+
+    DB.include({
+        // do not remove pro forma to keep them in localstorage after sent
+        // to server and avoid losing it when the browser is closed
+        remove_unpaid_order: function(order){
+            var orders = this.load('unpaid_orders',[]);
+            orders = _.filter(orders, function(o){
+                return (o.data.blackbox_pro_forma === true ||
+                        o.id !== order.uid);
+            });
+            this.save('unpaid_orders',orders);
+        },
     });
 
     screens.ProductScreenWidget.include({
