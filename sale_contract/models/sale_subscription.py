@@ -190,7 +190,6 @@ class SaleSubscription(models.Model):
             'partner_id': self.partner_id.id,
             'currency_id': self.pricelist_id.currency_id.id,
             'journal_id': journal.id,
-            'date_invoice': self.recurring_next_date,
             'origin': self.code,
             'fiscal_position_id': fpos_id,
             'payment_term_id': self.partner_id.property_payment_term_id.id,
