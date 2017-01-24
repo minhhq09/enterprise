@@ -112,15 +112,18 @@ class SaleOrder(models.Model):
             values['asset_category_id'] = contract_tmp.template_asset_category_id.id
         return values
 
-    @api.one
+    @api.multi
     def action_confirm(self):
-        if self.subscription_id and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
-            lines = self.order_line.filtered(lambda s: s.product_id.recurring_invoice)
-            msg_body = self.env.ref('website_contract.chatter_add_paid_option').render(values={'lines': lines})
-            # done as sudo since salesman may not have write rights on subscriptions
-            self.subscription_id.sudo().message_post(body=msg_body, author_id=self.env.user.partner_id.id)
-        sub = self.create_contract()
-        return super(SaleOrder, self.with_context(create_contract=bool(sub))).action_confirm()
+        no_upsell = dict.fromkeys(self.ids)  # avoid adding options again in sale_contract override
+        msg_template = self.env.ref('website_contract.chatter_add_paid_option')
+        for order in self:
+            if order.subscription_id and any(order.order_line.mapped('product_id').mapped('recurring_invoice')):
+                lines = order.order_line.filtered(lambda s: s.product_id.recurring_invoice)
+                msg_body = msg_template.render(values={'lines': lines})
+                # done as sudo since salesman may not have write rights on subscriptions
+                order.subscription_id.sudo().message_post(body=msg_body, author_id=self.env.user.partner_id.id)
+            no_upsell[order.id] = order.create_contract()
+        return super(SaleOrder, self.with_context(no_upsell=no_upsell)).action_confirm()
 
     # DBO: the following is there to amend the behaviour of website_sale:
     # - do not update price on sale_order_line where force_price = True

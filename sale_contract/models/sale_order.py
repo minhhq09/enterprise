@@ -50,7 +50,7 @@ class SaleOrder(models.Model):
         for order in self:
             if order.subscription_id:
                 # no need for updates if the contract was juste created
-                if not self.env.context.get('create_contract'):
+                if not self.env.context.get('no_upsell', dict()).get(order.id):
                     # wipe the subscription clean if needed
                     if order.subscription_management == 'renew':
                         to_remove = [(2, line.id, 0) for line in order.subscription_id.recurring_invoice_line_ids]
