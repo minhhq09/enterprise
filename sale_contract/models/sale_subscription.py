@@ -195,6 +195,7 @@ class SaleSubscription(models.Model):
             'payment_term_id': self.partner_id.property_payment_term_id.id,
             'company_id': company.id,
             'comment': _("This invoice covers the following period: %s - %s") % (next_date, end_date),
+            'user_id': self.user_id.id,
         }
 
     @api.multi
