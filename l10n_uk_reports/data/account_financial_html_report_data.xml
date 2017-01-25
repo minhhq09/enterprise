@@ -13,7 +13,7 @@
         <field name="code">UKTAX_5</field>
         <field name="sequence" eval="1"/>
         <field name="level" eval="1"/>
-        <field name="formulas">balance = UKTAX_1.balance + UKTAX_2.balance + UKTAX_4.balance</field>
+        <field name="formulas">balance = UKTAX_1.balance + UKTAX_2.balance - UKTAX_4.balance</field>
         <field name="financial_report_id" ref="financial_report_l10n_uk"/>
         <field name="special_date_changer">strict_range</field>
     </record>
