@@ -244,9 +244,6 @@ Access your Odoo Instance using your own domain.</field>
         <field name="template_id" ref="odoo_monthly"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="manager_id" ref="base.user_root"/>
-        <field name="message_follower_ids" eval="[
-            (0, 0, {'res_model': 'account.analytic.account', 'partner_id': ref('portal.partner_demo_portal')})
-        ]"/>
         <field name="type">contract</field>
         <field name="date_start" eval="(DateTime.now() - timedelta(days=9))"/>
         <field name="recurring_next_date" eval="(DateTime.now() + timedelta(days=21))"/>
@@ -267,6 +264,8 @@ Complaints
 Any complaints about items or sellers may be sent to our support team: support@wesellyourstuff.com or (888) 555-0198. There is no guarantee of a resolution. Each case will be looked at individually, and the seller will be in contact as well.
         </field>
     </record>
+    <function model="sale.subscription" name="message_subscribe"
+      eval="[ref('website_contract.contract_portal_21')], [ref('portal.partner_demo_portal')]"/>
 
     <record id="rec_inv_line_31" model="sale.subscription.line">
         <field name="name">Odoo SAAS
