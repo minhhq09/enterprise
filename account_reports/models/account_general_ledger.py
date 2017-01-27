@@ -252,7 +252,7 @@ class report_account_general_ledger(models.AbstractModel):
                 amls = grouped_accounts[account]['lines']
                 too_many = False
                 if len(amls) > 80 and not context.get('print_mode'):
-                    amls = amls[-80:]
+                    amls = amls[:80]
                     too_many = True
                 used_currency = self.env.user.company_id.currency_id
                 for line in amls:
