@@ -121,6 +121,7 @@ class FixRequestNamespacePlug(MessagePlugin):
 
     def marshalled(self, context):
         context.envelope.getChild('Body').getChild(self.root).getChild('Request').prefix = 'ns0'
+        context.envelope = context.envelope.prune()
 
 
 class UPSRequest():
