@@ -9,6 +9,8 @@ var utils = require('web.utils');
 var round_pr = utils.round_precision;
 var QWeb     = core.qweb;
 
+var _t = core._t;
+
 models.load_fields('res.partner','loyalty_points');
 
 models.load_models([
@@ -362,8 +364,8 @@ var LoyaltyButton = screens.ActionButtonWidget.extend({
         var rewards = order.get_available_rewards();
         if (rewards.length === 0) {
             this.gui.show_popup('alert',{
-                'title': 'No Rewards Available',
-                'body':  'There are no rewards available for this customer as part of the loyalty program',
+                'title': _t('No Rewards Available'),
+                'body':  _t('There are no rewards available for this customer as part of the loyalty program'),
             });
             return;
         } else if (rewards.length === 1 && this.pos.loyalty.rewards.length === 1) {
@@ -378,7 +380,7 @@ var LoyaltyButton = screens.ActionButtonWidget.extend({
                 });
             }
             this.gui.show_popup('selection',{
-                'title': 'Please select a reward',
+                'title': _t('Please select a reward'),
                 'list': list,
                 'confirm': function(reward){
                     order.apply_reward(reward);
