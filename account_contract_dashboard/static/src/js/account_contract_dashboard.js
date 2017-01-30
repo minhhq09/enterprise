@@ -1109,7 +1109,7 @@ function compute_forecast_values(starting_value, projection_time, growth_type, c
             cur_value = cur_value*(1-churn/100)*(1+expon_growth/100);
         }
         values.push({
-            '0': cur_date.format('L'),
+            '0': cur_date.format('YYYY-MM-DD'),
             '1': cur_value,
         });
     }
