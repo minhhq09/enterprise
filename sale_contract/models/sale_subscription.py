@@ -303,6 +303,7 @@ class SaleSubscription(models.Model):
                 'note': contract.description,
                 'fiscal_position_id': fpos_id,
                 'user_id': contract.user_id.id,
+                'payment_term_id': contract.partner_id.property_payment_term_id.id,
             }
         return res
 
