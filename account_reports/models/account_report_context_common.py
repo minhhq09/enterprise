@@ -38,9 +38,16 @@ class AccountReportMulticompanyManager(models.TransientModel):
     _name = 'account.report.multicompany.manager'
     _description = 'manages multicompany for reports'
 
+    @api.model
+    def _default_company_ids(self):
+        companies = self.env['res.company']
+        for journal in self.env['account.journal'].search([]):
+            companies |= journal.company_id
+        return companies
+
     multi_company = fields.Boolean('Allow multi-company', compute='_get_multi_company', store=False)
-    company_ids = fields.Many2many('res.company', relation='account_report_context_company', default=lambda s: [(6, 0, [s.env.user.company_id.id])])
-    available_company_ids = fields.Many2many('res.company', relation='account_report_context_available_company', default=lambda s: [(6, 0, s.env.user.company_ids.ids)])
+    company_ids = fields.Many2many('res.company', relation='account_report_context_company', default=lambda s: s._default_company_ids())
+    available_company_ids = fields.Many2many('res.company', relation='account_report_context_available_company', default=lambda s: s._default_company_ids())
 
     @api.one
     def _get_multi_company(self):
@@ -617,7 +624,7 @@ class AccountReportContextCommon(models.TransientModel):
             domain.append(('report_id', '=', int(report_id)))
         context = False
         for c in self.env[context_model].search(domain):
-            if c.available_company_ids <= self.env.user.company_ids:
+            if c.available_company_ids == self.env['account.report.multicompany.manager']._default_company_ids():
                 context = c
                 break
         if context and (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id')):
