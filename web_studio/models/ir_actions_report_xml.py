@@ -32,6 +32,6 @@ class ir_actions_report(models.Model):
         action_data['view_id'] = associated_view.id
 
         # Records data
-        action_data['active_ids'] = ','.join(str(x) for x in self.env[self.model].search([], limit=3).mapped('id'))
+        action_data['active_ids'] = ','.join(str(x) for x in self.env[self.model].search([], limit=1).mapped('id'))
 
         return action_data

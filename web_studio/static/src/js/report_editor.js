@@ -42,6 +42,11 @@ var ReportEditor = ReportAction.extend({
             return self.sidebar.appendTo(self.$el);
         });
     },
+    _update_control_panel_buttons: function () {
+        this._super.apply(this, arguments);
+        // the edit button is available in Studio even if not in debug mode
+        this.$buttons.filter('div.o_edit_mode_available').toggle(this.edit_mode_available && ! this.in_edit_mode);
+    },
     open_report_form: function() {
         this.do_action({
             type: 'ir.actions.act_window',
