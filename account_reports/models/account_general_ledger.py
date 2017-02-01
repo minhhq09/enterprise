@@ -316,10 +316,10 @@ class report_account_general_ledger(models.AbstractModel):
                     name = line.name and line.name or ''
                     if line.ref:
                         name = name and name + ' - ' + line.ref or line.ref
-                    if len(name) > 35:
+                    if len(name) > 35 and not self.env.context.get('no_format'):
                         name = name[:32] + "..."
                     partner_name = line.partner_id.name
-                    if partner_name and len(partner_name) > 35:
+                    if partner_name and len(partner_name) > 35  and not self.env.context.get('no_format'):
                         partner_name = partner_name[:32] + "..."
                     domain_lines.append({
                         'id': line.id,
