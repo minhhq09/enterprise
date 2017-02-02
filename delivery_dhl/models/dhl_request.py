@@ -258,6 +258,7 @@ class DHLProvider():
             etree.SubElement(bkg_details_node, "IsDutiable").text = "Y"
         else:
             etree.SubElement(bkg_details_node, "IsDutiable").text = "N"
+        etree.SubElement(bkg_details_node, "NetworkTypeCode").text = 'AL'
         to_node = etree.SubElement(get_quote_node, "To")
         etree.SubElement(to_node, "CountryCode").text = param["recipient_partner"].country_id.code
         etree.SubElement(to_node, "Postalcode").text = param["recipient_partner"].zip
