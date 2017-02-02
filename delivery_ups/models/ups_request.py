@@ -125,6 +125,7 @@ class FixRequestNamespacePlug(MessagePlugin):
 
     def marshalled(self, context):
         context.envelope.getChild('Body').getChild(self.root).getChild('Request').prefix = 'ns0'
+        context.envelope = context.envelope.prune()
 
 
 class UPSRequest():
@@ -352,7 +353,8 @@ class UPSRequest():
         request = client.factory.create('ns0:RequestType')
         request.RequestOption = 'nonvalidate'
 
-        label = client.factory.create('ns3:LabelSpecification')
+        namespace = 'ns3'
+        label = client.factory.create('{}:LabelSpecificationType'.format(namespace))
 
         label.LabelImageFormat.Code = label_file_type
         label.LabelImageFormat.Description = label_file_type
@@ -360,7 +362,6 @@ class UPSRequest():
             label.LabelStockSize.Height = '6'
             label.LabelStockSize.Width = '4'
 
-        namespace = 'ns3'
         shipment = client.factory.create('{}:ShipmentType'.format(namespace))
         shipment.Description = shipment_info.get('description')
 
