@@ -99,6 +99,27 @@ class IrModel(models.Model):
             # Create a simplified form view to prevent getting the default one containing all model's fields
             self.env['ir.ui.view'].create_simplified_form_view(res.model)
 
+            # Give read access to the created model to Employees by default and all access to System
+            # Note: a better solution may be to create groups at the app creation but the model is created
+            # before the app and for other models we need to have info about the app.
+            self.env['ir.model.access'].create({
+                'name': vals.get('name', '') + ' group_system',
+                'model_id': res.id,
+                'group_id': self.env.ref('base.group_system').id,
+                'perm_read': True,
+                'perm_write': True,
+                'perm_create': True,
+                'perm_unlink': True,
+            })
+            self.env['ir.model.access'].create({
+                'name': vals.get('name', '') + ' group_user',
+                'model_id': res.id,
+                'group_id': self.env.ref('base.group_user').id,
+                'perm_read': True,
+                'perm_write': False,
+                'perm_create': False,
+                'perm_unlink': False,
+            })
         return res
 
     @api.multi
