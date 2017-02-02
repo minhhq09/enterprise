@@ -10,7 +10,7 @@ var QWeb = core.qweb;
 
 UserMenu.include({
     on_menu_support: function () {
-        window.location.href = 'mailto:help@odoo.com';
+        window.location.href = 'https://www.odoo.com/help';
     },
     on_menu_shortcuts: function() {
         new Dialog(this, {
