@@ -281,7 +281,7 @@ class SaleSubscription(models.Model):
                         try:
                             payment_token = contract.payment_token_id
                             if payment_token:
-                                invoice_values = contract._prepare_invoice()
+                                invoice_values = contract.with_context(lang=contract.partner_id.lang)._prepare_invoice()
                                 new_invoice = self.env['account.invoice'].with_context(context_company).create(invoice_values)
                                 new_invoice.message_post_with_view('mail.message_origin_link',
                                     values = {'self': new_invoice, 'origin': contract},
@@ -343,7 +343,7 @@ class SaleSubscription(models.Model):
                     # invoice only
                     else:
                         try:
-                            invoice_values = contract._prepare_invoice()
+                            invoice_values = contract.with_context(lang=contract.partner_id.lang)._prepare_invoice()
                             new_invoice = self.env['account.invoice'].with_context(context_company).create(invoice_values)
                             new_invoice.message_post_with_view('mail.message_origin_link',
                                 values = {'self': new_invoice, 'origin': contract},
