@@ -92,6 +92,7 @@ return {
     },
 
     get_studio_view_arch: function(model, view_type, view_id) {
+        data_manager.invalidate();
         return ajax.jsonRpc('/web_studio/get_studio_view_arch', 'call', {
             model: model,
             view_type: view_type,
