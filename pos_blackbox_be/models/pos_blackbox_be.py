@@ -33,7 +33,7 @@ class pos_config(models.Model):
     _inherit = 'pos.config'
 
     report_sequence_number = fields.Integer()
-    blackbox_pos_production_id = fields.Char("Registered POSBox serial number")
+    blackbox_pos_production_id = fields.Char("Registered POSBox serial number", copy=False)
 
     @api.constrains('blackbox_pos_production_id')
     def _check_one_posbox_per_config(self):
