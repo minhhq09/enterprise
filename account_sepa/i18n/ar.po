@@ -9,13 +9,14 @@
 # Akram Alfusayal <akram_ma@hotmail.com>, 2016
 # Mustafa Rawi <mustafa@cubexco.com>, 2016
 # amrnegm <amrnegm.01@gmail.com>, 2016
+# Shaima Safar <shaima.safar@open-inside.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 09:57+0000\n"
-"PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: amrnegm <amrnegm.01@gmail.com>, 2016\n"
+"POT-Creation-Date: 2017-02-03 14:36+0000\n"
+"PO-Revision-Date: 2017-02-03 14:36+0000\n"
+"Last-Translator: Shaima Safar <shaima.safar@open-inside.com>, 2017\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,14 +90,9 @@ msgid ""
 msgstr ""
 
 #. module: account_sepa
-#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
-msgid "Etherpad lite server. Example: beta.primarypad.com"
-msgstr ""
-
-#. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
 msgid "Filename"
-msgstr ""
+msgstr "اسم الملف"
 
 #. module: account_sepa
 #: selection:res.company,sepa_pain_version:0
@@ -116,7 +112,7 @@ msgstr "المعرف"
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_id
 msgid "Identification"
-msgstr ""
+msgstr "الهوية"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_id
@@ -140,12 +136,12 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_is_generic
 msgid "Is generic"
-msgstr ""
+msgstr "هو شامل"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_orgid_issr
 msgid "Issuer"
-msgstr ""
+msgstr "المصدر"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_orgid_issr
@@ -172,6 +168,13 @@ msgstr "آخر تحديث بواسطة"
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_write_date
 msgid "Last Updated on"
 msgstr "آخر تحديث في"
+
+#. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid ""
+"Name of the Creditor Reference Party. Usage Rule: Limited to 70 characters "
+"in length."
+msgstr ""
 
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
@@ -215,6 +218,11 @@ msgstr "تسجيل المدفوعات على عدة فواتير"
 #. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
+msgstr ""
+
+#. module: account_sepa
+#: model:account.payment.method,name:account_sepa.account_payment_method_sepa_ct
+msgid "SEPA Credit Transfer"
 msgstr ""
 
 #. module: account_sepa
@@ -379,7 +387,7 @@ msgstr ""
 #: code:addons/account_sepa/sepa_credit_transfer.py:178
 #, python-format
 msgid "Too many transactions for a single file."
-msgstr ""
+msgstr "الكثير من المعاملات لملف واحد."
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_warning_message
@@ -397,7 +405,7 @@ msgstr ""
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_res_company_sepa_initiating_party_name
 msgid "Your Company Name"
-msgstr ""
+msgstr "اسم الشركة الخاصة بك"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_config_settings_sepa_initiating_party_name

@@ -9,10 +9,10 @@
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-07 09:57+0000\n"
-"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"POT-Creation-Date: 2017-02-03 14:36+0000\n"
+"PO-Revision-Date: 2017-02-03 14:36+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -90,11 +90,6 @@ msgid ""
 msgstr ""
 "Entiteit die de identificatie toewijst (bijv. KBE-BCO of Finanzamt München "
 "IV)."
-
-#. module: account_sepa
-#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
-msgid "Etherpad lite server. Example: beta.primarypad.com"
-msgstr "Etherpad lite server. Bijvoorbeeld: beta.mijnprimairpad.com"
 
 #. module: account_sepa
 #: model:ir.model.fields,field_description:account_sepa.field_account_sepa_credit_transfer_filename
@@ -179,6 +174,13 @@ msgid "Last Updated on"
 msgstr "Laatst bijgewerkt op"
 
 #. module: account_sepa
+#: model:ir.model.fields,help:account_sepa.field_account_config_settings_sepa_initiating_party_name
+msgid ""
+"Name of the Creditor Reference Party. Usage Rule: Limited to 70 characters "
+"in length."
+msgstr ""
+
+#. module: account_sepa
 #: model:ir.ui.view,arch_db:account_sepa.view_sepa_credit_transfer_download
 msgid "Ok"
 msgstr "Ok"
@@ -224,6 +226,11 @@ msgstr "Betalingen voor meerdere facturen registreren"
 #: model:ir.ui.view,arch_db:account_sepa.view_account_config_settings_form_inherit_account_sepa
 msgid "SEPA"
 msgstr "SEPA"
+
+#. module: account_sepa
+#: model:account.payment.method,name:account_sepa.account_payment_method_sepa_ct
+msgid "SEPA Credit Transfer"
+msgstr "SEPA overschrijving"
 
 #. module: account_sepa
 #: code:addons/account_sepa/account_journal_dashboard.py:23
