@@ -495,7 +495,7 @@ class HelpdeskTicket(models.Model):
 
     priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0')
     stage_id = fields.Many2one('helpdesk.stage', string='Stage', track_visibility='onchange',
-                               group_expand='_read_group_stage_ids',
+                               group_expand='_read_group_stage_ids', copy=False,
                                index=True, domain="[('team_ids', '=', team_id)]")
 
     # next 4 fields are computed in write (or create)
