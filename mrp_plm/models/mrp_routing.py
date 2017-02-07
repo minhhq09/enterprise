@@ -24,7 +24,7 @@ class MrpRouting(models.Model):
 
     @api.one
     def _compute_eco_data(self):
-        self.nb_ecos = len(self.eco_ids)
+        self.eco_count = len(self.eco_ids)
 
     @api.multi
     def apply_new_version(self):
