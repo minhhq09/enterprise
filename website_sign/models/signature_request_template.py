@@ -125,7 +125,7 @@ class SignatureItemType(models.Model):
     _name = "signature.item.type"
     _description = "Specialized type for signature fields"
 
-    name = fields.Char(string="Field Name", required=True)
+    name = fields.Char(string="Field Name", required=True, translate=True)
     type = fields.Selection([
         ('signature', "Signature"),
         ('initial', "Initial"),
@@ -153,7 +153,7 @@ class SignatureItemParty(models.Model):
     _name = "signature.item.party"
     _description = "Type of partner which can access a particular signature field"
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, translate=True)
 
     @api.model
     def add(self, name):

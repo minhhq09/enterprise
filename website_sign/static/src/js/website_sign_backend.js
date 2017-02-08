@@ -144,7 +144,7 @@ odoo.define('website_sign.template', function(require) {
                     this.getParent().currentRole = resp;
                     this.$currentTarget.data({responsible: resp, required: required}).trigger('itemChange');
                 }});
-                options.buttons.push({text: 'Remove', classes: 'o_sign_delete_field_button btn-link', close: true, click: function(e) {
+                options.buttons.push({text: _t('Remove'), classes: 'o_sign_delete_field_button btn-link', close: true, click: function(e) {
                     this.$currentTarget.trigger('itemDelete');
                 }});
                 options.buttons.push({text: 'Discard', classes: 'btn-default', close: true});
