@@ -27,7 +27,7 @@ return Widget.extend(FieldManagerMixin, {
         this.action = action;
         this.action_attrs = {
             name: action.display_name || action.name,
-            help: action.help.replace(/\n\s+/g, '\n'),
+            help: action.help && action.help.replace(/\n\s+/g, '\n') || '',
         };
         this.groups_info = [];
     },
