@@ -69,7 +69,9 @@ return ListRenderer.extend({
 
     _render_header: function() {
         var $header = this._super.apply(this, arguments);
-        _.each($header.find('th'), function(th, index) {
+
+        // Insert a hook after each th
+        _.each($header.find('th'), function(th) {
             var $new_th = $('<th>')
                 .addClass('o_web_studio_new_column')
                 .append(
@@ -77,18 +79,17 @@ return ListRenderer.extend({
             );
             $new_th.insertAfter($(th));
 
-            // Insert a hook before the first column
-            if (index === 0) {
-                var $new_th_before = $('<th>')
-                    .addClass('o_web_studio_new_column')
-                    .data('position', 'before')
-                    .append(
-                        $('<i>').addClass('fa fa-plus')
-                );
-                $new_th_before.insertBefore($(th));
-            }
-
         });
+
+        // Insert a hook before the first column
+        var $new_th_before = $('<th>')
+            .addClass('o_web_studio_new_column')
+            .data('position', 'before')
+            .append(
+                $('<i>').addClass('fa fa-plus')
+        );
+        $new_th_before.prependTo($header.find('tr'));
+
         return $header;
     },
 
@@ -102,55 +103,55 @@ return ListRenderer.extend({
 
     _render_empty_row: function() {
         var $row = this._super.apply(this, arguments);
-        _.each($row.find('td'), function(td, index) {
+
+        // Inser a hook after each td
+        _.each($row.find('td'), function(td) {
             $('<td>')
                 .addClass('o_web_studio_new_column')
                 .insertAfter($(td));
-
-            // Insert a hook before the first column
-            if (index === 0) {
-                $('<td>')
-                    .addClass('o_web_studio_new_column')
-                    .insertBefore($(td));
-
-            }
         });
+
+        // Insert a hook before the first column
+        $('<td>')
+            .addClass('o_web_studio_new_column')
+            .prependTo($row);
+
         return $row;
     },
 
     _render_row: function() {
         var $row = this._super.apply(this, arguments);
-        _.each($row.find('td'), function(td, index) {
+
+        // Inser a hook after each td
+        _.each($row.find('td'), function(td) {
             $('<td>')
                 .addClass('o_web_studio_new_column')
                 .insertAfter($(td));
-
-            // Insert a hook before the first column
-            if (index === 0) {
-                $('<td>')
-                    .addClass('o_web_studio_new_column')
-                    .insertBefore($(td));
-
-            }
         });
+
+        // Insert a hook before the first column
+        $('<td>')
+            .addClass('o_web_studio_new_column')
+            .prependTo($row);
+
         return $row;
     },
 
     _render_footer: function() {
         var $footer = this._super.apply(this, arguments);
-        _.each($footer.find('td'), function(td, index) {
+
+        // Insert a hook after each td
+        _.each($footer.find('td'), function(td) {
             $('<td>')
                 .addClass('o_web_studio_new_column')
                 .insertAfter($(td));
-
-            // Insert a hook before the first column
-            if (index === 0) {
-                $('<td>')
-                    .addClass('o_web_studio_new_column')
-                    .insertBefore($(td));
-
-            }
         });
+
+        // Insert a hook before the first column
+        $('<td>')
+            .addClass('o_web_studio_new_column')
+            .prependTo($footer.find('tr'));
+
         return $footer;
 
     },
@@ -184,6 +185,14 @@ return ListRenderer.extend({
         var node = _.find(this.columns, function (column) {
             return column.attrs.name === field_name;
         });
+
+        // When there is no column in the list view, the only possible hook is inside <tree>
+        if (!this.columns.length) {
+            node = {
+               tag: 'tree',
+           };
+           position = 'inside';
+        }
         self.trigger_up('view_change', {
             type: 'add',
             structure: 'field',
