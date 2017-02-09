@@ -97,6 +97,7 @@ class AccountReportAnalyticManager(models.TransientModel):
 class AccountReportContextCommon(models.TransientModel):
     _name = "account.report.context.common"
     _description = "A particular context for a financial report"
+    _order = "id desc"
     _inherits = {
         'account.report.footnotes.manager': 'footnotes_manager_id',
         'account.report.multicompany.manager': 'multicompany_manager_id',
@@ -624,7 +625,7 @@ class AccountReportContextCommon(models.TransientModel):
             domain.append(('report_id', '=', int(report_id)))
         context = False
         for c in self.env[context_model].search(domain):
-            if c.available_company_ids == self.env['account.report.multicompany.manager']._default_company_ids():
+            if c.available_company_ids <= self.env['account.report.multicompany.manager']._default_company_ids():
                 context = c
                 break
         if context and (report_model == 'account.bank.reconciliation.report' and given_context.get('active_id')):
