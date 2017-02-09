@@ -586,11 +586,12 @@ return Widget.extend({
         });
     },
     _remove_element: function(type, node, xpath_info) {
-        // We want to check if the parent of the node if not empty
-        // If the parent contains only the node we want to delete
-        // We will delete the parent instead of the node
+        // After the element removal, if the parent doesn't contain any children
+        // anymore, the parent node is also deleted (except if the parent is
+        // the only remaining node)
         var parent_node = find_parent(this.fields_view.arch, node);
-        if (parent_node.children.length === 1) {
+        var is_root = !find_parent(this.fields_view.arch, parent_node);
+        if (parent_node.children.length === 1 && !is_root) {
             node = parent_node;
         }
 
