@@ -136,6 +136,10 @@
             &.o_readonly {
                 visibility: visible;
                 color: transparent;
+
+                > .o_checkbox {
+                    visibility: hidden;
+                }
             }
         }
     }
@@ -156,7 +160,7 @@
                 max-width: 100%; // Fix a chrome bug where badge would not break on multiple lines
             }
 
-            &.o_readonly {
+            &.o_readonly:not(.o_checkbox) {
                 background-color: transparent;
                 padding: 5px;
             }
