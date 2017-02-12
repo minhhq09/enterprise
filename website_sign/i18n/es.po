@@ -22,13 +22,14 @@
 # Carles Antoli <carlesantoli@hotmail.com>, 2016
 # Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2016
 # Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016
+# Luis M. Triana <luis.triana@jarsa.com.mx>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:58+0000\n"
 "PO-Revision-Date: 2016-09-07 09:58+0000\n"
-"Last-Translator: Paloma Yazmin Reyes Morales <paloma.reyes@jarsa.com.mx>, 2016\n"
+"Last-Translator: Luis M. Triana <luis.triana@jarsa.com.mx>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -264,6 +265,12 @@ msgid "Color"
 msgstr "Color"
 
 #. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_company
+#: model:signature.item.type,name:website_sign.signature_item_type_company
+msgid "Company"
+msgstr "Compañía"
+
+#. module: website_sign
 #: selection:signature.request.item,state:0
 msgid "Completed"
 msgstr "Completada"
@@ -311,11 +318,21 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/js/website_sign_backend.js:135
 #, python-format
 msgid "Customize Field"
 msgstr ""
+
+#. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_date
+msgid "Date"
+msgstr "Fecha"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_default_height
@@ -468,8 +485,14 @@ msgstr ""
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signer_email
+#: model:signature.item.type,name:website_sign.signature_item_type_email
 msgid "Email"
 msgstr "Correo electrónico"
+
+#. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_employee
+msgid "Employee"
+msgstr "Empleado"
 
 #. module: website_sign
 #. openerp-web
@@ -597,6 +620,11 @@ msgid "Initial"
 msgstr "Inicial"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_initial
+msgid "Initials"
+msgstr ""
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/xml/website_sign_common.xml:109
 #, python-format
@@ -687,6 +715,11 @@ msgid "Multiline Text"
 msgstr "Texto de líneas múltiples"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_multiline_text
+msgid "Multiline text"
+msgstr ""
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/js/website_sign_backend.js:404
 #, python-format
@@ -700,6 +733,7 @@ msgstr "Mis documentos"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_name
+#: model:signature.item.type,name:website_sign.signature_item_type_name
 msgid "Name"
 msgstr "Nombre"
 
@@ -773,6 +807,11 @@ msgid "Partner field to use to auto-complete the fields of this type"
 msgstr ""
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_phone
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_placeholder
 msgid "Placeholder"
 msgstr "Marcador de posición"
@@ -803,6 +842,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_progress
 msgid "Progress"
 msgstr "En proceso"
+
+#. module: website_sign
+#. openerp-web
+#: code:addons/website_sign/static/src/js/website_sign_backend.js:147
+#, python-format
+msgid "Remove"
+msgstr "Eliminar"
 
 #. module: website_sign
 #. openerp-web
@@ -981,6 +1027,7 @@ msgstr "Firmar documento"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signature
+#: model:signature.item.type,name:website_sign.signature_item_type_signature
 #: selection:signature.item.type,type:0
 msgid "Signature"
 msgstr "Firma"
@@ -1149,6 +1196,7 @@ msgid "Template"
 msgstr "Plantilla"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_text
 #: selection:signature.item.type,type:0
 msgid "Text"
 msgstr "Texto"

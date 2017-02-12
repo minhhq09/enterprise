@@ -257,6 +257,12 @@ msgid "Color"
 msgstr "Boja"
 
 #. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_company
+#: model:signature.item.type,name:website_sign.signature_item_type_company
+msgid "Company"
+msgstr "Tvrtka"
+
+#. module: website_sign
 #: selection:signature.request.item,state:0
 msgid "Completed"
 msgstr "Completed"
@@ -304,11 +310,21 @@ msgid "Created on"
 msgstr "Datum kreiranja"
 
 #. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_customer
+msgid "Customer"
+msgstr "Kupac"
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/js/website_sign_backend.js:135
 #, python-format
 msgid "Customize Field"
 msgstr "Prilagodi polje"
+
+#. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_date
+msgid "Date"
+msgstr "Datum"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_default_height
@@ -461,8 +477,14 @@ msgstr "Uredi naziv predloška"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signer_email
+#: model:signature.item.type,name:website_sign.signature_item_type_email
 msgid "Email"
 msgstr "E-pošta"
+
+#. module: website_sign
+#: model:signature.item.party,name:website_sign.signature_item_party_employee
+msgid "Employee"
+msgstr "Zaposlenik"
 
 #. module: website_sign
 #. openerp-web
@@ -590,6 +612,11 @@ msgid "Initial"
 msgstr "Inicijal"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_initial
+msgid "Initials"
+msgstr ""
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/xml/website_sign_common.xml:109
 #, python-format
@@ -682,6 +709,11 @@ msgid "Multiline Text"
 msgstr "Višelinijski tekst"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_multiline_text
+msgid "Multiline text"
+msgstr ""
+
+#. module: website_sign
 #. openerp-web
 #: code:addons/website_sign/static/src/js/website_sign_backend.js:404
 #, python-format
@@ -695,6 +727,7 @@ msgstr "Moji dokumenti"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_party_name
+#: model:signature.item.type,name:website_sign.signature_item_type_name
 msgid "Name"
 msgstr "Naziv"
 
@@ -768,6 +801,11 @@ msgid "Partner field to use to auto-complete the fields of this type"
 msgstr "Partner koristi polje za automatski dovršetak polja ovog tipa"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_phone
+msgid "Phone"
+msgstr "Telefon"
+
+#. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_item_type_placeholder
 msgid "Placeholder"
 msgstr "Rezervirano"
@@ -798,6 +836,13 @@ msgstr "Ispis originalnog dokumenta"
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_progress
 msgid "Progress"
 msgstr "Napredak"
+
+#. module: website_sign
+#. openerp-web
+#: code:addons/website_sign/static/src/js/website_sign_backend.js:147
+#, python-format
+msgid "Remove"
+msgstr "Ukloni"
 
 #. module: website_sign
 #. openerp-web
@@ -976,6 +1021,7 @@ msgstr "Potpiši dokument"
 
 #. module: website_sign
 #: model:ir.model.fields,field_description:website_sign.field_signature_request_item_signature
+#: model:signature.item.type,name:website_sign.signature_item_type_signature
 #: selection:signature.item.type,type:0
 msgid "Signature"
 msgstr "Potpis"
@@ -1144,6 +1190,7 @@ msgid "Template"
 msgstr "Predložak"
 
 #. module: website_sign
+#: model:signature.item.type,name:website_sign.signature_item_type_text
 #: selection:signature.item.type,type:0
 msgid "Text"
 msgstr "Tekst"
