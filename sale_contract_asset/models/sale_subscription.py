@@ -35,6 +35,10 @@ class SaleSubscription(models.Model):
 
         return inv_lines
 
+    @api.onchange('company_id')
+    def onchange_company_id(self):
+        if self.template_id.template_asset_category_id:
+            self.asset_category_id = self.template_id.template_asset_category_id.id
 
 class SaleSubscriptionTemplate(models.Model):
     _inherit = "sale.subscription.template"
