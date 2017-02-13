@@ -9,6 +9,18 @@
     <button class="btn btn-default o_web_studio_remove">Remove from View</button>
 </div>
 
+<div t-name="web_studio.Sidebar.Warning.Groups" class="o_web_studio_remove_warning_groups">
+    <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        This field is placed after another element that is only displayed under certain conditions.
+    </p>
+    You need to be part of these groups to see this field:<br/>
+    <ul>
+        <t t-foreach="widget.attrs['studio-view-group-names'].split(',')" t-as="group_name">
+            <li><t t-esc="group_name"/></li>
+        </t>
+    </ul>
+</div>
+
 <div t-name="web_studio.Sidebar.XMLEditor" t-if="widget.debug">
     <button class="btn btn-default o_web_studio_xml_editor">XML Editor</button>
 </div>
@@ -195,6 +207,10 @@
     </t>
     <t t-call="web_studio.Sidebar.Parameters"/>
     <t t-call="web_studio.Sidebar.Remove"/>
+    <t t-if="widget.attrs['studio-view-group-names']">
+        <hr/>
+        <t t-call="web_studio.Sidebar.Warning.Groups"/>
+    </t>
 </t>
 
 <!-- PageEditor -->
@@ -205,6 +221,10 @@
             t-att-value="widget.attrs.string"/>
     </div>
     <t t-call="web_studio.Sidebar.Remove"/>
+    <t t-if="widget.attrs['studio-view-group-names']">
+        <hr/>
+        <t t-call="web_studio.Sidebar.Warning.Groups"/>
+    </t>
 </t>
 
 <!-- GroupEditor -->
@@ -215,6 +235,10 @@
             t-att-value="widget.attrs.string"/>
     </div>
     <t t-call="web_studio.Sidebar.Remove"/>
+    <t t-if="widget.attrs['studio-view-group-names']">
+        <hr/>
+        <t t-call="web_studio.Sidebar.Warning.Groups"/>
+    </t>
 </t>
 
 <!-- ChatterEditor -->
