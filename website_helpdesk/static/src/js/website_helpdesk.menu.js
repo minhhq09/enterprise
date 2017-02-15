@@ -10,18 +10,10 @@ odoo.define("website_helpdesk.menu", function (require) {
     }
     $link.first().closest("li").addClass("active");
 
-    // 'Show more' / 'Show less' buttons
-    $('.o_my_show_more').click(function(e) {
-        e.preventDefault();
-        $(e.target).addClass('hidden');
-        $('.o_my_show_less').removeClass('hidden');
-        $('.to_hide').removeClass('hidden');
+    // TODO: use pager
+    $('.o_my_show_more').on('click', function(ev) {
+        ev.preventDefault();
+        $(this).parents('table').find(".to_hide").toggleClass('hidden');
+        $(this).find('span').toggleClass('hidden');
     });
-    $('.o_my_show_less').click(function(e) {
-        e.preventDefault();
-        $(e.target).addClass('hidden');
-        $('.o_my_show_more').removeClass('hidden');
-        $('.to_hide').addClass('hidden');
-    });
-
 });
