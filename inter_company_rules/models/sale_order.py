@@ -76,8 +76,12 @@ class sale_order(models.Model):
         if not warehouse:
             raise Warning(_('Configure correct warehouse for company(%s) from Menu: Settings/Users/Companies' % (company.name)))
 
-        intercompany_uid = company.intercompany_user_id.id
-        picking_type_id = PurchaseOrder.sudo(intercompany_uid)._default_picking_type()
+        picking_type_id = self.env['stock.picking.type'].search([
+            ('code', '=', 'incoming'), ('warehouse_id', '=', warehouse.id)
+        ], limit=1)
+        if not picking_type_id:
+            intercompany_uid = company.intercompany_user_id.id
+            picking_type_id = PurchaseOrder.sudo(intercompany_uid)._default_picking_type()
         res = {
             'name': self.env['ir.sequence'].sudo().next_by_code('purchase.order'),
             'origin': self.name,
