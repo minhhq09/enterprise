@@ -12,7 +12,7 @@ class AnalyticLine(models.Model):
     name = fields.Char(required=False)
     # reset amount on copy
     amount = fields.Monetary(copy=False)
-    validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True)
+    validated = fields.Boolean("Validated line", compute='_timesheet_line_validated', store=True, compute_sudo=True)
     is_timesheet = fields.Boolean(
         string="Timesheet Line",
         compute='_compute_is_timesheet', search='_search_is_timesheet',
