@@ -57,7 +57,7 @@ var HelpdeskTeamDashboardView = KanbanView.extend({
         var additional_context = {}
 
         if ('helpdesk_rating_today' == action_name || 'helpdesk_rating_7days' == action_name){
-            new Model(self.model)
+            return new Model(self.model)
                 .call(action_name)
                 .then(function(data) {
                     if (data){
