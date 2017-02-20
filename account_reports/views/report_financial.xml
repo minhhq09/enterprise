@@ -97,18 +97,19 @@
                 </span>
             </t>
         </td>
+        <t t-set="columns_types" t-value="context.get_columns_types()[-len(a['columns']):]"/>
         <t t-foreach="a['columns']" t-as="c">
             <t t-set="column" t-value="column + 1" />
             <t t-if="isinstance(c, tuple)"><t t-set="style" t-value="c[1]" /><t t-set="c" t-value="c[0]" /></t>
             <t t-if="a['type'] != 'total'">
-                <td t-att-class="context.get_columns_types()[column - 1] == 'number' and  'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;" t-att-summary="context._get_summary(column)">
+                <td t-att-class="columns_types[column - 1] == 'number' and  'text-right' or columns_types[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;" t-att-summary="context._get_summary(column)">
                     <span class="annotable" t-att-style="style">
                         <t t-raw="c" /><t t-call="account_reports.report_financial_footnote_sup" />
                     </span>
                 </td>
             </t>
             <t t-if="a['type'] == 'total'">
-                <td t-att-class="context.get_columns_types()[column - 1] == 'number' and  'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;" t-att-summary="column in (1,2) and context._get_summary(1) or ''" >
+                <td t-att-class="columns_types[column - 1] == 'number' and  'text-right' or columns_types[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;" t-att-summary="column in (1,2) and context._get_summary(1) or ''" >
                     <span class="annotable" t-att-style="style">
                         <t t-raw="c" /><t t-call="account_reports.report_financial_footnote_sup" />
                     </span>
