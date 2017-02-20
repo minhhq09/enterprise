@@ -58,6 +58,16 @@ class ReportAccountFinancialReport(models.Model):
         return res
 
     @api.multi
+    def unlink(self):
+        for report in self:
+            default_parent_id = self.env['ir.model.data'].xmlid_to_res_id('account.menu_finance_reports')
+            menu = self.env['ir.ui.menu'].search([('parent_id', '=', default_parent_id), ('name', '=', report.name)])
+            if menu:
+                menu.action.unlink()
+                menu.unlink()
+        return super(ReportAccountFinancialReport, self).unlink()
+
+    @api.multi
     def get_lines(self, context_id, line_id=None):
         if isinstance(context_id, int):
             context_id = self.env['account.financial.html.report.context'].browse(context_id)
