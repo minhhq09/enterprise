@@ -22,6 +22,10 @@ class AccountFinancialReportLine(models.Model):
     _inherit = "account.financial.html.report.line"
     _description = "Account Report Line"
 
+    # FORWARD-PORT UP TO SAAS-12
+    def _insert_tax_exigible(self):
+        return ['\"account_move_line\".tax_exigible, ', 'aml.tax_exigible, ']
+
     def _eval_formula(self, financial_report, debit_credit, context, currency_table, linesDict):
         self = self.with_context(financial_report=financial_report)
         return super(AccountFinancialReportLine, self)._eval_formula(financial_report, debit_credit, context, currency_table, linesDict)
