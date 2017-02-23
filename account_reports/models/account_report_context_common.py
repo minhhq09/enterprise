@@ -551,7 +551,7 @@ class AccountReportContextCommon(models.TransientModel):
 
         x = 1
         for column in self.with_context(is_xls=True).get_columns_names():
-            sheet.write(y_offset, x, column.replace('<br/>', ' '), title_style)
+            sheet.write(y_offset, x, column.replace('<br/>', ' ').replace('&nbsp;',' '), title_style)
             x += 1
         y_offset += 1
 
