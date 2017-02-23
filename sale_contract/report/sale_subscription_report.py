@@ -22,7 +22,7 @@ class sale_subscription_report(models.Model):
                               ('cancelled', 'Cancelled')], readonly=True)
     categ_id = fields.Many2one('product.category', 'Product Category', readonly=True)
     pricelist_id = fields.Many2one('product.pricelist', 'Pricelist', readonly=True)
-    template_id = fields.Many2one('sale.subscription', 'Subscription Template', readonly=True)
+    template_id = fields.Many2one('sale.subscription.template', 'Subscription Template', readonly=True)
     product_tmpl_id = fields.Many2one('product.template', 'Product Template', readonly=True)
     country_id = fields.Many2one('res.country', 'Country', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Commercial Partner', readonly=True)
