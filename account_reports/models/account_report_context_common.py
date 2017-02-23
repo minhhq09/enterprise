@@ -5,10 +5,11 @@ from openerp import models, fields, api, _, osv
 import xlsxwriter
 from openerp.exceptions import Warning
 from datetime import timedelta, datetime
+import babel
 import calendar
 import json
 import StringIO
-from openerp.tools import config
+from openerp.tools import config, posix_to_ldml
 
 
 class AccountReportFootnotesManager(models.TransientModel):
@@ -272,6 +273,10 @@ class AccountReportContextCommon(models.TransientModel):
     def get_cmp_periods(self, display=False):
         if not self.comparison:
             return []
+        # Be careful with the forward-port: from saas-11 _lang_get directly returns the browse record
+        lang_id = self.env['res.lang']._lang_get(self._context.get('lang') or 'en_US')
+        lang = self.env['res.lang'].browse(lang_id)
+        locale = babel.Locale.parse(lang.code)
         dt_to = datetime.strptime(self.date_to, "%Y-%m-%d")
         if self.get_report_obj().get_report_type().date_range:
             dt_from = self.date_from and datetime.strptime(self.date_from, "%Y-%m-%d") or self.env.user.company_id.compute_fiscalyear_dates(dt_to)['date_from']
@@ -305,7 +310,7 @@ class AccountReportContextCommon(models.TransientModel):
                 dt_to = dt_to.replace(day=1)
                 dt_to -= timedelta(days=1)
                 if display:
-                    columns += [dt_to.strftime('%b %Y')]
+                    columns += [babel.dates.format_date(dt_to, format=posix_to_ldml('%b %Y', locale=locale), locale=locale)]
                 else:
                     if not self.get_report_obj().get_report_type().date_range:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
@@ -377,7 +382,7 @@ class AccountReportContextCommon(models.TransientModel):
                 for k in xrange(0, self.periods_number):
                     dt_to -= timedelta(days=calendar.monthrange(dt_to.year, dt_to.month)[1])
                     if display:
-                        columns += [_('(as of %s)') % dt_to.strftime('%d %b %Y').decode("utf-8")]
+                        columns += [_('(as of %s)') % babel.dates.format_date(dt_to, format=posix_to_ldml('%d %b %Y', locale=locale), locale=locale)]
                     else:
                         columns += [[False, dt_to.strftime("%Y-%m-%d")]]
         return columns

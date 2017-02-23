@@ -361,7 +361,7 @@ class AccountFinancialReportLine(models.Model):
             else:
                 return (str(res) + '%', 'color: green;')
         else:
-            return 'n/a'
+            return _('n/a')
 
     def _split_formulas(self):
         result = {}
