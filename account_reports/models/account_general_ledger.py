@@ -311,7 +311,7 @@ class report_account_general_ledger(models.AbstractModel):
                     line_debit = line.company_id.currency_id.compute(line_debit, used_currency)
                     line_credit = line.company_id.currency_id.compute(line_credit, used_currency)
                     progress = progress + line_debit - line_credit
-                    currency = "" if not line.currency_id else self._format(line.amount_currency, currency=line.currency_id)
+                    currency = "" if not line.currency_id else self.with_context(no_format=False)._format(line.amount_currency, currency=line.currency_id)
                     name = []
                     name = line.name and line.name or ''
                     if line.ref:
