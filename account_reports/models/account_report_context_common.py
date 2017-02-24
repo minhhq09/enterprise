@@ -290,9 +290,7 @@ class AccountReportContextCommon(models.TransientModel):
     def get_cmp_periods(self, display=False):
         if not self.comparison:
             return []
-        # Be careful with the forward-port: from saas-11 _lang_get directly returns the browse record
-        lang_id = self.env['res.lang']._lang_get(self._context.get('lang') or 'en_US')
-        lang = self.env['res.lang'].browse(lang_id)
+        lang = self.env['res.lang']._lang_get(self._context.get('lang') or 'en_US')
         locale = babel.Locale.parse(lang.code)
         dt_to = datetime.strptime(self.date_to, "%Y-%m-%d")
         if self.get_report_obj().get_report_type().date_range:
