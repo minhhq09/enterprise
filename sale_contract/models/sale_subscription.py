@@ -205,7 +205,7 @@ class SaleSubscription(osv.osv):
             'fiscal_position_id': fpos_id,
             'payment_term_id': partner_payment_term,
             'company_id': contract.company_id.id or False,
-            'comment': _("This invoice covers the following period: %s - %s") % (next_date.date(), end_date.date()),
+            'comment': self.description or _("This invoice covers the following period: %s - %s") % (next_date.date(), end_date.date()),
         }
         return invoice
 
