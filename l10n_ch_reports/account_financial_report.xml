@@ -600,7 +600,7 @@
         <field name="parent_id" ref="account_financial_report_line_ch_28"/>
         <field name="groupby">account_id</field>
         <field name="special_date_changer">strict_range</field>
-        <field name="domain" eval="[('account_id.code', '&gt;=', '290'), ('account_id.code', '&lt;', '299')]"/>
+        <field name="domain" eval="[('account_id.code', '&gt;=', '290'), ('account_id.code', '&lt;', '2991')]"/>
         <field name="formulas">balance = -sum.balance</field>
     </record>
 
@@ -612,7 +612,7 @@
         <field name="parent_id" ref="account_financial_report_line_ch_28"/>
         <field name="special_date_changer">from_beginning</field>
         <field name="green_on_positive">true</field>
-        <field name="domain" eval="[('account_id.user_type_id', '=', 11)]"/>
+        <field name="domain" eval="[('account_id.user_type_id', '=', 12)]"/>
         <field name="formulas">balance = CH_R.balance - sum.balance</field>
     </record>
 
@@ -675,7 +675,7 @@
         <field name="sequence" eval="2"/>
         <field name="parent_id" ref="account_financial_report_line_ch_R"/>
         <field name="domain" eval=""/>
-        <field name="formulas">balance = CH_3.balance +CH_4.balance + CH_5.balance + CH_60.balance + CH_68.balance + CH_69.balance</field>
+        <field name="formulas">balance = CH_3.balance +CH_4.balance + CH_5.balance + CH_60.balance</field>
     </record>
 
     <record id="account_financial_report_line_ch_4" model="account.financial.html.report.line">
