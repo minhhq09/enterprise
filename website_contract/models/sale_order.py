@@ -13,8 +13,7 @@ class SaleOrder(models.Model):
         """ Create a contract based on the order's quote template's contract template """
         self.ensure_one()
         if self.require_payment:
-            tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
-            payment_method = tx.payment_method_id
+            payment_method = self.payment_tx_id.payment_method_id  # FORWARD-PORT: payment_method_id renamed to payment_token_id in 10.0
         if self.template_id and self.template_id.contract_template and not self.subscription_id \
                 and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
             values = self._prepare_contract_data(payment_method_id=payment_method.id if self.require_payment else False)
