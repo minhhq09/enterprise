@@ -500,7 +500,7 @@ odoo.define('website_sign.template', function(require) {
                             top: 0
                         });
 
-                        var typesArr = $(Object.keys(self.types).map(function(id) { return self.types[id]; }));
+                        var typesArr = _.toArray(self.types);
                         var $fieldTypeButtons = $(core.qweb.render('website_sign.type_buttons', {signature_item_types: typesArr}));
                         self.$fieldTypeToolbar = $('<div/>').addClass('o_sign_field_type_toolbar');
                         self.$fieldTypeToolbar.prependTo(self.$('#viewerContainer'));
