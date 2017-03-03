@@ -8,7 +8,7 @@ class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
 
     name = fields.Char(string='Analytic Account', index=True, required=True, track_visibility='onchange', default='New')
-    code = fields.Char(string='Reference', index=True, track_visibility='onchange', default=lambda self: self.env['ir.sequence'].next_by_code('sale.subscription') or 'New')
+    code = fields.Char(string='Reference', index=True, track_visibility='onchange')
     subscription_ids = fields.One2many('sale.subscription', 'analytic_account_id', string='Subscriptions')
     subscription_count = fields.Integer(compute='_compute_subscription_count', string='Susbcription Count')
 
