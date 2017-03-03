@@ -202,7 +202,7 @@ class SaleSubscription(models.Model):
             'fiscal_position_id': fpos_id,
             'payment_term_id': self.partner_id.property_payment_term_id.id,
             'company_id': company.id,
-            'comment': self.description or _("This invoice covers the following period: %s - %s") % (next_date, end_date),
+            'comment': _("This invoice covers the following period: %s - %s") % (next_date, end_date),
             'user_id': self.user_id.id,
         }
 
