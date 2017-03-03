@@ -8,20 +8,6 @@ var FormEditorHook = require('web_studio.FormEditorHook');
 
 var _t = core._t;
 
-function _is_handled(event) {
-    var $target = $(event.target);
-    var $currentTarget = $(event.currentTarget);
-
-    var $current = $target;
-    while ($current[0] !== $currentTarget[0]) {
-        if ($current.data('handle_studio_event')) {
-            return true;
-        }
-        $current = $current.parent();
-    }
-    return false;
-}
-
 var FormEditor =  FormRenderer.extend({
     className: FormRenderer.prototype.className + ' o_web_studio_form_view_editor',
     events: _.extend({}, FormRenderer.prototype.events, {
@@ -102,9 +88,8 @@ var FormEditor =  FormRenderer.extend({
         var $result = this._super.apply(this, arguments);
         // Add click event to see group properties in sidebar
         $result.click(function(event) {
-            if (!_is_handled(event)) {
-                self.trigger_up('group_clicked', {node: node});
-            }
+            event.stopPropagation();
+            self.trigger_up('group_clicked', {node: node});
         });
         this._set_style_events($result);
         // Add hook only for groups that have not yet content.
@@ -152,8 +137,8 @@ var FormEditor =  FormRenderer.extend({
     _render_tab_header: function(page) {
         var self = this;
         var $result = this._super.apply(this, arguments);
-        $result.data('handle_studio_event', true);
         $result.click(function(event) {
+            event.stopPropagation();
             event.preventDefault();
             if (!self.silent) {
                 self.trigger_up('page_clicked', {node: page});
