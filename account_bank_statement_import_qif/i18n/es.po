@@ -5,6 +5,7 @@
 # Translators:
 # Pedro M. Baeza <pedro.baeza@gmail.com>, 2016
 # Antonio Trueba <atgayol@gmail.com>, 2016
+# RGB Consulting <odoo@rgbconsulting.com>, 2016
 # Luis Martínez Ontalba <luismaront@gmail.com>, 2016
 # viejojuancho <viejojuancho@gmail.com>, 2017
 # David de León <leceda09@gmail.com>, 2017
@@ -29,6 +30,9 @@ msgid ""
 " be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
+"Diario de cuentas relacionado con el extracto bancario que esta importando. "
+"Debe seleccionarse manualmente para los formatos de sentencia que no "
+"permiten la detección automática de diario (QIF por ejemplo)."
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_qif_date_format
@@ -37,6 +41,10 @@ msgid ""
 "financial institutions use the local format.Therefore, it is frequent "
 "outside the US to have QIF date formated day-first (dd/mm/yy)."
 msgstr ""
+"Aunque el formato de fecha histórico de QIF es mes-primero (mm / dd / yy), "
+"muchas instituciones financieras utilizan el formato local. Por lo tanto, es"
+" frecuente fuera de los Estados Unidos tener fecha de QIF formateada el día "
+"primero (dd / mm / aa)."
 
 #. module: account_bank_statement_import_qif
 #: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:61
@@ -67,12 +75,12 @@ msgstr "Diario"
 #. module: account_bank_statement_import_qif
 #: model:ir.ui.view,arch_db:account_bank_statement_import_qif.account_bank_statement_import_qif
 msgid "Quicken Interchange Format (.QIF)"
-msgstr "Quicken Interchange Format (.QIF)"
+msgstr "Formato de intercambio Quicken (.QIF)"
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,field_description:account_bank_statement_import_qif.field_account_bank_statement_import_show_qif_date_format
 msgid "Show qif date format"
-msgstr ""
+msgstr "Mostrar el formato de fecha qif"
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_show_qif_date_format
@@ -80,6 +88,8 @@ msgid ""
 "Technical field used to ask the user for the date format used in the QIF "
 "file, as this format is ambiguous."
 msgstr ""
+"Campo técnico utilizado para preguntar al usuario por el formato de fecha "
+"usado en el archivo QIF, ya que este formato es ambiguo."
 
 #. module: account_bank_statement_import_qif
 #: model:ir.ui.view,arch_db:account_bank_statement_import_qif.account_bank_statement_import_view_inherited
@@ -87,6 +97,8 @@ msgid ""
 "The QIF format is ambiguous about dates: please check with your financial "
 "institution whether they format it with month or day first.<br/>"
 msgstr ""
+"El formato QIF es ambiguo con las fechas: por favor, compruebe con su "
+"institución financiera si esta formateado con el mes o el día primero.<br/>"
 
 #. module: account_bank_statement_import_qif
 #: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:101

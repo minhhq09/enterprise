@@ -8,16 +8,16 @@
 # Martin Trigaux <mat@odoo.com>, 2016
 # Ricardo Correia <rcorreiavv@gmail.com>, 2016
 # Manuela Silva <inactive+h_manuela_rodsilva@transifex.com>, 2016
+# Manuela Silva <manuela.silva@sky.com>, 2016
 # José Gomes <jg@opencloud.pro>, 2016
 # Vitor Fernandes <vmlf01@gmail.com>, 2016
-# Manuela Silva <manuela.silva@sky.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-03 13:22+0000\n"
 "PO-Revision-Date: 2016-11-03 13:22+0000\n"
-"Last-Translator: Manuela Silva <manuela.silva@sky.com>, 2016\n"
+"Last-Translator: Vitor Fernandes <vmlf01@gmail.com>, 2016\n"
 "Language-Team: Portuguese (https://www.transifex.com/odoo/teams/41243/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgstr "Total em Dívida"
 #: code:addons/account_reports/models/account_report_context_common.py:380
 #, python-format
 msgid "%s - %s days ago"
-msgstr ""
+msgstr "há %s - %s dias"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:357
@@ -214,7 +214,7 @@ msgstr "Um contexto particular para o relatório de conciliação bancária"
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_context_coa
 msgid "A particular context for the chart of account"
-msgstr "Um contexto particular para o gráfico de contas"
+msgstr "Um contexto particular para o plano de contas"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_context_followup
@@ -388,7 +388,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_multi_company
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_multi_company
 msgid "Allow multi-company"
-msgstr "Permitir multi-empresa"
+msgstr "Permitir múltiplas empresas"
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,show_domain:0
@@ -734,12 +734,12 @@ msgstr "Alterar a data/nota esperada de pagamento "
 #: code:addons/account_reports/models/account_report_coa.py:105
 #, python-format
 msgid "Chart of Account"
-msgstr "Plano de contas"
+msgstr "Plano de Contas"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_coa_report
 msgid "Chart of Account Report"
-msgstr "Gráfico do relatório de contas"
+msgstr "Relatório do Plano de Contas"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_financial_html_report_line_children_ids
@@ -826,7 +826,7 @@ msgstr "Empresa"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_company_ids
 #: model:ir.model.fields,field_description:account_reports.field_account_report_multicompany_manager_company_ids
 msgid "Company ids"
-msgstr "Ids das Empresas"
+msgstr "Id. da Empresa"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_context_aged_payable_date_filter_cmp
@@ -1381,7 +1381,7 @@ msgstr "Notas de rodapé"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_footnotes_manager_id
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_footnotes_manager_id
 msgid "Footnotes Manager"
-msgstr "Gestor de notas de rodapé"
+msgstr "Gestor de Notas de Rodapé"
 
 #. module: account_reports
 #: model:ir.model.fields,help:account_reports.field_account_financial_html_report_report_type
@@ -1545,14 +1545,14 @@ msgstr "A precisar de ação"
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include Unposted Entries"
-msgstr "Incluir entradas não publicadas"
+msgstr "Incluir Movimentos Não Publicados"
 
 #. module: account_reports
 #. openerp-web
 #: code:addons/account_reports/static/src/xml/account_report_backend.xml:167
 #, python-format
 msgid "Include unposted entries"
-msgstr "Incluir entradas não publicadas"
+msgstr "Incluir movimentos não lançados"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_executivesummary_income0
@@ -1802,7 +1802,7 @@ msgstr "Informação principal"
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_footnote_manager_id
 msgid "Manager id"
-msgstr "Id Gestor"
+msgstr "Id. do Gestor"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_body
@@ -2257,7 +2257,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "Posted Entries Only"
-msgstr ""
+msgstr "Apenas Movimentos Lançados"
 
 #. module: account_reports
 #: model:account.financial.html.report.line,name:account_reports.account_financial_report_prepayements0
@@ -2775,7 +2775,7 @@ msgstr "Unreconciled aml ids"
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_entries
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_tax_all_entries
 msgid "Use all entries (not only posted ones)"
-msgstr "Utilize todas as entradas (não apenas as publicadas)"
+msgstr "Utilize todos os movimentos (não apenas os lançados)"
 
 #. module: account_reports
 #: selection:account.financial.html.report.line,special_date_changer:0
@@ -2828,7 +2828,7 @@ msgstr "Aviso!"
 #: model:ir.ui.view,arch_db:account_reports.report_financial_body
 #, python-format
 msgid "With Draft Entries"
-msgstr "Com Lançamentos Rascunho"
+msgstr "Com Movimentos Rascunho"
 
 #. module: account_reports
 #. openerp-web
@@ -2888,12 +2888,12 @@ msgstr ""
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_footnotes_manager
 msgid "manages footnotes"
-msgstr "Gere notas de rodapé"
+msgstr "gere notas de rodapé"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_multicompany_manager
 msgid "manages multicompany for reports"
-msgstr "Gere multi-empresa para relatórios"
+msgstr "gere múltiplas empresas para os relatórios"
 
 #. module: account_reports
 #: model:ir.model.fields,field_description:account_reports.field_account_report_context_followup_all_last_page

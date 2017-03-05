@@ -37,6 +37,13 @@ msgid ""
 "    a new call? </p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Poštovani ${object.partner_id.name},</p>\n"
+"\n"
+"<p>Čini se da nas je nešto prekinulo tijekom našeg razgovora o\n"
+"'${object.name}'. Možete li mi reći kad ste dostupni da se dogovorimo\n"
+"za novi poziv? </p>\n"
+"<p>Lijep pozdrav,</p>"
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
@@ -47,6 +54,11 @@ msgid ""
 "    please give me your availability in order to schedule a new call?</p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Poštovani ${object.partner_id.name},</p>\n"
+"<p>Pokušao sam Vas nazvati zbog '${object.name}'. Možete li mi,\n"
+"molim Vas, reći kad ste dostupni da se dogovorimo za novi poziv?</p>\n"
+"<p>Lijep pozdrav,</p>"
 
 #. module: crm_voip
 #: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:87
@@ -82,7 +94,7 @@ msgstr "<span class=\"o_stat_text\">Zakaži pozivl</span>"
 #: model:ir.actions.server,name:crm_voip.action_create_call_in_queue
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_call_kanban_view
 msgid "Add to Call Queue"
-msgstr ""
+msgstr "Dodaj u red čekanja poziva"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_schedule_phonecall_user_id
@@ -94,7 +106,7 @@ msgstr "Dodjeljen"
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:111
 #, python-format
 msgid "Backspace"
-msgstr ""
+msgstr "Natrag"
 
 #. module: crm_voip
 #: model:ir.filters,name:crm_voip.filter_crm_phonecall_sales_team
@@ -120,7 +132,7 @@ msgstr "Poziv"
 #: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:85
 #, python-format
 msgid "Call %s min(s)"
-msgstr ""
+msgstr "Poziv %s min(s)"
 
 #. module: crm_voip
 #. openerp-web
@@ -167,7 +179,7 @@ msgstr "Zovem..."
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
 msgid "Calls Date by Month"
-msgstr ""
+msgstr "Pozivi po mjesecima"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_schedule_phonecall_view
@@ -195,21 +207,21 @@ msgstr "Odaberite datum...."
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.crm_phonecall_view
 msgid "Click to log the summary of a phone call."
-msgstr ""
+msgstr "Kliknite za bilježenje sažetka telefonskog razgovora."
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/js/crm_voip.js:463
 #, python-format
 msgid "Click to unblock"
-msgstr ""
+msgstr "Kliknite za odblokiranje"
 
 #. module: crm_voip
 #. openerp-web
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:74
 #, python-format
 msgid "Close the Panel"
-msgstr ""
+msgstr "Zatvori ploču"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_company_id
@@ -314,7 +326,7 @@ msgstr "Odbaci"
 #: code:addons/crm_voip/static/src/xml/crm_voip.xml:5
 #, python-format
 msgid "Display Dialing Panel"
-msgstr ""
+msgstr "Prikaži ploču za biranje"
 
 #. module: crm_voip
 #. openerp-web
@@ -335,7 +347,7 @@ msgstr "Naziv za prikaz"
 #. module: crm_voip
 #: selection:crm.phonecall.log.wizard,reschedule_option:0
 msgid "Don't Reschedule"
-msgstr ""
+msgstr "Nemoj napraviti novi raspored"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_duration
@@ -352,7 +364,7 @@ msgstr "Trajanje u minutama i sekundama"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_change_log_form_view
 msgid "Edit the log"
-msgstr ""
+msgstr "Uredi log"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_partner_email
@@ -446,7 +458,7 @@ msgstr "U automatskom načinu"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_in_queue
 msgid "In Call Queue"
-msgstr ""
+msgstr "U redu čekanja poziva"
 
 #. module: crm_voip
 #: model:ir.actions.act_window,help:crm_voip.crm_phonecall_view
@@ -454,11 +466,13 @@ msgid ""
 "In order to follow up on the call, you can trigger a request for\n"
 "          another call, a meeting or an opportunity."
 msgstr ""
+"Kako biste pratili poziv, možete pokrenuti zahtjev za\n"
+"drugi poziv, sastanak ili priliku."
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_lead_in_call_center_queue
 msgid "Is in the Call Queue"
-msgstr ""
+msgstr "Je u redu čekanja poziva"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall___last_update
@@ -495,7 +509,7 @@ msgstr "Potencijal/prilika"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_log_wizard_opportunity_name
 msgid "Lead/Opportunity name"
-msgstr ""
+msgstr "Naziv potencijala/prilike"
 
 #. module: crm_voip
 #. openerp-web
@@ -568,7 +582,7 @@ msgstr "Sljedeća aktivnost"
 #: code:addons/crm_voip/static/src/js/crm_voip.js:50
 #, python-format
 msgid "No opportunity linked"
-msgstr ""
+msgstr "Nema povezane prilike"
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -583,6 +597,9 @@ msgid ""
 "          history of the communication with a customer or to inform another\n"
 "          team member."
 msgstr ""
+"Odoo Vam omogućuje spontano bilježenje ulaznih poziva kako biste\n"
+"mogli pratiti povijest komunikacije s kupcem ili informirati  drugog\n"
+"člana tima."
 
 #. module: crm_voip
 #. openerp-web
@@ -715,7 +732,7 @@ msgstr "Osvježi ploču"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.lead_button_call_kanban_view
 msgid "Remove from Call Queue"
-msgstr ""
+msgstr "Ukloni iz reda čekanja poziva"
 
 #. module: crm_voip
 #. openerp-web
@@ -892,6 +909,9 @@ msgid ""
 "When the call is over, the status is set to Held.\n"
 "If the call is not applicable anymore, the status can be set to Cancelled."
 msgstr ""
+"Status je postavljen na To Do kad se kreira slučaj.\n"
+"Kad je poziv završen, status je postavljen na Čekanje.\n"
+"Ako se poziv više ne može primijeniti, može se postaviti status Otkazano."
 
 #. module: crm_voip
 #: selection:crm.phonecall,state:0 selection:crm.phonecall.report,state:0
@@ -931,7 +951,7 @@ msgstr "Prijenos"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_transfer_choice
 msgid "Transfer choice"
-msgstr ""
+msgstr "Izbor prijenosa"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.view_crm_case_phonecalls_filter
@@ -959,7 +979,7 @@ msgstr "Upozorenje"
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_sale_config_settings_wsServer
 msgid "WebSocket"
-msgstr ""
+msgstr "WebSocket"
 
 #. module: crm_voip
 #: code:addons/crm_voip/wizard/crm_phonecall_transfer_wizard.py:35
@@ -968,6 +988,7 @@ msgid ""
 "Wrong configuration for the call. There is no external phone number "
 "configured"
 msgstr ""
+"Kriva konfiguracija za poziv. Vanjski telefonski broj nije konfiguriran"
 
 #. module: crm_voip
 #. openerp-web
@@ -1021,24 +1042,24 @@ msgstr "sale.config.settings"
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
 msgid "transfer Option"
-msgstr ""
+msgstr "Mogućnost prijenosa"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_transfer_wizard_transfer_number
 msgid "transfer To"
-msgstr ""
+msgstr "prijenos u"
 
 #. module: crm_voip
 #: model:ir.ui.view,arch_db:crm_voip.wizard_transfer_call_form_view
 msgid "transfer the Call"
-msgstr ""
+msgstr "prijenos poziva"
 
 #. module: crm_voip
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to another External Phone"
-msgstr ""
+msgstr "prijenos na drugi vanjski telefon"
 
 #. module: crm_voip
 #: selection:crm.phonecall.transfer.wizard,transfer_choice:0
 msgid "transfer to your external phone"
-msgstr ""
+msgstr "Prijenos na Vaš vanjski telefon"
