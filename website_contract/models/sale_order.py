@@ -46,8 +46,7 @@ class SaleOrder(models.Model):
         """ Create a contract based on the order's quote template's contract template """
         self.ensure_one()
         if self.require_payment:
-            tx = self.env['payment.transaction'].search([('reference', '=', self.name)])
-            payment_token = tx.payment_token_id
+            payment_token = self.payment_tx_id.payment_token_id
         if (self.template_id and self.template_id.contract_template or self.contract_template) and not self.subscription_id \
                 and any(self.order_line.mapped('product_id').mapped('recurring_invoice')):
             values = self._prepare_contract_data(payment_token_id=payment_token.id if self.require_payment else False)
