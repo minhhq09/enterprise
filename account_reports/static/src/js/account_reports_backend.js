@@ -274,25 +274,23 @@ var account_report_generic = Widget.extend(ControlPanelMixin, {
             this.$searchview_buttons.find(".o_account_reports_analytic_account_auto_complete").select2();
             var selection = [];
             for (i = 0; i < this.report_context.analytic_account_ids.length; i++) { 
-                selection.push({id:i+1, text:this.report_context.analytic_account_ids[i][1]});
+                var analytic_account = this.report_context.analytic_account_ids[i];
+                selection.push({id:analytic_account[0], text:analytic_account[1]});
             }
             this.$searchview_buttons.find('.o_account_reports_analytic_account_auto_complete').data().select2.updateSelection(selection);
             this.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2();
             selection = [];
             var i;
             for (i = 0; i < this.report_context.analytic_tag_ids.length; i++) { 
-                selection.push({id:i+1, text:this.report_context.analytic_tag_ids[i][1]});
+                var analytic_tag = this.report_context.analytic_tag_ids[i];
+                selection.push({id:analytic_tag[0], text:analytic_tag[1]});
             }
             this.$searchview_buttons.find('.o_account_reports_analytic_tag_auto_complete').data().select2.updateSelection(selection);
-            this.$searchview_buttons.find('.o_account_reports_add_analytic_account').bind('click', function (event) {
+            this.$searchview_buttons.find('.o_account_reports_add_analytic_account_tag').bind('click', function (event) {
                 var report_context = {};
                 var value = self.$searchview_buttons.find(".o_account_reports_analytic_account_auto_complete").select2("val");
                 report_context.analytic_account_ids = value;
-                self.restart(report_context);
-            });
-            this.$searchview_buttons.find('.o_account_reports_add_analytic_tag').bind('click', function (event) {
-                var report_context = {};
-                var value = self.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2("val");
+                value = self.$searchview_buttons.find(".o_account_reports_analytic_tag_auto_complete").select2("val");
                 report_context.analytic_tag_ids = value;
                 self.restart(report_context);
             });
