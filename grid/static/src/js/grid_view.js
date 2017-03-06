@@ -397,7 +397,7 @@ var GridView = View.extend({
         return h('div', { class: classmap, attrs: {'data-path': path}}, [
             h('i.fa.fa-search-plus.o_grid_cell_information', {
                 attrs: {
-                    title: _("See all the records aggregated in this cell")
+                    title: _t("See all the records aggregated in this cell")
                 }
             }, []),
             this._render_cell_inner(cell_value, is_readonly)
