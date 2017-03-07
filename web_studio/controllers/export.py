@@ -234,6 +234,15 @@ def get_relations(record, field):
             # but it refers to another field that must be defined beforehand
             return record.search([('model', '=', record.relation), ('name', '=', record.relation_field)])
 
+    # Fields 'res_model' and 'src_model' on 'ir.actions.act_window' and 'model'
+    # on 'ir.actions.report.xml' are of type char but refer to models that may
+    # be defined in other modules and those modules need to be listed as
+    # dependencies of the exported module
+    if field.model_name == 'ir.actions.act_window' and field.name in ('res_model', 'src_model'):
+        return record.env['ir.model'].search([('model', '=', record[field.name])])
+    if field.model_name == 'ir.actions.report.xml' and field.name == 'model':
+        return record.env['ir.model'].search([('model', '=', record.model)])
+
 
 def generate_record(record, get_xmlid):
     """ Return an etree Element for the given record, together with a list of
