@@ -306,7 +306,7 @@ class AccountReportContextCommon(models.TransientModel):
         if self.date_filter_cmp == 'same_last_year':
             columns = []
             for k in xrange(0, self.periods_number):
-                dt_to = dt_to.replace(year=dt_to.year - 1)
+                dt_to -= timedelta(days=366 if calendar.isleap(dt_to.year) else 365)
                 if display:
                     if not self.get_report_obj().get_report_type().date_range:
                         columns += [self.get_full_date_names(dt_to.strftime("%Y-%m-%d"))]

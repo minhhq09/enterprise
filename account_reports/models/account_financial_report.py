@@ -4,7 +4,7 @@
 from odoo import models, fields, api, _
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.misc import formatLang
-from odoo.tools import float_is_zero
+from odoo.tools import float_is_zero, ustr
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
@@ -243,6 +243,12 @@ class AccountFinancialReportLine(models.Model):
 
             @returns : a dictionnary that has for each aml in the domain a dictionnary of the values of the fields
         """
+        domain = domain and safe_eval(ustr(domain))
+        for index, condition in enumerate(domain):
+            if condition[0].startswith('tax_ids.'):
+                new_condition = (condition[0].partition('.')[2], condition[1], condition[2])
+                taxes = self.env['account.tax'].with_context(active_test=False).search([new_condition])
+                domain[index] = ('tax_ids', 'in', taxes.ids)
         tables, where_clause, where_params = self.env['account.move.line']._query_get(domain=domain)
         if financial_report.tax_report:
             where_clause += ''' AND "account_move_line".tax_exigible = 't' '''
