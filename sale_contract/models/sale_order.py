@@ -98,6 +98,6 @@ class SaleOrder(models.Model):
             invoicing_period = relativedelta(**{periods[subscr.recurring_rule_type]: subscr.recurring_interval})
             previous_date = next_date - invoicing_period
 
-            invoice_vals['comment'] = subscr.description or _("This invoice covers the following period: %s - %s") % (previous_date.date(), (next_date - relativedelta(days=1)).date())
+            invoice_vals['comment'] = _("This invoice covers the following period: %s - %s") % (previous_date.date(), (next_date - relativedelta(days=1)).date())
 
         return invoice_vals
