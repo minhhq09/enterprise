@@ -14,7 +14,7 @@ class QWeb(models.AbstractModel):
     """
     _inherit = 'ir.qweb'
 
-    def render(self, id_or_xml_id, qwebcontext=None, loader=None):
+    def render(self, id_or_xml_id, values, **options):
         website_id = self.env.context.get('website_id')
         if website_id:
             if 'experiment_id' in self.env.context:
@@ -40,4 +40,4 @@ class QWeb(models.AbstractModel):
 
             id_or_xml_id = self.env["ir.ui.view"].search(domain, order='website_id, version_id', limit=1).id
 
-        return super(QWeb, self).render(id_or_xml_id, qwebcontext, loader=loader)
+        return super(QWeb, self).render(id_or_xml_id, values, **options)
