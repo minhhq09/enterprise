@@ -172,6 +172,12 @@ def generate_module(module, data):
             content.append("")
         yield ('warning.txt', "\n".join(content))
 
+    # add 'web_studio' to the list of dependencies of the exported module
+    # because the 'mail_thread' field used to identify models inheriting from
+    # 'mail_thread' is defined in web_studio.
+    # DO NOT FORWARDPORT PAST SAAS-14
+    depends.add('web_studio')
+
     # yield files '__manifest__.py' and '__init__.py'
     yield ('__manifest__.py', """# -*- coding: utf-8 -*-
 {
