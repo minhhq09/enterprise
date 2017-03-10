@@ -17,6 +17,10 @@ var _t = core._t;
 
 var Main = Widget.extend({
     className: 'o_web_studio_client_action',
+    error_messages: {
+    'wrong_xpath': _t("This operation caused an error, probably because a xpath was broken"),
+    'view_rendering': _t("The requested change caused an error in the view. It could be because a field was deleted, but still used somewhere else."),
+},
 
     custom_events: {
         'studio_default_view': 'default_view',
@@ -25,6 +29,7 @@ var Main = Widget.extend({
         'studio_new_view': 'new_view',
         'studio_set_another_view': 'set_another_view',
         'studio_edit_action': 'edit_action',
+        'studio_error': '_show_error',
     },
 
     init: function (parent, context, options) {
@@ -170,6 +175,10 @@ var Main = Widget.extend({
                 action: result,
             });
         });
+    },
+
+    _show_error: function(event) {
+        this.do_warn(_t("Error"), this.error_messages[event.data.error]);
     },
 });
 
