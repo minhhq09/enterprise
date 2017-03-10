@@ -493,6 +493,9 @@ class HelpdeskTicket(models.Model):
     partner_name = fields.Char(string='Customer Name')
     partner_email = fields.Char(string='Customer Email')
 
+    # Used in message_get_default_recipients, so if no partner is created, email is sent anyway
+    email = fields.Char(related='partner_email', string='Customer Email')
+
     priority = fields.Selection(TICKET_PRIORITY, string='Priority', default='0')
     stage_id = fields.Many2one('helpdesk.stage', string='Stage', track_visibility='onchange',
                                group_expand='_read_group_stage_ids', copy=False,
