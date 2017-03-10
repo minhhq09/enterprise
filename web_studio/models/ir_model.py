@@ -95,7 +95,11 @@ class IrModel(models.Model):
     def create(self, vals):
         res = super(IrModel, self).create(vals)
 
-        if self._context.get('studio'):
+        # Create a simplified form view and access rights for the created model
+        # if we are in studio, but not if we are currently installing the module
+        # (i.e. importing it from Studio), because those data are already
+        # defined in the module (as Studio generates them automatically)
+        if self._context.get('studio') and not self._context.get('install_mode'):
             # Create a simplified form view to prevent getting the default one containing all model's fields
             self.env['ir.ui.view'].create_simplified_form_view(res.model)
 
