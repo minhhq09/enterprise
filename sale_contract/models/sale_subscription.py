@@ -382,13 +382,13 @@ class SaleSubscriptionLine(models.Model):
             if line.analytic_account_id.pricelist_id:
                 line.price_subtotal = line_sudo.analytic_account_id.pricelist_id.currency_id.round(line.price_subtotal)
 
-    @api.onchange('product_id')
+    @api.onchange('product_id', 'quantity')
     def onchange_product_id(self):
         domain = {}
         contract = self.analytic_account_id
         company_id = contract.company_id.id
         pricelist_id = contract.pricelist_id.id
-        context = dict(self.env.context, company_id=company_id, force_company=company_id, pricelist=pricelist_id)
+        context = dict(self.env.context, company_id=company_id, force_company=company_id, pricelist=pricelist_id, quantity=self.quantity)
         if not self.product_id:
             self.price_unit = 0.0
             domain['uom_id'] = []
