@@ -486,7 +486,7 @@ class AccountReportContextCommon(models.TransientModel):
         lines = self.get_report_obj().get_lines(self)
         rcontext = {
             'res_company': self.env['res.users'].browse(self.env.uid).company_id,
-            'context': self,
+            'context': self.with_context(**given_context), # context? rcontext with_context! Haaa... given_context!
             'report': self.get_report_obj(),
             'lines': lines,
             'footnotes': self.get_footnotes_from_lines(lines),
