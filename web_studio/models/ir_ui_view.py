@@ -59,8 +59,7 @@ class View(models.Model):
         if groups_id:
             attr_value = ','.join(map(str, groups_id.ids))
             for node in specs_tree.iter(tag=etree.Element):
-                if not node.get('position'):
-                    node.set('studio-view-group-ids', attr_value)
+                node.set('studio-view-group-ids', attr_value)
 
     # Used for studio views only.
     # This studio view specification will not always be available.
@@ -111,3 +110,7 @@ class View(models.Model):
         else:
             return super(View, self).apply_inheritance_specs(source, specs_tree, inherit_id)
 
+    def locate_node(self, arch, spec):
+        # Remove branding added by '_groups_branding'
+        spec.attrib.pop("studio-view-group-ids", None)
+        return super(View, self).locate_node(arch, spec)
