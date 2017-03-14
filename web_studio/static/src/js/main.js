@@ -14,13 +14,14 @@ var ActionEditor = require('web_studio.ActionEditor');
 var ViewEditorManager = require('web_studio.ViewEditorManager');
 
 var _t = core._t;
+var _lt = core._lt;
 
 var Main = Widget.extend({
     className: 'o_web_studio_client_action',
     error_messages: {
-    'wrong_xpath': _t("This operation caused an error, probably because a xpath was broken"),
-    'view_rendering': _t("The requested change caused an error in the view. It could be because a field was deleted, but still used somewhere else."),
-},
+        'wrong_xpath': _lt("This operation caused an error, probably because a xpath was broken"),
+        'view_rendering': _lt("The requested change caused an error in the view. It could be because a field was deleted, but still used somewhere else."),
+    },
 
     custom_events: {
         'studio_default_view': 'default_view',
