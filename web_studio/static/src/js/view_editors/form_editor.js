@@ -138,7 +138,6 @@ var FormEditor =  FormRenderer.extend({
         var self = this;
         var $result = this._super.apply(this, arguments);
         $result.click(function(event) {
-            event.stopPropagation();
             event.preventDefault();
             if (!self.silent) {
                 self.trigger_up('page_clicked', {node: page});
