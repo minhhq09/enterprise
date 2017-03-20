@@ -191,6 +191,8 @@ class SaleSubscription(models.Model):
         periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
         end_date = next_date + relativedelta(**{periods[self.recurring_rule_type]: self.recurring_interval})
         end_date = end_date - relativedelta(days=1)     # remove 1 day as normal people thinks in term of inclusive ranges.
+        # DO NOT FORWARDPORT
+        format_date = self.env['ir.qweb.field.date'].value_to_html
 
         return {
             'account_id': self.partner_id.property_account_receivable_id.id,
@@ -202,7 +204,7 @@ class SaleSubscription(models.Model):
             'fiscal_position_id': fpos_id,
             'payment_term_id': self.partner_id.property_payment_term_id.id,
             'company_id': company.id,
-            'comment': _("This invoice covers the following period: %s - %s") % (next_date, end_date),
+            'comment': _("This invoice covers the following period: %s - %s") % (format_date(fields.Date.to_string(next_date), {}), format_date(fields.Date.to_string(end_date), {})),
             'user_id': self.user_id.id,
         }
 
