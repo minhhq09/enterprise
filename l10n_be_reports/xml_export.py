@@ -361,6 +361,10 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
             if line['columns'][0] and not currency_id.is_zero(line['columns'][0]):
                 for tag in list_of_tags:
                     if line['name'].startswith(tag):
+                        tags_list = [x[0] for x in cases_list]
+                        if tag in tags_list:
+                            cases_list[tags_list.index(tag)] = (tag, cases_list[tags_list.index(tag)][1] + line['columns'][0])
+                        else:
                         cases_list.append((tag, line['columns'][0]))
                         del tag
         cases_list = sorted(cases_list, key=lambda a: a[0])
