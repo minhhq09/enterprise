@@ -365,7 +365,7 @@ class AccountFinancialReportXMLExport(models.AbstractModel):
                         if tag in tags_list:
                             cases_list[tags_list.index(tag)] = (tag, cases_list[tags_list.index(tag)][1] + line['columns'][0])
                         else:
-                        cases_list.append((tag, line['columns'][0]))
+                            cases_list.append((tag, line['columns'][0]))
                         del tag
         cases_list = sorted(cases_list, key=lambda a: a[0])
         for item in cases_list:
