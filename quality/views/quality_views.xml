@@ -11,6 +11,7 @@
                 <field name="user_id"/>
                 <filter string="In progress" name="inprogress" domain="[('stage_id.done','=',False)]"/>
                 <filter string="Done" name="done" domain="[('stage_id.done','=',True)]"/>
+                <separator/>
                 <filter string="My Alerts" name="myalerts" domain="[('user_id','=',uid)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Stage" name="groupby_stage" domain="[]" context="{'group_by':'stage_id'}"/>
