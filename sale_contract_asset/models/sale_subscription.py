@@ -11,8 +11,7 @@ class SaleSubscription(models.Model):
 
     @api.onchange('template_id')
     def onchange_template_asset(self):
-        if self.template_id.template_asset_category_id:
-            self.asset_category_id = self.template_id.template_asset_category_id.id
+        self.asset_category_id = self.template_id.template_asset_category_id.id
 
     def _prepare_invoice_lines(self, fiscal_position_id):
         self.ensure_one()
