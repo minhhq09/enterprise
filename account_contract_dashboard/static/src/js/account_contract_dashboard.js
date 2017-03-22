@@ -1428,7 +1428,7 @@ function load_chart(div_to_display, key_name, result, show_legend, show_demo) {
 
         var tick_values = getPrunedTickValues(data_chart[0].values, 10);
         chart.xAxis
-            .tickFormat(function(d) { return d3.time.format("%m/%d/%y")(new Date(d)); })
+            .tickFormat(function(d) { return d3.time.format(core._t.database.parameters.date_format)(new Date(d)); })
             .tickValues(_.map(tick_values, function(d) { return getDate(d); }))
             .rotateLabels(-30);
 
