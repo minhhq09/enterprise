@@ -278,6 +278,8 @@
                 <filter string="Open Tickets" domain="[('stage_id.is_close','=',False)]" name="is_open"/>
                 <filter string="Closed Tickets" domain="[('stage_id.is_close','=',True)]" name="is_close"/>
                 <separator/>
+                <filter string="Unread Messages" domain="[('message_needaction','=',True)]" name="message_needaction"/>
+                <separator/>
                 <filter string="Archived" domain="[('active','=',False)]" name="archive"/>
                 <separator/>
                 <filter string="Upcoming SLA Fail" domain="[('sla_active', '=', True),('deadline','!=',False),('deadline', '&lt;=', (datetime.date.today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]" name="upcoming_sla_fail" groups="helpdesk.group_use_sla"/>
@@ -381,7 +383,7 @@
                                     </t>
                                     <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
                                     <span class="o_helpdesk_sla_failed pull-right fa fa-times-circle" style="margin: 6px" t-attf-title="Failed SLA: {{record.sla_name.raw_value}}" t-if="record.sla_fail &amp;&amp; record.sla_fail.raw_value"></span>
-                                    <div class="pull-left" groups="base.group_user">
+                                    <div class="pull-right" groups="base.group_user">
                                         <field name="kanban_state" widget="kanban_state_selection"/>
                                     </div>
                                 </div>
