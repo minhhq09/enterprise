@@ -1,28 +1,33 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # * voip
-#
-# Translators:
-# Arma Gedonsky <armagedonsky@hot.ee>, 2016
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 9.0\n"
+"Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 12:08+0000\n"
-"PO-Revision-Date: 2016-03-12 20:25+0000\n"
-"Last-Translator: Arma Gedonsky <armagedonsky@hot.ee>\n"
-"Language-Team: Estonian (http://www.transifex.com/odoo/odoo-9/language/et/)\n"
-"Language: et\n"
+"POT-Creation-Date: 2016-09-07 09:57+0000\n"
+"PO-Revision-Date: 2016-09-07 09:57+0000\n"
+"Language-Team: Estonian (https://www.transifex.com/odoo/teams/41243/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
+"Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: voip
-#: model:ir.model.fields,help:voip.field_res_users_sip_always_transfer
-msgid ""
-"All your outbound calls will be redirected to your handset when the customer "
-"accepts your call"
+#: model:ir.model.fields,field_description:voip.field_res_users_task_count
+msgid "# Tasks"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_payable_id
+msgid "Account Payable"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_receivable_id
+msgid "Account Receivable"
 msgstr ""
 
 #. module: voip
@@ -31,19 +36,55 @@ msgid "Always Redirect to Handset"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_bank_account_count
+msgid "Bank"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_ref_company_ids
+msgid "Companies that refers to partner"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_contract_ids
+#: model:ir.model.fields,field_description:voip.field_res_users_contracts_count
+msgid "Contracts"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_uid
 msgid "Created by"
-msgstr "Loonud"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_create_date
 msgid "Created on"
-msgstr "Loodud"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_payment_term_id
+msgid "Customer Payment Terms"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_trust
+msgid "Degree of trust you have in this debtor"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_display_name
 msgid "Display Name"
-msgstr "Näidatav nimi"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_account_position_id
+msgid "Fiscal Position"
+msgstr ""
 
 #. module: voip
 #. openerp-web
@@ -58,42 +99,86 @@ msgid "Handset Extension"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_has_unreconciled_entries
+msgid "Has unreconciled entries"
+msgstr ""
+
+#. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:58
-#, fuzzy, python-format
+#, python-format
 msgid "Incoming call"
-msgstr "Sisenev kõne"
+msgstr ""
 
 #. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:88
-#, fuzzy, python-format
+#, python-format
 msgid "Incoming call from "
-msgstr "Sisenev kõne"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn
+msgid "Invoice"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_ids
+msgid "Invoices"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_issued_total
+#: model:ir.model.fields,field_description:voip.field_res_users_journal_item_count
+msgid "Journal Items"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator___last_update
 msgid "Last Modified on"
-msgstr "Viimati muudetud"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_uid
 msgid "Last Updated by"
-msgstr "Viimati uuendatud"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_voip_configurator_write_date
 msgid "Last Updated on"
-msgstr "Viimati uuendatud"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_calendar_last_notif_ack
+msgid "Last notification marked as read from base Calendar"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_last_time_entries_checked
+msgid ""
+"Last time the invoices & payments matching was performed for this partner. "
+"It is set either if there's not at least an unreconciled debit and an "
+"unreconciled credit or if you click the \"Done\" button."
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_last_time_entries_checked
+msgid "Latest Invoices & Payments Matching Date"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_invoice_warn_msg
+msgid "Message for Invoice"
+msgstr ""
 
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_ring_number
-msgid "Number of Rings"
+msgid "Number of rings"
 msgstr ""
 
 #. module: voip
@@ -109,6 +194,11 @@ msgid "PBX Configuration"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_debit_limit
+msgid "Payable Limit"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:153
 #, python-format
@@ -120,8 +210,8 @@ msgstr ""
 #: code:addons/voip/static/src/js/sip_js.js:281
 #, python-format
 msgid ""
-"Problem during the connection. Check if the application is allowed to access "
-"your microphone from your browser."
+"Problem during the connection. Check if the application is allowed to access"
+" your microphone from your browser."
 msgstr ""
 
 #. module: voip
@@ -132,6 +222,25 @@ msgstr ""
 #. module: voip
 #: model:ir.model.fields,field_description:voip.field_res_users_sip_password
 msgid "SIP Password"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_invoice_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_task_ids
+msgid "Tasks"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_position_id
+msgid ""
+"The fiscal position will determine taxes and accounts used for the partner."
 msgstr ""
 
 #. module: voip
@@ -151,6 +260,13 @@ msgid ""
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_has_unreconciled_entries
+msgid ""
+"The partner has at least one unreconciled debit and credit since last time "
+"the invoices & payments matching was performed."
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:51
 #, python-format
@@ -166,9 +282,67 @@ msgid "The websocket uri could be wrong. Please check your configuration."
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_payable_id
+msgid ""
+"This account will be used instead of the default one as the payable account "
+"for the current partner"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_account_receivable_id
+msgid ""
+"This account will be used instead of the default one as the receivable "
+"account for the current partner"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_supplier_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for purchase "
+"orders and vendor bills"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_property_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for sale orders "
+"and customer invoices"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_total_invoiced
+msgid "Total Invoiced"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_debit
+msgid "Total Payable"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_credit
+msgid "Total Receivable"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_credit
+msgid "Total amount this customer owes you."
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_debit
+msgid "Total amount you have to pay to this vendor."
+msgstr ""
+
+#. module: voip
 #: model:ir.model,name:voip.model_res_users
 msgid "Users"
-msgstr "Kasutajad"
+msgstr ""
+
+#. module: voip
+#: model:ir.model.fields,help:voip.field_res_users_currency_id
+msgid "Utility field to express amount currency"
+msgstr ""
 
 #. module: voip
 #: model:ir.ui.view,arch_db:voip.view_voip_user_config
@@ -176,10 +350,16 @@ msgid "VOIP Configuration"
 msgstr ""
 
 #. module: voip
+#: model:ir.model.fields,field_description:voip.field_res_users_property_supplier_payment_term_id
+msgid "Vendor Payment Terms"
+msgstr ""
+
+#. module: voip
 #. openerp-web
 #: code:addons/voip/static/src/js/sip_js.js:273
 #, python-format
-msgid "Your browser could not support WebRTC. Please check your configuration."
+msgid ""
+"Your browser could not support WebRTC. Please check your configuration."
 msgstr ""
 
 #. module: voip
@@ -187,39 +367,9 @@ msgstr ""
 #: code:addons/voip/static/src/js/sip_js.js:152
 #, python-format
 msgid "the connection cannot be made. "
-msgstr "seda ühendust ei saa teha."
+msgstr ""
 
 #. module: voip
 #: model:ir.model,name:voip.model_voip_configurator
 msgid "voip.configurator"
 msgstr ""
-
-#~ msgid "Incomming call from "
-#~ msgstr "Sisenev kõne"
-
-#~ msgid "Invoice"
-#~ msgstr "Arve"
-
-#~ msgid "Last Online Sale Order"
-#~ msgstr "Viimane Online müügitellimus"
-
-#~ msgid "Message for Invoice"
-#~ msgstr "Sõnum arvele"
-
-#~ msgid "Message for Purchase Order"
-#~ msgstr "Sõnum ostukorraldusele"
-
-#~ msgid "Message for Sales Order"
-#~ msgstr "Teade müügitellimusele"
-
-#~ msgid "Message for Stock Picking"
-#~ msgstr "Sõnum laonoppele"
-
-#~ msgid "Purchase Order"
-#~ msgstr "Ostutellimus"
-
-#~ msgid "Sales Order"
-#~ msgstr "Müügitellimus"
-
-#~ msgid "Stock Picking"
-#~ msgstr "Laonope"
