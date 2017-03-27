@@ -235,7 +235,9 @@ var GridView = View.extend({
                                 }}, _this._cell_field.format(
                                         totals.columns[column_index]));
                             }),
-                            [h('td.o_grid_total', [])]
+                            [h('td.o_grid_total', [
+                                _this._cell_field.format(totals.super)
+                            ])]
                         ))
                     ].concat(rows)
                 ));
