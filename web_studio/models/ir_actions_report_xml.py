@@ -28,7 +28,8 @@ class ir_actions_report(models.Model):
         action_data['report_file'] = self.report_file
 
         # View data
-        associated_view = self.env['ir.ui.view'].search([('name', 'ilike', self.report_name.split('.')[1]), ('type', '=', 'qweb')], limit=1)
+        report_name = self.report_name.split('.')[1] if len(self.report_name.split('.')) > 1 else self.report_name
+        associated_view = self.env['ir.ui.view'].search([('name', 'ilike', report_name), ('type', '=', 'qweb')], limit=1)
         action_data['view_id'] = associated_view.id
 
         # Records data
