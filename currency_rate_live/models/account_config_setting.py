@@ -117,7 +117,20 @@ class ResCompany(models.Model):
         ''' This method is called from a cron job. Depending on the selection call _update_currency_ecb _update_currency_yahoo. '''
         records = self.search([('currency_next_execution_date', '<=', fields.Date.today())])
         if records:
-            records.update_currency_rates()
+            to_update = self.env['res.company']
+            for record in records:
+                if record.currency_interval_unit == 'daily':
+                    next_update = relativedelta(days=+1)
+                elif record.currency_interval_unit == 'weekly':
+                    next_update = relativedelta(weeks=+1)
+                elif record.currency_interval_unit == 'monthly':
+                    next_update = relativedelta(months=+1)
+                else:
+                    record.currency_next_execution_date = False
+                    continue
+                record.currency_next_execution_date = datetime.datetime.now() + next_update
+                to_update += record
+            to_update.update_currency_rates()
 
 
 class AccountConfigSettings(models.TransientModel):
