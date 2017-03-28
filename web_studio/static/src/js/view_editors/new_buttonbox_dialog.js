@@ -38,7 +38,7 @@ var NewButtonBoxDialog = Dialog.extend(FieldManagerMixin, {
             name: 'field',
             relation: 'ir.model.fields',
             type: 'many2one',
-            domain: [['relation', '=', this.model], ['ttype', '=', 'many2one']],
+            domain: [['relation', '=', this.model], ['ttype', '=', 'many2one'], ['store', '=', true]],
         }]);
         var options = {
             mode: 'edit',
