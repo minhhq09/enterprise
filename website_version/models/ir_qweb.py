@@ -14,7 +14,7 @@ class QWeb(models.AbstractModel):
     """
     _inherit = 'ir.qweb'
 
-    def render(self, id_or_xml_id, values, **options):
+    def render(self, id_or_xml_id, values=None, **options):
         website_id = self.env.context.get('website_id')
         if website_id:
             if 'experiment_id' in self.env.context:
