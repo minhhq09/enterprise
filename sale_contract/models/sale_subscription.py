@@ -357,9 +357,10 @@ class SaleSubscriptionLine(models.Model):
     analytic_account_id = fields.Many2one('sale.subscription', string='Subscription')
     name = fields.Text(string='Description', required=True)
     quantity = fields.Float(compute='_compute_quantity', inverse='_set_quantity', string='Quantity', store=True,
+                            digits=dp.get_precision('Product Unit of Measure'),
                             help="Max between actual and sold quantities; this quantity will be invoiced")
-    actual_quantity = fields.Float(help="Quantity actually used by the customer", default=0.0)
-    sold_quantity = fields.Float(help="Quantity sold to the customer", required=True, default=1)
+    actual_quantity = fields.Float(help="Quantity actually used by the customer", default=0.0, digits=dp.get_precision('Product Unit of Measure'))
+    sold_quantity = fields.Float(help="Quantity sold to the customer", required=True, default=1, digits=dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', required=True)
     price_unit = fields.Float(string='Unit Price', required=True)
     discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))
