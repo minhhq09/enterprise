@@ -42,7 +42,8 @@ class SaleOrder(models.Model):
             }) for opt_line in self.contract_template.option_invoice_line_ids]
             self.order_line = subscription_lines
             self.options = options
-            self.note = self.contract_template.description
+            if self.contract_template:
+                self.note = self.contract_template.description
 
     def create_contract(self):
         """ Create a contract based on the order's quote template's contract template """
