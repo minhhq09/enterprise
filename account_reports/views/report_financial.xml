@@ -50,7 +50,7 @@
             <t t-if="mode == 'print' and a['type'] not in ['line', 'total']"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/></span><t t-call="account_reports.report_financial_footnote_sup" /></t>
             <t t-if="a['type'] not in ['account_id', 'line', 'tax_id', 'unreconciled_aml', 'bank_statement_id', 'partner_id', 'move_line_id', 'too_many', 'too_many_partners', 'payment', 'total'] and mode != 'print'"><span t-att-data-id="a.get('id')" t-att-class="a.get('type') + ' ' + domainClass"><t t-esc="a.get('name')"/><t t-call="account_reports.report_financial_footnote_sup" /></span></t>
             <a t-if="a['type'] == 'too_many' and mode != 'print'">
-                <span t-att-data-active-id="a.get('id')" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
+                <span t-att-data-action-domain="a.get('domain')" data-res-model="account.move.line" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
             </a>
             <a t-if="a['type'] == 'too_many_partners' and mode != 'print'">
                 <span t-att-data-active-id="a.get('id')" data-action-name="account.action_move_line_select_by_partner" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>

@@ -345,6 +345,7 @@ class report_account_general_ledger(models.AbstractModel):
                 if too_many:
                     domain_lines.append({
                         'id': account.id,
+                        'domain': "[('id', 'in', %s)]" % amls.ids,
                         'type': 'too_many',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
                         'footnotes': {},
