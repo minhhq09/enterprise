@@ -15,7 +15,8 @@
                                         <t t-if="product[0].apply_active">
                                             <a class="btn btn-xs btn-primary pull-right o_mps_apply" t-att-data-product="product[0].id">Apply</a>
                                         </t>
-                                        <strong class="oe_link o_mps_product_name" t-att-data-product="product[0].id" style="cursor:pointer;" t-esc="product[0].name"/><span class="text-muted"> by</span> <i t-esc="product[0].uom_id.name"/>
+                                        <strong class="oe_link o_mps_product_name" t-att-data-product="product[0].id" style="cursor:pointer;" t-esc="product[0].name_get()[0][1]"/>
+                                        <span class="text-muted"> by</span> <i t-esc="product[0].uom_id.name"/>
                                     </td>
                                     <td t-foreach="product[1]" t-as="period" class="text-center">
                                         <t t-esc="period['period']"/>
