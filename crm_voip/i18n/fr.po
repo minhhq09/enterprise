@@ -21,13 +21,14 @@
 # Melanie Bernard <mbe@odoo.com>, 2016
 # Henri Cornuau <hcornuau@gmail.com>, 2016
 # Olivier Dony <odo@odoo.com>, 2016
+# Sébastien Le Ray <sebastien-github@orniz.org>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Olivier Dony <odo@odoo.com>, 2016\n"
+"Last-Translator: Sébastien Le Ray <sebastien-github@orniz.org>, 2017\n"
 "Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,6 +47,12 @@ msgid ""
 "    a new call? </p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Bonjour ${object.partner_id.name},</p>\n"
+"\n"
+"<p>Il semble que nous ayons été interrompus lors de notre conversation au sujet de \n"
+"    '${object.name}'. Pouvez-vous me donner vos disponibilités afin de planifier un nouvel appel ?</p>\n"
+"<p>Cordialement,,</p>"
 
 #. module: crm_voip
 #: model:mail.template,body_html:crm_voip.email_template_call_client_notAvailable
@@ -56,12 +63,16 @@ msgid ""
 "    please give me your availability in order to schedule a new call?</p>\n"
 "<p>Best regards,</p>"
 msgstr ""
+"\n"
+"<p>Bonjour ${object.partner_id.name},</p>\n"
+"<p>Je viens de tenter de vous joindre à propos de '${object.name}'. Pourriez-vous me donner vos disponibilités afin de planifier un nouvel appel ?</p>\n"
+"<p>Cordialement,</p>"
 
 #. module: crm_voip
 #: code:addons/crm_voip/wizard/crm_phonecall_log_wizard.py:87
 #, python-format
 msgid " about %s"
-msgstr ""
+msgstr "à propos de %s"
 
 #. module: crm_voip
 #: model:ir.model.fields,field_description:crm_voip.field_crm_phonecall_report_nbr

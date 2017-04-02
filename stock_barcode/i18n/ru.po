@@ -3,19 +3,14 @@
 # * stock_barcode
 # 
 # Translators:
-# KingOPl Slav <87slava13@gmail.com>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Sergey Vilizhanin <sv@grimmette.ru>, 2016
-# Viktor Pogrebniak <vp@aifil.ru>, 2016
-# Gennady Marchenko <gennadym@gmail.com>, 2016
-# dr&mx <dronmax@gmail.com>, 2016
+# Эдуард Манятовский <manyatovskiy@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: dr&mx <dronmax@gmail.com>, 2016\n"
+"Last-Translator: Эдуард Манятовский <manyatovskiy@gmail.com>, 2016\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,12 +30,12 @@ msgid ""
 "                            Then, print it via the <i>Print</i> menu and stick it in a visible and convenient place."
 msgstr ""
 ").\n"
-"Теперь через меню <i>«Печать»</i> распечатайте и повесьте на доступном видном месте."
+"                           Теперь через меню <i>«Печать»</i> распечатайте и повесьте на доступном видном месте."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "<strong>Actions barcodes:</strong> use the barcodes from"
-msgstr ""
+msgstr "<strong>Действия штрих-кодов:</strong> использовать штрих-коды из"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -52,6 +47,12 @@ msgid ""
 "                            same EAN code). Still, as Odoo supports any string as a barcode, so\n"
 "                            you can always define your own barcode format for internal use."
 msgstr ""
+"<strong>Штрих-коды EAN-13: </strong>, используемые большинством розничных продуктов, они не могут быть созданы\n"
+"                             без надлежащего разрешения: вы должны оплатить\n"
+"                             Ассоциация нумерации статей взимает плату в обмен на код EAN\n"
+"                             (поэтому у двух продуктов в магазине никогда не будет\n"
+"                             тот же код EAN). Тем не менее, поскольку Odoo поддерживает любую строку как штрих-код,\n"
+"                             вы всегда можете определить свой собственный формат штрих-кода для внутреннего использования."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -88,6 +89,9 @@ msgid ""
 "the variant, and not the template product (otherwise you won't be able to "
 "differentiate them)."
 msgstr ""
+"<strong>Варианты продукта:</strong> будьте осторожны добавить штрих-код "
+"прямо на вариант, а не шаблон продукта (в противном случае вы не сможете "
+"отличить их)."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -95,6 +99,8 @@ msgid ""
 "<strong>Scan barcodes on picking lists:</strong> suitable if a significant "
 "percentage of your products do not have a barcode on them."
 msgstr ""
+"<strong>Сканирования штрих-кодов на упаковки списков:</strong> подходит, "
+"если значительная часть вашей продукции не имеют штрих-кодов на них."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -102,6 +108,8 @@ msgid ""
 "<strong>Scan barcodes on products:</strong> suitable if all your products "
 "already have a barcode"
 msgstr ""
+"<strong>Сканирования штрих-кодов на продукции:</strong> подходит, если на "
+"все ваши товары уже есть штрих-код"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -110,6 +118,9 @@ msgid ""
 "but allows for a full traceability of the parts. It's usually used by "
 "manufacturers of sensitive products."
 msgstr ""
+"<strong>Сканировать много или серийные номера:</strong> это занимает больше "
+"времени, но позволяет полную прослеживаемость частей. Обычно он используется"
+" производителями чувствительных товаров."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -122,6 +133,9 @@ msgid ""
 "<strong>The next step is to assign barcodes to your products,</strong> by "
 "setting the right value in the Barcode field of the Product form."
 msgstr ""
+"<strong>Следующим шагом является назначение штрих-кодов для вашей "
+"продукции,</strong> установив правильное значение в поле штрихкода формы "
+"продукта."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -129,6 +143,8 @@ msgid ""
 "<strong>To attribute a barcode to a Location,</strong> simply enter one on "
 "the Location form (accessible from your"
 msgstr ""
+"<strong>Для атрибута штрих-код в место,</strong> просто введите один на "
+"месте формы (доступен из вашего"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -141,11 +157,13 @@ msgid ""
 "<strong>To process Delivery Orders from a computer or mobile "
 "device:</strong>"
 msgstr ""
+"<strong>Процесс доставки заказов с компьютера или мобильного "
+"устройства:</strong>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "<strong>To process printed Delivery Orders:</strong>"
-msgstr ""
+msgstr "<strong>Для обработки печатных доставки заказов:</strong>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -156,17 +174,17 @@ msgstr "<strong>Мы протестировали несколько устро�
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "<strong>What is the difference between Lots and Serial Numbers?</strong>"
-msgstr ""
+msgstr "<strong>Какая разница между лотами и серийными номерами?</strong>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Automatic carriage return"
-msgstr ""
+msgstr "Автоматический возврат каретки"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Automatic carriage return: <span class=\"label\">OFF</span>"
-msgstr ""
+msgstr "Автоматический возврат каретки: <span class=\"label\">OFF</span>"
 
 #. module: stock_barcode
 #: model:ir.actions.client,name:stock_barcode.stock_barcode_action_main_menu
@@ -190,6 +208,8 @@ msgid ""
 "Before we start, you should choose your working process. There are three "
 "suitable approaches to work with barcodes:"
 msgstr ""
+"Прежде чем мы начнем, вам нужно выбрать ваш рабочий процесс. Существует три "
+"подходящих подходов для работы с штрих-кодов:"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -197,6 +217,8 @@ msgid ""
 "But better yet is to transform this naming into a barcode that can be "
 "scanned easily and without error."
 msgstr ""
+"Но еще лучше, чтобы превратить этот именования в штрих-кодов, которые могут "
+"быть отсканированы легко и без ошибок."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -208,6 +230,13 @@ msgid ""
 "be explicitly configured by scanning a specific barcode in your scanner user"
 " manual ('CR suffix ON', 'Apply Enter for suffix', etc.)"
 msgstr ""
+"По умолчанию Odoo имеет задержку в 50 миллисекунд между каждым последующим "
+"сканированием (это помогает избежать случайного двойного сканирования). Если"
+" вы хотите отключить эту задержку, вы можете настроить сканер для вставки "
+"символа возврата каретки в конце каждого штрих-кода. Обычно это конфигурация"
+" по умолчанию и может быть явно сконфигурирована путем сканирования "
+"определенного штрих-кода в руководстве пользователя сканера ('Суффикс CR "
+"ON', 'Apply Enter for suffix' и т. д.)"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -215,26 +244,28 @@ msgid ""
 "Choose a USB barcode scanner if you plan to scan products at the computer "
 "station"
 msgstr ""
+"Выберите сканер штрих-кода USB, если вы планируете сканировать продукты на "
+"компьютерной станции"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Click on 'Inventory'"
-msgstr ""
+msgstr "Нажмите на 'Инвентаризации'"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.stock_config_view_form_inherit_stock_barcode
 msgid "Configure Product Barcodes"
-msgstr ""
+msgstr "Настройка штрих-кодов продуктов"
 
 #. module: stock_barcode
 #: model:web.planner,tooltip_planner:stock_barcode.planner_barcode
 msgid "Configure and learn how to use your Barcode Scanner."
-msgstr ""
+msgstr "Настройте и узнайте, как использовать сканер штрих-кодов."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Congratulations, you're ready to go live!"
-msgstr ""
+msgstr "Поздравляем, вы готовы к работе!"
 
 #. module: stock_barcode
 #. openerp-web
@@ -244,13 +275,15 @@ msgid ""
 "Do you want to permanently remove this message ?\n"
 "                It won't appear anymore, so make sure you don't need the barcodes sheet or you have a copy."
 msgstr ""
+"Вы хотите навсегда удалить это сообщение?\n"
+"                 Он больше не появится, поэтому убедитесь, что вам не нужен лист штрих-кодов или у вас есть копия."
 
 #. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/js/stock_barcode.js:45
 #, python-format
 msgid "Don't show this message again"
-msgstr ""
+msgstr "Больше не показывать это сообщение"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -258,6 +291,8 @@ msgid ""
 "For the Odoo Team,<br/>\n"
 "                        Fabien Pinckaers, Founder"
 msgstr ""
+"Для Odoo команды, <br/>\n"
+"                         Фабиен Пинкерс, основатель"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -265,11 +300,13 @@ msgid ""
 "Go for a wireless scanner if you want to scan products at different "
 "locations"
 msgstr ""
+"Перейти к беспроводному сканеру, если вы хотите сканировать продукты в "
+"разных местах"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Here, you have three options:"
-msgstr ""
+msgstr "Здесь у вас есть три варианта:"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -277,6 +314,8 @@ msgid ""
 "If this product should be manage by lots, a window opens to help you scan "
 "the lots / serial numbers"
 msgstr ""
+"Если этот продукт должен управляться по лотам, откроется окно, помогающее "
+"вам сканировать лоты / серийные номера"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -284,6 +323,8 @@ msgid ""
 "If you have a static computer station, it's better to use 'pistols' formats "
 "as they are more practical to handle and aim."
 msgstr ""
+"Если у вас статическая компьютерная станция, лучше использовать форматы "
+"'пистолеты', поскольку они более практичны в обращении и прицеливании."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -291,6 +332,8 @@ msgid ""
 "If you use a mobile device, you may prefer a smaller format that is "
 "connected in Bluetooth."
 msgstr ""
+"Если вы используете мобильное устройство, вы можете предпочесть меньший "
+"формат, который подключен в Bluetooth."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -301,11 +344,13 @@ msgstr "В Odoo есть два типа внутренних перемещен
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "In the barcode interface, scan the products you want create a lot from"
 msgstr ""
+"В интерфейсе штрих-кода сканируйте продукты, которые вы хотите создать, с "
+"помощью"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Inateck BCST-20:"
-msgstr ""
+msgstr "Inateck BCST-20:"
 
 #. module: stock_barcode
 #: model:ir.model.fields,help:stock_barcode.field_stock_inventory_line_product_barcode
@@ -330,29 +375,31 @@ msgstr "Позиция инвентаризации"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Keyboard layout"
-msgstr ""
+msgstr "Раскладка клавиатуры"
 
 #. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/js/stock_barcode.js:51
 #, python-format
 msgid "Leave it"
-msgstr ""
+msgstr "Оставь это"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "List of Locations"
-msgstr ""
+msgstr "Список местоположений"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Load all the Delivery Orders marked as \"To Do\", and open the first one."
 msgstr ""
+"Загрузите все заказы на поставку, помеченные как \"К Выполнению\", и "
+"откройте первый."
 
 #. module: stock_barcode
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_pack_operation_location_processed
 msgid "Location processed"
-msgstr ""
+msgstr "Местоположение обработано"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -360,16 +407,18 @@ msgid ""
 "Lot numbers are attributed to several identical products, so each time you "
 "scan a Lot Number, Odoo will add one on the product count."
 msgstr ""
+"Номера партий присваиваются нескольким идентичным продуктам, поэтому каждый "
+"раз, когда вы сканируете лот-номер, Odoo добавляет один счетчик продуктов."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Motorola CS3000:"
-msgstr ""
+msgstr "Motorola CS3000:"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Motorola DS4208-SR:"
-msgstr ""
+msgstr "Motorola DS4208-SR:"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -377,6 +426,8 @@ msgid ""
 "Move to the next Delivery Order to process by clicking on the top-right "
 "right arrow or scanning the Pager-Next barcode action."
 msgstr ""
+"Перейдите к следующему поручению на доставку, нажав на стрелку в правом "
+"верхнем правом углу или сканировав действие штрих-кода Pager-Next."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -384,35 +435,40 @@ msgid ""
 "Naming the locations within your warehouse(s) is crucial for a good "
 "inventory management."
 msgstr ""
+"Именование места в рамках вашего склада(ов) имеет решающее значение для "
+"хороших запасов."
 
 #. module: stock_barcode
 #: model:ir.actions.act_window,name:stock_barcode.stock_inventory_action_new_inventory
 msgid "New Inventory"
-msgstr ""
+msgstr "Новая инвентаризация"
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/controllers/main.py:69
 #, python-format
 msgid "No internal picking type. Please configure one in warehouse settings."
 msgstr ""
+"Нет внутреннего типа комплектования. Пожалуйста, настройте его в настройках "
+"склада."
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:54
 #, python-format
 msgid "No lot found"
-msgstr ""
+msgstr "Партия не найдена"
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/controllers/main.py:23
 #, python-format
 msgid "No picking corresponding to barcode %(barcode)s"
-msgstr ""
+msgstr "Нет выбора, соответствующего штрих-коду %(barcode)s"
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/controllers/main.py:21
 #, python-format
 msgid "No picking or location corresponding to barcode %(barcode)s"
 msgstr ""
+"Нет выбора или местоположения, соответствующего штрих-коду %(barcode)s"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -420,6 +476,9 @@ msgid ""
 "Note that Bluetooth connections are suitable for maximum 30 feet (10 meters)"
 " so you will have to scan products nearby the computer station."
 msgstr ""
+"Обратите внимание, что соединения Bluetooth подходят для максимум 30 футов "
+"(10 метров), поэтому вам придется сканировать продукты рядом с компьютерной "
+"станцией."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -438,6 +497,8 @@ msgid ""
 "Odoo supports most USB, Wireless and Bluetooth barcode scanners (as they all"
 " emulate a keyboard)."
 msgstr ""
+"Odoo поддерживает большинство сканеров штрих-кодов USB, Wireless и Bluetooth"
+" (поскольку они все эмулируют клавиатуру)."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -446,6 +507,10 @@ msgid ""
 "barcode, sticked on only one item. This means that Odoo won't accept "
 "scanning the same Serial Number more than once per operation."
 msgstr ""
+"Напротив, серийный номер уникален и представлен только одним штрих-кодом, "
+"прикрепленным только к одному элементу. Это означает, что Odoo не будет "
+"принимать сканирование одного и того же серийного номера более одного раза "
+"за операцию."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -453,6 +518,9 @@ msgid ""
 "Once it's fully working, give us some feedback: we love to hear from our "
 "customer. It would be great if you can send a photo of your warehouse to"
 msgstr ""
+"Когда он полностью работает, дайте нам обратную связь: мы рады услышать от "
+"наших клиентов. Было бы здорово, если бы вы могли отправить фотографию "
+"своего склада на"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -460,6 +528,8 @@ msgid ""
 "Once you scan the next product or the validate barcode, the window will "
 "close automatically"
 msgstr ""
+"После того, как вы сканируете следующий продукт или проверите штрих-код, "
+"окно закроется автоматически"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -467,6 +537,8 @@ msgid ""
 "Once you scanned all products, scan the Validate barcode action to finish "
 "the operation."
 msgstr ""
+"После того как вы отсканировали все продукты, отсканируйте действие "
+"Проверить штрих-код, чтобы завершить операцию."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -474,6 +546,9 @@ msgid ""
 "Once you start processing your delivery orders, scan the barcode on the top-"
 "right corner of the document to load the right record on the screen."
 msgstr ""
+"Как только вы начнете обработку ваших заказов на доставку, отсканируйте "
+"штрих-код в правом верхнем углу документа, чтобы загрузить нужную запись на "
+"экран."
 
 #. module: stock_barcode
 #. openerp-web
@@ -492,12 +567,12 @@ msgstr "Операция упаковки"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Pick up and scan each listed product."
-msgstr ""
+msgstr "Возьмите и просмотрите каждый из перечисленных продуктов."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Pick up and scan the products"
-msgstr ""
+msgstr "Подбор и сканирование продуктов"
 
 #. module: stock_barcode
 #: model:ir.actions.act_window,name:stock_barcode.stock_picking_action_form
@@ -522,31 +597,33 @@ msgid ""
 "Print delivery orders of the day by selecting all documents from the \"To "
 "Do\" list and print \"Picking Lists\" from the top menu."
 msgstr ""
+"Распечатайте заказы на доставку за день, выбрав все документы из списка "
+"\"Выполнить\" и распечатайте \"Списки комплектования\" в верхнем меню."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Print this barcode"
-msgstr ""
+msgstr "Распечатать этот штрих-код"
 
 #. module: stock_barcode
 #: model:ir.actions.act_window,name:stock_barcode.product_action_barcodes
 #: model:ir.ui.view,arch_db:stock_barcode.product_view_list_barcodes
 msgid "Product Barcodes"
-msgstr ""
+msgstr "Штрих-коды продуктов"
 
 #. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/js/stock_barcode.js:48
 #, python-format
 msgid "Remove it"
-msgstr ""
+msgstr "Убери это"
 
 #. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:18
 #, python-format
 msgid "Scan a document to open it."
-msgstr ""
+msgstr "Отсканируйте документ, чтобы открыть его."
 
 #. module: stock_barcode
 #. openerp-web
@@ -554,6 +631,8 @@ msgstr ""
 #, python-format
 msgid "Scan a location to create a new transfer from this location."
 msgstr ""
+"Сканирование местоположения для создания новой передачи из этого "
+"местоположения."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -561,6 +640,8 @@ msgid ""
 "Scan a lot barcode, type one manually or leave empty to generate one "
 "automatically"
 msgstr ""
+"Сканирование большого штрих-кода, введите его вручную или оставьте пустым, "
+"чтобы создать его автоматически"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -568,32 +649,38 @@ msgid ""
 "Scan all the products of the location (if you have 5 identical articles, "
 "scan it 5 times, or use the keyboard to set the quantity)"
 msgstr ""
+"Сканирование всех продуктов местоположения (если у вас есть 5 идентичных "
+"статей, отсканируйте их 5 раз или используйте клавиатуру для задания "
+"количества)"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Scan or enter each barcode by manually editing the products or"
 msgstr ""
+"Сканирование или ввод каждого штрих-кода путем ручного редактирования "
+"продуктов или"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Scan the bracode here"
-msgstr ""
+msgstr "Сканировать штрих-код здесь"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Scan the destination location"
-msgstr ""
+msgstr "Сканирование места назначения"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Scan the location's barcode"
-msgstr ""
+msgstr "Сканирование штрих-кода местоположения"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "Scan the source location, starting from the home of the barcode application"
 msgstr ""
+"Сканировать исходное местоположение, начиная с дома приложения штрих-кода"
 
 #. module: stock_barcode
 #: model:ir.model.fields,field_description:stock_barcode.field_stock_inventory_scan_location_id
@@ -603,7 +690,7 @@ msgstr "Просмотренное место"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Set barcodes at the initial import of your products or"
-msgstr ""
+msgstr "Установите штрих-коды при первоначальном импорте вашей продукции или"
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:275
@@ -612,13 +699,15 @@ msgid ""
 "The barcode \"%(barcode)s\" doesn't correspond to a proper product, package "
 "or location."
 msgstr ""
+"Штрих-код \"%(barcode)s\" не соответствует надлежащим продукта, пакета или "
+"местоположение."
 
 #. module: stock_barcode
 #. openerp-web
 #: code:addons/stock_barcode/static/src/js/picking_barcode_handler.js:39
 #, python-format
 msgid "The picking is %s and cannot be edited."
-msgstr ""
+msgstr "Сбор %s и не могут быть изменены."
 
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_stock_picking_type
@@ -632,6 +721,9 @@ msgid ""
 "on the picking line if the barcode on the product is not easily accessible, "
 "visible or is missing."
 msgstr ""
+"Затем сканировать штрих-код каждого продукта, или сканировать штрих-код "
+"продукта на линии комплектации, если штрих-код на продукт не является "
+"легкодоступной, видимый или отсутствует."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -651,6 +743,8 @@ msgid ""
 "There is no production lot for \"%(product)s\" corresponding to "
 "\"%(barcode)s\""
 msgstr ""
+"Нет производственной партии для\"%(product)s\" которое соответствует "
+"\"%(barcode)s\""
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -658,12 +752,15 @@ msgid ""
 "Those created by a worker (for example, through the internal transfer area "
 "of the dashboard)."
 msgstr ""
+"Тех, которые созданы работника (например, через область внутренней передачи "
+"приборной панели)."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid ""
 "Those initiated automatically by the system (for example, a quality control)"
 msgstr ""
+"Тех, кто инициировал автоматически системой (например, контроль качества)"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.stock_picking_type_kanban
@@ -691,6 +788,8 @@ msgid ""
 "USB only, omnidirectional (eliminates the need to align bar code and "
 "scanner), rugged design, about $250"
 msgstr ""
+"USB только, всенаправленный (устраняет необходимость согласования бар код и "
+"сканера), прочная конструкция, около $250"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -700,12 +799,12 @@ msgstr "USB, WiFi или Bluetooth?"
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Use our"
-msgstr ""
+msgstr "Воспользуйтесь нашими"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Validate the Transfer to finish it"
-msgstr ""
+msgstr "Подтвердите перевод, чтобы закончить его"
 
 #. module: stock_barcode
 #. openerp-web
@@ -715,6 +814,8 @@ msgid ""
 "We have created a few demo data and barcodes for you to explore the "
 "features. Print the"
 msgstr ""
+"Мы создали несколько демо-данные и штрих-кодов для вас, чтобы исследовать "
+"возможности. Печать это"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -722,6 +823,8 @@ msgid ""
 "When you've picked all the items, click the Validate button or scan the "
 "Validate barcode action to finish the Operation."
 msgstr ""
+"Когда вы выбрали все элементы, нажмите кнопку проверить или сканирования "
+"штрих-кодов действий Подтвердить для завершения операции."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -729,16 +832,18 @@ msgid ""
 "When you've scanned all the items of the location, validate the inventory "
 "manually or by scanning the 'Validate' barcode ("
 msgstr ""
+"Когда вы просмотрел все элементы местоположения, проверка инвентаризации "
+"вручную или путем сканирования 'Проверить' штрих-кодов ("
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Which scanner format?"
-msgstr ""
+msgstr "Какой формат сканера?"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "Wireless and USB, laser, rational choice, about $50"
-msgstr ""
+msgstr "Беспроводные и USB, лазер, рациональный выбор, около $50"
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:274
@@ -753,20 +858,23 @@ msgid ""
 "connected through wireless (phone, tablet or scanner with integrated "
 "screen)."
 msgstr ""
+"Можно настроить компьютер станции или работник использования мобильного "
+"устройства, подключенного через беспроводной связи (Телефон, планшет или "
+"сканера с интегрированной экран)."
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:23
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:38
 #, python-format
 msgid "You have already scanned the serial number \"%(barcode)s\""
-msgstr ""
+msgstr "Вы уже просканировали серийный номер \"%(barcode)s\""
 
 #. module: stock_barcode
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:22
 #: code:addons/stock_barcode/models/inherited_stock_picking.py:37
 #, python-format
 msgid "You have entered this serial number already"
-msgstr ""
+msgstr "Вы уже ввели этот серийный номер"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -774,6 +882,8 @@ msgid ""
 "You've decided to implement barcodes in your company? Great idea. This tool "
 "will help you setup the environment to make it work."
 msgstr ""
+"Вы решили внедрить штрих-коды в своей компании? Отличная идея. Этот "
+"инструмент поможет вам настроить среду, чтобы она работала."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -783,21 +893,26 @@ msgid ""
 " correctly (replacing a 'A' with a 'Q' for example). Most scanners are "
 "configured by scanning the appropriate barcode in the user's manual."
 msgstr ""
+"Сканер штрих-кода должен быть настроен на использование той же раскладки "
+"клавиатуры, что и ваша операционная система. В противном случае ваш сканер "
+"не будет корректно переводить символы (например, вместо буквы 'А' вместо "
+"'Q'). Большинство сканеров настраиваются путем сканирования соответствующего"
+" штрих-кода в руководстве пользователя."
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "available here"
-msgstr ""
+msgstr "доступна здесь"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "compact wireless, about $250"
-msgstr ""
+msgstr "компактный беспроводной, около $250"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "fast scanning interface"
-msgstr ""
+msgstr "быстрый интерфейс сканирования"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -809,7 +924,7 @@ msgstr "feedback@mail.odoo.com"
 #: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:14
 #, python-format
 msgid "stock barcodes sheet"
-msgstr ""
+msgstr "штриховой код на складе"
 
 #. module: stock_barcode
 #: model:ir.model,name:stock_barcode.model_stock_scrap
@@ -820,6 +935,7 @@ msgstr "stock.scrap"
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
 msgid "then scan it, the result should be <i>YES IT WORKS.</i>"
 msgstr ""
+"затем отсканируйте его, результат должен быть <i>ДА, ЭТО РАБОТАЕТ.</i>"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -831,7 +947,7 @@ msgstr "этого документа"
 #: code:addons/stock_barcode/static/src/xml/stock_barcode.xml:14
 #, python-format
 msgid "to check out what this module can do !"
-msgstr ""
+msgstr "Чтобы узнать, что может сделать этот модуль !"
 
 #. module: stock_barcode
 #: model:ir.ui.view,arch_db:stock_barcode.barcode_planner
@@ -839,3 +955,5 @@ msgid ""
 "to launch actions in Odoo like Save, Next Item or Validate instead of using "
 "your mouse or keyboard."
 msgstr ""
+"для запуска действий в Odoo, таких как Сохранить, Следующий элемент или "
+"Проверка вместо использования мыши или клавиатуры."

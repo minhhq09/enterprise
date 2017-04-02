@@ -3,18 +3,14 @@
 # * mrp_barcode
 # 
 # Translators:
-# Sergey Vilizhanin <sv@grimmette.ru>, 2016
-# Martin Trigaux <mat@odoo.com>, 2016
-# Gennady Marchenko <gennadym@gmail.com>, 2016
-# Максим Дронь <dronmax@gmail.com>, 2016
-# Andrey Samorukov <andrey.samorukov@me.com>, 2016
+# Эдуард Манятовский <manyatovskiy@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Andrey Samorukov <andrey.samorukov@me.com>, 2016\n"
+"Last-Translator: Эдуард Манятовский <manyatovskiy@gmail.com>, 2016\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,6 +29,8 @@ msgstr "Штрих-код"
 #, python-format
 msgid "Can not find consumed material for this corresponding barcode %s."
 msgstr ""
+"Не удается найти потребленный материал для этого соответствующего штрих-кода"
+" %s."
 
 #. module: mrp_barcode
 #: model:ir.model.fields,help:mrp_barcode.field_stock_move_product_barcode
@@ -49,7 +47,7 @@ msgstr "Партия/Серийный номер"
 #: code:addons/mrp_barcode/static/src/js/mrp_barcode_handler.js:39
 #, python-format
 msgid "Manufacturing %s"
-msgstr ""
+msgstr "Производство %s"
 
 #. module: mrp_barcode
 #: model:ir.model,name:mrp_barcode.model_mrp_production
@@ -60,19 +58,19 @@ msgstr "Производственный заказ"
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:33
 #, python-format
 msgid "No found"
-msgstr ""
+msgstr "Не найдено"
 
 #. module: mrp_barcode
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:82
 #, python-format
 msgid "No lot found"
-msgstr ""
+msgstr "Партия не найдена"
 
 #. module: mrp_barcode
 #: code:addons/mrp_barcode/controllers/main.py:22
 #, python-format
 msgid "No picking or manufacturing corresponding to barcode %(barcode)s"
-msgstr ""
+msgstr "Нет выбора или изготовления, соответствующего штрих-коду %(barcode)s"
 
 #. module: mrp_barcode
 #: model:ir.actions.act_window,name:mrp_barcode.mrp_production_form_action_barcode
@@ -100,7 +98,7 @@ msgstr "Движение запасов"
 #: code:addons/mrp_barcode/static/src/js/mrp_barcode_handler.js:39
 #, python-format
 msgid "The manufacturing order is %s and cannot be edited."
-msgstr ""
+msgstr "Это производственный заказ %s и не может быть отредактирован."
 
 #. module: mrp_barcode
 #: model:ir.model,name:mrp_barcode.model_stock_picking_type
@@ -111,7 +109,7 @@ msgstr "Тип комплектования определяет вид комп
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:34
 #, python-format
 msgid "There is no lot for %s barcode"
-msgstr ""
+msgstr "Нет партии для %s штрих-кода"
 
 #. module: mrp_barcode
 #: code:addons/mrp_barcode/models/inherited_mrp_workorder.py:39
@@ -119,6 +117,7 @@ msgstr ""
 msgid ""
 "There is no lot for these product for corresponding barcode %(barcode)s"
 msgstr ""
+"Для данного продукта нет партии для соответствующего штрих-кода %(barcode)s"
 
 #. module: mrp_barcode
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:83
@@ -127,6 +126,8 @@ msgid ""
 "There is no production lot for \"%(product)s\" corresponding to "
 "\"%(barcode)s\""
 msgstr ""
+"Нет производственной партии для\"%(product)s\" которое соответствует "
+"\"%(barcode)s\""
 
 #. module: mrp_barcode
 #: model:ir.ui.view,arch_db:mrp_barcode.stock_picking_type_kanban_mrp_barcodee
@@ -158,14 +159,14 @@ msgstr "Производственное задание"
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:73
 #, python-format
 msgid "You have already scanned the serial number \"%(barcode)s\""
-msgstr ""
+msgstr "Вы уже просканировали серийный номер \"%(barcode)s\""
 
 #. module: mrp_barcode
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:57
 #: code:addons/mrp_barcode/models/inherited_stock_move.py:72
 #, python-format
 msgid "You have entered this serial number already"
-msgstr ""
+msgstr "Вы уже ввели этот серийный номер"
 
 #. module: mrp_barcode
 #. openerp-web
@@ -179,4 +180,4 @@ msgstr "и"
 #: code:addons/mrp_barcode/static/src/xml/mrp_barcode.xml:6
 #, python-format
 msgid "mrp barcodes sheet"
-msgstr ""
+msgstr "MRP лист штрихкодов"
