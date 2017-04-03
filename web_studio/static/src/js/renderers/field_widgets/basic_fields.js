@@ -252,17 +252,11 @@ var FieldInteger = InputField.extend({
 
 var FieldFloat = InputField.extend({
     render_readonly: function() {
-        var precision;
-        var value = this.value;
         if (this.field.__attrs.digits) {
-            precision = this.node.attrs.digits;
-        } else {
-            precision = this.field.digits;
+            this.field.digits = py.eval(this.field.__attrs.digits);
         }
-        if (precision && precision.length === 2) {
-            value = utils.round_decimals(value, precision[1]);
-        }
-        var $span = $('<span>').addClass('o_form_field o_form_field_number').text(this.format_value(value));
+        var value = this.format_value(this.value);
+        var $span = $('<span>').addClass('o_form_field o_form_field_number').text(value);
         this.$el.html($span);
     },
     is_set: function() {
