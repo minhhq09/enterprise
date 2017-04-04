@@ -232,14 +232,9 @@ class YodleeProviderAccount(models.Model):
     def manual_sync(self, return_action=True):
         if self.provider_type != 'yodlee':
             return super(YodleeProviderAccount, self).manual_sync()
-        resp_json = self.refresh_status(return_credentials=True)
         # trigger update
-        values = []
-        for row in resp_json.get('providerAccount', {}).get('loginForm', {}).get('row', []):
-            for field in row.get('field', []):
-                if field.get('value'):
-                    values.append({'field_id': field.get('id'), 'value': field.get('value')})
-        self.yodlee_add_update_provider_account(values, self.provider_identifier, self.name)
+        params = {'providerAccountIds': self.provider_account_identifier}
+        resp_json = self.yodlee_fetch('/providers/providerAccounts', params, {}, 'PUT')
         # Wait for refresh to finish and reply with mfa token
         resp_json = self.refresh_status()
         if not return_action:
