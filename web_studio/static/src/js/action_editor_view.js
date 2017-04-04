@@ -35,7 +35,7 @@ var ActionEditorView = Widget.extend({
         }
     },
 
-    set_default_view: function () {
+    set_default_view: function (event) {
         var view_type = $(event.currentTarget).closest('.o_web_studio_view_type').data("type");
         this.trigger_up('studio_default_view', {view_type: view_type});
     },
