@@ -70,7 +70,6 @@ class AccountFiscalPosition(models.Model):
                     tax_line.write({'state_ids': [(4, partner.state_id.id)]})
                 if partner.zip and partner.zip not in tax_line.zip_codes.split(','):
                     tax_line.write({'zip_codes': "%s,%s" % (tax_line.zip_codes, partner.zip)})
-
             result |= tax_line.tax_dest_id
         return result
 
