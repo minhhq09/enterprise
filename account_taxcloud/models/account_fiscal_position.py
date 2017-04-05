@@ -16,7 +16,7 @@ class AccountFiscalPosition(models.Model):
         if not taxes or not self.is_taxcloud or partner is None:
             return super(AccountFiscalPosition, self).map_tax(taxes)
 
-        AccountTax = self.env['account.tax']
+        AccountTax = self.env['account.tax'].sudo()
         result = AccountTax.browse()
 
         if partner:
@@ -56,7 +56,7 @@ class AccountFiscalPosition(models.Model):
                 # line just write category, state and zip on that mapping line.
                 tax_line = self.tax_ids.filtered(lambda x: x.tax_src_id.id == tax.id and x.tax_dest_id.id == taxcloud_tax.id)
                 if not tax_line:
-                    tax_line = self.env['account.fiscal.position.tax'].create({
+                    tax_line = self.env['account.fiscal.position.tax'].sudo().create({
                         'position_id': self.id,
                         'tax_src_id': tax.id,
                         'tax_dest_id': taxcloud_tax.id,

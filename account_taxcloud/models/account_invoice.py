@@ -47,12 +47,12 @@ class AccountInvoice(models.Model):
                 tax_rate = tax_values[line.id] / line.price_subtotal * 100
             if float_compare(line.invoice_line_tax_ids.amount, tax_rate, precision_rounding=4):
                 raise_warning = True
-                tax = self.env['account.tax'].search([
+                tax = self.env['account.tax'].sudo().search([
                     ('amount', '=', tax_rate),
                     ('amount_type', '=', 'percent'),
                     ('type_tax_use', '=', 'sale')], limit=1)
                 if not tax:
-                    tax = self.env['account.tax'].create({
+                    tax = self.env['account.tax'].sudo().create({
                         'name': 'Tax %s %%' % (tax_rate),
                         'amount': tax_rate,
                         'amount_type': 'percent',

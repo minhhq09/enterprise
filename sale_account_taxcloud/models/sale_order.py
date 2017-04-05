@@ -13,7 +13,6 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = True
         if self.fiscal_position_id.is_taxcloud:
-            print "yatattaaaaaaaaaa"
             res = self.validate_taxes_on_sales_order()
         super(SaleOrder, self).action_confirm()
         return res
@@ -43,12 +42,12 @@ class SaleOrder(models.Model):
             tax_rate = tax_values[line.id] / line.price_unit * 100
             if float_compare(line.tax_id.amount, tax_rate, precision_rounding=4):
                 raise_warning = True
-                tax = self.env['account.tax'].search([
+                tax = self.env['account.tax'].sudo().search([
                     ('amount', '=', tax_rate),
                     ('amount_type', '=', 'percent'),
                     ('type_tax_use', '=', 'sale')], limit=1)
                 if not tax:
-                    tax = self.env['account.tax'].create({
+                    tax = self.env['account.tax'].sudo().create({
                         'name': 'Tax %s %%' % (tax_rate),
                         'amount': tax_rate,
                         'amount_type': 'percent',
