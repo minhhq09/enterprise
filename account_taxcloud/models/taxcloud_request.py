@@ -70,6 +70,8 @@ class TaxCloudRequest(object):
         self.cart_items.CartItem = [self.cart_item]
 
     def set_invoice_items_detail(self, invoice):
+        self.customer_id = invoice.partner_id.id
+        self.cart_id = invoice.id
         self.cart_items = self.client.factory.create('ArrayOfCartItem')
         cart_items = []
         for index, line in enumerate(invoice.invoice_line_ids):
@@ -81,6 +83,7 @@ class TaxCloudRequest(object):
             price_unit = line.price_unit
 
             cart_item = self.client.factory.create('CartItem')
+            cart_item
             cart_item.Index = line.id
             cart_item.ItemID = product_id
             if tic_code:
@@ -89,6 +92,8 @@ class TaxCloudRequest(object):
             cart_item.Qty = qty
             cart_items.append(cart_item)
         self.cart_items.CartItem = cart_items
+
+    # def authorize_transaction(self, invoice):
 
     # send request to TaxCloud.
     def get_tax(self):
@@ -110,7 +115,17 @@ class TaxCloudRequest(object):
     def get_all_taxes_values(self):
         formatted_response = {}
         try:
-            response = self.client.service.Lookup(self.api_login_id, self.api_key, 'NoCustomerID', 'NoCartID', self.cart_items, self.origin, self.destination, False)
+            response = self.client.service.Lookup(
+                self.api_login_id,
+                self.api_key,
+                hasattr(self, 'customer_id') and self.customer_id or 'NoCustomerID',
+                hasattr(self, 'cart_id') and self.cart_id or 'NoCartID',
+                self.cart_items,
+                self.origin,
+                self.destination,
+                False
+            )
+            formatted_response['response'] = response
             if response.ResponseType == 'OK':
                 formatted_response['values'] = {}
                 for item in response.CartItemsResponse.CartItemResponse:

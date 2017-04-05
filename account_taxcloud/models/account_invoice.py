@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+
 from odoo import api, models, _
 from odoo.exceptions import ValidationError
 from odoo.tools import float_compare
@@ -28,7 +30,7 @@ class AccountInvoice(models.Model):
         request.set_location_origin_detail(shipper)
         request.set_location_destination_detail(self.partner_id)
 
-        request.set_all_items_detail(self)
+        request.set_invoice_items_detail(self)
 
         response = request.get_all_taxes_values()
 
@@ -36,7 +38,6 @@ class AccountInvoice(models.Model):
             raise ValidationError(response['error_message'])
 
         tax_values = response['values']
-        print tax_values
 
         raise_warning = False
         for line in self.invoice_line_ids:
@@ -58,6 +59,18 @@ class AccountInvoice(models.Model):
                         'type_tax_use': 'sale',
                     })
                 line.invoice_line_tax_ids = tax
+
+        self._onchange_invoice_line_ids()
+
+        request.client.service.Authorized(
+            request.api_login_id,
+            request.api_key,
+            request.customer_id,
+            request.cart_id,
+            request.cart_id,
+            datetime.datetime.now()
+        )
+
         if raise_warning:
             return {'warning': _('The tax rates have been updated, you may want to check it before validation')}
         else:
