@@ -75,7 +75,7 @@ class AccountFiscalPosition(models.Model):
 
     # Get tax from TaxCloud API
     def get_tax_from_taxcloud(self, recipient_partner, tic_code, product_id=1):
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         api_id = Param.get_param('account_taxcloud.taxcloud_api_id')
         api_key = Param.get_param('account_taxcloud.taxcloud_api_key')
         request = TaxCloudRequest(api_id, api_key)
