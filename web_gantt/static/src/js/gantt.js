@@ -10,6 +10,7 @@ var time = require('web.time');
 var View = require('web.View');
 var form_common = require('web.form_common');
 var Dialog = require('web.Dialog');
+var session = require('web.session');
 
 var _t = core._t;
 var _lt = core._lt;
@@ -80,8 +81,30 @@ var GanttView = View.extend({
         }));
 
         if (!window.gantt) {
-            defs.push(ajax.loadJS('/web_gantt/static/lib/dhtmlxGantt/sources/dhtmlxcommon.js'));
-            defs.push(ajax.loadCSS('/web_gantt/static/lib/dhtmlxGantt/codebase/dhtmlxgantt.css'));
+            var gantt_path = '/web_gantt/static/lib/dhtmlxGantt';
+            defs.push(ajax.loadJS(gantt_path+'/sources/dhtmlxcommon.js').then(function () {
+                // load the correct locale
+                var locales_mapping = {
+                    'ar_SY': 'ar', 'ca_ES': 'ca', 'zh_CN': 'cn', 'cs_CZ': 'cs', 'da_DK': 'da',
+                    'de_DE': 'de', 'el_GR': 'el', 'es_ES': 'es', 'fi_FI': 'fi', 'fr_FR': 'fr',
+                    'he_IL': 'he', 'hu_HU': 'hu', 'id_ID': 'id', 'it_IT': 'it', 'ja_JP': 'jp',
+                    'ko_KR': 'kr', 'nl_NL': 'nl', 'nb_NO': 'no', 'pl_PL': 'pl', 'pt_PT': 'pt',
+                    'ro_RO': 'ro', 'ru_RU': 'ru', 'sl_SI': 'si', 'sk_SK': 'sk', 'sv_SE': 'sv',
+                    'tr_TR': 'tr', 'uk_UA': 'ua',
+                    'ar': 'ar', 'ca': 'ca', 'zh': 'cn', 'cs': 'cs', 'da': 'da', 'de': 'de',
+                    'el': 'el', 'es': 'es', 'fi': 'fi', 'fr': 'fr', 'he': 'he', 'hu': 'hu',
+                    'id': 'id', 'it': 'it', 'ja': 'jp', 'ko': 'kr', 'nl': 'nl', 'nb': 'no',
+                    'pl': 'pl', 'pt': 'pt', 'ro': 'ro', 'ru': 'ru', 'sl': 'si', 'sk': 'sk',
+                    'sv': 'sv', 'tr': 'tr', 'uk': 'ua',
+                };
+                var current_locale = session.user_context.lang;
+                var current_short_locale = current_locale.split('_')[0];
+                var locale_code = locales_mapping[current_locale] || locales_mapping[current_short_locale];
+                if (locale_code) {
+                    return ajax.loadJS(gantt_path+'/codebase/locale/locale_'+locale_code+'.js');
+                }
+            }));
+            defs.push(ajax.loadCSS(gantt_path+'/codebase/dhtmlxgantt.css'));
         }
 
         return $.when.apply($, defs);
