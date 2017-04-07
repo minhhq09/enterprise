@@ -12,6 +12,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/account_fiscal_position_view.xml',
+        'views/account_invoice_views.xml',
         'views/product_view.xml',
         'views/res_config_view.xml',
         'data/account_taxcloud_data.xml',

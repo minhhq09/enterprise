@@ -12,6 +12,10 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
+    def action_invoice_open(self):
+        return super(AccountInvoice, self.with_context(taxcloud_authorize_transaction=True)).action_invoice_open()
+
+    @api.multi
     def invoice_validate(self):
         res = True
         if self.fiscal_position_id.is_taxcloud:
@@ -62,14 +66,15 @@ class AccountInvoice(models.Model):
 
         self._onchange_invoice_line_ids()
 
-        request.client.service.Authorized(
-            request.api_login_id,
-            request.api_key,
-            request.customer_id,
-            request.cart_id,
-            request.cart_id,
-            datetime.datetime.now()
-        )
+        if self.env.context.get('taxcloud_authorize_transaction', False):
+            request.client.service.Authorized(
+                request.api_login_id,
+                request.api_key,
+                request.customer_id,
+                request.cart_id,
+                request.cart_id,
+                datetime.datetime.now()
+            )
 
         if raise_warning:
             return {'warning': _('The tax rates have been updated, you may want to check it before validation')}
