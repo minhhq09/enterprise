@@ -16,7 +16,7 @@ class AccountFiscalPosition(models.Model):
         if not taxes or not self.is_taxcloud or partner is None:
             return super(AccountFiscalPosition, self).map_tax(taxes)
 
-        AccountTax = self.env['account.tax']
+        AccountTax = self.env['account.tax'].sudo()
         result = AccountTax.browse()
 
         if partner:
@@ -56,7 +56,7 @@ class AccountFiscalPosition(models.Model):
                 # line just write category, state and zip on that mapping line.
                 tax_line = self.tax_ids.filtered(lambda x: x.tax_src_id.id == tax.id and x.tax_dest_id.id == taxcloud_tax.id)
                 if not tax_line:
-                    tax_line = self.env['account.fiscal.position.tax'].create({
+                    tax_line = self.env['account.fiscal.position.tax'].sudo().create({
                         'position_id': self.id,
                         'tax_src_id': tax.id,
                         'tax_dest_id': taxcloud_tax.id,
@@ -70,13 +70,12 @@ class AccountFiscalPosition(models.Model):
                     tax_line.write({'state_ids': [(4, partner.state_id.id)]})
                 if partner.zip and partner.zip not in tax_line.zip_codes.split(','):
                     tax_line.write({'zip_codes': "%s,%s" % (tax_line.zip_codes, partner.zip)})
-
             result |= tax_line.tax_dest_id
         return result
 
     # Get tax from TaxCloud API
     def get_tax_from_taxcloud(self, recipient_partner, tic_code, product_id=1):
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         api_id = Param.get_param('account_taxcloud.taxcloud_api_id')
         api_key = Param.get_param('account_taxcloud.taxcloud_api_key')
         request = TaxCloudRequest(api_id, api_key)

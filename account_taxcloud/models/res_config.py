@@ -14,13 +14,13 @@ class TaxCloudConfigSettings(models.TransientModel):
 
     @api.multi
     def set_default_taxcloud(self):
-        Param = self.env['ir.config_parameter']
+        Param = self.env['ir.config_parameter'].sudo()
         Param.set_param("account_taxcloud.taxcloud_api_id", (self.taxcloud_api_id or '').strip(), groups=['base.group_erp_manager'])
         Param.set_param("account_taxcloud.taxcloud_api_key", (self.taxcloud_api_key or '').strip(), groups=['base.group_erp_manager'])
 
     @api.model
     def get_default_taxcloud(self, fields):
-        params = self.env['ir.config_parameter']
+        params = self.env['ir.config_parameter'].sudo()
         taxcloud_api_id = params.get_param('account_taxcloud.taxcloud_api_id', default='')
         taxcloud_api_key = params.get_param('account_taxcloud.taxcloud_api_key', default='')
         return dict(taxcloud_api_id=taxcloud_api_id, taxcloud_api_key=taxcloud_api_key)
