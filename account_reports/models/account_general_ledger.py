@@ -4,6 +4,7 @@
 from openerp import models, fields, api, _
 from openerp.tools.misc import formatLang
 from datetime import datetime, timedelta
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 
 class report_account_general_ledger(models.AbstractModel):
@@ -213,6 +214,10 @@ class report_account_general_ledger(models.AbstractModel):
 
     @api.model
     def _lines(self, line_id=None):
+        lang_code = self.env.lang or 'en_US'
+        lang = self.env['res.lang']
+        lang_id = lang._lang_get(lang_code)
+        date_format = lang.browse(lang_id).date_format
         lines = []
         context = self.env.context
         company_id = context.get('company_id') or self.env.user.company_id
@@ -282,7 +287,7 @@ class report_account_general_ledger(models.AbstractModel):
                         'action': line.get_model_id_and_name(),
                         'name': line.move_id.name if line.move_id.name else '/',
                         'footnotes': self.env.context['context_id']._get_footnotes('move_line_id', line.id),
-                        'columns': [line.date, name, partner_name, currency,
+                        'columns': [datetime.strptime(line.date, DEFAULT_SERVER_DATE_FORMAT).strftime(date_format), name, partner_name, currency,
                                     line_debit != 0 and self._format(line_debit) or '',
                                     line_credit != 0 and self._format(line_credit) or '',
                                     self._format(progress)],
