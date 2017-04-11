@@ -9,6 +9,7 @@ from suds.client import Client
 from urllib2 import URLError
 
 from odoo import modules
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -35,7 +36,10 @@ class TaxCloudRequest(object):
             "Zip5": partner.zip,
             "Zip4": ""
         }
-        return requests.post("https://api.taxcloud.com/1.0/TaxCloud/VerifyAddress", data=address_to_verify).json()
+        res = requests.post("https://api.taxcloud.com/1.0/TaxCloud/VerifyAddress", data=address_to_verify).json()
+        if int(res.get('ErrNumber', False)):
+            raise ValidationError(res.get('ErrDescription'))
+        return res
 
     def set_location_origin_detail(self, shipper):
         address = self.verify_address(shipper)
