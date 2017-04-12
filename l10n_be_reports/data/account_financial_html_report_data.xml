@@ -470,7 +470,7 @@
             <field name="name">17 - Dettes à plus d'un an</field>
             <field name="code">BE_17</field>
             <field name="parent_id" ref='account_financial_report_be_dettes0'/>
-            <field name="formulas">balance = BE_170_4.balance + BE_175.balance + BE_176.balance + BE_178_9.balance; credit = BE_170_4.credit + BE_175.credit + BE_176.credit + BE_178_9.credit; debit = BE_170_4.debit + BE_175.debit + BE_176.debit + BE_178_9.debit</field>
+            <field name="formulas">balance = BE_170_4.balance + BE_175.balance + BE_176.balance + BE_178_9.balance + BE_171.balance; credit = BE_170_4.credit + BE_175.credit + BE_176.credit + BE_178_9.credit + BE_171.credit; debit = BE_170_4.debit + BE_175.debit + BE_176.debit + BE_178_9.debit + BE_171.debit</field>
             <field name="sequence" eval="1"/>
             <field name="level" eval="2" />
         </record>
@@ -479,6 +479,16 @@
             <field name="code">BE_170_4</field>
             <field name="parent_id" ref='account_financial_report_be_dettes_plus_un_an0'/>
             <field name="formulas">balance = BE_172_3.balance + BE_174_0.balance; credit = BE_172_3.credit + BE_174_0.credit; debit = BE_172_3.debit + BE_174_0.debit</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3" />
+        </record>
+        <record id="account_financial_report_be_emprunts_obligataires_non_subordones0" model="account.financial.html.report.line">
+            <field name="name">171 - Emprunts obligataires non subordonnés</field>
+            <field name="code">BE_171</field>
+            <field name="domain" eval="[('account_id.code', '=like', '171%')]" />
+            <field name="groupby">account_id</field>
+            <field name="parent_id" ref='account_financial_report_be_dettes_plus_un_an0'/>
+            <field name="formulas">balance = -sum.balance; credit = sum.credit; debit = sum.debit</field>
             <field name="sequence" eval="1"/>
             <field name="level" eval="3" />
         </record>
