@@ -131,7 +131,7 @@ var UserAgent = Class.extend(core.mixins.PropertiesMixin,{
     // TODO when the send_notification is moved into utils instead of mail.utils
     // remove this function and use the one in utils
     send_notification: function(title, content) {
-        if (Notification && Notification.permission === "granted") {
+        if (window.Notification && Notification.permission === "granted") {
             return new Notification(title, {body: content, icon: "/mail/static/src/img/odoo_o.png", silent: true});
         }
     },
