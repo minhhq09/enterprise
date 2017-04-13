@@ -16,6 +16,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
         partner_ids = self.env['res.partner'].search([('vat', 'ilike', 'BE%')]).ids
         if not partner_ids:
             return lines
+
         company_clauses = ['AND FALSE', 'AND FALSE']
         if context_id.company_ids.ids:
             company_ids = '(' + ','.join(map(str, context_id.company_ids.ids)) + ')'
@@ -25,7 +26,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
         query = """SELECT sub1.partner_id, sub1.name, sub1.vat, sub1.turnover, sub2.vat_amount
             FROM (SELECT l.partner_id, p.name, p.vat, SUM(l.credit - l.debit) as turnover
                   FROM account_move_line l
-                  LEFT JOIN res_partner p ON l.partner_id = p.id
+                  LEFT JOIN res_partner p ON l.partner_id = p.id AND p.customer = true
                   LEFT JOIN account_move_line_account_tax_rel amlt ON l.id = amlt.account_move_line_id
                   LEFT JOIN account_tax_account_tag tt on amlt.account_tax_id = tt.account_tax_id
                   WHERE tt.account_account_tag_id IN %%s
@@ -43,6 +44,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   AND l2.date <= %%s
                   %s
                   GROUP BY l2.partner_id) AS sub2 ON sub1.partner_id = sub2.partner_id
+                  WHERE turnover > 250
                 """ % tuple(company_clauses)
         self.env.cr.execute(query, (tuple(tag_ids), tuple(partner_ids), context_id.date_from, context_id.date_to, tuple(tag_ids_2), tuple(partner_ids), context_id.date_from, context_id.date_to))
         for record in self.env.cr.dictfetchall():

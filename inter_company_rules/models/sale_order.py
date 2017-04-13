@@ -94,6 +94,7 @@ class sale_order(models.Model):
             'auto_generated': True,
             'auto_sale_order_id': self.id,
             'partner_ref': self.name,
+            'currency_id': self.currency_id.id
         }
         return res
 

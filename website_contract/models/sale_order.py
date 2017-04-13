@@ -40,7 +40,8 @@ class SaleOrder(models.Model):
             for line in self.order_line:
                 line._compute_tax_id()
             self.options = options
-            self.note = self.contract_template.description
+            if self.contract_template:
+                self.note = self.contract_template.description
 
     def create_contract(self):
         """ Create a contract based on the order's quote template's contract template """
