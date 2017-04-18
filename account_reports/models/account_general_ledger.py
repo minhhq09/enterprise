@@ -202,16 +202,9 @@ class report_account_general_ledger(models.AbstractModel):
                     'strict_range': True,
                     'date_from': context['date_from_aml'],
                 }
-            if not context.get('print_mode'):
-                #  fetch the 81 first amls. The report only displays the first 80 amls. We will use the 81st to know if there are more than 80 in which case a link to the list view must be displayed.
-                aml_ids = self.with_context(**aml_ctx)._do_query(account_id, group_by_account=False, limit=81)
-                aml_ids = [x[0] for x in aml_ids]
-
-                accounts[account]['lines'] = self.env['account.move.line'].browse(aml_ids)
-            else:
-                aml_ids = self.with_context(**aml_ctx)._do_query(account_id, group_by_account=False)
-                aml_ids = [x[0] for x in aml_ids]
-                accounts[account]['lines'] = self.env['account.move.line'].browse(aml_ids)
+            aml_ids = self.with_context(**aml_ctx)._do_query(account_id, group_by_account=False)
+            aml_ids = [x[0] for x in aml_ids]
+            accounts[account]['lines'] = self.env['account.move.line'].browse(aml_ids)
         #if the unaffected earnings account wasn't in the selection yet: add it manually
         if not unaffected_earnings_line and unaffected_earnings_results['balance']:
             #search an unaffected earnings account
@@ -295,7 +288,7 @@ class report_account_general_ledger(models.AbstractModel):
                     'level': 1,
                 }]
                 progress = initial_balance
-                amls = grouped_accounts[account]['lines']
+                amls = amls_all = grouped_accounts[account]['lines']
                 too_many = False
                 if len(amls) > 80 and not context.get('print_mode'):
                     amls = amls[:80]
@@ -345,7 +338,7 @@ class report_account_general_ledger(models.AbstractModel):
                 if too_many:
                     domain_lines.append({
                         'id': account.id,
-                        'domain': "[('id', 'in', %s)]" % amls.ids,
+                        'domain': "[('id', 'in', %s)]" % amls_all.ids,
                         'type': 'too_many',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
                         'footnotes': {},
