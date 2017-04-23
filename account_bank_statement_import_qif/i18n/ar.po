@@ -7,13 +7,14 @@
 # Fahad Alqahtani <fahad@cloudland.sa>, 2016
 # Mustafa Rawi <mustafa@cubexco.com>, 2016
 # Shaima Safar <shaima.safar@open-inside.com>, 2017
+# Islam Eldeeb <islameldeb@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Shaima Safar <shaima.safar@open-inside.com>, 2017\n"
+"Last-Translator: Islam Eldeeb <islameldeb@gmail.com>, 2017\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,6 +29,9 @@ msgid ""
 " be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
+"دفتر اليومية المحاسبى المقترن بكشف الحساب المصرفي التي تقوم بإستيرادة. قد تم"
+" اختياره يدويا لنموذج كشف الحساب الذي لا يسمح بالاكتشاف التلقائي لدفتر "
+"اليومية ( على سبيل المثال تنسيق سرعة التبادل)."
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_qif_date_format
@@ -36,6 +40,10 @@ msgid ""
 "financial institutions use the local format.Therefore, it is frequent "
 "outside the US to have QIF date formated day-first (dd/mm/yy)."
 msgstr ""
+"على الرغم من أن التنسيق التاريخي لتاريخ تنسيق سرعة التبادل هو الشهر الأول "
+"(شهر/ يوم/ سنه )، العديد من المؤسسات المالية تستخدم الشكل المحلي.لذلك، فمن "
+"المتكرر خارج الولايات المتحدة أن يكون تنسيق تاريخ QIF هو اليوم الأول (يوم / "
+"شهر / سنة)"
 
 #. module: account_bank_statement_import_qif
 #: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:61
@@ -46,7 +54,7 @@ msgstr "لا يمكن فك ملف تنسيق سرعة التبادل."
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,field_description:account_bank_statement_import_qif.field_account_bank_statement_import_qif_date_format
 msgid "Dates format"
-msgstr ""
+msgstr "تنسيق التواريخ"
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,field_description:account_bank_statement_import_qif.field_account_bank_statement_import_hide_journal_field
@@ -71,7 +79,7 @@ msgstr "تنسيق سرعة التبادل (.QIF)"
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,field_description:account_bank_statement_import_qif.field_account_bank_statement_import_show_qif_date_format
 msgid "Show qif date format"
-msgstr ""
+msgstr "عرض تنسيق تاريخ تنسيق سرعة التبادل"
 
 #. module: account_bank_statement_import_qif
 #: model:ir.model.fields,help:account_bank_statement_import_qif.field_account_bank_statement_import_show_qif_date_format
@@ -79,6 +87,8 @@ msgid ""
 "Technical field used to ask the user for the date format used in the QIF "
 "file, as this format is ambiguous."
 msgstr ""
+"الحقل التقنى يستخدم لسؤال المستخدم عن تنسيق التاريخ المستخدم فى ملفات تنسيق "
+"سرعة التبادل حيث ان تلك التنسيق غامض ."
 
 #. module: account_bank_statement_import_qif
 #: model:ir.ui.view,arch_db:account_bank_statement_import_qif.account_bank_statement_import_view_inherited
@@ -86,6 +96,8 @@ msgid ""
 "The QIF format is ambiguous about dates: please check with your financial "
 "institution whether they format it with month or day first.<br/>"
 msgstr ""
+"تنسيق سرعة التبادل غامض حول التواريخ : يرجى مراجعة المؤسسة المالية الخاصة بك"
+" سواء كان التنسيق يبدء بالشهر ام اليوم.<br/>"
 
 #. module: account_bank_statement_import_qif
 #: code:addons/account_bank_statement_import_qif/wizard/account_bank_statement_import_qif.py:101
@@ -101,9 +113,9 @@ msgstr "ا_ستيراد"
 #. module: account_bank_statement_import_qif
 #: selection:account.bank.statement.import,qif_date_format:0
 msgid "dd/mm/yy"
-msgstr ""
+msgstr "يوم / شهر / عام"
 
 #. module: account_bank_statement_import_qif
 #: selection:account.bank.statement.import,qif_date_format:0
 msgid "mm/dd/yy"
-msgstr ""
+msgstr "شهر/ يوم / عام"
