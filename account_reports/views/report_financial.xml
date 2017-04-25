@@ -99,7 +99,7 @@
         </td>
         <t t-foreach="a['columns']" t-as="c">
             <t t-set="column" t-value="column + 1" />
-            <td t-att-class="context.get_columns_types()[column - 1] == 'number' and  'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" style="white-space: nowrap;">
+            <td t-att-class="context.get_columns_types()[column - 1] == 'number' and  'text-right' or context.get_columns_types()[column - 1] == 'text' and  'text-left' or 'text-center'" t-att-style="context.get_columns_types()[column - 1] == 'text' and 'white-space: pre-wrap; word-wrap: break-word; max-width:300px;' or 'white-space: nowrap;'">
                 <t t-if="isinstance(c, tuple)"><t t-set="style" t-value="c[1]" /><t t-set="c" t-value="c[0]" /></t>
                 <span class="annotable" t-att-style="style">
                     <t t-raw="c" /><t t-call="account_reports.report_financial_footnote_sup" />
