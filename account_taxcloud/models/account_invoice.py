@@ -72,7 +72,7 @@ class AccountInvoice(models.Model):
                 request.api_key,
                 request.customer_id,
                 request.cart_id,
-                request.cart_id,
+                self.id,
                 datetime.datetime.now()
             )
 
@@ -80,3 +80,18 @@ class AccountInvoice(models.Model):
             return {'warning': _('The tax rates have been updated, you may want to check it before validation')}
         else:
             return True
+
+    @api.multi
+    def action_invoice_paid(self):
+        for invoice in self:
+            if invoice.fiscal_position_id.is_taxcloud:
+                Param = self.env['ir.config_parameter']
+                api_id = Param.sudo().get_param('account_taxcloud.taxcloud_api_id')
+                api_key = Param.sudo().get_param('account_taxcloud.taxcloud_api_key')
+                request = TaxCloudRequest(api_id, api_key)
+                request.client.service.Captured(
+                    request.api_login_id,
+                    request.api_key,
+                    invoice.id,
+                )
+        return super(AccountInvoice, self).action_invoice_paid()
