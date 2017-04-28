@@ -428,7 +428,7 @@ class SaleSubscriptionLine(osv.osv):
         'actual_quantity': fields.float('Actual Quantity', help="Quantity actually used by the customer"),
         'sold_quantity': fields.float('Sold Quantity', help="Quantity sold to the customer", required=True),
         'uom_id': fields.many2one('product.uom', 'Unit of Measure', required=True),
-        'price_unit': fields.float('Unit Price', required=True),
+        'price_unit': fields.float('Unit Price', required=True, digits_compute=dp.get_precision('Product Price')),
         'discount': fields.float('Discount (%)', digits_compute=dp.get_precision('Discount')),
         'price_subtotal': fields.function(_amount_line, string='Sub Total', type="float", digits_compute=dp.get_precision('Account')),
     }
