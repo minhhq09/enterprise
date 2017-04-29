@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-01 06:30+0000\n"
-"PO-Revision-Date: 2017-03-25 03:31+0000\n"
+"PO-Revision-Date: 2017-04-28 08:58+0000\n"
 "Last-Translator: Pedro M. Baeza <pedro.baeza@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/odoo/odoo-9/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -128,7 +128,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hola ${object.partner_id.name},</p>\n        \n        <p>\n            Su suscripción (${ctx.get('code')}) has just been renewed\n            %if ctx.get('total_amount') and ctx.get('payment_method'):\n                por un pago de ${ctx['total_amount']} ${ctx['currency']} charged on ${ctx['payment_method']}\n                .\n            %endif\n        </p>\n\n        <p>Encontrará su factura adjunta.</p>\n\n        %if ctx.get('next_date'):\n        <p>\n          Su siguiente factura será el ${ctx.get('next_date')}.\n        </p>\n        %endif\n\n        <br/>\n        <p>Para cualquier consulta no dude en contactarnos.</p>\n        <p>Gracias por elegir ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Teléfono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_close
@@ -184,7 +184,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hola ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          Nuestro último intento de procesar el pago de su suscripción mediante su método de pago\n          ${ctx['payment_method']}\n          for ${ctx['total_amount']} ${ctx.get('currency')} ha fallado.\n          % if ctx.get('error'):\n            Su banco o institución de crédito informa de los siguientes detalles de la incidencia: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          Nuestro último intento de procesar el pago de su suscripción ha fallado porque no tenemos ningún método de pago registrado en su caso.\n        % endif \n        </p>\n\n        <p>\n          Debido a que el pago debería haberse realizado <strong>hace 15 días</strong>, su suscripción se da por terminada.\n        </p>\n\n        <br/>En el caso de que desee resolver esta incidencia, no dude en contactar con nosotros.</p>\n        <p>Gracias por elegir ${object.company_id.name or 'us'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                   Teléfono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:mail.template,body_html:website_contract.email_payment_reminder
@@ -242,7 +242,7 @@ msgid ""
 "    </div>\n"
 "                \n"
 "        "
-msgstr ""
+msgstr "\n            \n       <div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n\n        <p>Hola ${object.partner_id.name},</p>\n        \n        <p>\n        % if ctx.get('payment_method') and ctx.get('total_amount'):\n          No hemos podido procesar el pago de su suscripción utilizando su método de pago\n          ${ctx['payment_method']}\n          para la cantidad de ${ctx['total_amount']} ${ctx.get('currency')}.\n          % if ctx.get('error'):\n            Su banco o institución de crédito muestra los siguientes detalles de la incidencia: <pre>${ctx['error']}</pre>.\n          %endif\n        % else:\n          No hemos podeido procesar el pago de su suscripción porque no tenemos ningún método de pago registrado en su caso.\n        % endif \n        </p>\n\n        <p>\n          Su subscripción ${ctx.get('code')} es aun válida pero será <b>suspendida</b>\n          el ${ctx.get('date_close')} si no se resuelve el pago antes (lo intentaremos una vez cada día).\n          Por favor, revise que tiene fondos disponibles.\n        </p>\n\n        <br/>\n        <p>Para cualquier cuestión no dude en contactarnos.</p>\n        <p>Gracias por elegir ${object.company_id.name or 'nuestros servicios'}!</p>\n        <br/>\n        <br/>\n        <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n            <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n                <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n        </div>\n        <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n            <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n                ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n            </span>\n            % if object.company_id.phone:\n                <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                    Teléfono:&nbsp; ${object.company_id.phone}\n                </div>\n            % endif\n            % if object.company_id.website:\n                <div>\n                    Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n                </div>\n            % endif\n            <p></p>\n        </div>\n    </div>\n                \n        "
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.order_line_row
@@ -781,12 +781,12 @@ msgstr "Factura"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_success
 msgid "Invoice for subscription ${ctx.get('code')}"
-msgstr ""
+msgstr "Factura de la suscripción ${ctx.get('code')}"
 
 #. module: website_contract
 #: model:mail.template,report_name:website_contract.email_payment_success
 msgid "Invoice_${ctx.get('code')}_${ctx.get('previous_date')}"
-msgstr ""
+msgstr "Factura_${ctx.get('code')}_${ctx.get('previous_date')}"
 
 #. module: website_contract
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_is_authorized
@@ -819,7 +819,7 @@ msgstr "Última actualización en"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_quantity
 msgid "Max between actual and sold quantities; this quantity will be invoiced"
-msgstr ""
+msgstr "Máximo entre las cantidades real y vendida; Esta cantidad se facturará"
 
 #. module: website_contract
 #: model:product.uom,name:website_contract.contract_uom_month
@@ -939,7 +939,7 @@ msgstr "Transacción de pago"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_reminder
 msgid "Payment reminder for subscription ${object.code}"
-msgstr ""
+msgstr "Recordatorio del pago de la suscripción ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.template_panel
@@ -980,7 +980,7 @@ msgstr "Cantidad"
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_actual_quantity
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_wizard_option_actual_quantity
 msgid "Quantity actually used by the customer"
-msgstr ""
+msgstr "Cantidad realmente utilizada por el cliente"
 
 #. module: website_contract
 #: model:ir.model.fields,help:website_contract.field_sale_subscription_line_option_sold_quantity
@@ -1089,7 +1089,7 @@ msgstr "Tablero de Vendedor"
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_line_option_sold_quantity
 #: model:ir.model.fields,field_description:website_contract.field_sale_subscription_wizard_option_sold_quantity
 msgid "Sold Quantity"
-msgstr ""
+msgstr "Cantidad vendida"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
@@ -1133,7 +1133,7 @@ msgstr "Impuestos:"
 #. module: website_contract
 #: model:mail.template,subject:website_contract.email_payment_close
 msgid "Termination of subscription ${object.code}"
-msgstr ""
+msgstr "Finalización de la suscripción ${object.code}"
 
 #. module: website_contract
 #: model:ir.ui.view,arch_db:website_contract.contract
