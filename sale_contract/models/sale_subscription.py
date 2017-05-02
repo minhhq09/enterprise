@@ -362,7 +362,7 @@ class SaleSubscriptionLine(models.Model):
     actual_quantity = fields.Float(help="Quantity actually used by the customer", default=0.0, digits=dp.get_precision('Product Unit of Measure'))
     sold_quantity = fields.Float(help="Quantity sold to the customer", required=True, default=1, digits=dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', required=True)
-    price_unit = fields.Float(string='Unit Price', required=True)
+    price_unit = fields.Float(string='Unit Price', required=True, digits=dp.get_precision('Product Price'))
     discount = fields.Float(string='Discount (%)', digits=dp.get_precision('Discount'))
     price_subtotal = fields.Float(compute='_compute_price_subtotal', string='Sub Total', digits=dp.get_precision('Account'))
 
