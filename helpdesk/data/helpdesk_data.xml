@@ -92,14 +92,14 @@
         <field name="email_from">${object.user_id.email_formatted | safe}</field>
         <field name="subject">${object.display_name}</field>
         <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
-        <field name="email_to">${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email else object.partner_email|safe)}</field>
-        <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email and object.partner_id.id or False}</field>
+        <field name="email_to">${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}</field>
+        <field name="partner_to">${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}</field>
         <field name="auto_delete" eval="False"/>
         <field name="body_html" type="xml">
 <div style="max-width:600px; height:auto; margin-left:30px;">
     <div style="margin-left:30px;align=center;">
         This is an automatic message:<br />
-        Dear ${object.partner_id.name or 'Madam, Sir'},
+        Dear ${object.sudo().partner_id.name or 'Madam, Sir'},
     </div>
     <div style="margin-left:30px;align=center;" width="60%">
         Your request
@@ -121,13 +121,13 @@
         <field name="email_from">${object.user_id.email_formatted | safe}</field>
         <field name="subject">${object.display_name}</field>
         <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
-        <field name="email_to">${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email else object.partner_email|safe)}</field>
-        <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email and object.partner_id.id or False}</field>
+        <field name="email_to">${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}</field>
+        <field name="partner_to">${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}</field>
         <field name="auto_delete" eval="False"/>
         <field name="body_html" type="xml">
 <div style="max-width:600px; height:auto; margin-left:30px;">
     <div style="margin-left:30px;align=center;">
-        Dear ${object.partner_id.name or 'Madam, Sir'},
+        Dear ${object.sudo().partner_id.name or 'Madam, Sir'},
     </div>
     <div style="margin-left:30px;align=center;" width="60%">
         This automatic message informs you that we have closed your ticket (reference ${object.id}).
@@ -148,8 +148,8 @@
         <field name="email_from">${object.rating_get_rated_partner_id().email_formatted | safe}</field>
         <field name="subject">${object.company_id.name or object.user_id.company_id.name or 'Helpdesk'}: Service Rating Request</field>
         <field name="model_id" ref="helpdesk.model_helpdesk_ticket"/>
-        <field name="email_to">${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email else object.partner_email|safe)}</field>
-        <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.partner_email and object.partner_id.id or False}</field>
+        <field name="email_to">${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}</field>
+        <field name="partner_to">${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}</field>
         <field name="auto_delete" eval="True"/>
         <field name="body_html" type="xml">
 <div style="background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;">
