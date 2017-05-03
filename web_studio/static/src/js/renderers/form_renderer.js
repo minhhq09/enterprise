@@ -171,7 +171,7 @@ return AbstractRenderer.extend({
         var text;
         if ('string' in node.attrs) { // allow empty string
             text = node.attrs.string;
-        } else if (node.attrs.for) {
+        } else if (node.attrs.for && this.fields[node.attrs.for]) {
             text = this.fields[node.attrs.for].string;
         } else  {
             return this._render_generic_tag(node);
