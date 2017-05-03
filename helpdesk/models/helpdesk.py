@@ -563,7 +563,7 @@ class HelpdeskTicket(models.Model):
         for ticket in self:
             dom = [('team_id', '=', ticket.team_id.id), ('priority', '<=', ticket.priority), '|', ('ticket_type_id', '=', ticket.ticket_type_id.id), ('ticket_type_id', '=', False)]
             sla = ticket.env['helpdesk.sla'].search(dom, order="time_days, time_hours, time_minutes", limit=1)
-            if sla and ticket.active and ticket.create_date:
+            if sla and ticket.sla_id != sla and ticket.active and ticket.create_date:
                 ticket.sla_id = sla.id
                 ticket.sla_name = sla.name
                 ticket.deadline = fields.Datetime.from_string(ticket.create_date) + relativedelta.relativedelta(days=sla.time_days, hours=sla.time_hours, minutes=sla.time_minutes)
@@ -576,9 +576,22 @@ class HelpdeskTicket(models.Model):
             ticket.sla_active = True
             if not ticket.deadline:
                 ticket.sla_active = False
+                ticket.sla_fail = False
             elif ticket.sla_id.stage_id.sequence <= ticket.stage_id.sequence:
                 ticket.sla_active = False
-                if fields.Datetime.now() > ticket.deadline:
+                prev_stage_ids = self.env['helpdesk.stage'].search([('sequence', '<', ticket.sla_id.stage_id.sequence)])
+                next_stage_ids = self.env['helpdesk.stage'].search([('sequence', '>=', ticket.sla_id.stage_id.sequence)])
+                stage_id_tracking_value = self.env['mail.tracking.value'].search([('field', '=', 'stage_id'),
+                                                                                  ('old_value_integer', 'in', prev_stage_ids.ids),
+                                                                                  ('new_value_integer', 'in', next_stage_ids.ids),
+                                                                                  ('mail_message_id.model', '=', 'helpdesk.ticket'),
+                                                                                  ('mail_message_id.res_id', '=', ticket.id)], order='create_date ASC', limit=1)
+
+                if stage_id_tracking_value:
+                    if stage_id_tracking_value.create_date > ticket.deadline:
+                        ticket.sla_fail = True
+                # If there are no tracking messages, it means we *just* (now!) changed the state
+                elif fields.Datetime.now() > ticket.deadline:
                     ticket.sla_fail = True
 
     @api.model
