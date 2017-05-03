@@ -77,7 +77,7 @@ class YodleeProviderAccount(models.Model):
     @api.multi
     def do_user_login(self):
         credentials = self._get_yodlee_credentials()
-        company_id = self.env.user.company_id
+        company_id = self.company_id if len(self) else self.env.user.company_id
         headerVal = {'Authorization': '{cobSession='+company_id.yodlee_access_token+'}'}
         requestBody = {'loginName': company_id.yodlee_user_login, 'password': company_id.yodlee_user_password}
         try:
