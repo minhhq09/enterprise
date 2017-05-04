@@ -35,3 +35,16 @@ return AbstractRenderer.extend({
 });
 
 });
+
+// This module has been placed here for retro-compatibility issues. In any case,
+// it shouldn't be here from SaaS-16 as the tree view won't exist anymore.
+odoo.define('web_studio.TreeEditor', function (require) {
+"use strict";
+
+var OldViewRenderers = require('web_studio.OldViewRenderers');
+
+return OldViewRenderers.extend({
+    view_type: 'tree',
+});
+
+});

@@ -1,10 +1,2 @@
-odoo.define('web_studio.TreeEditor', function (require) {
-"use strict";
-
-var OldViewRenderers = require('web_studio.OldViewRenderers');
-
-return OldViewRenderers.extend({
-    view_type: 'tree',
-});
-
-});
+// this file stays here for retro-compatibility issues but should disappear from
+// SaaS-16
