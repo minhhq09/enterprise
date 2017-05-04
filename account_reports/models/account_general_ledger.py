@@ -263,7 +263,7 @@ class report_account_general_ledger(models.AbstractModel):
         lang_code = self.env.lang or 'en_US'
         lang = self.env['res.lang']
         lang_id = lang._lang_get(lang_code)
-        date_format = lang.browse(lang_id).date_format
+        date_format = lang_id.date_format
         lines = []
         context = self.env.context
         company_id = context.get('company_id') or self.env.user.company_id
