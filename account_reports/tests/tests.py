@@ -24,3 +24,7 @@ class TestAccountReports(common.TransactionCase):
     def test_02_followup_reports(self):
         self.env['account.report.context.followup.all'].create({}).get_html({'page': 1})
         self.env['account.report.context.followup'].create({'partner_id': self.env.ref('base.res_partner_2').id}).get_html()
+
+    def test_03_general_ledger(self):
+        context = self.env['account.context.general.ledger'].create({})
+        self.env['account.general.ledger'].get_lines(context.id)
