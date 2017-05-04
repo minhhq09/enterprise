@@ -163,7 +163,12 @@ class SaleSubscription(osv.osv):
 
         partner = self.pool['res.partner'].browse(cr, uid, partner_id, context=context)
         pricelist_id = partner.property_product_pricelist and partner.property_product_pricelist.id or False
-        return {'value': {'pricelist_id': pricelist_id}}
+        res = {'value': {}}
+        res['value']['pricelist_id'] = pricelist_id
+        if partner.user_id:
+            # FOWARDPORT WARNING: the field manager_id is removed in v10, use user_id
+            res['value']['manager_id'] = partner.user_id.id
+        return res
 
     def _prepare_invoice_data(self, cr, uid, contract, context=None):
         context = context or {}
