@@ -375,6 +375,13 @@ class WebStudioController(http.Controller):
         else:
             # Format of expr is //tag[@attr1_name=attr1_value][@attr2_name=attr2_value][...]
             expr = '//' + node['tag'] + ''.join(['[@%s=\'%s\']' % (k, v) for k, v in node.get('attrs', {}).items()])
+            # Avoid matching nodes in sub views.
+            # Example with field as node:
+            # A field should be defined only once in a view but in some cases,
+            # a view can be composed by some other views where a field with
+            # the same name may exist.
+            # Here, we want to generate xpath based on the nodes in the parent view only.
+            expr = expr + '[not(ancestor::field)]'
 
         # Special case when we have <label/><div/> instead of <field>
         # TODO: This is very naive, couldn't the js detect such a situation and
