@@ -70,6 +70,8 @@ class SaleSubscription(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         self.pricelist_id = self.partner_id.property_product_pricelist.id
+        if self.partner_id.user_id:
+            self.user_id = self.partner_id.user_id:
 
     @api.onchange('template_id')
     def on_change_template(self):
