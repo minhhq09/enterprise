@@ -536,7 +536,7 @@ class AccountReportContextCommon(models.TransientModel):
         domain_style_right = workbook.add_format({'font_name': 'Arial', 'italic': True, 'right': 2})
         upper_line_style = workbook.add_format({'font_name': 'Arial', 'top': 2})
 
-        sheet.set_column(0, 0, 1000) #  Set the first column width to 1000
+        sheet.set_column(0, 0, 15) #  Set the first column width to 15
 
         sheet.write(0, 0, '', title_style)
 
