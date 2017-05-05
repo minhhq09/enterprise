@@ -31,6 +31,7 @@ class ReportL10nBePartnerVatListing(models.AbstractModel):
                   LEFT JOIN account_move_line_account_tax_rel amlt ON l.id = amlt.account_move_line_id
                   LEFT JOIN account_tax_account_tag tt on amlt.account_tax_id = tt.account_tax_id
                   WHERE tt.account_account_tag_id IN %s
+                  AND p.vat IS NOT NULL
                   AND l.partner_id IN %s
                   AND l.date >= '%s'
                   AND l.date <= '%s'
