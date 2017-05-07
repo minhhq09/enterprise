@@ -25,13 +25,14 @@
 # Olivier Dony <odo@odoo.com>, 2016
 # Jérémy Donas <LeDistordu@users.noreply.github.com>, 2016
 # Sébastien Le Ray <sebastien-github@orniz.org>, 2017
+# Damien Bouvy <dbo@odoo.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-29 14:58+0000\n"
 "PO-Revision-Date: 2016-09-29 14:58+0000\n"
-"Last-Translator: Sébastien Le Ray <sebastien-github@orniz.org>, 2017\n"
+"Last-Translator: Damien Bouvy <dbo@odoo.com>, 2017\n"
 "Language-Team: French (https://www.transifex.com/odoo/teams/41243/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "Clôturer l'abonnement"
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_close_reason_wizard_action
 msgid "Close/Cancel Reason"
-msgstr ""
+msgstr "Motif de fermeture"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_search
@@ -176,7 +177,7 @@ msgstr "Code"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_commercial_partner_id
 msgid "Commercial Partner"
-msgstr ""
+msgstr "Partenaire commercial"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_company_id
@@ -260,6 +261,9 @@ msgid ""
 "Upselling: The Sales Order added lines to the subscription\n"
 "Renewal: The Sales Order replaced the subscription's content with its own"
 msgstr ""
+"Creation: l'ordre de vente a crée l'abonnement\n"
+"Montée en gamme: l'ordre a rajouté du contenu à l'abonnement\n"
+"Renouvellement: l'ordre a remplace le contenu de l'abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_credit
@@ -386,6 +390,8 @@ msgid ""
 "If set in advance, the subscription will be set to pending 1 month before "
 "the date and will be closed on the date set in this field."
 msgstr ""
+"Si défini, l'abonnement sera marqué comme \"A renouveller\" 1 mois avant la "
+"date sélectionnée et sera fermé à cette date."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_product_template_recurring_invoice
@@ -401,6 +407,9 @@ msgid ""
 "If set, subscriptions with this template will invoice in this journal; "
 "otherwise the sales journal with the lowest sequence is used."
 msgstr ""
+"Si défini, les factures des abonnements de ce modèle seront facturées dans "
+"ce journal; si le champ n'est pas défini, le journal de vente avec la plus "
+"petite séquence sera utilisé."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_active
@@ -432,7 +441,7 @@ msgstr "La facturation se répète automatiquement à un intervalle spécifique"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_invoice_count
 msgid "Invoice count"
-msgstr ""
+msgstr "Nombre de factures"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
@@ -473,7 +482,7 @@ msgstr "Dernière mise à jour le"
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_manager
 msgid "Manage Subscriptions"
-msgstr ""
+msgstr "Gestion des abonnements"
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_line_quantity
@@ -530,7 +539,7 @@ msgstr "Contrats en attente"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Plan Change Tags"
-msgstr ""
+msgstr "Étiquettes de changement de plan"
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_subscription.py:172
@@ -677,7 +686,7 @@ msgstr "Représentant commercial"
 #. module: sale_contract
 #: model:res.groups,name:sale_contract.group_sale_contract_view
 msgid "See Subscriptions"
-msgstr ""
+msgstr "Lecture des abonnements"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_close_reason_sequence
@@ -692,7 +701,7 @@ msgstr "Configuration"
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_line_sold_quantity
 msgid "Sold quantity"
-msgstr ""
+msgstr "Quantité vendue"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_date_start
@@ -707,7 +716,7 @@ msgstr "Mois de début"
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form
 msgid "Start Subscription"
-msgstr ""
+msgstr "Démarrer l'abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_report_state
@@ -717,7 +726,7 @@ msgstr "État"
 #. module: sale_contract
 #: model:mail.message.subtype,name:sale_contract.subtype_state_change
 msgid "State Change"
-msgstr ""
+msgstr "Changement d'état"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_state
@@ -786,12 +795,12 @@ msgstr "Modèle d'abonnement"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_template_line
 msgid "Subscription Template Line"
-msgstr ""
+msgstr "Ligne de modèle d'abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_template_subscription_template_line_ids
 msgid "Subscription Template Lines"
-msgstr ""
+msgstr "Lignes de modèle d'abonnement"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_template_action
@@ -809,7 +818,7 @@ msgstr "Articles d'abonnement"
 #. module: sale_contract
 #: model:mail.message.subtype,description:sale_contract.subtype_state_change
 msgid "Subscription state has changed"
-msgstr ""
+msgstr "Changement d'état de l'abonnement"
 
 #. module: sale_contract
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action
@@ -834,12 +843,12 @@ msgstr "Abonnements"
 #: model:ir.actions.act_window,name:sale_contract.sale_subscription_action_pending
 #: model:ir.ui.menu,name:sale_contract.menu_sale_subscription_pending
 msgid "Subscriptions to Renew"
-msgstr ""
+msgstr "Abonnements à renouveller"
 
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason
 msgid "Susbcription Close Reason"
-msgstr ""
+msgstr "Motif de fermeture d'abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_account_analytic_account_subscription_count
@@ -850,7 +859,7 @@ msgstr "Nombre d'Abonnement"
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_line
 msgid "Susbcription Line"
-msgstr ""
+msgstr "Ligne d'abonnement"
 
 #. module: sale_contract
 #: model:ir.model.fields,field_description:sale_contract.field_sale_subscription_tag_ids
@@ -877,6 +886,9 @@ msgid ""
 "                can be selected by the salespeople to quickly configure the\n"
 "                terms and conditions of the subscription."
 msgstr ""
+"Les modèles sont utilisés pour préfigurer les inscriptions qui\n"
+"peuvent être sélectionnées par les commerciaux pour rapidement configurer les\n"
+"termes et conditions de l'inscription."
 
 #. module: sale_contract
 #: model:ir.model.fields,help:sale_contract.field_sale_subscription_recurring_next_date
@@ -884,6 +896,8 @@ msgid ""
 "The next invoice will be created on this date then the period will be "
 "extended."
 msgstr ""
+"La prochaine facture sera générée à cette date et la période sera "
+"incrémentée."
 
 #. module: sale_contract
 #: model:ir.actions.act_window,help:sale_contract.product_action_subscription
@@ -904,7 +918,7 @@ msgstr "L'utilisateur aura un accès avec vue sur les contrats."
 #. module: sale_contract
 #: model:res.groups,comment:sale_contract.group_sale_contract_manager
 msgid "The user will have write access to Subscriptions."
-msgstr ""
+msgstr "L'utilisateur aura accès en lecture aux abonnements."
 
 #. module: sale_contract
 #: code:addons/sale_contract/models/sale_order.py:83
@@ -981,6 +995,8 @@ msgid ""
 "When a customer wants to change his subscription plan, he has the choice "
 "between all the recurring contracts with the same tags."
 msgstr ""
+"Quand un client veut changer de modèle d'abonnement, il a le choix entre les"
+" différents modèles partageant les mêmes étiquettes."
 
 #. module: sale_contract
 #: selection:sale.subscription.template,recurring_rule_type:0
@@ -1018,7 +1034,7 @@ msgstr ""
 #. module: sale_contract
 #: model:ir.model,name:sale_contract.model_sale_subscription_close_reason_wizard
 msgid "sale.subscription.close.reason.wizard"
-msgstr ""
+msgstr "Assistant de fermeture d'abonnement"
 
 #. module: sale_contract
 #: model:ir.ui.view,arch_db:sale_contract.sale_subscription_view_form

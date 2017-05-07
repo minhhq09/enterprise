@@ -11,13 +11,14 @@
 # Ana Juaristi <ajuaristio@gmail.com>, 2016
 # Miguel Orueta <mo@landoo.es>, 2016
 # Gelo Joga Landoo <gj@landoo.es>, 2017
+# Luis M. Ontalba <luis.martinez@tecnativa.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-07 09:57+0000\n"
 "PO-Revision-Date: 2016-09-07 09:57+0000\n"
-"Last-Translator: Gelo Joga Landoo <gj@landoo.es>, 2017\n"
+"Last-Translator: Luis M. Ontalba <luis.martinez@tecnativa.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,6 +73,8 @@ msgstr "Crear Factura / Reembolsos al codificar factura / reembolsos"
 msgid ""
 "Create Invoices/Refunds when encoding invoices/refunds made to this company"
 msgstr ""
+"Crear facturas/rectificativas al codificar facturas/rectificativas hechas a "
+"esta compañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_po_from_so
@@ -159,6 +162,8 @@ msgstr "Usuario inter-compañía"
 #, python-format
 msgid "Inter company user of company %s doesn't have enough access rights"
 msgstr ""
+"El usuario intercompañía de la compañía %s no tiene suficientes permisos de "
+"acceso"
 
 #. module: inter_company_rules
 #: model:ir.ui.view,arch_db:inter_company_rules.view_company_inter_change_inherit_form
@@ -180,14 +185,14 @@ msgstr "Por favor defina %s journal para esta compañía: \"%s\" (id:%d)."
 #: code:addons/inter_company_rules/models/purchase_order.py:40
 #, python-format
 msgid "Provide at least one user for inter company relation for % "
-msgstr ""
+msgstr "Establezca al menos un usuario para la relación intercompañía para %"
 
 #. module: inter_company_rules
 #: code:addons/inter_company_rules/models/account_invoice.py:40
 #: code:addons/inter_company_rules/models/sale_order.py:43
 #, python-format
 msgid "Provide one user for intercompany relation for % "
-msgstr ""
+msgstr "Establezca un usuario para la relación intercompañía para %"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_purchase_order
@@ -199,6 +204,8 @@ msgstr "Pedido de compra"
 msgid ""
 "Responsible user for creation of documents triggered by intercompany rules."
 msgstr ""
+"Usuario responsable de la creación de documentos lanzados por reglas "
+"intercompañía."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_rule_type
@@ -208,13 +215,13 @@ msgstr "Tipo de regla"
 #. module: inter_company_rules
 #: selection:base.config.settings,rule_type:0
 msgid "SO and PO setting for inter company"
-msgstr ""
+msgstr "Configuración de pedidos de compra y venta para intercompañía"
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_base_config_settings_auto_validation
 #: model:ir.model.fields,field_description:inter_company_rules.field_res_company_auto_validation
 msgid "Sale/Purchase Orders Auto Validation"
-msgstr ""
+msgstr "Autovalidación de pedidos de compra/venta"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_sale_order
@@ -225,6 +232,8 @@ msgstr "Pedido de venta"
 #: model:ir.model.fields,help:inter_company_rules.field_base_config_settings_rule_type
 msgid "Select the type to setup inter company rules in selected company."
 msgstr ""
+"Seleccione el tipo para establecer reglas intercompañía en la compañía "
+"seleccionada."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,field_description:inter_company_rules.field_account_invoice_auto_invoice_id
@@ -257,6 +266,8 @@ msgid ""
 "When a Sale Order or a Purchase Order is created by a multi\n"
 "            company rule for this company, it will automatically validate it."
 msgstr ""
+"Cuando un pedido de venta o de compra es creado por la regla\n"
+"multicompañía para esta compañía, se validará automáticamente."
 
 #. module: inter_company_rules
 #: model:ir.model.fields,help:inter_company_rules.field_res_company_auto_validation
@@ -285,6 +296,9 @@ msgid ""
 "                    simultaneously with another option ('Create Sale Orders when buying to this\n"
 "                    company' or 'Create Purchase Orders when selling to this company')!"
 msgstr ""
+"¡ No puede seleccionar crear facturas basadas en otras facturas\n"
+"simultáneamente con otra opción ('Crear órdenes de venta al comprar a esta\n"
+"empresa' o 'Crear pedidos al vender a esta empresa') !"
 
 #. module: inter_company_rules
 #: model:ir.model,name:inter_company_rules.model_base_config_settings
