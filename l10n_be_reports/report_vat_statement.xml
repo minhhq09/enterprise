@@ -266,7 +266,7 @@
             <field name="code">BETAX86</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_entree0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_86')])]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_86')]), '|', '&amp;',  ('invoice_id', '=', False), ('debit', '&gt;', 0), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="6"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -288,7 +288,7 @@
             <field name="code">BETAX88</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_operations_entree0'/>
-            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_88')])]" />
+            <field name="domain" eval="[('tax_ids.tag_ids', 'in', [ref('l10n_be.tax_tag_88')]), '|', '&amp;',  ('invoice_id', '=', False), ('debit', '&gt;', 0), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="8"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
@@ -329,7 +329,7 @@
             <field name="code">BETAX55</field>
             <field name="formulas">balance = sum.balance</field>
             <field name="parent_id" ref='account_financial_report_l10n_be_tva_taxes_dues0'/>
-            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_55')])]" />
+            <field name="domain" eval="[('tax_line_id.tag_ids', 'in', [ref('l10n_be.tax_tag_55')]), '|', '&amp;',  ('invoice_id', '=', False), ('debit', '&gt;', 0), ('invoice_id.type', '=', 'in_invoice')]" />
             <field name="sequence" eval="2"/>
             <field name="show_domain">never</field>
             <field name="level" eval="3" />
