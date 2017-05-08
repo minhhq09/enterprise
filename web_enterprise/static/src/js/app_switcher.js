@@ -327,7 +327,6 @@ AppSwitcher.include({
                 expiration_panel.find('.oe_instance_buy').on('click.widget_events', self.proxy('enterprise_buy'));
                 expiration_panel.find('.oe_instance_renew').on('click.widget_events', self.proxy('enterprise_renew'));
                 expiration_panel.find('.oe_instance_upsell').on('click.widget_events', self.proxy('enterprise_upsell'));
-                expiration_panel.find('#confirm_enterprise_code').on('click.widget_events', self.proxy('enterprise_code_submit'));
                 expiration_panel.find('.check_enterprise_status').on('click.widget_events', self.proxy('enterprise_check_status'));
                 expiration_panel.find('.oe_instance_hide_panel').hide();
                 $.blockUI({message: expiration_panel.find('.database_expiration_panel')[0],
