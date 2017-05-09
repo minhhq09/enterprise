@@ -20,6 +20,7 @@ class report_account_aged_partner(models.AbstractModel):
 
     @api.model
     def _lines(self, context, line_id=None):
+        sign = -1.0 if self.env.context.get('aged_balance') else 1.0
         lines = []
         results, total, amls = self.env['report.account.report_agedpartnerbalance']._get_partner_move_lines([self._context['account_type']], self._context['date_to'], 'posted', 30)
         for values in results:
@@ -36,7 +37,7 @@ class report_account_aged_partner(models.AbstractModel):
                 'unfoldable': values['partner_id'] and True or False,
                 'unfolded': values['partner_id'] and (values['partner_id'] in context.unfolded_partners.ids) or False,
             }
-            vals['columns'] = map(self._format, vals['columns'])
+            vals['columns'] = [self._format(sign * t) for t in vals['columns']]
             lines.append(vals)
             if values['partner_id'] in context.unfolded_partners.ids:
                 for line in amls[values['partner_id']]:
@@ -49,7 +50,7 @@ class report_account_aged_partner(models.AbstractModel):
                         'level': 1,
                         'type': 'move_line_id',
                         'footnotes': context._get_footnotes('move_line_id', aml.id),
-                        'columns': [line['period'] == 6-i and self._format(line['amount']) or '' for i in range(7)],
+                        'columns': [line['period'] == 6-i and self._format(sign * line['amount']) or '' for i in range(7)],
                     }
                     lines.append(vals)
                 vals = {
@@ -60,7 +61,7 @@ class report_account_aged_partner(models.AbstractModel):
                     'columns': [values['direction'], values['4'], values['3'], values['2'], values['1'], values['0'], values['total']],
                     'level': 1,
                 }
-                vals['columns'] = map(self._format, vals['columns'])
+                vals['columns'] = [self._format(sign * t) for t in vals['columns']]
                 lines.append(vals)
         if total and not line_id:
             total_line = {
@@ -71,7 +72,7 @@ class report_account_aged_partner(models.AbstractModel):
                 'footnotes': context._get_footnotes('o_account_reports_domain_total', 0),
                 'columns': [total[6], total[4], total[3], total[2], total[1], total[0], total[5]],
             }
-            total_line['columns'] = map(self._format, total_line['columns'])
+            total_line['columns'] = [self._format(sign * t) for t in total_line['columns']]
             lines.append(total_line)
         return lines
 
