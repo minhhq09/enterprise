@@ -47,6 +47,7 @@ class StockMove(models.Model):
                             'point_id': point.id,
                             'team_id': point.team_id.id,
                             'product_id': point.product_id.id,
+                            'company_id': picking.company_id.id,
                         })
                         quality_points_list.add(point_key)
                     else:
@@ -60,5 +61,6 @@ class StockMove(models.Model):
                                 'point_id': point.id,
                                 'team_id': point.team_id.id,
                                 'product_id': product.id,
+                                'company_id': picking.company_id.id,
                             })
                             quality_points_list.add(point_key)
