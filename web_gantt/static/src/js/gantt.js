@@ -383,6 +383,12 @@ var GanttView = View.extend({
         }
     },
 
+    on_attach_callback: function () {
+        if (this.initial_scroll !== undefined) {
+            gantt.scrollTo(this.initial_scroll.x, this.initial_scroll.y);
+        }
+    },
+
     /**
      * Prepare the tasks and group by's to be handled by dhtmlxgantt and render
      * the view. This function also contains workaround to the fact that
@@ -612,9 +618,9 @@ var GanttView = View.extend({
         });
 
         // End of horrible hack
-        var scroll_state = gantt.getScrollState();
+        this.initial_scroll = gantt.getScrollState();
         this.$el.append(this.$div.contents());
-        gantt.scrollTo(scroll_state.x, scroll_state.y);
+        gantt.scrollTo(this.initial_scroll.x, this.initial_scroll.y);
         this.$div.remove();
         if (temp_div_with_id) temp_div_with_id.remove();
 
@@ -865,6 +871,10 @@ var GanttView = View.extend({
     },
 
     on_task_changed: function (task_obj) {
+        // Groups are modified by changing their children
+        if (task_obj.is_group) {
+            return $.Deferred().reject();
+        }
         // TODO: modify date_delay instead of date_stop
         if (this.fields_view.arch.attrs.date_stop === undefined) {
             // Using a duration field instead of date_stop
