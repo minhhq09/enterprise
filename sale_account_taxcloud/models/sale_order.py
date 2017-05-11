@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
 
         shipper = self.company_id or self.env.user.company_id
         request.set_location_origin_detail(shipper)
-        request.set_location_destination_detail(self.partner_id)
+        request.set_location_destination_detail(self.partner_shipping_id)
 
         request.set_order_items_detail(self)
 
