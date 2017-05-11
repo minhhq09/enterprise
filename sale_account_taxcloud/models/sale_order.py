@@ -39,7 +39,10 @@ class SaleOrder(models.Model):
 
         raise_warning = False
         for line in self.order_line:
-            tax_rate = tax_values[line.id] / line.price_unit * 100
+            if not line.price_subtotal:
+                tax_rate = 0.0
+            else:
+                tax_rate = tax_values[line.id] / line.price_subtotal * 100
             if float_compare(line.tax_id.amount, tax_rate, precision_rounding=4):
                 raise_warning = True
                 tax = self.env['account.tax'].sudo().search([
