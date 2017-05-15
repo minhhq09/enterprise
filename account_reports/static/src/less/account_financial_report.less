@@ -25,6 +25,10 @@
     .o_account_reports_table {
         font-size: 14px;
         white-space: nowrap;
+        > tbody > tr {
+            /* fix thead overlapping http://github.com/wkhtmltopdf/wkhtmltopdf/issues/1524 */
+            page-break-inside: avoid;
+        }
     }
 }
 
