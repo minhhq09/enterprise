@@ -230,7 +230,7 @@ class AccountBankStatement(models.Model):
         last_date = journal.account_online_journal_id.last_sync
         end_amount = 0
         for transaction in transactions:
-            if all_lines.search_count([('online_identifier', '=', transaction['id'])]) > 0:
+            if all_lines.search_count([('online_identifier', '=', transaction['id'])]) > 0 or transaction['amount'] == 0.0:
                 continue
             line = {
                 'date': transaction['date'],
