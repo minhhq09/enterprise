@@ -226,12 +226,12 @@ class AccountReportContextTax(models.TransientModel):
 
     def get_columns_names(self):
         is_xls = self.env.context.get('is_xls', False)
-        columns = [_('Net') + ('\n' if is_xls else '<br/>') + self.get_full_date_names(self.date_to, self.date_from), _('Tax')]
+        columns = [_('Base Amount') + ('\n' if is_xls else '<br/>') + self.get_full_date_names(self.date_to, self.date_from), _('Tax')]
         if self.comparison and (self.periods_number == 1 or self.date_filter_cmp == 'custom'):
-            columns += [_('Net') + ('\n' if is_xls else '<br/>') + self.get_cmp_date(), _('Tax')]
+            columns += [_('Base Amount') + ('\n' if is_xls else '<br/>') + self.get_cmp_date(), _('Tax')]
         else:
             for period in self.get_cmp_periods(display=True):
-                columns += [_('Net') + ('\n' if is_xls else '<br/>') + str(period), _('Tax')]
+                columns += [_('Base Amount') + ('\n' if is_xls else '<br/>') + str(period), _('Tax')]
         return columns
 
     @api.multi
