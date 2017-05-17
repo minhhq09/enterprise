@@ -362,8 +362,11 @@ var FieldPhone = FieldEmail.extend({
     render_value: function() {
         this._super();
         if(this.clickable) {
+            // Split phone number into two to prevent Skype app from finding it
             var text = this.$el.text();
-            this.$el.html(text.substr(0, text.length/2) + "&shy;" + text.substr(text.length/2)); // To prevent Skype app to find the phone number
+            var part1 = _.escape(text.substr(0, text.length/2));
+            var part2 = _.escape(text.substr(text.length/2));
+            this.$el.html(part1 + "&shy;" + part2);
         }
     }
 });
