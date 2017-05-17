@@ -6,6 +6,7 @@ try:
     import cStringIO as StringIO
 except ImportError:
     import StringIO
+import PIL.PdfImagePlugin   # activate PDF support in PIL
 from PIL import Image
 import logging
 import os
