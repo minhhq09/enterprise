@@ -101,7 +101,10 @@
                                         <td colspan="2">
                                             <p class="mb0">Subtotal:</p>
                                             <p class="mb0" t-if="user.partner_id == account.partner_id">
-                                                <a class="small" t-attf-href="/my/account?redirect=/my/contract/#{account.id}/#{account.uuid}">(Not in <span t-field="account.partner_id.country_id" data-oe-readonly="1"/>?)</a> Taxes:
+                                                <t t-if="account.partner_id.country_id">
+                                                <a class="small" t-attf-href="/my/account?redirect=/my/contract/#{account.id}/#{account.uuid}">(Not in <span t-field="account.partner_id.country_id" data-oe-readonly="1"/>?)</a>
+                                                </t>
+                                                Taxes:
                                             </p>
                                             <p class="mb0" t-if="user.partner_id != account.partner_id">
                                                 <abbr title="You need to be logged in as this contract's customer to change country">Taxes</abbr>:
