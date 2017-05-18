@@ -72,11 +72,7 @@ class ReportPartnerLedger(models.AbstractModel):
             partner = self.env['res.partner'].browse(partner_id)
             partners[partner] = result
             partners[partner]['initial_bal'] = initial_bal_results.get(partner.id, {'balance': 0, 'debit': 0, 'credit': 0})
-            if not context.get('print_mode'):
-                #  fetch the 81 first amls. The report only displays the first 80 amls. We will use the 81st to know if there are more than 80 in which case a link to the list view must be displayed.
-                partners[partner]['lines'] = self.env['account.move.line'].search(domain, order='date', limit=81)
-            else:
-                partners[partner]['lines'] = self.env['account.move.line'].search(domain, order='date')
+            partners[partner]['lines'] = self.env['account.move.line'].search(domain, order='date')
         return partners
 
     @api.model
@@ -105,7 +101,7 @@ class ReportPartnerLedger(models.AbstractModel):
             if partner in context['context_id']['unfolded_partners'] or unfold_all:
                 progress = 0
                 domain_lines = []
-                amls = grouped_partners[partner]['lines']
+                amls = amls_all = grouped_partners[partner]['lines']
                 too_many = False
                 if len(amls) > 80 and not context.get('print_mode'):
                     amls = amls[-80:]
@@ -161,6 +157,7 @@ class ReportPartnerLedger(models.AbstractModel):
                 if too_many:
                     domain_lines.append({
                         'id': partner.id,
+                        'domain': "[('id', 'in', %s)]" % amls_all.ids,
                         'type': 'too_many_partners',
                         'name': _('There are more than 80 items in this list, click here to see all of them'),
                         'footnotes': {},

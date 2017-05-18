@@ -53,7 +53,7 @@
                 <span t-att-data-action-domain="a.get('domain')" data-res-model="account.move.line" data-action-name="account.action_move_line_select" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
             </a>
             <a t-if="a['type'] == 'too_many_partners' and mode != 'print'">
-                <span t-att-data-active-id="a.get('id')" data-action-name="account.action_move_line_select_by_partner" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
+                <span t-att-data-action-domain="a.get('domain')" data-res-model="account.move.line" data-action-name="account.action_move_line_select_by_partner" t-att-class="'o_account_reports_web_action ' + domainClass"><t t-esc="a.get('name')"/></span>
             </a>
             <div class="dropdown" t-if="(a['type'] in ['account_id', 'tax_id', 'bank_statement_id', 'move_line_id', 'partner_id']) and mode != 'print'">
                 <a data-toggle="dropdown" href='#'>
