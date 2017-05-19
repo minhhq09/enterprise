@@ -14,15 +14,11 @@ odoo.define('website_sign.views_custo', function(require) {
     ListView.include(_make_custo(".o_list_button_add"));
 
     KanbanColumn.include({
-        start: function () {
-            var def = this._super.apply(this, arguments);
-            var parent = this.getParent();
-            if (!parent || parent.model !== "signature.request") return def;
-
-            var self = this;
-            return $.when(def).done(function () {
-                self.$el.sortable("destroy");
-            });
+        init: function (parent) {
+            this._super.apply(this, arguments);
+            if (parent && parent.model === "signature.request") {
+                this.draggable = false;
+            }
         },
     });
 
