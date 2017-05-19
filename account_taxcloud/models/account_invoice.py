@@ -18,7 +18,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         res = True
-        if self.fiscal_position_id.is_taxcloud:
+        if self.fiscal_position_id.is_taxcloud and self.type in ['out_invoice', 'out_refund']:
             res = self.validate_taxes_on_invoice()
         super(AccountInvoice, self).invoice_validate()
         return res
