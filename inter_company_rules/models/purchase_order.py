@@ -42,7 +42,7 @@ class purchase_order(models.Model):
             raise Warning(_("Inter company user of company %s doesn't have enough access rights") % company.name)
 
         # check pricelist currency should be same with SO/PO document
-        company_partner = self.sudo(intercompany_uid).company_id.partner_id
+        company_partner = self.company_id.partner_id.sudo(intercompany_uid)
         if self.currency_id.id != company_partner.property_product_pricelist.currency_id.id:
             raise Warning(_('You cannot create SO from PO because sale price list currency is different than purchase price list currency.'))
 
