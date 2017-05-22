@@ -3,7 +3,10 @@ import base64
 import StringIO
 import time
 import uuid
-from pyPdf import PdfFileReader, PdfFileWriter
+try:
+    from PyPDF2 import PdfFileReader, PdfFileWriter
+except ImportError:
+    from pyPdf import PdfFileReader, PdfFileWriter
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
