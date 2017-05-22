@@ -118,10 +118,10 @@ var EditMenuDialog = Dialog.extend({
         });
     },
 
-    move_menu: function (ev) {
+    move_menu: function (ev, ui) {
         var self = this;
 
-        var $menu = $(ev.toElement).closest('[data-menu-id]');
+        var $menu = $(ui.item);
         var menu_id = $menu.data('menu-id');
 
         this.to_move[menu_id] = {
