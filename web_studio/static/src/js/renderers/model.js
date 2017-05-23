@@ -32,7 +32,7 @@ function get_value(field_name, value, fields) {
         return value;
     }
     if (fields[field_name].type === 'many2one') {
-        return value && value[0];
+        return _.isArray(value) ? value[0] : value;
     }
     return value;
 }
