@@ -314,7 +314,7 @@ class UPSRequest():
         if service_type == "96":
             shipment.NumOfPieces = int(shipment_info.get('total_qty'))
         shipment.ShipmentServiceOptions = ''
-        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = suds.null()
+        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = 1
 
         try:
             # Get rate using for provided detail
@@ -403,7 +403,7 @@ class UPSRequest():
         if service_type == "96":
             shipment.NumOfPiecesInShipment = int(shipment_info.get('total_qty'))
         shipment.ShipmentServiceOptions = ''
-        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = suds.null()
+        shipment.ShipmentRatingOptions.NegotiatedRatesIndicator = 1
 
         # Shipments from US to CA or PR require extra info
         if ship_from.country_id.code == 'US' and ship_to.country_id.code in ['CA', 'PR']:
