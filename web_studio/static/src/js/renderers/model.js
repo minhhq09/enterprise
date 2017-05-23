@@ -496,11 +496,13 @@ var Model = Class.extend({
         return !_.isEmpty(this.local_data[id].changes);
     },
     get_context: function(context) {
-        var kwargs = {
-            context: new data.CompoundContext(session.user_context, context)
-        };
-        pyeval.ensure_evaluated([], kwargs);
-        return kwargs.context;
+        var ctx = new data.CompoundContext(session.user_context, context);
+        try {
+            pyeval.ensure_evaluated([], {context: ctx});
+        } catch(e) {
+            ctx = session.user_context;
+        }
+        return ctx;
     },
     _fetch_record: function(record) {
         var self = this;
