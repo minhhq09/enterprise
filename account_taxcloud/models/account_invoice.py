@@ -23,6 +23,9 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self).invoice_validate()
         return res
 
+    def _get_partner(self):
+        return self.partner_id
+
     @api.multi
     def validate_taxes_on_invoice(self):
         Param = self.env['ir.config_parameter']
@@ -32,7 +35,7 @@ class AccountInvoice(models.Model):
 
         shipper = self.company_id or self.env.user.company_id
         request.set_location_origin_detail(shipper)
-        request.set_location_destination_detail(self.partner_id)
+        request.set_location_destination_detail(self._get_partner())
 
         request.set_invoice_items_detail(self)
 
