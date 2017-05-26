@@ -15,7 +15,8 @@ class website_account_followup(website_account):
         report_obj = request.env['account.followup.report']
         context_id = context_obj.search([('partner_id', '=', int(partner))], limit=1)
         if not context_id:
-            context_id = context_obj.with_context(lang=partner.lang).create({'partner_id': int(partner)})
+            # sudo needed to access the report model
+            context_id = context_obj.with_context(lang=partner.lang).sudo().create({'partner_id': int(partner)})
         context_id = context_id.sudo() # Needed to see the unreconciled_amls
         lines = report_obj.with_context(lang=partner.lang).get_lines(context_id, public=True)
         rcontext = {
