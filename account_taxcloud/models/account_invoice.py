@@ -52,7 +52,7 @@ class AccountInvoice(models.Model):
                 tax_rate = 0.0
             else:
                 tax_rate = tax_values[line.id] / line.price_subtotal * 100
-            if float_compare(line.invoice_line_tax_ids.amount, tax_rate, precision_rounding=4):
+            if float_compare(line.invoice_line_tax_ids.amount, tax_rate, precision_digits=4):
                 raise_warning = True
                 tax = self.env['account.tax'].sudo().search([
                     ('amount', '=', tax_rate),
