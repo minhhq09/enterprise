@@ -6,13 +6,14 @@
 # Jeffery CHEN <jeffery9@gmail.com>, 2016
 # Ted Wang <feiyuwang2012@gmail.com>, 2016
 # Bo Cao <cao.poobo@hotmail.com>, 2017
+# 老窦 北京 <2662059195@qq.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-03 13:22+0000\n"
 "PO-Revision-Date: 2016-11-03 13:22+0000\n"
-"Last-Translator: Bo Cao <cao.poobo@hotmail.com>, 2017\n"
+"Last-Translator: 老窦 北京 <2662059195@qq.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/odoo/teams/41243/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,12 +27,13 @@ msgid ""
 "${object.company_id.name or object.user_id.company_id.name or 'Helpdesk'}: "
 "Service Rating Request"
 msgstr ""
+"${object.company_id.name 或object.user_id.company_id.name 或服务台'}：服务评分请求"
 
 #. module: helpdesk
 #: model:mail.template,subject:helpdesk.new_ticket_request_email_template
 #: model:mail.template,subject:helpdesk.solved_ticket_request_email_template
 msgid "${object.display_name}"
-msgstr ""
+msgstr "${object.display_name}"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_percentage_satisfaction
@@ -41,7 +43,7 @@ msgstr "高兴"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "--&gt; Configure domain name"
-msgstr ""
+msgstr "-->配置domain名称"
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.rating_ticket_request_email_template
@@ -115,6 +117,74 @@ msgid ""
 "</div>\n"
 "        "
 msgstr ""
+"<?xml version=\"1.0\"?>\n"
+"<div style=\"background:#F0F0F0;color:#515166;padding:10px 0px;font-family:Arial,Helvetica,sans-serif;font-size:14px;\">\n"
+"% set access_token = object.rating_get_access_token()\n"
+"    <table style=\"width:600px;margin:5px auto;\">\n"
+"        <tbody>\n"
+"            <tr><td>\n"
+"                <a href=\"/\"><img src=\"/web/binary/company_logo\" style=\"vertical-align:baseline;max-width:100px;\"/></a>\n"
+"            </td><td style=\"text-align:right;vertical-align:middle;\">\n"
+"                    满意度调查\n"
+"            </td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"    <table style=\"width:600px;margin:0px auto;background:white;border:1px solid #e1e1e1;\">\n"
+"        <tbody>\n"
+"            <tr><td style=\"padding:15px 20px 10px 20px;\">\n"
+"                <p>您好！</p>\n"
+"                <p>你对我们的服务评分，服务单\"<strong>${object.name}</strong>\"\n"
+"                   分配给<strong>${object.rating_get_rated_partner_id().name}</strong>.</p>\n"
+"                <p>感谢你的参与，我们将不断改进。</p>\n"
+"            </td></tr>\n"
+"            <tr><td style=\"padding:10px 20px\">\n"
+"                <table summary=\"o_mail_notification\" style=\"width:100%;border-top:1px solid #e1e1e1;\">\n"
+"                    <tr>\n"
+"                        <td style=\"text-align:center;\">\n"
+"                            <h2 style=\"font-weight:300;font-size:18px;\">\n"
+"                                请告诉我们你对我们的服务的满意度：\n"
+"                            </h2>\n"
+"                            <div style=\"text-color: #888888\">(点击其中的一个表情)</div>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                    <tr>\n"
+"                        <td style=\"padding:10px 10px;\">\n"
+"                            <table style=\"width:100%;text-align:center;\">\n"
+"                                <tr>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/10\">\n"
+"                                            <img alt=\"满意\" src=\"/rating/static/src/img/rating_10.png\" title=\"满意\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/5\">\n"
+"                                            <img alt=\"不满意\" src=\"/rating/static/src/img/rating_5.png\" title=\"不满意\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                    <td>\n"
+"                                        <a href=\"/rating/${access_token}/1\">\n"
+"                                            <img alt=\"高满意度\" src=\"/rating/static/src/img/rating_1.png\" title=\"高满意度\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                        </td>\n"
+"                    </tr>\n"
+"                </table>\n"
+"            </td></tr>\n"
+"            <tr><td style=\"padding:15px 20px 10px 20px;\">${(object.user_id.signature or '') | safe}</td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"    <table style=\"width:600px;margin:auto;text-align:center;font-size:12px;\">\n"
+"        <tbody>\n"
+"            <tr><td style=\"padding-top:10px;color:#afafaf;\">\n"
+"                <p>该客户调查已发送，因为你的服务单已经变成<b>${object.stage_id.name}阶段</b></p>\n"
+"                <p>自动发送邮件，通过<a href=\"https://www.odoo.com/page/helpdesk\" style=\"color:#875A7B;text-decoration:none;\">服务台</a> for <a href=\"${object.team_id.company_id.website}\" style=\"color:#875A7B;text-decoration:none;\">${object.team_id.company_id.name}</a></p>\n"
+"            </td></tr>\n"
+"        </tbody>\n"
+"    </table>\n"
+"</div>\n"
+"        "
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.solved_ticket_request_email_template
@@ -137,6 +207,23 @@ msgid ""
 "</div>\n"
 "        "
 msgstr ""
+"<?xml version=\"1.0\"?>\n"
+"<div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
+"    <div style=\"margin-left:30px;align=center;\">\n"
+"        ${object.partner_id.name or '女生,先生'}您好！\n"
+"    </div>\n"
+"    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
+"        这个自动发送的消息提示你，你已经关闭了你的服务单(服务单${object.id})。\n"
+"\n"
+"        希望我们的服务能令您满意。\n"
+"        如果你有其他的问题，请回复该邮件，我们将重启你的服务单。\n"
+"\n"
+"        感谢你的合作。\n"
+"    </div><br/>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">谢谢！</span>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or '服务'} 团队。</span>\n"
+"</div>\n"
+"        "
 
 #. module: helpdesk
 #: model:mail.template,body_html:helpdesk.new_ticket_request_email_template
@@ -161,6 +248,26 @@ msgid ""
 "</div>\n"
 "        "
 msgstr ""
+"<?xml version=\"1.0\"?>\n"
+"<div style=\"max-width:600px; height:auto; margin-left:30px;\">\n"
+"    <div style=\"margin-left:30px;align=center;\">\n"
+"        这是一条自动发送的消息：<br/>\n"
+"1\n"
+"        ${object.partner_id.name or '女生，先生'}您好！\n"
+"    </div>\n"
+"    <div style=\"margin-left:30px;align=center;\" width=\"60%\">\n"
+"        你的申请\n"
+"        % if object.access_token:\n"
+"        <a href=\"/helpdesk/ticket/${object.id}/${object.access_token}\">${object.name}</a>\n"
+"        % endif\n"
+"        已经记录，我们的${object.team_id.name or ''} 团队将会处理。\n"
+"        你的服务单是${object.id}。\n"
+"        <br/>回复该邮件，添加其他问题。\n"
+"    </div><br/>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">谢谢！</span>\n"
+"    <span style=\"margin-left:30px;font-weight:normal;\">${object.team_id.name or '服务'} 团队。</span>\n"
+"</div>\n"
+"        "
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
@@ -180,7 +287,7 @@ msgstr "<span>报告</span>"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 msgid "<span>View Tickets</span>"
-msgstr ""
+msgstr "<span>查看服务单</span>"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_alias_defaults
@@ -197,6 +304,8 @@ msgid ""
 "            customers that specifies performance measures for support\n"
 "            by ticket priority."
 msgstr ""
+"服务等级协议是你和客户之间定义的合同，\n"
+"这个是通过服务的优先级来统计绩效的。"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_ticket_kanban_state
@@ -206,6 +315,10 @@ msgid ""
 "* Blocked indicates something is preventing the progress of this issue\n"
 "* Ready for next stage indicates the issue is ready to be pulled to the next stage"
 msgstr ""
+"服务单的看板状态标示影响它的特定的情形：\n"
+"*默认是正常\n"
+"*受阻标示处理过程中有问题\n"
+"*准备进入下一阶段标示问题已处理，可以拖到下个阶段"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_use_api
@@ -263,12 +376,12 @@ msgstr "全部"
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_main_tree
 #: model:ir.ui.menu,name:helpdesk.helpdesk_ticket_menu_main
 msgid "All Tickets"
-msgstr "所有门票"
+msgstr "所有服务单"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Allow your customers to easily rate your services."
-msgstr ""
+msgstr "允许客户对你的服务评分"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -293,7 +406,7 @@ msgstr "已存档"
 msgid ""
 "Assign members to this team so that they will see it in their dashboard. If "
 "no members are assigned, everyone will see this team."
-msgstr ""
+msgstr "给该团队分配成员，他们将会在自己的仪表板看到该团队，如果未分配成员，所有人都可以查看该团队。"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_assign_method
@@ -310,19 +423,19 @@ msgstr "分派给"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Assignee"
-msgstr "指派人"
+msgstr "分配"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_template_id
 msgid "Automated Answer Email Template"
-msgstr ""
+msgstr "自动回复邮件模板"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_template_id
 msgid ""
 "Automated email sent to the ticket's customer when the ticket reaches this "
 "stage."
-msgstr ""
+msgstr "当服务单到该阶段时，自动给客户发送邮件。"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_assign_method
@@ -332,6 +445,10 @@ msgid ""
 "\tRandomly: randomly but everyone gets the same amount\n"
 "\tBalanced: to the person with the least amount of open tickets"
 msgstr ""
+"新服务单的自动分配方式：\n"
+"\t手动：手动\n"
+"\t随机的：随机的，但是每个人都是相同的比例\n"
+"\t平衡的：分配给成员最小的打开的服务单数。"
 
 #. module: helpdesk
 #. openerp-web
@@ -391,27 +508,27 @@ msgstr "点击这里创建新邮件模板."
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_sla_action
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_sla_action_main
 msgid "Click to create a new Service Level Agreement (SLA) policy."
-msgstr ""
+msgstr "点击创建新的服务等级协议"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_tag_action
 msgid "Click to create a new ticket tag."
-msgstr ""
+msgstr "点击创建一个新的标签"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_team_action
 msgid "Click to create a new ticket team."
-msgstr ""
+msgstr "点击创建一个新的服务团队"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_type_action
 msgid "Click to create a new ticket type."
-msgstr ""
+msgstr "点击创建一个新的服务单类型"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_stage_action
 msgid "Click to create a stage in your helpdesk pipeline."
-msgstr ""
+msgstr "点击创建一个新的服务阶段"
 
 #. module: helpdesk
 #. openerp-web
@@ -437,18 +554,18 @@ msgstr "关闭日期"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 #, python-format
 msgid "Closed Tickets"
-msgstr ""
+msgstr "完成的服务单"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_7days_analysis
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_close_analysis
 msgid "Closed Tickets Analysis"
-msgstr ""
+msgstr "完成的服务单分析"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_is_close
 msgid "Closing Kanban Stage"
-msgstr ""
+msgstr "完成的看板阶段"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_tag_color
@@ -481,12 +598,12 @@ msgstr "配置"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Configure SLA Policies"
-msgstr "配置SLA 策略"
+msgstr "配置SLA"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Connect third party application and create tickets using web services."
-msgstr ""
+msgstr "连接第三方应用，使用网页服务创建服务单。"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_contract_ids
@@ -555,14 +672,14 @@ msgstr "客户点评"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_form
 #, python-format
 msgid "Customer Tickets"
-msgstr "客户门票"
+msgstr "客户服务单"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:85
 #, python-format
 msgid "Customer satisfaction analysis"
-msgstr ""
+msgstr "客户满意度分析"
 
 #. module: helpdesk
 #. openerp-web
@@ -588,7 +705,7 @@ msgstr "天数"
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_days
 msgid "Days to reach given stage based on ticket creation date"
-msgstr ""
+msgstr "基于创建日期到达给定阶段的天数"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_deadline
@@ -618,7 +735,7 @@ msgstr "说明"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
 msgid "Description of the policy..."
-msgstr ""
+msgstr "备注..."
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_form
@@ -654,7 +771,7 @@ msgstr "邮箱别名"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_sla_fail
 msgid "Failed SLA Policy"
-msgstr "失败的SLA 策略"
+msgstr "失败的SLA"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_assign_date
@@ -681,7 +798,7 @@ msgstr "在看板视图中折叠"
 msgid ""
 "Follow this team to automatically track the events associated to tickets of "
 "this team."
-msgstr ""
+msgstr "关注此销售团队，自动跟踪此团队中用户相关的服务单。"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_sla_action
@@ -689,7 +806,7 @@ msgstr ""
 msgid ""
 "For example, we respond to urgent tickets related to bugs\n"
 "            in two hours and resolve them within 36 hours."
-msgstr ""
+msgstr "例如：我们将在两小时对紧急的服务单进行反馈，在36小时内解决。"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
@@ -787,12 +904,12 @@ msgstr "小时"
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_hours
 msgid "Hours to reach given stage based on ticket creation date"
-msgstr ""
+msgstr "基于创建日期到达给定阶段的小时数"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "How to assign newly created tickets to the right person."
-msgstr ""
+msgstr "如果分配新创建的服务单给正确的负责人"
 
 #. module: helpdesk
 #: code:addons/helpdesk/models/helpdesk.py:670
@@ -829,11 +946,13 @@ msgid ""
 "In Channel: You can create a new ticket by typing /helpdesk [ticket title]. "
 "You can search ticket by typing /helpdesk_search [Keyword1],[Keyword2],."
 msgstr ""
+"在频道中：你可以创建新的服务单，通过输入/helpdesk [服务单主题]。你可以搜索服务单，通过输入/helpdesk_search "
+"[关键词1],[关键词2]。"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Incoming emails create tickets."
-msgstr ""
+msgstr "收到的邮件创建服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_invoice_warn
@@ -947,7 +1066,7 @@ msgstr "分钟"
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_time_minutes
 msgid "Minutes to reach given stage based on ticket creation date"
-msgstr ""
+msgstr "基于创建日期到达给定阶段的分钟数"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
@@ -976,21 +1095,21 @@ msgstr "我的门票"
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:21
 #, python-format
 msgid "My high priority tickets"
-msgstr ""
+msgstr "高优先级服务单"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:15
 #, python-format
 msgid "My open tickets"
-msgstr ""
+msgstr "我正在做的服务单"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:27
 #, python-format
 msgid "My urgent tickets"
-msgstr ""
+msgstr "紧急的服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_stage_name
@@ -1003,7 +1122,7 @@ msgstr "名字"
 #: code:addons/helpdesk/models/helpdesk.py:674
 #, python-format
 msgid "New Ticket"
-msgstr ""
+msgstr "新服务单"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_action_high_priorities
@@ -1014,7 +1133,7 @@ msgstr ""
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_action_sla_urgent
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_action_urgent
 msgid "No tickets to display."
-msgstr ""
+msgstr "无服务单。"
 
 #. module: helpdesk
 #: selection:helpdesk.ticket,kanban_state:0
@@ -1029,7 +1148,7 @@ msgstr "不满意"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_partner_tickets
 msgid "Number of tickets from the same partner"
-msgstr ""
+msgstr "同一个合作伙伴的服务单数"
 
 #. module: helpdesk
 #. openerp-web
@@ -1043,23 +1162,23 @@ msgstr "仅整型数值是合法的。"
 msgid ""
 "Only apply the SLA to a specific ticket type. If left empty it will apply to"
 " all types."
-msgstr ""
+msgstr "仅应用SLA到特定类型的服务单，如果留空，则应用到所有类型。"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Open Tickets"
-msgstr ""
+msgstr "正在做的服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_close_hours
 msgid "Open Time (hours)"
-msgstr ""
+msgstr "花费时间（小时）"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 msgid "Opened Tickets Analysis"
-msgstr ""
+msgstr "正在做的服务单分析"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_alias_force_thread_id
@@ -1110,7 +1229,7 @@ msgstr "效能"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_pivot_analysis
 msgid "Performance Analysis"
-msgstr ""
+msgstr "绩效分析"
 
 #. module: helpdesk
 #. openerp-web
@@ -1118,7 +1237,7 @@ msgstr ""
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:94
 #, python-format
 msgid "Performance Report"
-msgstr ""
+msgstr "绩效报表"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_team_alias_contact
@@ -1146,12 +1265,12 @@ msgstr "生产力"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Public Description..."
-msgstr ""
+msgstr "说明..."
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Publish this team's ratings on your website."
-msgstr ""
+msgstr "在网站上发布该团队的评分。"
 
 #. module: helpdesk
 #: model:helpdesk.ticket.type,name:helpdesk.type_question
@@ -1161,7 +1280,7 @@ msgstr "疑问"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Question and answer section on your website."
-msgstr ""
+msgstr "问题和答案发布到网站上。"
 
 #. module: helpdesk
 #: selection:helpdesk.team,assign_method:0
@@ -1176,12 +1295,12 @@ msgstr "点评"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
 msgid "Reach In"
-msgstr ""
+msgstr "到达"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
 msgid "Reach Stage"
-msgstr ""
+msgstr "到达阶段"
 
 #. module: helpdesk
 #: selection:helpdesk.ticket,kanban_state:0
@@ -1193,7 +1312,7 @@ msgstr "准备好下一个阶段"
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:171
 #, python-format
 msgid "Ready to boost your customer service?"
-msgstr ""
+msgstr "准备提供你的客户服务？"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_alias_force_thread_id
@@ -1214,12 +1333,12 @@ msgstr "报告"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 #, python-format
 msgid "SLA Failed"
-msgstr ""
+msgstr "失败的SLA"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis
 msgid "SLA Not Failed"
-msgstr ""
+msgstr "SLA未失败"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_sla_action
@@ -1228,7 +1347,7 @@ msgstr ""
 #: model:ir.ui.menu,name:helpdesk.helpdesk_sla_menu_main
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_tree
 msgid "SLA Policies"
-msgstr ""
+msgstr "SLA策略"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_sla_id
@@ -1239,32 +1358,32 @@ msgstr "SLA 政策"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_description
 msgid "SLA Policy Description"
-msgstr ""
+msgstr "SLA策略说明"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_name
 msgid "SLA Policy Name"
-msgstr ""
+msgstr "SLA策略名称"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_sla_name
 msgid "SLA Policy name"
-msgstr ""
+msgstr "SLA策略名称"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_sla_active
 msgid "SLA active"
-msgstr ""
+msgstr "SLA启用"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Save this page and refresh to activate the feature"
-msgstr ""
+msgstr "保存并刷新，可以启用改功能"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_search
 msgid "Search SLA Policies"
-msgstr ""
+msgstr "搜索SLA策略"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
@@ -1307,7 +1426,7 @@ msgstr "序列"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Set up your Service Level Agreements to track performance."
-msgstr ""
+msgstr "设置你的SLA策略来追踪绩效"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
@@ -1317,12 +1436,12 @@ msgstr "设置"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Share presentation and videos, and organize into courses."
-msgstr ""
+msgstr "分享演示和视频、组织课程培训"
 
 #. module: helpdesk
 #: model:res.groups,name:helpdesk.group_use_sla
 msgid "Show SLA Policies"
-msgstr ""
+msgstr "显示SLA策略"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_team_ids
@@ -1362,14 +1481,14 @@ msgstr "阶段"
 msgid ""
 "Stages the team will use. This team's tickets will only be able to be in "
 "these stages."
-msgstr ""
+msgstr "团队将要使用的阶段，这个团队的服务单都会在这些阶段中。"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_stage_action
 msgid ""
 "Stages will allow operators to easily track how a specific\n"
 "            tickets are positioned in the process."
-msgstr ""
+msgstr "阶段可以运行操作员轻松的追踪服务单的整个处理流程。"
 
 #. module: helpdesk
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_stage
@@ -1389,7 +1508,7 @@ msgstr "主题..."
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "Submit tickets with an online form."
-msgstr ""
+msgstr "在线提交服务单"
 
 #. module: helpdesk
 #. openerp-web
@@ -1402,7 +1521,7 @@ msgstr "成功率"
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_7dayssuccess
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_success
 msgid "Success Rate Analysis"
-msgstr ""
+msgstr "成功率分析"
 
 #. module: helpdesk
 #: model:helpdesk.team,name:helpdesk.helpdesk_team1
@@ -1430,7 +1549,7 @@ msgstr "标签"
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_tag_action
 msgid "Tags allows to organize tickets."
-msgstr ""
+msgstr "标签允许组织管理服务单。"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -1440,17 +1559,17 @@ msgstr "目标"
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_helpdesk_target_rating
 msgid "Target Customer Rating"
-msgstr ""
+msgstr "客户评分目标"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_helpdesk_target_success
 msgid "Target Success Rate"
-msgstr ""
+msgstr "目标成功率"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_res_users_helpdesk_target_closed
 msgid "Target Tickets to Close"
-msgstr ""
+msgstr "服务单完成目标"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_sla_team_id
@@ -1469,7 +1588,7 @@ msgstr "团队成员"
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_team_action
 msgid "Teams allows to organize tickets."
-msgstr ""
+msgstr "团队允许组织管理服务单。"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.email_template_action_helpdesk
@@ -1534,7 +1653,7 @@ msgstr "这个科目被用来替代当前业务伙伴的默认的应收科目"
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:172
 #, python-format
 msgid "This dashboard will activate once you have created your first ticket."
-msgstr ""
+msgstr "创建了你的第一张服务单之后将激活该仪表板。"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_res_users_property_supplier_payment_term_id
@@ -1567,30 +1686,30 @@ msgstr "门票"
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_action_dashboard_urgent
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_team_analysis_action
 msgid "Ticket Analysis"
-msgstr ""
+msgstr "服务单分析"
 
 #. module: helpdesk
 #: model:mail.message.subtype,name:helpdesk.mt_team_ticket_assigned
 #: model:mail.message.subtype,name:helpdesk.mt_ticket_assigned
 msgid "Ticket Assigned"
-msgstr ""
+msgstr "已分配的服务单"
 
 #. module: helpdesk
 #: model:mail.message.subtype,name:helpdesk.mt_team_ticket_new
 #: model:mail.message.subtype,name:helpdesk.mt_ticket_new
 msgid "Ticket Created"
-msgstr ""
+msgstr "已创建的服务单"
 
 #. module: helpdesk
 #: model:mail.message.subtype,name:helpdesk.mt_team_ticket_stage
 msgid "Ticket Stage Changed"
-msgstr ""
+msgstr "服务单阶段已改变"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_tag_action
 #: model:ir.ui.menu,name:helpdesk.helpdesk_tag_menu
 msgid "Ticket Tags"
-msgstr ""
+msgstr "服务单标签"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,name:helpdesk.helpdesk_ticket_type_action
@@ -1607,7 +1726,7 @@ msgstr "入场券类型"
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_assigned
 #: model:mail.message.subtype,description:helpdesk.mt_ticket_new
 msgid "Ticket created"
-msgstr ""
+msgstr "服务单已创建"
 
 #. module: helpdesk
 #. openerp-web
@@ -1636,7 +1755,7 @@ msgstr "入场券"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Tickets Search"
-msgstr ""
+msgstr "搜索服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_stage_is_close
@@ -1648,17 +1767,17 @@ msgstr ""
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_kanban
 msgid "Tickets to Review"
-msgstr ""
+msgstr "待审核的服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,help:helpdesk.field_helpdesk_sla_priority
 msgid "Tickets under this priority will not be taken into account."
-msgstr ""
+msgstr "低于该优先级的服务单不会进入该账户。"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_ticket_assign_hours
 msgid "Time to first assignation (hours)"
-msgstr ""
+msgstr "首次分配时间（小时）"
 
 #. module: helpdesk
 #. openerp-web
@@ -1700,14 +1819,14 @@ msgstr "Twitter"
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_ticket_type_action
 msgid "Type allows to organize tickets."
-msgstr ""
+msgstr "类型允许组织管理服务单。"
 
 #. module: helpdesk
 #: code:addons/helpdesk/models/helpdesk.py:363
 #: sql_constraint:helpdesk.ticket.type:0
 #, python-format
 msgid "Type name already exists !"
-msgstr ""
+msgstr "类型名已存在！"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_kanban
@@ -1721,17 +1840,17 @@ msgstr "取消存档"
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_ticket_view_search_analysis_closed
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Unassigned Tickets"
-msgstr ""
+msgstr "未分配的"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_tickets_view_search
 msgid "Upcoming SLA Fail"
-msgstr ""
+msgstr "即将到来的SLA失败"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_upcoming_sla_fail_tickets
 msgid "Upcoming SLA Fail Tickets"
-msgstr ""
+msgstr "即将到来的SLA失败的服务单"
 
 #. module: helpdesk
 #: selection:helpdesk.sla,priority:0 selection:helpdesk.ticket,priority:0
@@ -1743,7 +1862,7 @@ msgstr "紧急"
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:29
 #, python-format
 msgid "Urgent ("
-msgstr ""
+msgstr "紧急（"
 
 #. module: helpdesk
 #: model:res.groups,name:helpdesk.group_helpdesk_user
@@ -1770,31 +1889,31 @@ msgstr "供应商付款条款"
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:52
 #, python-format
 msgid "View failed tickets"
-msgstr ""
+msgstr "查看失败的服务单"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:57
 #, python-format
 msgid "View high priority failed tickets"
-msgstr ""
+msgstr "查看高优先级失败的服务单"
 
 #. module: helpdesk
 #. openerp-web
 #: code:addons/helpdesk/static/src/xml/helpdesk_team_templates.xml:62
 #, python-format
 msgid "View urgent failed tickets"
-msgstr ""
+msgstr "查看紧急处理失败的服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_use_website_helpdesk_form
 msgid "Website Form"
-msgstr ""
+msgstr "网站页面"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_use_website_helpdesk_rating
 msgid "Website Rating"
-msgstr ""
+msgstr "网站评分"
 
 #. module: helpdesk
 #. openerp-web
@@ -1807,7 +1926,7 @@ msgstr "错误值输入!"
 #: code:addons/helpdesk/models/helpdesk.py:100
 #, python-format
 msgid "You must have team members assigned to change the assignation method."
-msgstr ""
+msgstr "如果要改变分配方式，你必须要有可分配的团队成员。"
 
 #. module: helpdesk
 #: model:ir.actions.act_window,help:helpdesk.helpdesk_team_dashboard_action_main
@@ -1817,17 +1936,17 @@ msgstr "你的团队会出现在这里."
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
 msgid "days<br/>"
-msgstr ""
+msgstr "天<br/>"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
 msgid "e.g. Close urgent tickets within 36 hours"
-msgstr ""
+msgstr "例如：36小时解决紧急的服务单"
 
 #. module: helpdesk
 #: model:ir.model.fields,field_description:helpdesk.field_helpdesk_team_use_website_helpdesk_slides
 msgid "eLearning"
-msgstr ""
+msgstr "在线学习"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_sla_view_form
@@ -1847,14 +1966,14 @@ msgstr "oe_kanban_text_red"
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "team search"
-msgstr ""
+msgstr "团队搜索"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "to create tickets."
-msgstr ""
+msgstr "创建服务单"
 
 #. module: helpdesk
 #: model:ir.ui.view,arch_db:helpdesk.helpdesk_team_view_form
 msgid "⇒ View documentation"
-msgstr ""
+msgstr "⇒查看文档"
