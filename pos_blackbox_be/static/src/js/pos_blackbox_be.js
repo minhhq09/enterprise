@@ -980,7 +980,7 @@ can no longer be modified. Please create a new line with eg. a negative quantity
         show_error: function(error) {
             if (error.message.indexOf("FDM error: ") > -1) {
                 this.gui.show_popup('error',{
-                    'title': "POS Error",
+                    'title': _t("POS Error"),
                     'body':  error.message,
                 });
             } else {
