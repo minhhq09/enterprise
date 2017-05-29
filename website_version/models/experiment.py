@@ -51,7 +51,7 @@ class Experiment(models.Model):
             if exp.state == 'running':
                 for exp_ver in exp.experiment_version_ids:
                     if exp_ver.search([('version_id.view_ids.key', 'in', [v.key for v in exp_ver.version_id.view_ids]), ('experiment_id', '!=', exp_ver.experiment_id.id), ('experiment_id.website_id', '=', exp_ver.experiment_id.website_id.id), ('experiment_id.state', '=', 'running')]):
-                        raise ValidationError('This experiment contains a view which is already used in another running experience')
+                        raise ValidationError(_('This experiment contains a view which is already used in another running experience'))
         return True
 
     @api.multi
@@ -60,7 +60,7 @@ class Experiment(models.Model):
         for exp in self:
             for exp_ver in exp.experiment_version_ids:
                 if not exp_ver.version_id.website_id.id == exp.website_id.id:
-                    raise ValidationError('This experiment must have versions which are in the same website')
+                    raise ValidationError(_('This experiment must have versions which are in the same website'))
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
