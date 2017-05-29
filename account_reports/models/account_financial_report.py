@@ -31,7 +31,11 @@ class ReportAccountFinancialReport(models.Model):
     tax_report = fields.Boolean('Tax Report', help="Set to True to automatically filter out journal items that have the boolean field 'tax_exigible' set to False")
 
     def create_action_and_menu(self, parent_id):
-        client_action = self.env['ir.actions.client'].create({
+        # create action and menu with corresponding external ids, in order to
+        # remove those entries when deinstalling the corresponding module
+        module = self._context.get('install_mode_data', {}).get('module', 'account_reports')
+        IMD = self.env['ir.model.data']
+        action_vals = {
             'name': self.get_title(),
             'tag': 'account_report_generic',
             'context': {
@@ -39,22 +43,33 @@ class ReportAccountFinancialReport(models.Model):
                 'model': 'account.financial.html.report',
                 'id': self.id,
             },
-        })
-        self.env['ir.ui.menu'].create({
+        }
+        action_id = IMD._update('ir.actions.client', module, action_vals,
+                                'account_financial_html_report_action_' + str(self.id))
+        menu_vals = {
             'name': self.get_title(),
-            'parent_id': parent_id or self.env['ir.model.data'].xmlid_to_res_id('account.menu_finance_reports'),
-            'action': 'ir.actions.client,%s' % (client_action.id,),
-        })
+            'parent_id': parent_id or IMD.xmlid_to_res_id('account.menu_finance_reports'),
+            'action': 'ir.actions.client,%s' % (action_id,),
+        }
+        IMD._update('ir.ui.menu', module, menu_vals,
+                    'account_financial_html_report_menu_' + str(self.id))
         self.write({'menuitem_created': True})
 
     @api.model
     def create(self, vals):
-        parent_id = False
-        if vals.get('parent_id'):
-            parent_id = vals['parent_id']
-            del vals['parent_id']
+        parent_id = vals.pop('parent_id', False)
         res = super(ReportAccountFinancialReport, self).create(vals)
         res.create_action_and_menu(parent_id)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        parent_id = vals.pop('parent_id', False)
+        res = super(ReportAccountFinancialReport, self).write(vals)
+        if parent_id:
+            # this keeps external ids "alive" when upgrading the module
+            for report in self:
+                report.create_action_and_menu(parent_id)
         return res
 
     @api.multi
