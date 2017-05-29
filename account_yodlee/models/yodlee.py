@@ -72,7 +72,8 @@ class YodleeProviderAccount(models.Model):
         except requests.exceptions.Timeout:
             raise UserError(_('Timeout: the server did not reply within 30s'))
         self.check_yodlee_error(resp)
-        self.env.user.company_id.yodlee_access_token = resp.json().get('session').get('cobSession')
+        company_id = self.company_id if len(self) else self.env.user.company_id
+        company_id.yodlee_access_token = resp.json().get('session').get('cobSession')
 
     @api.multi
     def do_user_login(self):
@@ -111,7 +112,7 @@ class YodleeProviderAccount(models.Model):
     @api.multi
     def yodlee_fetch(self, url, params, data, type_request='POST'):
         credentials = self._get_yodlee_credentials()
-        company_id = self.env.user.company_id
+        company_id = self.company_id if len(self) else self.env.user.company_id
         service_url = url
         url = credentials['url'] + url
         if not company_id.yodlee_user_login:
