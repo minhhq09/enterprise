@@ -114,7 +114,7 @@ def generate_module(module, data):
     for model in MODELS_TO_EXPORT:
         # determine records to export for model
         model_data = data.filtered(lambda r: r.model == model)
-        records = data.env[model].browse(model_data.mapped('res_id'))
+        records = data.env[model].browse(model_data.mapped('res_id')).exists()
         if not records:
             continue
 
