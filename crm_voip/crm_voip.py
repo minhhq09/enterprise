@@ -473,6 +473,7 @@ class crm_custom_phonecall_wizard(models.TransientModel):
         phonecall = self.env['crm.phonecall'].browse(self._context.get('phonecall_id'))
         phonecall.name = self.name
         phonecall.date = self.date
+        phonecall.user_id = self.user_id.id
         phonecall.partner_id = self.partner_id
         return {
             'type': 'ir.actions.client',
