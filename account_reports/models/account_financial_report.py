@@ -31,10 +31,7 @@ class ReportAccountFinancialReport(models.Model):
     tax_report = fields.Boolean('Tax Report', help="Set to True to automatically filter out journal items that have the boolean field 'tax_exigible' set to False")
 
     def create_action_and_menu(self, parent_id):
-        # create action and menu with corresponding external ids, in order to
-        # remove remove those entries when deinstalling module 'account_reports'
-        IMD = self.env['ir.model.data']
-        action_vals = {
+        client_action = self.env['ir.actions.client'].create({
             'name': self.get_title(),
             'tag': 'account_report_generic',
             'context': {
@@ -42,16 +39,12 @@ class ReportAccountFinancialReport(models.Model):
                 'model': 'account.financial.html.report',
                 'id': self.id,
             },
-        }
-        action_id = IMD._update('ir.actions.client', 'account_reports', action_vals,
-                                'account_financial_html_report_action_' + str(self.id))
-        menu_vals = {
+        })
+        self.env['ir.ui.menu'].create({
             'name': self.get_title(),
-            'parent_id': parent_id or IMD.xmlid_to_res_id('account.menu_finance_reports'),
-            'action': 'ir.actions.client,%s' % (action_id,),
-        }
-        IMD._update('ir.ui.menu', 'account_reports', menu_vals,
-                    'account_financial_html_report_menu_' + str(self.id))
+            'parent_id': parent_id or self.env['ir.model.data'].xmlid_to_res_id('account.menu_finance_reports'),
+            'action': 'ir.actions.client,%s' % (client_action.id,),
+        })
         self.write({'menuitem_created': True})
 
     @api.model
