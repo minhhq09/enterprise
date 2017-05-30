@@ -116,6 +116,11 @@ class USPSRequest():
             'Length': carrier.usps_custom_container_length,
             'Girth': carrier.usps_custom_container_girth,
         }
+
+        # Shipping to Canada requires additional information
+        if order.partner_shipping_id.country_id == order.env.ref('base.ca'):
+            rate_detail.update(OriginZip=order.warehouse_id.partner_id.zip)
+
         return rate_detail
 
     def usps_rate_request(self, order, carrier):
