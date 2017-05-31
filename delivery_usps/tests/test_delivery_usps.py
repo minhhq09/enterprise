@@ -24,9 +24,7 @@ class TestDeliveryUSPS(TransactionCase):
                                      'country_id': self.env.ref('base.us').id,
                                      'zip': '95014-2083'})
         # additional test address for Canada
-        self.quebec = self.env['res.country.state'].create({'name': 'Quebec',
-                                                            'code': 'QC',
-                                                            'country_id': self.env.ref('base.ca').id})
+        self.quebec = self.env.ref('base.state_ca_qc')
         self.montreal = self.env['res.partner'].create({'name': 'Vieux-Port de Montreal',
                                                         'street': '333 Rue de la Commune O',
                                                         'city': 'Montreal',
