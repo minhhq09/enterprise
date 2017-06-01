@@ -73,7 +73,7 @@ class ProjectForecast(models.Model):
     @api.depends('resource_hours', 'start_date', 'end_date', 'user_id.resource_ids.calendar_id')
     def _compute_time(self):
         start = fields.Datetime.from_string(self.start_date)
-        stop = fields.Datetime.from_string(self.end_date)
+        stop = fields.Datetime.from_string(self.end_date).replace(hour=23, minute=59, second=59, microsecond=999999)
         calendar = self.mapped('user_id.resource_ids.calendar_id')
         if calendar:
             hours = calendar[0].get_working_hours(start, stop)
