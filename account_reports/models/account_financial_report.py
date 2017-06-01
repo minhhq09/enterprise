@@ -379,7 +379,8 @@ class AccountFinancialReportLine(models.Model):
     def _get_gb_name(self, gb_id):
         if self.groupby and self.env['account.move.line']._fields[self.groupby].relational:
             relation = self.env['account.move.line']._fields[self.groupby].comodel_name
-            return self.env[relation].browse(gb_id).name_get()[0][1]
+            gb = self.env[relation].browse(gb_id)
+            return gb.name_get()[0][1] if gb and gb.exists() else _('Undefined')
         return gb_id
 
     def _build_cmp(self, balance, comp):
