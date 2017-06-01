@@ -33,6 +33,7 @@ class AccountBankStatementImport(models.TransientModel):
             return bool(pattern_zero.match(strg))
 
         ns = {k or 'ns': v for k, v in root.nsmap.iteritems()}
+        curr_cache = {c['name']: c['id'] for c in self.env['res.currency'].search_read([], ['id', 'name'])}
         statement_list = []
         for statement in root[0].findall('ns:Stmt', ns):
             statement_vals = {}
@@ -41,6 +42,10 @@ class AccountBankStatementImport(models.TransientModel):
             # Transaction Entries 0..n
             transactions = []
             sequence = 0
+
+            # Currency 0..1
+            currency = statement.xpath('ns:Acct/ns:Ccy/text() | ns:Bal/ns:Amt/@Ccy', namespaces=ns)[0]
+
             for entry in statement.findall('ns:Ntry', ns):
                 sequence += 1
                 entry_vals = {
@@ -57,6 +62,13 @@ class AccountBankStatementImport(models.TransientModel):
                     amount *= -1
                     counter_party = 'Cdtr'
                 entry_vals['amount'] = amount
+
+                # Amount currency
+                instruc_amount = entry.xpath('ns:NtryDtls/ns:TxDtls/ns:AmtDtls/ns:InstdAmt/ns:Amt/text()', namespaces=ns)
+                instruc_curr = entry.xpath('ns:NtryDtls/ns:TxDtls/ns:AmtDtls/ns:InstdAmt/ns:Amt/@Ccy', namespaces=ns)
+                if instruc_amount and instruc_curr and instruc_curr[0] != currency and instruc_curr[0] in curr_cache:
+                    entry_vals['amount_currency'] = float(instruc_amount[0]) if entry_vals['amount'] > 0 else -float(instruc_amount[0])
+                    entry_vals['currency_id'] = curr_cache[instruc_curr[0]]
 
                 # Date 0..1
                 transaction_date = entry.xpath('ns:ValDt/ns:Dt/text() | ns:BookgDt/ns:Dt/text()', namespaces=ns)
@@ -122,7 +134,5 @@ class AccountBankStatementImport(models.TransientModel):
             # Account Number    1..1
             # if not IBAN value then... <Othr><Id> would have.
             account_no = statement.xpath('ns:Acct/ns:Id/ns:IBAN/text() | ns:Acct/ns:Id/ns:Othr/ns:Id/text()', namespaces=ns)[0]
-            # Currency 0..1
-            currency = statement.xpath('ns:Acct/ns:Ccy/text() | ns:Bal/ns:Amt/@Ccy', namespaces=ns)[0]
 
         return currency, account_no, statement_list
