@@ -59,7 +59,7 @@ var OnlineSyncAccountInstitutionSelector = Widget.extend({
                     self.$el.siblings('.institution_detail').find('.js_choose_institution').click(function(){
                         // Open new client action
                         $(this).parent().find('.btn').toggleClass('disabled');
-                        return new Model('account.online.provider').call('get_login_form', [[self.id], inst[0].id, inst[0].type_provider, self.context]).then(function(result){
+                        return new Model('account.online.provider').call('get_login_form', [[], inst[0].id, inst[0].type_provider, self.context]).then(function(result){
                             self.do_action(result);
                         });
 
