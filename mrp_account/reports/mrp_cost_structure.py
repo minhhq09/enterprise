@@ -12,7 +12,7 @@ class MrpCostStructure(models.AbstractModel):
         ProductProduct = self.env['product.product']
         StockMove = self.env['stock.move']
         res = []
-        for product in list(set([x.product_id for x in productions])):
+        for product in productions.mapped('product_id'):
             mos = productions.filtered(lambda m: m.product_id == product)
             total_cost = 0.0
 
@@ -88,6 +88,6 @@ class ProductTemplateCostStructure(models.AbstractModel):
 
     @api.model
     def render_html(self, docids, data=None):
-        productions = self.env['mrp.production'].search([('product_id', 'in', docids), ('state', '=', 'done')])
+        productions = self.env['mrp.production'].search([('product_id.product_tmpl_id', 'in', docids), ('state', '=', 'done')])
         res = self.env['report.mrp_cost_structure'].get_lines(productions)
         return self.env['report'].render('mrp_account.mrp_cost_structure', {'lines': res})
