@@ -220,7 +220,7 @@ class DHLProvider():
         etree.SubElement(bkg_details_node, "DimensionUnit").text = carrier.dhl_package_dimension_unit
         etree.SubElement(bkg_details_node, "WeightUnit").text = carrier.dhl_package_weight_unit
         pieces_node = etree.SubElement(bkg_details_node, "Pieces")
-        if param["package_ids"] and not param['total_packages']:
+        if param["package_ids"] and not param.get('total_packages'):
             for index, package in enumerate(param["package_ids"], start=1):
                 piece_node = etree.SubElement(pieces_node, "Piece")
                 etree.SubElement(piece_node, "PieceID").text = str(index)
@@ -230,7 +230,7 @@ class DHLProvider():
                 etree.SubElement(piece_node, "Depth").text = str(packaging.length)
                 etree.SubElement(piece_node, "Width").text = str(packaging.width)
                 etree.SubElement(piece_node, "Weight").text = str(package.shipping_weight)
-        elif param['package_ids'] and param['total_packages']:
+        elif param['package_ids'] and param.get('total_packages'):
             package = param['package_ids']
             for seq in range(1, param['total_packages'] + 1):
                 piece_node = etree.SubElement(pieces_node, "Piece")
