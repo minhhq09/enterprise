@@ -226,7 +226,7 @@ class account_report_context_followup_all(models.TransientModel):
             partners = self.env['res.partner'].get_partners_in_need_of_action(overdue_only=True)
         partners = partners.sorted(key=lambda x: x.name)
         for partner in partners[((given_context['page'] - 1) * self.PAGER_SIZE):(given_context['page'] * self.PAGER_SIZE)]:
-            context_id = context_obj.search([('partner_id', '=', partner.id)], limit=1)
+            context_id = context_obj.search([('partner_id', '=', partner.id), ('create_uid', '=', self.env.uid)], limit=1)
             if not context_id:
                 context_id = self._get_html_create_context(partner)
             lines = report_obj.with_context(lang=partner.lang).get_lines(context_id)
