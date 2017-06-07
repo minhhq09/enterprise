@@ -567,7 +567,7 @@ var GanttView = View.extend({
                 // Consolidation
                 gantt_tasks.push({
                     'id': "gantt_task_" + task.id,
-                    'text': task.name,
+                    'text': task.name || '',
                     'active': task.active,
                     'start_date': task.task_start,
                     'duration': gantt.calculateDuration(task.task_start, task.task_stop),
