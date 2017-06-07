@@ -348,6 +348,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                             }
                         }
                     });
+                    var sync_time = new Date();
                     account_analytic_line_model.call("import_ui_data" , [self.data.account_analytic_lines , self.data.tasks, self.data.projects], {context : context}).then(function(sv_response) {
                         // The entries that have been removed in the backend must be removed from the LS
                         if (sv_response.projects_to_remove.length) {
@@ -383,6 +384,11 @@ odoo.define('project_timeshee.ui', function (require ) {
                                 aal.to_sync = true;
                                 aal.sync_problem = true;
                             }
+                            else if (time_module.str_to_datetime(aal.write_date) > sync_time) {
+                                // aal has been created after the synchronisation
+                                aal.to_sync = true;
+                                aal.sync_problem = false;
+                            }
                             else if(sv_response.aals_errors.failed_records.indexOf(aal.id) < 0 ) {
                                 aal.to_sync = false;
                                 aal.sync_problem = false;
@@ -414,7 +420,7 @@ odoo.define('project_timeshee.ui', function (require ) {
                                 self.flush_project(project.id);
                             }
                         });
-                        self.sync_time = new Date();
+                        self.sync_time = sync_time;
                         self.$('.pt_nav_sync a').removeClass('pt_sync_in_progress');
                         self.sync_in_progress = false;
                         self.flush_activities(MAX_AGE);
