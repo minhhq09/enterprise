@@ -408,6 +408,10 @@ var GanttView = View.extend({
             var percent;
             if (self.fields_view.arch.attrs.date_stop) {
                 task_stop = time.auto_str_to_date(task[self.fields_view.arch.attrs.date_stop]);
+                // If the date_stop is a date, we assume that the whole day should be included.
+                if (self.fields[self.fields_view.arch.attrs.date_stop].type === 'date') {
+                    task_stop.setTime(task_stop.getTime() + 86400000);
+                }
                 if (!task_stop) {
                     task_stop = moment(task_start).clone().add(1, 'hours');
                 }
@@ -896,8 +900,16 @@ var GanttView = View.extend({
         data[self.fields_view.arch.attrs.date_start] =
             time.auto_date_to_str(start, self.fields[self.fields_view.arch.attrs.date_start].type);
         if (self.fields_view.arch.attrs.date_stop) {
-            data[self.fields_view.arch.attrs.date_stop] = 
-                time.auto_date_to_str(end, self.fields[self.fields_view.arch.attrs.date_stop].type);
+            // If date_stop is a date, we should write the previous day since it is considered as
+            // included.
+            var field_type = self.fields[self.fields_view.arch.attrs.date_stop].type;
+            if (field_type === 'date') {
+                end.setTime(end.getTime() - 86400000);
+                data[self.fields_view.arch.attrs.date_stop] = time.auto_date_to_str(end, field_type);
+                end.setTime(end.getTime() + 86400000);
+            } else {
+                data[self.fields_view.arch.attrs.date_stop] = time.auto_date_to_str(end, field_type);
+            }
         } else { // we assume date_duration is defined
             var duration = gantt.calculateDuration(start, end);
             data[self.fields_view.arch.attrs.date_delay] = duration;
