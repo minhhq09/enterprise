@@ -27,10 +27,10 @@ class NewWebsite(models.Model):
     def get_current_website(self):
         website = super(NewWebsite, self).get_current_website()
         #We just set the cookie for the first visit
-        if 'website_version_experiment' in request.httprequest.cookies:
+        if request and 'website_version_experiment' in request.httprequest.cookies:
             EXP = json.loads(request.httprequest.cookies.get('website_version_experiment'))
         else:
-            EXP = request.context.get('website_version_experiment', {})
+            EXP = request and request.context.get('website_version_experiment') or {}
             exps = self.env["website_version.experiment"].search([('state', '=', 'running'), ('website_id.id', '=', website.id), ('google_id', 'not in', EXP.keys())])
             for exp in exps:
                 result = []
@@ -51,14 +51,14 @@ class NewWebsite(models.Model):
                         break
 
         context = dict(website_version_experiment=EXP, website_id=website.id)
-        if 'version_id' in request.session:
+        if request and 'version_id' in request.session:
             context['version_id'] = request.session.get('version_id')
         elif self.env['res.users'].has_group('website.group_website_publisher'):
             context['version_id'] = 0
         else:
             context['experiment_id'] = 1
-
-        request.context = dict(request.context, **context)
+        if request:
+            request.context = dict(request.context, **context)
         return website
 
     @api.model
