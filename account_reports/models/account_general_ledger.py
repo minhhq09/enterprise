@@ -129,7 +129,8 @@ class report_account_general_ledger(models.AbstractModel):
         if group_by_account:
             sql +=  "GROUP BY \"account_move_line\".account_id"
         else:
-            sql += " ORDER BY \"account_move_line\".date,\"account_move_line\".id"
+            sql += " GROUP BY \"account_move_line\".id"
+            sql += " ORDER BY MAX(\"account_move_line\".date),\"account_move_line\".id"
             if limit and isinstance(limit, int):
                 sql += " LIMIT " + str(limit)
         user_types = self.env['account.account.type'].search([('type', 'in', ('receivable', 'payable'))])
