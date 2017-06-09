@@ -391,19 +391,16 @@ class WebStudioController(http.Controller):
 
         return expr
 
-    # If we already have an xpath on this element, use it, otherwise, create a new one.
+    # Create a new xpath node based on an operation
+    # TODO: rename it in master
     def _get_xpath_node(self, arch, operation):
         expr = self._node_to_expr(operation['target'])
         position = operation['position']
 
-        xpath_node = arch.find('xpath[@expr="%s"][@position="%s"]' % (expr, position))
-        if xpath_node is None:  # bool(node) == False if node has no children
-            xpath_node = etree.SubElement(arch, 'xpath', {
-                'expr': expr,
-                'position': position
-            })
-
-        return xpath_node
+        return etree.SubElement(arch, 'xpath', {
+            'expr': expr,
+            'position': position
+        })
 
     def _operation_remove(self, arch, operation, model=None):
         expr = self._node_to_expr(operation['target'])
