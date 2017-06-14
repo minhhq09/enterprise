@@ -10,4 +10,5 @@
         'data/delivery_dhl_data.xml',
         'views/delivery_dhl_view.xml',
     ],
+    'license': 'OEEL-1',
 }

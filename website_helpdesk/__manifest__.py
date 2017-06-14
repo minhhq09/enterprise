@@ -18,4 +18,5 @@
         'views/helpdesk_templates.xml',
         'views/helpdesk_views.xml'
     ],
+    'license': 'OEEL-1',
 }

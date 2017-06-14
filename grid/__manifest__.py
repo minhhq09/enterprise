@@ -13,4 +13,5 @@
     'data': ['views/templates.xml'],
     'qweb': ['static/src/xml/grid_view.xml'],
     'auto_install': True,
+    'license': 'OEEL-1',
 }

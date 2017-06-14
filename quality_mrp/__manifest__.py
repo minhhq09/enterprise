@@ -20,4 +20,5 @@
     ],
     "demo": ['data/quality_mrp_demo.xml'],
     'auto_install': True,
+    'license': 'OEEL-1',
 }

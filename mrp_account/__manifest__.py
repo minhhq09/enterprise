@@ -21,4 +21,5 @@ Analytic Accounting in MRP
     'demo': ['demo/mrp_account_demo.xml'],
     'installable': True,
     'auto_install': True,
+    'license': 'OEEL-1',
 }

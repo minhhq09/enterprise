@@ -21,4 +21,5 @@ Website form integration for the helpdesk module
         'views/helpdesk_views.xml',
         'views/helpdesk_templates.xml'
     ],
+    'license': 'OEEL-1',
 }

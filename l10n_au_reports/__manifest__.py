@@ -24,4 +24,5 @@ GST Reporting for Australian Accounting.
     'auto_install': True,
     'installable': True,
     'images': [],
+    'license': 'OEEL-1',
 }

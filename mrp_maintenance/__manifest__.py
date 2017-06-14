@@ -22,4 +22,5 @@ Maintenance in MRP
     ],
     'demo': ['data/mrp_maintenance_demo.xml'],
     'application': True,
+    'license': 'OEEL-1',
 }

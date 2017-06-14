@@ -23,4 +23,5 @@ Website Forum integration for the helpdesk module
         'views/helpdesk_views.xml',
     ],
     'auto_install': True,
+    'license': 'OEEL-1',
 }

@@ -31,4 +31,5 @@ Quality Control
         'data/quality_demo.xml'
     ],
     'application': True,
+    'license': 'OEEL-1',
 }

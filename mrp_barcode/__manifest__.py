@@ -23,5 +23,6 @@
     ],
     'demo': [
         'data/mrp_barcode_demo.xml',
-    ]
+    ],
+    'license': 'OEEL-1',
 }

@@ -42,4 +42,5 @@ No modified version is certified and supported by Odoo SA.
     ],
     'installable': True,
     'auto_install': False,
+    'license': 'OEEL-1',
 }

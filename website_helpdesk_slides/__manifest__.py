@@ -23,4 +23,5 @@ Website Slides integration for the helpdesk module
         'wizard/slide_upload_views.xml'
     ],
     'auto_install': True,
+    'license': 'OEEL-1',
 }

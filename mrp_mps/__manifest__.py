@@ -35,4 +35,5 @@ procure.
     ],
     'qweb': ['static/src/xml/mps_backend.xml'],
     'application': False,
+    'license': 'OEEL-1',
 }

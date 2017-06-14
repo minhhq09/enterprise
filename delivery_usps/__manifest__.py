@@ -11,4 +11,5 @@
         'views/delivery_usps_view.xml',
         'views/delivery_usps_template.xml',
     ],
+    'license': 'OEEL-1',
 }

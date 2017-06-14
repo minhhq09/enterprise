@@ -30,4 +30,5 @@
         'static/src/xml/stock_traceability_report_backend.xml',
     ],
     'auto_install': True,
+    'license': 'OEEL-1',
 }
