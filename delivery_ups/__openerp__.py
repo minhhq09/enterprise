@@ -10,4 +10,5 @@
         'data/delivery_ups_data.xml',
         'views/delivery_ups_view.xml'
     ],
+    'license': 'OEEL-1',
 }

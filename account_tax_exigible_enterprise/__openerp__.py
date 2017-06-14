@@ -16,4 +16,5 @@
     'auto_install': True,
     'installable': True,
     'post_init_hook': '_load_data',
+    'license': 'OEEL-1',
 }

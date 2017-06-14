@@ -17,4 +17,5 @@
     'demo': [
         'data/delivery_temando_demo.xml',
     ],
+    'license': 'OEEL-1',
 }
