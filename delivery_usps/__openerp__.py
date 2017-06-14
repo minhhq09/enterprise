@@ -14,4 +14,5 @@
     'demo': [
         'data/delivery_usps_data_demo.xml'
     ],
+    'license': 'OEEL-1',
 }

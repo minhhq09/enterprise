@@ -13,4 +13,5 @@
     'demo': [
         'data/delivery_dhl_demo_data.xml'
     ],
+    'license': 'OEEL-1',
 }

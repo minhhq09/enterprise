@@ -13,4 +13,5 @@
     'demo': [
         'data/delivery_ups_demo.xml'
     ],
+    'license': 'OEEL-1',
 }
