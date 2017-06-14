@@ -8,5 +8,6 @@
     'depends': ['account_taxcloud', 'sale'],
     'data': [
     ],
-    'auto_install': True
+    'auto_install': True,
+    'license': 'OEEL-1',
 }
