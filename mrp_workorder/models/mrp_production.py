@@ -31,6 +31,9 @@ class MrpProduction(models.Model):
             order.date_planned_start_wo = date_planned_start_wo
             order.date_planned_finished_wo = date_planned_finished_wo
 
+    def _get_start_date(self):
+        return datetime.now()
+
     @api.multi
     def button_plan(self):
         super(MrpProduction, self).button_plan()
@@ -41,7 +44,7 @@ class MrpProduction(models.Model):
 
         # Schedule all work orders (new ones and those already created)
         for order in self:
-            start_date = datetime.now()
+            start_date = order._get_start_date()
             from_date_set = False
             for workorder in order.workorder_ids:
                 workcenter = workorder.workcenter_id
