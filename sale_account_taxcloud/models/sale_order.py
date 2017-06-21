@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
         tax_values = response['values']
 
         raise_warning = False
-        for line in self.order_line:
+        for line in self.order_line.filtered(lambda line: line.price_unit >= 0.0):
             if not line.price_subtotal:
                 tax_rate = 0.0
             else:

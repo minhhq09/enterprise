@@ -78,7 +78,7 @@ class TaxCloudRequest(object):
         self.cart_id = invoice.id
         self.cart_items = self.client.factory.create('ArrayOfCartItem')
         cart_items = []
-        for index, line in enumerate(invoice.invoice_line_ids):
+        for index, line in enumerate(invoice.invoice_line_ids.filtered(lambda line: line.price_unit >= 0.0)):
             product_id = line.product_id.id
             tic_code = line.product_id.tic_category_id.code or \
                 line.company_id.tic_category_id.code or \

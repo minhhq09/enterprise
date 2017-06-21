@@ -47,7 +47,7 @@ class AccountInvoice(models.Model):
         tax_values = response['values']
 
         raise_warning = False
-        for line in self.invoice_line_ids:
+        for line in self.invoice_line_ids.filtered(lambda line: line.price_unit >= 0.0):
             if not line.price_subtotal:
                 tax_rate = 0.0
             else:
