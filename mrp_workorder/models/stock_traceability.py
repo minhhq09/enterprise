@@ -37,6 +37,9 @@ class MrpStockReport(models.TransientModel):
         context_ids = []
         if context.get('active_id') and not context.get('model') or context.get('model') == 'stock.production.lot':
             context_ids = StockQuant.search([['lot_id', '=', context.get('active_id')]])
+            # In case of product tracked by unique serial number, show only the last quant
+            if context_ids and context_ids[0].product_id.tracking == 'serial':
+                context_ids = context_ids.sorted(key='id')[-1]
         elif context.get('active_id') and context.get('model') == 'mrp.production':
             context_ids = self.env['mrp.production'].browse(context['active_id']).move_finished_ids.mapped('quant_ids')
         elif context.get('active_id') and context.get('model') == 'stock.picking':
