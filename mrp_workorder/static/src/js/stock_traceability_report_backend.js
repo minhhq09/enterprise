@@ -11,12 +11,13 @@ var framework = require('web.framework');
 var crash_manager = require('web.crash_manager');
 
 var QWeb = core.qweb;
+var _t = core._t;
 
 var stock_report_generic = Widget.extend(ControlPanelMixin, {
     // Stores all the parameters of the action.
     init: function(parent, action) {
         this.actionManager = parent;
-        this.given_context = {};
+        this.given_context = action.context || {};
         this.controller_url = action.context.url;
         if (action.context.context) {
             this.given_context = action.context.context;
@@ -39,7 +40,7 @@ var stock_report_generic = Widget.extend(ControlPanelMixin, {
         def.then(function () {
             self.report_widget.$el.html(self.html);
             if(self.given_context['ttype'] == 'downstream'){
-                self.report_widget.$el.find('.o_report_heading').html('<h1>Downstream Traceability</h1>');
+                self.report_widget.$el.find('.o_report_heading').html('<h1>'+ _t("Downstream Traceability") +'</h1>');
             }
         });
     },

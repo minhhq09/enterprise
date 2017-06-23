@@ -35,14 +35,14 @@ var ReportWidget = Widget.extend({
     updownStream: function(e) {
         var stream = $(e.target).parent().data('stream');
         var $el = $(e.target).parents('tr');
-        var string = "Upstream Traceability"
+        var string = _t("Upstream Traceability");
         if (stream == 'downstream') {
-            string = "Downstream Traceability"
+            string = _t("Downstream Traceability");
         }
         this.do_action({
             type: "ir.actions.client",
             tag: 'stock_report_generic',
-            name: _t(string),
+            name: string,
             context: {
                 active_id : $el.data('model_id'),
                 active_model : $el.data('model'),
