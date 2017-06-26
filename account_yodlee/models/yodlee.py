@@ -203,10 +203,10 @@ class YodleeProviderAccount(models.Model):
         # If we have an id, it means that provider_account already exists and that it is an update
         if len(self) > 0 and self.id:
             params = {'providerAccountIds': self.provider_account_identifier}
-            resp_json = self.yodlee_fetch('/providers/providerAccounts', params, data, 'PUT')
+            resp_json = self.yodlee_fetch('/providerAccounts', params, data, 'PUT')
             return self.id
         else:
-            resp_json = self.yodlee_fetch('/providers/providerAccounts', params, data, 'POST')
+            resp_json = self.yodlee_fetch('/providerAccounts', params, data, 'POST')
             refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
             provider_account_identifier = resp_json.get('providerAccount', {}).get('id')
             vals = {'name': name or 'Online institution', 
@@ -235,7 +235,7 @@ class YodleeProviderAccount(models.Model):
             return super(YodleeProviderAccount, self).manual_sync()
         # trigger update
         params = {'providerAccountIds': self.provider_account_identifier}
-        resp_json = self.yodlee_fetch('/providers/providerAccounts', params, {}, 'PUT')
+        resp_json = self.yodlee_fetch('/providerAccounts', params, {}, 'PUT')
         # Wait for refresh to finish and reply with mfa token
         resp_json = self.refresh_status()
         if not return_action:
@@ -273,7 +273,7 @@ class YodleeProviderAccount(models.Model):
             self.log_message(_('Timeout: Could not retrieve accounts informations'))
             raise UserError(_('Timeout: Could not retrieve accounts informations'))
         params = {'include': 'credentials'} if return_credentials else {}
-        resp_json = self.yodlee_fetch('/providers/providerAccounts/'+self.provider_account_identifier, params, {}, 'GET')
+        resp_json = self.yodlee_fetch('/providerAccounts/'+self.provider_account_identifier, params, {}, 'GET')
         refresh_info = resp_json.get('providerAccount', {}).get('refreshInfo')
         if return_credentials:
             self.write_status(refresh_info)
@@ -291,6 +291,7 @@ class YodleeProviderAccount(models.Model):
                 # MFA process, check if we already have mfa information, if not continue to call service until we get mfa login form
                 self.write_status(refresh_info)
                 if not resp_json.get('providerAccount', {}).get('loginForm'):
+                    time.sleep(2)
                     return self.refresh_status(count=count-1)
                 else:
                     return resp_json
@@ -369,7 +370,7 @@ class YodleeProviderAccount(models.Model):
                 try:
                     ctx = self._context.copy()
                     ctx['no_post_message'] = True
-                    provider.with_context(ctx).yodlee_fetch('/providers/providerAccounts/'+provider.provider_account_identifier, {}, {}, 'DELETE')
+                    provider.with_context(ctx).yodlee_fetch('/providerAccounts/'+provider.provider_account_identifier, {}, {}, 'DELETE')
                 except UserError:
                     # If call to yodlee fails, don't prevent user to delete record 
                     pass
