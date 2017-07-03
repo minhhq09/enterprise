@@ -680,7 +680,7 @@
             <field name="level" eval="1" />
         </record>
         <record id="account_financial_report_executivesummary_gpmargin0" model="account.financial.html.report.line">
-            <field name="name">Gross profit margin (gross profit / operating income)</field>
+            <field name="name">Gross profit margin (gross profit / income)</field>
             <field name="sequence" eval="1"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_performance0'/>
             <field name="formulas">balance = GRP.balance / OPINC.balance</field>
@@ -691,7 +691,7 @@
             <field name="name">Net profit margin (net profit / income)</field>
             <field name="sequence" eval="2"/>
             <field name="parent_id" ref='account_financial_report_executivesummary_performance0'/>
-            <field name="formulas">balance = NEP.balance / INC.balance</field>
+            <field name="formulas">balance = NEP.balance / (INC.balance + COS.balance)</field>
             <field name="figure_type">percents</field>
             <field name="level" eval="2" />
         </record>
