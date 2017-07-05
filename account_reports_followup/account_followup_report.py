@@ -76,7 +76,7 @@ class account_report_context_followup(models.TransientModel):
                 formatted_summary = summary % {'partner_name': partner.name,
                                                'date': time.strftime('%Y-%m-%d'),
                                                'user_signature': self.env.user.signature or '',
-                                               'company_name': partner.parent_id.name}
+                                               'company_name': self.env.user.company_id.name}
             except ValueError as e:
                 message = "An error has occurred while formatting your followup letter/email. (Lang: %s, Followup Level: #%s) \n\nFull error description: %s" \
                           % (partner.lang, vals['level'], e.message)
