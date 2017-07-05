@@ -98,7 +98,7 @@ class ReportPartnerLedger(models.AbstractModel):
                 'unfolded': partner in context['context_id']['unfolded_partners'] or unfold_all,
                 'colspan': 5,
             })
-            unfold_partners = context['context_id'].with_context(active_test=True)['unfolded_partners']
+            unfold_partners = context['context_id'].with_context(active_test=False)['unfolded_partners']
             if partner in unfold_partners or unfold_all:
                 progress = 0
                 domain_lines = []
